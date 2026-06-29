@@ -1,0 +1,7 @@
+.vscode/
+build/
+main.cpp
+*.exe
+Makefile
+
+
