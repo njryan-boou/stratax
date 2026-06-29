@@ -1,5 +1,6 @@
 #pragma once
 #include "Buffer.hpp"
+#include "Exceptions.hpp"
 
 #include <stdexcept>
 #include <cstddef>
@@ -7,7 +8,7 @@
 #include <ostream>
 #include <iostream>
 
-namespace core {
+namespace stratax::core {
 
 class Shape
 {
@@ -45,7 +46,7 @@ public:
     {   
         if (index >= rank()) 
         {
-            throw std::out_of_range("Shape dimension index out of bounds");
+            throw stratax::core::IndexError("Shape dimension index out of bounds");
         }
         return dims_[index];
     }
