@@ -77,7 +77,7 @@ void test_output()
     std::ostringstream out;
     out << shape;
 
-    assert(out.str() == "Shape(3, 224, 224)");
+    assert(out.str() == "(3, 224, 224)");
 }
 
 int main()

@@ -2,6 +2,7 @@
 #include "Buffer.hpp"
 
 #include <stdexcept>
+#include <cstddef>
 #include <initializer_list>
 #include <ostream>
 #include <iostream>
@@ -11,7 +12,7 @@ namespace core {
 class Shape
 {
 private:
-    Buffer<size_t> dims_;
+    Buffer<std::size_t> dims_;
 
 public:
     Shape() noexcept : dims_()
@@ -19,13 +20,13 @@ public:
     }
 
     //initialized list
-    Shape(std::initializer_list<size_t> list) : dims_(list)
+    Shape(std::initializer_list<std::size_t> list) : dims_(list)
     {
     }
 
     ~Shape() = default;
 
-    size_t size() const
+    std::size_t size() const
     {
         int prod = 1;
         for (int i = 0; i < dims_.size(); i++)
@@ -35,12 +36,12 @@ public:
         return prod;
     }
 
-    size_t rank() const
+    std::size_t rank() const
     {
         return dims_.size();
     }
 
-    const size_t& operator[](size_t index) const
+    const std::size_t& operator[](std::size_t index) const
     {   
         if (index >= rank()) 
         {
@@ -60,7 +61,7 @@ public:
         {
             return false;
         }
-        for (size_t i = 0; i < rank(); ++i)
+        for (std::size_t i = 0; i < rank(); ++i)
         {
             if (dims_[i] != other.dims_[i])
             {
@@ -101,7 +102,7 @@ std::ostream& operator<<(std::ostream& os, const Shape& shape)
     {
         os << "(";
         bool first = true;
-        for (size_t dim : shape)
+        for (std::size_t dim : shape)
         {
             if (!first)
                 os << ", ";
