@@ -10,6 +10,7 @@
 #include <new>
 #include <type_traits>
 
+
 template<typename T, std::size_t Alignment = 64>
 class Buffer {
 public:
