@@ -5,6 +5,8 @@
 
 #include <stratax/core/Buffer.hpp>
 
+using namespace stratax::core;
+
 void test_default_constructor()
 {
     Buffer<int> buffer;

@@ -10,6 +10,9 @@
 #include <new>
 #include <type_traits>
 
+#include "Config.hpp"
+
+namespace stratax::core {
 
 template<typename T, std::size_t Alignment = 64>
 class Buffer {
@@ -311,4 +314,6 @@ private:
         }
     }
 };
+
+}
 

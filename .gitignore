@@ -2,6 +2,7 @@
 build/
 main.cpp
 *.exe
+*.gitkeep
 Makefile
 
 

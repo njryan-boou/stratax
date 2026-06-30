@@ -4,9 +4,11 @@
 
 #include <stratax/core/Shape.hpp>
 
+using namespace stratax::core;
+
 void test_default_constructor()
 {
-    stratax::core::Shape shape;
+    Shape shape;
 
     assert(shape.rank() == 0);
     assert(shape.begin() == shape.end());
@@ -14,7 +16,7 @@ void test_default_constructor()
 
 void test_initializer_list_constructor()
 {
-    stratax::core::Shape shape{3, 224, 224};
+    Shape shape{3, 224, 224};
 
     assert(shape.rank() == 3);
     assert(shape[0] == 3);
@@ -24,7 +26,7 @@ void test_initializer_list_constructor()
 
 void test_index_operater()
 {
-    stratax::core::Shape shape{3, 224, 224};
+    Shape shape{3, 224, 224};
 
     assert(shape[0] == 3);
     assert(shape[1] == 224);
@@ -44,9 +46,9 @@ void test_index_operater()
 
 void test_equality()
 {
-    stratax::core::Shape a{3, 224, 224};
-    stratax::core::Shape b{3, 224, 224};
-    stratax::core::Shape c{224, 224};
+    Shape a{3, 224, 224};
+    Shape b{3, 224, 224};
+    Shape c{224, 224};
 
     assert(a == b);
     assert(!(a != b));
@@ -57,7 +59,7 @@ void test_equality()
 
 void test_iteration()
 {
-    stratax::core::Shape shape{3, 224, 224};
+    Shape shape{3, 224, 224};
 
     std::size_t expected[] = {3, 224, 224};
     std::size_t i = 0;
@@ -72,7 +74,7 @@ void test_iteration()
 
 void test_output()
 {
-    stratax::core::Shape shape{3, 224, 224};
+    Shape shape{3, 224, 224};
 
     std::ostringstream out;
     out << shape;
