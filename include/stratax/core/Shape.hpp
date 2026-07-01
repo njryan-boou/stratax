@@ -16,27 +16,23 @@ private:
     Buffer<std::size_t> dims_;
 
 public:
-    Shape() noexcept : dims_()
-    {
-    }
+    Shape() noexcept : dims_() {}
 
-    //initialized list
-    Shape(std::initializer_list<std::size_t> list) : dims_(list)
-    {
-    }
+    Shape(std::initializer_list<std::size_t> list) : dims_(list) {}
 
     ~Shape() = default;
 
     std::size_t size() const
     {
-        int prod = 1;
-        for (int i = 0; i < dims_.size(); i++)
+        std::size_t prod = 1;
+        for (std::size_t dim : dims_)
         {
-            prod *=  dims_[i];
+            prod *= dim;
         }
         return prod;
     }
 
+    [[nodiscard]]
     std::size_t rank() const
     {
         return dims_.size();
@@ -100,20 +96,27 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const Shape& shape)
+{
+    os << "(";
+
+    bool first = true;
+    for (std::size_t dim : shape)
     {
-        os << "(";
-        bool first = true;
-        for (std::size_t dim : shape)
-        {
-            if (!first)
-                os << ", ";
+        if (!first)
+            os << ", ";
 
-            os << dim;
-            first = false;
-        }
-
-        os << ')';
-        return os;
+        os << dim;
+        first = false;
     }
+
+    if (shape.rank() == 1)
+    {
+        os << ",";
+    }
+
+    os << ")";
+
+    return os;
+}
 
 }

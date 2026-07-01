@@ -6,6 +6,7 @@
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/core/Exceptions.hpp>
 
 namespace container {
 
@@ -18,6 +19,21 @@ private:
     stratax::core::Buffer<T> buffer_;
 
 public:
+    using value_type = T;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+
+    using reference = T&;
+    using const_reference = const T&;
+
+    using pointer = T*;
+    using const_pointer = const T*;
+
+    using iterator = typename stratax::core::Buffer<T>::iterator;
+    using const_iterator = typename stratax::core::Buffer<T>::const_iterator;
+
+    using reverse_iterator = typename stratax::core::Buffer<T>::reverse_iterator;
+    using const_reverse_iterator = typename stratax::core::Buffer<T>::const_reverse_iterator;
     // Constructors
 
     Vector() noexcept = default;
@@ -53,43 +69,163 @@ public:
 
     // Element access
 
-    T& operator[](std::size_t index);
+    T& operator[](std::size_t index) noexcept
+    {
+        return buffer_[index];
+    }
 
-    const T& operator[](std::size_t index) const;
+    const T& operator[](std::size_t index) const noexcept
+    {
+        return buffer_[index];
+    }
 
-    T& at(std::size_t index);
+    T& at(std::size_t index)
+    {
+        if (index >= size())
+        {
+            throw stratax::core::IndexError("Vector index out of bounds");
+        }
 
-    const T& at(std::size_t index) const;
+        return buffer_[index];
+    }
 
-    // Capacity
+    const T& at(std::size_t index) const
+    {
+        if (index >= size())
+        {
+            throw stratax::core::IndexError("Vector index out of bounds");
+        }
 
-    std::size_t size() const noexcept;
+        return buffer_[index];
+    }
 
-    bool empty() const noexcept;
+    T& front() noexcept
+    {
+        return buffer_.front();
+    }
+
+    const T& front() const noexcept
+    {
+        return buffer_.front();
+    }
+
+    T& back() noexcept
+    {
+        return buffer_.back();
+    }
+
+    const T& back() const noexcept
+    {
+        return buffer_.back();
+    }
+
+    // Size
+
+    std::size_t size() const noexcept
+    {
+    return shape_.size();
+    }
+
+    bool empty() const noexcept
+    {
+    return buffer_.empty();
+    }
 
     // Shape
 
-    const stratax::core::Shape& shape() const noexcept;
+    const stratax::core::Shape& shape() const noexcept
+    {
+    return shape_;
+    }
 
     // Raw storage
 
-    T* data() noexcept;
+    T* data() noexcept
+    {
+    return buffer_.data();
+    }
 
-    const T* data() const noexcept;
+    const T* data() const noexcept
+    {
+    return buffer_.data();
+    }
 
     // Iterators
 
-    auto begin() noexcept;
-    auto end() noexcept;
+    iterator begin() noexcept
+    {
+        return buffer_.begin();
+    }
 
-    auto begin() const noexcept;
-    auto end() const noexcept;
+    const_iterator begin() const noexcept
+    {
+        return buffer_.begin();
+    }
+
+    const_iterator cbegin() const noexcept
+    {
+        return buffer_.cbegin();
+    }
+
+    iterator end() noexcept
+    {
+        return buffer_.end();
+    }
+
+    const_iterator end() const noexcept
+    {
+        return buffer_.end();
+    }
+
+    const_iterator cend() const noexcept
+    {
+        return buffer_.cend();
+    }
+
+    reverse_iterator rbegin() noexcept
+    {
+    return buffer_.rbegin();
+    }
+
+    const_reverse_iterator rbegin() const noexcept
+    {
+        return buffer_.rbegin();
+    }
+
+    const_reverse_iterator crbegin() const noexcept
+    {
+        return buffer_.crbegin();
+    }
+
+    reverse_iterator rend() noexcept
+    {
+        return buffer_.rend();
+    }
+
+    const_reverse_iterator rend() const noexcept
+    {
+        return buffer_.rend();
+    }
+
+    const_reverse_iterator crend() const noexcept
+    {
+        return buffer_.crend();
+    }
 
     // Utilities
 
-    void fill(const T& value);
+    void fill(const T& value)
+    {
+    buffer_.fill(value);
+    }
 
-    void swap(Vector& other) noexcept;
+    void swap(Vector& other) noexcept
+    {
+    using std::swap;
+
+        swap(shape_, other.shape_);
+        swap(buffer_, other.buffer_);
+    }
 };
 
 }
