@@ -2,9 +2,9 @@
 #include <numeric>
 #include <utility>
 
-#include <stratax/ndarray/Vector.hpp>
+#include <stratax/containers/Vector.hpp>
 
-using namespace container;
+using namespace stratax::container;
 
 void test_default_constructor()
 {

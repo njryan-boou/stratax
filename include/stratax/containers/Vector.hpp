@@ -8,7 +8,7 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Exceptions.hpp>
 
-namespace container {
+namespace stratax::container {
 
 template<typename T>
 requires stratax::core::Numeric<T>
@@ -71,12 +71,12 @@ public:
 
     T& operator[](std::size_t index) noexcept
     {
-        return buffer_[index];
+            return buffer_[index];
     }
 
     const T& operator[](std::size_t index) const noexcept
     {
-        return buffer_[index];
+            return buffer_[index];
     }
 
     T& at(std::size_t index)
@@ -216,12 +216,12 @@ public:
 
     void fill(const T& value)
     {
-    buffer_.fill(value);
+        buffer_.fill(value);
     }
 
     void swap(Vector& other) noexcept
     {
-    using std::swap;
+        using std::swap;
 
         swap(shape_, other.shape_);
         swap(buffer_, other.buffer_);
