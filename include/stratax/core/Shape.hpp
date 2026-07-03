@@ -93,6 +93,11 @@ public:
         return dims_.end();
     }
 
+    void swap(Shape& other) noexcept
+    {
+        dims_.swap(other.dims_);
+    }
+
 };
 
 std::ostream& operator<<(std::ostream& os, const Shape& shape)

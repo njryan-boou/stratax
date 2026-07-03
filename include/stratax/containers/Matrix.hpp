@@ -7,7 +7,8 @@
 
 #include <initializer_list>
 #include <cstddef>
-
+#include <iterator>
+#include <utility>
 
 namespace stratax::container {
 
@@ -20,38 +21,18 @@ private:
     stratax::core::Buffer<T> buffer_;
 
 public:
-    // ===== Type aliases =====
-
-    using value_type = T;
-    using size_type = std::size_t;
-    using difference_type = std::ptrdiff_t;
-
-    using reference = T&;
-    using const_reference = const T&;
-
-    using pointer = T*;
-    using const_pointer = const T*;
-
-    using iterator = typename stratax::core::Buffer<T>::iterator;
-    using const_iterator = typename stratax::core::Buffer<T>::const_iterator;
-
-    using reverse_iterator = typename stratax::core::Buffer<T>::reverse_iterator;
-
-    using const_reverse_iterator = typename stratax::core::Buffer<T>::const_reverse_iterator;
-
-public:
 
     // ===== Constructors =====
 
     Matrix() noexcept = default;
 
-    Matrix(size_type rows, size_type cols)
+    Matrix(std::size_t rows, std::size_t cols)
         : shape_{rows, cols},
           buffer_(rows * cols)
     {
     }
 
-    Matrix(size_type rows, size_type cols, const T& value)
+    Matrix(std::size_t rows, std::size_t cols, const T& value)
         : shape_{rows, cols},
           buffer_(rows * cols, value)
     {
@@ -59,8 +40,8 @@ public:
 
     Matrix(std::initializer_list<std::initializer_list<T>> list)
     {
-        size_type rows = list.size();
-        size_type cols = (rows == 0) ? 0 : list.begin()->size();
+        std::size_t rows = list.size();
+        std::size_t cols = (rows == 0) ? 0 : list.begin()->size();
 
         // Ensure all rows have the same length
         for (const auto& row : list)
@@ -74,7 +55,7 @@ public:
         shape_ = stratax::core::Shape{rows, cols};
         buffer_ = stratax::core::Buffer<T>(rows * cols);
 
-        size_type index = 0;
+        std::size_t index = 0;
 
         for (const auto& row : list)
         {
@@ -97,7 +78,7 @@ public:
 
     // ===== Capacity =====
 
-    size_type size() const noexcept
+    std::size_t size() const noexcept
     {
         return shape_.size();
     }
@@ -109,12 +90,12 @@ public:
 
     // ===== Shape =====
 
-    size_type rows() const noexcept
+    std::size_t rows() const noexcept
     {
         return shape_[0];
     }
 
-    size_type cols() const noexcept
+    std::size_t cols() const noexcept
     {
         return shape_[1];
     }
@@ -126,7 +107,7 @@ public:
 
     // ===== Element Access =====
 
-    reference operator()(size_type row, size_type col)
+    T& operator()(std::size_t row, std::size_t col)
     {
         if (row >= rows())
         {
@@ -141,7 +122,7 @@ public:
         return buffer_[row * cols() + col];
     }
 
-    const_reference operator()(size_type row, size_type col) const
+    const T& operator()(std::size_t row, std::size_t col) const
     {
         if (row >= rows())
         {
@@ -156,17 +137,17 @@ public:
         return buffer_[row * cols() + col];
     }
 
-    reference at(size_type row, size_type col)
+    T& at(std::size_t row, std::size_t col)
     {
         return (*this)(row, col);
     }
 
-    const_reference at(size_type row, size_type col) const
+    const T& at(std::size_t row, std::size_t col) const
     {
         return (*this)(row, col);
     }
 
-    reference front()
+    T& front()
     {
         if (empty())
         {
@@ -176,7 +157,7 @@ public:
         return buffer_.front();
     }
 
-    const_reference front() const
+    const T& front() const
     {
         if (empty())
         {
@@ -186,7 +167,7 @@ public:
         return buffer_.front();
     }
 
-    reference back()
+    T& back()
     {
         if (empty())
         {
@@ -196,7 +177,7 @@ public:
         return buffer_.back();
     }
 
-    const_reference back() const
+    const T& back() const
     {
         if (empty())
         {
@@ -208,74 +189,74 @@ public:
 
     // ===== Raw Data =====
 
-    pointer data() noexcept
+    T* data() noexcept
     {
         return buffer_.data();
     }
 
-    const_pointer data() const noexcept
+    const T* data() const noexcept
     {
         return buffer_.data();
     }
 
     // ===== Iterators =====
 
-    iterator begin() noexcept
+    T* begin() noexcept
     {
         return buffer_.begin();
     }
 
-    const_iterator begin() const noexcept
+    const T* begin() const noexcept
     {
         return buffer_.begin();
     }
 
-    const_iterator cbegin() const noexcept
+    const T* cbegin() const noexcept
     {
         return buffer_.cbegin();
     }
 
-    iterator end() noexcept
+    T* end() noexcept
     {
         return buffer_.end();
     }
 
-    const_iterator end() const noexcept
+    const T* end() const noexcept
     {
         return buffer_.end();
     }
 
-    const_iterator cend() const noexcept
+    const T* cend() const noexcept
     {
         return buffer_.cend();
     }
 
-    reverse_iterator rbegin() noexcept
+    std::reverse_iterator<T*> rbegin() noexcept
+    {
+    return buffer_.rbegin();
+    }
+
+    std::reverse_iterator<const T*> rbegin() const noexcept
     {
         return buffer_.rbegin();
     }
 
-    const_reverse_iterator rbegin() const noexcept
-    {
-        return buffer_.rbegin();
-    }
-
-    const_reverse_iterator crbegin() const noexcept
+    std::reverse_iterator<const T*> crbegin() const noexcept
     {
         return buffer_.crbegin();
     }
 
-    reverse_iterator rend() noexcept
+    std::reverse_iterator<T*> rend() noexcept
     {
         return buffer_.rend();
     }
 
-    const_reverse_iterator rend() const noexcept
+    std::reverse_iterator<const T*> rend() const noexcept
     {
         return buffer_.rend();
     }
 
-    const_reverse_iterator crend() const noexcept
+    std::reverse_iterator<const T*> crend() const noexcept
     {
         return buffer_.crend();
     }
