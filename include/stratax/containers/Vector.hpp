@@ -212,6 +212,7 @@ public:
         swap(shape_, other.shape_);
         swap(buffer_, other.buffer_);
     }
+
 };
 
 }
