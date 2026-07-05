@@ -18,7 +18,9 @@ private:
 public:
     Shape() noexcept : dims_() {}
 
-    Shape(std::initializer_list<std::size_t> list) : dims_(list) {}
+    Shape(std::initializer_list<std::size_t> list) : dims_(list) 
+    {
+    }
 
     ~Shape() = default;
 
@@ -38,11 +40,11 @@ public:
         return dims_.size();
     }
 
-    const std::size_t& operator[](std::size_t index) const
-    {   
-        if (index >= rank()) 
+    const std::size_t& operator()(std::size_t index) const
+    {
+        if (index >= rank())
         {
-            throw stratax::core::IndexError("Shape dimension index out of bounds");
+            throw Exceptions::IndexError("Shape dimension index out of bounds");
         }
         return dims_[index];
     }

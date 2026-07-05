@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-#include <stratax/core/Buffer.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::core;
 

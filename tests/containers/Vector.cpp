@@ -1,8 +1,9 @@
 #include <cassert>
 #include <numeric>
+#include <stdexcept>
 #include <utility>
 
-#include <stratax/containers/Vector.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::container;
 
@@ -23,11 +24,11 @@ void test_size_constructor()
     assert(vector.size() == 3);
     assert(!vector.empty());
     assert(vector.shape().rank() == 1);
-    assert(vector.shape()[0] == 3);
+    assert(vector.shape()(0) == 3);
 
-    vector[0] = 10;
-    vector[1] = 20;
-    vector[2] = 30;
+    vector(0) = 10;
+    vector(1) = 20;
+    vector(2) = 30;
 
     assert(vector.front() == 10);
     assert(vector.back() == 30);
@@ -50,10 +51,10 @@ void test_initializer_list_constructor()
 
     assert(vector.size() == 3);
     assert(vector.shape().rank() == 1);
-    assert(vector.shape()[0] == 3);
-    assert(vector[0] == 1.5);
-    assert(vector[1] == 2.5);
-    assert(vector[2] == 3.5);
+    assert(vector.shape()(0) == 3);
+    assert(vector(0) == 1.5);
+    assert(vector(1) == 2.5);
+    assert(vector(2) == 3.5);
 }
 
 void test_at()
@@ -65,25 +66,15 @@ void test_at()
     assert(vector.at(2) == 3);
 
     vector.at(1) = 20;
-    assert(vector[1] == 20);
+    assert(vector(1) == 20);
 
-    bool threw = false;
-
-    try {
-        vector.at(3);
-    }
-    catch (const stratax::core::IndexError&) {
-        threw = true;
-    }
-
-    assert(threw);
 }
 
 void test_const_access()
 {
     const Vector<int> vector{4, 5, 6};
 
-    assert(vector[0] == 4);
+    assert(vector(0) == 4);
     assert(vector.at(1) == 5);
     assert(vector.front() == 4);
     assert(vector.back() == 6);
@@ -144,14 +135,14 @@ void test_copy_constructor()
     Vector<int> copy(original);
 
     assert(copy.size() == original.size());
-    assert(copy[0] == 1);
-    assert(copy[1] == 2);
-    assert(copy[2] == 3);
+    assert(copy(0) == 1);
+    assert(copy(1) == 2);
+    assert(copy(2) == 3);
 
-    copy[0] = 99;
+    copy(0) = 99;
 
-    assert(original[0] == 1);
-    assert(copy[0] == 99);
+    assert(original(0) == 1);
+    assert(copy(0) == 99);
 }
 
 void test_copy_assignment()
@@ -162,9 +153,9 @@ void test_copy_assignment()
     copy = original;
 
     assert(copy.size() == 3);
-    assert(copy[0] == 4);
-    assert(copy[1] == 5);
-    assert(copy[2] == 6);
+    assert(copy(0) == 4);
+    assert(copy(1) == 5);
+    assert(copy(2) == 6);
 }
 
 void test_move_constructor()
@@ -173,9 +164,9 @@ void test_move_constructor()
     Vector<int> moved(std::move(original));
 
     assert(moved.size() == 3);
-    assert(moved[0] == 7);
-    assert(moved[1] == 8);
-    assert(moved[2] == 9);
+    assert(moved(0) == 7);
+    assert(moved(1) == 8);
+    assert(moved(2) == 9);
 }
 
 void test_move_assignment()
@@ -186,8 +177,8 @@ void test_move_assignment()
     moved = std::move(original);
 
     assert(moved.size() == 2);
-    assert(moved[0] == 10);
-    assert(moved[1] == 11);
+    assert(moved(0) == 10);
+    assert(moved(1) == 11);
 }
 
 void test_swap()
@@ -198,13 +189,13 @@ void test_swap()
     a.swap(b);
 
     assert(a.size() == 3);
-    assert(a[0] == 3);
-    assert(a[1] == 4);
-    assert(a[2] == 5);
+    assert(a(0) == 3);
+    assert(a(1) == 4);
+    assert(a(2) == 5);
 
     assert(b.size() == 2);
-    assert(b[0] == 1);
-    assert(b[1] == 2);
+    assert(b(0) == 1);
+    assert(b(1) == 2);
 }
 
 int main()

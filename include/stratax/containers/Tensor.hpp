@@ -4,15 +4,19 @@
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Exceptions.hpp>
+#include <stratax/core/Validation.hpp>
 #include <stratax/core/Strides.hpp>
+#include <stratax/ops/Indexing.hpp>
 
+#include <array>
 #include <cstddef>
+#include <initializer_list>
 #include <utility>
 
 namespace stratax::container {
 
 template<typename T>
-requires core::Numeric<T>
+requires Numeric<T>
 class Tensor
 {
 private:
@@ -21,22 +25,27 @@ private:
     core::Buffer<T> buffer_;
 
 public:
-    // Constructors
 
     Tensor() noexcept = default;
 
     explicit Tensor(const core::Shape& shape)
-        : shape_(shape),
-          strides_(shape),
-          buffer_(shape.size())
+        : shape_(),
+          strides_(),
+          buffer_()
     {
+        shape_ = shape;
+        strides_ = core::Strides(shape);
+        buffer_ = core::Buffer<T>(shape.size());
     }
 
     Tensor(const core::Shape& shape, const T& value)
-        : shape_(shape),
-          strides_(shape),
-          buffer_(shape.size(), value)
+        : shape_(),
+          strides_(),
+          buffer_()
     {
+        shape_ = shape;
+        strides_ = core::Strides(shape);
+        buffer_ = core::Buffer<T>(shape.size(), value);
     }
 
     Tensor(const Tensor&) = default;
@@ -47,8 +56,6 @@ public:
 
     ~Tensor() = default;
 
-    // Capacity
-
     std::size_t size() const noexcept
     {
         return buffer_.size();
@@ -58,8 +65,6 @@ public:
     {
         return buffer_.empty();
     }
-
-    // Shape
 
     std::size_t rank() const noexcept
     {
@@ -76,33 +81,47 @@ public:
         return strides_;
     }
 
-    // Element access (flat)
-
-    T& operator[](std::size_t index) noexcept
+    T& operator()(std::size_t index) noexcept
     {
         return buffer_[index];
     }
 
-    const T& operator[](std::size_t index) const noexcept
+    const T& operator()(std::size_t index) const noexcept
     {
         return buffer_[index];
+    }
+
+    template<typename... Rest>
+    T& operator()(std::size_t first, std::size_t second, Rest... rest)
+    {
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+            first,
+            second,
+            static_cast<std::size_t>(rest)...
+        };
+
+        return buffer_[offset(shape_, strides_, indices)];
+    }
+
+    template<typename... Rest>
+    const T& operator()(std::size_t first, std::size_t second, Rest... rest) const
+    {
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+            first,
+            second,
+            static_cast<std::size_t>(rest)...
+        };
+
+        return buffer_[offset(shape_, strides_, indices)];
     }
 
     T& at(std::size_t index)
     {
-        if (index >= size()) {
-            throw core::IndexError("Tensor index out of bounds");
-        }
-
         return buffer_[index];
     }
 
     const T& at(std::size_t index) const
     {
-        if (index >= size()) {
-            throw core::IndexError("Tensor index out of bounds");
-        }
-
         return buffer_[index];
     }
 
@@ -126,8 +145,6 @@ public:
         return buffer_.back();
     }
 
-    // Raw data
-
     T* data() noexcept
     {
         return buffer_.data();
@@ -137,8 +154,6 @@ public:
     {
         return buffer_.data();
     }
-
-    // Iterators
 
     auto begin() noexcept
     {
@@ -199,8 +214,6 @@ public:
     {
         return buffer_.crend();
     }
-
-    // Utilities
 
     void fill(const T& value)
     {

@@ -2,7 +2,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include <stratax/core/Shape.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::core;
 
@@ -19,25 +19,25 @@ void test_initializer_list_constructor()
     Shape shape{3, 224, 224};
 
     assert(shape.rank() == 3);
-    assert(shape[0] == 3);
-    assert(shape[1] == 224);
-    assert(shape[2] == 224);
+    assert(shape(0) == 3);
+    assert(shape(1) == 224);
+    assert(shape(2) == 224);
 }
 
 void test_index_operater()
 {
     Shape shape{3, 224, 224};
 
-    assert(shape[0] == 3);
-    assert(shape[1] == 224);
-    assert(shape[2] == 224);
+    assert(shape(0) == 3);
+    assert(shape(1) == 224);
+    assert(shape(2) == 224);
 
     bool threw = false;
 
     try {
-        shape[3];
+        shape(3);
     }
-    catch (const std::out_of_range&) {
+    catch (const Exceptions::IndexError&) {
         threw = true;
     }
 

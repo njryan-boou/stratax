@@ -12,34 +12,39 @@
 namespace stratax::container {
 
 template<typename T>
-requires stratax::core::Numeric<T>
+requires Numeric<T>
 class Vector
 {
 private:
-    stratax::core::Shape shape_;
-    stratax::core::Buffer<T> buffer_;
+    core::Shape shape_;
+    core::Strides strides_;
+    core::Buffer<T> buffer_;
 
 public:
     // Constructors
 
     Vector() noexcept = default;
 
-    explicit Vector(std::size_t size)
-        : shape_{size},
-          buffer_(size)
+    Vector(const core::Shape& shape)
+        : shape_(),
+          buffer_()
+    {
+        shape_ = shape;
+        buffer_ = stratax::core::Buffer<T>(shape.size());
+    }
+
+    explicit Vector(std::size_t size) : shape_{size}, buffer_(size)
     {
     }
 
-    Vector(std::size_t size, const T& value)
-        : shape_{size},
-          buffer_(size, value)
+    Vector(std::size_t size, const T& value) : shape_{size}, buffer_(size, value)
     {
     }
 
-    Vector(std::initializer_list<T> list)
-        : shape_{list.size()},
-          buffer_(list)
+    Vector(std::initializer_list<T> list) : shape_(), buffer_()
     {
+        shape_ = stratax::core::Shape{list.size()};
+        buffer_ = stratax::core::Buffer<T>(list);
     }
 
     // Rule of Five
@@ -52,36 +57,23 @@ public:
 
     ~Vector() = default;
 
-
-    // Element access
-
-    T& operator[](std::size_t index) noexcept
+    T& operator()(std::size_t index) noexcept
     {
             return buffer_[index];
     }
 
-    const T& operator[](std::size_t index) const noexcept
+    const T& operator()(std::size_t index) const noexcept
     {
             return buffer_[index];
     }
 
     T& at(std::size_t index)
     {
-        if (index >= size())
-        {
-            throw stratax::core::IndexError("Vector index out of bounds");
-        }
-
         return buffer_[index];
     }
 
     const T& at(std::size_t index) const
     {
-        if (index >= size())
-        {
-            throw stratax::core::IndexError("Vector index out of bounds");
-        }
-
         return buffer_[index];
     }
 
@@ -117,14 +109,10 @@ public:
     return buffer_.empty();
     }
 
-    // Shape
-
     const stratax::core::Shape& shape() const noexcept
     {
     return shape_;
     }
-
-    // Raw storage
 
     T* data() noexcept
     {
@@ -135,8 +123,6 @@ public:
     {
     return buffer_.data();
     }
-
-    // Iterators
 
     T* begin() noexcept
     {
@@ -197,8 +183,6 @@ public:
     {
         return buffer_.crend();
     }
-
-    // Utilities
 
     void fill(const T& value)
     {

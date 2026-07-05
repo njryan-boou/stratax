@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-namespace stratax::core
-{
+namespace Exceptions {
+
     class StrataxError : public std::runtime_error
     {
     public:
@@ -39,4 +39,11 @@ namespace stratax::core
     public:
         using StrataxError::StrataxError;
     };
+
+    class ZeroDivisionError : public StrataxError
+    {
+    public:
+        using StrataxError::StrataxError;
+    };
 }
+

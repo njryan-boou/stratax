@@ -7,6 +7,7 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/Types.hpp>
+#include <stratax/core/Validation.hpp>
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
@@ -38,12 +39,12 @@
 
 #include <stratax/io/binary.hpp>
 #include <stratax/io/csv.hpp>
-#include <stratax/io/print.hpp>
+#include <stratax/io/Print.hpp>
 
 #include <stratax/ops/Comparison.hpp>
-#include <stratax/ops/arithmetic.hpp>
+#include <stratax/ops/Arithmetic.hpp>
 #include <stratax/ops/broadcasting.hpp>
-#include <stratax/ops/indexing.hpp>
+#include <stratax/ops/Indexing.hpp>
 #include <stratax/ops/logical.hpp>
 #include <stratax/ops/reshape.hpp>
 #include <stratax/ops/slicing.hpp>

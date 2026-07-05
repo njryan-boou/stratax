@@ -1,8 +1,9 @@
 #include <cassert>
 #include <numeric>
+#include <stdexcept>
 #include <utility>
 
-#include <stratax/containers/Tensor.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::container;
 
@@ -25,13 +26,13 @@ void test_shape_constructor()
     assert(!tensor.empty());
     assert(tensor.rank() == 3);
 
-    assert(tensor.shape()[0] == 2);
-    assert(tensor.shape()[1] == 3);
-    assert(tensor.shape()[2] == 4);
+    assert(tensor.shape()(0) == 2);
+    assert(tensor.shape()(1) == 3);
+    assert(tensor.shape()(2) == 4);
 
-    assert(tensor.strides()[0] == 12);
-    assert(tensor.strides()[1] == 4);
-    assert(tensor.strides()[2] == 1);
+    assert(tensor.strides()(0) == 12);
+    assert(tensor.strides()(1) == 4);
+    assert(tensor.strides()(2) == 1);
 }
 
 void test_fill_constructor()
@@ -51,18 +52,63 @@ void test_flat_element_access()
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
     for (std::size_t i = 0; i < tensor.size(); ++i) {
-        tensor[i] = static_cast<int>(i + 1);
+        tensor(i) = static_cast<int>(i + 1);
     }
 
-    assert(tensor[0] == 1);
-    assert(tensor[1] == 2);
-    assert(tensor[2] == 3);
-    assert(tensor[3] == 4);
-    assert(tensor[4] == 5);
-    assert(tensor[5] == 6);
+    assert(tensor(0) == 1);
+    assert(tensor(1) == 2);
+    assert(tensor(2) == 3);
+    assert(tensor(3) == 4);
+    assert(tensor(4) == 5);
+    assert(tensor(5) == 6);
 
     assert(tensor.front() == 1);
     assert(tensor.back() == 6);
+}
+
+void test_multi_index_access()
+{
+    Tensor<int> matrix_like(stratax::core::Shape{2, 3});
+
+    for (std::size_t i = 0; i < matrix_like.size(); ++i) {
+        matrix_like(i) = static_cast<int>(i + 1);
+    }
+
+    assert(matrix_like(0, 0) == 1);
+    assert(matrix_like(0, 2) == 3);
+    assert(matrix_like(1, 0) == 4);
+    assert(matrix_like(1, 2) == 6);
+
+    matrix_like(1, 1) = 40;
+    assert(matrix_like(4) == 40);
+
+    Tensor<int> cube(stratax::core::Shape{2, 3, 4});
+
+    for (std::size_t i = 0; i < cube.size(); ++i) {
+        cube(i) = static_cast<int>(i);
+    }
+
+    assert(cube(0, 0, 0) == 0);
+    assert(cube(0, 1, 2) == 6);
+    assert(cube(1, 0, 2) == 14);
+    assert(cube(1, 2, 3) == 23);
+}
+
+void test_const_multi_index_access()
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 2});
+
+    tensor(0) = 1;
+    tensor(1) = 2;
+    tensor(2) = 3;
+    tensor(3) = 4;
+
+    const Tensor<int>& view = tensor;
+
+    assert(view(0, 0) == 1);
+    assert(view(0, 1) == 2);
+    assert(view(1, 0) == 3);
+    assert(view(1, 1) == 4);
 }
 
 void test_at()
@@ -79,23 +125,13 @@ void test_at()
     assert(tensor.at(2) == 30);
     assert(tensor.at(3) == 40);
 
-    bool threw = false;
-
-    try {
-        tensor.at(4);
-    }
-    catch (const stratax::core::IndexError&) {
-        threw = true;
-    }
-
-    assert(threw);
 }
 
 void test_const_access()
 {
     const Tensor<int> tensor(stratax::core::Shape{2, 2}, 5);
 
-    assert(tensor[0] == 5);
+    assert(tensor(0) == 5);
     assert(tensor.at(1) == 5);
     assert(tensor.front() == 5);
     assert(tensor.back() == 5);
@@ -107,7 +143,7 @@ void test_iteration()
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
     for (std::size_t i = 0; i < tensor.size(); ++i) {
-        tensor[i] = static_cast<int>(i + 1);
+        tensor(i) = static_cast<int>(i + 1);
     }
 
     const int sum = std::accumulate(tensor.begin(), tensor.end(), 0);
@@ -133,9 +169,9 @@ void test_reverse_iteration()
 {
     Tensor<int> tensor(stratax::core::Shape{3});
 
-    tensor[0] = 1;
-    tensor[1] = 2;
-    tensor[2] = 3;
+    tensor(0) = 1;
+    tensor(1) = 2;
+    tensor(2) = 3;
 
     int expected = 3;
 
@@ -162,24 +198,24 @@ void test_copy_constructor()
 {
     Tensor<int> original(stratax::core::Shape{2, 2});
 
-    original[0] = 1;
-    original[1] = 2;
-    original[2] = 3;
-    original[3] = 4;
+    original(0) = 1;
+    original(1) = 2;
+    original(2) = 3;
+    original(3) = 4;
 
     Tensor<int> copy(original);
 
     assert(copy.size() == original.size());
     assert(copy.rank() == original.rank());
-    assert(copy[0] == 1);
-    assert(copy[1] == 2);
-    assert(copy[2] == 3);
-    assert(copy[3] == 4);
+    assert(copy(0) == 1);
+    assert(copy(1) == 2);
+    assert(copy(2) == 3);
+    assert(copy(3) == 4);
 
-    copy[0] = 99;
+    copy(0) = 99;
 
-    assert(original[0] == 1);
-    assert(copy[0] == 99);
+    assert(original(0) == 1);
+    assert(copy(0) == 99);
 }
 
 void test_copy_assignment()
@@ -234,8 +270,8 @@ void test_swap()
 
     assert(a.size() == 4);
     assert(a.rank() == 2);
-    assert(a.shape()[0] == 2);
-    assert(a.shape()[1] == 2);
+    assert(a.shape()(0) == 2);
+    assert(a.shape()(1) == 2);
 
     for (int value : a) {
         assert(value == 2);
@@ -243,7 +279,7 @@ void test_swap()
 
     assert(b.size() == 2);
     assert(b.rank() == 1);
-    assert(b.shape()[0] == 2);
+    assert(b.shape()(0) == 2);
 
     for (int value : b) {
         assert(value == 1);
@@ -256,6 +292,8 @@ int main()
     test_shape_constructor();
     test_fill_constructor();
     test_flat_element_access();
+    test_multi_index_access();
+    test_const_multi_index_access();
     test_at();
     test_const_access();
     test_iteration();

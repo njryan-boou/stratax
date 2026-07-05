@@ -1,7 +1,7 @@
 #include <type_traits>
 #include <cstdint>
 
-#include <stratax/core/Types.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::core::dtype;
 

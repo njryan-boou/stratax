@@ -2,7 +2,7 @@
 #include <numeric>
 #include <utility>
 
-#include <stratax/core/Strides.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::core;
 
@@ -26,9 +26,9 @@ void test_shape_constructor()
     assert(strides.rank() == 3);
     assert(!strides.empty());
 
-    assert(strides[0] == 12);
-    assert(strides[1] == 4);
-    assert(strides[2] == 1);
+    assert(strides(0) == 12);
+    assert(strides(1) == 4);
+    assert(strides(2) == 1);
 
     assert(strides.front() == 12);
     assert(strides.back() == 1);
@@ -41,7 +41,7 @@ void test_vector_shape_constructor()
 
     assert(strides.size() == 1);
     assert(strides.rank() == 1);
-    assert(strides[0] == 1);
+    assert(strides(0) == 1);
 }
 
 void test_empty_shape_constructor()
@@ -68,7 +68,7 @@ void test_at()
     try {
         strides.at(3);
     }
-    catch (const IndexError&) {
+    catch (const Exceptions::IndexError&) {
         threw = true;
     }
 
@@ -140,9 +140,9 @@ void test_copy_constructor()
     Strides copy(original);
 
     assert(copy == original);
-    assert(copy[0] == 12);
-    assert(copy[1] == 4);
-    assert(copy[2] == 1);
+    assert(copy(0) == 12);
+    assert(copy(1) == 4);
+    assert(copy(2) == 1);
 }
 
 void test_copy_assignment()
@@ -162,9 +162,9 @@ void test_move_constructor()
     Strides moved(std::move(original));
 
     assert(moved.rank() == 3);
-    assert(moved[0] == 12);
-    assert(moved[1] == 4);
-    assert(moved[2] == 1);
+    assert(moved(0) == 12);
+    assert(moved(1) == 4);
+    assert(moved(2) == 1);
 }
 
 void test_move_assignment()
@@ -175,9 +175,9 @@ void test_move_assignment()
     moved = std::move(original);
 
     assert(moved.rank() == 3);
-    assert(moved[0] == 12);
-    assert(moved[1] == 4);
-    assert(moved[2] == 1);
+    assert(moved(0) == 12);
+    assert(moved(1) == 4);
+    assert(moved(2) == 1);
 }
 
 void test_swap()
@@ -188,13 +188,13 @@ void test_swap()
     a.swap(b);
 
     assert(a.rank() == 2);
-    assert(a[0] == 6);
-    assert(a[1] == 1);
+    assert(a(0) == 6);
+    assert(a(1) == 1);
 
     assert(b.rank() == 3);
-    assert(b[0] == 12);
-    assert(b[1] == 4);
-    assert(b[2] == 1);
+    assert(b(0) == 12);
+    assert(b(1) == 4);
+    assert(b(2) == 1);
 }
 
 int main()

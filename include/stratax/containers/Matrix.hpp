@@ -4,6 +4,7 @@
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Exceptions.hpp>
+#include <stratax/core/Strides.hpp>
 
 #include <initializer_list>
 #include <cstddef>
@@ -13,18 +14,25 @@
 namespace stratax::container {
 
 template<typename T>
-requires stratax::core::Numeric<T>
+requires Numeric<T>
 class Matrix
 {
 private:
-    stratax::core::Shape shape_;
-    stratax::core::Buffer<T> buffer_;
+    core::Shape shape_;
+    core::Strides strides_;
+    core::Buffer<T> buffer_;
 
 public:
 
-    // ===== Constructors =====
-
     Matrix() noexcept = default;
+
+    Matrix(const stratax::core::Shape& shape)
+        : shape_(),
+          buffer_()
+    {
+        shape_ = shape;
+        buffer_ = stratax::core::Buffer<T>(shape.size());
+    }
 
     Matrix(std::size_t rows, std::size_t cols)
         : shape_{rows, cols},
@@ -48,7 +56,7 @@ public:
         {
             if (row.size() != cols)
             {
-                throw stratax::core::StrataxError("All rows must have the same number of columns.");
+                throw Exceptions::StrataxError("All rows must have the same number of columns.");
             }
         }
 
@@ -66,8 +74,6 @@ public:
         }
     }
 
-    // Rule of Five
-
     Matrix(const Matrix&) = default;
     Matrix(Matrix&&) noexcept = default;
 
@@ -75,8 +81,6 @@ public:
     Matrix& operator=(Matrix&&) noexcept = default;
 
     ~Matrix() = default;
-
-    // ===== Capacity =====
 
     std::size_t size() const noexcept
     {
@@ -88,16 +92,14 @@ public:
         return buffer_.empty();
     }
 
-    // ===== Shape =====
-
     std::size_t rows() const noexcept
     {
-        return shape_[0];
+        return shape_(0);
     }
 
     std::size_t cols() const noexcept
     {
-        return shape_[1];
+        return shape_(1);
     }
 
     const stratax::core::Shape& shape() const noexcept
@@ -105,18 +107,21 @@ public:
         return shape_;
     }
 
-    // ===== Element Access =====
+    std::size_t rank() const noexcept
+    {
+        return shape_.rank();
+    }
 
     T& operator()(std::size_t row, std::size_t col)
     {
         if (row >= rows())
         {
-            throw stratax::core::IndexError("Row index out of bounds.");
+            throw Exceptions::IndexError("Row index out of bounds.");
         }
 
         if (col >= cols())
         {
-            throw stratax::core::IndexError("Column index out of bounds.");
+            throw Exceptions::IndexError("Column index out of bounds.");
         }
 
         return buffer_[row * cols() + col];
@@ -126,12 +131,12 @@ public:
     {
         if (row >= rows())
         {
-            throw stratax::core::IndexError("Row index out of bounds.");
+            throw Exceptions::IndexError("Row index out of bounds.");
         }
 
         if (col >= cols())
         {
-            throw stratax::core::IndexError("Column index out of bounds.");
+            throw Exceptions::IndexError("Column index out of bounds.");
         }
 
         return buffer_[row * cols() + col];
@@ -151,7 +156,7 @@ public:
     {
         if (empty())
         {
-            throw stratax::core::IndexError("Cannot access front of an empty matrix.");
+            throw Exceptions::IndexError("Cannot access front of an empty matrix.");
         }
 
         return buffer_.front();
@@ -161,7 +166,7 @@ public:
     {
         if (empty())
         {
-            throw stratax::core::IndexError("Cannot access front of an empty matrix.");
+            throw Exceptions::IndexError("Cannot access front of an empty matrix.");
         }
 
         return buffer_.front();
@@ -171,7 +176,7 @@ public:
     {
         if (empty())
         {
-            throw stratax::core::IndexError("Cannot access back of an empty matrix.");
+            throw Exceptions::IndexError("Cannot access back of an empty matrix.");
         }
 
         return buffer_.back();
@@ -181,13 +186,11 @@ public:
     {
         if (empty())
         {
-            throw stratax::core::IndexError("Cannot access back of an empty matrix.");
+            throw Exceptions::IndexError("Cannot access back of an empty matrix.");
         }
 
         return buffer_.back();
     }
-
-    // ===== Raw Data =====
 
     T* data() noexcept
     {
@@ -198,8 +201,6 @@ public:
     {
         return buffer_.data();
     }
-
-    // ===== Iterators =====
 
     T* begin() noexcept
     {
@@ -260,8 +261,6 @@ public:
     {
         return buffer_.crend();
     }
-
-    // ===== Utilities =====
 
     void fill(const T& value)
     {

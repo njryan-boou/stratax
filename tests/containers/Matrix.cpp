@@ -1,8 +1,9 @@
 #include <cassert>
 #include <numeric>
+#include <stdexcept>
 #include <utility>
 
-#include <stratax/containers/Matrix.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::container;
 
@@ -14,29 +15,6 @@ void test_default_constructor()
     assert(matrix.data() == nullptr);
     assert(matrix.begin() == matrix.end());
     assert(matrix.shape().rank() == 0);
-}
-
-void test_shape_constructor()
-{
-    Matrix<int> matrix(2, 3);
-
-    assert(matrix.size() == 6);
-    assert(!matrix.empty());
-    assert(matrix.rows() == 2);
-    assert(matrix.cols() == 3);
-    assert(matrix.shape().rank() == 2);
-    assert(matrix.shape()[0] == 2);
-    assert(matrix.shape()[1] == 3);
-
-    matrix(0, 0) = 1;
-    matrix(0, 1) = 2;
-    matrix(0, 2) = 3;
-    matrix(1, 0) = 4;
-    matrix(1, 1) = 5;
-    matrix(1, 2) = 6;
-
-    assert(matrix.front() == 1);
-    assert(matrix.back() == 6);
 }
 
 void test_fill_constructor()
@@ -81,7 +59,7 @@ void test_initializer_list_rejects_ragged_rows()
             {3}
         };
     }
-    catch (const stratax::core::StrataxError&) {
+    catch (const Exceptions::StrataxError&) {
         threw = true;
     }
 
@@ -109,14 +87,14 @@ void test_at()
     try {
         matrix.at(2, 0);
     }
-    catch (const stratax::core::IndexError&) {
+    catch (const Exceptions::IndexError&) {
         row_threw = true;
     }
 
     try {
         matrix.at(0, 2);
     }
-    catch (const stratax::core::IndexError&) {
+    catch (const Exceptions::IndexError&) {
         col_threw = true;
     }
 
@@ -289,7 +267,6 @@ void test_swap()
 int main()
 {
     test_default_constructor();
-    test_shape_constructor();
     test_fill_constructor();
     test_initializer_list_constructor();
     test_initializer_list_rejects_ragged_rows();

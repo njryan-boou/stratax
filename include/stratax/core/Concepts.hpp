@@ -6,9 +6,6 @@
 
 #include "Types.hpp"
 
-namespace stratax::core
-{
-
 template<typename T>
 concept Integral =
     std::integral<T> &&
@@ -26,6 +23,11 @@ concept Floating =
     std::floating_point<T>;
 
 template<typename T>
+concept Arithmetic =
+    Integral<T> ||
+    std::floating_point<T>;
+
+template<typename T>
 concept Complex =
     std::same_as<T, std::complex<float>> ||
     std::same_as<T, std::complex<double>> ||
@@ -33,8 +35,18 @@ concept Complex =
 
 template<typename T>
 concept Numeric =
-    Integral<T> ||
-    Floating<T> ||
+    Arithmetic<T> ||
     Complex<T>;
 
-} // namespace stratax::core
+template<typename T>
+concept NDarray =
+requires(T a)
+{
+    a.shape();
+    a.size();
+
+    a.begin();
+    a.end();
+
+    typename T;
+};

@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <utility>
+#include <ostream>
 
 namespace stratax::core {
 
@@ -28,7 +29,7 @@ public:
         buffer_[shape.rank() - 1] = 1;
 
         for (std::size_t i = shape.rank() - 1; i > 0; --i) {
-            buffer_[i - 1] = buffer_[i] * shape[i];
+            buffer_[i - 1] = buffer_[i] * shape(i);
         }
     }
 
@@ -55,7 +56,7 @@ public:
         return buffer_.size();
     }
 
-    const std::size_t& operator[](std::size_t index) const
+    const std::size_t& operator()(std::size_t index) const
     {
         return buffer_[index];
     }
@@ -63,7 +64,7 @@ public:
     const std::size_t& at(std::size_t index) const
     {
         if (index >= rank()) {
-            throw stratax::core::IndexError("Strides index out of bounds");
+            throw Exceptions::IndexError("Strides index out of bounds");
         }
 
         return buffer_[index];
@@ -169,5 +170,29 @@ public:
         return !(*this == other);
     }
 };
+
+std::ostream& operator<<(std::ostream& os, const Strides& stride)
+{
+    os << "(";
+
+    bool first = true;
+    for (std::size_t dim : stride)
+    {
+        if (!first)
+            os << ", ";
+
+        os << dim;
+        first = false;
+    }
+
+    if (stride.rank() == 1)
+    {
+        os << ",";
+    }
+
+    os << ")";
+
+    return os;
+}
 
 }

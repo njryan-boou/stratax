@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include <stratax/core/Concepts.hpp>
+#include <stratax.hpp>
 
 using namespace stratax::core;
 
@@ -63,7 +63,10 @@ static_assert(Numeric<dtype::complex256>);
 
 static_assert(!Numeric<bool>);
 static_assert(!Numeric<char>);
+static_assert(!Numeric<signed char>);
+static_assert(!Numeric<unsigned char>);
 static_assert(!Numeric<dtype::int8>);
+static_assert(!Numeric<dtype::uint8>);
 static_assert(!Numeric<std::string>);
 static_assert(!Numeric<std::vector<int>>);
 
