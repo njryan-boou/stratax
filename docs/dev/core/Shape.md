@@ -13,7 +13,7 @@ Stores tensor dimensions and exposes rank and total element count metadata.
 - `Shape({ ... })`
 
 ### Metadata
-- `size()`
+- `elements()`
 - `rank()`
 - `empty()`
 
@@ -30,14 +30,16 @@ Stores tensor dimensions and exposes rank and total element count metadata.
 ## Validation Notes
 
 - `operator()` checks dimension index bounds.
-- `size()` returns total element count, not rank.
-- Empty shape currently has product size `1`.
+- `elements()` returns total element count.
+- Empty shape has element count `0`.
+- Element count multiplication checks overflow and throws `Exceptions::DimensionError`.
 
 ## Implementation Notes
 
 - Public shape indexing should use `operator()`.
 - `Shape` stores dimensions in `Buffer<std::size_t>`.
 - Use `rank()` when comparing number of dimensions.
+- `operator<<` is inline because this file is header-only.
 
 ## Future Work
 

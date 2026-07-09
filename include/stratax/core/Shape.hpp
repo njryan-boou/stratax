@@ -1,12 +1,10 @@
 #pragma once
+
 #include "Buffer.hpp"
 #include "Exceptions.hpp"
 
-#include <stdexcept>
-#include <cstddef>
-#include <initializer_list>
+#include <limits>
 #include <ostream>
-#include <iostream>
 
 namespace stratax::core {
 
@@ -18,24 +16,42 @@ private:
 public:
     Shape() noexcept : dims_() {}
 
-    Shape(std::initializer_list<std::size_t> list) : dims_(list) 
+    Shape(std::initializer_list<std::size_t> list) : dims_(list) {}
+
+    Shape(const Buffer<std::size_t>& dims)
+    : dims_(dims)
+    {
+    }
+
+    Shape(Buffer<std::size_t>&& dims)
+    : dims_(std::move(dims))
     {
     }
 
     ~Shape() = default;
 
-    std::size_t size() const
+    [[nodiscard]]
+    constexpr std::size_t elements() const
     {
+        if (empty())
+        {
+            return 0;
+        }
         std::size_t prod = 1;
         for (std::size_t dim : dims_)
         {
+            if (dim != 0 && prod > std::numeric_limits<std::size_t>::max() / dim)
+            {
+                throw Exceptions::DimensionError("Shape elements overflow");
+            }
+
             prod *= dim;
         }
         return prod;
     }
 
     [[nodiscard]]
-    std::size_t rank() const
+    constexpr std::size_t rank() const
     {
         return dims_.size();
     }
@@ -49,7 +65,7 @@ public:
         return dims_[index];
     }
 
-    bool empty() const noexcept
+    constexpr bool empty() const noexcept
     {
         return dims_.empty();
     }
@@ -102,7 +118,7 @@ public:
 
 };
 
-std::ostream& operator<<(std::ostream& os, const Shape& shape)
+inline std::ostream& operator<<(std::ostream& os, const Shape& shape)
 {
     os << "(";
 

@@ -11,6 +11,7 @@
 #include <array>
 #include <cstddef>
 #include <initializer_list>
+#include <stdexcept>
 #include <utility>
 
 namespace stratax::container {
@@ -25,27 +26,25 @@ private:
     core::Buffer<T> buffer_;
 
 public:
+    using value_type = T;
+
+    template<typename U>
+    using rebind = Tensor<U>;
 
     Tensor() noexcept = default;
 
     explicit Tensor(const core::Shape& shape)
-        : shape_(),
-          strides_(),
-          buffer_()
+        : shape_(shape),
+          strides_(shape_),
+          buffer_(shape_.elements())
     {
-        shape_ = shape;
-        strides_ = core::Strides(shape);
-        buffer_ = core::Buffer<T>(shape.size());
     }
 
     Tensor(const core::Shape& shape, const T& value)
-        : shape_(),
-          strides_(),
-          buffer_()
+        : shape_(shape),
+          strides_(shape_),
+          buffer_(shape_.elements(), value)
     {
-        shape_ = shape;
-        strides_ = core::Strides(shape);
-        buffer_ = core::Buffer<T>(shape.size(), value);
     }
 
     Tensor(const Tensor&) = default;
@@ -91,6 +90,16 @@ public:
         return buffer_[index];
     }
 
+    T& operator[](std::size_t index) noexcept
+    {
+        return buffer_[index];
+    }
+
+    const T& operator[](std::size_t index) const noexcept
+    {
+        return buffer_[index];
+    }
+
     template<typename... Rest>
     T& operator()(std::size_t first, std::size_t second, Rest... rest)
     {
@@ -117,30 +126,86 @@ public:
 
     T& at(std::size_t index)
     {
+        if (index >= size())
+        {
+            throw Exceptions::IndexError("Tensor flat index out of bounds.");
+        }
+
         return buffer_[index];
     }
 
     const T& at(std::size_t index) const
     {
+        if (index >= size())
+        {
+            throw Exceptions::IndexError("Tensor flat index out of bounds.");
+        }
+
         return buffer_[index];
     }
 
-    T& front() noexcept
+    template<typename... Rest>
+    T& at(std::size_t first, std::size_t second, Rest... rest)
+    {
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+            first,
+            second,
+            static_cast<std::size_t>(rest)...
+        };
+
+        try
+        {
+            return buffer_[offset(shape_, strides_, indices)];
+        }
+        catch (const Exceptions::DimensionError&)
+        {
+            throw Exceptions::IndexError("Tensor multi-index rank mismatch.");
+        }
+        catch (const Exceptions::IndexError&)
+        {
+            throw Exceptions::IndexError("Tensor multi-index out of bounds.");
+        }
+    }
+
+    template<typename... Rest>
+    const T& at(std::size_t first, std::size_t second, Rest... rest) const
+    {
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+            first,
+            second,
+            static_cast<std::size_t>(rest)...
+        };
+
+        try
+        {
+            return buffer_[offset(shape_, strides_, indices)];
+        }
+        catch (const Exceptions::DimensionError&)
+        {
+            throw Exceptions::IndexError("Tensor multi-index rank mismatch.");
+        }
+        catch (const Exceptions::IndexError&)
+        {
+            throw Exceptions::IndexError("Tensor multi-index out of bounds.");
+        }
+    }
+
+    T& front()
     {
         return buffer_.front();
     }
 
-    const T& front() const noexcept
+    const T& front() const
     {
         return buffer_.front();
     }
 
-    T& back() noexcept
+    T& back()
     {
         return buffer_.back();
     }
 
-    const T& back() const noexcept
+    const T& back() const
     {
         return buffer_.back();
     }

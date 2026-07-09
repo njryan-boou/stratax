@@ -42,7 +42,7 @@ Implements generic element-wise arithmetic algorithms for all Stratax array cont
 
 ## Implementation Notes
 
-- Algorithms are generic and operate on any container satisfying the `NDarray` concept.
+- Algorithms are generic and operate on any container satisfying the `Array` concept.
 - Containers are expected to provide:
   - `shape()`
   - `size()`
@@ -52,11 +52,11 @@ Implements generic element-wise arithmetic algorithms for all Stratax array cont
 - Array-array operators allocate a new result container.
 - Compound assignment operators modify the left-hand side.
 - Reverse operators reuse existing implementations when possible (`+` and `*`).
+- Scalar overloads accept `Numeric` scalars, including complex numbers.
 
 ## Future Work
 
 - Broadcasting
 - Type promotion (`int + double -> double`)
-- Complex number support
 - SIMD optimization
 - Parallel execution

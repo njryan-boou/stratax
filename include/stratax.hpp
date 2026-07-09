@@ -8,11 +8,13 @@
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/Types.hpp>
 #include <stratax/core/Validation.hpp>
+#include <stratax/core/Slice.hpp>
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
-#include <stratax/containers/utilities.hpp>
+#include <stratax/containers/Creation.hpp>
+#include <stratax/containers/Conversions.hpp>
 
 #include <stratax/linalg/decomposition.hpp>
 #include <stratax/linalg/determinant.hpp>
@@ -46,8 +48,8 @@
 #include <stratax/ops/broadcasting.hpp>
 #include <stratax/ops/Indexing.hpp>
 #include <stratax/ops/logical.hpp>
-#include <stratax/ops/reshape.hpp>
-#include <stratax/ops/slicing.hpp>
+#include <stratax/ops/Reshape.hpp>
+#include <stratax/ops/Slice.hpp>
 
 #include <stratax/detail/kernels.hpp>
 #include <stratax/detail/memory.hpp>

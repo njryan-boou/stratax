@@ -36,21 +36,21 @@ Implements the general N-dimensional Stratax array container using shape, stride
 
 ## Validation Notes
 
-- Validation is intentionally minimal while `Validation.hpp` is deferred.
 - Flat `operator()` is unchecked.
 - Multi-index `operator()` uses `offset()` and throws for rank or bounds errors.
 - Empty tensors are possible through the default constructor.
+- Zero-dimension shapes are supported and produce empty tensors.
 
 ## Implementation Notes
 
 - `shape_`, `strides_`, and `buffer_` must stay in sync.
 - Multi-index access depends on `core::Strides` and `ops/Indexing.hpp`.
 - Public indexing should use `operator()`, not `operator[]`.
+- `operator[]` is available for flat storage indexing.
 - Iteration exposes flat storage order.
 
 ## Future Work
 
-- Reintroduce tensor shape validation.
+- Reintroduce shared validation helpers if `Validation.hpp` returns.
 - Add initializer-list tensor construction if desired.
-- Add checked full-index `at(i, j, ...)`.
 - Add broadcasting-aware access helpers.

@@ -15,6 +15,26 @@ void test_default_constructor()
     assert(vector.data() == nullptr);
     assert(vector.begin() == vector.end());
     assert(vector.shape().rank() == 0);
+
+    bool front_threw = false;
+    try {
+        vector.front();
+    }
+    catch (const Exceptions::IndexError&) {
+        front_threw = true;
+    }
+
+    assert(front_threw);
+
+    bool back_threw = false;
+    try {
+        vector.back();
+    }
+    catch (const Exceptions::IndexError&) {
+        back_threw = true;
+    }
+
+    assert(back_threw);
 }
 
 void test_size_constructor()
@@ -57,6 +77,52 @@ void test_initializer_list_constructor()
     assert(vector(2) == 3.5);
 }
 
+void test_empty_initializer_list_constructor()
+{
+    Vector<int> vector(std::initializer_list<int>{});
+
+    assert(vector.empty());
+    assert(vector.size() == 0);
+    assert(vector.shape().rank() == 1);
+    assert(vector.shape()(0) == 0);
+    assert(vector.strides().rank() == 1);
+    assert(vector.strides()(0) == 1);
+}
+
+void test_shape_constructor()
+{
+    Vector<int> vector(stratax::core::Shape{3});
+
+    assert(vector.size() == 3);
+    assert(vector.shape().rank() == 1);
+    assert(vector.shape()(0) == 3);
+    assert(vector.strides().rank() == 1);
+    assert(vector.strides()(0) == 1);
+}
+
+void test_shape_constructor_rejects_wrong_rank()
+{
+    bool rank_zero_threw = false;
+    try {
+        Vector<int> vector(stratax::core::Shape{});
+    }
+    catch (const Exceptions::DimensionError&) {
+        rank_zero_threw = true;
+    }
+
+    assert(rank_zero_threw);
+
+    bool rank_two_threw = false;
+    try {
+        Vector<int> vector(stratax::core::Shape{2, 3});
+    }
+    catch (const Exceptions::DimensionError&) {
+        rank_two_threw = true;
+    }
+
+    assert(rank_two_threw);
+}
+
 void test_at()
 {
     Vector<int> vector{1, 2, 3};
@@ -68,6 +134,31 @@ void test_at()
     vector.at(1) = 20;
     assert(vector(1) == 20);
 
+    bool threw = false;
+    try {
+        vector.at(3);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    assert(threw);
+
+}
+
+void test_linear_index_operator()
+{
+    Vector<int> vector{1, 2, 3};
+
+    assert(vector[0] == 1);
+    assert(vector[1] == 2);
+    assert(vector[2] == 3);
+
+    vector[1] = 20;
+    assert(vector(1) == 20);
+
+    const Vector<int>& view = vector;
+    assert(view[1] == 20);
 }
 
 void test_const_access()
@@ -127,6 +218,10 @@ void test_fill()
     for (int value : vector) {
         assert(value == 42);
     }
+
+    Vector<int> empty;
+    empty.fill(7);
+    assert(empty.empty());
 }
 
 void test_copy_constructor()
@@ -156,6 +251,12 @@ void test_copy_assignment()
     assert(copy(0) == 4);
     assert(copy(1) == 5);
     assert(copy(2) == 6);
+
+    copy = copy;
+    assert(copy.size() == 3);
+    assert(copy(0) == 4);
+    assert(copy(1) == 5);
+    assert(copy(2) == 6);
 }
 
 void test_move_constructor()
@@ -179,6 +280,12 @@ void test_move_assignment()
     assert(moved.size() == 2);
     assert(moved(0) == 10);
     assert(moved(1) == 11);
+
+    Vector<int>& same = moved;
+    moved = std::move(same);
+    assert(moved.size() == 2);
+    assert(moved(0) == 10);
+    assert(moved(1) == 11);
 }
 
 void test_swap()
@@ -198,13 +305,33 @@ void test_swap()
     assert(b(1) == 2);
 }
 
+void test_swap_with_empty()
+{
+    Vector<int> populated{1, 2, 3};
+    Vector<int> empty;
+
+    populated.swap(empty);
+
+    assert(populated.empty());
+    assert(empty.size() == 3);
+    assert(empty(0) == 1);
+    assert(empty(1) == 2);
+    assert(empty(2) == 3);
+    assert(empty.shape().rank() == 1);
+    assert(empty.strides().rank() == 1);
+}
+
 int main()
 {
     test_default_constructor();
     test_size_constructor();
     test_fill_constructor();
     test_initializer_list_constructor();
+    test_empty_initializer_list_constructor();
+    test_shape_constructor();
+    test_shape_constructor_rejects_wrong_rank();
     test_at();
+    test_linear_index_operator();
     test_const_access();
     test_iteration();
     test_const_iteration();
@@ -215,6 +342,7 @@ int main()
     test_move_constructor();
     test_move_assignment();
     test_swap();
+    test_swap_with_empty();
 
     return 0;
 }

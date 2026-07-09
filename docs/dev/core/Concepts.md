@@ -16,18 +16,21 @@ Defines compile-time constraints used by containers and generic algorithms.
 - `Numeric`
 
 ### Container Categories
+- `Array`
 - `NDarray`
 
 ## Validation Notes
 
 - Concepts fail at compile time, not runtime.
 - `Numeric` excludes bool and character-like integer types.
+- Numeric concepts normalize const/reference qualifiers.
+- `Array` recognizes Stratax `Vector`, `Matrix`, and `Tensor`.
 - `NDarray` is structural and checks for the expected array interface.
 
 ## Implementation Notes
 
 - Keep concepts small and readable.
-- `Arithmetic.hpp` still uses `NDarray` and `Arithmetic` for scalar/container overloads.
+- Arithmetic scalar overloads use `Numeric` so complex scalars are supported.
 - Container element types are constrained through `Numeric`.
 
 ## Future Work

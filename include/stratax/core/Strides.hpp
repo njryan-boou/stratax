@@ -5,6 +5,7 @@
 #include "Exceptions.hpp"
 
 #include <cstddef>
+#include <limits>
 #include <stdexcept>
 #include <utility>
 #include <ostream>
@@ -29,6 +30,11 @@ public:
         buffer_[shape.rank() - 1] = 1;
 
         for (std::size_t i = shape.rank() - 1; i > 0; --i) {
+            if (shape(i) != 0 &&
+                buffer_[i] > std::numeric_limits<std::size_t>::max() / shape(i)) {
+                throw Exceptions::DimensionError("Strides overflow for shape");
+            }
+
             buffer_[i - 1] = buffer_[i] * shape(i);
         }
     }
@@ -70,12 +76,12 @@ public:
         return buffer_[index];
     }
 
-    const std::size_t& front() const noexcept
+    const std::size_t& front() const
     {
         return buffer_.front();
     }
 
-    const std::size_t& back() const noexcept
+    const std::size_t& back() const
     {
         return buffer_.back();
     }
@@ -85,7 +91,7 @@ public:
         return buffer_.data();
     }
 
-    std::size_t* begin() noexcept
+    const std::size_t* begin() noexcept
     {
         return buffer_.begin();
     }
@@ -100,7 +106,7 @@ public:
         return buffer_.cbegin();
     }
 
-    std::size_t* end() noexcept
+    const std::size_t* end() noexcept
     {
         return buffer_.end();
     }
@@ -115,7 +121,7 @@ public:
         return buffer_.cend();
     }
 
-    std::reverse_iterator<std::size_t*> rbegin() noexcept
+    std::reverse_iterator<const std::size_t*> rbegin() noexcept
     {
         return buffer_.rbegin();
     }
@@ -130,7 +136,7 @@ public:
         return buffer_.crbegin();
     }
 
-    std::reverse_iterator<std::size_t*> rend() noexcept
+    std::reverse_iterator<const std::size_t*> rend() noexcept
     {
         return buffer_.rend();
     }
@@ -171,7 +177,7 @@ public:
     }
 };
 
-std::ostream& operator<<(std::ostream& os, const Strides& stride)
+inline std::ostream& operator<<(std::ostream& os, const Strides& stride)
 {
     os << "(";
 

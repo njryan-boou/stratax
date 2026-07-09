@@ -7,14 +7,22 @@
 using namespace stratax::core;
 
 static_assert(Integral<int>);
+static_assert(Integral<const int>);
+static_assert(Integral<int&>);
+static_assert(Integral<const volatile long&>);
 static_assert(Integral<long>);
 static_assert(Integral<dtype::int16>);
 static_assert(Integral<dtype::uint64>);
 
 static_assert(!Integral<bool>);
+static_assert(!Integral<const bool>);
 static_assert(!Integral<char>);
+static_assert(!Integral<const char>);
+static_assert(!Integral<char&>);
 static_assert(!Integral<signed char>);
+static_assert(!Integral<const signed char&>);
 static_assert(!Integral<unsigned char>);
+static_assert(!Integral<const unsigned char&>);
 static_assert(!Integral<wchar_t>);
 static_assert(!Integral<char8_t>);
 static_assert(!Integral<char16_t>);
@@ -28,6 +36,8 @@ static_assert(!Integral<std::complex<float>>);
 static_assert(!Integral<std::string>);
 
 static_assert(Floating<float>);
+static_assert(Floating<const float>);
+static_assert(Floating<double&>);
 static_assert(Floating<double>);
 static_assert(Floating<long double>);
 static_assert(Floating<dtype::float32>);
@@ -40,6 +50,8 @@ static_assert(!Floating<std::complex<double>>);
 static_assert(!Floating<std::string>);
 
 static_assert(Complex<std::complex<float>>);
+static_assert(Complex<const std::complex<float>>);
+static_assert(Complex<std::complex<double>&>);
 static_assert(Complex<std::complex<double>>);
 static_assert(Complex<std::complex<long double>>);
 static_assert(Complex<dtype::complex64>);
@@ -52,23 +64,46 @@ static_assert(!Complex<int>);
 static_assert(!Complex<std::string>);
 
 static_assert(Numeric<int>);
+static_assert(Numeric<const int>);
+static_assert(Numeric<int&>);
 static_assert(Numeric<dtype::int32>);
 static_assert(Numeric<dtype::uint32>);
 static_assert(Numeric<float>);
+static_assert(Numeric<const double&>);
 static_assert(Numeric<double>);
 static_assert(Numeric<std::complex<float>>);
+static_assert(Numeric<const std::complex<double>&>);
 static_assert(Numeric<std::complex<double>>);
 static_assert(Numeric<std::complex<long double>>);
 static_assert(Numeric<dtype::complex256>);
 
 static_assert(!Numeric<bool>);
+static_assert(!Numeric<const bool&>);
 static_assert(!Numeric<char>);
+static_assert(!Numeric<const char&>);
 static_assert(!Numeric<signed char>);
 static_assert(!Numeric<unsigned char>);
 static_assert(!Numeric<dtype::int8>);
 static_assert(!Numeric<dtype::uint8>);
 static_assert(!Numeric<std::string>);
 static_assert(!Numeric<std::vector<int>>);
+
+static_assert(Array<stratax::container::Vector<int>>);
+static_assert(Array<stratax::container::Matrix<int>>);
+static_assert(Array<stratax::container::Tensor<int>>);
+static_assert(Array<const stratax::container::Vector<double>&>);
+static_assert(Array<stratax::container::Matrix<std::complex<double>>&&>);
+
+static_assert(!Array<int>);
+static_assert(!Array<std::vector<int>>);
+static_assert(!Array<std::string>);
+
+static_assert(NDarray<stratax::container::Vector<int>>);
+static_assert(NDarray<const stratax::container::Matrix<double>>);
+static_assert(NDarray<stratax::container::Tensor<float>&>);
+
+static_assert(!NDarray<int>);
+static_assert(!NDarray<std::vector<int>>);
 
 template<Numeric T>
 constexpr bool accepts_numeric(T)

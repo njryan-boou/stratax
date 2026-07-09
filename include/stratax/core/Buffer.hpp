@@ -8,9 +8,11 @@
 #include <memory>
 #include <utility>
 #include <new>
+#include <limits>
 #include <type_traits>
 
 #include "Config.hpp"
+#include "Exceptions.hpp"
 
 namespace stratax::core {
 
@@ -55,7 +57,7 @@ public:
                 ++i;
             }
         } catch (...) {
-            destroy_range(0, i);
+            destroy(0, i);
             deallocate(data_);
             throw;
         }
@@ -65,7 +67,9 @@ public:
         : data_(allocate(other.size_)), size_(other.size_)
     {
         if constexpr (std::is_trivially_copyable_v<T>) {
-            std::memcpy(data_, other.data_, sizeof(T) * size_);
+            if (size_ != 0) {
+                std::memcpy(data_, other.data_, sizeof(T) * size_);
+            }
             return;
         }
 
@@ -76,7 +80,7 @@ public:
                 std::construct_at(data_ + i, other.data_[i]);
             }
         } catch (...) {
-            destroy_range(0, i);
+            destroy(0, i);
             deallocate(data_);
             throw;
         }
@@ -104,7 +108,7 @@ public:
         if (this == &other)
             return *this;
 
-        destroy_range(0, size_);
+        destroy(0, size_);
         deallocate(data_);
 
         data_ = other.data_;
@@ -118,7 +122,7 @@ public:
 
     ~Buffer()
     {
-        destroy_range(0, size_);
+        destroy(0, size_);
         deallocate(data_);
     }
 
@@ -132,23 +136,39 @@ public:
         return data_[index];
     }
 
-    T& front() noexcept
+    T& front()
     {
+        if (empty()) {
+            throw Exceptions::IndexError("Cannot access front of an empty buffer.");
+        }
+
         return data_[0];
     }
 
-    const T& front() const noexcept
+    const T& front() const
     {
+        if (empty()) {
+            throw Exceptions::IndexError("Cannot access front of an empty buffer.");
+        }
+
         return data_[0];
     }
 
-    T& back() noexcept
+    T& back()
     {
+        if (empty()) {
+            throw Exceptions::IndexError("Cannot access back of an empty buffer.");
+        }
+
         return data_[size_ - 1];
     }
 
-    const T& back() const noexcept
+    const T& back() const
     {
+        if (empty()) {
+            throw Exceptions::IndexError("Cannot access back of an empty buffer.");
+        }
+
         return data_[size_ - 1];
     }
 
@@ -222,12 +242,12 @@ public:
         return std::reverse_iterator<const T*>(cbegin());
     }
 
-    std::size_t size() const noexcept
+    constexpr std::size_t size() const noexcept
     {
         return size_;
     }
 
-    bool empty() const noexcept
+    constexpr bool empty() const noexcept
     {
         return size_ == 0;
     }
@@ -248,14 +268,18 @@ private:
     std::size_t size_;
 
 private:
-    static T* allocate(std::size_t count)
+    static T* allocate(std::size_t space)
     {
-        if (count == 0)
+        if (space == 0)
             return nullptr;
+
+        if (space > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
+            throw std::bad_array_new_length();
+        }
 
         return static_cast<T*>(
             ::operator new(
-                sizeof(T) * count,
+                sizeof(T) * space,
                 std::align_val_t{Alignment}
             )
         );
@@ -263,16 +287,19 @@ private:
 
     static void deallocate(T* ptr) noexcept
     {
+        if (ptr == nullptr)
+            return;
+
         ::operator delete(
             ptr,
             std::align_val_t{Alignment}
         );
     }
 
-    void construct_default(std::size_t first, std::size_t last)
+    void construct_default(std::size_t begin, std::size_t end)
     {
         try {
-            std::uninitialized_default_construct_n(data_ + first, last - first);
+            std::uninitialized_default_construct_n(data_ + begin, end - begin);
         } catch (...) {
             deallocate(data_);
             data_ = nullptr;
@@ -281,10 +308,10 @@ private:
         }
     }
 
-    void construct_fill(std::size_t first, std::size_t last, const T& value)
+    void construct_fill(std::size_t begin, std::size_t end, const T& value)
     {
         try {
-            std::uninitialized_fill_n(data_ + first, last - first, value);
+            std::uninitialized_fill_n(data_ + begin, end - begin, value);
         } catch (...) {
             deallocate(data_);
             data_ = nullptr;
@@ -293,11 +320,11 @@ private:
         }
     }
 
-    void destroy_range(std::size_t first, std::size_t last) noexcept
+    void destroy(std::size_t begin, std::size_t end) noexcept
     {
         if constexpr (!std::is_trivially_destructible_v<T>) {
-            for (std::size_t i = first; i < last; ++i) {
-                std::destroy_at(data_ + i);
+            for (std::size_t index = begin; index < end; ++index) {
+                std::destroy_at(data_ + index);
             }
         }
     }

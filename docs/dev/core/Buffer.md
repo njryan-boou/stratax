@@ -34,6 +34,8 @@ Implements the low-level aligned contiguous storage owner used by Stratax contai
 ## Validation Notes
 
 - `Buffer` does not validate indexes.
+- `front()` and `back()` throw `Exceptions::IndexError` when the buffer is empty.
+- Allocation size checks guard against `sizeof(T) * size` overflow.
 - Higher-level containers own shape and bounds policy.
 - `uninitialized` storage is restricted to trivially destructible types.
 
@@ -49,4 +51,4 @@ Implements the low-level aligned contiguous storage owner used by Stratax contai
 - Add allocator customization.
 - Add debug-only bounds checks.
 - Add move/copy stress tests for non-trivial types.
-- Add alignment tests.
+- Consider exposing alignment as a named constant or config value.

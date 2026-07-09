@@ -1,8 +1,9 @@
 #pragma once
 
 #include <cstddef>
-#include <stdexcept>
+#include <limits>
 
+#include <stratax/core/Exceptions.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/Shape.hpp>
 
@@ -14,7 +15,7 @@ std::size_t offset(
 {
     if (shape.rank() != strides.rank() || shape.rank() != index.size())
     {
-        throw std::invalid_argument(
+        throw Exceptions::DimensionError(
             "Shape, strides, and index must have the same rank.");
     }
 
@@ -28,10 +29,23 @@ std::size_t offset(
     {
         if (*index_it >= *shape_it)
         {
-            throw std::out_of_range("Index out of bounds.");
+            throw Exceptions::IndexError("Index out of bounds.");
         }
 
-        result += (*index_it) * (*stride_it);
+        if (*stride_it != 0 &&
+            *index_it > std::numeric_limits<std::size_t>::max() / *stride_it)
+        {
+            throw Exceptions::IndexError("Index offset overflow.");
+        }
+
+        const std::size_t term = (*index_it) * (*stride_it);
+
+        if (result > std::numeric_limits<std::size_t>::max() - term)
+        {
+            throw Exceptions::IndexError("Index offset overflow.");
+        }
+
+        result += term;
     }
 
     return result;

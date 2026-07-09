@@ -1,4 +1,5 @@
 #include <cassert>
+#include <limits>
 #include <numeric>
 #include <stdexcept>
 #include <utility>
@@ -16,6 +17,26 @@ void test_default_constructor()
     assert(tensor.rank() == 0);
     assert(tensor.data() == nullptr);
     assert(tensor.begin() == tensor.end());
+
+    bool front_threw = false;
+    try {
+        tensor.front();
+    }
+    catch (const Exceptions::IndexError&) {
+        front_threw = true;
+    }
+
+    assert(front_threw);
+
+    bool back_threw = false;
+    try {
+        tensor.back();
+    }
+    catch (const Exceptions::IndexError&) {
+        back_threw = true;
+    }
+
+    assert(back_threw);
 }
 
 void test_shape_constructor()
@@ -33,6 +54,46 @@ void test_shape_constructor()
     assert(tensor.strides()(0) == 12);
     assert(tensor.strides()(1) == 4);
     assert(tensor.strides()(2) == 1);
+}
+
+void test_empty_shape_constructor()
+{
+    Tensor<int> tensor(stratax::core::Shape{});
+
+    assert(tensor.size() == 0);
+    assert(tensor.empty());
+    assert(tensor.rank() == 0);
+    assert(tensor.shape().empty());
+    assert(tensor.strides().empty());
+}
+
+void test_zero_dimension_shape_constructor()
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 0, 4});
+
+    assert(tensor.size() == 0);
+    assert(tensor.empty());
+    assert(tensor.rank() == 3);
+    assert(tensor.shape()(0) == 2);
+    assert(tensor.shape()(1) == 0);
+    assert(tensor.shape()(2) == 4);
+    assert(tensor.strides()(0) == 0);
+    assert(tensor.strides()(1) == 4);
+    assert(tensor.strides()(2) == 1);
+}
+
+void test_shape_overflow_throws()
+{
+    bool threw = false;
+
+    try {
+        Tensor<int> tensor(stratax::core::Shape{2, std::numeric_limits<std::size_t>::max(), 2});
+    }
+    catch (const Exceptions::DimensionError&) {
+        threw = true;
+    }
+
+    assert(threw);
 }
 
 void test_fill_constructor()
@@ -64,6 +125,28 @@ void test_flat_element_access()
 
     assert(tensor.front() == 1);
     assert(tensor.back() == 6);
+}
+
+void test_linear_index_operator()
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 3});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i + 1);
+    }
+
+    assert(tensor[0] == 1);
+    assert(tensor[1] == 2);
+    assert(tensor[2] == 3);
+    assert(tensor[3] == 4);
+    assert(tensor[4] == 5);
+    assert(tensor[5] == 6);
+
+    tensor[4] = 50;
+    assert(tensor(1, 1) == 50);
+
+    const Tensor<int>& view = tensor;
+    assert(view[4] == 50);
 }
 
 void test_multi_index_access()
@@ -125,6 +208,86 @@ void test_at()
     assert(tensor.at(2) == 30);
     assert(tensor.at(3) == 40);
 
+    tensor.at(1, 1) = 50;
+    assert(tensor.at(1, 1) == 50);
+    assert(tensor.at(3) == 50);
+
+    bool flat_threw = false;
+    bool row_threw = false;
+    bool col_threw = false;
+    bool rank_threw = false;
+    bool one_dim_rank_threw = false;
+
+    try {
+        tensor.at(4);
+    }
+    catch (const Exceptions::IndexError&) {
+        flat_threw = true;
+    }
+
+    try {
+        tensor.at(2, 0);
+    }
+    catch (const Exceptions::IndexError&) {
+        row_threw = true;
+    }
+
+    try {
+        tensor.at(0, 2);
+    }
+    catch (const Exceptions::IndexError&) {
+        col_threw = true;
+    }
+
+    try {
+        tensor.at(0, 0, 0);
+    }
+    catch (const Exceptions::IndexError&) {
+        rank_threw = true;
+    }
+
+    Tensor<int> vector_like(stratax::core::Shape{3}, 1);
+
+    try {
+        vector_like.at(0, 0);
+    }
+    catch (const Exceptions::IndexError&) {
+        one_dim_rank_threw = true;
+    }
+
+    assert(flat_threw);
+    assert(row_threw);
+    assert(col_threw);
+    assert(rank_threw);
+    assert(one_dim_rank_threw);
+}
+
+void test_const_at_rejects_out_of_bounds()
+{
+    const Tensor<int> tensor(stratax::core::Shape{2, 2}, 5);
+
+    assert(tensor.at(0) == 5);
+    assert(tensor.at(1, 1) == 5);
+
+    bool flat_threw = false;
+    bool multi_threw = false;
+
+    try {
+        tensor.at(4);
+    }
+    catch (const Exceptions::IndexError&) {
+        flat_threw = true;
+    }
+
+    try {
+        tensor.at(1, 2);
+    }
+    catch (const Exceptions::IndexError&) {
+        multi_threw = true;
+    }
+
+    assert(flat_threw);
+    assert(multi_threw);
 }
 
 void test_const_access()
@@ -192,6 +355,10 @@ void test_fill()
     for (int value : tensor) {
         assert(value == 42);
     }
+
+    Tensor<int> empty(stratax::core::Shape{0});
+    empty.fill(7);
+    assert(empty.empty());
 }
 
 void test_copy_constructor()
@@ -231,6 +398,14 @@ void test_copy_assignment()
     for (int value : copy) {
         assert(value == 8);
     }
+
+    copy = copy;
+    assert(copy.size() == 4);
+    assert(copy.rank() == 2);
+
+    for (int value : copy) {
+        assert(value == 8);
+    }
 }
 
 void test_move_constructor()
@@ -253,6 +428,15 @@ void test_move_assignment()
 
     moved = std::move(original);
 
+    assert(moved.size() == 6);
+    assert(moved.rank() == 2);
+
+    for (int value : moved) {
+        assert(value == 10);
+    }
+
+    Tensor<int>& same = moved;
+    moved = std::move(same);
     assert(moved.size() == 6);
     assert(moved.rank() == 2);
 
@@ -286,15 +470,41 @@ void test_swap()
     }
 }
 
+void test_swap_with_empty()
+{
+    Tensor<int> populated(stratax::core::Shape{2, 2}, 5);
+    Tensor<int> empty;
+
+    populated.swap(empty);
+
+    assert(populated.empty());
+    assert(populated.rank() == 0);
+    assert(empty.size() == 4);
+    assert(empty.rank() == 2);
+    assert(empty.shape()(0) == 2);
+    assert(empty.shape()(1) == 2);
+    assert(empty.strides()(0) == 2);
+    assert(empty.strides()(1) == 1);
+
+    for (int value : empty) {
+        assert(value == 5);
+    }
+}
+
 int main()
 {
     test_default_constructor();
     test_shape_constructor();
+    test_empty_shape_constructor();
+    test_zero_dimension_shape_constructor();
+    test_shape_overflow_throws();
     test_fill_constructor();
     test_flat_element_access();
+    test_linear_index_operator();
     test_multi_index_access();
     test_const_multi_index_access();
     test_at();
+    test_const_at_rejects_out_of_bounds();
     test_const_access();
     test_iteration();
     test_const_iteration();
@@ -305,6 +515,7 @@ int main()
     test_move_constructor();
     test_move_assignment();
     test_swap();
+    test_swap_with_empty();
 
     return 0;
 }

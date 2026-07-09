@@ -7,6 +7,7 @@
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/core/Strides.hpp>
 #include <stratax/core/Exceptions.hpp>
 
 namespace stratax::container {
@@ -20,31 +21,39 @@ private:
     core::Strides strides_;
     core::Buffer<T> buffer_;
 
+    static const core::Shape& validate_shape(const core::Shape& shape)
+    {
+        if (shape.rank() != 1)
+        {
+            throw Exceptions::DimensionError("Shape must be rank 1");
+        }
+
+        return shape;
+    }
+
 public:
-    // Constructors
+    using value_type = T;
+
+    template<typename U>
+    using rebind = Vector<U>;
 
     Vector() noexcept = default;
 
-    Vector(const core::Shape& shape)
-        : shape_(),
-          buffer_()
-    {
-        shape_ = shape;
-        buffer_ = stratax::core::Buffer<T>(shape.size());
-    }
-
-    explicit Vector(std::size_t size) : shape_{size}, buffer_(size)
+    explicit Vector(std::size_t size) : shape_{size}, strides_(shape_), buffer_(size)
     {
     }
 
-    Vector(std::size_t size, const T& value) : shape_{size}, buffer_(size, value)
+    explicit Vector(const core::Shape& shape)
+        : shape_(validate_shape(shape)), strides_(shape_), buffer_(shape_.elements())
     {
     }
 
-    Vector(std::initializer_list<T> list) : shape_(), buffer_()
+    Vector(std::size_t size, const T& value) : shape_{size}, strides_(shape_), buffer_(size, value)
     {
-        shape_ = stratax::core::Shape{list.size()};
-        buffer_ = stratax::core::Buffer<T>(list);
+    }
+
+    Vector(std::initializer_list<T> list) : shape_{list.size()}, strides_(shape_), buffer_(list)
+    {
     }
 
     // Rule of Five
@@ -67,41 +76,64 @@ public:
             return buffer_[index];
     }
 
+    T& operator[](std::size_t index) noexcept
+    {
+        return buffer_[index];
+    }
+
+    const T& operator[](std::size_t index) const noexcept
+    {
+        return buffer_[index];
+    }
+
     T& at(std::size_t index)
     {
+        if (index >= size())
+        {
+            throw Exceptions::IndexError("Vector index out of bounds.");
+        }
+
         return buffer_[index];
     }
 
     const T& at(std::size_t index) const
     {
+        if (index >= size())
+        {
+            throw Exceptions::IndexError("Vector index out of bounds.");
+        }
+
         return buffer_[index];
     }
 
-    T& front() noexcept
+    T& front()
     {
         return buffer_.front();
     }
 
-    const T& front() const noexcept
+    const T& front() const
     {
         return buffer_.front();
     }
 
-    T& back() noexcept
+    T& back()
     {
         return buffer_.back();
     }
 
-    const T& back() const noexcept
+    const T& back() const
     {
         return buffer_.back();
     }
-
-    // Size
 
     std::size_t size() const noexcept
     {
-    return shape_.size();
+    return shape_.elements();
+    }
+
+    std::size_t rank() const noexcept
+    {
+        return shape_.rank();
     }
 
     bool empty() const noexcept
@@ -112,6 +144,11 @@ public:
     const stratax::core::Shape& shape() const noexcept
     {
     return shape_;
+    }
+
+    const stratax::core::Strides& strides() const noexcept
+    {
+        return strides_;
     }
 
     T* data() noexcept
@@ -194,6 +231,7 @@ public:
         using std::swap;
 
         swap(shape_, other.shape_);
+        swap(strides_, other.strides_);
         swap(buffer_, other.buffer_);
     }
 

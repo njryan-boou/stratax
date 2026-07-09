@@ -1,5 +1,8 @@
 #include <cassert>
+#include <cstdint>
+#include <limits>
 #include <numeric>
+#include <new>
 #include <string>
 #include <utility>
 
@@ -14,6 +17,36 @@ void test_default_constructor()
     assert(buffer.size() == 0);
     assert(buffer.empty());
     assert(buffer.data() == nullptr);
+
+    bool front_threw = false;
+    bool back_threw = false;
+
+    try {
+        buffer.front();
+    }
+    catch (const Exceptions::IndexError&) {
+        front_threw = true;
+    }
+
+    try {
+        buffer.back();
+    }
+    catch (const Exceptions::IndexError&) {
+        back_threw = true;
+    }
+
+    assert(front_threw);
+    assert(back_threw);
+}
+
+void test_zero_size_constructor()
+{
+    Buffer<int> buffer(0);
+
+    assert(buffer.size() == 0);
+    assert(buffer.empty());
+    assert(buffer.data() == nullptr);
+    assert(buffer.begin() == buffer.end());
 }
 
 void test_size_constructor()
@@ -53,6 +86,15 @@ void test_initializer_list_constructor()
     assert(buffer[3] == 4);
 }
 
+void test_empty_initializer_list_constructor()
+{
+    Buffer<int> buffer{};
+
+    assert(buffer.size() == 0);
+    assert(buffer.empty());
+    assert(buffer.data() == nullptr);
+}
+
 void test_iteration()
 {
     Buffer<int> buffer{1, 2, 3, 4};
@@ -60,6 +102,25 @@ void test_iteration()
     const int sum = std::accumulate(buffer.begin(), buffer.end(), 0);
 
     assert(sum == 10);
+}
+
+void test_const_and_reverse_iteration()
+{
+    const Buffer<int> buffer{1, 2, 3};
+
+    int expected = 1;
+    for (auto it = buffer.cbegin(); it != buffer.cend(); ++it) {
+        assert(*it == expected);
+        ++expected;
+    }
+    assert(expected == 4);
+
+    expected = 3;
+    for (auto it = buffer.crbegin(); it != buffer.crend(); ++it) {
+        assert(*it == expected);
+        --expected;
+    }
+    assert(expected == 0);
 }
 
 void test_copy_constructor()
@@ -89,6 +150,26 @@ void test_copy_assignment()
     assert(copy[0] == 1);
     assert(copy[1] == 2);
     assert(copy[2] == 3);
+}
+
+void test_self_assignment()
+{
+    Buffer<int> buffer{1, 2, 3};
+
+    buffer = buffer;
+
+    assert(buffer.size() == 3);
+    assert(buffer[0] == 1);
+    assert(buffer[1] == 2);
+    assert(buffer[2] == 3);
+
+    Buffer<int>& same = buffer;
+    buffer = std::move(same);
+
+    assert(buffer.size() == 3);
+    assert(buffer[0] == 1);
+    assert(buffer[1] == 2);
+    assert(buffer[2] == 3);
 }
 
 void test_move_constructor()
@@ -129,6 +210,11 @@ void test_fill()
     for (int value : buffer) {
         assert(value == 42);
     }
+
+    Buffer<int> empty;
+    empty.fill(7);
+
+    assert(empty.empty());
 }
 
 void test_swap()
@@ -148,19 +234,76 @@ void test_swap()
     assert(b[1] == 2);
 }
 
+void test_swap_with_empty()
+{
+    Buffer<int> filled{1, 2};
+    Buffer<int> empty;
+
+    filled.swap(empty);
+
+    assert(filled.empty());
+    assert(filled.data() == nullptr);
+    assert(empty.size() == 2);
+    assert(empty[0] == 1);
+    assert(empty[1] == 2);
+}
+
+void test_alignment()
+{
+    Buffer<int> buffer(4);
+
+    assert(buffer.data() != nullptr);
+    assert(reinterpret_cast<std::uintptr_t>(buffer.data()) % 64 == 0);
+}
+
+void test_uninitialized_constructor_write_before_read()
+{
+    Buffer<int> buffer(3, Buffer<int>::uninitialized);
+
+    buffer[0] = 1;
+    buffer[1] = 2;
+    buffer[2] = 3;
+
+    assert(buffer[0] == 1);
+    assert(buffer[1] == 2);
+    assert(buffer[2] == 3);
+}
+
+void test_oversized_allocation_throws()
+{
+    bool threw = false;
+
+    try {
+        Buffer<int> buffer(std::numeric_limits<std::size_t>::max());
+    }
+    catch (const std::bad_array_new_length&) {
+        threw = true;
+    }
+
+    assert(threw);
+}
+
 int main()
 {
     test_default_constructor();
+    test_zero_size_constructor();
     test_size_constructor();
     test_fill_constructor();
     test_initializer_list_constructor();
+    test_empty_initializer_list_constructor();
     test_iteration();
+    test_const_and_reverse_iteration();
     test_copy_constructor();
     test_copy_assignment();
+    test_self_assignment();
     test_move_constructor();
     test_move_assignment();
     test_fill();
     test_swap();
+    test_swap_with_empty();
+    test_alignment();
+    test_uninitialized_constructor_write_before_read();
+    test_oversized_allocation_throws();
 
     return 0;
 }

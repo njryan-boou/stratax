@@ -14,13 +14,13 @@ Implements generic equality and inequality for Stratax array containers.
 
 ## Validation Notes
 
-- Shape mismatch returns `false`.
-- Comparison does not throw for mismatched shapes.
+- Size or shape mismatch returns `false`.
+- Comparison does not throw for mismatched size or shape.
 - Element comparison assumes both containers expose flat iteration in logical order.
 
 ## Implementation Notes
 
-- Equality checks shape first.
+- Equality checks size and shape first.
 - Values are compared using iterators.
 - Inequality delegates to equality.
 - Works with vectors, matrices, and tensors.

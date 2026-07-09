@@ -1,5 +1,7 @@
 #include <cassert>
+#include <limits>
 #include <numeric>
+#include <sstream>
 #include <utility>
 
 #include <stratax.hpp>
@@ -15,6 +17,26 @@ void test_default_constructor()
     assert(strides.empty());
     assert(strides.data() == nullptr);
     assert(strides.begin() == strides.end());
+
+    bool front_threw = false;
+    try {
+        strides.front();
+    }
+    catch (const Exceptions::IndexError&) {
+        front_threw = true;
+    }
+
+    assert(front_threw);
+
+    bool back_threw = false;
+    try {
+        strides.back();
+    }
+    catch (const Exceptions::IndexError&) {
+        back_threw = true;
+    }
+
+    assert(back_threw);
 }
 
 void test_shape_constructor()
@@ -52,6 +74,40 @@ void test_empty_shape_constructor()
     assert(strides.size() == 0);
     assert(strides.rank() == 0);
     assert(strides.empty());
+}
+
+void test_shape_with_one_dimensions()
+{
+    Strides strides(Shape{1, 3, 1});
+
+    assert(strides.rank() == 3);
+    assert(strides(0) == 3);
+    assert(strides(1) == 1);
+    assert(strides(2) == 1);
+}
+
+void test_shape_with_zero_dimension()
+{
+    Strides strides(Shape{2, 0, 4});
+
+    assert(strides.rank() == 3);
+    assert(strides(0) == 0);
+    assert(strides(1) == 4);
+    assert(strides(2) == 1);
+}
+
+void test_shape_overflow_throws()
+{
+    bool threw = false;
+
+    try {
+        Strides strides(Shape{2, std::numeric_limits<std::size_t>::max(), 2});
+    }
+    catch (const Exceptions::DimensionError&) {
+        threw = true;
+    }
+
+    assert(threw);
 }
 
 void test_at()
@@ -121,17 +177,37 @@ void test_reverse_iteration()
     assert(i == 3);
 }
 
+void test_stream_output()
+{
+    std::ostringstream empty;
+    empty << Strides{};
+    assert(empty.str() == "()");
+
+    std::ostringstream vector;
+    vector << Strides(Shape{5});
+    assert(vector.str() == "(1,)");
+
+    std::ostringstream tensor;
+    tensor << Strides(Shape{2, 3, 4});
+    assert(tensor.str() == "(12, 4, 1)");
+}
+
 void test_equality()
 {
     Strides a(Shape{2, 3, 4});
     Strides b(Shape{2, 3, 4});
     Strides c(Shape{3, 4});
+    Strides empty_a;
+    Strides empty_b;
 
     assert(a == b);
     assert(!(a != b));
 
     assert(a != c);
     assert(!(a == c));
+
+    assert(empty_a == empty_b);
+    assert(!(empty_a != empty_b));
 }
 
 void test_copy_constructor()
@@ -152,6 +228,10 @@ void test_copy_assignment()
 
     copy = original;
 
+    assert(copy == original);
+    assert(copy.rank() == 3);
+
+    copy = copy;
     assert(copy == original);
     assert(copy.rank() == 3);
 }
@@ -178,6 +258,13 @@ void test_move_assignment()
     assert(moved(0) == 12);
     assert(moved(1) == 4);
     assert(moved(2) == 1);
+
+    Strides& same = moved;
+    moved = std::move(same);
+    assert(moved.rank() == 3);
+    assert(moved(0) == 12);
+    assert(moved(1) == 4);
+    assert(moved(2) == 1);
 }
 
 void test_swap()
@@ -197,22 +284,41 @@ void test_swap()
     assert(b(2) == 1);
 }
 
+void test_swap_with_empty()
+{
+    Strides populated(Shape{2, 3, 4});
+    Strides empty;
+
+    populated.swap(empty);
+
+    assert(populated.empty());
+    assert(empty.rank() == 3);
+    assert(empty(0) == 12);
+    assert(empty(1) == 4);
+    assert(empty(2) == 1);
+}
+
 int main()
 {
     test_default_constructor();
     test_shape_constructor();
     test_vector_shape_constructor();
     test_empty_shape_constructor();
+    test_shape_with_one_dimensions();
+    test_shape_with_zero_dimension();
+    test_shape_overflow_throws();
     test_at();
     test_iteration();
     test_const_iteration();
     test_reverse_iteration();
+    test_stream_output();
     test_equality();
     test_copy_constructor();
     test_copy_assignment();
     test_move_constructor();
     test_move_assignment();
     test_swap();
+    test_swap_with_empty();
 
     return 0;
 }

@@ -20,6 +20,7 @@ Implements the rank-2 Stratax array container with row-major contiguous storage.
 - `cols()`
 - `rank()`
 - `shape()`
+- `strides()`
 - `size()`
 - `empty()`
 
@@ -38,21 +39,21 @@ Implements the rank-2 Stratax array container with row-major contiguous storage.
 
 ## Validation Notes
 
-- Validation is intentionally minimal while `Validation.hpp` is deferred.
 - `operator()(row, col)` checks row and column bounds.
+- Shape construction requires rank 2.
+- Row/column construction checks size overflow.
 - Initializer-list construction rejects ragged rows.
-- Empty matrices are possible through the default constructor.
+- Empty matrices and zero-column matrices are supported.
 
 ## Implementation Notes
 
 - Storage is row-major: `row * cols() + col`.
-- `shape_` should stay rank 2 for normal matrix instances.
+- `shape_`, `strides_`, and `buffer_` should stay in sync.
 - Arithmetic code expects construction from `Shape`.
-- Public element indexing should use `operator()`.
+- `operator[]` is available for flat storage indexing.
 
 ## Future Work
 
-- Reintroduce dimension validation.
-- Add explicit rank checks for `Matrix(core::Shape)`.
-- Decide whether zero-row or zero-column matrices should be allowed.
+- Reintroduce shared validation helpers if `Validation.hpp` returns.
+- Consider whether `operator[]` should become checked or stay a flat fast path.
 - Add matrix-specific linalg integration.

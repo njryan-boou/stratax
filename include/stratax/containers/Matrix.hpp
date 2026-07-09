@@ -9,6 +9,7 @@
 #include <initializer_list>
 #include <cstddef>
 #include <iterator>
+#include <limits>
 #include <utility>
 
 namespace stratax::container {
@@ -22,27 +23,52 @@ private:
     core::Strides strides_;
     core::Buffer<T> buffer_;
 
+    static const core::Shape& validate_shape(const core::Shape& shape)
+    {
+        if (shape.rank() != 2)
+        {
+            throw Exceptions::DimensionError("Shape must be rank 2");
+        }
+
+        return shape;
+    }
+
+    static std::size_t checked_size(std::size_t rows, std::size_t cols)
+    {
+        if (cols != 0 && rows > std::numeric_limits<std::size_t>::max() / cols)
+        {
+            throw Exceptions::DimensionError("Matrix size overflow");
+        }
+
+        return rows * cols;
+    }
+
 public:
+    using value_type = T;
+
+    template<typename U>
+    using rebind = Matrix<U>;
 
     Matrix() noexcept = default;
 
-    Matrix(const stratax::core::Shape& shape)
-        : shape_(),
-          buffer_()
+    Matrix(std::size_t rows = 0, std::size_t cols = 0)
+        : shape_{rows, cols},
+          strides_(shape_),
+          buffer_(checked_size(rows, cols))
     {
-        shape_ = shape;
-        buffer_ = stratax::core::Buffer<T>(shape.size());
     }
 
-    Matrix(std::size_t rows, std::size_t cols)
-        : shape_{rows, cols},
-          buffer_(rows * cols)
+    explicit Matrix(const core::Shape& shape)
+        : shape_(validate_shape(shape)),
+          strides_(shape_),
+          buffer_(checked_size(shape_(0), shape_(1)))
     {
     }
 
     Matrix(std::size_t rows, std::size_t cols, const T& value)
         : shape_{rows, cols},
-          buffer_(rows * cols, value)
+          strides_(shape_),
+          buffer_(checked_size(rows, cols), value)
     {
     }
 
@@ -61,7 +87,8 @@ public:
         }
 
         shape_ = stratax::core::Shape{rows, cols};
-        buffer_ = stratax::core::Buffer<T>(rows * cols);
+        strides_ = stratax::core::Strides(shape_);
+        buffer_ = stratax::core::Buffer<T>(checked_size(rows, cols));
 
         std::size_t index = 0;
 
@@ -84,7 +111,7 @@ public:
 
     std::size_t size() const noexcept
     {
-        return shape_.size();
+        return shape_.elements();
     }
 
     bool empty() const noexcept
@@ -105,6 +132,11 @@ public:
     const stratax::core::Shape& shape() const noexcept
     {
         return shape_;
+    }
+
+    const stratax::core::Strides& strides() const noexcept
+    {
+        return strides_;
     }
 
     std::size_t rank() const noexcept
@@ -140,6 +172,16 @@ public:
         }
 
         return buffer_[row * cols() + col];
+    }
+
+    T& operator[](std::size_t index) noexcept
+    {
+        return buffer_[index];
+    }
+
+    const T& operator[](std::size_t index) const noexcept
+    {
+        return buffer_[index];
     }
 
     T& at(std::size_t row, std::size_t col)
@@ -272,6 +314,7 @@ public:
         using std::swap;
 
         swap(shape_, other.shape_);
+        swap(strides_, other.strides_);
         swap(buffer_, other.buffer_);
     }
 };

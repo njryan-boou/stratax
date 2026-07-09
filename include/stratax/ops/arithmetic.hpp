@@ -1,11 +1,23 @@
 #pragma once
 
+#include <stratax/core/Concepts.hpp>
 #include <stratax/core/Exceptions.hpp>
 
-template<typename Array>
-Array operator+(const Array& lhs, const Array& rhs)
+template<Array A>
+void require_same_arithmetic_shape(const A& lhs, const A& rhs)
 {
-    Array result(lhs.shape());
+    if (lhs.size() != rhs.size() || lhs.shape() != rhs.shape())
+    {
+        throw Exceptions::ShapeError("Arithmetic operands must have the same shape.");
+    }
+}
+
+template<Array A>
+A operator+(const A& lhs, const A& rhs)
+{
+    require_same_arithmetic_shape(lhs, rhs);
+
+    A result(lhs.shape());
 
     auto it1 = lhs.begin();
     auto it2 = rhs.begin();
@@ -19,10 +31,12 @@ Array operator+(const Array& lhs, const Array& rhs)
     return result;
 }
 
-template<typename Array>
-Array operator-(const Array& lhs, const Array& rhs)
+template<Array A>
+A operator-(const A& lhs, const A& rhs)
 {
-    Array result(lhs.shape());
+    require_same_arithmetic_shape(lhs, rhs);
+
+    A result(lhs.shape());
 
     auto it1 = lhs.begin();
     auto it2 = rhs.begin();
@@ -36,10 +50,12 @@ Array operator-(const Array& lhs, const Array& rhs)
     return result;
 }
 
-template<typename Array>
-Array operator*(const Array& lhs, const Array& rhs)
+template<Array A>
+A operator*(const A& lhs, const A& rhs)
 {
-    Array result(lhs.shape());
+    require_same_arithmetic_shape(lhs, rhs);
+
+    A result(lhs.shape());
 
     auto it1 = lhs.begin();
     auto it2 = rhs.begin();
@@ -53,10 +69,12 @@ Array operator*(const Array& lhs, const Array& rhs)
     return result;
 }
 
-template<typename Array>
-Array operator/(const Array& lhs, const Array& rhs)
+template<Array A>
+A operator/(const A& lhs, const A& rhs)
 {
-    Array result(lhs.shape());
+    require_same_arithmetic_shape(lhs, rhs);
+
+    A result(lhs.shape());
 
     auto it1 = lhs.begin();
     auto it2 = rhs.begin();
@@ -64,7 +82,7 @@ Array operator/(const Array& lhs, const Array& rhs)
 
     for (; it1 != lhs.end(); ++it1, ++it2, ++it3)
     {
-        if (*it2 == 0)
+        if (*it2 == typename A::value_type{})
         {
             throw Exceptions::ZeroDivisionError("Division by zero");
         }
@@ -75,10 +93,10 @@ Array operator/(const Array& lhs, const Array& rhs)
     return result;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array operator+(const Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A operator+(const A& lhs, const Scalar& rhs)
 {
-    Array result(lhs.shape());
+    A result(lhs.shape());
 
     auto out = result.begin();
 
@@ -90,10 +108,10 @@ Array operator+(const Array& lhs, const Scalar& rhs)
     return result;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array operator-(const Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A operator-(const A& lhs, const Scalar& rhs)
 {
-    Array result(lhs.shape());
+    A result(lhs.shape());
 
     auto out = result.begin();
 
@@ -105,10 +123,10 @@ Array operator-(const Array& lhs, const Scalar& rhs)
     return result;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array operator*(const Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A operator*(const A& lhs, const Scalar& rhs)
 {
-    Array result(lhs.shape());
+    A result(lhs.shape());
 
     auto out = result.begin();
 
@@ -120,17 +138,17 @@ Array operator*(const Array& lhs, const Scalar& rhs)
     return result;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array operator/(const Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A operator/(const A& lhs, const Scalar& rhs)
 {
-    Array result(lhs.shape());
+    A result(lhs.shape());
 
     auto out = result.begin();
 
-    if (rhs == 0)
-        {
-            throw Exceptions::ZeroDivisionError("Division by zero");
-        }
+    if (rhs == Scalar{})
+    {
+        throw Exceptions::ZeroDivisionError("Division by zero");
+    }
 
     for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
     {
@@ -140,16 +158,16 @@ Array operator/(const Array& lhs, const Scalar& rhs)
     return result;
 }
 
-template<Arithmetic Scalar, NDarray Array>
-Array operator+(const Scalar& lhs, const Array& rhs)
+template<Numeric Scalar, Array A>
+A operator+(const Scalar& lhs, const A& rhs)
 {
     return rhs + lhs;
 }
 
-template<Arithmetic Scalar, NDarray Array>
-Array operator-(const Scalar& lhs, const Array& rhs)
+template<Numeric Scalar, Array A>
+A operator-(const Scalar& lhs, const A& rhs)
 {
-    Array result(rhs.shape());
+    A result(rhs.shape());
 
     auto out = result.begin();
 
@@ -161,22 +179,22 @@ Array operator-(const Scalar& lhs, const Array& rhs)
     return result;
 }
 
-template<Arithmetic Scalar, NDarray Array>
-Array operator*(const Scalar& lhs, const Array& rhs)
+template<Numeric Scalar, Array A>
+A operator*(const Scalar& lhs, const A& rhs)
 {
     return rhs * lhs;
 }
 
-template<Arithmetic Scalar, NDarray Array>
-Array operator/(const Scalar& lhs, const Array& rhs)
+template<Numeric Scalar, Array A>
+A operator/(const Scalar& lhs, const A& rhs)
 {
-    Array result(rhs.shape());
+    A result(rhs.shape());
 
     auto out = result.begin();
 
     for (auto it = rhs.begin(); it != rhs.end(); ++it, ++out)
     {
-        if (*it == 0)
+        if (*it == typename A::value_type{})
         {
             throw Exceptions::ZeroDivisionError("Division by zero");
         }
@@ -186,70 +204,70 @@ Array operator/(const Scalar& lhs, const Array& rhs)
     return result;
 }
 
-template<NDarray Array>
-Array& operator+=(Array& lhs, const Array& rhs)
+template<Array A>
+A& operator+=(A& lhs, const A& rhs)
 {
     lhs = lhs + rhs;
     return lhs;
 }
 
-template<NDarray Array>
-Array& operator-=(Array& lhs, const Array& rhs)
+template<Array A>
+A& operator-=(A& lhs, const A& rhs)
 {
     lhs = lhs - rhs;
     return lhs;
 }
 
-template<NDarray Array>
-Array& operator*=(Array& lhs, const Array& rhs)
+template<Array A>
+A& operator*=(A& lhs, const A& rhs)
 {
     lhs = lhs * rhs;
     return lhs;
 }
 
-template<NDarray Array>
-Array& operator/=(Array& lhs, const Array& rhs)
+template<Array A>
+A& operator/=(A& lhs, const A& rhs)
 {
     lhs = lhs / rhs;
     return lhs;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array& operator+=(Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A& operator+=(A& lhs, const Scalar& rhs)
 {
     lhs = lhs + rhs;
     return lhs;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array& operator-=(Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A& operator-=(A& lhs, const Scalar& rhs)
 {
     lhs = lhs - rhs;
     return lhs;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array& operator*=(Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A& operator*=(A& lhs, const Scalar& rhs)
 {
     lhs = lhs * rhs;
     return lhs;
 }
 
-template<NDarray Array, Arithmetic Scalar>
-Array& operator/=(Array& lhs, const Scalar& rhs)
+template<Array A, Numeric Scalar>
+A& operator/=(A& lhs, const Scalar& rhs)
 {
     lhs = lhs / rhs;
     return lhs;
 }
 
-template<NDarray Array>
-Array operator-(const Array& arr)
+template<Array A>
+A operator-(const A& arr)
 {
-    return arr * -1;
+    return arr * typename A::value_type{-1};
 }
 
-template<NDarray Array>
-Array operator+(const Array& arr)
+template<Array A>
+A operator+(const A& arr)
 {
     return arr;
 }
