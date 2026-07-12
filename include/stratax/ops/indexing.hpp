@@ -1,23 +1,38 @@
 #pragma once
 
 #include <cstddef>
-#include <limits>
 
 #include <stratax/core/Exceptions.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/core/Validation.hpp>
 
+/**
+ * @brief Computes a flat storage offset from a shape, strides, and index container.
+ *
+ * @param shape Array shape.
+ * @param strides Row-major or custom strides matching the shape.
+ * @param index Index container with one entry per dimension.
+ *
+ * @return Flat storage offset.
+ *
+ * @throws Exceptions::DimensionError If the ranks do not match.
+ * @throws Exceptions::IndexError If an index is out of bounds or the offset overflows.
+ */
 template<typename IndexContainer>
 std::size_t offset(
     const stratax::core::Shape& shape,
     const stratax::core::Strides& strides,
     const IndexContainer& index)
 {
-    if (shape.rank() != strides.rank() || shape.rank() != index.size())
-    {
-        throw Exceptions::DimensionError(
-            "Shape, strides, and index must have the same rank.");
-    }
+    stratax::core::validation::require_rank(
+        strides.rank(),
+        shape.rank(),
+        "Indexing requires shape, strides, and index to have the same rank.");
+    stratax::core::validation::require_rank(
+        index.size(),
+        shape.rank(),
+        "Indexing requires shape, strides, and index to have the same rank.");
 
     std::size_t result = 0;
 
@@ -29,23 +44,34 @@ std::size_t offset(
     {
         if (*index_it >= *shape_it)
         {
-            throw Exceptions::IndexError("Index out of bounds.");
+            throw Exceptions::IndexError("Index component is out of bounds.");
         }
 
-        if (*stride_it != 0 &&
-            *index_it > std::numeric_limits<std::size_t>::max() / *stride_it)
+        std::size_t term = 0;
+
+        try
         {
-            throw Exceptions::IndexError("Index offset overflow.");
+            term = stratax::core::validation::checked_multiply(
+                *index_it,
+                *stride_it,
+                "Index offset multiplication overflow.");
         }
-
-        const std::size_t term = (*index_it) * (*stride_it);
-
-        if (result > std::numeric_limits<std::size_t>::max() - term)
+        catch (const Exceptions::DimensionError&)
         {
-            throw Exceptions::IndexError("Index offset overflow.");
+            throw Exceptions::IndexError("Index offset multiplication overflow.");
         }
 
-        result += term;
+        try
+        {
+            result = stratax::core::validation::checked_add(
+                result,
+                term,
+                "Index offset addition overflow.");
+        }
+        catch (const Exceptions::DimensionError&)
+        {
+            throw Exceptions::IndexError("Index offset addition overflow.");
+        }
     }
 
     return result;

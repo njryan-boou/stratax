@@ -18,10 +18,19 @@ Provides helpers for converting between Stratax container shapes and casting con
 - `astype<To>(matrix)`
 - `astype<To>(tensor)`
 
+## Invariants
+
+- Conversion helpers return new owning containers.
+- Shape-preserving conversions keep element order in flat storage order.
+- `to_vector` only produces rank-1 vectors.
+- `to_matrix` only produces rank-2 matrices.
+- `to_tensor` preserves the input shape exactly.
+- `astype` preserves container shape and element count.
+
 ## Validation Notes
 
-- `to_vector` requires rank 1 input.
-- `to_matrix` requires rank 2 input.
+- `to_vector` requires rank 1 input through `core::validation::require_rank()`.
+- `to_matrix` requires rank 2 input through `core::validation::require_rank()`.
 - `to_tensor` accepts any supported array rank.
 - Invalid rank conversions throw `Exceptions::DimensionError`.
 - `astype` requires both source and destination element types to satisfy `Numeric`.
@@ -33,6 +42,13 @@ Provides helpers for converting between Stratax container shapes and casting con
 - `to_vector` and `to_matrix` depend on destination constructors from `Shape`.
 - `astype` supports `Vector`, `Matrix`, and `Tensor`.
 - Returned containers own their own buffers.
+- Rank validation should stay routed through `Validation.hpp`.
+
+## Time Complexity
+
+- `to_vector`, `to_matrix`, and `to_tensor` are `O(n + r)`.
+- `astype` is `O(n + r)`.
+- Rank checks are `O(1)`.
 
 ## Future Work
 

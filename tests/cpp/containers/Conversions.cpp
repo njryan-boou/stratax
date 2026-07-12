@@ -1,8 +1,8 @@
-#include <cassert>
+#include <gtest/gtest.h>
 #include <complex>
 #include <string>
 
-#include <stratax/containers/Conversions.hpp>
+#include <stratax.h>
 
 template<typename To, typename From>
 concept CanAstypeVector = requires(const stratax::container::Vector<From>& vector) {
@@ -12,7 +12,7 @@ concept CanAstypeVector = requires(const stratax::container::Vector<From>& vecto
 static_assert(CanAstypeVector<double, int>);
 static_assert(!CanAstypeVector<std::string, int>);
 
-void test_rank_one_tensor_converts_to_vector()
+TEST(ContainersConversions, rank_one_tensor_converts_to_vector)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{3});
 
@@ -22,15 +22,15 @@ void test_rank_one_tensor_converts_to_vector()
 
     auto vector = to_vector(tensor);
 
-    assert(vector.rank() == 1);
-    assert(vector.shape()(0) == 3);
-    assert(vector.size() == 3);
-    assert(vector[0] == 1);
-    assert(vector[1] == 2);
-    assert(vector[2] == 3);
+    EXPECT_TRUE(vector.rank() == 1);
+    EXPECT_TRUE(vector.shape()(0) == 3);
+    EXPECT_TRUE(vector.size() == 3);
+    EXPECT_TRUE(vector[0] == 1);
+    EXPECT_TRUE(vector[1] == 2);
+    EXPECT_TRUE(vector[2] == 3);
 }
 
-void test_to_vector_rejects_non_rank_one()
+TEST(ContainersConversions, to_vector_rejects_non_rank_one)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{2, 2});
 
@@ -43,22 +43,22 @@ void test_to_vector_rejects_non_rank_one()
         threw = true;
     }
 
-    assert(threw);
+    EXPECT_TRUE(threw);
 }
 
-void test_empty_rank_one_tensor_converts_to_vector()
+TEST(ContainersConversions, empty_rank_one_tensor_converts_to_vector)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{0});
 
     auto vector = to_vector(tensor);
 
-    assert(vector.rank() == 1);
-    assert(vector.shape()(0) == 0);
-    assert(vector.size() == 0);
-    assert(vector.empty());
+    EXPECT_TRUE(vector.rank() == 1);
+    EXPECT_TRUE(vector.shape()(0) == 0);
+    EXPECT_TRUE(vector.size() == 0);
+    EXPECT_TRUE(vector.empty());
 }
 
-void test_rank_two_tensor_converts_to_matrix()
+TEST(ContainersConversions, rank_two_tensor_converts_to_matrix)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{2, 3});
 
@@ -68,19 +68,19 @@ void test_rank_two_tensor_converts_to_matrix()
 
     auto matrix = to_matrix(tensor);
 
-    assert(matrix.rank() == 2);
-    assert(matrix.rows() == 2);
-    assert(matrix.cols() == 3);
-    assert(matrix.size() == 6);
-    assert(matrix[0] == 1);
-    assert(matrix[1] == 2);
-    assert(matrix[2] == 3);
-    assert(matrix[3] == 4);
-    assert(matrix[4] == 5);
-    assert(matrix[5] == 6);
+    EXPECT_TRUE(matrix.rank() == 2);
+    EXPECT_TRUE(matrix.rows() == 2);
+    EXPECT_TRUE(matrix.cols() == 3);
+    EXPECT_TRUE(matrix.size() == 6);
+    EXPECT_TRUE(matrix[0] == 1);
+    EXPECT_TRUE(matrix[1] == 2);
+    EXPECT_TRUE(matrix[2] == 3);
+    EXPECT_TRUE(matrix[3] == 4);
+    EXPECT_TRUE(matrix[4] == 5);
+    EXPECT_TRUE(matrix[5] == 6);
 }
 
-void test_to_matrix_rejects_non_rank_two()
+TEST(ContainersConversions, to_matrix_rejects_non_rank_two)
 {
     stratax::container::Vector<int> vector{1, 2, 3};
 
@@ -93,37 +93,37 @@ void test_to_matrix_rejects_non_rank_two()
         threw = true;
     }
 
-    assert(threw);
+    EXPECT_TRUE(threw);
 }
 
-void test_empty_rank_two_tensor_converts_to_matrix()
+TEST(ContainersConversions, empty_rank_two_tensor_converts_to_matrix)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{0, 3});
 
     auto matrix = to_matrix(tensor);
 
-    assert(matrix.rank() == 2);
-    assert(matrix.rows() == 0);
-    assert(matrix.cols() == 3);
-    assert(matrix.size() == 0);
-    assert(matrix.empty());
+    EXPECT_TRUE(matrix.rank() == 2);
+    EXPECT_TRUE(matrix.rows() == 0);
+    EXPECT_TRUE(matrix.cols() == 3);
+    EXPECT_TRUE(matrix.size() == 0);
+    EXPECT_TRUE(matrix.empty());
 }
 
-void test_vector_converts_to_tensor()
+TEST(ContainersConversions, vector_converts_to_tensor)
 {
     stratax::container::Vector<int> vector{4, 5, 6};
 
     auto tensor = to_tensor(vector);
 
-    assert(tensor.rank() == 1);
-    assert(tensor.shape()(0) == 3);
-    assert(tensor.size() == 3);
-    assert(tensor[0] == 4);
-    assert(tensor[1] == 5);
-    assert(tensor[2] == 6);
+    EXPECT_TRUE(tensor.rank() == 1);
+    EXPECT_TRUE(tensor.shape()(0) == 3);
+    EXPECT_TRUE(tensor.size() == 3);
+    EXPECT_TRUE(tensor[0] == 4);
+    EXPECT_TRUE(tensor[1] == 5);
+    EXPECT_TRUE(tensor[2] == 6);
 }
 
-void test_matrix_converts_to_tensor()
+TEST(ContainersConversions, matrix_converts_to_tensor)
 {
     stratax::container::Matrix<int> matrix{
         {1, 2},
@@ -132,55 +132,55 @@ void test_matrix_converts_to_tensor()
 
     auto tensor = to_tensor(matrix);
 
-    assert(tensor.rank() == 2);
-    assert(tensor.shape()(0) == 2);
-    assert(tensor.shape()(1) == 2);
-    assert(tensor.size() == 4);
-    assert(tensor[0] == 1);
-    assert(tensor[1] == 2);
-    assert(tensor[2] == 3);
-    assert(tensor[3] == 4);
+    EXPECT_TRUE(tensor.rank() == 2);
+    EXPECT_TRUE(tensor.shape()(0) == 2);
+    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.size() == 4);
+    EXPECT_TRUE(tensor[0] == 1);
+    EXPECT_TRUE(tensor[1] == 2);
+    EXPECT_TRUE(tensor[2] == 3);
+    EXPECT_TRUE(tensor[3] == 4);
 }
 
-void test_zero_dimension_matrix_converts_to_tensor()
+TEST(ContainersConversions, zero_dimension_matrix_converts_to_tensor)
 {
     stratax::container::Matrix<int> matrix(0, 3);
 
     auto tensor = to_tensor(matrix);
 
-    assert(tensor.rank() == 2);
-    assert(tensor.shape()(0) == 0);
-    assert(tensor.shape()(1) == 3);
-    assert(tensor.size() == 0);
-    assert(tensor.empty());
+    EXPECT_TRUE(tensor.rank() == 2);
+    EXPECT_TRUE(tensor.shape()(0) == 0);
+    EXPECT_TRUE(tensor.shape()(1) == 3);
+    EXPECT_TRUE(tensor.size() == 0);
+    EXPECT_TRUE(tensor.empty());
 }
 
-void test_vector_astype_converts_values()
+TEST(ContainersConversions, vector_astype_converts_values)
 {
     stratax::container::Vector<int> vector{1, 2, 3};
 
     auto converted = astype<double>(vector);
 
-    assert(converted.rank() == 1);
-    assert(converted.shape()(0) == 3);
-    assert(converted[0] == 1.0);
-    assert(converted[1] == 2.0);
-    assert(converted[2] == 3.0);
+    EXPECT_TRUE(converted.rank() == 1);
+    EXPECT_TRUE(converted.shape()(0) == 3);
+    EXPECT_TRUE(converted[0] == 1.0);
+    EXPECT_TRUE(converted[1] == 2.0);
+    EXPECT_TRUE(converted[2] == 3.0);
 }
 
-void test_empty_vector_astype()
+TEST(ContainersConversions, empty_vector_astype)
 {
     stratax::container::Vector<int> vector(stratax::core::Shape{0});
 
     auto converted = astype<double>(vector);
 
-    assert(converted.rank() == 1);
-    assert(converted.shape()(0) == 0);
-    assert(converted.size() == 0);
-    assert(converted.empty());
+    EXPECT_TRUE(converted.rank() == 1);
+    EXPECT_TRUE(converted.shape()(0) == 0);
+    EXPECT_TRUE(converted.size() == 0);
+    EXPECT_TRUE(converted.empty());
 }
 
-void test_matrix_astype_converts_values()
+TEST(ContainersConversions, matrix_astype_converts_values)
 {
     stratax::container::Matrix<int> matrix{
         {1, 2},
@@ -189,16 +189,16 @@ void test_matrix_astype_converts_values()
 
     auto converted = astype<double>(matrix);
 
-    assert(converted.rank() == 2);
-    assert(converted.rows() == 2);
-    assert(converted.cols() == 2);
-    assert(converted[0] == 1.0);
-    assert(converted[1] == 2.0);
-    assert(converted[2] == 3.0);
-    assert(converted[3] == 4.0);
+    EXPECT_TRUE(converted.rank() == 2);
+    EXPECT_TRUE(converted.rows() == 2);
+    EXPECT_TRUE(converted.cols() == 2);
+    EXPECT_TRUE(converted[0] == 1.0);
+    EXPECT_TRUE(converted[1] == 2.0);
+    EXPECT_TRUE(converted[2] == 3.0);
+    EXPECT_TRUE(converted[3] == 4.0);
 }
 
-void test_tensor_astype_converts_values()
+TEST(ContainersConversions, tensor_astype_converts_values)
 {
     stratax::container::Tensor<double> tensor(stratax::core::Shape{2, 2});
 
@@ -209,43 +209,24 @@ void test_tensor_astype_converts_values()
 
     auto converted = astype<int>(tensor);
 
-    assert(converted.rank() == 2);
-    assert(converted.shape()(0) == 2);
-    assert(converted.shape()(1) == 2);
-    assert(converted[0] == 1);
-    assert(converted[1] == 2);
-    assert(converted[2] == 3);
-    assert(converted[3] == 4);
+    EXPECT_TRUE(converted.rank() == 2);
+    EXPECT_TRUE(converted.shape()(0) == 2);
+    EXPECT_TRUE(converted.shape()(1) == 2);
+    EXPECT_TRUE(converted[0] == 1);
+    EXPECT_TRUE(converted[1] == 2);
+    EXPECT_TRUE(converted[2] == 3);
+    EXPECT_TRUE(converted[3] == 4);
 }
 
-void test_tensor_astype_to_complex()
+TEST(ContainersConversions, tensor_astype_to_complex)
 {
     stratax::container::Tensor<int> tensor(stratax::core::Shape{2}, 3);
 
     auto converted = astype<std::complex<double>>(tensor);
 
-    assert(converted.rank() == 1);
-    assert(converted.shape()(0) == 2);
-    assert(converted[0] == std::complex<double>{3});
-    assert(converted[1] == std::complex<double>{3});
+    EXPECT_TRUE(converted.rank() == 1);
+    EXPECT_TRUE(converted.shape()(0) == 2);
+    EXPECT_TRUE(converted[0] == std::complex<double>{3});
+    EXPECT_TRUE(converted[1] == std::complex<double>{3});
 }
 
-int main()
-{
-    test_rank_one_tensor_converts_to_vector();
-    test_to_vector_rejects_non_rank_one();
-    test_empty_rank_one_tensor_converts_to_vector();
-    test_rank_two_tensor_converts_to_matrix();
-    test_to_matrix_rejects_non_rank_two();
-    test_empty_rank_two_tensor_converts_to_matrix();
-    test_vector_converts_to_tensor();
-    test_matrix_converts_to_tensor();
-    test_zero_dimension_matrix_converts_to_tensor();
-    test_vector_astype_converts_values();
-    test_empty_vector_astype();
-    test_matrix_astype_converts_values();
-    test_tensor_astype_converts_values();
-    test_tensor_astype_to_complex();
-
-    return 0;
-}

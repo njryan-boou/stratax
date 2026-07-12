@@ -1,4 +1,4 @@
-#include <cassert>
+#include <gtest/gtest.h>
 #include <cstdint>
 #include <limits>
 #include <numeric>
@@ -6,17 +6,17 @@
 #include <string>
 #include <utility>
 
-#include <stratax.hpp>
+#include <stratax.h>
 
 using namespace stratax::core;
 
-void test_default_constructor()
+TEST(CoreBuffer, default_constructor)
 {
     Buffer<int> buffer;
 
-    assert(buffer.size() == 0);
-    assert(buffer.empty());
-    assert(buffer.data() == nullptr);
+    EXPECT_TRUE(buffer.size() == 0);
+    EXPECT_TRUE(buffer.empty());
+    EXPECT_TRUE(buffer.data() == nullptr);
 
     bool front_threw = false;
     bool back_threw = false;
@@ -35,228 +35,228 @@ void test_default_constructor()
         back_threw = true;
     }
 
-    assert(front_threw);
-    assert(back_threw);
+    EXPECT_TRUE(front_threw);
+    EXPECT_TRUE(back_threw);
 }
 
-void test_zero_size_constructor()
+TEST(CoreBuffer, zero_size_constructor)
 {
     Buffer<int> buffer(0);
 
-    assert(buffer.size() == 0);
-    assert(buffer.empty());
-    assert(buffer.data() == nullptr);
-    assert(buffer.begin() == buffer.end());
+    EXPECT_TRUE(buffer.size() == 0);
+    EXPECT_TRUE(buffer.empty());
+    EXPECT_TRUE(buffer.data() == nullptr);
+    EXPECT_TRUE(buffer.begin() == buffer.end());
 }
 
-void test_size_constructor()
+TEST(CoreBuffer, size_constructor)
 {
     Buffer<int> buffer(3);
 
-    assert(buffer.size() == 3);
-    assert(!buffer.empty());
+    EXPECT_TRUE(buffer.size() == 3);
+    EXPECT_TRUE(!buffer.empty());
 
     buffer[0] = 10;
     buffer[1] = 20;
     buffer[2] = 30;
 
-    assert(buffer.front() == 10);
-    assert(buffer.back() == 30);
+    EXPECT_TRUE(buffer.front() == 10);
+    EXPECT_TRUE(buffer.back() == 30);
 }
 
-void test_fill_constructor()
+TEST(CoreBuffer, fill_constructor)
 {
     Buffer<int> buffer(4, 7);
 
-    assert(buffer.size() == 4);
+    EXPECT_TRUE(buffer.size() == 4);
 
     for (int value : buffer) {
-        assert(value == 7);
+        EXPECT_TRUE(value == 7);
     }
 }
 
-void test_initializer_list_constructor()
+TEST(CoreBuffer, initializer_list_constructor)
 {
     Buffer<int> buffer{1, 2, 3, 4};
 
-    assert(buffer.size() == 4);
-    assert(buffer[0] == 1);
-    assert(buffer[1] == 2);
-    assert(buffer[2] == 3);
-    assert(buffer[3] == 4);
+    EXPECT_TRUE(buffer.size() == 4);
+    EXPECT_TRUE(buffer[0] == 1);
+    EXPECT_TRUE(buffer[1] == 2);
+    EXPECT_TRUE(buffer[2] == 3);
+    EXPECT_TRUE(buffer[3] == 4);
 }
 
-void test_empty_initializer_list_constructor()
+TEST(CoreBuffer, empty_initializer_list_constructor)
 {
     Buffer<int> buffer{};
 
-    assert(buffer.size() == 0);
-    assert(buffer.empty());
-    assert(buffer.data() == nullptr);
+    EXPECT_TRUE(buffer.size() == 0);
+    EXPECT_TRUE(buffer.empty());
+    EXPECT_TRUE(buffer.data() == nullptr);
 }
 
-void test_iteration()
+TEST(CoreBuffer, iteration)
 {
     Buffer<int> buffer{1, 2, 3, 4};
 
     const int sum = std::accumulate(buffer.begin(), buffer.end(), 0);
 
-    assert(sum == 10);
+    EXPECT_TRUE(sum == 10);
 }
 
-void test_const_and_reverse_iteration()
+TEST(CoreBuffer, const_and_reverse_iteration)
 {
     const Buffer<int> buffer{1, 2, 3};
 
     int expected = 1;
     for (auto it = buffer.cbegin(); it != buffer.cend(); ++it) {
-        assert(*it == expected);
+        EXPECT_TRUE(*it == expected);
         ++expected;
     }
-    assert(expected == 4);
+    EXPECT_TRUE(expected == 4);
 
     expected = 3;
     for (auto it = buffer.crbegin(); it != buffer.crend(); ++it) {
-        assert(*it == expected);
+        EXPECT_TRUE(*it == expected);
         --expected;
     }
-    assert(expected == 0);
+    EXPECT_TRUE(expected == 0);
 }
 
-void test_copy_constructor()
+TEST(CoreBuffer, copy_constructor)
 {
     Buffer<std::string> original{"alpha", "beta", "gamma"};
     Buffer<std::string> copy(original);
 
-    assert(copy.size() == original.size());
-    assert(copy[0] == "alpha");
-    assert(copy[1] == "beta");
-    assert(copy[2] == "gamma");
+    EXPECT_TRUE(copy.size() == original.size());
+    EXPECT_TRUE(copy[0] == "alpha");
+    EXPECT_TRUE(copy[1] == "beta");
+    EXPECT_TRUE(copy[2] == "gamma");
 
     copy[0] = "changed";
 
-    assert(original[0] == "alpha");
-    assert(copy[0] == "changed");
+    EXPECT_TRUE(original[0] == "alpha");
+    EXPECT_TRUE(copy[0] == "changed");
 }
 
-void test_copy_assignment()
+TEST(CoreBuffer, copy_assignment)
 {
     Buffer<int> original{1, 2, 3};
     Buffer<int> copy;
 
     copy = original;
 
-    assert(copy.size() == 3);
-    assert(copy[0] == 1);
-    assert(copy[1] == 2);
-    assert(copy[2] == 3);
+    EXPECT_TRUE(copy.size() == 3);
+    EXPECT_TRUE(copy[0] == 1);
+    EXPECT_TRUE(copy[1] == 2);
+    EXPECT_TRUE(copy[2] == 3);
 }
 
-void test_self_assignment()
+TEST(CoreBuffer, self_assignment)
 {
     Buffer<int> buffer{1, 2, 3};
 
     buffer = buffer;
 
-    assert(buffer.size() == 3);
-    assert(buffer[0] == 1);
-    assert(buffer[1] == 2);
-    assert(buffer[2] == 3);
+    EXPECT_TRUE(buffer.size() == 3);
+    EXPECT_TRUE(buffer[0] == 1);
+    EXPECT_TRUE(buffer[1] == 2);
+    EXPECT_TRUE(buffer[2] == 3);
 
     Buffer<int>& same = buffer;
     buffer = std::move(same);
 
-    assert(buffer.size() == 3);
-    assert(buffer[0] == 1);
-    assert(buffer[1] == 2);
-    assert(buffer[2] == 3);
+    EXPECT_TRUE(buffer.size() == 3);
+    EXPECT_TRUE(buffer[0] == 1);
+    EXPECT_TRUE(buffer[1] == 2);
+    EXPECT_TRUE(buffer[2] == 3);
 }
 
-void test_move_constructor()
+TEST(CoreBuffer, move_constructor)
 {
     Buffer<int> original{5, 6, 7};
     Buffer<int> moved(std::move(original));
 
-    assert(moved.size() == 3);
-    assert(moved[0] == 5);
-    assert(moved[1] == 6);
-    assert(moved[2] == 7);
+    EXPECT_TRUE(moved.size() == 3);
+    EXPECT_TRUE(moved[0] == 5);
+    EXPECT_TRUE(moved[1] == 6);
+    EXPECT_TRUE(moved[2] == 7);
 
-    assert(original.size() == 0);
-    assert(original.data() == nullptr);
+    EXPECT_TRUE(original.size() == 0);
+    EXPECT_TRUE(original.data() == nullptr);
 }
 
-void test_move_assignment()
+TEST(CoreBuffer, move_assignment)
 {
     Buffer<int> original{8, 9};
     Buffer<int> moved;
 
     moved = std::move(original);
 
-    assert(moved.size() == 2);
-    assert(moved[0] == 8);
-    assert(moved[1] == 9);
+    EXPECT_TRUE(moved.size() == 2);
+    EXPECT_TRUE(moved[0] == 8);
+    EXPECT_TRUE(moved[1] == 9);
 
-    assert(original.size() == 0);
-    assert(original.data() == nullptr);
+    EXPECT_TRUE(original.size() == 0);
+    EXPECT_TRUE(original.data() == nullptr);
 }
 
-void test_fill()
+TEST(CoreBuffer, fill)
 {
     Buffer<int> buffer{1, 2, 3};
 
     buffer.fill(42);
 
     for (int value : buffer) {
-        assert(value == 42);
+        EXPECT_TRUE(value == 42);
     }
 
     Buffer<int> empty;
     empty.fill(7);
 
-    assert(empty.empty());
+    EXPECT_TRUE(empty.empty());
 }
 
-void test_swap()
+TEST(CoreBuffer, swap)
 {
     Buffer<int> a{1, 2};
     Buffer<int> b{3, 4, 5};
 
     a.swap(b);
 
-    assert(a.size() == 3);
-    assert(a[0] == 3);
-    assert(a[1] == 4);
-    assert(a[2] == 5);
+    EXPECT_TRUE(a.size() == 3);
+    EXPECT_TRUE(a[0] == 3);
+    EXPECT_TRUE(a[1] == 4);
+    EXPECT_TRUE(a[2] == 5);
 
-    assert(b.size() == 2);
-    assert(b[0] == 1);
-    assert(b[1] == 2);
+    EXPECT_TRUE(b.size() == 2);
+    EXPECT_TRUE(b[0] == 1);
+    EXPECT_TRUE(b[1] == 2);
 }
 
-void test_swap_with_empty()
+TEST(CoreBuffer, swap_with_empty)
 {
     Buffer<int> filled{1, 2};
     Buffer<int> empty;
 
     filled.swap(empty);
 
-    assert(filled.empty());
-    assert(filled.data() == nullptr);
-    assert(empty.size() == 2);
-    assert(empty[0] == 1);
-    assert(empty[1] == 2);
+    EXPECT_TRUE(filled.empty());
+    EXPECT_TRUE(filled.data() == nullptr);
+    EXPECT_TRUE(empty.size() == 2);
+    EXPECT_TRUE(empty[0] == 1);
+    EXPECT_TRUE(empty[1] == 2);
 }
 
-void test_alignment()
+TEST(CoreBuffer, alignment)
 {
     Buffer<int> buffer(4);
 
-    assert(buffer.data() != nullptr);
-    assert(reinterpret_cast<std::uintptr_t>(buffer.data()) % 64 == 0);
+    EXPECT_TRUE(buffer.data() != nullptr);
+    EXPECT_TRUE(reinterpret_cast<std::uintptr_t>(buffer.data()) % 64 == 0);
 }
 
-void test_uninitialized_constructor_write_before_read()
+TEST(CoreBuffer, uninitialized_constructor_write_before_read)
 {
     Buffer<int> buffer(3, Buffer<int>::uninitialized);
 
@@ -264,12 +264,12 @@ void test_uninitialized_constructor_write_before_read()
     buffer[1] = 2;
     buffer[2] = 3;
 
-    assert(buffer[0] == 1);
-    assert(buffer[1] == 2);
-    assert(buffer[2] == 3);
+    EXPECT_TRUE(buffer[0] == 1);
+    EXPECT_TRUE(buffer[1] == 2);
+    EXPECT_TRUE(buffer[2] == 3);
 }
 
-void test_oversized_allocation_throws()
+TEST(CoreBuffer, oversized_allocation_throws)
 {
     bool threw = false;
 
@@ -280,30 +280,6 @@ void test_oversized_allocation_throws()
         threw = true;
     }
 
-    assert(threw);
+    EXPECT_TRUE(threw);
 }
 
-int main()
-{
-    test_default_constructor();
-    test_zero_size_constructor();
-    test_size_constructor();
-    test_fill_constructor();
-    test_initializer_list_constructor();
-    test_empty_initializer_list_constructor();
-    test_iteration();
-    test_const_and_reverse_iteration();
-    test_copy_constructor();
-    test_copy_assignment();
-    test_self_assignment();
-    test_move_constructor();
-    test_move_assignment();
-    test_fill();
-    test_swap();
-    test_swap_with_empty();
-    test_alignment();
-    test_uninitialized_constructor_write_before_read();
-    test_oversized_allocation_throws();
-
-    return 0;
-}

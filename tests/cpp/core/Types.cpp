@@ -1,7 +1,8 @@
+#include <gtest/gtest.h>
 #include <type_traits>
 #include <cstdint>
 
-#include <stratax.hpp>
+#include <stratax.h>
 
 using namespace stratax::core::dtype;
 
@@ -22,6 +23,8 @@ static_assert(std::is_same_v<float128, long double>);
 static_assert(std::is_same_v<index_t, std::size_t>);
 static_assert(std::is_same_v<ssize_t, std::ptrdiff_t>);
 
-int main() {
-    return 0;
+
+TEST(CoreTypes, Compiles)
+{
+    SUCCEED();
 }

@@ -1,8 +1,15 @@
 .vscode/
 build/
+dist/
 main.cpp
+util.h
 *.exe
-*.gitkeep
-Makefile
+.venv
+test.py
+*__pycache__/
+*.pytest_cache
+
+
+
 
 

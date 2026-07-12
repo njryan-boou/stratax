@@ -29,6 +29,12 @@ Defines stable dtype aliases used across Stratax.
 - `index_t`
 - `ssize_t`
 
+## Invariants
+
+- Type aliases map directly to standard C++ types.
+- Aliases do not own storage and do not encode runtime metadata.
+- Whether an alias is accepted as numeric is controlled by `Concepts.hpp`.
+
 ## Validation Notes
 
 - These are aliases only.
@@ -39,6 +45,11 @@ Defines stable dtype aliases used across Stratax.
 
 - Keep aliases mapped directly to standard C++ types.
 - Avoid hiding ownership or storage policy in this file.
+
+## Time Complexity
+
+- Type aliases have no runtime cost.
+- Any acceptance or rejection of aliases is handled at compile time by `Concepts.hpp`.
 
 ## Future Work
 

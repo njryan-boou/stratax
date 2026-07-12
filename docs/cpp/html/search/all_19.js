@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['tensor_0',['Tensor',['../md_docs_2dev_2containers_2_creation.html#autotoc_md33',1,'Identity Tensor'],['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container::Tensor&lt; T &gt;'],['../classstratax_1_1container_1_1_tensor.html#a79ee6b29c2456696f45e912e79ba3485',1,'stratax::container::Tensor::Tensor() noexcept=default'],['../classstratax_1_1container_1_1_tensor.html#afb64e8361a0771cd0217166242c0975f',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_tensor.html#a3bc47abf83540457b08080e0f344f7c4',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape, const T &amp;value)'],['../classstratax_1_1container_1_1_tensor.html#a2bfdd6a164d779d029aaffbe449e73b4',1,'stratax::container::Tensor::Tensor(const Tensor &amp;)=default'],['../classstratax_1_1container_1_1_tensor.html#adf9f6ec1da0b3fce12586e71d0a4ebb0',1,'stratax::container::Tensor::Tensor(Tensor &amp;&amp;) noexcept=default'],['../md_docs_2dev_2containers_2_tensor.html',1,'Tensor']]],
+  ['tensor_20output_1',['Tensor Output',['../md_docs_2dev_2io_2_print.html#autotoc_md183',1,'']]],
+  ['tensor_20slicing_2',['Tensor Slicing',['../md_docs_2dev_2ops_2_slice.html#autotoc_md235',1,'']]],
+  ['tensor_2ehpp_3',['Tensor.hpp',['../_tensor_8hpp.html',1,'']]],
+  ['tensor_2emd_4',['Tensor.md',['../_tensor_8md.html',1,'']]],
+  ['tensor_3c_20u_20_3e_5',['Tensor&lt; U &gt;',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container']]],
+  ['tensors_6',['Filled Tensors',['../md_docs_2dev_2containers_2_creation.html#autotoc_md32',1,'']]],
+  ['testing_7',['Testing',['../md_docs_2dev_2contributing.html#autotoc_md79',1,'']]],
+  ['tests_8',['Tests',['../md__r_e_a_d_m_e.html#autotoc_md6',1,'']]],
+  ['threading_2ehpp_9',['threading.hpp',['../threading_8hpp.html',1,'']]],
+  ['time_20complexity_10',['Time Complexity',['../md_docs_2dev_2containers_2_conversions.html#autotoc_md27',1,'Time Complexity'],['../md_docs_2dev_2containers_2_creation.html#autotoc_md37',1,'Time Complexity'],['../md_docs_2dev_2containers_2_matrix.html#autotoc_md49',1,'Time Complexity'],['../md_docs_2dev_2containers_2_tensor.html#autotoc_md61',1,'Time Complexity'],['../md_docs_2dev_2containers_2_vector.html#autotoc_md73',1,'Time Complexity'],['../md_docs_2dev_2core_2_buffer.html#autotoc_md95',1,'Time Complexity'],['../md_docs_2dev_2core_2_concepts.html#autotoc_md105',1,'Time Complexity'],['../md_docs_2dev_2core_2_exceptions.html#autotoc_md116',1,'Time Complexity'],['../md_docs_2dev_2core_2_shape.html#autotoc_md128',1,'Time Complexity'],['../md_docs_2dev_2core_2_slice.html#autotoc_md139',1,'Time Complexity'],['../md_docs_2dev_2core_2_strides.html#autotoc_md151',1,'Time Complexity'],['../md_docs_2dev_2core_2_types.html#autotoc_md164',1,'Time Complexity'],['../md_docs_2dev_2core_2_validation.html#autotoc_md176',1,'Time Complexity'],['../md_docs_2dev_2io_2_print.html#autotoc_md187',1,'Time Complexity'],['../md_docs_2dev_2ops_2_arithmetic.html#autotoc_md200',1,'Time Complexity'],['../md_docs_2dev_2ops_2_comparison.html#autotoc_md209',1,'Time Complexity'],['../md_docs_2dev_2ops_2_indexing.html#autotoc_md218',1,'Time Complexity'],['../md_docs_2dev_2ops_2_reshape.html#autotoc_md228',1,'Time Complexity'],['../md_docs_2dev_2ops_2_slice.html#autotoc_md239',1,'Time Complexity']]],
+  ['to_5fmatrix_11',['to_matrix',['../_conversions_8hpp.html#a956e833b736446b359f1c68eefc1516c',1,'Conversions.hpp']]],
+  ['to_5ftensor_12',['to_tensor',['../_conversions_8hpp.html#a57baab83de6ed5a75427515dcc653e66',1,'Conversions.hpp']]],
+  ['to_5fvector_13',['to_vector',['../_conversions_8hpp.html#a9f3c704367601c2ce3b3a3191fced3fa',1,'Conversions.hpp']]],
+  ['traits_2ehpp_14',['traits.hpp',['../traits_8hpp.html',1,'']]],
+  ['transforms_2ehpp_15',['transforms.hpp',['../transforms_8hpp.html',1,'']]],
+  ['type_20casting_16',['Type Casting',['../md_docs_2dev_2containers_2_conversions.html#autotoc_md23',1,'']]],
+  ['type_20errors_17',['Access and Type Errors',['../md_docs_2dev_2core_2_exceptions.html#autotoc_md112',1,'']]],
+  ['typeerror_18',['TypeError',['../class_exceptions_1_1_type_error.html',1,'Exceptions']]],
+  ['types_19',['Types',['../md_docs_2dev_2core_2_types.html',1,'']]],
+  ['types_2ehpp_20',['Types.hpp',['../_types_8hpp.html',1,'']]],
+  ['types_2emd_21',['Types.md',['../_types_8md.html',1,'']]]
+];

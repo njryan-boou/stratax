@@ -5,18 +5,31 @@
 #include <stratax/core/Config.hpp>
 #include <stratax/core/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/core/Validation.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Vector.hpp>
 
+/**
+ * @brief Reshapes an array-like object into a tensor with the requested shape.
+ *
+ * The element order is preserved while the logical shape changes.
+ *
+ * @param arr Source array.
+ * @param shape Target shape.
+ *
+ * @return Tensor containing the same values in the new shape.
+ *
+ * @throws Exceptions::ShapeError If the shape does not match the number of elements.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type>
 reshape(const A& arr, const stratax::core::Shape& shape)
 {
-    if (arr.size() != shape.elements())
-    {
-        throw Exceptions::ShapeError("Shape mismatch.");
-    }
+    stratax::core::validation::require_equal_size(
+        arr.size(),
+        shape.elements(),
+        "Shape mismatch.");
 
     stratax::container::Tensor<typename A::value_type> result(shape);
 
@@ -28,6 +41,15 @@ reshape(const A& arr, const stratax::core::Shape& shape)
     return result;
 }
 
+/**
+ * @brief Flattens an array-like object into a vector.
+ *
+ * The values are copied in storage order.
+ *
+ * @param arr Source array.
+ *
+ * @return Vector containing the flattened values.
+ */
 template<Array A>
 stratax::container::Vector<typename A::value_type> 
 flatten(const A& arr)

@@ -18,8 +18,14 @@ Defines the Stratax exception hierarchy used for domain-specific runtime errors.
 
 ### Access and Type Errors
 - `Exceptions::IndexError`
-- `Exceptions::DTypeError`
+- `Exceptions::TypeError`
 - `Exceptions::ZeroDivisionError`
+
+## Invariants
+
+- All Stratax-specific exceptions derive from `Exceptions::StrataxError`.
+- `Exceptions::StrataxError` derives from `std::runtime_error`.
+- Exception classes do not add state beyond the runtime error message.
 
 ## Validation Notes
 
@@ -32,6 +38,12 @@ Defines the Stratax exception hierarchy used for domain-specific runtime errors.
 - Exceptions currently live in namespace `Exceptions`.
 - Keep exception classes lightweight.
 - Prefer specific exception types when the error category is clear.
+
+## Time Complexity
+
+- Constructing an exception object is `O(m)`, where `m` is the message length.
+- Throwing/catching cost is implementation-defined and should stay off hot paths.
+- Exception type checks have no normal-path runtime cost until an exception is thrown.
 
 ## Future Work
 

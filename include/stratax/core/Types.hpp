@@ -6,7 +6,7 @@
 
 namespace stratax::core::dtype
 {
-    
+
     using bool_ = bool;
 
     using int8  = std::int8_t;

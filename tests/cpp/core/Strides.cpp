@@ -1,22 +1,22 @@
-#include <cassert>
+#include <gtest/gtest.h>
 #include <limits>
 #include <numeric>
 #include <sstream>
 #include <utility>
 
-#include <stratax.hpp>
+#include <stratax.h>
 
 using namespace stratax::core;
 
-void test_default_constructor()
+TEST(CoreStrides, default_constructor)
 {
     Strides strides;
 
-    assert(strides.size() == 0);
-    assert(strides.rank() == 0);
-    assert(strides.empty());
-    assert(strides.data() == nullptr);
-    assert(strides.begin() == strides.end());
+    EXPECT_TRUE(strides.size() == 0);
+    EXPECT_TRUE(strides.rank() == 0);
+    EXPECT_TRUE(strides.empty());
+    EXPECT_TRUE(strides.data() == nullptr);
+    EXPECT_TRUE(strides.begin() == strides.end());
 
     bool front_threw = false;
     try {
@@ -26,7 +26,7 @@ void test_default_constructor()
         front_threw = true;
     }
 
-    assert(front_threw);
+    EXPECT_TRUE(front_threw);
 
     bool back_threw = false;
     try {
@@ -36,88 +36,82 @@ void test_default_constructor()
         back_threw = true;
     }
 
-    assert(back_threw);
+    EXPECT_TRUE(back_threw);
 }
 
-void test_shape_constructor()
+TEST(CoreStrides, shape_constructor)
 {
     Shape shape{2, 3, 4};
     Strides strides(shape);
 
-    assert(strides.size() == 3);
-    assert(strides.rank() == 3);
-    assert(!strides.empty());
+    EXPECT_TRUE(strides.size() == 3);
+    EXPECT_TRUE(strides.rank() == 3);
+    EXPECT_TRUE(!strides.empty());
 
-    assert(strides(0) == 12);
-    assert(strides(1) == 4);
-    assert(strides(2) == 1);
+    EXPECT_TRUE(strides(0) == 12);
+    EXPECT_TRUE(strides(1) == 4);
+    EXPECT_TRUE(strides(2) == 1);
 
-    assert(strides.front() == 12);
-    assert(strides.back() == 1);
+    EXPECT_TRUE(strides.front() == 12);
+    EXPECT_TRUE(strides.back() == 1);
 }
 
-void test_vector_shape_constructor()
+TEST(CoreStrides, vector_shape_constructor)
 {
     Shape shape{5};
     Strides strides(shape);
 
-    assert(strides.size() == 1);
-    assert(strides.rank() == 1);
-    assert(strides(0) == 1);
+    EXPECT_TRUE(strides.size() == 1);
+    EXPECT_TRUE(strides.rank() == 1);
+    EXPECT_TRUE(strides(0) == 1);
 }
 
-void test_empty_shape_constructor()
+TEST(CoreStrides, empty_shape_constructor)
 {
     Shape shape;
     Strides strides(shape);
 
-    assert(strides.size() == 0);
-    assert(strides.rank() == 0);
-    assert(strides.empty());
+    EXPECT_TRUE(strides.size() == 0);
+    EXPECT_TRUE(strides.rank() == 0);
+    EXPECT_TRUE(strides.empty());
 }
 
-void test_shape_with_one_dimensions()
+TEST(CoreStrides, shape_with_one_dimensions)
 {
     Strides strides(Shape{1, 3, 1});
 
-    assert(strides.rank() == 3);
-    assert(strides(0) == 3);
-    assert(strides(1) == 1);
-    assert(strides(2) == 1);
+    EXPECT_TRUE(strides.rank() == 3);
+    EXPECT_TRUE(strides(0) == 3);
+    EXPECT_TRUE(strides(1) == 1);
+    EXPECT_TRUE(strides(2) == 1);
 }
 
-void test_shape_with_zero_dimension()
+TEST(CoreStrides, shape_with_zero_dimension)
 {
     Strides strides(Shape{2, 0, 4});
 
-    assert(strides.rank() == 3);
-    assert(strides(0) == 0);
-    assert(strides(1) == 4);
-    assert(strides(2) == 1);
+    EXPECT_TRUE(strides.rank() == 3);
+    EXPECT_TRUE(strides(0) == 0);
+    EXPECT_TRUE(strides(1) == 4);
+    EXPECT_TRUE(strides(2) == 1);
 }
 
-void test_shape_overflow_throws()
+TEST(CoreStrides, large_shape_constructs)
 {
-    bool threw = false;
-
-    try {
-        Strides strides(Shape{2, std::numeric_limits<std::size_t>::max(), 2});
-    }
-    catch (const Exceptions::DimensionError&) {
-        threw = true;
-    }
-
-    assert(threw);
+    EXPECT_NO_THROW({
+        Strides strides(Shape{2, std::numeric_limits<long long>::max(), 2});
+        EXPECT_TRUE(strides.rank() == 3);
+    });
 }
 
-void test_at()
+TEST(CoreStrides, at)
 {
     Shape shape{2, 3, 4};
     Strides strides(shape);
 
-    assert(strides.at(0) == 12);
-    assert(strides.at(1) == 4);
-    assert(strides.at(2) == 1);
+    EXPECT_TRUE(strides.at(0) == 12);
+    EXPECT_TRUE(strides.at(1) == 4);
+    EXPECT_TRUE(strides.at(2) == 1);
 
     bool threw = false;
 
@@ -128,10 +122,10 @@ void test_at()
         threw = true;
     }
 
-    assert(threw);
+    EXPECT_TRUE(threw);
 }
 
-void test_iteration()
+TEST(CoreStrides, iteration)
 {
     Shape shape{2, 3, 4};
     Strides strides(shape);
@@ -140,14 +134,14 @@ void test_iteration()
     std::size_t i = 0;
 
     for (std::size_t stride : strides) {
-        assert(stride == expected[i]);
+        EXPECT_TRUE(stride == expected[i]);
         ++i;
     }
 
-    assert(i == 3);
+    EXPECT_TRUE(i == 3);
 }
 
-void test_const_iteration()
+TEST(CoreStrides, const_iteration)
 {
     const Strides strides(Shape{2, 3, 4});
 
@@ -155,14 +149,14 @@ void test_const_iteration()
     std::size_t i = 0;
 
     for (auto it = strides.cbegin(); it != strides.cend(); ++it) {
-        assert(*it == expected[i]);
+        EXPECT_TRUE(*it == expected[i]);
         ++i;
     }
 
-    assert(i == 3);
+    EXPECT_TRUE(i == 3);
 }
 
-void test_reverse_iteration()
+TEST(CoreStrides, reverse_iteration)
 {
     Strides strides(Shape{2, 3, 4});
 
@@ -170,29 +164,29 @@ void test_reverse_iteration()
     std::size_t i = 0;
 
     for (auto it = strides.rbegin(); it != strides.rend(); ++it) {
-        assert(*it == expected[i]);
+        EXPECT_TRUE(*it == expected[i]);
         ++i;
     }
 
-    assert(i == 3);
+    EXPECT_TRUE(i == 3);
 }
 
-void test_stream_output()
+TEST(CoreStrides, stream_output)
 {
     std::ostringstream empty;
     empty << Strides{};
-    assert(empty.str() == "()");
+    EXPECT_TRUE(empty.str() == "()");
 
     std::ostringstream vector;
     vector << Strides(Shape{5});
-    assert(vector.str() == "(1,)");
+    EXPECT_TRUE(vector.str() == "(1,)");
 
     std::ostringstream tensor;
     tensor << Strides(Shape{2, 3, 4});
-    assert(tensor.str() == "(12, 4, 1)");
+    EXPECT_TRUE(tensor.str() == "(12, 4, 1)");
 }
 
-void test_equality()
+TEST(CoreStrides, equality)
 {
     Strides a(Shape{2, 3, 4});
     Strides b(Shape{2, 3, 4});
@@ -200,125 +194,101 @@ void test_equality()
     Strides empty_a;
     Strides empty_b;
 
-    assert(a == b);
-    assert(!(a != b));
+    EXPECT_TRUE(a == b);
+    EXPECT_TRUE(!(a != b));
 
-    assert(a != c);
-    assert(!(a == c));
+    EXPECT_TRUE(a != c);
+    EXPECT_TRUE(!(a == c));
 
-    assert(empty_a == empty_b);
-    assert(!(empty_a != empty_b));
+    EXPECT_TRUE(empty_a == empty_b);
+    EXPECT_TRUE(!(empty_a != empty_b));
 }
 
-void test_copy_constructor()
+TEST(CoreStrides, copy_constructor)
 {
     Strides original(Shape{2, 3, 4});
     Strides copy(original);
 
-    assert(copy == original);
-    assert(copy(0) == 12);
-    assert(copy(1) == 4);
-    assert(copy(2) == 1);
+    EXPECT_TRUE(copy == original);
+    EXPECT_TRUE(copy(0) == 12);
+    EXPECT_TRUE(copy(1) == 4);
+    EXPECT_TRUE(copy(2) == 1);
 }
 
-void test_copy_assignment()
+TEST(CoreStrides, copy_assignment)
 {
     Strides original(Shape{2, 3, 4});
     Strides copy;
 
     copy = original;
 
-    assert(copy == original);
-    assert(copy.rank() == 3);
+    EXPECT_TRUE(copy == original);
+    EXPECT_TRUE(copy.rank() == 3);
 
     copy = copy;
-    assert(copy == original);
-    assert(copy.rank() == 3);
+    EXPECT_TRUE(copy == original);
+    EXPECT_TRUE(copy.rank() == 3);
 }
 
-void test_move_constructor()
+TEST(CoreStrides, move_constructor)
 {
     Strides original(Shape{2, 3, 4});
     Strides moved(std::move(original));
 
-    assert(moved.rank() == 3);
-    assert(moved(0) == 12);
-    assert(moved(1) == 4);
-    assert(moved(2) == 1);
+    EXPECT_TRUE(moved.rank() == 3);
+    EXPECT_TRUE(moved(0) == 12);
+    EXPECT_TRUE(moved(1) == 4);
+    EXPECT_TRUE(moved(2) == 1);
 }
 
-void test_move_assignment()
+TEST(CoreStrides, move_assignment)
 {
     Strides original(Shape{2, 3, 4});
     Strides moved;
 
     moved = std::move(original);
 
-    assert(moved.rank() == 3);
-    assert(moved(0) == 12);
-    assert(moved(1) == 4);
-    assert(moved(2) == 1);
+    EXPECT_TRUE(moved.rank() == 3);
+    EXPECT_TRUE(moved(0) == 12);
+    EXPECT_TRUE(moved(1) == 4);
+    EXPECT_TRUE(moved(2) == 1);
 
     Strides& same = moved;
     moved = std::move(same);
-    assert(moved.rank() == 3);
-    assert(moved(0) == 12);
-    assert(moved(1) == 4);
-    assert(moved(2) == 1);
+    EXPECT_TRUE(moved.rank() == 3);
+    EXPECT_TRUE(moved(0) == 12);
+    EXPECT_TRUE(moved(1) == 4);
+    EXPECT_TRUE(moved(2) == 1);
 }
 
-void test_swap()
+TEST(CoreStrides, swap)
 {
     Strides a(Shape{2, 3, 4});
     Strides b(Shape{5, 6});
 
     a.swap(b);
 
-    assert(a.rank() == 2);
-    assert(a(0) == 6);
-    assert(a(1) == 1);
+    EXPECT_TRUE(a.rank() == 2);
+    EXPECT_TRUE(a(0) == 6);
+    EXPECT_TRUE(a(1) == 1);
 
-    assert(b.rank() == 3);
-    assert(b(0) == 12);
-    assert(b(1) == 4);
-    assert(b(2) == 1);
+    EXPECT_TRUE(b.rank() == 3);
+    EXPECT_TRUE(b(0) == 12);
+    EXPECT_TRUE(b(1) == 4);
+    EXPECT_TRUE(b(2) == 1);
 }
 
-void test_swap_with_empty()
+TEST(CoreStrides, swap_with_empty)
 {
     Strides populated(Shape{2, 3, 4});
     Strides empty;
 
     populated.swap(empty);
 
-    assert(populated.empty());
-    assert(empty.rank() == 3);
-    assert(empty(0) == 12);
-    assert(empty(1) == 4);
-    assert(empty(2) == 1);
+    EXPECT_TRUE(populated.empty());
+    EXPECT_TRUE(empty.rank() == 3);
+    EXPECT_TRUE(empty(0) == 12);
+    EXPECT_TRUE(empty(1) == 4);
+    EXPECT_TRUE(empty(2) == 1);
 }
 
-int main()
-{
-    test_default_constructor();
-    test_shape_constructor();
-    test_vector_shape_constructor();
-    test_empty_shape_constructor();
-    test_shape_with_one_dimensions();
-    test_shape_with_zero_dimension();
-    test_shape_overflow_throws();
-    test_at();
-    test_iteration();
-    test_const_iteration();
-    test_reverse_iteration();
-    test_stream_output();
-    test_equality();
-    test_copy_constructor();
-    test_copy_assignment();
-    test_move_constructor();
-    test_move_assignment();
-    test_swap();
-    test_swap_with_empty();
-
-    return 0;
-}

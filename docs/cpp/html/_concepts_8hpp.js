@@ -1,0 +1,25 @@
+var _concepts_8hpp =
+[
+    [ "is_array&lt; T &gt;", "structis__array.html", null ],
+    [ "is_array&lt; stratax::container::Vector&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_vector_3_01_t_01_4_01_4.html", null ],
+    [ "is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_matrix_3_01_t_01_4_01_4.html", null ],
+    [ "is_array&lt; stratax::container::Tensor&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_tensor_3_01_t_01_4_01_4.html", null ],
+    [ "stratax::core::concept_detail::SameAsAny", "conceptstratax_1_1core_1_1concept__detail_1_1_same_as_any.html", null ],
+    [ "stratax::core::concept_detail::CharacterLike", "conceptstratax_1_1core_1_1concept__detail_1_1_character_like.html", null ],
+    [ "stratax::core::concept_detail::BoolLike", "conceptstratax_1_1core_1_1concept__detail_1_1_bool_like.html", null ],
+    [ "stratax::core::concept_detail::SupportedComplex", "conceptstratax_1_1core_1_1concept__detail_1_1_supported_complex.html", null ],
+    [ "Integral", "concept_integral.html", null ],
+    [ "Integer", "concept_integer.html", null ],
+    [ "SignedInteger", "concept_signed_integer.html", null ],
+    [ "UnsignedInteger", "concept_unsigned_integer.html", null ],
+    [ "Floating", "concept_floating.html", null ],
+    [ "Float", "concept_float.html", null ],
+    [ "Arithmetic", "concept_arithmetic.html", null ],
+    [ "Real", "concept_real.html", null ],
+    [ "Complex", "concept_complex.html", null ],
+    [ "Numeric", "concept_numeric.html", null ],
+    [ "Scalar", "concept_scalar.html", null ],
+    [ "Array", "concept_array.html", null ],
+    [ "NDarray", "concept_n_darray.html", null ],
+    [ "stratax::core::concept_detail::clean_t", "namespacestratax_1_1core_1_1concept__detail.html#a21ff9a34ceccc860525419eff4d1e920", null ]
+];

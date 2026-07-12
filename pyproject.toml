@@ -1,1 +1,60 @@
+[build-system]
+requires = [
+    "scikit-build-core>=0.10",
+    "pybind11>=2.12"
+]
+build-backend = "scikit_build_core.build"
 
+[project]
+name = "stratax"
+version = "0.1.0"
+description = "Modern scientific array library for C++20 with Python bindings."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+authors = [
+    { name = "Noah Ryan" }
+]
+
+keywords = [
+    "scientific",
+    "array",
+    "tensor",
+    "matrix",
+    "vector",
+    "cpp",
+    "pybind11",
+    "numerical"
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+
+    "License :: OSI Approved :: MIT License",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+
+    "Programming Language :: C++",
+
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries"
+]
+
+[project.urls]
+Homepage = "https://github.com/njryan-boou/stratax"
+Repository = "https://github.com/njryan-boou/stratax"
+Issues = "https://github.com/njryan-boou/stratax/issues"
+
+[tool.scikit-build]
+minimum-version = "0.10"
+build-dir = "build/{wheel_tag}"
+
+wheel.packages = [
+    "python/stratax"
+]

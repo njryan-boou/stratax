@@ -1,39 +1,39 @@
-#include <cassert>
+#include <gtest/gtest.h>
 
-#include <stratax.hpp>
+#include <stratax.h>
 
 using stratax::core::Slice;
 
-void test_constructor()
+TEST(CoreSlice, constructor)
 {
     Slice slice(2, 5);
 
-    assert(slice.start() == 2);
-    assert(slice.stop() == 5);
-    assert(slice.size() == 3);
-    assert(!slice.empty());
+    EXPECT_TRUE(slice.start() == 2);
+    EXPECT_TRUE(slice.stop() == 5);
+    EXPECT_TRUE(slice.size() == 3);
+    EXPECT_TRUE(!slice.empty());
 }
 
-void test_empty_slice()
+TEST(CoreSlice, empty_slice)
 {
     Slice slice(3, 3);
 
-    assert(slice.start() == 3);
-    assert(slice.stop() == 3);
-    assert(slice.size() == 0);
-    assert(slice.empty());
+    EXPECT_TRUE(slice.start() == 3);
+    EXPECT_TRUE(slice.stop() == 3);
+    EXPECT_TRUE(slice.size() == 0);
+    EXPECT_TRUE(slice.empty());
 }
 
-void test_zero_start_slice()
+TEST(CoreSlice, zero_start_slice)
 {
     Slice slice(0, 4);
 
-    assert(slice.start() == 0);
-    assert(slice.stop() == 4);
-    assert(slice.size() == 4);
+    EXPECT_TRUE(slice.start() == 0);
+    EXPECT_TRUE(slice.stop() == 4);
+    EXPECT_TRUE(slice.size() == 4);
 }
 
-void test_reversed_range_throws()
+TEST(CoreSlice, reversed_range_throws)
 {
     bool threw = false;
 
@@ -44,29 +44,19 @@ void test_reversed_range_throws()
         threw = true;
     }
 
-    assert(threw);
+    EXPECT_TRUE(threw);
 }
 
-void test_equality()
+TEST(CoreSlice, equality)
 {
     Slice a(1, 4);
     Slice b(1, 4);
     Slice c(2, 4);
     Slice d(1, 5);
 
-    assert(a == b);
-    assert(!(a != b));
-    assert(a != c);
-    assert(a != d);
+    EXPECT_TRUE(a == b);
+    EXPECT_TRUE(!(a != b));
+    EXPECT_TRUE(a != c);
+    EXPECT_TRUE(a != d);
 }
 
-int main()
-{
-    test_constructor();
-    test_empty_slice();
-    test_zero_start_slice();
-    test_reversed_range_throws();
-    test_equality();
-
-    return 0;
-}

@@ -1,0 +1,55 @@
+var namespacestratax_1_1core =
+[
+    [ "concept_detail", "namespacestratax_1_1core_1_1concept__detail.html", "namespacestratax_1_1core_1_1concept__detail" ],
+    [ "config", "namespacestratax_1_1core_1_1config.html", [
+      [ "bounds_checking", "namespacestratax_1_1core_1_1config.html#a1c3ebf749b43ffc3dbbd58f8ec2f7114", null ],
+      [ "default_alignment", "namespacestratax_1_1core_1_1config.html#a9a0692d5c83bfb0e2b115b502465c5a6", null ],
+      [ "use_cuda", "namespacestratax_1_1core_1_1config.html#a497bf661349c7c7f75d5333733492d3a", null ],
+      [ "use_multithreading", "namespacestratax_1_1core_1_1config.html#a7fb225f00f0951019de91b5b0abebd28", null ],
+      [ "use_simd", "namespacestratax_1_1core_1_1config.html#aae0db8da64e7e38ed9b882fb8929f6f4", null ]
+    ] ],
+    [ "dtype", "namespacestratax_1_1core_1_1dtype.html", [
+      [ "bool_", "namespacestratax_1_1core_1_1dtype.html#af9edca793d68bf5dc4f5e473df60241b", null ],
+      [ "complex128", "namespacestratax_1_1core_1_1dtype.html#adb96d1406581b5b424b356aa566039fc", null ],
+      [ "complex256", "namespacestratax_1_1core_1_1dtype.html#aa60c5a30d349a935b0cc77b685afb939", null ],
+      [ "complex64", "namespacestratax_1_1core_1_1dtype.html#a8826909b453ad4926e04125f82eb3328", null ],
+      [ "float128", "namespacestratax_1_1core_1_1dtype.html#a5e9e2b86f0824b04ed93af407df5bc18", null ],
+      [ "float32", "namespacestratax_1_1core_1_1dtype.html#a458b678d63fc637e597b9ba2fdb41d14", null ],
+      [ "float64", "namespacestratax_1_1core_1_1dtype.html#a2ba9998a24ac1401593486768515728e", null ],
+      [ "index_t", "namespacestratax_1_1core_1_1dtype.html#ae6995f1252e9c11435838c6bd0bee5c1", null ],
+      [ "int16", "namespacestratax_1_1core_1_1dtype.html#a471e3e4077bf95bea1652f05f8b4b151", null ],
+      [ "int32", "namespacestratax_1_1core_1_1dtype.html#a6d3617dec17817018b58ce0788ac0fea", null ],
+      [ "int64", "namespacestratax_1_1core_1_1dtype.html#a9d18b22895f8f86133181be7ed96ab23", null ],
+      [ "int8", "namespacestratax_1_1core_1_1dtype.html#a9fb0f4b529abcf876cac3de3e9881004", null ],
+      [ "ssize_t", "namespacestratax_1_1core_1_1dtype.html#ad0798f5bada20bc1df7c0fde5f91745f", null ],
+      [ "uint16", "namespacestratax_1_1core_1_1dtype.html#a9ba603196b5aa36bfc687da8d5c0c67c", null ],
+      [ "uint32", "namespacestratax_1_1core_1_1dtype.html#aa25833e3bf4cc9eab2b0becf417d43d6", null ],
+      [ "uint64", "namespacestratax_1_1core_1_1dtype.html#a3beded7b03525edec347f0d33652d665", null ],
+      [ "uint8", "namespacestratax_1_1core_1_1dtype.html#a889204d75240def8514032f5bd8dc020", null ]
+    ] ],
+    [ "validation", "namespacestratax_1_1core_1_1validation.html", [
+      [ "checked_add", "namespacestratax_1_1core_1_1validation.html#afe90ee2a6c2fdf69ec1f1e32ccd5e207", null ],
+      [ "checked_multiply", "namespacestratax_1_1core_1_1validation.html#a1c4313ea5ca5cf1bff17910514d3608e", null ],
+      [ "nonnegative_index", "namespacestratax_1_1core_1_1validation.html#a31371cf7451382a816de200238c63ca0", null ],
+      [ "nonnegative_shape_dimension", "namespacestratax_1_1core_1_1validation.html#ae8f64ae11d3b1a51a17c3c6982097727", null ],
+      [ "nonnegative_size", "namespacestratax_1_1core_1_1validation.html#a74406bf8629a1e9d3037b11aca1efe4b", null ],
+      [ "positive_shape_dimension", "namespacestratax_1_1core_1_1validation.html#a86e31d31163ef54abdcf9667045e0c6b", null ],
+      [ "require_at_most", "namespacestratax_1_1core_1_1validation.html#a8a3bc52f84f95039c86565794f95b048", null ],
+      [ "require_equal_size", "namespacestratax_1_1core_1_1validation.html#a65fc9a77f6532c89fa456175b34ac1f6", null ],
+      [ "require_index", "namespacestratax_1_1core_1_1validation.html#a7c0bd292433193d4f8a84a5b1853b775", null ],
+      [ "require_numeric_type", "namespacestratax_1_1core_1_1validation.html#ae512d92267149fea6f652f94464129c9", null ],
+      [ "require_positive_shape_dimension", "namespacestratax_1_1core_1_1validation.html#a9871620c712794e6b157d030d1e6e6d0", null ],
+      [ "require_rank", "namespacestratax_1_1core_1_1validation.html#a1d5143622deae4f5e17151ab8f0035ea", null ],
+      [ "require_rank", "namespacestratax_1_1core_1_1validation.html#aa969623821b98b9eb01b62d0061babfe", null ],
+      [ "require_same_shape", "namespacestratax_1_1core_1_1validation.html#a312b76d309a77bfda26ff9716a95cbda", null ],
+      [ "require_same_value_type", "namespacestratax_1_1core_1_1validation.html#a2a9362a448a434b0b5d1386a11e5ebeb", null ],
+      [ "require_type", "namespacestratax_1_1core_1_1validation.html#ad8310dfb903149cb385ec72589a6c342", null ],
+      [ "same_shape", "namespacestratax_1_1core_1_1validation.html#a5342f601eacdd9c484e07743d33829e5", null ]
+    ] ],
+    [ "Buffer", "classstratax_1_1core_1_1_buffer.html", "classstratax_1_1core_1_1_buffer" ],
+    [ "Shape", "classstratax_1_1core_1_1_shape.html", "classstratax_1_1core_1_1_shape" ],
+    [ "Slice", "classstratax_1_1core_1_1_slice.html", "classstratax_1_1core_1_1_slice" ],
+    [ "Strides", "classstratax_1_1core_1_1_strides.html", "classstratax_1_1core_1_1_strides" ],
+    [ "operator<<", "namespacestratax_1_1core.html#ade19679ded72130edb721768d1b41838", null ],
+    [ "operator<<", "namespacestratax_1_1core.html#a72aff7806214eaf0d43a27fc63d3df83", null ]
+];

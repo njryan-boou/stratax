@@ -35,11 +35,20 @@ Implements the rank-1 Stratax array container backed by `core::Shape` and `core:
 - `rbegin()` / `rend()`
 - `crbegin()` / `crend()`
 
+## Invariants
+
+- A shape-constructed vector always has rank `1`.
+- `size() == shape().elements() == buffer_.size()`.
+- `strides()` has rank `1` for rank-1 vectors and stride value `1`.
+- Elements are stored contiguously in flat order.
+- `operator[]` and flat `operator()` address the same underlying element.
+- Default-constructed vectors are empty and have rank `0`.
+
 ## Validation Notes
 
 - `operator()` is unchecked.
-- `at()` checks bounds and throws `Exceptions::IndexError`.
-- Shape construction requires rank 1.
+- `at()` checks bounds with `core::validation::require_index()` and throws `Exceptions::IndexError`.
+- Shape construction requires rank 1 through `core::validation::require_rank()`.
 - Empty vectors are possible through the default constructor.
 - Zero-size rank-1 vectors are supported.
 
@@ -49,9 +58,16 @@ Implements the rank-1 Stratax array container backed by `core::Shape` and `core:
 - `buffer_` owns contiguous element storage.
 - `operator[]` is available for flat storage indexing.
 - Arithmetic code expects construction from `Shape`.
+- Rank and bounds checks should use `Validation.hpp`.
+
+## Time Complexity
+
+- Default construction, metadata access, element access, `front()`, `back()`, `data()`, iterator access, and `swap()` are `O(1)`.
+- Size, fill, shape, and initializer-list constructors are `O(n)`.
+- Copy construction, copy assignment, `fill()`, equality through ops, and destruction are `O(n)`.
+- Move construction and move assignment are `O(1)`.
 
 ## Future Work
 
-- Reintroduce shared validation helpers if `Validation.hpp` returns.
 - Consider whether `operator()` should remain unchecked.
 - Add vector-specific algorithms.

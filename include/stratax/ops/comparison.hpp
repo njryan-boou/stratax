@@ -2,11 +2,21 @@
 #pragma once
 
 #include <stratax/core/Concepts.hpp>
+#include <stratax/core/Validation.hpp>
 
+/**
+ * @brief Compares two array-like containers for exact equality.
+ *
+ * @tparam A Array type satisfying the Stratax array concept.
+ * @param lhs Left-hand operand.
+ * @param rhs Right-hand operand.
+ *
+ * @return `true` if both arrays have the same shape and element values.
+ */
 template<Array A>
-bool operator==(const A& lhs, const A& rhs)
+[[nodiscard]] bool operator==(const A& lhs, const A& rhs)
 {
-    if (lhs.size() != rhs.size() || lhs.shape() != rhs.shape())
+    if (!stratax::core::validation::same_shape(lhs, rhs))
     {
         return false;
     }
@@ -25,8 +35,17 @@ bool operator==(const A& lhs, const A& rhs)
     return true;
 }
 
+/**
+ * @brief Compares two array-like containers for inequality.
+ *
+ * @tparam A Array type satisfying the Stratax array concept.
+ * @param lhs Left-hand operand.
+ * @param rhs Right-hand operand.
+ *
+ * @return `true` if the arrays differ in shape or element values.
+ */
 template<Array A>
-bool operator!=(const A& lhs, const A& rhs)
+[[nodiscard]] bool operator!=(const A& lhs, const A& rhs)
 {
     return !(lhs == rhs);
 }

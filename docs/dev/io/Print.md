@@ -17,6 +17,15 @@ Defines stream output formatting for Stratax containers.
 ### Tensor Output
 - `operator<<(std::ostream&, const Tensor<T>&)`
 
+## Invariants
+
+- Printing never mutates the container.
+- Output order follows flat row-major storage order within the displayed shape.
+- Empty vectors and tensors print as `[]`.
+- Matrix output is always bracketed across multiple lines.
+- Non-empty tensor output uses nested brackets matching rank.
+- Formatting is intentionally stable because tests assert exact strings.
+
 ## Validation Notes
 
 - Printing assumes container shape metadata is valid.
@@ -31,6 +40,13 @@ Defines stream output formatting for Stratax containers.
 - Tensor dimensions are recursively nested and indented.
 - Empty tensors print as `[]`.
 - Keep whitespace stable for tests and examples.
+
+## Time Complexity
+
+- Vector printing is `O(n)`.
+- Matrix printing is `O(n)`.
+- Tensor printing is `O(n + b)`, where `b` is the number of nested bracket/indent separators emitted by the recursive formatter.
+- Empty tensor printing is `O(r)` due to shape element-count checks.
 
 ## Future Work
 

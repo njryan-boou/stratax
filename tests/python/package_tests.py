@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sys
-import unittest
 from pathlib import Path
 
 
@@ -11,38 +10,32 @@ sys.path.insert(0, str(ROOT / "python"))
 import stratax
 
 
-class PackageInterfaceTests(unittest.TestCase):
+class TestPackageInterfaceTests:
     def test_public_classes_are_exported(self) -> None:
-        self.assertEqual(
-            stratax.__all__,
-            [
-                "Shape",
-                "Tensor",
-                "Vector",
-                "Matrix",
-                "StrataxError",
-                "ShapeError",
-                "DimensionError",
-                "IndexError",
-                "DTypeError",
-                "BroadcastError",
-                "ZeroDivisionError",
-            ],
-        )
-        self.assertIs(stratax.Shape, stratax.shape.Shape)
-        self.assertIs(stratax.Tensor, stratax.tensor.Tensor)
-        self.assertIs(stratax.Vector, stratax.vector.Vector)
-        self.assertIs(stratax.Matrix, stratax.matrix.Matrix)
+        assert stratax.__all__ == [
+            "Shape",
+            "Tensor",
+            "Vector",
+            "Matrix",
+            "StrataxError",
+            "ShapeError",
+            "DimensionError",
+            "IndexError",
+            "TypeError",
+            "BroadcastError",
+            "ZeroDivisionError",
+        ]
+        assert stratax.Shape is stratax.shape.Shape
+        assert stratax.Tensor is stratax.tensor.Tensor
+        assert stratax.Vector is stratax.vector.Vector
+        assert stratax.Matrix is stratax.matrix.Matrix
 
     def test_public_exceptions_are_exported(self) -> None:
-        self.assertTrue(issubclass(stratax.StrataxError, RuntimeError))
-        self.assertTrue(issubclass(stratax.ShapeError, stratax.StrataxError))
-        self.assertTrue(issubclass(stratax.DimensionError, stratax.StrataxError))
-        self.assertTrue(issubclass(stratax.IndexError, stratax.StrataxError))
-        self.assertTrue(issubclass(stratax.DTypeError, stratax.StrataxError))
-        self.assertTrue(issubclass(stratax.BroadcastError, stratax.StrataxError))
-        self.assertTrue(issubclass(stratax.ZeroDivisionError, stratax.StrataxError))
+        assert issubclass(stratax.StrataxError, RuntimeError)
+        assert issubclass(stratax.ShapeError, stratax.StrataxError)
+        assert issubclass(stratax.DimensionError, stratax.StrataxError)
+        assert issubclass(stratax.IndexError, stratax.StrataxError)
+        assert issubclass(stratax.TypeError, stratax.StrataxError)
+        assert issubclass(stratax.BroadcastError, stratax.StrataxError)
+        assert issubclass(stratax.ZeroDivisionError, stratax.StrataxError)
 
-
-if __name__ == "__main__":
-    unittest.main()

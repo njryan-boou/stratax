@@ -1,99 +1,99 @@
 from __future__ import annotations
 
 import sys
-import unittest
+import pytest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
-from stratax import DTypeError, IndexError as StrataxIndexError
+from stratax import TypeError as StrataxTypeError, IndexError as StrataxIndexError
 from stratax import Shape, ShapeError, Tensor, ZeroDivisionError as StrataxZeroDivisionError
 
 
-class TensorInterfaceTests(unittest.TestCase):
+class TestTensorInterfaceTests:
     def test_default_tensor_is_empty_rank_zero_tensor(self) -> None:
         tensor = Tensor()
 
-        self.assertEqual(tensor.size, 0)
-        self.assertEqual(tensor.rank, 0)
-        self.assertTrue(tensor.empty)
-        self.assertEqual(len(tensor), 0)
-        self.assertEqual(tensor.shape, Shape())
-        self.assertEqual(tensor.strides, [])
-        self.assertEqual(tensor.tolist(), [])
-        self.assertEqual(list(tensor), [])
+        assert tensor.size == 0
+        assert tensor.rank == 0
+        assert tensor.empty
+        assert len(tensor) == 0
+        assert tensor.shape == Shape()
+        assert tensor.strides == []
+        assert tensor.tolist() == []
+        assert list(tensor) == []
 
     def test_shape_constructor_builds_default_values(self) -> None:
         tensor = Tensor(Shape(2, 3))
 
-        self.assertEqual(tensor.size, 6)
-        self.assertEqual(tensor.rank, 2)
-        self.assertFalse(tensor.empty)
-        self.assertEqual(tensor.shape, Shape(2, 3))
-        self.assertEqual(tensor.strides, [3, 1])
-        self.assertEqual(tensor.tolist(), [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        assert tensor.size == 6
+        assert tensor.rank == 2
+        assert not tensor.empty
+        assert tensor.shape == Shape(2, 3)
+        assert tensor.strides == [3, 1]
+        assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     def test_shape_value_constructor_fills_values(self) -> None:
         tensor = Tensor(Shape(2, 2), 3.5)
 
-        self.assertEqual(tensor.size, 4)
-        self.assertEqual(tensor.tolist(), [3.5, 3.5, 3.5, 3.5])
+        assert tensor.size == 4
+        assert tensor.tolist() == [3.5, 3.5, 3.5, 3.5]
 
     def test_iterable_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor([2, 2, 2])
 
-        self.assertEqual(tensor.size, 8)
-        self.assertEqual(tensor.rank, 3)
-        self.assertEqual(tensor.shape, Shape(2, 2, 2))
-        self.assertEqual(tensor.strides, [4, 2, 1])
+        assert tensor.size == 8
+        assert tensor.rank == 3
+        assert tensor.shape == Shape(2, 2, 2)
+        assert tensor.strides == [4, 2, 1]
 
     def test_iterable_shape_value_constructor_fills_values(self) -> None:
         tensor = Tensor([2, 3], 6.0)
 
-        self.assertEqual(tensor.shape, Shape(2, 3))
-        self.assertEqual(tensor.tolist(), [6.0, 6.0, 6.0, 6.0, 6.0, 6.0])
+        assert tensor.shape == Shape(2, 3)
+        assert tensor.tolist() == [6.0, 6.0, 6.0, 6.0, 6.0, 6.0]
 
     def test_generator_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor(dim for dim in (2, 1, 3))
 
-        self.assertEqual(tensor.size, 6)
-        self.assertEqual(tensor.shape, Shape(2, 1, 3))
-        self.assertEqual(tensor.strides, [3, 3, 1])
+        assert tensor.size == 6
+        assert tensor.shape == Shape(2, 1, 3)
+        assert tensor.strides == [3, 3, 1]
 
     def test_copy_constructor_preserves_values(self) -> None:
         original = Tensor([2, 2], 1.5)
         copied = Tensor(original)
 
-        self.assertIsNot(copied, original)
-        self.assertEqual(copied.tolist(), original.tolist())
+        assert copied is not original
+        assert copied.tolist() == original.tolist()
         copied[0] = 9.0
-        self.assertEqual(original.tolist(), [1.5, 1.5, 1.5, 1.5])
-        self.assertEqual(copied.tolist(), [9.0, 1.5, 1.5, 1.5])
+        assert original.tolist() == [1.5, 1.5, 1.5, 1.5]
+        assert copied.tolist() == [9.0, 1.5, 1.5, 1.5]
 
     def test_flat_indexing_reads_and_writes_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
 
-        self.assertEqual(tensor[2], 1.0)
+        assert tensor[2] == 1.0
         tensor[2] = 8.0
-        self.assertEqual(tensor[2], 8.0)
-        self.assertEqual(tensor.tolist(), [1.0, 1.0, 8.0, 1.0])
+        assert tensor[2] == 8.0
+        assert tensor.tolist() == [1.0, 1.0, 8.0, 1.0]
 
     def test_tuple_indexing_reads_and_writes_values(self) -> None:
         tensor = Tensor([2, 3], 0.0)
 
         tensor[1, 2] = 7.0
 
-        self.assertEqual(tensor[1, 2], 7.0)
-        self.assertEqual(tensor.tolist(), [0.0, 0.0, 0.0, 0.0, 0.0, 7.0])
+        assert tensor[1, 2] == 7.0
+        assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 7.0]
 
     def test_fill_updates_all_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
 
         tensor.fill(4.0)
 
-        self.assertEqual(tensor.tolist(), [4.0, 4.0, 4.0, 4.0])
+        assert tensor.tolist() == [4.0, 4.0, 4.0, 4.0]
 
     def test_repr_returns_tensor_text(self) -> None:
         tensor = Tensor([2, 2])
@@ -102,13 +102,13 @@ class TensorInterfaceTests(unittest.TestCase):
         tensor[2] = 3.0
         tensor[3] = 4.0
 
-        self.assertEqual(repr(tensor), "[\n    [1, 2],\n    [3, 4]\n]")
+        assert repr(tensor) == "[\n    [1, 2],\n    [3, 4]\n]"
 
     def test_equality_and_inequality(self) -> None:
-        self.assertEqual(Tensor([2, 2], 1.0), Tensor([2, 2], 1.0))
-        self.assertNotEqual(Tensor([2, 2], 1.0), Tensor([2, 2], 2.0))
-        self.assertNotEqual(Tensor([2, 2], 1.0), Tensor([4], 1.0))
-        self.assertNotEqual(Tensor([2, 2], 1.0), [1.0, 1.0, 1.0, 1.0])
+        assert Tensor([2, 2], 1.0) == Tensor([2, 2], 1.0)
+        assert Tensor([2, 2], 1.0) != Tensor([2, 2], 2.0)
+        assert Tensor([2, 2], 1.0) != Tensor([4], 1.0)
+        assert Tensor([2, 2], 1.0) != [1.0, 1.0, 1.0, 1.0]
 
     def test_array_arithmetic(self) -> None:
         lhs = Tensor([2, 2])
@@ -120,89 +120,104 @@ class TensorInterfaceTests(unittest.TestCase):
         for index, value in enumerate([2.0, 3.0, 5.0, 6.0]):
             rhs[index] = value
 
-        self.assertEqual((lhs + rhs).tolist(), [10.0, 15.0, 25.0, 36.0])
-        self.assertEqual((lhs - rhs).tolist(), [6.0, 9.0, 15.0, 24.0])
-        self.assertEqual((lhs * rhs).tolist(), [16.0, 36.0, 100.0, 180.0])
-        self.assertEqual((lhs / rhs).tolist(), [4.0, 4.0, 4.0, 5.0])
+        assert (lhs + rhs).tolist() == [10.0, 15.0, 25.0, 36.0]
+        assert (lhs - rhs).tolist() == [6.0, 9.0, 15.0, 24.0]
+        assert (lhs * rhs).tolist() == [16.0, 36.0, 100.0, 180.0]
+        assert (lhs / rhs).tolist() == [4.0, 4.0, 4.0, 5.0]
 
-        with self.assertRaises(StrataxZeroDivisionError):
+        with pytest.raises(StrataxZeroDivisionError):
             _ = lhs / Tensor([2, 2], 0.0)
 
     def test_scalar_reverse_in_place_and_unary_arithmetic(self) -> None:
         tensor = Tensor([2, 2], 2.0)
 
-        self.assertEqual((tensor + 3).tolist(), [5.0, 5.0, 5.0, 5.0])
-        self.assertEqual((tensor - 1).tolist(), [1.0, 1.0, 1.0, 1.0])
-        self.assertEqual((tensor * 4).tolist(), [8.0, 8.0, 8.0, 8.0])
-        self.assertEqual((tensor / 2).tolist(), [1.0, 1.0, 1.0, 1.0])
-        with self.assertRaises(StrataxZeroDivisionError):
+        assert (tensor + 3).tolist() == [5.0, 5.0, 5.0, 5.0]
+        assert (tensor - 1).tolist() == [1.0, 1.0, 1.0, 1.0]
+        assert (tensor * 4).tolist() == [8.0, 8.0, 8.0, 8.0]
+        assert (tensor / 2).tolist() == [1.0, 1.0, 1.0, 1.0]
+        with pytest.raises(StrataxZeroDivisionError):
             _ = tensor / 0
 
-        self.assertEqual((3 + tensor).tolist(), [5.0, 5.0, 5.0, 5.0])
-        self.assertEqual((10 - tensor).tolist(), [8.0, 8.0, 8.0, 8.0])
-        self.assertEqual((4 * tensor).tolist(), [8.0, 8.0, 8.0, 8.0])
-        self.assertEqual((8 / tensor).tolist(), [4.0, 4.0, 4.0, 4.0])
-        self.assertEqual((+tensor).tolist(), [2.0, 2.0, 2.0, 2.0])
-        self.assertEqual((-tensor).tolist(), [-2.0, -2.0, -2.0, -2.0])
+        assert (3 + tensor).tolist() == [5.0, 5.0, 5.0, 5.0]
+        assert (10 - tensor).tolist() == [8.0, 8.0, 8.0, 8.0]
+        assert (4 * tensor).tolist() == [8.0, 8.0, 8.0, 8.0]
+        assert (8 / tensor).tolist() == [4.0, 4.0, 4.0, 4.0]
+        assert (+tensor).tolist() == [2.0, 2.0, 2.0, 2.0]
+        assert (-tensor).tolist() == [-2.0, -2.0, -2.0, -2.0]
 
         tensor += 1
-        self.assertEqual(tensor.tolist(), [3.0, 3.0, 3.0, 3.0])
+        assert tensor.tolist() == [3.0, 3.0, 3.0, 3.0]
 
         tensor -= Tensor([2, 2], 1.0)
-        self.assertEqual(tensor.tolist(), [2.0, 2.0, 2.0, 2.0])
+        assert tensor.tolist() == [2.0, 2.0, 2.0, 2.0]
 
         tensor *= 4
-        self.assertEqual(tensor.tolist(), [8.0, 8.0, 8.0, 8.0])
+        assert tensor.tolist() == [8.0, 8.0, 8.0, 8.0]
 
         tensor /= Tensor([2, 2], 2.0)
-        self.assertEqual(tensor.tolist(), [4.0, 4.0, 4.0, 4.0])
+        assert tensor.tolist() == [4.0, 4.0, 4.0, 4.0]
 
     def test_invalid_constructor_argument_raises_type_error(self) -> None:
-        with self.assertRaises(DTypeError):
+        with pytest.raises(StrataxTypeError):
             Tensor(object())
 
     def test_constructor_rejects_bad_arity_and_bad_shape_value_pair(self) -> None:
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             Tensor([2], 1.0, 3.0)
 
-        with self.assertRaises(DTypeError):
+        with pytest.raises(StrataxTypeError):
             Tensor(object(), 1.0)
+
+        with pytest.raises(StrataxTypeError):
+            Tensor([2], object())
+
+        with pytest.raises(StrataxTypeError):
+            Tensor([True])
+
+        with pytest.raises(StrataxTypeError):
+            Tensor("23")
 
     def test_unsupported_arithmetic_operand_raises_type_error(self) -> None:
         tensor = Tensor([2], 1.0)
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             _ = tensor + object()
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             _ = object() + tensor
 
     def test_negative_dimension_raises_error(self) -> None:
-        with self.assertRaises(ShapeError):
+        with pytest.raises(ShapeError):
             Tensor([-1])
 
     def test_size_overflow_raises_overflow_error(self) -> None:
-        with self.assertRaises(OverflowError):
+        with pytest.raises(OverflowError):
             Tensor([sys.maxsize, 2])
+
+        with pytest.raises(OverflowError):
+            Tensor([sys.maxsize + 1])
 
     def test_index_out_of_bounds_raises_index_error(self) -> None:
         tensor = Tensor([2, 2])
 
-        with self.assertRaises(StrataxIndexError):
+        with pytest.raises(StrataxIndexError):
             _ = tensor[4]
 
     def test_negative_index_raises_index_error(self) -> None:
         tensor = Tensor([2, 2])
 
-        with self.assertRaises(StrataxIndexError):
+        with pytest.raises(StrataxIndexError):
             _ = tensor[-1]
+
+    def test_index_overflow_raises_overflow_error(self) -> None:
+        tensor = Tensor([2, 2])
+
+        with pytest.raises(OverflowError):
+            _ = tensor[sys.maxsize + 1]
 
     def test_bad_tuple_index_rank_raises_index_error(self) -> None:
         tensor = Tensor([2, 2])
 
-        with self.assertRaises(StrataxIndexError):
+        with pytest.raises(StrataxIndexError):
             _ = tensor[0, 0, 0]
 
-
-if __name__ == "__main__":
-    unittest.main()

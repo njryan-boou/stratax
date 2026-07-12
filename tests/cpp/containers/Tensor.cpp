@@ -1,22 +1,22 @@
-#include <cassert>
+#include <gtest/gtest.h>
 #include <limits>
 #include <numeric>
 #include <stdexcept>
 #include <utility>
 
-#include <stratax.hpp>
+#include <stratax.h>
 
 using namespace stratax::container;
 
-void test_default_constructor()
+TEST(ContainersTensor, default_constructor)
 {
     Tensor<int> tensor;
 
-    assert(tensor.size() == 0);
-    assert(tensor.empty());
-    assert(tensor.rank() == 0);
-    assert(tensor.data() == nullptr);
-    assert(tensor.begin() == tensor.end());
+    EXPECT_TRUE(tensor.size() == 0);
+    EXPECT_TRUE(tensor.empty());
+    EXPECT_TRUE(tensor.rank() == 0);
+    EXPECT_TRUE(tensor.data() == nullptr);
+    EXPECT_TRUE(tensor.begin() == tensor.end());
 
     bool front_threw = false;
     try {
@@ -26,7 +26,7 @@ void test_default_constructor()
         front_threw = true;
     }
 
-    assert(front_threw);
+    EXPECT_TRUE(front_threw);
 
     bool back_threw = false;
     try {
@@ -36,79 +36,72 @@ void test_default_constructor()
         back_threw = true;
     }
 
-    assert(back_threw);
+    EXPECT_TRUE(back_threw);
 }
 
-void test_shape_constructor()
+TEST(ContainersTensor, shape_constructor)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3, 4});
 
-    assert(tensor.size() == 24);
-    assert(!tensor.empty());
-    assert(tensor.rank() == 3);
+    EXPECT_TRUE(tensor.size() == 24);
+    EXPECT_TRUE(!tensor.empty());
+    EXPECT_TRUE(tensor.rank() == 3);
 
-    assert(tensor.shape()(0) == 2);
-    assert(tensor.shape()(1) == 3);
-    assert(tensor.shape()(2) == 4);
+    EXPECT_TRUE(tensor.shape()(0) == 2);
+    EXPECT_TRUE(tensor.shape()(1) == 3);
+    EXPECT_TRUE(tensor.shape()(2) == 4);
 
-    assert(tensor.strides()(0) == 12);
-    assert(tensor.strides()(1) == 4);
-    assert(tensor.strides()(2) == 1);
+    EXPECT_TRUE(tensor.strides()(0) == 12);
+    EXPECT_TRUE(tensor.strides()(1) == 4);
+    EXPECT_TRUE(tensor.strides()(2) == 1);
 }
 
-void test_empty_shape_constructor()
+TEST(ContainersTensor, empty_shape_constructor)
 {
     Tensor<int> tensor(stratax::core::Shape{});
 
-    assert(tensor.size() == 0);
-    assert(tensor.empty());
-    assert(tensor.rank() == 0);
-    assert(tensor.shape().empty());
-    assert(tensor.strides().empty());
+    EXPECT_TRUE(tensor.size() == 0);
+    EXPECT_TRUE(tensor.empty());
+    EXPECT_TRUE(tensor.rank() == 0);
+    EXPECT_TRUE(tensor.shape().empty());
+    EXPECT_TRUE(tensor.strides().empty());
 }
 
-void test_zero_dimension_shape_constructor()
+TEST(ContainersTensor, zero_dimension_shape_constructor)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 0, 4});
 
-    assert(tensor.size() == 0);
-    assert(tensor.empty());
-    assert(tensor.rank() == 3);
-    assert(tensor.shape()(0) == 2);
-    assert(tensor.shape()(1) == 0);
-    assert(tensor.shape()(2) == 4);
-    assert(tensor.strides()(0) == 0);
-    assert(tensor.strides()(1) == 4);
-    assert(tensor.strides()(2) == 1);
+    EXPECT_TRUE(tensor.size() == 0);
+    EXPECT_TRUE(tensor.empty());
+    EXPECT_TRUE(tensor.rank() == 3);
+    EXPECT_TRUE(tensor.shape()(0) == 2);
+    EXPECT_TRUE(tensor.shape()(1) == 0);
+    EXPECT_TRUE(tensor.shape()(2) == 4);
+    EXPECT_TRUE(tensor.strides()(0) == 0);
+    EXPECT_TRUE(tensor.strides()(1) == 4);
+    EXPECT_TRUE(tensor.strides()(2) == 1);
 }
 
-void test_shape_overflow_throws()
+TEST(ContainersTensor, shape_overflow_throws)
 {
-    bool threw = false;
-
-    try {
-        Tensor<int> tensor(stratax::core::Shape{2, std::numeric_limits<std::size_t>::max(), 2});
-    }
-    catch (const Exceptions::DimensionError&) {
-        threw = true;
-    }
-
-    assert(threw);
+    EXPECT_THROW(
+        Tensor<int> tensor(stratax::core::Shape{2, std::numeric_limits<long long>::max(), 2}),
+        Exceptions::StrataxError);
 }
 
-void test_fill_constructor()
+TEST(ContainersTensor, fill_constructor)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3}, 7);
 
-    assert(tensor.size() == 6);
-    assert(tensor.rank() == 2);
+    EXPECT_TRUE(tensor.size() == 6);
+    EXPECT_TRUE(tensor.rank() == 2);
 
     for (int value : tensor) {
-        assert(value == 7);
+        EXPECT_TRUE(value == 7);
     }
 }
 
-void test_flat_element_access()
+TEST(ContainersTensor, flat_element_access)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
@@ -116,18 +109,18 @@ void test_flat_element_access()
         tensor(i) = static_cast<int>(i + 1);
     }
 
-    assert(tensor(0) == 1);
-    assert(tensor(1) == 2);
-    assert(tensor(2) == 3);
-    assert(tensor(3) == 4);
-    assert(tensor(4) == 5);
-    assert(tensor(5) == 6);
+    EXPECT_TRUE(tensor(0) == 1);
+    EXPECT_TRUE(tensor(1) == 2);
+    EXPECT_TRUE(tensor(2) == 3);
+    EXPECT_TRUE(tensor(3) == 4);
+    EXPECT_TRUE(tensor(4) == 5);
+    EXPECT_TRUE(tensor(5) == 6);
 
-    assert(tensor.front() == 1);
-    assert(tensor.back() == 6);
+    EXPECT_TRUE(tensor.front() == 1);
+    EXPECT_TRUE(tensor.back() == 6);
 }
 
-void test_linear_index_operator()
+TEST(ContainersTensor, linear_index_operator)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
@@ -135,21 +128,21 @@ void test_linear_index_operator()
         tensor[i] = static_cast<int>(i + 1);
     }
 
-    assert(tensor[0] == 1);
-    assert(tensor[1] == 2);
-    assert(tensor[2] == 3);
-    assert(tensor[3] == 4);
-    assert(tensor[4] == 5);
-    assert(tensor[5] == 6);
+    EXPECT_TRUE(tensor[0] == 1);
+    EXPECT_TRUE(tensor[1] == 2);
+    EXPECT_TRUE(tensor[2] == 3);
+    EXPECT_TRUE(tensor[3] == 4);
+    EXPECT_TRUE(tensor[4] == 5);
+    EXPECT_TRUE(tensor[5] == 6);
 
     tensor[4] = 50;
-    assert(tensor(1, 1) == 50);
+    EXPECT_TRUE(tensor(1, 1) == 50);
 
     const Tensor<int>& view = tensor;
-    assert(view[4] == 50);
+    EXPECT_TRUE(view[4] == 50);
 }
 
-void test_multi_index_access()
+TEST(ContainersTensor, multi_index_access)
 {
     Tensor<int> matrix_like(stratax::core::Shape{2, 3});
 
@@ -157,13 +150,13 @@ void test_multi_index_access()
         matrix_like(i) = static_cast<int>(i + 1);
     }
 
-    assert(matrix_like(0, 0) == 1);
-    assert(matrix_like(0, 2) == 3);
-    assert(matrix_like(1, 0) == 4);
-    assert(matrix_like(1, 2) == 6);
+    EXPECT_TRUE(matrix_like(0, 0) == 1);
+    EXPECT_TRUE(matrix_like(0, 2) == 3);
+    EXPECT_TRUE(matrix_like(1, 0) == 4);
+    EXPECT_TRUE(matrix_like(1, 2) == 6);
 
     matrix_like(1, 1) = 40;
-    assert(matrix_like(4) == 40);
+    EXPECT_TRUE(matrix_like(4) == 40);
 
     Tensor<int> cube(stratax::core::Shape{2, 3, 4});
 
@@ -171,13 +164,13 @@ void test_multi_index_access()
         cube(i) = static_cast<int>(i);
     }
 
-    assert(cube(0, 0, 0) == 0);
-    assert(cube(0, 1, 2) == 6);
-    assert(cube(1, 0, 2) == 14);
-    assert(cube(1, 2, 3) == 23);
+    EXPECT_TRUE(cube(0, 0, 0) == 0);
+    EXPECT_TRUE(cube(0, 1, 2) == 6);
+    EXPECT_TRUE(cube(1, 0, 2) == 14);
+    EXPECT_TRUE(cube(1, 2, 3) == 23);
 }
 
-void test_const_multi_index_access()
+TEST(ContainersTensor, const_multi_index_access)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 2});
 
@@ -188,13 +181,13 @@ void test_const_multi_index_access()
 
     const Tensor<int>& view = tensor;
 
-    assert(view(0, 0) == 1);
-    assert(view(0, 1) == 2);
-    assert(view(1, 0) == 3);
-    assert(view(1, 1) == 4);
+    EXPECT_TRUE(view(0, 0) == 1);
+    EXPECT_TRUE(view(0, 1) == 2);
+    EXPECT_TRUE(view(1, 0) == 3);
+    EXPECT_TRUE(view(1, 1) == 4);
 }
 
-void test_at()
+TEST(ContainersTensor, at)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 2});
 
@@ -203,14 +196,14 @@ void test_at()
     tensor.at(2) = 30;
     tensor.at(3) = 40;
 
-    assert(tensor.at(0) == 10);
-    assert(tensor.at(1) == 20);
-    assert(tensor.at(2) == 30);
-    assert(tensor.at(3) == 40);
+    EXPECT_TRUE(tensor.at(0) == 10);
+    EXPECT_TRUE(tensor.at(1) == 20);
+    EXPECT_TRUE(tensor.at(2) == 30);
+    EXPECT_TRUE(tensor.at(3) == 40);
 
     tensor.at(1, 1) = 50;
-    assert(tensor.at(1, 1) == 50);
-    assert(tensor.at(3) == 50);
+    EXPECT_TRUE(tensor.at(1, 1) == 50);
+    EXPECT_TRUE(tensor.at(3) == 50);
 
     bool flat_threw = false;
     bool row_threw = false;
@@ -255,19 +248,19 @@ void test_at()
         one_dim_rank_threw = true;
     }
 
-    assert(flat_threw);
-    assert(row_threw);
-    assert(col_threw);
-    assert(rank_threw);
-    assert(one_dim_rank_threw);
+    EXPECT_TRUE(flat_threw);
+    EXPECT_TRUE(row_threw);
+    EXPECT_TRUE(col_threw);
+    EXPECT_TRUE(rank_threw);
+    EXPECT_TRUE(one_dim_rank_threw);
 }
 
-void test_const_at_rejects_out_of_bounds()
+TEST(ContainersTensor, const_at_rejects_out_of_bounds)
 {
     const Tensor<int> tensor(stratax::core::Shape{2, 2}, 5);
 
-    assert(tensor.at(0) == 5);
-    assert(tensor.at(1, 1) == 5);
+    EXPECT_TRUE(tensor.at(0) == 5);
+    EXPECT_TRUE(tensor.at(1, 1) == 5);
 
     bool flat_threw = false;
     bool multi_threw = false;
@@ -286,22 +279,22 @@ void test_const_at_rejects_out_of_bounds()
         multi_threw = true;
     }
 
-    assert(flat_threw);
-    assert(multi_threw);
+    EXPECT_TRUE(flat_threw);
+    EXPECT_TRUE(multi_threw);
 }
 
-void test_const_access()
+TEST(ContainersTensor, const_access)
 {
     const Tensor<int> tensor(stratax::core::Shape{2, 2}, 5);
 
-    assert(tensor(0) == 5);
-    assert(tensor.at(1) == 5);
-    assert(tensor.front() == 5);
-    assert(tensor.back() == 5);
-    assert(tensor.data() != nullptr);
+    EXPECT_TRUE(tensor(0) == 5);
+    EXPECT_TRUE(tensor.at(1) == 5);
+    EXPECT_TRUE(tensor.front() == 5);
+    EXPECT_TRUE(tensor.back() == 5);
+    EXPECT_TRUE(tensor.data() != nullptr);
 }
 
-void test_iteration()
+TEST(ContainersTensor, iteration)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
@@ -311,24 +304,24 @@ void test_iteration()
 
     const int sum = std::accumulate(tensor.begin(), tensor.end(), 0);
 
-    assert(sum == 21);
+    EXPECT_TRUE(sum == 21);
 }
 
-void test_const_iteration()
+TEST(ContainersTensor, const_iteration)
 {
     const Tensor<int> tensor(stratax::core::Shape{2, 3}, 4);
 
     std::size_t count = 0;
 
     for (auto it = tensor.cbegin(); it != tensor.cend(); ++it) {
-        assert(*it == 4);
+        EXPECT_TRUE(*it == 4);
         ++count;
     }
 
-    assert(count == 6);
+    EXPECT_TRUE(count == 6);
 }
 
-void test_reverse_iteration()
+TEST(ContainersTensor, reverse_iteration)
 {
     Tensor<int> tensor(stratax::core::Shape{3});
 
@@ -339,29 +332,29 @@ void test_reverse_iteration()
     int expected = 3;
 
     for (auto it = tensor.rbegin(); it != tensor.rend(); ++it) {
-        assert(*it == expected);
+        EXPECT_TRUE(*it == expected);
         --expected;
     }
 
-    assert(expected == 0);
+    EXPECT_TRUE(expected == 0);
 }
 
-void test_fill()
+TEST(ContainersTensor, fill)
 {
     Tensor<int> tensor(stratax::core::Shape{2, 3});
 
     tensor.fill(42);
 
     for (int value : tensor) {
-        assert(value == 42);
+        EXPECT_TRUE(value == 42);
     }
 
     Tensor<int> empty(stratax::core::Shape{0});
     empty.fill(7);
-    assert(empty.empty());
+    EXPECT_TRUE(empty.empty());
 }
 
-void test_copy_constructor()
+TEST(ContainersTensor, copy_constructor)
 {
     Tensor<int> original(stratax::core::Shape{2, 2});
 
@@ -372,150 +365,122 @@ void test_copy_constructor()
 
     Tensor<int> copy(original);
 
-    assert(copy.size() == original.size());
-    assert(copy.rank() == original.rank());
-    assert(copy(0) == 1);
-    assert(copy(1) == 2);
-    assert(copy(2) == 3);
-    assert(copy(3) == 4);
+    EXPECT_TRUE(copy.size() == original.size());
+    EXPECT_TRUE(copy.rank() == original.rank());
+    EXPECT_TRUE(copy(0) == 1);
+    EXPECT_TRUE(copy(1) == 2);
+    EXPECT_TRUE(copy(2) == 3);
+    EXPECT_TRUE(copy(3) == 4);
 
     copy(0) = 99;
 
-    assert(original(0) == 1);
-    assert(copy(0) == 99);
+    EXPECT_TRUE(original(0) == 1);
+    EXPECT_TRUE(copy(0) == 99);
 }
 
-void test_copy_assignment()
+TEST(ContainersTensor, copy_assignment)
 {
     Tensor<int> original(stratax::core::Shape{2, 2}, 8);
     Tensor<int> copy;
 
     copy = original;
 
-    assert(copy.size() == 4);
-    assert(copy.rank() == 2);
+    EXPECT_TRUE(copy.size() == 4);
+    EXPECT_TRUE(copy.rank() == 2);
 
     for (int value : copy) {
-        assert(value == 8);
+        EXPECT_TRUE(value == 8);
     }
 
     copy = copy;
-    assert(copy.size() == 4);
-    assert(copy.rank() == 2);
+    EXPECT_TRUE(copy.size() == 4);
+    EXPECT_TRUE(copy.rank() == 2);
 
     for (int value : copy) {
-        assert(value == 8);
+        EXPECT_TRUE(value == 8);
     }
 }
 
-void test_move_constructor()
+TEST(ContainersTensor, move_constructor)
 {
     Tensor<int> original(stratax::core::Shape{2, 2}, 9);
     Tensor<int> moved(std::move(original));
 
-    assert(moved.size() == 4);
-    assert(moved.rank() == 2);
+    EXPECT_TRUE(moved.size() == 4);
+    EXPECT_TRUE(moved.rank() == 2);
 
     for (int value : moved) {
-        assert(value == 9);
+        EXPECT_TRUE(value == 9);
     }
 }
 
-void test_move_assignment()
+TEST(ContainersTensor, move_assignment)
 {
     Tensor<int> original(stratax::core::Shape{2, 3}, 10);
     Tensor<int> moved;
 
     moved = std::move(original);
 
-    assert(moved.size() == 6);
-    assert(moved.rank() == 2);
+    EXPECT_TRUE(moved.size() == 6);
+    EXPECT_TRUE(moved.rank() == 2);
 
     for (int value : moved) {
-        assert(value == 10);
+        EXPECT_TRUE(value == 10);
     }
 
     Tensor<int>& same = moved;
     moved = std::move(same);
-    assert(moved.size() == 6);
-    assert(moved.rank() == 2);
+    EXPECT_TRUE(moved.size() == 6);
+    EXPECT_TRUE(moved.rank() == 2);
 
     for (int value : moved) {
-        assert(value == 10);
+        EXPECT_TRUE(value == 10);
     }
 }
 
-void test_swap()
+TEST(ContainersTensor, swap)
 {
     Tensor<int> a(stratax::core::Shape{2}, 1);
     Tensor<int> b(stratax::core::Shape{2, 2}, 2);
 
     a.swap(b);
 
-    assert(a.size() == 4);
-    assert(a.rank() == 2);
-    assert(a.shape()(0) == 2);
-    assert(a.shape()(1) == 2);
+    EXPECT_TRUE(a.size() == 4);
+    EXPECT_TRUE(a.rank() == 2);
+    EXPECT_TRUE(a.shape()(0) == 2);
+    EXPECT_TRUE(a.shape()(1) == 2);
 
     for (int value : a) {
-        assert(value == 2);
+        EXPECT_TRUE(value == 2);
     }
 
-    assert(b.size() == 2);
-    assert(b.rank() == 1);
-    assert(b.shape()(0) == 2);
+    EXPECT_TRUE(b.size() == 2);
+    EXPECT_TRUE(b.rank() == 1);
+    EXPECT_TRUE(b.shape()(0) == 2);
 
     for (int value : b) {
-        assert(value == 1);
+        EXPECT_TRUE(value == 1);
     }
 }
 
-void test_swap_with_empty()
+TEST(ContainersTensor, swap_with_empty)
 {
     Tensor<int> populated(stratax::core::Shape{2, 2}, 5);
     Tensor<int> empty;
 
     populated.swap(empty);
 
-    assert(populated.empty());
-    assert(populated.rank() == 0);
-    assert(empty.size() == 4);
-    assert(empty.rank() == 2);
-    assert(empty.shape()(0) == 2);
-    assert(empty.shape()(1) == 2);
-    assert(empty.strides()(0) == 2);
-    assert(empty.strides()(1) == 1);
+    EXPECT_TRUE(populated.empty());
+    EXPECT_TRUE(populated.rank() == 0);
+    EXPECT_TRUE(empty.size() == 4);
+    EXPECT_TRUE(empty.rank() == 2);
+    EXPECT_TRUE(empty.shape()(0) == 2);
+    EXPECT_TRUE(empty.shape()(1) == 2);
+    EXPECT_TRUE(empty.strides()(0) == 2);
+    EXPECT_TRUE(empty.strides()(1) == 1);
 
     for (int value : empty) {
-        assert(value == 5);
+        EXPECT_TRUE(value == 5);
     }
 }
 
-int main()
-{
-    test_default_constructor();
-    test_shape_constructor();
-    test_empty_shape_constructor();
-    test_zero_dimension_shape_constructor();
-    test_shape_overflow_throws();
-    test_fill_constructor();
-    test_flat_element_access();
-    test_linear_index_operator();
-    test_multi_index_access();
-    test_const_multi_index_access();
-    test_at();
-    test_const_at_rejects_out_of_bounds();
-    test_const_access();
-    test_iteration();
-    test_const_iteration();
-    test_reverse_iteration();
-    test_fill();
-    test_copy_constructor();
-    test_copy_assignment();
-    test_move_constructor();
-    test_move_assignment();
-    test_swap();
-    test_swap_with_empty();
-
-    return 0;
-}

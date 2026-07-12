@@ -21,6 +21,13 @@ Represents a half-open range used by slicing operations.
 - `operator==`
 - `operator!=`
 
+## Invariants
+
+- Slices are half-open ranges: `[start, stop)`.
+- `start() <= stop()` after construction.
+- `size() == stop() - start()`.
+- `empty()` is true exactly when `start() == stop()`.
+
 ## Validation Notes
 
 - Slices are half-open: `[start, stop)`.
@@ -32,6 +39,10 @@ Represents a half-open range used by slicing operations.
 - `size()` is `stop - start`.
 - Constructor validation prevents unsigned underflow in `size()`.
 - Slice bounds against a container are checked by ops-level slicing code.
+
+## Time Complexity
+
+- Construction, metadata access, `size()`, `empty()`, equality, and inequality are `O(1)`.
 
 ## Future Work
 

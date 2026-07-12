@@ -1,0 +1,41 @@
+PROJECT_NAME           = "Stratax"
+PROJECT_BRIEF          = "Scientific computing containers and operations"
+OUTPUT_DIRECTORY       = docs/cpp
+
+INPUT                  = include README.md docs/dev
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.h *.md
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+HIDE_UNDOC_MEMBERS     = NO
+HIDE_UNDOC_CLASSES     = NO
+
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
+JAVADOC_AUTOBRIEF      = YES
+MULTILINE_CPP_IS_BRIEF = NO
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+
+ALIASES               += complexity="\par Complexity"
+
+PREDEFINED            += "requires(...)="
+PREDEFINED            += "requires="
+PREDEFINED            += "Numeric=typename"
+PREDEFINED            += "Array=typename"
+
+EXTENSION_MAPPING      = hpp=C++
