@@ -17,7 +17,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Concepts
 - [x] Exceptions
 - [x] Config
-- [ ] Validation
+- [x] Validation
 
 ### Phase 2: Containers
 - [x] Vector
@@ -79,7 +79,6 @@ Tracks the expected build-out of the library from core infrastructure through co
 - Calculus
 - Statistics
 - Random number support
-- Python bindings
 - Optimization
 
 ## Validation Notes

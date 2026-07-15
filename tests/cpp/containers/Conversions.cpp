@@ -39,7 +39,7 @@ TEST(ContainersConversions, to_vector_rejects_non_rank_one)
     try {
         to_vector(tensor);
     }
-    catch (const Exceptions::DimensionError&) {
+    catch (const Exceptions::ShapeError&) {
         threw = true;
     }
 
@@ -80,6 +80,28 @@ TEST(ContainersConversions, rank_two_tensor_converts_to_matrix)
     EXPECT_TRUE(matrix[5] == 6);
 }
 
+TEST(ContainersConversions, matrix_shaped_tensor_with_singletons_converts_to_matrix)
+{
+    stratax::container::Tensor<int> tensor(stratax::core::Shape{1, 2, 1, 3});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i + 1);
+    }
+
+    auto matrix = to_matrix(tensor);
+
+    EXPECT_TRUE(matrix.rank() == 2);
+    EXPECT_TRUE(matrix.rows() == 2);
+    EXPECT_TRUE(matrix.cols() == 3);
+    EXPECT_TRUE(matrix.size() == 6);
+    EXPECT_TRUE(matrix[0] == 1);
+    EXPECT_TRUE(matrix[1] == 2);
+    EXPECT_TRUE(matrix[2] == 3);
+    EXPECT_TRUE(matrix[3] == 4);
+    EXPECT_TRUE(matrix[4] == 5);
+    EXPECT_TRUE(matrix[5] == 6);
+}
+
 TEST(ContainersConversions, to_matrix_rejects_non_rank_two)
 {
     stratax::container::Vector<int> vector{1, 2, 3};
@@ -89,7 +111,23 @@ TEST(ContainersConversions, to_matrix_rejects_non_rank_two)
     try {
         to_matrix(vector);
     }
-    catch (const Exceptions::DimensionError&) {
+    catch (const Exceptions::ShapeError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(ContainersConversions, to_matrix_rejects_non_matrix_shape)
+{
+    stratax::container::Tensor<int> tensor(stratax::core::Shape{3});
+
+    bool threw = false;
+
+    try {
+        to_matrix(tensor);
+    }
+    catch (const Exceptions::ShapeError&) {
         threw = true;
     }
 

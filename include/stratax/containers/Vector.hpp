@@ -192,10 +192,11 @@ public:
      *
      * @throws Exceptions::IndexError If the index is out of bounds.
      */
-    T& at(std::size_t index)
+    T& at(std::ptrdiff_t index)
     {
-        core::validation::require_index(index, size(), "Vector index out of bounds.");
-        return buffer_[index];
+        const std::size_t normalized =
+            core::validation::normalize_index(index, size(), "Vector index out of bounds.");
+        return buffer_[normalized];
     }
 
     /**
@@ -207,10 +208,11 @@ public:
      *
      * @throws Exceptions::IndexError If the index is out of bounds.
      */
-    const T& at(std::size_t index) const
+    const T& at(std::ptrdiff_t index) const
     {
-        core::validation::require_index(index, size(), "Vector index out of bounds.");
-        return buffer_[index];
+        const std::size_t normalized =
+            core::validation::normalize_index(index, size(), "Vector index out of bounds.");
+        return buffer_[normalized];
     }
 
     /**

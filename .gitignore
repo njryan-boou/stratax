@@ -2,13 +2,14 @@
 build/
 dist/
 main.cpp
+constructor.cpp
 util.h
 *.exe
 .venv
+.pypirc
 test.py
 *__pycache__/
 *.pytest_cache
-assets/
 
 
 

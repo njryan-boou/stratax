@@ -119,9 +119,8 @@ class TestShapeInterfaceTests:
         with pytest.raises(StrataxIndexError):
             _ = shape[2]
 
-    def test_negative_dimension_index_raises_index_error(self) -> None:
+    def test_negative_dimension_index_reads_from_end(self) -> None:
         shape = Shape([2, 3])
 
-        with pytest.raises(StrataxIndexError):
-            _ = shape[-1]
+        assert shape[-1] == 3
 

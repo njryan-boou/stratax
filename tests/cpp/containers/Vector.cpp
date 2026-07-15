@@ -146,6 +146,27 @@ TEST(ContainersVector, at)
 
 }
 
+TEST(ContainersVector, at_supports_negative_index)
+{
+    Vector<int> vector{1, 2, 3};
+
+    EXPECT_TRUE(vector.at(-1) == 3);
+    EXPECT_TRUE(vector.at(-3) == 1);
+
+    vector.at(-2) = 20;
+    EXPECT_TRUE(vector(1) == 20);
+
+    bool threw = false;
+    try {
+        [[maybe_unused]] auto value = vector.at(-4);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
 TEST(ContainersVector, linear_index_operator)
 {
     Vector<int> vector{1, 2, 3};

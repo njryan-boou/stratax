@@ -47,6 +47,5 @@ Provides convenience functions for constructing tensors with common initial valu
 
 ## Future Work
 
-- Move creation helpers into a Stratax namespace.
 - Consider `Matrix`-specific identity creation.
 - Add validation for unsupported identity sizes if stricter rules are added.

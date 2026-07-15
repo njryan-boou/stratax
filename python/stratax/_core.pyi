@@ -118,12 +118,26 @@ class Vector:
         """Return element values as a Python list."""
         ...
 
+    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+        """Return a reshaped tensor."""
+        ...
+
+    def flatten(self) -> "Vector":
+        """Return a flattened vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of elements."""
         ...
 
+    @overload
     def __getitem__(self, index: int) -> float:
         """Return an element by non-negative flat index."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice) -> "Vector":
+        """Return a sliced vector using Python slice syntax."""
         ...
 
     def __setitem__(self, index: int, value: float) -> None:
@@ -272,12 +286,26 @@ class Matrix:
         """Return values as nested row lists."""
         ...
 
+    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+        """Return a reshaped tensor."""
+        ...
+
+    def flatten(self) -> Vector:
+        """Return matrix data as a flattened vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of rows."""
         ...
 
+    @overload
     def __getitem__(self, index: tuple[int, int]) -> float:
         """Return an element by non-negative (row, column)."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice | tuple[int | slice, int | slice]) -> "Matrix":
+        """Return a matrix slice using Python slice syntax."""
         ...
 
     def __setitem__(self, index: tuple[int, int], value: float) -> None:
@@ -418,12 +446,26 @@ class Tensor:
         """Return values as a flat Python list."""
         ...
 
+    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+        """Return a tensor view with the requested shape."""
+        ...
+
+    def flatten(self) -> Vector:
+        """Return tensor data as a rank-1 vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of flat elements."""
         ...
 
+    @overload
     def __getitem__(self, index: int | tuple[int, ...]) -> float:
-        """Return an element by non-negative flat index or multidimensional tuple."""
+        """Return an element by non-negative flat index or multidimensional integer tuple."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice | tuple[int | slice, ...]) -> "Tensor":
+        """Return a tensor slice using Python slice syntax."""
         ...
 
     def __setitem__(self, index: int | tuple[int, ...], value: float) -> None:
@@ -501,6 +543,41 @@ class Tensor:
     def __repr__(self) -> str:
         """Return a compact tensor representation."""
         ...
+
+
+def to_vector(arr: Vector | Matrix | Tensor) -> Vector:
+    """Convert an array-like object to a vector."""
+    ...
+
+
+def to_matrix(arr: Vector | Matrix | Tensor) -> Matrix:
+    """Convert an array-like object to a matrix."""
+    ...
+
+
+def to_tensor(arr: Vector | Matrix | Tensor) -> Tensor:
+    """Convert an array-like object to a tensor."""
+    ...
+
+
+def zeros(shape: _Shape) -> Tensor:
+    """Create a tensor filled with zeros."""
+    ...
+
+
+def ones(shape: _Shape) -> Tensor:
+    """Create a tensor filled with ones."""
+    ...
+
+
+def full(shape: _Shape, value: float) -> Tensor:
+    """Create a tensor filled with a constant value."""
+    ...
+
+
+def identity(size: int) -> Tensor:
+    """Create a square identity tensor."""
+    ...
 
 
 class StrataxError(RuntimeError):

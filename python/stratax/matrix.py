@@ -85,6 +85,17 @@ class Matrix:
     def tolist(self) -> list[list[float]]:
         return self._impl.tolist()
 
+    def reshape(self, shape: Shape | Iterable[int]):
+        from .tensor import Tensor
+
+        target_shape = shape if isinstance(shape, Shape) else Shape(shape)
+        return Tensor._wrap(self._impl.reshape(target_shape._impl))
+
+    def flatten(self):
+        from .vector import Vector
+
+        return Vector._wrap(self._impl.flatten())
+
     @staticmethod
     def _wrap(impl: _Matrix) -> "Matrix":
         matrix = Matrix.__new__(Matrix)
@@ -104,8 +115,12 @@ class Matrix:
     def __len__(self) -> int:
         return len(self._impl)
 
-    def __getitem__(self, index: tuple[int, int]) -> float:
-        return self._impl[index]
+    def __getitem__(self, index: slice | tuple[int | slice, int | slice]):
+        value = self._impl[index]
+        if isinstance(value, _Matrix):
+            return self._wrap(value)
+
+        return value
 
     def __setitem__(self, index: tuple[int, int], value: float) -> None:
         self._impl[index] = value

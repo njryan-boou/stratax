@@ -14,7 +14,7 @@ Computes flat row-major offsets from a `Shape`, matching `Strides`, and an index
 ## Invariants
 
 - Offset calculation assumes `strides` was generated for the same logical shape.
-- Valid indexes satisfy `index[i] < shape[i]` for every dimension.
+- Valid normalized indexes satisfy `0 <= index[i] < shape[i]` for every dimension.
 - Returned offsets are flat row-major positions.
 - Rank-zero shape with rank-zero index maps to offset `0`.
 - Offset arithmetic must not overflow.
@@ -23,7 +23,8 @@ Computes flat row-major offsets from a `Shape`, matching `Strides`, and an index
 
 - `shape.rank()`, `strides.rank()`, and `index.size()` must match through `core::validation::require_rank()`.
 - Rank mismatch throws `Exceptions::DimensionError`.
-- Any index greater than or equal to its matching dimension throws `Exceptions::IndexError`.
+- Negative indexes are normalized through `core::validation::normalize_index()`.
+- Any normalized index outside `[0, dim)` throws `Exceptions::IndexError`.
 - Zero-sized dimensions reject all indexes in that dimension.
 - Offset multiplication and addition use `core::validation::checked_multiply()` and `core::validation::checked_add()`.
 
@@ -33,7 +34,7 @@ Computes flat row-major offsets from a `Shape`, matching `Strides`, and an index
   - `size()`
   - `begin()`
   - `end()`
-- Offset calculation uses `sum(index[i] * strides[i])`.
+- Offset calculation uses `sum(normalized_index[i] * strides[i])`.
 - Rank-zero shapes with an empty index return offset `0`.
 - Tensor multi-index access depends on this helper.
 
@@ -46,4 +47,3 @@ Computes flat row-major offsets from a `Shape`, matching `Strides`, and an index
 
 - Consider accepting initializer lists directly.
 - Consider project-specific index container types.
-- Add support for negative indexes only if signed indexing becomes a design goal.

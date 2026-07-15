@@ -290,9 +290,13 @@ public:
      * @return Mutable reference to the indexed element.
      * @throws Exceptions::IndexError If either index is out of bounds.
      */
-    T& at(std::size_t row, std::size_t col)
+    T& at(std::ptrdiff_t row, std::ptrdiff_t col)
     {
-        return (*this)(row, col);
+        const std::size_t normalized_row =
+            core::validation::normalize_index(row, rows(), "Row index out of bounds.");
+        const std::size_t normalized_col =
+            core::validation::normalize_index(col, cols(), "Column index out of bounds.");
+        return (*this)(normalized_row, normalized_col);
     }
 
     /**
@@ -304,9 +308,13 @@ public:
      * @return Const reference to the indexed element.
      * @throws Exceptions::IndexError If either index is out of bounds.
      */
-    const T& at(std::size_t row, std::size_t col) const
+    const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
     {
-        return (*this)(row, col);
+        const std::size_t normalized_row =
+            core::validation::normalize_index(row, rows(), "Row index out of bounds.");
+        const std::size_t normalized_col =
+            core::validation::normalize_index(col, cols(), "Column index out of bounds.");
+        return (*this)(normalized_row, normalized_col);
     }
 
     /**

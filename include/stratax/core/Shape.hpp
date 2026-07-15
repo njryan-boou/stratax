@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Buffer.hpp"
 #include "Concepts.hpp"
 #include "Exceptions.hpp"
@@ -108,15 +110,17 @@ public:
     }
 
     /**
-     * @brief Creates a shape by taking ownership of dimensions using the explicit zero-dimension tag.
+     * @brief Creates a shape by copying dimension lengths from a standard vector.
      *
-     * @param dims Source buffer containing one dimension length per entry.
-     * @param allow_zero Tag documenting that zero-valued dimensions are intentional.
+     * @param dims Source vector containing one dimension length per entry.
      */
-    Shape(Buffer<std::size_t>&& dims, allow_zero_t allow_zero)
-    : dims_(std::move(dims))
+    Shape(const std::vector<std::size_t>& dims)
+        : dims_(dims.size())
     {
-        (void)allow_zero;
+        for (std::size_t i = 0; i < dims.size(); ++i)
+        {
+            dims_[i] = dims[i];
+        }
     }
 
     /**
@@ -172,6 +176,22 @@ public:
     {
         validation::require_index(index, rank(), "Shape dimension index out of bounds");
         return dims_[index];
+    }
+
+    /**
+     * @brief Returns the length of a specific dimension using signed indexing.
+     *
+     * Negative indices address dimensions from the end of the shape.
+     *
+     * @param index Signed dimension index.
+     *
+     * @return Dimension length at the requested index.
+     *
+     * @throws Exceptions::IndexError If `index` is out of bounds.
+     */
+    const std::size_t& operator[](std::ptrdiff_t index) const
+    {
+        return dims_[validation::normalize_index(index, rank(), "Shape dimension index out of bounds")];
     }
 
     /**

@@ -29,21 +29,21 @@ Implements range-based slicing for vectors, matrices, and tensors using `core::S
 
 ## Validation Notes
 
-- `core::Slice` rejects reversed ranges at construction.
-- Vector slice stop must be within `vector.size()` through `core::validation::require_at_most()`.
-- Matrix row and column slice stops must be within `rows()` and `cols()` through `core::validation::require_at_most()`.
+- `core::Slice` rejects zero step at construction.
+- Slice bounds are normalized and clamped to valid extents for each dimension.
 - Tensor slice count must match tensor rank through `core::validation::require_rank()`.
 - Tensor rank mismatch throws `Exceptions::DimensionError`.
-- Out-of-bounds slices throw `Exceptions::IndexError`.
+- Slice normalization throws `Exceptions::IndexError` only when container extents exceed representable signed index range.
 
 ## Implementation Notes
 
 - Slices are half-open: `[start, stop)`.
+- Slice steps can be positive or negative.
 - Vector and matrix slicing copy values into new owning containers.
 - Tensor slicing computes result shape from slice sizes.
 - Empty result slices return immediately to avoid indexing through zero strides.
 - Tensor source offsets are computed from source strides.
-- Rank and slice-stop checks should stay routed through `Validation.hpp`.
+- Rank and overflow checks should stay routed through `Validation.hpp`.
 
 ## Time Complexity
 
@@ -54,6 +54,4 @@ Implements range-based slicing for vectors, matrices, and tensors using `core::S
 
 ## Future Work
 
-- Add step support to `core::Slice`.
-- Add negative indexing only if signed indexing becomes part of the API.
 - Consider slice views to avoid copies.

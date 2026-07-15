@@ -73,6 +73,15 @@ class Vector:
     def tolist(self) -> list[float]:
         return self._impl.tolist()
 
+    def reshape(self, shape: Shape | Iterable[int]):
+        from .tensor import Tensor
+
+        target_shape = shape if isinstance(shape, Shape) else Shape(shape)
+        return Tensor._wrap(self._impl.reshape(target_shape._impl))
+
+    def flatten(self) -> "Vector":
+        return self._wrap(self._impl.flatten())
+
     @staticmethod
     def _wrap(impl: _Vector) -> "Vector":
         vector = Vector.__new__(Vector)
@@ -92,8 +101,12 @@ class Vector:
     def __len__(self) -> int:
         return len(self._impl)
 
-    def __getitem__(self, index: int) -> float:
-        return self._impl[index]
+    def __getitem__(self, index: int | slice):
+        value = self._impl[index]
+        if isinstance(value, _Vector):
+            return self._wrap(value)
+
+        return value
 
     def __setitem__(self, index: int, value: float) -> None:
         self._impl[index] = value

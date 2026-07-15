@@ -81,7 +81,7 @@ void require_same_value_type(const Lhs& lhs, const Rhs& rhs, const char* message
  *
  * @throws Exceptions::DimensionError If `value` is negative.
  */
-inline std::size_t nonnegative_size(long long value, const char* message)
+inline std::size_t nonnegative_size(std::ptrdiff_t value, const char* message)
 {
     if (value < 0)
     {
@@ -101,7 +101,7 @@ inline std::size_t nonnegative_size(long long value, const char* message)
  *
  * @throws Exceptions::ShapeError If `value` is negative.
  */
-inline std::size_t nonnegative_shape_dimension(long long value, const char* message)
+inline std::size_t nonnegative_shape_dimension(std::ptrdiff_t value, const char* message)
 {
     if (value < 0)
     {
@@ -121,7 +121,7 @@ inline std::size_t nonnegative_shape_dimension(long long value, const char* mess
  *
  * @throws Exceptions::ShapeError If `value <= 0`.
  */
-inline std::size_t positive_shape_dimension(long long value, const char* message)
+inline std::size_t positive_shape_dimension(std::ptrdiff_t value, const char* message)
 {
     if (value <= 0)
     {
@@ -157,7 +157,7 @@ inline void require_positive_shape_dimension(std::size_t value, const char* mess
  *
  * @throws Exceptions::IndexError If `value` is negative.
  */
-inline std::size_t nonnegative_index(long long value, const char* message)
+inline std::size_t nonnegative_index(std::ptrdiff_t value, const char* message)
 {
     if (value < 0)
     {
@@ -165,6 +165,42 @@ inline std::size_t nonnegative_index(long long value, const char* message)
     }
 
     return static_cast<std::size_t>(value);
+}
+
+/**
+ * @brief Normalizes a potentially negative index against a container size.
+ *
+ * Negative indices are interpreted from the end of the range, like Python.
+ *
+ * @param value Signed index value.
+ * @param size Container size used for normalization.
+ * @param message Error message used when the normalized index is out of bounds.
+ *
+ * @return Normalized non-negative index.
+ *
+ * @throws Exceptions::IndexError If the index is out of bounds.
+ */
+inline std::size_t normalize_index(std::ptrdiff_t value, std::size_t size, const char* message)
+{
+    if (size > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
+    {
+        throw Exceptions::IndexError(message);
+    }
+
+    const std::ptrdiff_t limit = static_cast<std::ptrdiff_t>(size);
+    std::ptrdiff_t normalized = value;
+
+    if (normalized < 0)
+    {
+        normalized += limit;
+    }
+
+    if (normalized < 0 || normalized >= limit)
+    {
+        throw Exceptions::IndexError(message);
+    }
+
+    return static_cast<std::size_t>(normalized);
 }
 
 /**

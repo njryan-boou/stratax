@@ -2,6 +2,7 @@ from collections.abc import Iterable, Iterator
 from typing import overload
 
 from .shape import Shape
+from .tensor import Tensor
 
 
 class Vector:
@@ -70,12 +71,26 @@ class Vector:
         """Return the vector data as a Python list."""
         ...
 
+    def reshape(self, shape: Shape | Iterable[int]) -> Tensor:
+        """Return a reshaped tensor."""
+        ...
+
+    def flatten(self) -> "Vector":
+        """Return a flattened vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of elements."""
         ...
 
+    @overload
     def __getitem__(self, index: int) -> float:
         """Return an element by non-negative flat index."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice) -> "Vector":
+        """Return a sliced vector using Python slice syntax."""
         ...
 
     def __setitem__(self, index: int, value: float) -> None:

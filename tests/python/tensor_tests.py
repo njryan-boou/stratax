@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, IndexError as StrataxIndexError
 from stratax import Shape, ShapeError, Tensor, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import Vector
 
 
 class TestTensorInterfaceTests:
@@ -88,12 +89,110 @@ class TestTensorInterfaceTests:
         assert tensor[1, 2] == 7.0
         assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 7.0]
 
+    def test_slice_indexing_returns_tensor(self) -> None:
+        tensor = Tensor([5])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0]):
+            tensor[index] = value
+
+        sliced = tensor[1:4]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([3])
+        assert sliced.tolist() == [2.0, 3.0, 4.0]
+
+    def test_mixed_tuple_slice_indexing_returns_tensor(self) -> None:
+        tensor = Tensor([2, 3])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+            tensor[index] = value
+
+        sliced = tensor[:, 1:3]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([2, 2])
+        assert sliced.tolist() == [2.0, 3.0, 5.0, 6.0]
+
+    def test_integer_and_slice_tuple_indexing_returns_tensor(self) -> None:
+        tensor = Tensor([2, 3])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+            tensor[index] = value
+
+        sliced = tensor[1, 1:3]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([1, 2])
+        assert sliced.tolist() == [5.0, 6.0]
+
+    def test_rank_mismatch_top_level_slice_raises_index_error(self) -> None:
+        tensor = Tensor([2, 2], 1.0)
+
+        with pytest.raises(StrataxIndexError):
+            _ = tensor[:]
+
+    def test_slice_indexing_supports_step(self) -> None:
+        tensor = Tensor([5])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0]):
+            tensor[index] = value
+
+        sliced = tensor[::2]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([3])
+        assert sliced.tolist() == [1.0, 3.0, 5.0]
+
+    def test_slice_indexing_supports_negative_step(self) -> None:
+        tensor = Tensor([5])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0]):
+            tensor[index] = value
+
+        sliced = tensor[::-2]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([3])
+        assert sliced.tolist() == [5.0, 3.0, 1.0]
+
+    def test_tuple_slice_indexing_supports_negative_step(self) -> None:
+        tensor = Tensor([2, 3])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+            tensor[index] = value
+
+        sliced = tensor[::-1, ::-2]
+
+        assert isinstance(sliced, Tensor)
+        assert sliced.shape == Shape([2, 2])
+        assert sliced.tolist() == [6.0, 4.0, 3.0, 1.0]
+
     def test_fill_updates_all_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
 
         tensor.fill(4.0)
 
         assert tensor.tolist() == [4.0, 4.0, 4.0, 4.0]
+
+    def test_reshape_accepts_shape_and_iterable(self) -> None:
+        tensor = Tensor([2, 3])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+            tensor[index] = value
+
+        reshaped_with_shape = tensor.reshape(Shape(3, 2))
+        reshaped_with_iterable = tensor.reshape([1, 6])
+
+        assert isinstance(reshaped_with_shape, Tensor)
+        assert reshaped_with_shape.shape == Shape(3, 2)
+        assert reshaped_with_shape.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+
+        assert isinstance(reshaped_with_iterable, Tensor)
+        assert reshaped_with_iterable.shape == Shape(1, 6)
+        assert reshaped_with_iterable.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+
+    def test_flatten_returns_vector(self) -> None:
+        tensor = Tensor([2, 2])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0]):
+            tensor[index] = value
+
+        flattened = tensor.flatten()
+
+        assert isinstance(flattened, Vector)
+        assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
 
     def test_repr_returns_tensor_text(self) -> None:
         tensor = Tensor([2, 2])
@@ -203,11 +302,12 @@ class TestTensorInterfaceTests:
         with pytest.raises(StrataxIndexError):
             _ = tensor[4]
 
-    def test_negative_index_raises_index_error(self) -> None:
+    def test_negative_index_reads_and_writes_values(self) -> None:
         tensor = Tensor([2, 2])
 
-        with pytest.raises(StrataxIndexError):
-            _ = tensor[-1]
+        assert tensor[-1] == 0.0
+        tensor[-1] = 7.0
+        assert tensor.tolist() == [0.0, 0.0, 0.0, 7.0]
 
     def test_index_overflow_raises_overflow_error(self) -> None:
         tensor = Tensor([2, 2])

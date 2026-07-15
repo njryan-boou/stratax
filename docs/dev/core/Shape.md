@@ -11,6 +11,7 @@ Stores tensor dimensions and exposes rank and total element count metadata.
 ### Constructors
 - Default constructor
 - `Shape({ ... })`
+- `Shape(std::vector<std::size_t>)`
 
 ### Metadata
 - `elements()`
@@ -53,7 +54,7 @@ Stores tensor dimensions and exposes rank and total element count metadata.
 ## Time Complexity
 
 - Default construction, `rank()`, `empty()`, `operator()(index)`, iterator access, and `swap()` are `O(1)`.
-- Initializer-list and buffer construction are `O(r)`, where `r` is rank.
+- Initializer-list, vector, and buffer construction are `O(r)`, where `r` is rank.
 - `elements()`, equality, inequality, and stream output are `O(r)`.
 
 ## Future Work

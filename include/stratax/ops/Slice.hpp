@@ -11,10 +11,85 @@
 
 #include <array>
 #include <cstddef>
+#include <limits>
+#include <vector>
 #include <type_traits>
 #include <utility>
 
 namespace stratax::ops::detail {
+
+struct ResolvedSlice
+{
+    std::ptrdiff_t start;
+    std::ptrdiff_t step;
+    std::size_t size;
+};
+
+inline std::ptrdiff_t clamp(std::ptrdiff_t value, std::ptrdiff_t lower, std::ptrdiff_t upper)
+{
+    if (value < lower)
+    {
+        return lower;
+    }
+    if (value > upper)
+    {
+        return upper;
+    }
+    return value;
+}
+
+inline ResolvedSlice normalize_slice(
+    const stratax::core::Slice& slice,
+    std::size_t extent,
+    const char* message)
+{
+    if (extent > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
+    {
+        throw Exceptions::IndexError(message);
+    }
+
+    const std::ptrdiff_t n = static_cast<std::ptrdiff_t>(extent);
+    std::ptrdiff_t start = slice.start();
+    std::ptrdiff_t stop = slice.stop();
+    const std::ptrdiff_t step = slice.step();
+
+    if (start < 0)
+    {
+        start += n;
+    }
+    if (stop < 0)
+    {
+        stop += n;
+    }
+
+    if (step > 0)
+    {
+        start = clamp(start, 0, n);
+        stop = clamp(stop, 0, n);
+
+        if (start >= stop)
+        {
+            return ResolvedSlice{start, step, 0};
+        }
+
+        const std::ptrdiff_t distance = stop - start;
+        const std::size_t count = static_cast<std::size_t>((distance + step - 1) / step);
+        return ResolvedSlice{start, step, count};
+    }
+
+    start = clamp(start, -1, n - 1);
+    stop = clamp(stop, -1, n - 1);
+
+    if (start <= stop)
+    {
+        return ResolvedSlice{start, step, 0};
+    }
+
+    const std::ptrdiff_t stride = -step;
+    const std::ptrdiff_t distance = start - stop;
+    const std::size_t count = static_cast<std::size_t>((distance + stride - 1) / stride);
+    return ResolvedSlice{start, step, count};
+}
 
 /**
  * @brief Builds a shape from a compile-time slice array.
@@ -55,6 +130,7 @@ template<typename T>
  * @brief Copies a half-open range from a vector.
  *
  * The returned vector contains elements in `[slice.start(), slice.stop())`
+ * sampled with `slice.step()`
  * using the source vector's flat storage order.
  *
  * @param vec Source vector.
@@ -69,19 +145,18 @@ slice(
     const stratax::core::Slice& slice
 )
 {
-    stratax::core::validation::require_at_most(
-        slice.stop(),
+    const auto resolved = stratax::ops::detail::normalize_slice(
+        slice,
         vec.size(),
         "Vector slice out of bounds.");
 
-    auto begin = slice.start();
-    auto end = slice.stop();
+    stratax::container::Vector<T> result(resolved.size);
 
-    stratax::container::Vector<T> result(slice.size());
-
-    for (std::size_t i = begin; i < end; ++i)
+    std::ptrdiff_t source = resolved.start;
+    for (std::size_t i = 0; i < result.size(); ++i)
     {
-        result[i - begin] = vec[i];
+        result[i] = vec[static_cast<std::size_t>(source)];
+        source += resolved.step;
     }
 
     return result;
@@ -93,7 +168,8 @@ template<typename T>
  * @brief Copies a rectangular half-open region from a matrix.
  *
  * Rows in `[rows.start(), rows.stop())` and columns in
- * `[cols.start(), cols.stop())` are copied into a new row-major matrix.
+ * `[cols.start(), cols.stop())` are copied into a new row-major matrix,
+ * sampling each axis by its slice step.
  *
  * @param mat Source matrix.
  * @param rows Row slice.
@@ -109,29 +185,29 @@ slice(
     const stratax::core::Slice& cols
 )
 {
-    stratax::core::validation::require_at_most(
-        rows.stop(),
+    const auto resolved_rows = stratax::ops::detail::normalize_slice(
+        rows,
         mat.rows(),
         "Matrix row slice out of bounds.");
-    stratax::core::validation::require_at_most(
-        cols.stop(),
+    const auto resolved_cols = stratax::ops::detail::normalize_slice(
+        cols,
         mat.cols(),
         "Matrix column slice out of bounds.");
 
-    auto begin_rows = rows.start();
-    auto begin_cols = cols.start();
+    stratax::container::Matrix<T> result(resolved_rows.size, resolved_cols.size);
 
-    auto end_rows = rows.stop();
-    auto end_cols = cols.stop();
-
-    stratax::container::Matrix<T> result(rows.size(), cols.size());
-
-    for (std::size_t i = begin_rows; i < end_rows; ++i)
+    std::ptrdiff_t source_row = resolved_rows.start;
+    for (std::size_t out_row = 0; out_row < result.rows(); ++out_row)
     {
-        for (std::size_t j = begin_cols; j < end_cols; ++j)
+        std::ptrdiff_t source_col = resolved_cols.start;
+        for (std::size_t out_col = 0; out_col < result.cols(); ++out_col)
         {
-            result(i - begin_rows, j - begin_cols) = mat(i, j);
+            result(out_row, out_col) = mat(
+                static_cast<std::size_t>(source_row),
+                static_cast<std::size_t>(source_col));
+            source_col += resolved_cols.step;
         }
+        source_row += resolved_rows.step;
     }
 
     return result;
@@ -142,7 +218,8 @@ template<typename T, typename... Slices>
  * @brief Copies a multidimensional half-open region from a tensor.
  *
  * One `Slice` must be provided for each tensor dimension. The result shape is
- * formed from the size of each slice, and values are copied in row-major order.
+ * formed from the size of each slice, and values are copied in row-major order
+ * honoring each slice step.
  *
  * @param tensor Source tensor.
  * @param slices One slice per tensor dimension.
@@ -169,15 +246,19 @@ slice(
         tensor.rank(),
         "Slice rank must match tensor rank.");
 
+    std::array<stratax::ops::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
+    std::array<std::size_t, sizeof...(Slices)> out_dims{};
     for (std::size_t dim = 0; dim < ranges.size(); ++dim)
     {
-        stratax::core::validation::require_at_most(
-            ranges[dim].stop(),
+        resolved[dim] = stratax::ops::detail::normalize_slice(
+            ranges[dim],
             tensor.shape()(dim),
             "Tensor slice out of bounds.");
+        out_dims[dim] = resolved[dim].size;
     }
 
-    const auto result_shape = stratax::ops::detail::shape_from_slices(ranges);
+    const auto result_shape = stratax::core::Shape(
+        std::vector<std::size_t>(out_dims.begin(), out_dims.end()));
     stratax::container::Tensor<T> result(result_shape);
     const stratax::core::Strides result_strides(result_shape);
     const auto& tensor_strides = tensor.strides();
@@ -192,18 +273,16 @@ slice(
         std::size_t remainder = flat;
         std::size_t source_offset = 0;
 
-        for (std::size_t dim = 0; dim < ranges.size(); ++dim)
+        for (std::size_t dim = 0; dim < resolved.size(); ++dim)
         {
             const std::size_t index = remainder / result_strides(dim);
             remainder %= result_strides(dim);
-            const std::size_t source_index =
-                stratax::core::validation::checked_add(
-                    ranges[dim].start(),
-                    index,
-                    "Tensor slice offset overflow.");
+
+            const std::ptrdiff_t source_index =
+                resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
             const std::size_t term =
                 stratax::core::validation::checked_multiply(
-                    source_index,
+                    static_cast<std::size_t>(source_index),
                     tensor_strides(dim),
                     "Tensor slice offset overflow.");
             source_offset =

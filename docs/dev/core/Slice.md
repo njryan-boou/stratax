@@ -9,7 +9,7 @@ Represents a half-open range used by slicing operations.
 ## Main API
 
 ### Constructor
-- `Slice(start, stop)`
+- `Slice(start, stop, step = 1)`
 
 ### Metadata
 - `start()`
@@ -24,20 +24,22 @@ Represents a half-open range used by slicing operations.
 ## Invariants
 
 - Slices are half-open ranges: `[start, stop)`.
-- `start() <= stop()` after construction.
-- `size() == stop() - start()`.
-- `empty()` is true exactly when `start() == stop()`.
+- Slice step is always non-zero.
+- Positive steps produce values while `index < stop()`.
+- Negative steps produce values while `index > stop()`.
+- `empty()` is true exactly when the normalized interval has no selected indices.
 
 ## Validation Notes
 
 - Slices are half-open: `[start, stop)`.
-- `start > stop` is invalid and throws `Exceptions::IndexError`.
-- Empty slices are valid when `start == stop`.
+- `step == 0` is invalid and throws `Exceptions::IndexError`.
+- Positive and negative directions are both valid.
+- Empty slices are valid when the chosen direction selects no indices.
 
 ## Implementation Notes
 
-- `size()` is `stop - start`.
-- Constructor validation prevents unsigned underflow in `size()`.
+- `size()` computes element count from `(start, stop, step)` for both step directions.
+- Signed index storage enables negative indexing semantics at higher layers.
 - Slice bounds against a container are checked by ops-level slicing code.
 
 ## Time Complexity
@@ -46,5 +48,4 @@ Represents a half-open range used by slicing operations.
 
 ## Future Work
 
-- Add optional step support.
-- Consider signed indexes only if negative indexing becomes part of the API.
+- Add helper constructors for common patterns like full-range slices.

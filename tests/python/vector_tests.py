@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Shape, Vector, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import Shape, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
 
 
 class TestVectorInterfaceTests:
@@ -80,12 +80,57 @@ class TestVectorInterfaceTests:
         assert vector[1] == 8.0
         assert vector.tolist() == [1.0, 8.0, 3.0]
 
+    def test_slice_indexing_returns_vector(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0, 4.0])
+
+        sliced = vector[1:3]
+
+        assert isinstance(sliced, Vector)
+        assert sliced.shape == Shape([2])
+        assert sliced.tolist() == [2.0, 3.0]
+
+    def test_slice_indexing_supports_step(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
+
+        sliced = vector[::2]
+
+        assert isinstance(sliced, Vector)
+        assert sliced.shape == Shape([3])
+        assert sliced.tolist() == [1.0, 3.0, 5.0]
+
+    def test_slice_indexing_supports_negative_step(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
+
+        sliced = vector[::-2]
+
+        assert isinstance(sliced, Vector)
+        assert sliced.shape == Shape([3])
+        assert sliced.tolist() == [5.0, 3.0, 1.0]
+
     def test_fill_updates_all_values(self) -> None:
         vector = Vector([1.0, 2.0, 3.0])
 
         vector.fill(4.5)
 
         assert vector.tolist() == [4.5, 4.5, 4.5]
+
+    def test_reshape_and_flatten(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0, 4.0])
+
+        reshaped = vector.reshape(Shape(2, 2))
+        reshaped_dims = vector.reshape([1, 4])
+        flattened = vector.flatten()
+
+        assert isinstance(reshaped, Tensor)
+        assert reshaped.shape == Shape(2, 2)
+        assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
+
+        assert isinstance(reshaped_dims, Tensor)
+        assert reshaped_dims.shape == Shape(1, 4)
+        assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
+
+        assert isinstance(flattened, Vector)
+        assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
 
     def test_repr_returns_vector_text(self) -> None:
         assert repr(Vector([1.0, 2.0, 3.0])) == "[1, 2, 3]"
@@ -205,9 +250,10 @@ class TestVectorInterfaceTests:
         with pytest.raises(OverflowError):
             _ = vector[sys.maxsize + 1]
 
-    def test_negative_index_raises_index_error(self) -> None:
+    def test_negative_index_reads_and_writes_values(self) -> None:
         vector = Vector([1.0, 2.0])
 
-        with pytest.raises(StrataxIndexError):
-            _ = vector[-1]
+        assert vector[-1] == 2.0
+        vector[-1] = 9.0
+        assert vector.tolist() == [1.0, 9.0]
 

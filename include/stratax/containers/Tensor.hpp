@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <initializer_list>
 #include <stdexcept>
+#include <type_traits>
 #include <utility>
 
 namespace stratax::container {
@@ -265,10 +266,11 @@ public:
      * @return Mutable reference to the indexed element.
      * @throws Exceptions::IndexError If the index is out of bounds.
      */
-    T& at(std::size_t index)
+    T& at(std::ptrdiff_t index)
     {
-        core::validation::require_index(index, size(), "Tensor flat index out of bounds.");
-        return buffer_[index];
+        const std::size_t normalized =
+            core::validation::normalize_index(index, size(), "Tensor flat index out of bounds.");
+        return buffer_[normalized];
     }
 
     /**
@@ -279,10 +281,11 @@ public:
      * @return Const reference to the indexed element.
      * @throws Exceptions::IndexError If the index is out of bounds.
      */
-    const T& at(std::size_t index) const
+    const T& at(std::ptrdiff_t index) const
     {
-        core::validation::require_index(index, size(), "Tensor flat index out of bounds.");
-        return buffer_[index];
+        const std::size_t normalized =
+            core::validation::normalize_index(index, size(), "Tensor flat index out of bounds.");
+        return buffer_[normalized];
     }
 
     /**
@@ -297,13 +300,28 @@ public:
      * @throws Exceptions::IndexError If the index rank or bounds are invalid.
      */
     template<typename... Rest>
-    T& at(std::size_t first, std::size_t second, Rest... rest)
+    requires ((std::is_integral_v<Rest>) && ...)
+    T& at(std::ptrdiff_t first, std::ptrdiff_t second, Rest... rest)
     {
-        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+        std::array<std::ptrdiff_t, sizeof...(Rest) + 2> raw_indices{
             first,
             second,
-            static_cast<std::size_t>(rest)...
+            static_cast<std::ptrdiff_t>(rest)...
         };
+
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{};
+        if (indices.size() != rank())
+        {
+            throw Exceptions::IndexError("Tensor multi-index rank must match tensor rank.");
+        }
+
+        for (std::size_t i = 0; i < indices.size(); ++i)
+        {
+            indices[i] = core::validation::normalize_index(
+                raw_indices[i],
+                shape()(i),
+                "Tensor multi-index component is out of bounds.");
+        }
 
         try
         {
@@ -331,13 +349,28 @@ public:
      * @throws Exceptions::IndexError If the index rank or bounds are invalid.
      */
     template<typename... Rest>
-    const T& at(std::size_t first, std::size_t second, Rest... rest) const
+    requires ((std::is_integral_v<Rest>) && ...)
+    const T& at(std::ptrdiff_t first, std::ptrdiff_t second, Rest... rest) const
     {
-        std::array<std::size_t, sizeof...(Rest) + 2> indices{
+        std::array<std::ptrdiff_t, sizeof...(Rest) + 2> raw_indices{
             first,
             second,
-            static_cast<std::size_t>(rest)...
+            static_cast<std::ptrdiff_t>(rest)...
         };
+
+        std::array<std::size_t, sizeof...(Rest) + 2> indices{};
+        if (indices.size() != rank())
+        {
+            throw Exceptions::IndexError("Tensor multi-index rank must match tensor rank.");
+        }
+
+        for (std::size_t i = 0; i < indices.size(); ++i)
+        {
+            indices[i] = core::validation::normalize_index(
+                raw_indices[i],
+                shape()(i),
+                "Tensor multi-index component is out of bounds.");
+        }
 
         try
         {

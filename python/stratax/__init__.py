@@ -3,6 +3,8 @@ from .shape import Shape
 from .tensor import Tensor
 from .vector import Vector
 from .matrix import Matrix
+from .conversions import to_matrix, to_tensor, to_vector
+from .creation import full, identity, ones, zeros
 from .exceptions import (
     BroadcastError,
     DimensionError,
@@ -18,6 +20,13 @@ __all__ = [
     "Tensor",
     "Vector",
     "Matrix",
+    "to_vector",
+    "to_matrix",
+    "to_tensor",
+    "zeros",
+    "ones",
+    "full",
+    "identity",
     "StrataxError",
     "ShapeError",
     "DimensionError",

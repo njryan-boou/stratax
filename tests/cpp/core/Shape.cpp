@@ -86,6 +86,31 @@ TEST(CoreShape, buffer_constructors)
     EXPECT_TRUE(moved(1) == 6);
 }
 
+TEST(CoreShape, std_vector_constructor)
+{
+    std::vector<std::size_t> dims{7, 8, 9};
+    Shape shape(dims);
+
+    EXPECT_TRUE(shape.rank() == 3);
+    EXPECT_TRUE(shape.elements() == 504);
+    EXPECT_TRUE(shape(0) == 7);
+    EXPECT_TRUE(shape(1) == 8);
+    EXPECT_TRUE(shape(2) == 9);
+
+    dims[0] = 1;
+    EXPECT_TRUE(shape(0) == 7);
+}
+
+TEST(CoreShape, std_vector_constructor_empty)
+{
+    std::vector<std::size_t> dims;
+    Shape shape(dims);
+
+    EXPECT_TRUE(shape.rank() == 0);
+    EXPECT_TRUE(shape.empty());
+    EXPECT_TRUE(shape.elements() == 0);
+}
+
 TEST(CoreShape, index_operater)
 {
     Shape shape{3, 224, 224};
@@ -98,6 +123,26 @@ TEST(CoreShape, index_operater)
 
     try {
         shape(3);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(CoreShape, negative_index_operator)
+{
+    Shape shape{3, 224, 224};
+
+    EXPECT_TRUE(shape[-1] == 224);
+    EXPECT_TRUE(shape[-2] == 224);
+    EXPECT_TRUE(shape[-3] == 3);
+
+    bool threw = false;
+
+    try {
+        [[maybe_unused]] auto dim = shape[-4];
     }
     catch (const Exceptions::IndexError&) {
         threw = true;

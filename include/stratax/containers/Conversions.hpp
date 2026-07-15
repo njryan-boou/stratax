@@ -10,6 +10,68 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Validation.hpp>
 
+
+inline bool is_vector_shape(const stratax::core::Shape& shape)
+{
+    if (shape.rank() == 1)
+    {
+        return true;
+    }
+    
+    std::size_t non_singleton = 0;
+
+    for (std::size_t dim : shape)
+    {
+        if (dim > 1)
+        {
+            ++non_singleton;
+        }
+    }
+
+    return non_singleton == 1;
+}
+
+inline bool is_matrix_shape(const stratax::core::Shape& shape)
+{
+    if (shape.rank() == 2)
+    {
+        return true;
+    }
+
+    std::size_t non_singleton = 0;
+
+    for (std::size_t dim : shape)
+    {
+        if (dim > 1)
+        {
+            ++non_singleton;
+        }
+    }
+
+    return non_singleton == 2;
+}
+
+inline stratax::core::Shape matrix_shape(const stratax::core::Shape& shape)
+{
+    if (shape.rank() == 2)
+    {
+        return shape;
+    }
+
+    std::vector<std::size_t> dims;
+    dims.reserve(shape.rank());
+
+    for (std::size_t dim : shape)
+    {
+        if (dim > 1)
+        {
+            dims.push_back(dim);
+        }
+    }
+
+    return stratax::core::Shape(dims);
+}
+
 /**
  * @brief Converts an array-like object to a vector.
  *
@@ -24,12 +86,14 @@ template<Array A>
 stratax::container::Vector<typename A::value_type>
 to_vector(const A& arr)
 {
-    stratax::core::validation::require_rank(
-        arr,
-        1,
-        "Cannot convert non-rank-1 array to Vector");
+    if (!is_vector_shape(arr.shape()))
+    {
+        throw Exceptions::ShapeError(
+            "Array cannot be converted to a Vector."
+        );
+    }
 
-    stratax::container::Vector<typename A::value_type> result(arr.shape());
+    stratax::container::Vector<typename A::value_type> result(arr.size());
 
     for (std::size_t i = 0; i < arr.size(); ++i)
     {
@@ -47,18 +111,20 @@ to_vector(const A& arr)
  *
  * @return Matrix containing the same values and shape.
  *
- * @throws Exceptions::DimensionError If the source is not rank 2.
+ * @throws Exceptions::DimensionError If the source is not matrix-shaped.
  */
 template<Array A>
 stratax::container::Matrix<typename A::value_type>
 to_matrix(const A& arr)
 {
-    stratax::core::validation::require_rank(
-        arr,
-        2,
-        "Cannot convert non-rank-2 array to Matrix");
+    if (!is_matrix_shape(arr.shape()))
+    {
+        throw Exceptions::ShapeError(
+            "Array cannot be converted to a Matrix.");
+    }
 
-    stratax::container::Matrix<typename A::value_type> result(arr.shape());
+    const auto shape = matrix_shape(arr.shape());
+    stratax::container::Matrix<typename A::value_type> result(shape);
 
     for (std::size_t i = 0; i < arr.size(); ++i)
     {

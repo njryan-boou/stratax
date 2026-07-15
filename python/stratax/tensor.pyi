@@ -2,6 +2,7 @@ from collections.abc import Iterable, Iterator
 from typing import overload
 
 from .shape import Shape
+from .vector import Vector
 
 
 class Tensor:
@@ -70,12 +71,26 @@ class Tensor:
         """Return tensor data as a flat Python list."""
         ...
 
+    def reshape(self, shape: Shape | Iterable[int]) -> "Tensor":
+        """Return a tensor view with the requested shape."""
+        ...
+
+    def flatten(self) -> Vector:
+        """Return tensor data as a rank-1 vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of flat elements."""
         ...
 
+    @overload
     def __getitem__(self, index: int | tuple[int, ...]) -> float:
-        """Return an element by non-negative flat index or N-dimensional tuple."""
+        """Return an element by non-negative flat index or N-dimensional integer tuple."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice | tuple[int | slice, ...]) -> "Tensor":
+        """Return a tensor slice using Python slice syntax."""
         ...
 
     def __setitem__(self, index: int | tuple[int, ...], value: float) -> None:

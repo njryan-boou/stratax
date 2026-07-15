@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Matrix, Shape, StrataxError, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import Matrix, Shape, StrataxError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
 
 
 class TestMatrixInterfaceTests:
@@ -83,12 +83,66 @@ class TestMatrixInterfaceTests:
         assert matrix[1, 0] == 8.0
         assert matrix.tolist() == [[1.0, 2.0], [8.0, 4.0]]
 
+    def test_slice_indexing_returns_matrix(self) -> None:
+        matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+
+        sliced = matrix[:, 1:3]
+
+        assert isinstance(sliced, Matrix)
+        assert sliced.shape == Shape(2, 2)
+        assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
+
+    def test_mixed_integer_and_slice_indexing_returns_matrix(self) -> None:
+        matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+
+        sliced = matrix[1, :]
+
+        assert isinstance(sliced, Matrix)
+        assert sliced.shape == Shape(1, 3)
+        assert sliced.tolist() == [[4.0, 5.0, 6.0]]
+
+    def test_slice_indexing_supports_step(self) -> None:
+        matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+
+        sliced = matrix[:, ::2]
+
+        assert isinstance(sliced, Matrix)
+        assert sliced.shape == Shape(2, 2)
+        assert sliced.tolist() == [[1.0, 3.0], [4.0, 6.0]]
+
+    def test_slice_indexing_supports_negative_step(self) -> None:
+        matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+
+        sliced = matrix[::-1, ::-2]
+
+        assert isinstance(sliced, Matrix)
+        assert sliced.shape == Shape(2, 2)
+        assert sliced.tolist() == [[6.0, 4.0], [3.0, 1.0]]
+
     def test_fill_updates_all_values(self) -> None:
         matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
 
         matrix.fill(5.0)
 
         assert matrix.tolist() == [[5.0, 5.0], [5.0, 5.0]]
+
+    def test_reshape_and_flatten(self) -> None:
+        matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
+
+        reshaped = matrix.reshape(Shape(1, 4))
+        reshaped_dims = matrix.reshape([4, 1])
+        flattened = matrix.flatten()
+
+        assert isinstance(reshaped, Tensor)
+        assert reshaped.shape == Shape(1, 4)
+        assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
+
+        assert isinstance(reshaped_dims, Tensor)
+        assert reshaped_dims.shape == Shape(4, 1)
+        assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
+
+        assert isinstance(flattened, Vector)
+        assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
 
     def test_repr_returns_matrix_text(self) -> None:
         assert repr(Matrix([[1.0, 2.0], [3.0, 4.0]])) == "[\n    [1, 2]\n    [3, 4]\n]"
@@ -190,11 +244,12 @@ class TestMatrixInterfaceTests:
         with pytest.raises(StrataxIndexError):
             _ = matrix[1, 0]
 
-    def test_negative_index_raises_index_error(self) -> None:
+    def test_negative_index_reads_and_writes_values(self) -> None:
         matrix = Matrix([[1.0, 2.0]])
 
-        with pytest.raises(StrataxIndexError):
-            _ = matrix[-1, 0]
+        assert matrix[-1, -1] == 2.0
+        matrix[-1, -1] = 8.0
+        assert matrix.tolist() == [[1.0, 8.0]]
 
     def test_bad_index_rank_raises_index_error(self) -> None:
         matrix = Matrix([[1.0, 2.0]])

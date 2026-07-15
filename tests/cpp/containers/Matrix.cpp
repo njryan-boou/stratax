@@ -195,6 +195,40 @@ TEST(ContainersMatrix, at)
     EXPECT_TRUE(col_threw);
 }
 
+TEST(ContainersMatrix, at_supports_negative_index)
+{
+    Matrix<int> matrix{
+        {1, 2},
+        {3, 4}
+    };
+
+    EXPECT_TRUE(matrix.at(-1, -1) == 4);
+    EXPECT_TRUE(matrix.at(-2, -2) == 1);
+
+    matrix.at(-1, -2) = 30;
+    EXPECT_TRUE(matrix(1, 0) == 30);
+
+    bool row_threw = false;
+    bool col_threw = false;
+
+    try {
+        [[maybe_unused]] auto value = matrix.at(-3, 0);
+    }
+    catch (const Exceptions::IndexError&) {
+        row_threw = true;
+    }
+
+    try {
+        [[maybe_unused]] auto value = matrix.at(0, -3);
+    }
+    catch (const Exceptions::IndexError&) {
+        col_threw = true;
+    }
+
+    EXPECT_TRUE(row_threw);
+    EXPECT_TRUE(col_threw);
+}
+
 TEST(ContainersMatrix, linear_index_operator)
 {
     Matrix<int> matrix{

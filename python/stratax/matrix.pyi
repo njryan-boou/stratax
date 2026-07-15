@@ -2,6 +2,8 @@ from collections.abc import Iterable, Iterator
 from typing import overload
 
 from .shape import Shape
+from .tensor import Tensor
+from .vector import Vector
 
 
 class Matrix:
@@ -80,12 +82,26 @@ class Matrix:
         """Return matrix data as nested Python lists."""
         ...
 
+    def reshape(self, shape: Shape | Iterable[int]) -> Tensor:
+        """Return a reshaped tensor."""
+        ...
+
+    def flatten(self) -> Vector:
+        """Return matrix data as a flattened vector."""
+        ...
+
     def __len__(self) -> int:
         """Return the number of rows."""
         ...
 
+    @overload
     def __getitem__(self, index: tuple[int, int]) -> float:
         """Return an element by non-negative (row, col)."""
+        ...
+
+    @overload
+    def __getitem__(self, index: slice | tuple[int | slice, int | slice]) -> "Matrix":
+        """Return a matrix slice using Python slice syntax."""
         ...
 
     def __setitem__(self, index: tuple[int, int], value: float) -> None:

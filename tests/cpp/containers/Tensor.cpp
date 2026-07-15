@@ -255,6 +255,40 @@ TEST(ContainersTensor, at)
     EXPECT_TRUE(one_dim_rank_threw);
 }
 
+TEST(ContainersTensor, at_supports_negative_index)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 2});
+
+    tensor.at(-1) = 40;
+    EXPECT_TRUE(tensor.at(-1) == 40);
+
+    tensor.at(0, 0) = 10;
+    tensor.at(-1, -2) = 30;
+
+    EXPECT_TRUE(tensor.at(-2, -2) == 10);
+    EXPECT_TRUE(tensor.at(-1, -2) == 30);
+
+    bool flat_threw = false;
+    bool multi_threw = false;
+
+    try {
+        [[maybe_unused]] auto value = tensor.at(-5);
+    }
+    catch (const Exceptions::IndexError&) {
+        flat_threw = true;
+    }
+
+    try {
+        [[maybe_unused]] auto value = tensor.at(-3, 0);
+    }
+    catch (const Exceptions::IndexError&) {
+        multi_threw = true;
+    }
+
+    EXPECT_TRUE(flat_threw);
+    EXPECT_TRUE(multi_threw);
+}
+
 TEST(ContainersTensor, const_at_rejects_out_of_bounds)
 {
     const Tensor<int> tensor(stratax::core::Shape{2, 2}, 5);

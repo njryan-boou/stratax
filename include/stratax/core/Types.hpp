@@ -7,6 +7,9 @@
 namespace stratax::core::dtype
 {
 
+    using index_t = std::size_t;
+    using ssize_t = std::ptrdiff_t;
+
     using bool_ = bool;
 
     using int8  = std::int8_t;
@@ -26,7 +29,4 @@ namespace stratax::core::dtype
     using complex64  = std::complex<float>;
     using complex128 = std::complex<double>;
     using complex256 = std::complex<long double>;
-
-    using index_t = std::size_t;
-    using ssize_t = std::ptrdiff_t;
 }
