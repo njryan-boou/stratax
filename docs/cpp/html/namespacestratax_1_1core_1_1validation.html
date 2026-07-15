@@ -128,10 +128,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ae512d92267149fea6f652f94464129c9" id="r_ae512d92267149fea6f652f94464129c9"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:ae512d92267149fea6f652f94464129c9 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae512d92267149fea6f652f94464129c9">require_numeric_type</a> (const char *message)</td></tr>
 <tr class="memdesc:ae512d92267149fea6f652f94464129c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires a type to satisfy Stratax's numeric type rules.  <br /></td></tr>
-<tr class="memitem:a2a9362a448a434b0b5d1386a11e5ebeb" id="r_a2a9362a448a434b0b5d1386a11e5ebeb"><td class="memTemplParams" colspan="2">template&lt;typename Lhs, typename Rhs&gt; <br />
+<tr class="memitem:a17b90044eef2e32a796206a6d98980a2" id="r_a17b90044eef2e32a796206a6d98980a2"><td class="memTemplParams" colspan="2">template&lt;typename Lhs, typename Rhs&gt; <br />
 requires requires { typename Lhs::value_type; typename Rhs::value_type; }</td></tr>
-<tr class="memitem:a2a9362a448a434b0b5d1386a11e5ebeb template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2a9362a448a434b0b5d1386a11e5ebeb">require_same_value_type</a> (const Lhs &amp;, const Rhs &amp;, const char *message)</td></tr>
-<tr class="memdesc:a2a9362a448a434b0b5d1386a11e5ebeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires two array-like objects to have the same value type.  <br /></td></tr>
+<tr class="memitem:a17b90044eef2e32a796206a6d98980a2 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a17b90044eef2e32a796206a6d98980a2">require_same_value_type</a> (const Lhs &amp;lhs, const Rhs &amp;rhs, const char *message)</td></tr>
+<tr class="memdesc:a17b90044eef2e32a796206a6d98980a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires two array-like objects to have the same value type.  <br /></td></tr>
 <tr class="memitem:a74406bf8629a1e9d3037b11aca1efe4b" id="r_a74406bf8629a1e9d3037b11aca1efe4b"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a74406bf8629a1e9d3037b11aca1efe4b">nonnegative_size</a> (long long value, const char *message)</td></tr>
 <tr class="memdesc:a74406bf8629a1e9d3037b11aca1efe4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a signed value to <span class="tt">std::size_t</span> after rejecting negatives.  <br /></td></tr>
 <tr class="memitem:ae8f64ae11d3b1a51a17c3c6982097727" id="r_ae8f64ae11d3b1a51a17c3c6982097727"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ae8f64ae11d3b1a51a17c3c6982097727">nonnegative_shape_dimension</a> (long long value, const char *message)</td></tr>
@@ -215,7 +215,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00278">278</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00280">280</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_indexing_8hpp_source.html#l00023">offset()</a>, and <a class="el" href="ops_2_slice_8hpp_source.html#l00155">slice()</a>.</p>
 
@@ -270,7 +270,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00254">254</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00256">256</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_shape_8hpp_source.html#l00138">stratax::core::Shape::elements()</a>, <a class="el" href="_matrix_8hpp_source.html#l00101">stratax::container::Matrix&lt; U &gt;::Matrix()</a>, <a class="el" href="_indexing_8hpp_source.html#l00023">offset()</a>, and <a class="el" href="ops_2_slice_8hpp_source.html#l00155">slice()</a>.</p>
 
@@ -319,7 +319,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00158">158</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00160">160</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 </div>
 </div>
@@ -366,7 +366,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00102">102</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00104">104</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +413,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00082">82</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00084">84</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +460,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00122">122</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00124">124</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 </div>
 </div>
@@ -513,7 +513,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00235">235</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00237">237</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ops_2_slice_8hpp_source.html#l00106">slice()</a>, <a class="el" href="ops_2_slice_8hpp_source.html#l00155">slice()</a>, and <a class="el" href="ops_2_slice_8hpp_source.html#l00067">slice()</a>.</p>
 
@@ -567,7 +567,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00332">332</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00334">334</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_reshape_8hpp_source.html#l00027">reshape()</a>.</p>
 
@@ -621,7 +621,7 @@ requires requires(const Ranked&amp; object) { object.rank(); }</td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00216">216</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00218">218</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_tensor_8hpp_source.html#l00268">stratax::container::Tensor&lt; U &gt;::at()</a>, <a class="el" href="_tensor_8hpp_source.html#l00282">stratax::container::Tensor&lt; U &gt;::at()</a>, <a class="el" href="_vector_8hpp_source.html#l00195">stratax::container::Vector&lt; U &gt;::at()</a>, <a class="el" href="_vector_8hpp_source.html#l00210">stratax::container::Vector&lt; U &gt;::at()</a>, <a class="el" href="_strides_8hpp_source.html#l00123">stratax::core::Strides::at()</a>, <a class="el" href="_matrix_8hpp_source.html#l00235">stratax::container::Matrix&lt; U &gt;::operator()()</a>, <a class="el" href="_matrix_8hpp_source.html#l00251">stratax::container::Matrix&lt; U &gt;::operator()()</a>, and <a class="el" href="_shape_8hpp_source.html#l00171">stratax::core::Shape::operator()()</a>.</p>
 
@@ -710,7 +710,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00140">140</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00142">142</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
 </div>
 </div>
@@ -758,9 +758,9 @@ requires requires(const Ranked&amp; object) { object.rank(); }</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00201">201</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00203">203</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00177">require_rank()</a>.</p>
+<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00179">require_rank()</a>.</p>
 
 </div>
 </div>
@@ -812,9 +812,9 @@ requires requires(const Ranked&amp; object) { object.rank(); }</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00177">177</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00179">179</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_indexing_8hpp_source.html#l00023">offset()</a>, <a class="el" href="_validation_8hpp_source.html#l00201">require_rank()</a>, <a class="el" href="ops_2_slice_8hpp_source.html#l00155">slice()</a>, <a class="el" href="_conversions_8hpp_source.html#l00054">to_matrix()</a>, and <a class="el" href="_conversions_8hpp_source.html#l00025">to_vector()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_indexing_8hpp_source.html#l00023">offset()</a>, <a class="el" href="_validation_8hpp_source.html#l00203">require_rank()</a>, <a class="el" href="ops_2_slice_8hpp_source.html#l00155">slice()</a>, <a class="el" href="_conversions_8hpp_source.html#l00054">to_matrix()</a>, and <a class="el" href="_conversions_8hpp_source.html#l00025">to_vector()</a>.</p>
 
 </div>
 </div>
@@ -860,16 +860,16 @@ template&lt;typename Lhs, typename Rhs&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00315">315</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00317">317</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00300">same_shape()</a>.</p>
+<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00302">same_shape()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_arithmetic_8hpp_source.html#l00016">require_same_arithmetic_shape()</a>.</p>
 
 </div>
 </div>
-<a id="a2a9362a448a434b0b5d1386a11e5ebeb" name="a2a9362a448a434b0b5d1386a11e5ebeb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a9362a448a434b0b5d1386a11e5ebeb">&#9670;&#160;</a></span>require_same_value_type()</h2>
+<a id="a17b90044eef2e32a796206a6d98980a2" name="a17b90044eef2e32a796206a6d98980a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17b90044eef2e32a796206a6d98980a2">&#9670;&#160;</a></span>require_same_value_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -880,12 +880,12 @@ requires requires { typename Lhs::value_type; typename Rhs::value_type; }</div>
         <tr>
           <td class="memname">void stratax::core::validation::require_same_value_type </td>
           <td>(</td>
-          <td class="paramtype">const Lhs &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">const Lhs &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Rhs &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">const Rhs &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1000,9 +1000,9 @@ template&lt;typename Lhs, typename Rhs&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> if size and shape match. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00300">300</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_validation_8hpp_source.html#l00302">302</a> of file <a class="el" href="_validation_8hpp_source.html">Validation.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_comparison_8hpp_source.html#l00017">operator==()</a>, and <a class="el" href="_validation_8hpp_source.html#l00315">require_same_shape()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_comparison_8hpp_source.html#l00017">operator==()</a>, and <a class="el" href="_validation_8hpp_source.html#l00317">require_same_shape()</a>.</p>
 
 </div>
 </div>

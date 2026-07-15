@@ -119,71 +119,71 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Types </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md153"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md159"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_types_8hpp.html">include/stratax/core/Types.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md154"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md160"></a>
 Purpose</h1>
 <p>Defines stable dtype aliases used across Stratax.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md155"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md161"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md156"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md162"></a>
 Boolean</h2>
 <ul>
 <li><span class="tt">bool_</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md157"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md163"></a>
 Integers</h2>
 <ul>
 <li><span class="tt">int8</span>, <span class="tt">int16</span>, <span class="tt">int32</span>, <span class="tt">int64</span></li>
 <li><span class="tt">uint8</span>, <span class="tt">uint16</span>, <span class="tt">uint32</span>, <span class="tt">uint64</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md158"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md164"></a>
 Floating Point</h2>
 <ul>
 <li><span class="tt">float32</span></li>
 <li><span class="tt">float64</span></li>
 <li><span class="tt">float128</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md159"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md165"></a>
 Complex</h2>
 <ul>
 <li><span class="tt">complex64</span></li>
 <li><span class="tt">complex128</span></li>
 <li><span class="tt">complex256</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md160"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md166"></a>
 Indexing</h2>
 <ul>
 <li><span class="tt">index_t</span></li>
 <li><span class="tt">ssize_t</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md161"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md167"></a>
 Invariants</h1>
 <ul>
 <li>Type aliases map directly to standard C++ types.</li>
 <li>Aliases do not own storage and do not encode runtime metadata.</li>
 <li>Whether an alias is accepted as numeric is controlled by <span class="tt"><a class="el" href="_concepts_8hpp.html">Concepts.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md162"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md168"></a>
 Validation Notes</h1>
 <ul>
 <li>These are aliases only.</li>
 <li>Acceptance as a container dtype is controlled by <span class="tt"><a class="el" href="_concepts_8hpp.html">Concepts.hpp</a></span>.</li>
 <li><span class="tt">int8</span> and <span class="tt">uint8</span> may be excluded by numeric concepts because they alias char-like types.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md163"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md169"></a>
 Implementation Notes</h1>
 <ul>
 <li>Keep aliases mapped directly to standard C++ types.</li>
 <li>Avoid hiding ownership or storage policy in this file.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md164"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md170"></a>
 Time Complexity</h1>
 <ul>
 <li>Type aliases have no runtime cost.</li>
 <li>Any acceptance or rejection of aliases is handled at compile time by <span class="tt"><a class="el" href="_concepts_8hpp.html">Concepts.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md165"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md171"></a>
 Future Work</h1>
 <ul>
 <li>Add dtype traits.</li>

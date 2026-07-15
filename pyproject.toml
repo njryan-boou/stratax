@@ -51,6 +51,11 @@ Homepage = "https://github.com/njryan-boou/stratax"
 Repository = "https://github.com/njryan-boou/stratax"
 Issues = "https://github.com/njryan-boou/stratax/issues"
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8"
+]
+
 [tool.scikit-build]
 minimum-version = "0.10"
 build-dir = "build/{wheel_tag}"
@@ -58,3 +63,6 @@ build-dir = "build/{wheel_tag}"
 wheel.packages = [
     "python/stratax"
 ]
+
+[tool.pytest.ini_options]
+python_files = "*_tests.py"

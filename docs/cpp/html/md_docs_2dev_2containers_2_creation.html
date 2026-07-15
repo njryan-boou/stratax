@@ -119,26 +119,26 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Creation </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md29"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md35"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_creation_8hpp.html">include/stratax/containers/Creation.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
 Purpose</h1>
 <p>Provides convenience functions for constructing tensors with common initial values.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md38"></a>
 Filled Tensors</h2>
 <ul>
 <li><span class="tt"><a class="el" href="namespacecreation.html#a559b3711f2776e3719dbde5923d57058" title="Creates a tensor filled with zeros.">creation::zeros</a>&lt;T&gt;(shape)</span></li>
 <li><span class="tt"><a class="el" href="namespacecreation.html#afb8e4794b3c1c2ecce0e049c0d1d5a56" title="Creates a tensor filled with ones.">creation::ones</a>&lt;T&gt;(shape)</span></li>
 <li><span class="tt"><a class="el" href="namespacecreation.html#aa635d52c13eae4d2d6d894a55dcff9b3" title="Creates a tensor filled with a constant value.">creation::full</a>&lt;T&gt;(shape, value)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md39"></a>
 Identity Tensor</h2>
 <ul>
 <li><span class="tt"><a class="el" href="namespacecreation.html#ae30027039e51c35f0ba72ef9db5d92fe" title="Creates a square identity tensor.">creation::identity</a>&lt;T&gt;(size)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md40"></a>
 Invariants</h1>
 <ul>
 <li>Creation helpers always return owning <span class="tt">Tensor&lt;T&gt;</span> values.</li>
@@ -147,7 +147,7 @@ Invariants</h1>
 <li><span class="tt">identity(size)</span> always returns shape <span class="tt">(size, size)</span>.</li>
 <li>Identity diagonal values are <span class="tt">T{1}</span> and non-diagonal values are <span class="tt">T{}</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md41"></a>
 Validation Notes</h1>
 <ul>
 <li>Creation helpers require <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a>&lt;T&gt;</span>.</li>
@@ -155,7 +155,7 @@ Validation Notes</h1>
 <li>Zero-sized dimensions are allowed and produce empty tensors.</li>
 <li><span class="tt">identity</span> creates a rank-2 square tensor and assumes <span class="tt">size</span> is the desired row and column count.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md42"></a>
 Implementation Notes</h1>
 <ul>
 <li>Helpers currently live in the global <span class="tt"><a class="el" href="namespacecreation.html">creation</a></span> namespace.</li>
@@ -164,14 +164,14 @@ Implementation Notes</h1>
 <li>These helpers return <span class="tt">Tensor&lt;T&gt;</span> instances.</li>
 <li><a class="el" href="concept_complex.html" title="Matches supported complex scalar types.">Complex</a> numeric values are supported.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
 Time Complexity</h1>
 <ul>
 <li><span class="tt">zeros</span>, <span class="tt">ones</span>, and <span class="tt">full</span> are <span class="tt">O(n + r)</span>, where <span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</li>
 <li><span class="tt">identity(size)</span> is <span class="tt">O(size * size)</span> to allocate and zero-fill, plus <span class="tt">O(size)</span> to write the diagonal.</li>
 <li>Metadata setup is dominated by tensor construction.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md38"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md44"></a>
 Future Work</h1>
 <ul>
 <li>Move creation helpers into a Stratax namespace.</li>

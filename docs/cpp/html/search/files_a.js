@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['matrix_2ehpp_0',['Matrix.hpp',['../_matrix_8hpp.html',1,'']]],
-  ['matrix_2emd_1',['Matrix.md',['../_matrix_8md.html',1,'']]],
-  ['memory_2ehpp_2',['memory.hpp',['../memory_8hpp.html',1,'']]]
+  ['util_2eh_0',['util.h',['../util_8h.html',1,'']]]
 ];

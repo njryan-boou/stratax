@@ -119,19 +119,19 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Indexing </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md211"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md217"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_indexing_8hpp.html">include/stratax/ops/indexing.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md212"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md218"></a>
 Purpose</h1>
 <p>Computes flat row-major offsets from a <span class="tt">Shape</span>, matching <span class="tt">Strides</span>, and an index container.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md213"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md219"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md214"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md220"></a>
 Offset Calculation</h2>
 <ul>
 <li><span class="tt">offset(shape, strides, index)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md215"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md221"></a>
 Invariants</h1>
 <ul>
 <li>Offset calculation assumes <span class="tt">strides</span> was generated for the same logical shape.</li>
@@ -140,7 +140,7 @@ Invariants</h1>
 <li>Rank-zero shape with rank-zero index maps to offset <span class="tt">0</span>.</li>
 <li>Offset arithmetic must not overflow.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md216"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md222"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">shape.rank()</span>, <span class="tt">strides.rank()</span>, and <span class="tt">index.size()</span> must match through <span class="tt">core::validation::require_rank()</span>.</li>
@@ -149,7 +149,7 @@ Validation Notes</h1>
 <li>Zero-sized dimensions reject all indexes in that dimension.</li>
 <li>Offset multiplication and addition use <span class="tt">core::validation::checked_multiply()</span> and <span class="tt">core::validation::checked_add()</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md217"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md223"></a>
 Implementation Notes</h1>
 <ul>
 <li>The function is generic over any index container with:<ul>
@@ -162,13 +162,13 @@ Implementation Notes</h1>
 <li>Rank-zero shapes with an empty index return offset <span class="tt">0</span>.</li>
 <li>Tensor multi-index access depends on this helper.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md218"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
 Time Complexity</h1>
 <ul>
 <li><span class="tt">offset(shape, strides, index)</span> is <span class="tt">O(r)</span>, where <span class="tt">r</span> is rank.</li>
 <li>Rank validation is <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md219"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md225"></a>
 Future Work</h1>
 <ul>
 <li>Consider accepting initializer lists directly.</li>

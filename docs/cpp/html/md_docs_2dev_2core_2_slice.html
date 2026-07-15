@@ -119,19 +119,19 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Slice </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md130"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md136"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="core_2_slice_8hpp.html">include/stratax/core/Slice.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md131"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md137"></a>
 Purpose</h1>
 <p>Represents a half-open range used by slicing operations.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md132"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md138"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md133"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md139"></a>
 Constructor</h2>
 <ul>
 <li><span class="tt">Slice(start, stop)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md134"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md140"></a>
 Metadata</h2>
 <ul>
 <li><span class="tt">start()</span></li>
@@ -139,13 +139,13 @@ Metadata</h2>
 <li><span class="tt">size()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md135"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md141"></a>
 Comparison</h2>
 <ul>
 <li><span class="tt">operator==</span></li>
 <li><span class="tt">operator!=</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md136"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md142"></a>
 Invariants</h1>
 <ul>
 <li>Slices are half-open ranges: <span class="tt">[start, stop)</span>.</li>
@@ -153,26 +153,26 @@ Invariants</h1>
 <li><span class="tt">size() == stop() - start()</span>.</li>
 <li><span class="tt">empty()</span> is true exactly when <span class="tt">start() == stop()</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md137"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md143"></a>
 Validation Notes</h1>
 <ul>
 <li>Slices are half-open: <span class="tt">[start, stop)</span>.</li>
 <li><span class="tt">start &gt; stop</span> is invalid and throws <span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span>.</li>
 <li>Empty slices are valid when <span class="tt">start == stop</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md138"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md144"></a>
 Implementation Notes</h1>
 <ul>
 <li><span class="tt">size()</span> is <span class="tt">stop - start</span>.</li>
 <li>Constructor validation prevents unsigned underflow in <span class="tt">size()</span>.</li>
 <li>Slice bounds against a container are checked by ops-level slicing code.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md139"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md145"></a>
 Time Complexity</h1>
 <ul>
 <li>Construction, metadata access, <span class="tt">size()</span>, <span class="tt">empty()</span>, equality, and inequality are <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md140"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md146"></a>
 Future Work</h1>
 <ul>
 <li>Add optional step support.</li>

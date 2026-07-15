@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classstratax_1_1container_1_1_tensor.html#a95c8422811d5a88bfcc538e9663441f3":[23,0,2,0,2,0],
 "classstratax_1_1container_1_1_tensor.html#a95c8422811d5a88bfcc538e9663441f3":[25,0,1,0,1,0],
 "classstratax_1_1container_1_1_tensor.html#aa6ccba8af95e7ac6e982e8dade4ea01f":[23,0,2,0,2,12],
 "classstratax_1_1container_1_1_tensor.html#aa6ccba8af95e7ac6e982e8dade4ea01f":[25,0,1,0,1,12],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "classstratax_1_1core_1_1_strides.html#a141a95df064edf219d20bdd066b9df4e":[23,0,2,1,7,24],
 "classstratax_1_1core_1_1_strides.html#a141a95df064edf219d20bdd066b9df4e":[25,0,1,1,3,24],
 "classstratax_1_1core_1_1_strides.html#a18420b20cbae82312b2c2c9e4483e312":[23,0,2,1,7,4],
-"classstratax_1_1core_1_1_strides.html#a18420b20cbae82312b2c2c9e4483e312":[25,0,1,1,3,4]
+"classstratax_1_1core_1_1_strides.html#a18420b20cbae82312b2c2c9e4483e312":[25,0,1,1,3,4],
+"classstratax_1_1core_1_1_strides.html#a1e9643cb3f62e95058715fa01616e679":[23,0,2,1,7,22]
 };

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['indexing_2ehpp_0',['Indexing.hpp',['../_indexing_8hpp.html',1,'']]],
-  ['indexing_2emd_1',['Indexing.md',['../_indexing_8md.html',1,'']]],
-  ['integration_2ehpp_2',['integration.hpp',['../integration_8hpp.html',1,'']]],
-  ['inverse_2ehpp_3',['inverse.hpp',['../inverse_8hpp.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['reshape_2ehpp_1',['Reshape.hpp',['../_reshape_8hpp.html',1,'']]],
+  ['reshape_2emd_2',['Reshape.md',['../_reshape_8md.html',1,'']]],
+  ['roadmap_2emd_3',['roadmap.md',['../roadmap_8md.html',1,'']]]
 ];

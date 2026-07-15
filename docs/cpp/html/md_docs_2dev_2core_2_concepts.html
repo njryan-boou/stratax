@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Concepts </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md97"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md103"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_concepts_8hpp.html">include/stratax/core/Concepts.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md98"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md104"></a>
 Purpose</h1>
 <p>Defines compile-time constraints used by containers and generic algorithms.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md99"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md105"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md106"></a>
 Numeric Categories</h2>
 <ul>
 <li><span class="tt"><a class="el" href="concept_integral.html" title="Matches signed and unsigned integral types, excluding character-like types.">Integral</a></span></li>
@@ -135,13 +135,13 @@ Numeric Categories</h2>
 <li><span class="tt"><a class="el" href="concept_complex.html" title="Matches supported complex scalar types.">Complex</a></span></li>
 <li><span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md101"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md107"></a>
 Container Categories</h2>
 <ul>
 <li><span class="tt"><a class="el" href="concept_array.html">Array</a></span></li>
 <li><span class="tt"><a class="el" href="concept_n_darray.html" title="Matches array-like container types with shape, size, and iteration support.">NDarray</a></span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md102"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md108"></a>
 Invariants</h1>
 <ul>
 <li><span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> excludes <span class="tt">bool</span> and character-like integer types.</li>
@@ -150,7 +150,7 @@ Invariants</h1>
 <li><span class="tt"><a class="el" href="concept_array.html">Array</a></span> only recognizes Stratax <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> specializations.</li>
 <li>Concepts should not impose runtime behavior.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md103"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md109"></a>
 Validation Notes</h1>
 <ul>
 <li>Concepts fail at compile time, not runtime.</li>
@@ -159,21 +159,21 @@ Validation Notes</h1>
 <li><span class="tt"><a class="el" href="concept_array.html">Array</a></span> recognizes Stratax <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span>.</li>
 <li><span class="tt"><a class="el" href="concept_n_darray.html" title="Matches array-like container types with shape, size, and iteration support.">NDarray</a></span> is structural and checks for the expected array interface.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md104"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md110"></a>
 Implementation Notes</h1>
 <ul>
 <li>Keep concepts small and readable.</li>
 <li><a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> scalar overloads use <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> so complex scalars are supported.</li>
 <li>Container element types are constrained through <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md105"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md111"></a>
 Time Complexity</h1>
 <ul>
 <li>Concepts are compile-time checks and have no runtime cost.</li>
 <li><span class="tt"><a class="el" href="concept_array.html">Array</a></span> and numeric category checks are constant-size template checks at compile time.</li>
 <li><span class="tt"><a class="el" href="concept_n_darray.html" title="Matches array-like container types with shape, size, and iteration support.">NDarray</a></span> checks the presence of required member functions at compile time.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md106"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md112"></a>
 Future Work</h1>
 <ul>
 <li>Decide whether concepts should live inside <span class="tt"><a class="el" href="namespacestratax_1_1core.html">stratax::core</a></span>.</li>

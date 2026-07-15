@@ -14,7 +14,7 @@ var _validation_8hpp =
     [ "stratax::core::validation::require_rank", "namespacestratax_1_1core_1_1validation.html#a1d5143622deae4f5e17151ab8f0035ea", null ],
     [ "stratax::core::validation::require_rank", "namespacestratax_1_1core_1_1validation.html#aa969623821b98b9eb01b62d0061babfe", null ],
     [ "stratax::core::validation::require_same_shape", "namespacestratax_1_1core_1_1validation.html#a312b76d309a77bfda26ff9716a95cbda", null ],
-    [ "stratax::core::validation::require_same_value_type", "namespacestratax_1_1core_1_1validation.html#a2a9362a448a434b0b5d1386a11e5ebeb", null ],
+    [ "stratax::core::validation::require_same_value_type", "namespacestratax_1_1core_1_1validation.html#a17b90044eef2e32a796206a6d98980a2", null ],
     [ "stratax::core::validation::require_type", "namespacestratax_1_1core_1_1validation.html#ad8310dfb903149cb385ec72589a6c342", null ],
     [ "stratax::core::validation::same_shape", "namespacestratax_1_1core_1_1validation.html#a5342f601eacdd9c484e07743d33829e5", null ]
 ];

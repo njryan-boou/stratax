@@ -119,29 +119,29 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Print </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md178"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md184"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_print_8hpp.html">include/stratax/io/Print.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md179"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md185"></a>
 Purpose</h1>
 <p>Defines stream output formatting for Stratax containers.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md180"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md186"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md181"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md187"></a>
 Vector Output</h2>
 <ul>
 <li><span class="tt">operator&lt;&lt;(std::ostream&amp;, const Vector&lt;T&gt;&amp;)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md182"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md188"></a>
 Matrix Output</h2>
 <ul>
 <li><span class="tt">operator&lt;&lt;(std::ostream&amp;, const Matrix&lt;T&gt;&amp;)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md183"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md189"></a>
 Tensor Output</h2>
 <ul>
 <li><span class="tt">operator&lt;&lt;(std::ostream&amp;, const Tensor&lt;T&gt;&amp;)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md184"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md190"></a>
 Invariants</h1>
 <ul>
 <li>Printing never mutates the container.</li>
@@ -151,7 +151,7 @@ Invariants</h1>
 <li>Non-empty tensor output uses nested brackets matching rank.</li>
 <li>Formatting is intentionally stable because tests assert exact strings.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md185"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md191"></a>
 Validation Notes</h1>
 <ul>
 <li>Printing assumes container shape metadata is valid.</li>
@@ -159,7 +159,7 @@ Validation Notes</h1>
 <li>Tensor printing uses recursive formatting with shape and strides.</li>
 <li>No formatting validation is performed.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md186"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md192"></a>
 Implementation Notes</h1>
 <ul>
 <li>Vector values are separated by commas and spaces.</li>
@@ -168,7 +168,7 @@ Implementation Notes</h1>
 <li>Empty tensors print as <span class="tt">[]</span>.</li>
 <li>Keep whitespace stable for tests and examples.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md187"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md193"></a>
 Time Complexity</h1>
 <ul>
 <li>Vector printing is <span class="tt">O(n)</span>.</li>
@@ -176,7 +176,7 @@ Time Complexity</h1>
 <li>Tensor printing is <span class="tt">O(n + b)</span>, where <span class="tt">b</span> is the number of nested bracket/indent separators emitted by the recursive formatter.</li>
 <li>Empty tensor printing is <span class="tt">O(r)</span> due to shape element-count checks.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md188"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md194"></a>
 Future Work</h1>
 <ul>
 <li>Add configurable separators.</li>

@@ -1,4 +1,4 @@
-from ._core import __version__, __doc__
+from ._core import __version__, __doc__, __author__
 from .shape import Shape
 from .tensor import Tensor
 from .vector import Vector

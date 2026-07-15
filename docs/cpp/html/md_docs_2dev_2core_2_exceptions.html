@@ -119,61 +119,61 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Exceptions </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md107"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md113"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_exceptions_8hpp.html">include/stratax/core/Exceptions.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md108"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md114"></a>
 Purpose</h1>
 <p>Defines the Stratax exception hierarchy used for domain-specific runtime errors.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md109"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md115"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md110"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md116"></a>
 Base Error</h2>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_stratax_error.html" title="Base class for Stratax-specific runtime errors.">Exceptions::StrataxError</a></span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md111"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md117"></a>
 Shape and Dimension Errors</h2>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_shape_error.html" title="Signals an invalid or incompatible shape.">Exceptions::ShapeError</a></span></li>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span></li>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_broadcast_error.html" title="Signals that an operation cannot be completed with the current broadcast rules.">Exceptions::BroadcastError</a></span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md112"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md118"></a>
 Access and Type Errors</h2>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span></li>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_type_error.html" title="Signals an invalid or unsupported type.">Exceptions::TypeError</a></span></li>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_zero_division_error.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md113"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md119"></a>
 Invariants</h1>
 <ul>
 <li>All Stratax-specific exceptions derive from <span class="tt"><a class="el" href="class_exceptions_1_1_stratax_error.html" title="Base class for Stratax-specific runtime errors.">Exceptions::StrataxError</a></span>.</li>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_stratax_error.html" title="Base class for Stratax-specific runtime errors.">Exceptions::StrataxError</a></span> derives from <span class="tt">std::runtime_error</span>.</li>
 <li>Exception classes do not add state beyond the runtime error message.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md114"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md120"></a>
 Validation Notes</h1>
 <ul>
 <li>Validation helpers are currently deferred.</li>
 <li>Existing containers may still throw these exceptions directly.</li>
 <li>Standard exceptions are still used in some lower-level or generic code.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md115"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md121"></a>
 Implementation Notes</h1>
 <ul>
 <li><a class="el" href="namespace_exceptions.html">Exceptions</a> currently live in namespace <span class="tt"><a class="el" href="namespace_exceptions.html">Exceptions</a></span>.</li>
 <li>Keep exception classes lightweight.</li>
 <li>Prefer specific exception types when the error category is clear.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md116"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md122"></a>
 Time Complexity</h1>
 <ul>
 <li>Constructing an exception object is <span class="tt">O(m)</span>, where <span class="tt">m</span> is the message length.</li>
 <li>Throwing/catching cost is implementation-defined and should stay off hot paths.</li>
 <li>Exception type checks have no normal-path runtime cost until an exception is thrown.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md117"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md123"></a>
 Future Work</h1>
 <ul>
 <li>Decide whether exceptions should move under <span class="tt"><a class="el" href="namespacestratax_1_1core.html">stratax::core</a></span>.</li>

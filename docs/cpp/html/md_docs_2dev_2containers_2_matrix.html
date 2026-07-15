@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Matrix </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md39"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md45"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_matrix_8hpp.html">include/stratax/containers/Matrix.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md40"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md46"></a>
 Purpose</h1>
 <p>Implements the rank-2 Stratax array container with row-major contiguous storage.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md41"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md47"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md42"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
 Constructors</h2>
 <ul>
 <li>Default constructor</li>
@@ -135,7 +135,7 @@ Constructors</h2>
 <li><span class="tt">Matrix(rows, cols, value)</span></li>
 <li><span class="tt">Matrix({{...}, {...}})</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
 Metadata</h2>
 <ul>
 <li><span class="tt">rows()</span></li>
@@ -146,7 +146,7 @@ Metadata</h2>
 <li><span class="tt">size()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md44"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md50"></a>
 Element Access</h2>
 <ul>
 <li><span class="tt">operator()(row, col)</span></li>
@@ -155,7 +155,7 @@ Element Access</h2>
 <li><span class="tt">back()</span></li>
 <li><span class="tt">data()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md51"></a>
 Iteration</h2>
 <ul>
 <li><span class="tt">begin()</span> / <span class="tt">end()</span></li>
@@ -163,7 +163,7 @@ Iteration</h2>
 <li><span class="tt">rbegin()</span> / <span class="tt">rend()</span></li>
 <li><span class="tt">crbegin()</span> / <span class="tt">crend()</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md46"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
 Invariants</h1>
 <ul>
 <li>A matrix always has rank <span class="tt">2</span>.</li>
@@ -174,7 +174,7 @@ Invariants</h1>
 <li>Initializer-list matrices are rectangular.</li>
 <li><span class="tt">operator[]</span> indexes the same flat storage used by <span class="tt">operator()(row, col)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md47"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md53"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">operator()(row, col)</span> checks row and column bounds with <span class="tt">core::validation::require_index()</span>.</li>
@@ -183,7 +183,7 @@ Validation Notes</h1>
 <li>Initializer-list construction rejects ragged rows.</li>
 <li>Empty matrices and zero-column matrices are supported.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md54"></a>
 Implementation Notes</h1>
 <ul>
 <li>Storage is row-major: <span class="tt">row * cols() + col</span>.</li>
@@ -192,7 +192,7 @@ Implementation Notes</h1>
 <li><span class="tt">operator[]</span> is available for flat storage indexing.</li>
 <li>Rank, bounds, and size overflow checks should use <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md55"></a>
 Time Complexity</h1>
 <ul>
 <li>Metadata access, element access, <span class="tt">front()</span>, <span class="tt">back()</span>, <span class="tt">data()</span>, iterator access, and <span class="tt">swap()</span> are <span class="tt">O(1)</span>.</li>
@@ -201,7 +201,7 @@ Time Complexity</h1>
 <li>Copy construction, copy assignment, <span class="tt">fill()</span>, equality through ops, and destruction are <span class="tt">O(n)</span>.</li>
 <li>Move construction and move assignment are <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md50"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
 Future Work</h1>
 <ul>
 <li>Consider whether <span class="tt">operator[]</span> should become checked or stay a flat fast path.</li>

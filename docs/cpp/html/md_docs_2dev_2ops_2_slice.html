@@ -119,29 +119,29 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Slice </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md230"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md236"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="ops_2_slice_8hpp.html">include/stratax/ops/Slice.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md237"></a>
 Purpose</h1>
 <p>Implements range-based slicing for vectors, matrices, and tensors using <span class="tt">core::Slice</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md232"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md238"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md233"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md239"></a>
 Vector Slicing</h2>
 <ul>
 <li><span class="tt">slice(vector, slice)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md234"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md240"></a>
 Matrix Slicing</h2>
 <ul>
 <li><span class="tt">slice(matrix, row_slice, col_slice)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md241"></a>
 Tensor Slicing</h2>
 <ul>
 <li><span class="tt">slice(tensor, slice_0, slice_1, ...)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md236"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md242"></a>
 Invariants</h1>
 <ul>
 <li>Slicing uses half-open ranges <span class="tt">[start, stop)</span>.</li>
@@ -152,7 +152,7 @@ Invariants</h1>
 <li>Result shape dimensions are the sizes of the supplied slices.</li>
 <li>Slicing preserves source element order within the selected region.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md237"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md243"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">core::Slice</span> rejects reversed ranges at construction.</li>
@@ -162,7 +162,7 @@ Validation Notes</h1>
 <li>Tensor rank mismatch throws <span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span>.</li>
 <li>Out-of-bounds slices throw <span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md238"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md244"></a>
 Implementation Notes</h1>
 <ul>
 <li>Slices are half-open: <span class="tt">[start, stop)</span>.</li>
@@ -172,7 +172,7 @@ Implementation Notes</h1>
 <li>Tensor source offsets are computed from source strides.</li>
 <li>Rank and slice-stop checks should stay routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md239"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md245"></a>
 Time Complexity</h1>
 <ul>
 <li>Vector slicing is <span class="tt">O(k)</span>, where <span class="tt">k</span> is the slice length.</li>
@@ -180,7 +180,7 @@ Time Complexity</h1>
 <li>Tensor slicing is <span class="tt">O(result_size * r)</span>, where <span class="tt">r</span> is tensor rank.</li>
 <li>Empty result slices are <span class="tt">O(r)</span> for validation and shape construction.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md240"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md246"></a>
 Future Work</h1>
 <ul>
 <li>Add step support to <span class="tt">core::Slice</span>.</li>

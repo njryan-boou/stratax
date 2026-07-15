@@ -120,10 +120,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md__r_e_a_d_m_
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
-<p>Stratax is a small scientific computing library built around modern C++20 containers, shape metadata, and element-wise array operations. The core library is header-first, with early Python bindings powered by pybind11.</p>
+<p>Stratax is a modern scientific computing library built around modern C++20 containers, shape metadata, and element-wise array operations. The core library is header-first, with Python bindings powered by pybind11.</p>
 <p>The project is still young: vectors, matrices, tensors, shape/stride metadata, indexing, slicing, reshaping, conversions, creation helpers, printing, comparison, and arithmetic are active. Linear algebra, calculus, random, and statistics modules are currently reserved API areas.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
-Features</h1>
+Current Features</h1>
 <ul>
 <li>C++20 <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> containers</li>
 <li>Contiguous <span class="tt">Buffer</span> storage with shape and stride metadata</li>
@@ -132,8 +132,8 @@ Features</h1>
 <li>Reshape, flatten, slicing, and container conversion helpers</li>
 <li>Tensor creation helpers such as <span class="tt">zeros</span>, <span class="tt">ones</span>, <span class="tt">full</span>, and <span class="tt">identity</span></li>
 <li>Stream printing for vectors, matrices, tensors, shapes, and strides</li>
-<li>Experimental Python bindings for <span class="tt">Shape</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span></li>
-<li>Doxygen API documentation with rendered complexity sections</li>
+<li>Python bindings for <span class="tt">Shape</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span></li>
+<li>Doxygen API documentation</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Requirements</h1>
@@ -143,11 +143,12 @@ Requirements</h1>
 <li>Python 3.10 or newer for bindings</li>
 <li>pybind11 2.12 or newer</li>
 <li>scikit-build-core 0.10 or newer</li>
+<li>pytest 8 or newer for Python tests</li>
 <li>Doxygen 1.17 or newer for API docs</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Quick C++ Example</h1>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="stratax_8hpp.html">stratax.hpp</a>&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="stratax_8h.html">stratax.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
@@ -160,7 +161,7 @@ Quick C++ Example</h1>
 <div class="line">    std::cout &lt;&lt; c &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>; <span class="comment">// [5, 7, 9]</span></div>
 <div class="line">}</div>
 <div class="ttc" id="aclassstratax_1_1container_1_1_vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a></div><div class="ttdef"><b>Definition</b> <a href="_vector_8hpp_source.html#l00026">Vector.hpp:27</a></div></div>
-<div class="ttc" id="astratax_8hpp_html"><div class="ttname"><a href="stratax_8hpp.html">stratax.hpp</a></div></div>
+<div class="ttc" id="astratax_8h_html"><div class="ttname"><a href="stratax_8h.html">stratax.h</a></div></div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Quick Python Example</h1>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> Matrix, Shape, Tensor, Vector</div>
@@ -172,25 +173,28 @@ Quick Python Example</h1>
 <div class="line"> </div>
 <div class="line">tensor[1, 1] = 9.0</div>
 <div class="line"> </div>
-<div class="line">print(shape.out())</div>
+<div class="line">print(shape.elements)</div>
 <div class="line">print(vector.tolist())</div>
 <div class="line">print(matrix.tolist())</div>
 <div class="line">print(tensor.tolist())</div>
-</div><!-- fragment --><p>Python bindings are currently a thin experimental layer over <span class="tt">double</span>-based containers. The C++ API is the primary interface while the binding surface grows.</p>
+</div><!-- fragment --><p>Python bindings currently expose <span class="tt">double</span>-based <span class="tt">Shape</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> wrappers. The C++ API remains the primary interface while the binding surface grows.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Build</h1>
+Build From Source</h1>
 <p>Configure and build with CMake:</p>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
-</div><!-- fragment --><p>For Python packaging, use a normal PEP 517 frontend from an environment with Python and build dependencies available:</p>
+</div><!-- fragment --><p>For editable Python installation, use pip from an environment with the build dependencies available:</p>
 <div class="fragment"><div class="line">python -m pip install -e .</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
-Tests</h1>
-<p>The current tests are standalone C++ files under <span class="tt">tests/</span>. A simple local check can compile each test with <span class="tt">g++</span> and run the produced executable:</p>
-<div class="fragment"><div class="line">g++ -std=c++20 -Wall -Wextra -Iinclude tests/core/Shape.cpp -o shape_test</div>
-<div class="line">.\shape_test.exe</div>
+Run Tests</h1>
+<p>The C++ tests live under <span class="tt">tests/cpp/</span> and are registered with CTest through GoogleTest:</p>
+<div class="fragment"><div class="line">cmake -S . -B build</div>
+<div class="line">cmake --build build</div>
+<div class="line">ctest --test-dir build --output-on-failure</div>
+</div><!-- fragment --><p>The Python tests live under <span class="tt">tests/python/</span> and use pytest:</p>
+<div class="fragment"><div class="line">python -m pytest tests/python</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Documentation</h1>
+Generate Documentation</h1>
 <p>Generate API documentation with Doxygen:</p>
 <div class="fragment"><div class="line">doxygen Doxyfile</div>
 </div><!-- fragment --><p>The generated HTML entry point is:</p>
@@ -198,16 +202,33 @@ Documentation</h1>
 </div><!-- fragment --><p>If you configure through CMake and Doxygen is available, you can also run:</p>
 <div class="fragment"><div class="line">cmake --build build --target docs</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
-Project Layout</h1>
-<div class="fragment"><div class="line">include/stratax/      C++ headers</div>
-<div class="line">bindings/             pybind11 bindings</div>
-<div class="line">python/stratax/       Python package files and type markers</div>
-<div class="line">tests/                C++ test programs</div>
-<div class="line">docs/dev/             Developer notes</div>
-<div class="line">docs/cpp/html/        Generated Doxygen HTML output</div>
-<div class="line">examples/             Example entry points</div>
+Repository Layout</h1>
+<div class="fragment"><div class="line">include/stratax/      Public C++ headers</div>
+<div class="line">bindings/             pybind11 binding sources</div>
+<div class="line">python/stratax/       Python package</div>
+<div class="line">tests/cpp/            C++ tests</div>
+<div class="line">tests/python/         Python tests</div>
+<div class="line">examples/cpp/         C++ examples</div>
+<div class="line">examples/python/      Python examples</div>
+<div class="line">docs/cpp/             C++ API documentation</div>
+<div class="line">docs/python/          Python documentation</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
-Status</h1>
+Installation</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+Python</h2>
+<div class="fragment"><div class="line">pip install stratax</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+C++</h2>
+<p>Stratax is header-first for C++. Include the repository <span class="tt">include/</span> directory in your build and include the umbrella header:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="stratax_8h.html">stratax.h</a>&gt;</span></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+License</h1>
+<p>Stratax is licensed under the MIT License.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+Contributing</h1>
+<p>Contributions, bug reports, and feature requests are welcome through GitHub Issues and Pull Requests.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+Project Status</h1>
 <p>Implemented:</p>
 <ul>
 <li>Core storage and metadata: <span class="tt">Buffer</span>, <span class="tt">Shape</span>, <span class="tt">Strides</span>, <span class="tt">Slice</span></li>
@@ -215,9 +236,10 @@ Status</h1>
 <li>Operations: arithmetic, comparison, indexing, reshape, slicing</li>
 <li>Container helpers: creation and conversions</li>
 <li>I/O: stream printing</li>
-<li>Python bindings: early <span class="tt">Shape</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, <span class="tt">Tensor</span></li>
+<li>Python bindings: <span class="tt">Shape</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, <span class="tt">Tensor</span></li>
 </ul>
-<p>Reserved for future work:</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+Roadmap</h1>
 <ul>
 <li>Broadcasting</li>
 <li>Logical operations</li>

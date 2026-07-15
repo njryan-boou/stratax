@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Buffer </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md85"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md91"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_buffer_8hpp.html">include/stratax/core/Buffer.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md92"></a>
 Purpose</h1>
 <p>Implements the low-level aligned contiguous storage owner used by Stratax containers.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md87"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md93"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md94"></a>
 Constructors</h2>
 <ul>
 <li>Default constructor</li>
@@ -135,7 +135,7 @@ Constructors</h2>
 <li><span class="tt">Buffer(size, Buffer::uninitialized)</span></li>
 <li><span class="tt">Buffer({ ... })</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
 Element Access</h2>
 <ul>
 <li><span class="tt">operator[]</span></li>
@@ -143,13 +143,13 @@ Element Access</h2>
 <li><span class="tt">back()</span></li>
 <li><span class="tt">data()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md90"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md96"></a>
 Capacity</h2>
 <ul>
 <li><span class="tt">size()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md91"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md97"></a>
 Iteration</h2>
 <ul>
 <li><span class="tt">begin()</span> / <span class="tt">end()</span></li>
@@ -157,7 +157,7 @@ Iteration</h2>
 <li><span class="tt">rbegin()</span> / <span class="tt">rend()</span></li>
 <li><span class="tt">crbegin()</span> / <span class="tt">crend()</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md92"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md98"></a>
 Invariants</h1>
 <ul>
 <li><span class="tt">size_</span> is the number of constructed elements exposed by the buffer.</li>
@@ -166,7 +166,7 @@ Invariants</h1>
 <li>All elements in <span class="tt">[data_, data_ + size_)</span> are constructed unless the uninitialized constructor was used.</li>
 <li>Move operations leave the moved-from buffer empty and non-owning.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md93"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md99"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">Buffer</span> does not validate indexes.</li>
@@ -175,7 +175,7 @@ Validation Notes</h1>
 <li>Higher-level containers own shape and bounds policy.</li>
 <li><span class="tt">uninitialized</span> storage is restricted to trivially destructible types.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md94"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
 Implementation Notes</h1>
 <ul>
 <li>Allocation uses explicit alignment.</li>
@@ -183,7 +183,7 @@ Implementation Notes</h1>
 <li>Non-trivial elements are constructed and destroyed manually.</li>
 <li><span class="tt">Buffer</span> is allowed to keep <span class="tt">operator[]</span> because it is the raw storage primitive.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md101"></a>
 Time Complexity</h1>
 <ul>
 <li>Default construction, <span class="tt">size()</span>, <span class="tt">empty()</span>, <span class="tt">data()</span>, indexing, <span class="tt">front()</span>, <span class="tt">back()</span>, and iterator access are <span class="tt">O(1)</span>.</li>
@@ -192,7 +192,7 @@ Time Complexity</h1>
 <li>Copy construction, copy assignment, <span class="tt">fill()</span>, and destruction are <span class="tt">O(n)</span>.</li>
 <li>Move construction, move assignment, and <span class="tt">swap()</span> are <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md96"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md102"></a>
 Future Work</h1>
 <ul>
 <li>Add allocator customization.</li>

@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_arithmetic_8h
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    {</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">if</span> (*it2 == <span class="keyword">typename</span> A::value_type{})</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        {</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Division by zero&quot;</span>);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Array division divisor element cannot be zero.&quot;</span>);</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        }</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        *it3 = *it1 / *it2;</div>
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_arithmetic_8h
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordflow">if</span> (rhs == <a class="code hl_concept" href="concept_scalar.html">Scalar</a>{})</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    {</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Division by zero&quot;</span>);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Array division scalar divisor cannot be zero.&quot;</span>);</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    }</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = lhs.begin(); it != lhs.end(); ++it, ++out)</div>
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_arithmetic_8h
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    {</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        <span class="keywordflow">if</span> (*it == <span class="keyword">typename</span> A::value_type{})</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        {</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Division by zero&quot;</span>);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a>(<span class="stringliteral">&quot;Scalar division divisor element cannot be zero.&quot;</span>);</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        }</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        *out = lhs / *it;</div>
 <div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    }</div>
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_arithmetic_8h
 <div class="ttc" id="a_validation_8hpp_html"><div class="ttname"><a href="_validation_8hpp.html">Validation.hpp</a></div><div class="ttdoc">Shared runtime validation helpers.</div></div>
 <div class="ttc" id="aclass_exceptions_1_1_zero_division_error_html"><div class="ttname"><a href="class_exceptions_1_1_zero_division_error.html">Exceptions::ZeroDivisionError</a></div><div class="ttdoc">Signals a division by zero.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00050">Exceptions.hpp:51</a></div></div>
 <div class="ttc" id="aconcept_scalar_html"><div class="ttname"><a href="concept_scalar.html">Scalar</a></div><div class="ttdoc">Alias for any scalar type accepted by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00162">Concepts.hpp:162</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_a312b76d309a77bfda26ff9716a95cbda"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#a312b76d309a77bfda26ff9716a95cbda">stratax::core::validation::require_same_shape</a></div><div class="ttdeci">void require_same_shape(const Lhs &amp;lhs, const Rhs &amp;rhs, const char *message)</div><div class="ttdoc">Requires two array-like objects to have identical size and shape.</div><div class="ttdef"><b>Definition</b> <a href="_validation_8hpp_source.html#l00315">Validation.hpp:315</a></div></div>
+<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_a312b76d309a77bfda26ff9716a95cbda"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#a312b76d309a77bfda26ff9716a95cbda">stratax::core::validation::require_same_shape</a></div><div class="ttdeci">void require_same_shape(const Lhs &amp;lhs, const Rhs &amp;rhs, const char *message)</div><div class="ttdoc">Requires two array-like objects to have identical size and shape.</div><div class="ttdef"><b>Definition</b> <a href="_validation_8hpp_source.html#l00317">Validation.hpp:317</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

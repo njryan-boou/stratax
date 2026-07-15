@@ -119,24 +119,24 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Reshape </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md220"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md226"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_reshape_8hpp.html">include/stratax/ops/reshape.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md221"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md227"></a>
 Purpose</h1>
 <p>Provides shape-changing helpers that preserve flat storage order.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md222"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md228"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md223"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md229"></a>
 Reshape</h2>
 <ul>
 <li><span class="tt">reshape(array, shape)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md230"></a>
 Flatten</h2>
 <ul>
 <li><span class="tt">flatten(array)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md225"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
 Invariants</h1>
 <ul>
 <li><span class="tt"><a class="el" href="_reshape_8hpp.html#af3c2d1910f17af06e52ce05432e5c66e" title="Reshapes an array-like object into a tensor with the requested shape.">reshape</a></span> preserves flat element order.</li>
@@ -146,7 +146,7 @@ Invariants</h1>
 <li><span class="tt">flatten(array).size() == array.size()</span>.</li>
 <li>No reshape or flatten helper returns a view.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md226"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md232"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt"><a class="el" href="_reshape_8hpp.html#af3c2d1910f17af06e52ce05432e5c66e" title="Reshapes an array-like object into a tensor with the requested shape.">reshape</a></span> requires <span class="tt">array.size() == shape.elements()</span> through <span class="tt">core::validation::require_equal_size()</span>.</li>
@@ -154,7 +154,7 @@ Validation Notes</h1>
 <li>Overflow from <span class="tt">Shape::elements()</span> propagates as <span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span>.</li>
 <li>Empty and zero-dimension shapes are allowed when the element count matches.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md227"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md233"></a>
 Implementation Notes</h1>
 <ul>
 <li><span class="tt"><a class="el" href="_reshape_8hpp.html#af3c2d1910f17af06e52ce05432e5c66e" title="Reshapes an array-like object into a tensor with the requested shape.">reshape</a></span> always returns a <span class="tt">Tensor&lt;value_type&gt;</span>.</li>
@@ -163,14 +163,14 @@ Implementation Notes</h1>
 <li>No view semantics are implemented; returned containers own their buffers.</li>
 <li>Element-count validation should stay routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md228"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md234"></a>
 Time Complexity</h1>
 <ul>
 <li><span class="tt">reshape(array, shape)</span> is <span class="tt">O(n + r)</span>.</li>
 <li><span class="tt">flatten(array)</span> is <span class="tt">O(n)</span>.</li>
 <li>Shape element-count validation is <span class="tt">O(r)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md229"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
 Future Work</h1>
 <ul>
 <li>Add view-based reshape if non-owning containers are introduced.</li>

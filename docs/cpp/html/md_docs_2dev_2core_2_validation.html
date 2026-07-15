@@ -119,21 +119,21 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Validation </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md166"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md172"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/Validation.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md167"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md173"></a>
 Purpose</h1>
 <p>Provides small shared runtime validation helpers used by core metadata, containers, ops, and bindings.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md168"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md174"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md169"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md175"></a>
 Signed Conversion</h2>
 <ul>
 <li><span class="tt">nonnegative_size(value, message)</span></li>
 <li><span class="tt">nonnegative_shape_dimension(value, message)</span></li>
 <li><span class="tt">nonnegative_index(value, message)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md170"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md176"></a>
 Rank and Bounds</h2>
 <ul>
 <li><span class="tt">require_rank(actual, expected, message)</span></li>
@@ -141,20 +141,20 @@ Rank and Bounds</h2>
 <li><span class="tt">require_index(index, size, message)</span></li>
 <li><span class="tt">require_at_most(value, upper, message)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md171"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md177"></a>
 Arithmetic Safety</h2>
 <ul>
 <li><span class="tt">checked_multiply(lhs, rhs, message)</span></li>
 <li><span class="tt">checked_add(lhs, rhs, message)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md172"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md178"></a>
 Shape Matching</h2>
 <ul>
 <li><span class="tt">same_shape(lhs, rhs)</span></li>
 <li><span class="tt">require_same_shape(lhs, rhs, message)</span></li>
 <li><span class="tt">require_equal_size(lhs, rhs, message)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md173"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md179"></a>
 Invariants</h1>
 <ul>
 <li>Helpers do not mutate their inputs.</li>
@@ -167,7 +167,7 @@ Invariants</h1>
 <li>Checked arithmetic must never wrap.</li>
 <li><span class="tt">require_rank(object, ...)</span> returns the original object reference when validation succeeds.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md174"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md180"></a>
 Validation Notes</h1>
 <ul>
 <li>Use <span class="tt">require_index()</span> for exclusive upper-bound indexing.</li>
@@ -176,7 +176,7 @@ Validation Notes</h1>
 <li>Use <span class="tt">require_same_shape()</span> for throwing array compatibility checks.</li>
 <li>Use <span class="tt">same_shape()</span> when the caller needs a boolean comparison.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md175"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md181"></a>
 Implementation Notes</h1>
 <ul>
 <li>This header is intentionally header-only.</li>
@@ -184,14 +184,14 @@ Implementation Notes</h1>
 <li>Keep Python-specific exception translation in the binding files; core helpers should throw Stratax exceptions.</li>
 <li>Prefer passing caller-specific messages instead of baking container names into generic helpers.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md176"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md182"></a>
 Time Complexity</h1>
 <ul>
 <li>All scalar validation helpers are <span class="tt">O(1)</span>.</li>
 <li><span class="tt">same_shape()</span> and <span class="tt">require_same_shape()</span> are <span class="tt">O(r)</span> because shape equality is rank-dependent.</li>
 <li>Space complexity is <span class="tt">O(1)</span> for every helper.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md177"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md183"></a>
 Future Work</h1>
 <ul>
 <li>Add broadcasting validation once broadcasting semantics are finalized.</li>

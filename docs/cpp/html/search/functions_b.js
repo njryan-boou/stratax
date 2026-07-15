@@ -11,7 +11,7 @@ var searchData=
   ['require_5frank_8',['require_rank',['../namespacestratax_1_1core_1_1validation.html#aa969623821b98b9eb01b62d0061babfe',1,'stratax::core::validation::require_rank(std::size_t actual, std::size_t expected, const char *message)'],['../namespacestratax_1_1core_1_1validation.html#a1d5143622deae4f5e17151ab8f0035ea',1,'stratax::core::validation::require_rank(const Ranked &amp;object, std::size_t expected, const char *message)']]],
   ['require_5fsame_5farithmetic_5fshape_9',['require_same_arithmetic_shape',['../_arithmetic_8hpp.html#a74ff6831787e3139dab7efa487b3d58d',1,'Arithmetic.hpp']]],
   ['require_5fsame_5fshape_10',['require_same_shape',['../namespacestratax_1_1core_1_1validation.html#a312b76d309a77bfda26ff9716a95cbda',1,'stratax::core::validation']]],
-  ['require_5fsame_5fvalue_5ftype_11',['require_same_value_type',['../namespacestratax_1_1core_1_1validation.html#a2a9362a448a434b0b5d1386a11e5ebeb',1,'stratax::core::validation']]],
+  ['require_5fsame_5fvalue_5ftype_11',['require_same_value_type',['../namespacestratax_1_1core_1_1validation.html#a17b90044eef2e32a796206a6d98980a2',1,'stratax::core::validation']]],
   ['require_5ftype_12',['require_type',['../namespacestratax_1_1core_1_1validation.html#ad8310dfb903149cb385ec72589a6c342',1,'stratax::core::validation']]],
   ['reshape_13',['reshape',['../_reshape_8hpp.html#af3c2d1910f17af06e52ce05432e5c66e',1,'Reshape.hpp']]],
   ['rows_14',['rows',['../classstratax_1_1container_1_1_matrix.html#aecab90c02b2142141a9a12a11677f76a',1,'stratax::container::Matrix']]]

@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Vector </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md63"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md69"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_vector_8hpp.html">include/stratax/containers/Vector.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
 Purpose</h1>
 <p>Implements the rank-1 Stratax array container backed by <span class="tt">core::Shape</span> and <span class="tt">core::Buffer&lt;T&gt;</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
 Constructors</h2>
 <ul>
 <li>Default constructor</li>
@@ -135,7 +135,7 @@ Constructors</h2>
 <li><span class="tt">Vector(size, value)</span></li>
 <li><span class="tt">Vector({ ... })</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
 Metadata</h2>
 <ul>
 <li><span class="tt">shape()</span></li>
@@ -144,7 +144,7 @@ Metadata</h2>
 <li><span class="tt">rank()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
 Element Access</h2>
 <ul>
 <li><span class="tt">operator()(index)</span></li>
@@ -153,7 +153,7 @@ Element Access</h2>
 <li><span class="tt">back()</span></li>
 <li><span class="tt">data()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md69"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
 Iteration</h2>
 <ul>
 <li><span class="tt">begin()</span> / <span class="tt">end()</span></li>
@@ -161,7 +161,7 @@ Iteration</h2>
 <li><span class="tt">rbegin()</span> / <span class="tt">rend()</span></li>
 <li><span class="tt">crbegin()</span> / <span class="tt">crend()</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md76"></a>
 Invariants</h1>
 <ul>
 <li>A shape-constructed vector always has rank <span class="tt">1</span>.</li>
@@ -171,7 +171,7 @@ Invariants</h1>
 <li><span class="tt">operator[]</span> and flat <span class="tt">operator()</span> address the same underlying element.</li>
 <li>Default-constructed vectors are empty and have rank <span class="tt">0</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">operator()</span> is unchecked.</li>
@@ -180,7 +180,7 @@ Validation Notes</h1>
 <li>Empty vectors are possible through the default constructor.</li>
 <li>Zero-size rank-1 vectors are supported.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md78"></a>
 Implementation Notes</h1>
 <ul>
 <li><span class="tt">shape_</span>, <span class="tt">strides_</span>, and <span class="tt">buffer_</span> should stay in sync.</li>
@@ -189,7 +189,7 @@ Implementation Notes</h1>
 <li><a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> code expects construction from <span class="tt">Shape</span>.</li>
 <li>Rank and bounds checks should use <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md79"></a>
 Time Complexity</h1>
 <ul>
 <li>Default construction, metadata access, element access, <span class="tt">front()</span>, <span class="tt">back()</span>, <span class="tt">data()</span>, iterator access, and <span class="tt">swap()</span> are <span class="tt">O(1)</span>.</li>
@@ -197,7 +197,7 @@ Time Complexity</h1>
 <li>Copy construction, copy assignment, <span class="tt">fill()</span>, equality through ops, and destruction are <span class="tt">O(n)</span>.</li>
 <li>Move construction and move assignment are <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md80"></a>
 Future Work</h1>
 <ul>
 <li>Consider whether <span class="tt">operator()</span> should remain unchecked.</li>

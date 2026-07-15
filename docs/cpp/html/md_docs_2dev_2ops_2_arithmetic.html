@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Arithmetic </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md189"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md195"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_arithmetic_8hpp.html">include/stratax/ops/arithmetic.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md190"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md196"></a>
 Purpose</h1>
 <p>Implements generic element-wise arithmetic algorithms for all Stratax array containers.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md191"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md197"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md192"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md198"></a>
 Array &lt;-&gt; Array</h2>
 <ul>
 <li><span class="tt">operator+</span></li>
@@ -134,7 +134,7 @@ Array &lt;-&gt; Array</h2>
 <li><span class="tt">operator*</span></li>
 <li><span class="tt">operator/</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md193"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md199"></a>
 Array &lt;-&gt; Scalar</h2>
 <ul>
 <li><span class="tt">operator+</span></li>
@@ -142,12 +142,12 @@ Array &lt;-&gt; Scalar</h2>
 <li><span class="tt">operator*</span></li>
 <li><span class="tt">operator/</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md194"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md200"></a>
 Scalar &lt;-&gt; Array</h2>
 <ul>
 <li>Reverse arithmetic operators.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md195"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md201"></a>
 Compound Assignment</h2>
 <ul>
 <li><span class="tt">operator+=</span></li>
@@ -155,13 +155,13 @@ Compound Assignment</h2>
 <li><span class="tt">operator*=</span></li>
 <li><span class="tt">operator/=</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md196"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md202"></a>
 Unary</h2>
 <ul>
 <li>Unary <span class="tt">+</span></li>
 <li>Unary <span class="tt">-</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md197"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md203"></a>
 Invariants</h1>
 <ul>
 <li><a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> returns containers with the same shape as the array operand.</li>
@@ -172,7 +172,7 @@ Invariants</h1>
 <li>Element-wise division and scalar-array division may fill part of a temporary result before detecting a later zero divisor; the input arrays are not mutated unless compound assignment completes successfully.</li>
 <li>Result containers own their storage.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md198"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md204"></a>
 Validation Notes</h1>
 <ul>
 <li>Shapes must match before element-wise array operations through <span class="tt">core::validation::require_same_shape()</span>.</li>
@@ -180,7 +180,7 @@ Validation Notes</h1>
 <li>Broadcasting is <b>not</b> implemented.</li>
 <li><a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> does <b>not</b> change container shape or size.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md199"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md205"></a>
 Implementation Notes</h1>
 <ul>
 <li>Algorithms are generic and operate on any container satisfying the <span class="tt"><a class="el" href="concept_array.html">Array</a></span> concept.</li>
@@ -198,7 +198,7 @@ Implementation Notes</h1>
 <li><a class="el" href="concept_scalar.html" title="Alias for any scalar type accepted by Stratax numeric containers.">Scalar</a> overloads accept <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> scalars, including complex numbers.</li>
 <li>Shape compatibility checks should stay routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md200"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md206"></a>
 Time Complexity</h1>
 <ul>
 <li>Array-array arithmetic is <span class="tt">O(n)</span>.</li>
@@ -208,7 +208,7 @@ Time Complexity</h1>
 <li>Unary <span class="tt">-</span> is <span class="tt">O(n)</span>.</li>
 <li>Shape checks are <span class="tt">O(r)</span> because shape equality compares dimensions.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md201"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md207"></a>
 Future Work</h1>
 <ul>
 <li>Broadcasting</li>

@@ -119,32 +119,32 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Shape </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md118"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md124"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_shape_8hpp.html">include/stratax/core/Shape.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md119"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md125"></a>
 Purpose</h1>
 <p>Stores tensor dimensions and exposes rank and total element count metadata.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md120"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md126"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md121"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md127"></a>
 Constructors</h2>
 <ul>
 <li>Default constructor</li>
 <li><span class="tt">Shape({ ... })</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md122"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md128"></a>
 Metadata</h2>
 <ul>
 <li><span class="tt">elements()</span></li>
 <li><span class="tt">rank()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md123"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md129"></a>
 Element Access</h2>
 <ul>
 <li><span class="tt">operator()(dimension_index)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md124"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md130"></a>
 Iteration and Utilities</h2>
 <ul>
 <li><span class="tt">begin()</span> / <span class="tt">end()</span></li>
@@ -153,7 +153,7 @@ Iteration and Utilities</h2>
 <li><span class="tt">swap()</span></li>
 <li><span class="tt">operator&lt;&lt;</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md125"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md131"></a>
 Invariants</h1>
 <ul>
 <li><span class="tt">rank()</span> always equals the number of stored dimensions.</li>
@@ -162,7 +162,7 @@ Invariants</h1>
 <li>Any zero dimension makes <span class="tt">elements()</span> return <span class="tt">0</span>.</li>
 <li>Shape equality requires the same rank and the same dimension values in order.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md126"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md132"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">operator()</span> checks dimension index bounds through <span class="tt">core::validation::require_index()</span>.</li>
@@ -170,7 +170,7 @@ Validation Notes</h1>
 <li>Empty shape has element count <span class="tt">0</span>.</li>
 <li>Element count multiplication checks overflow and throws <span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md127"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md133"></a>
 Implementation Notes</h1>
 <ul>
 <li>Public shape indexing should use <span class="tt">operator()</span>.</li>
@@ -179,14 +179,14 @@ Implementation Notes</h1>
 <li>Keep overflow and bounds checks routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 <li><span class="tt">operator&lt;&lt;</span> is inline because this file is header-only.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md128"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md134"></a>
 Time Complexity</h1>
 <ul>
 <li>Default construction, <span class="tt">rank()</span>, <span class="tt">empty()</span>, <span class="tt">operator()(index)</span>, iterator access, and <span class="tt">swap()</span> are <span class="tt">O(1)</span>.</li>
 <li>Initializer-list and buffer construction are <span class="tt">O(r)</span>, where <span class="tt">r</span> is rank.</li>
 <li><span class="tt">elements()</span>, equality, inequality, and stream output are <span class="tt">O(r)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md129"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md135"></a>
 Future Work</h1>
 <ul>
 <li>Decide scalar-shape semantics for empty shapes.</li>

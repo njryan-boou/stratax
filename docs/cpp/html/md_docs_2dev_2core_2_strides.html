@@ -119,27 +119,27 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Strides </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md141"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md147"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_strides_8hpp.html">include/stratax/core/Strides.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md142"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md148"></a>
 Purpose</h1>
 <p>Stores row-major stride values derived from a <span class="tt">Shape</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md143"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md149"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md144"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md150"></a>
 Constructors</h2>
 <ul>
 <li>Default constructor</li>
 <li><span class="tt">Strides(shape)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md145"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md151"></a>
 Metadata</h2>
 <ul>
 <li><span class="tt">size()</span></li>
 <li><span class="tt">rank()</span></li>
 <li><span class="tt">empty()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md146"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md152"></a>
 Element Access</h2>
 <ul>
 <li><span class="tt">operator()(dimension_index)</span></li>
@@ -148,7 +148,7 @@ Element Access</h2>
 <li><span class="tt">back()</span></li>
 <li><span class="tt">data()</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md147"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md153"></a>
 Iteration and Utilities</h2>
 <ul>
 <li><span class="tt">begin()</span> / <span class="tt">end()</span></li>
@@ -159,7 +159,7 @@ Iteration and Utilities</h2>
 <li><span class="tt">swap()</span></li>
 <li><span class="tt">operator&lt;&lt;</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md148"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md154"></a>
 Invariants</h1>
 <ul>
 <li><span class="tt">rank()</span> always equals the number of stored stride values.</li>
@@ -169,7 +169,7 @@ Invariants</h1>
 <li>Empty shapes produce empty strides.</li>
 <li>Public iteration exposes read-only stride values.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md149"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md155"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt">at()</span> checks bounds through <span class="tt">core::validation::require_index()</span>.</li>
@@ -177,7 +177,7 @@ Validation Notes</h1>
 <li>Empty shapes produce empty strides.</li>
 <li>Stride multiplication uses <span class="tt">core::validation::checked_multiply()</span> and throws <span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md150"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md156"></a>
 Implementation Notes</h1>
 <ul>
 <li>For shape <span class="tt">(2, 3, 4)</span>, strides are <span class="tt">(12, 4, 1)</span>.</li>
@@ -187,14 +187,14 @@ Implementation Notes</h1>
 <li>Keep stride overflow and bounds checks routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 <li><span class="tt">operator&lt;&lt;</span> is inline because this file is header-only.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md151"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md157"></a>
 Time Complexity</h1>
 <ul>
 <li>Default construction, <span class="tt">size()</span>, <span class="tt">rank()</span>, <span class="tt">empty()</span>, element access, <span class="tt">front()</span>, <span class="tt">back()</span>, <span class="tt">data()</span>, iterator access, and <span class="tt">swap()</span> are <span class="tt">O(1)</span>.</li>
 <li>Construction from <span class="tt">Shape</span> is <span class="tt">O(r)</span>, where <span class="tt">r</span> is rank.</li>
 <li>Equality, inequality, and stream output are <span class="tt">O(r)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md152"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md158"></a>
 Future Work</h1>
 <ul>
 <li>Add column-major or layout policy support.</li>

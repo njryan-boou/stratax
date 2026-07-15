@@ -119,28 +119,28 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Conversions </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md19"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md25"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_conversions_8hpp.html">include/stratax/containers/Conversions.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Purpose</h1>
 <p>Provides helpers for converting between Stratax container shapes and casting container element types.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
 Shape Conversions</h2>
 <ul>
 <li><span class="tt">to_vector(array)</span></li>
 <li><span class="tt">to_matrix(array)</span></li>
 <li><span class="tt">to_tensor(array)</span></li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Type Casting</h2>
 <ul>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a>&lt;To&gt;(vector)</span></li>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a>&lt;To&gt;(matrix)</span></li>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a>&lt;To&gt;(tensor)</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Invariants</h1>
 <ul>
 <li>Conversion helpers return new owning containers.</li>
@@ -150,7 +150,7 @@ Invariants</h1>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a57baab83de6ed5a75427515dcc653e66" title="Converts an array-like object to a tensor.">to_tensor</a></span> preserves the input shape exactly.</li>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a></span> preserves container shape and element count.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 Validation Notes</h1>
 <ul>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a9f3c704367601c2ce3b3a3191fced3fa" title="Converts an array-like object to a vector.">to_vector</a></span> requires rank 1 input through <span class="tt">core::validation::require_rank()</span>.</li>
@@ -160,7 +160,7 @@ Validation Notes</h1>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a></span> requires both source and destination element types to satisfy <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span>.</li>
 <li>Cast behavior follows <span class="tt">static_cast</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 Implementation Notes</h1>
 <ul>
 <li>Conversion helpers preserve shape and copy linear buffer values with <span class="tt">operator[]</span>.</li>
@@ -169,14 +169,14 @@ Implementation Notes</h1>
 <li>Returned containers own their own buffers.</li>
 <li>Rank validation should stay routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
 Time Complexity</h1>
 <ul>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a9f3c704367601c2ce3b3a3191fced3fa" title="Converts an array-like object to a vector.">to_vector</a></span>, <span class="tt"><a class="el" href="_conversions_8hpp.html#a956e833b736446b359f1c68eefc1516c" title="Converts an array-like object to a matrix.">to_matrix</a></span>, and <span class="tt"><a class="el" href="_conversions_8hpp.html#a57baab83de6ed5a75427515dcc653e66" title="Converts an array-like object to a tensor.">to_tensor</a></span> are <span class="tt">O(n + r)</span>.</li>
 <li><span class="tt"><a class="el" href="_conversions_8hpp.html#a7ae9a47bafa25264944765bf5c6ff874" title="Casts a vector to a different numeric value type.">astype</a></span> is <span class="tt">O(n + r)</span>.</li>
 <li>Rank checks are <span class="tt">O(1)</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
 Future Work</h1>
 <ul>
 <li>Move conversion helpers into a Stratax namespace.</li>

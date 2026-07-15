@@ -119,20 +119,20 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2dev_2
   <div class="headertitle"><div class="title">Comparison </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md202"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md208"></a></p>
 <p>Developer notes for <span class="tt"><a class="el" href="_comparison_8hpp.html">include/stratax/ops/Comparison.hpp</a></span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md203"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md209"></a>
 Purpose</h1>
 <p>Implements generic equality and inequality for Stratax array containers.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md204"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md210"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md205"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md211"></a>
 Array Comparison</h2>
 <ul>
 <li><span class="tt">operator==</span></li>
 <li><span class="tt">operator!=</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md206"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md212"></a>
 Invariants</h1>
 <ul>
 <li>Equality never mutates either operand.</li>
@@ -141,14 +141,14 @@ Invariants</h1>
 <li><span class="tt">operator!=</span> is always the logical negation of <span class="tt">operator==</span>.</li>
 <li>Comparison returns <span class="tt">false</span> for mismatched arrays instead of throwing.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md207"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md213"></a>
 Validation Notes</h1>
 <ul>
 <li>Size or shape mismatch is checked with <span class="tt">core::validation::same_shape()</span> and returns <span class="tt">false</span>.</li>
 <li>Comparison does not throw for mismatched size or shape.</li>
 <li>Element comparison assumes both containers expose flat iteration in logical order.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md208"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md214"></a>
 Implementation Notes</h1>
 <ul>
 <li>Equality checks size and shape first.</li>
@@ -157,7 +157,7 @@ Implementation Notes</h1>
 <li>Works with vectors, matrices, and tensors.</li>
 <li>Shape compatibility comparison should stay routed through <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md209"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md215"></a>
 Time Complexity</h1>
 <ul>
 <li>Best case for mismatched size is <span class="tt">O(1)</span>.</li>
@@ -165,7 +165,7 @@ Time Complexity</h1>
 <li>Equality is <span class="tt">O(r + n)</span> in the worst case.</li>
 <li>Inequality has the same complexity as equality.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md210"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md216"></a>
 Future Work</h1>
 <ul>
 <li>Add approximate equality for floating-point containers.</li>

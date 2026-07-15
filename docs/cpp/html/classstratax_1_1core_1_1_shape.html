@@ -136,17 +136,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab22d9ead35a42060f14c87f052dc4920" id="r_ab22d9ead35a42060f14c87f052dc4920"><td class="memTemplParams" colspan="2">template&lt;Integral... Dims&gt; <br />
 requires (sizeof...(Dims) &gt; 0)</td></tr>
 <tr class="memitem:ab22d9ead35a42060f14c87f052dc4920 template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab22d9ead35a42060f14c87f052dc4920">Shape</a> (Dims... dims)</td></tr>
-<tr class="memdesc:ab22d9ead35a42060f14c87f052dc4920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from positive integer dimension lengths.  <br /></td></tr>
+<tr class="memdesc:ab22d9ead35a42060f14c87f052dc4920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from non-negative integer dimension lengths.  <br /></td></tr>
 <tr class="memitem:af6299dad2037e6cf8c2efa33f4338f08" id="r_af6299dad2037e6cf8c2efa33f4338f08"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af6299dad2037e6cf8c2efa33f4338f08">Shape</a> (std::initializer_list&lt; std::size_t &gt; list, <a class="el" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero)</td></tr>
-<tr class="memdesc:af6299dad2037e6cf8c2efa33f4338f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from dimension lengths without rejecting zero dimensions.  <br /></td></tr>
+<tr class="memdesc:af6299dad2037e6cf8c2efa33f4338f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from dimension lengths using the explicit zero-dimension tag.  <br /></td></tr>
 <tr class="memitem:ac4252cacc24032dcec890999d775e431" id="r_ac4252cacc24032dcec890999d775e431"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac4252cacc24032dcec890999d775e431">Shape</a> (const <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;dims)</td></tr>
 <tr class="memdesc:ac4252cacc24032dcec890999d775e431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by copying dimension lengths from a buffer.  <br /></td></tr>
 <tr class="memitem:af733b4d8584d3173bc53147f5c45627e" id="r_af733b4d8584d3173bc53147f5c45627e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af733b4d8584d3173bc53147f5c45627e">Shape</a> (const <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;dims, <a class="el" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero)</td></tr>
-<tr class="memdesc:af733b4d8584d3173bc53147f5c45627e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by copying dimension lengths without rejecting zero dimensions.  <br /></td></tr>
+<tr class="memdesc:af733b4d8584d3173bc53147f5c45627e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by copying dimension lengths using the explicit zero-dimension tag.  <br /></td></tr>
 <tr class="memitem:ae239068266eb336c15a3cba850ca56b7" id="r_ae239068266eb336c15a3cba850ca56b7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae239068266eb336c15a3cba850ca56b7">Shape</a> (<a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;&amp;dims)</td></tr>
 <tr class="memdesc:ae239068266eb336c15a3cba850ca56b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by taking ownership of dimension lengths from a buffer.  <br /></td></tr>
 <tr class="memitem:a100a3d52c1a208961f32b6655c52f2ef" id="r_a100a3d52c1a208961f32b6655c52f2ef"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a100a3d52c1a208961f32b6655c52f2ef">Shape</a> (<a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;&amp;dims, <a class="el" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero)</td></tr>
-<tr class="memdesc:a100a3d52c1a208961f32b6655c52f2ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by taking ownership of dimensions without rejecting zero dimensions.  <br /></td></tr>
+<tr class="memdesc:a100a3d52c1a208961f32b6655c52f2ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by taking ownership of dimensions using the explicit zero-dimension tag.  <br /></td></tr>
 <tr class="memitem:a00a2c19e9b295bf9b03870240f70b1ba" id="r_a00a2c19e9b295bf9b03870240f70b1ba"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a00a2c19e9b295bf9b03870240f70b1ba">~Shape</a> ()=default</td></tr>
 <tr class="memdesc:a00a2c19e9b295bf9b03870240f70b1ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the shape.  <br /></td></tr>
 <tr class="memitem:a048f93d32c5fd731362affd06b9cec77" id="r_a048f93d32c5fd731362affd06b9cec77"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a048f93d32c5fd731362affd06b9cec77">elements</a> () const</td></tr>
@@ -238,7 +238,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a shape from positive integer dimension lengths. </p>
+<p>Creates a shape from non-negative integer dimension lengths. </p>
 <p>The dimensions are stored in order, from outermost axis to innermost axis. Boolean and character-like types are rejected by the <span class="tt"><a class="el" href="concept_integral.html" title="Matches signed and unsigned integral types, excluding character-like types.">Integral</a></span> concept.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -280,12 +280,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a shape from dimension lengths without rejecting zero dimensions. </p>
-<p>This overload is intended for container internals that need rank-preserving empty shapes such as <span class="tt">(0,)</span> or <span class="tt">(0, 0)</span>.</p>
+<p>Creates a shape from dimension lengths using the explicit zero-dimension tag. </p>
+<p>This overload documents zero-preserving construction for call sites that want to make that intent visible.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">list</td><td>Dimension lengths. </td></tr>
-    <tr><td class="paramname">allow_zero</td><td>Tag allowing zero-valued dimensions. </td></tr>
+    <tr><td class="paramname">allow_zero</td><td>Tag documenting that zero-valued dimensions are intentional. </td></tr>
   </table>
   </dd>
 </dl>
@@ -358,11 +358,11 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a shape by copying dimension lengths without rejecting zero dimensions. </p>
+<p>Creates a shape by copying dimension lengths using the explicit zero-dimension tag. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dims</td><td>Source buffer containing one dimension length per entry. </td></tr>
-    <tr><td class="paramname">allow_zero</td><td>Tag allowing zero-valued dimensions. </td></tr>
+    <tr><td class="paramname">allow_zero</td><td>Tag documenting that zero-valued dimensions are intentional. </td></tr>
   </table>
   </dd>
 </dl>
@@ -435,11 +435,11 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a shape by taking ownership of dimensions without rejecting zero dimensions. </p>
+<p>Creates a shape by taking ownership of dimensions using the explicit zero-dimension tag. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dims</td><td>Source buffer containing one dimension length per entry. </td></tr>
-    <tr><td class="paramname">allow_zero</td><td>Tag allowing zero-valued dimensions. </td></tr>
+    <tr><td class="paramname">allow_zero</td><td>Tag documenting that zero-valued dimensions are intentional. </td></tr>
   </table>
   </dd>
 </dl>
@@ -575,7 +575,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00138">138</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00254">stratax::core::validation::checked_multiply()</a>, and <a class="el" href="_shape_8hpp_source.html#l00182">empty()</a>.</p>
+<p class="reference">References <a class="el" href="_validation_8hpp_source.html#l00256">stratax::core::validation::checked_multiply()</a>, and <a class="el" href="_shape_8hpp_source.html#l00182">empty()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_print_8hpp_source.html#l00154">stratax::container::operator&lt;&lt;()</a>, and <a class="el" href="_reshape_8hpp_source.html#l00027">reshape()</a>.</p>
 
@@ -751,7 +751,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00171">171</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_shape_8hpp_source.html#l00157">rank()</a>, and <a class="el" href="_validation_8hpp_source.html#l00216">stratax::core::validation::require_index()</a>.</p>
+<p class="reference">References <a class="el" href="_shape_8hpp_source.html#l00157">rank()</a>, and <a class="el" href="_validation_8hpp_source.html#l00218">stratax::core::validation::require_index()</a>.</p>
 
 </div>
 </div>

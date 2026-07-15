@@ -64,8 +64,10 @@ requires requires
     typename Lhs::value_type;
     typename Rhs::value_type;
 }
-void require_same_value_type(const Lhs&, const Rhs&, const char* message)
+void require_same_value_type(const Lhs& lhs, const Rhs& rhs, const char* message)
 {
+    (void)lhs;
+    (void)rhs;
     require_type<typename Lhs::value_type, typename Rhs::value_type>(message);
 }
 

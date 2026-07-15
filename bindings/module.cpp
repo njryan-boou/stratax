@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Config.hpp>
+#include <stratax/core/Meta.hpp>
 
 namespace py = pybind11;
 
@@ -15,6 +15,8 @@ PYBIND11_MODULE(_core, m)
     m.attr("__doc__") = STRATAX_PY_DOC;
 
     m.attr("__version__") = STRATAX_VERSION;
+
+    m.attr("__author__") = STRATAX_AUTHOR;
 
     py::object stratax_error = py::register_exception<Exceptions::StrataxError>(
         m,
