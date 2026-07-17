@@ -3,10 +3,8 @@ from __future__ import annotations
 from ._core import to_matrix as _to_matrix
 from ._core import to_tensor as _to_tensor
 from ._core import to_vector as _to_vector
+from .core import Matrix, Tensor, Vector
 from .exceptions import TypeError as StrataxTypeError
-from .matrix import Matrix
-from .tensor import Tensor
-from .vector import Vector
 
 
 def to_vector(arr: Vector | Matrix | Tensor) -> Vector:

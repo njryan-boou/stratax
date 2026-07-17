@@ -1,8 +1,5 @@
 from ._core import __version__, __doc__, __author__
-from .shape import Shape
-from .tensor import Tensor
-from .vector import Vector
-from .matrix import Matrix
+from .core import Shape, Tensor, Vector, Matrix
 from .conversions import to_matrix, to_tensor, to_vector
 from .creation import full, identity, ones, zeros
 from .exceptions import (

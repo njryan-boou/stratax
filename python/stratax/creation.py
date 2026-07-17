@@ -7,9 +7,8 @@ from ._core import full as _full
 from ._core import identity as _identity
 from ._core import ones as _ones
 from ._core import zeros as _zeros
+from .core import Shape, Tensor
 from .exceptions import TypeError as StrataxTypeError
-from .shape import Shape
-from .tensor import Tensor
 
 
 def zeros(shape: Shape | Iterable[int]) -> Tensor:

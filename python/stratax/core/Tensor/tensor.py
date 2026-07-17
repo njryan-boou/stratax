@@ -3,10 +3,9 @@ from __future__ import annotations
 from collections.abc import Iterable
 from numbers import Real
 
-from ._core import Tensor as _Tensor
-from .exceptions import TypeError as StrataxTypeError
-
-from .shape import Shape
+from ..._core import Tensor as _Tensor
+from ...exceptions import TypeError as StrataxTypeError
+from ...core.Shape import Shape
 
 
 class Tensor:
@@ -80,7 +79,7 @@ class Tensor:
         return self._wrap(self._impl.reshape(target_shape._impl))
 
     def flatten(self):
-        from .vector import Vector
+        from ...core.Vector import Vector
 
         return Vector._wrap(self._impl.flatten())
 
@@ -99,7 +98,6 @@ class Tensor:
             return float(value)
 
         return NotImplemented
-
 
     def __len__(self) -> int:
         return len(self._impl)

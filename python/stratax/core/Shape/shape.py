@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from ._core import _Shape
-from .exceptions import TypeError as StrataxTypeError
-
+from ..._core import _Shape
+from ...exceptions import TypeError as StrataxTypeError
 
 
 class Shape:

@@ -3,53 +3,48 @@ from __future__ import annotations
 from collections.abc import Iterable
 from numbers import Real
 
-from ._core import Matrix as _Matrix
-from .exceptions import TypeError as StrataxTypeError
+from ..._core import Vector as _Vector
+from ...exceptions import TypeError as StrataxTypeError
+from ...core.Shape import Shape
 
-from .shape import Shape
 
-
-class Matrix:
+class Vector:
     def __init__(self, *args):
         if not args:
-            self._impl = _Matrix()
+            self._impl = _Vector()
 
         elif len(args) == 1:
             value = args[0]
 
-            if isinstance(value, Matrix):
-                self._impl = _Matrix(value._impl)
+            if isinstance(value, Vector):
+                self._impl = _Vector(value._impl)
 
-            elif isinstance(value, _Matrix):
-                self._impl = _Matrix(value)
+            elif isinstance(value, _Vector):
+                self._impl = _Vector(value)
 
             elif isinstance(value, Shape):
-                self._impl = _Matrix(value._impl)
+                self._impl = _Vector(value._impl)
+
+            elif isinstance(value, int):
+                self._impl = _Vector(value)
 
             elif isinstance(value, Iterable):
-                self._impl = _Matrix(value)
+                self._impl = _Vector(value)
 
             else:
                 raise StrataxTypeError(
-                    "Matrix constructor expects a Matrix, Shape, or iterable of row values."
+                    "Vector constructor expects a Vector, Shape, size, or iterable of numbers."
                 )
 
         elif len(args) == 2:
-            rows, cols = args
-            if not isinstance(rows, int) or not isinstance(cols, int):
-                raise StrataxTypeError("Matrix row and column counts must be integers.")
+            size, value = args
+            if not isinstance(size, int):
+                raise StrataxTypeError("Vector size must be an integer.")
 
-            self._impl = _Matrix(rows, cols)
-
-        elif len(args) == 3:
-            rows, cols, value = args
-            if not isinstance(rows, int) or not isinstance(cols, int):
-                raise StrataxTypeError("Matrix row and column counts must be integers.")
-
-            self._impl = _Matrix(rows, cols, value)
+            self._impl = _Vector(size, value)
 
         else:
-            raise TypeError("Matrix accepts at most three arguments.")
+            raise TypeError("Vector accepts at most two arguments.")
 
     @property
     def size(self) -> int:
@@ -64,14 +59,6 @@ class Matrix:
         return self._impl.empty()
 
     @property
-    def rows(self) -> int:
-        return self._impl.rows()
-
-    @property
-    def cols(self) -> int:
-        return self._impl.cols()
-
-    @property
     def shape(self) -> Shape:
         return Shape(self._impl.shape())
 
@@ -82,29 +69,27 @@ class Matrix:
     def fill(self, value: float) -> None:
         self._impl.fill(value)
 
-    def tolist(self) -> list[list[float]]:
+    def tolist(self) -> list[float]:
         return self._impl.tolist()
 
     def reshape(self, shape: Shape | Iterable[int]):
-        from .tensor import Tensor
+        from ...core.Tensor import Tensor
 
         target_shape = shape if isinstance(shape, Shape) else Shape(shape)
         return Tensor._wrap(self._impl.reshape(target_shape._impl))
 
-    def flatten(self):
-        from .vector import Vector
-
-        return Vector._wrap(self._impl.flatten())
+    def flatten(self) -> "Vector":
+        return self._wrap(self._impl.flatten())
 
     @staticmethod
-    def _wrap(impl: _Matrix) -> "Matrix":
-        matrix = Matrix.__new__(Matrix)
-        matrix._impl = impl
-        return matrix
+    def _wrap(impl: _Vector) -> "Vector":
+        vector = Vector.__new__(Vector)
+        vector._impl = impl
+        return vector
 
     @staticmethod
     def _operand(value):
-        if isinstance(value, Matrix):
+        if isinstance(value, Vector):
             return value._impl
 
         if isinstance(value, Real):
@@ -115,27 +100,27 @@ class Matrix:
     def __len__(self) -> int:
         return len(self._impl)
 
-    def __getitem__(self, index: slice | tuple[int | slice, int | slice]):
+    def __getitem__(self, index: int | slice):
         value = self._impl[index]
-        if isinstance(value, _Matrix):
+        if isinstance(value, _Vector):
             return self._wrap(value)
 
         return value
 
-    def __setitem__(self, index: tuple[int, int], value: float) -> None:
+    def __setitem__(self, index: int, value: float) -> None:
         self._impl[index] = value
 
     def __iter__(self):
         return iter(self._impl)
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Matrix):
+        if not isinstance(other, Vector):
             return NotImplemented
 
         return self._impl == other._impl
 
     def __ne__(self, other: object) -> bool:
-        if not isinstance(other, Matrix):
+        if not isinstance(other, Vector):
             return NotImplemented
 
         return self._impl != other._impl
@@ -149,7 +134,7 @@ class Matrix:
 
     def __radd__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Matrix):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand + self._impl)
@@ -163,7 +148,7 @@ class Matrix:
 
     def __rsub__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Matrix):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand - self._impl)
@@ -177,7 +162,7 @@ class Matrix:
 
     def __rmul__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Matrix):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand * self._impl)
@@ -191,7 +176,7 @@ class Matrix:
 
     def __rtruediv__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Matrix):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand / self._impl)

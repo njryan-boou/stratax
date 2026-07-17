@@ -1,6 +1,4 @@
-from .matrix import Matrix
-from .tensor import Tensor
-from .vector import Vector
+from .core import Matrix, Tensor, Vector
 
 
 def to_vector(arr: Vector | Matrix | Tensor) -> Vector:

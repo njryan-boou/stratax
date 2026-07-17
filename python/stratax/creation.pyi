@@ -1,7 +1,6 @@
 from collections.abc import Iterable
 
-from .shape import Shape
-from .tensor import Tensor
+from .core import Shape, Tensor
 
 
 def zeros(shape: Shape | Iterable[int]) -> Tensor:
