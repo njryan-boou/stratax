@@ -2,10 +2,10 @@
 
 #include "../common/utils.hpp"
 
-#include <stratax/containers/Tensor.hpp>
+#include <stratax/core/containers/Tensor.hpp>
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/core/Validation.hpp>
+#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/validation/Validation.hpp>
 
 #include <cstddef>
 #include <limits>
@@ -122,3 +122,4 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
                     "Tensor fill value is too large to represent as a float."));
         }), py::arg("shape"), py::arg("value"));
 }
+

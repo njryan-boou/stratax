@@ -11,6 +11,7 @@ Describes how the library is organized so implementation work stays consistent a
 ### Project Layout
 - `include/stratax/core`
 - `include/stratax/containers`
+- `include/stratax/algorithms`
 - `include/stratax/ops`
 - `include/stratax/io`
 - `tests`

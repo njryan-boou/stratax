@@ -2,10 +2,10 @@
 
 #include "../common/utils.hpp"
 
-#include <stratax/containers/Matrix.hpp>
+#include <stratax/core/containers/Matrix.hpp>
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/core/Validation.hpp>
+#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/validation/Validation.hpp>
 
 #include <cstddef>
 #include <limits>
@@ -118,7 +118,7 @@ Matrix make_matrix_from_object(py::object value)
         "Matrix constructor expects a Matrix, Shape, or iterable of row values.");
 }
 
-} // anonymous namespace
+}
 
 void bind_matrix_constructors(py::class_<Matrix>& cls)
 {
@@ -164,3 +164,4 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
             );
         }), py::arg("rows"), py::arg("cols"), py::arg("value"));
 }
+

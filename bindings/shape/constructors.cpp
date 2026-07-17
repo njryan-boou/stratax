@@ -3,8 +3,8 @@
 #include "../common/utils.hpp"
 
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/core/Validation.hpp>
+#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/validation/Validation.hpp>
 
 #include <cstddef>
 #include <vector>
@@ -72,3 +72,4 @@ void bind_shape_constructors(py::class_<Shape>& cls)
             return make_shape(values);
         }), py::arg("dims"));
 }
+

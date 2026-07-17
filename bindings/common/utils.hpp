@@ -136,4 +136,4 @@ inline ResolvedSlice single_index_slice(
     return ResolvedSlice{static_cast<py::ssize_t>(index), 1, 1};
 }
 
-} // namespace binding_utils
+}

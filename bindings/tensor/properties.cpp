@@ -1,9 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <stratax/containers/Tensor.hpp>
-#include <stratax/io/Print.hpp>
-#include <stratax/ops/comparison.hpp>
+#include <stratax/core/containers/Tensor.hpp>
+#include <stratax/core/io/Print.hpp>
 
 #include <cstddef>
 #include <sstream>
@@ -46,12 +45,6 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
         .def("__iter__", [](const Tensor& tensor) {
             return py::make_iterator(tensor.begin(), tensor.end());
         }, py::keep_alive<0, 1>())
-        .def("__eq__", [](const Tensor& lhs, const Tensor& rhs) {
-            return lhs == rhs;
-        })
-        .def("__ne__", [](const Tensor& lhs, const Tensor& rhs) {
-            return lhs != rhs;
-        })
         .def("__repr__", [](const Tensor& tensor) {
             std::ostringstream os;
             os << tensor;

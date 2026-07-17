@@ -3,8 +3,8 @@
 #include "../common/utils.hpp"
 
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/core/Validation.hpp>
+#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/validation/Validation.hpp>
 
 #include <sstream>
 
@@ -60,3 +60,4 @@ void bind_shape_properties(py::class_<Shape>& cls)
             return os.str();
         });
 }
+

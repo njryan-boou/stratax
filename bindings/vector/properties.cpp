@@ -1,9 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <stratax/containers/Vector.hpp>
-#include <stratax/io/Print.hpp>
-#include <stratax/ops/comparison.hpp>
+#include <stratax/core/containers/Vector.hpp>
+#include <stratax/core/io/Print.hpp>
 
 #include <cstddef>
 #include <sstream>
@@ -42,12 +41,6 @@ void bind_vector_properties(py::class_<Vector>& cls)
                 values.push_back(vector[i]);
             }
             return values;
-        })
-        .def("__eq__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs == rhs;
-        })
-        .def("__ne__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs != rhs;
         })
         .def("__repr__", [](const Vector& vector) {
             std::ostringstream os;

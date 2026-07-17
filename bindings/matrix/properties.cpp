@@ -1,9 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <stratax/containers/Matrix.hpp>
-#include <stratax/io/Print.hpp>
-#include <stratax/ops/comparison.hpp>
+#include <stratax/core/containers/Matrix.hpp>
+#include <stratax/core/io/Print.hpp>
 
 #include <cstddef>
 #include <sstream>
@@ -16,7 +15,7 @@ namespace
 
 using Matrix = stratax::container::Matrix<double>;
 
-} // anonymous namespace
+}
 
 void bind_matrix_properties(py::class_<Matrix>& cls)
 {
@@ -46,12 +45,6 @@ void bind_matrix_properties(py::class_<Matrix>& cls)
                 }
             }
             return values;
-        })
-        .def("__eq__", [](const Matrix& lhs, const Matrix& rhs) {
-            return lhs == rhs;
-        })
-        .def("__ne__", [](const Matrix& lhs, const Matrix& rhs) {
-            return lhs != rhs;
         })
         .def("__repr__", [](const Matrix& matrix) {
             std::ostringstream os;

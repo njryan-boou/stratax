@@ -1,13 +1,14 @@
 #include <pybind11/pybind11.h>
 
-#include <stratax/containers/Vector.hpp>
+#include <stratax/core/containers/Vector.hpp>
 
 namespace py = pybind11;
 
 void bind_vector_constructors(py::class_<stratax::container::Vector<double>>&);
 void bind_vector_indexing(py::class_<stratax::container::Vector<double>>&);
 void bind_vector_arithmetic(py::class_<stratax::container::Vector<double>>&);
-void bind_vector_conversions(py::class_<stratax::container::Vector<double>>&);
+void bind_vector_comparison(py::class_<stratax::container::Vector<double>>&);
+void bind_vector_reshape(py::class_<stratax::container::Vector<double>>&);
 void bind_vector_properties(py::class_<stratax::container::Vector<double>>&);
 
 void bind_vector(py::module_& m)
@@ -20,5 +21,6 @@ void bind_vector(py::module_& m)
     bind_vector_properties(cls);
     bind_vector_indexing(cls);
     bind_vector_arithmetic(cls);
-    bind_vector_conversions(cls);
+    bind_vector_comparison(cls);
+    bind_vector_reshape(cls);
 }

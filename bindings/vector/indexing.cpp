@@ -2,7 +2,7 @@
 
 #include "../common/utils.hpp"
 
-#include <stratax/containers/Vector.hpp>
+#include <stratax/core/containers/Vector.hpp>
 
 #include <cstddef>
 

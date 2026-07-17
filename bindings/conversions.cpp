@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 
-#include <stratax/containers/Conversions.hpp>
+#include <stratax/core/algorithms/Conversions.hpp>
 
 namespace py = pybind11;
 

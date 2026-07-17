@@ -2,10 +2,10 @@
 
 #include "../common/utils.hpp"
 
-#include <stratax/containers/Vector.hpp>
+#include <stratax/core/containers/Vector.hpp>
 #include <stratax/core/Exceptions.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/core/Validation.hpp>
+#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/validation/Validation.hpp>
 
 #include <cstddef>
 #include <limits>
@@ -114,3 +114,4 @@ void bind_vector_constructors(py::class_<Vector>& cls)
                     "Vector fill value is too large to represent as a float."));
         }), py::arg("size"), py::arg("value"));
 }
+
