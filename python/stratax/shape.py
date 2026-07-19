@@ -2,15 +2,12 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from ..._core import _Shape
-from ...exceptions import TypeError as StrataxTypeError
+from ._core import _Shape
+from .exceptions import TypeError as StrataxTypeError
 
 
 class Shape:
-    """Stores the dimensions of a Stratax array."""
-
     def __init__(self, *args):
-        """Create an empty shape, copy a shape, or build one from dimensions."""
         if not args:
             self._impl = _Shape()
 
@@ -36,46 +33,37 @@ class Shape:
             self._impl = _Shape(args)
 
     @property
-    def rank(self) -> int:
-        """Number of dimensions in the shape."""
+    def rank(self):
         return self._impl.rank()
 
     @property
-    def elements(self) -> int:
-        """Total element count described by the dimensions."""
+    def elements(self):
         return self._impl.elements()
 
     @property
-    def empty(self) -> bool:
-        """Whether the shape has no dimensions."""
+    def empty(self):
         return self._impl.empty()
 
-    def __len__(self) -> int:
-        """Return the rank of the shape."""
+    def __len__(self):
         return len(self._impl)
 
-    def __getitem__(self, index: int) -> int:
-        """Return one dimension by index."""
+    def __getitem__(self, index):
         return self._impl[index]
 
     def __iter__(self):
-        """Iterate over dimensions in order."""
         return iter(self._impl)
 
-    def __eq__(self, other: object) -> bool:
-        """Return whether two shapes have the same dimensions."""
+    def __eq__(self, other):
         if not isinstance(other, Shape):
             return NotImplemented
 
         return self._impl == other._impl
 
-    def __ne__(self, other: object) -> bool:
-        """Return whether two shapes differ."""
+    def __ne__(self, other):
         if not isinstance(other, Shape):
             return NotImplemented
 
         return self._impl != other._impl
 
-    def __repr__(self) -> str:
-        """Return a tuple-style representation of the shape."""
+    def __repr__(self):
         return repr(self._impl)

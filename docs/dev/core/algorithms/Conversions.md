@@ -1,76 +1,158 @@
 # Conversions
 
-Developer notes for `include/stratax/core/algorithms/Conversions.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Provides helpers for converting between Stratax container shapes and casting container element types.
+Header: `include/stratax/core/algorithms/Conversions.hpp`
 
-## Main API
+---
 
-### Shape Conversions
-- `to_vector(array)`
-- `to_matrix(array)`
-- `to_tensor(array)`
+## Overview
 
-### Python Free Functions
-- `stratax.to_vector(array)`
-- `stratax.to_matrix(array)`
-- `stratax.to_tensor(array)`
+`Conversions.hpp` provides shape conversion and value-type casting helpers for Stratax array containers.
 
-### Type Casting
-- `astype<To>(vector)`
-- `astype<To>(matrix)`
-- `astype<To>(tensor)`
+Helpers preserve flat storage order and return new owning containers.
+
+---
+
+## Responsibilities
+
+The conversions module is responsible for:
+
+- Converting array-like containers to vector, matrix, or tensor forms
+- Supporting shape compatibility checks for vector/matrix conversion
+- Casting element types across vector/matrix/tensor containers
+
+The conversions module is not responsible for:
+
+- View-based conversion
+- Implicit numeric safety checks beyond `static_cast`
+- Runtime dtype-policy configuration
+
+---
+
+## Relationships
+
+```text
+to_vector / to_matrix / to_tensor
+└── flat index copy loop
+
+astype<To>(...)
+└── per-element static_cast<To>
+```
+
+Depends on:
+
+- `include/stratax/core/Concepts.hpp`
+- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/core/containers/Vector.hpp`
+- `include/stratax/core/containers/Matrix.hpp`
+- `include/stratax/core/containers/Tensor.hpp`
+
+---
 
 ## Invariants
 
-- Conversion helpers return new owning containers.
-- Shape-preserving conversions keep element order in flat storage order.
-- `to_vector` only produces rank-1 vectors.
-- `to_matrix` preserves rank-2 matrices as-is and collapses singleton dimensions from higher-rank inputs.
-- `to_tensor` preserves the input shape exactly.
-- `astype` preserves container shape and element count.
+The following conditions are always true:
 
-## Validation Notes
+- Conversions return new owning containers.
+- Element order is preserved in flat storage order.
+- `to_vector` accepts shapes that are rank-1 or have exactly one non-singleton dimension.
+- `to_matrix` accepts shapes that are rank-2 or have exactly two non-singleton dimensions.
+- `to_tensor` preserves original shape exactly.
+- `astype` preserves shape and element count.
 
-- `to_vector` requires rank 1 input through `core::validation::require_rank()`.
-- `to_matrix` accepts rank-2 input directly or higher-rank input with exactly two non-singleton dimensions.
-- `to_tensor` accepts any supported array rank.
-- Invalid rank conversions throw `Exceptions::DimensionError`.
-- `astype` requires both source and destination element types to satisfy `Numeric`.
-- Cast behavior follows `static_cast`.
+---
 
-## Implementation Notes
+## Public Interface
 
-- Conversion helpers preserve shape and copy linear buffer values with `operator[]`.
-- `to_vector` depends on the destination constructor from `Shape`.
-- `to_matrix` derives its destination `Shape` by removing singleton dimensions.
-- `astype` supports `Vector`, `Matrix`, and `Tensor`.
-- Returned containers own their own buffers.
-- Rank validation should stay routed through `Validation.hpp`.
-- Python bindings expose conversions as module-level free functions, not instance methods.
+### Shape helpers
 
-## Python Usage
-
-```python
-from stratax import Matrix, Tensor, Vector, to_matrix, to_tensor, to_vector
-
-vector = Vector([1.0, 2.0, 3.0, 4.0])
-matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
-tensor = Tensor([1, 2, 1, 2], 1.0)
-
-reshaped_tensor = to_tensor(vector)
-flat_vector = to_vector(tensor)
-as_matrix = to_matrix(tensor)
+```cpp
+bool is_vector_shape(const stratax::core::Shape& shape);
+bool is_matrix_shape(const stratax::core::Shape& shape);
+stratax::core::Shape matrix_shape(const stratax::core::Shape& shape);
 ```
 
-## Time Complexity
+### Container conversions
 
-- `to_vector`, `to_matrix`, and `to_tensor` are `O(n + r)`.
-- `astype` is `O(n + r)`.
-- Rank checks are `O(1)`.
+```cpp
+template<Array A>
+stratax::container::Vector<typename A::value_type> to_vector(const A& arr);
 
-## Future Work
+template<Array A>
+stratax::container::Matrix<typename A::value_type> to_matrix(const A& arr);
 
-- Add explicit narrowing or lossy-cast policy if needed.
+template<Array A>
+stratax::container::Tensor<typename A::value_type> to_tensor(const A& arr);
+```
+
+Throws
+
+- `Exceptions::ShapeError` for unsupported source shape in `to_vector`/`to_matrix`
+
+### Type casting
+
+```cpp
+template<typename To, typename From>
+requires Numeric<To> && Numeric<From>
+stratax::container::Vector<To> astype(const stratax::container::Vector<From>& vec);
+
+template<typename To, typename From>
+requires Numeric<To> && Numeric<From>
+stratax::container::Matrix<To> astype(const stratax::container::Matrix<From>& mat);
+
+template<typename To, typename From>
+requires Numeric<To> && Numeric<From>
+stratax::container::Tensor<To> astype(const stratax::container::Tensor<From>& tensor);
+```
+
+Behavior
+
+- Uses `static_cast<To>` per element
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| `is_vector_shape` / `is_matrix_shape` | O(r) |
+| `matrix_shape` | O(r) |
+| `to_vector` / `to_matrix` / `to_tensor` | O(n + r) |
+| `astype` overloads | O(n) |
+
+`n` is element count and `r` is rank.
+
+---
+
+## Examples
+
+```cpp
+const auto v = to_vector(tensor_like);
+const auto m = to_matrix(tensor_like);
+const auto t = to_tensor(matrix_like);
+
+const auto as_double = astype<double>(v);
+```
+
+---
+
+## Design Notes
+
+Vector/matrix conversion is intentionally permissive for singleton dimensions, which simplifies interoperability with tensor-shaped data that carries redundant axes.
+
+---
+
+## Future Improvements
+
+- Add explicit policy helpers for strict rank-only conversion
+- Add optional checked-cast helpers for narrowing conversions
+
+---
+
+## See Also
+
+- `include/stratax/core/algorithms/Reshape.hpp`
+- `include/stratax/core/containers/Shape.hpp`

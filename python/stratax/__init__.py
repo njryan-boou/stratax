@@ -1,5 +1,22 @@
+"""
+Stratax is a scientific computing library for Python powered by a modern C++20 core.
+
+It provides efficient multidimensional arrays, linear algebra, statistics,
+random number generation, and related numerical computing functionality.
+
+Examples
+--------
+>>> import stratax as sx
+>>> a = sx.Vector([1, 2, 3])
+>>> b = sx.Vector([4, 5, 6])
+>>> a + b
+Vector([5, 7, 9])
+"""
 from ._core import __version__, __doc__, __author__
-from .core import Shape, Tensor, Vector, Matrix
+from .shape import Shape
+from .tensor import Tensor
+from .vector import Vector
+from .matrix import Matrix
 from .conversions import to_matrix, to_tensor, to_vector
 from .creation import full, identity, ones, zeros
 from .exceptions import (

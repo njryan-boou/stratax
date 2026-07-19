@@ -1,59 +1,158 @@
 # Types
 
-Developer notes for `include/stratax/core/Types.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Defines stable dtype aliases used across Stratax.
+Header: `include/stratax/core/Types.hpp`
 
-## Main API
+---
 
-### Boolean
-- `bool_`
+## Overview
 
-### Integers
-- `int8`, `int16`, `int32`, `int64`
-- `uint8`, `uint16`, `uint32`, `uint64`
+`Types.hpp` provides canonical scalar and index aliases used across Stratax core APIs.
 
-### Floating Point
-- `float32`
-- `float64`
-- `float128`
+These aliases map directly to standard C++ types and `std::complex` specializations.
 
-### Complex
-- `complex64`
-- `complex128`
-- `complex256`
+---
 
-### Indexing
-- `index_t`
-- `ssize_t`
+## Responsibilities
+
+The types module is responsible for:
+
+- Defining stable alias names for supported scalar categories
+- Defining index aliases for size and signed-size usage
+- Serving as a common type vocabulary for concepts, containers, and bindings
+
+The types module is not responsible for:
+
+- Runtime dtype dispatch or metadata
+- Type acceptance rules for algorithms or containers
+- Numeric promotion policy
+
+---
+
+## Relationships
+
+```text
+stratax::core::dtype
+├── index aliases (index_t, ssize_t)
+├── boolean/integer aliases
+├── floating aliases
+└── complex aliases
+```
+
+Depends on:
+
+- C++ headers: `<cstddef>`, `<cstdint>`, `<complex>`
+
+Used by:
+
+- `include/stratax/core/Concepts.hpp`
+- Container templates and algorithm signatures
+
+---
 
 ## Invariants
 
-- Type aliases map directly to standard C++ types.
-- Aliases do not own storage and do not encode runtime metadata.
-- Whether an alias is accepted as numeric is controlled by `Concepts.hpp`.
+The following conditions are always true:
 
-## Validation Notes
+- Aliases are compile-time names only and add no runtime state.
+- All aliases map to standard library/fundamental C++ types.
+- Alias stability is expected across core APIs unless versioned changes are introduced.
 
-- These are aliases only.
-- Acceptance as a container dtype is controlled by `Concepts.hpp`.
-- `int8` and `uint8` may be excluded by numeric concepts because they alias char-like types.
+---
 
-## Implementation Notes
+## Public Interface
 
-- Keep aliases mapped directly to standard C++ types.
-- Avoid hiding ownership or storage policy in this file.
+Namespace:
 
-## Time Complexity
+```cpp
+namespace stratax::core::dtype { ... }
+```
 
-- Type aliases have no runtime cost.
-- Any acceptance or rejection of aliases is handled at compile time by `Concepts.hpp`.
+### Index aliases
 
-## Future Work
+```cpp
+using index_t = std::size_t;
+using ssize_t = std::ptrdiff_t;
+```
 
-- Add dtype traits.
-- Add dtype promotion rules.
-- Add dtype name/string helpers.
-- Revisit `float128` portability.
+### Boolean alias
+
+```cpp
+using bool_ = bool;
+```
+
+### Integer aliases
+
+```cpp
+using int8  = std::int8_t;
+using int16 = std::int16_t;
+using int32 = std::int32_t;
+using int64 = std::int64_t;
+
+using uint8  = std::uint8_t;
+using uint16 = std::uint16_t;
+using uint32 = std::uint32_t;
+using uint64 = std::uint64_t;
+```
+
+### Floating aliases
+
+```cpp
+using float32  = float;
+using float64  = double;
+using float128 = long double;
+```
+
+### Complex aliases
+
+```cpp
+using complex64  = std::complex<float>;
+using complex128 = std::complex<double>;
+using complex256 = std::complex<long double>;
+```
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| Alias usage and substitution | Compile-time only |
+| Runtime overhead introduced by aliases | O(0) |
+
+---
+
+## Examples
+
+```cpp
+using stratax::core::dtype::float64;
+using stratax::core::dtype::index_t;
+
+float64 value = 3.14159;
+index_t n = 128;
+```
+
+---
+
+## Design Notes
+
+Aliases keep public APIs readable and consistent across C++ and bindings-facing layers.
+
+Eligibility for concepts like `Numeric` is determined in `Concepts.hpp`, not in this file.
+
+---
+
+## Future Improvements
+
+- Add explicit dtype traits and canonical name helpers
+- Add documented promotion policies across alias categories
+- Revisit `float128` portability guarantees across compilers/platforms
+
+---
+
+## See Also
+
+- `include/stratax/core/Concepts.hpp`

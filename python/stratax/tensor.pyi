@@ -1,8 +1,8 @@
 from collections.abc import Iterable, Iterator
 from typing import overload
 
-from ...core.Shape import Shape
-from ...core.Vector import Vector
+from .shape import Shape
+from .vector import Vector
 
 
 class Tensor:

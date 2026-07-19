@@ -1,66 +1,190 @@
 # Validation
 
-Developer notes for `include/stratax/core/Validation.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Provides small shared runtime validation helpers used by core metadata, containers, ops, and bindings.
+Header: `include/stratax/core/validation/Validation.hpp`
 
-## Main API
+---
 
-### Signed Conversion
-- `nonnegative_size(value, message)`
-- `nonnegative_shape_dimension(value, message)`
-- `nonnegative_index(value, message)`
+## Overview
 
-### Rank and Bounds
-- `require_rank(actual, expected, message)`
-- `require_rank(object, expected, message)`
-- `require_index(index, size, message)`
-- `require_at_most(value, upper, message)`
+`Validation.hpp` is the aggregation entry point for Stratax runtime validation helpers.
 
-### Arithmetic Safety
-- `checked_multiply(lhs, rhs, message)`
-- `checked_add(lhs, rhs, message)`
+It re-exports shape, dimension, index, and type checks implemented in dedicated headers under `include/stratax/core/validation/`.
 
-### Shape Matching
-- `same_shape(lhs, rhs)`
-- `require_same_shape(lhs, rhs, message)`
-- `require_equal_size(lhs, rhs, message)`
+---
+
+## Responsibilities
+
+The validation module is responsible for:
+
+- Providing small reusable checks for ranks, dimensions, and indices
+- Preventing unsigned overflow in size and offset arithmetic
+- Enforcing shape and type compatibility invariants
+- Standardizing exception categories for validation failures
+
+The validation module is **not** responsible for:
+
+- Container storage or ownership
+- Algorithmic dispatch and broadcasting policy
+- Error logging/transport layers
+
+---
+
+## Relationships
+
+```text
+Validation.hpp
+├── DimensionValidation.hpp
+├── IndexValidation.hpp
+├── ShapeValidation.hpp
+└── TypeValidation.hpp
+```
+
+Depends on:
+
+- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/core/Concepts.hpp` (type/category checks)
+
+Used by:
+
+- Containers (`Shape`, `Strides`, `Vector`, `Matrix`, `Tensor`)
+- Ops (`Arithmetic`, `Indexing`, `Slice`)
+- Algorithms and bindings
+
+---
 
 ## Invariants
 
-- Helpers do not mutate their inputs.
-- Helpers preserve Stratax exception categories:
-  - dimension/rank/size failures use `Exceptions::DimensionError`
-  - shape dimension and shape compatibility failures use `Exceptions::ShapeError`
-  - bounds and signed index failures use `Exceptions::IndexError`
-- Checked arithmetic must never wrap.
-- `require_rank(object, ...)` returns the original object reference when validation succeeds.
+The following conditions are always true:
 
-## Validation Notes
+- Helpers do not mutate caller-owned state.
+- Failure categories map to specific exception types:
+  - dimension/rank/overflow -> `Exceptions::DimensionError`
+  - shape compatibility -> `Exceptions::ShapeError`
+  - index normalization/bounds -> `Exceptions::IndexError`
+  - type mismatch -> `Exceptions::TypeError`
+- `checked_multiply()` and `checked_add()` never silently wrap.
+- `require_rank(object, ...)` returns the original reference on success.
 
-- Use `require_index()` for exclusive upper-bound indexing.
-- Use `require_at_most()` for half-open slice stops where `stop == size` is valid.
-- Use `checked_multiply()` and `checked_add()` before size or offset arithmetic that could overflow.
-- Use `require_same_shape()` for throwing array compatibility checks.
-- Use `same_shape()` when the caller needs a boolean comparison.
+---
 
-## Implementation Notes
+## Public Interface
 
-- This header is intentionally header-only.
-- Keep helpers small, generic, and allocation-free.
-- Keep Python-specific exception translation in the binding files; core helpers should throw Stratax exceptions.
-- Prefer passing caller-specific messages instead of baking container names into generic helpers.
+## Aggregation Header
 
-## Time Complexity
+```cpp
+#include <stratax/core/validation/Validation.hpp>
+```
 
-- All scalar validation helpers are `O(1)`.
-- `same_shape()` and `require_same_shape()` are `O(r)` because shape equality is rank-dependent.
-- Space complexity is `O(1)` for every helper.
+This file is intentionally an umbrella include with no additional function definitions.
 
-## Future Work
+---
 
-- Add broadcasting validation once broadcasting semantics are finalized.
-- Consider helper overloads for rectangular nested input validation.
-- Consider specialized offset helpers if more indexing code needs the same overflow translation.
+## Re-exported Helpers
+
+### Dimension helpers
+
+```cpp
+std::size_t nonnegative_size(std::ptrdiff_t value, const char* message);
+void require_rank(std::size_t actual, std::size_t expected, const char* message);
+
+template<typename Ranked>
+const Ranked& require_rank(const Ranked& object, std::size_t expected, const char* message);
+
+std::size_t checked_multiply(std::size_t lhs, std::size_t rhs, const char* message);
+std::size_t checked_add(std::size_t lhs, std::size_t rhs, const char* message);
+```
+
+### Index helpers
+
+```cpp
+std::size_t nonnegative_index(std::ptrdiff_t value, const char* message);
+std::size_t normalize_index(std::ptrdiff_t value, std::size_t size, const char* message);
+void require_index(std::size_t index, std::size_t size, const char* message);
+void require_at_most(std::size_t value, std::size_t upper, const char* message);
+```
+
+### Shape helpers
+
+```cpp
+std::size_t nonnegative_shape_dimension(std::ptrdiff_t value, const char* message);
+std::size_t positive_shape_dimension(std::ptrdiff_t value, const char* message);
+void require_positive_shape_dimension(std::size_t value, const char* message);
+
+template<typename Lhs, typename Rhs>
+bool same_shape(const Lhs& lhs, const Rhs& rhs);
+
+template<typename Lhs, typename Rhs>
+void require_same_shape(const Lhs& lhs, const Rhs& rhs, const char* message);
+
+void require_equal_size(std::size_t lhs, std::size_t rhs, const char* message);
+```
+
+### Type helpers
+
+```cpp
+template<typename Actual, typename Expected>
+void require_type(const char* message);
+
+template<typename T>
+void require_numeric_type(const char* message);
+
+template<typename Lhs, typename Rhs>
+void require_same_value_type(const Lhs& lhs, const Rhs& rhs, const char* message);
+```
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| Scalar/rank/index/type checks | O(1) |
+| `checked_multiply` / `checked_add` | O(1) |
+| `same_shape` / `require_same_shape` | O(r) |
+| `require_same_value_type` | O(1) |
+
+`r` is rank (number of dimensions).
+
+---
+
+## Examples
+
+```cpp
+const auto i = stratax::core::validation::normalize_index(
+    user_index,
+    vec.size(),
+    "Vector index out of bounds.");
+
+stratax::core::validation::require_same_shape(
+    lhs,
+    rhs,
+    "Operands must have the same shape.");
+```
+
+---
+
+## Design Notes
+
+Validation helpers are header-only and allocation-free so callers can compose checks without introducing runtime infrastructure dependencies.
+
+Centralizing these checks keeps error category behavior consistent across containers, ops, and algorithms.
+
+---
+
+## Future Improvements
+
+- Add broadcast-compatibility validation helpers once broadcasting rules are finalized.
+- Add optional diagnostic helpers that build richer messages in debug builds.
+
+---
+
+## See Also
+
+- `include/stratax/core/validation/DimensionValidation.hpp`
+- `include/stratax/core/validation/IndexValidation.hpp`
+- `include/stratax/core/validation/ShapeValidation.hpp`
+- `include/stratax/core/validation/TypeValidation.hpp`

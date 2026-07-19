@@ -6,9 +6,10 @@ Developer notes for planned Stratax feature work.
 
 Tracks the expected build-out of the library from core infrastructure through containers, generic operations, numerical features, bindings, and documentation.
 
-## Main API
+## Phases
 
 ### Phase 1: Core Infrastructure
+
 - [x] Buffer
 - [x] Shape
 - [x] Strides
@@ -20,6 +21,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Validation
 
 ### Phase 2: Containers
+
 - [x] Vector
 - [x] Matrix
 - [x] Tensor
@@ -27,6 +29,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Conversion helpers
 
 ### Phase 3: Generic Operators
+
 - [x] Arithmetic
 - [x] Comparison
 - [x] Indexing offsets
@@ -36,6 +39,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [ ] Broadcasting
 
 ### Phase 4: Shape Operations
+
 - [x] reshape
 - [x] flatten
 - [ ] ravel
@@ -46,6 +50,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [ ] permute_axes
 
 ### Phase 5: Linear Algebra
+
 - [ ] Matrix multiplication
 - [ ] Dot product
 - [ ] Cross product
@@ -61,12 +66,14 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [ ] Norms
 
 ### Phase 6: Input and Output
+
 - [x] Stream printing
 - [ ] CSV I/O
 - [ ] Binary I/O
 - [ ] Serialization policy
 
 ### Phase 7: Documentation and Examples
+
 - [x] Developer docs for implemented core files
 - [x] Developer docs for implemented containers
 - [x] Developer docs for implemented ops
@@ -76,16 +83,17 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [ ] Example refresh
 
 ### Later Phases
-- Calculus
-- Statistics
-- Random number support
-- Optimization
+
+- [ ] Calculus
+- [ ] Statistics
+- [ ] Random number support
+- [ ] Optimization
 
 ## Validation Notes
 
 - The roadmap describes intended scope, not guaranteed current behavior.
 - Checked items should have tests before they are treated as complete.
-- Validation remains unchecked because the validation module is currently deferred.
+- Validation is implemented at the core level; broader validation enhancements may still be pending.
 - Placeholder headers are intentionally not marked complete until they expose real behavior.
 - Empty and zero-dimension shape behavior is tested for implemented containers and ops.
 

@@ -9,22 +9,26 @@ Defines the working conventions for code, tests, and documentation so new change
 ## Main API
 
 ### Code Style
+
 - Use C++20.
 - Keep headers self-contained.
 - Prefer existing concepts and helper types.
 - Use `constexpr` when it improves correctness or clarity.
 
 ### Testing
+
 - Add or update tests beside the feature being changed.
 - Cover normal behavior and edge cases.
 - Keep tests focused on public behavior.
 
 ### Documentation
+
 - Update the matching file under `docs/dev` when public behavior or design intent changes.
 - Keep developer docs practical and implementation-focused.
 - Use the Arithmetic document structure for module docs.
 
 ### Naming
+
 - Classes use `PascalCase`.
 - Functions use `snake_case`.
 - Concepts use `PascalCase`.

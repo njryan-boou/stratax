@@ -1,57 +1,181 @@
-# Slice
+# Slice Ops
 
-Developer notes for `include/stratax/core/ops/Slice.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Implements range-based slicing for vectors, matrices, and tensors using `core::Slice`.
+Header: `include/stratax/core/ops/Slice.hpp`
 
-## Main API
+---
 
-### Vector Slicing
-- `slice(vector, slice)`
+## Overview
 
-### Matrix Slicing
-- `slice(matrix, row_slice, col_slice)`
+`ops/Slice.hpp` implements slicing for vector, matrix, and tensor containers using `stratax::core::Slice` ranges.
 
-### Tensor Slicing
-- `slice(tensor, slice_0, slice_1, ...)`
+All overloads return owning containers that copy selected elements from the source.
+
+---
+
+## Responsibilities
+
+The slice ops module is responsible for:
+
+- Normalizing signed slice ranges against container extents
+- Applying strided selection for 1D, 2D, and ND containers
+- Building result shapes and copying selected elements
+
+The slice ops module is not responsible for:
+
+- Returning non-owning views
+- Defining `Slice` semantics itself
+- Broadcasting or advanced gather indexing
+
+---
+
+## Relationships
+
+```text
+slice(...) overloads
+├── detail::normalize_slice(...)
+├── core::Slice metadata
+├── validation::require_rank(...) for tensor rank check
+└── validation::checked_* for tensor offset arithmetic
+```
+
+Depends on:
+
+- `include/stratax/core/Slice.hpp`
+- `include/stratax/core/containers/Vector.hpp`
+- `include/stratax/core/containers/Matrix.hpp`
+- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/core/validation/Validation.hpp`
+
+---
 
 ## Invariants
 
-- Slicing uses half-open ranges `[start, stop)`.
-- Slice results are owning containers, not views.
-- Vector slice rank is always `1`.
-- Matrix slice rank is always `2`.
-- Tensor slice rank matches the input tensor rank.
-- Result shape dimensions are the sizes of the supplied slices.
-- Slicing preserves source element order within the selected region.
+The following conditions are always true:
 
-## Validation Notes
+- Output containers are owning copies.
+- Slice normalization is half-open and step-aware for both step directions.
+- Out-of-range start/stop values are clamped, not rejected.
+- Tensor slicing requires slice count equal to tensor rank.
+- Empty output shapes return early without element copy loops.
 
-- `core::Slice` rejects zero step at construction.
-- Slice bounds are normalized and clamped to valid extents for each dimension.
-- Tensor slice count must match tensor rank through `core::validation::require_rank()`.
-- Tensor rank mismatch throws `Exceptions::DimensionError`.
-- Slice normalization throws `Exceptions::IndexError` only when container extents exceed representable signed index range.
+---
 
-## Implementation Notes
+## Public Interface
 
-- Slices are half-open: `[start, stop)`.
-- Slice steps can be positive or negative.
-- Vector and matrix slicing copy values into new owning containers.
-- Tensor slicing computes result shape from slice sizes.
-- Empty result slices return immediately to avoid indexing through zero strides.
-- Tensor source offsets are computed from source strides.
-- Rank and overflow checks should stay routed through `Validation.hpp`.
+### Vector slicing
 
-## Time Complexity
+```cpp
+template<typename T>
+stratax::container::Vector<T>
+slice(const stratax::container::Vector<T>& vec, const stratax::core::Slice& slice);
+```
 
-- Vector slicing is `O(k)`, where `k` is the slice length.
-- Matrix slicing is `O(rows_selected * cols_selected)`.
-- Tensor slicing is `O(result_size * r)`, where `r` is tensor rank.
-- Empty result slices are `O(r)` for validation and shape construction.
+Behavior
 
-## Future Work
+- Normalizes and clamps range against `vec.size()`
+- Copies selected elements into a new vector
 
-- Consider slice views to avoid copies.
+Throws
+
+- `Exceptions::IndexError` if `vec.size()` exceeds `std::ptrdiff_t` representable range
+
+Complexity
+
+- O(k), where `k` is output size
+
+### Matrix slicing
+
+```cpp
+template<typename T>
+stratax::container::Matrix<T>
+slice(
+    const stratax::container::Matrix<T>& mat,
+    const stratax::core::Slice& rows,
+    const stratax::core::Slice& cols);
+```
+
+Behavior
+
+- Normalizes/clamps row and column slices independently
+- Copies rectangular strided region into a new matrix
+
+Throws
+
+- `Exceptions::IndexError` if row/column extent exceeds `std::ptrdiff_t` range
+
+Complexity
+
+- O(r_out * c_out)
+
+### Tensor slicing
+
+```cpp
+template<typename T, typename... Slices>
+stratax::container::Tensor<T>
+slice(const stratax::container::Tensor<T>& tensor, Slices... slices);
+```
+
+Behavior
+
+- Requires all variadic arguments to be `stratax::core::Slice`
+- Requires number of slices to match tensor rank
+- Computes output shape from resolved slice sizes
+- Copies result in flat order using source/result strides
+
+Throws
+
+- `Exceptions::DimensionError` on rank mismatch
+- `Exceptions::IndexError` when an extent exceeds `std::ptrdiff_t` range
+- `Exceptions::DimensionError` on offset overflow from checked arithmetic
+
+Complexity
+
+- O(n_out * rank)
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| `normalize_slice` | O(1) |
+| Vector `slice` | O(k) |
+| Matrix `slice` | O(r_out * c_out) |
+| Tensor `slice` | O(n_out * rank) |
+
+---
+
+## Examples
+
+```cpp
+const auto v2 = slice(v, stratax::core::Slice(0, 10, 2));
+const auto m2 = slice(m, stratax::core::Slice(1, -1, 1), stratax::core::Slice(0, 5, 2));
+const auto t2 = slice(t, stratax::core::Slice(0, 2), stratax::core::Slice(0, 3), stratax::core::Slice(0, 4));
+```
+
+---
+
+## Design Notes
+
+Normalization is permissive by design: start/stop values are clamped to legal bounds, which keeps slicing behavior predictable and pythonic.
+
+Tensor slicing currently copies into new storage rather than producing a view to preserve ownership simplicity.
+
+---
+
+## Future Improvements
+
+- Add non-owning slice/view support
+- Add richer slice composition helpers
+- Evaluate vectorized copy kernels for dense slices
+
+---
+
+## See Also
+
+- `include/stratax/core/Slice.hpp`
+- `include/stratax/core/containers/Tensor.hpp`

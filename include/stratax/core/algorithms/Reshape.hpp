@@ -2,7 +2,6 @@
 
 #include <stratax/core/containers/Buffer.hpp>
 #include <stratax/core/Concepts.hpp>
-#include <stratax/core/Config.hpp>
 #include <stratax/core/Exceptions.hpp>
 #include <stratax/core/containers/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>

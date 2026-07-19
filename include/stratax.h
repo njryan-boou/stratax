@@ -17,6 +17,7 @@
 #include <stratax/core/algorithms/Creation.hpp>
 #include <stratax/core/algorithms/Conversions.hpp>
 #include <stratax/core/algorithms/Reshape.hpp>
+#include <stratax/core/algorithms/Reductions.hpp>
 
 #include <stratax/core/io/Print.hpp>
 

@@ -4,9 +4,11 @@ Welcome to Stratax!
 
 This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.
 
+Developer-focused design and implementation notes are available in [docs/dev/README.md](dev/README.md).
+
 ---
 
-# Prerequisites
+## Prerequisites
 
 Install the following software before cloning the repository.
 
@@ -28,7 +30,7 @@ cmake --version
 
 ---
 
-# Clone the Repository
+## Clone the Repository
 
 ```powershell
 git clone https://github.com/njryan-boou/stratax.git
@@ -37,7 +39,7 @@ cd stratax
 
 ---
 
-# Create a Virtual Environment
+## Create a Virtual Environment
 
 ```powershell
 python -m venv .venv
@@ -45,7 +47,7 @@ python -m venv .venv
 
 ---
 
-# Activate the Virtual Environment
+## Activate the Virtual Environment
 
 ### PowerShell
 
@@ -61,7 +63,7 @@ python -m venv .venv
 
 ---
 
-# Install Stratax
+## Install Stratax
 
 Install the project in editable mode:
 
@@ -78,7 +80,7 @@ This command will:
 
 ---
 
-# Build the Project
+## Build the Project
 
 ```powershell
 cmake -S . -B build
@@ -87,7 +89,7 @@ cmake --build build
 
 ---
 
-# Running Tests
+## Running Tests
 
 ## Python
 

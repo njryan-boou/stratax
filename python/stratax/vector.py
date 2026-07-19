@@ -3,95 +3,93 @@ from __future__ import annotations
 from collections.abc import Iterable
 from numbers import Real
 
-from ..._core import Tensor as _Tensor
-from ...exceptions import TypeError as StrataxTypeError
-from ...core.Shape import Shape
+from ._core import Vector as _Vector
+from .exceptions import TypeError as StrataxTypeError
+from .shape import Shape
 
 
-class Tensor:
+class Vector:
     def __init__(self, *args):
         if not args:
-            self._impl = _Tensor()
+            self._impl = _Vector()
 
         elif len(args) == 1:
             value = args[0]
 
-            if isinstance(value, Tensor):
-                self._impl = _Tensor(value._impl)
+            if isinstance(value, Vector):
+                self._impl = _Vector(value._impl)
 
-            elif isinstance(value, _Tensor):
-                self._impl = _Tensor(value)
+            elif isinstance(value, _Vector):
+                self._impl = _Vector(value)
 
             elif isinstance(value, Shape):
-                self._impl = _Tensor(value._impl)
+                self._impl = _Vector(value._impl)
+
+            elif isinstance(value, int):
+                self._impl = _Vector(value)
 
             elif isinstance(value, Iterable):
-                self._impl = _Tensor(value)
+                self._impl = _Vector(value)
 
             else:
                 raise StrataxTypeError(
-                    "Tensor constructor expects a Tensor, Shape, or iterable of dimensions."
+                    "Vector constructor expects a Vector, Shape, size, or iterable of numbers."
                 )
 
         elif len(args) == 2:
-            shape, value = args
+            size, value = args
+            if not isinstance(size, int):
+                raise StrataxTypeError("Vector size must be an integer.")
 
-            if isinstance(shape, Shape):
-                self._impl = _Tensor(shape._impl, value)
-
-            elif isinstance(shape, Iterable):
-                self._impl = _Tensor(shape, value)
-
-            else:
-                raise StrataxTypeError("Tensor shape must be a Shape or iterable of dimensions.")
+            self._impl = _Vector(size, value)
 
         else:
-            raise TypeError("Tensor accepts at most two arguments.")
+            raise TypeError("Vector accepts at most two arguments.")
 
     @property
-    def size(self) -> int:
+    def size(self):
         return self._impl.size()
 
     @property
-    def rank(self) -> int:
+    def rank(self):
         return self._impl.rank()
 
     @property
-    def empty(self) -> bool:
+    def empty(self):
         return self._impl.empty()
 
     @property
-    def shape(self) -> Shape:
+    def shape(self):
         return Shape(self._impl.shape())
 
     @property
-    def strides(self) -> list[int]:
+    def strides(self):
         return self._impl.strides()
 
-    def fill(self, value: float) -> None:
+    def fill(self, value):
         self._impl.fill(value)
 
-    def tolist(self) -> list[float]:
+    def tolist(self):
         return self._impl.tolist()
 
-    def reshape(self, shape: Shape | Iterable[int]) -> "Tensor":
+    def reshape(self, shape):
+        from .tensor import Tensor
+
         target_shape = shape if isinstance(shape, Shape) else Shape(shape)
-        return self._wrap(self._impl.reshape(target_shape._impl))
+        return Tensor._wrap(self._impl.reshape(target_shape._impl))
 
     def flatten(self):
-        from ...core.Vector import Vector
-
-        return Vector._wrap(self._impl.flatten())
+        return self._wrap(self._impl.flatten())
 
     @staticmethod
-    def _wrap(impl: _Tensor) -> "Tensor":
-        tensor = Tensor.__new__(Tensor)
-        tensor._impl = impl
-        return tensor
+    def _wrap(impl):
+        vector = Vector.__new__(Vector)
+        vector._impl = impl
+        return vector
 
     @staticmethod
     def _operand(value):
-        if isinstance(value, Tensor):
+        if isinstance(value, Vector):
             return value._impl
 
         if isinstance(value, Real):
@@ -99,30 +97,30 @@ class Tensor:
 
         return NotImplemented
 
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self._impl)
 
-    def __getitem__(self, index: int | slice | tuple[int | slice, ...]):
+    def __getitem__(self, index):
         value = self._impl[index]
-        if isinstance(value, _Tensor):
+        if isinstance(value, _Vector):
             return self._wrap(value)
 
         return value
 
-    def __setitem__(self, index: int | tuple[int, ...], value: float) -> None:
+    def __setitem__(self, index, value):
         self._impl[index] = value
 
     def __iter__(self):
         return iter(self._impl)
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Tensor):
+    def __eq__(self, other):
+        if not isinstance(other, Vector):
             return NotImplemented
 
         return self._impl == other._impl
 
-    def __ne__(self, other: object) -> bool:
-        if not isinstance(other, Tensor):
+    def __ne__(self, other):
+        if not isinstance(other, Vector):
             return NotImplemented
 
         return self._impl != other._impl
@@ -136,7 +134,7 @@ class Tensor:
 
     def __radd__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Tensor):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand + self._impl)
@@ -150,7 +148,7 @@ class Tensor:
 
     def __rsub__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Tensor):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand - self._impl)
@@ -164,7 +162,7 @@ class Tensor:
 
     def __rmul__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Tensor):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand * self._impl)
@@ -178,7 +176,7 @@ class Tensor:
 
     def __rtruediv__(self, other):
         operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Tensor):
+        if operand is NotImplemented or isinstance(other, Vector):
             return NotImplemented
 
         return self._wrap(operand / self._impl)
@@ -221,5 +219,5 @@ class Tensor:
     def __neg__(self):
         return self._wrap(-self._impl)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return repr(self._impl)

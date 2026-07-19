@@ -16,6 +16,7 @@ statistics modules are currently reserved API areas.
 - Issues: [GitHub Issues](https://github.com/njryan-boou/stratax/issues)
 - Changelog: [docs/CHANGELOG.md](docs/CHANGELOG.md)
 - Getting Started: [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)
+- Developer Docs: [docs/dev/README.md](docs/dev/README.md)
 - Roadmap: [docs/roadmap.md](docs/roadmap.md)
 
 ## Current Features

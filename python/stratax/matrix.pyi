@@ -1,9 +1,9 @@
 from collections.abc import Iterable, Iterator
 from typing import overload
 
-from ...core.Shape import Shape
-from ...core.Tensor import Tensor
-from ...core.Vector import Vector
+from .shape import Shape
+from .tensor import Tensor
+from .vector import Vector
 
 
 class Matrix:

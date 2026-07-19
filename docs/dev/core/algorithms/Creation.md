@@ -1,51 +1,150 @@
 # Creation
 
-Developer notes for `include/stratax/core/algorithms/Creation.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Provides convenience functions for constructing tensors with common initial values.
+Header: `include/stratax/core/algorithms/Creation.hpp`
 
-## Main API
+---
 
-### Filled Tensors
-- `creation::zeros<T>(shape)`
-- `creation::ones<T>(shape)`
-- `creation::full<T>(shape, value)`
+## Overview
 
-### Identity Tensor
-- `creation::identity<T>(size)`
+`Creation.hpp` provides convenience constructors for common tensor initialization patterns.
+
+All helpers return owning `Tensor<T>` values and require `T` to satisfy `Numeric`.
+
+---
+
+## Responsibilities
+
+The creation module is responsible for:
+
+- Creating tensors filled with zeros, ones, or a constant value
+- Creating square identity tensors
+- Preserving requested output shape semantics
+
+The creation module is not responsible for:
+
+- Returning specialized `Vector` or `Matrix` containers
+- Lazy/view-based construction
+- Randomized initialization policies
+
+---
+
+## Relationships
+
+```text
+creation::zeros / ones / full
+└── Tensor(shape, value)
+
+creation::identity
+├── zeros<T>({size, size})
+└── diagonal assignment I(i, i) = T{1}
+```
+
+Depends on:
+
+- `include/stratax/core/Concepts.hpp`
+- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/core/containers/Shape.hpp`
+
+---
 
 ## Invariants
 
-- Creation helpers always return owning `Tensor<T>` values.
-- `zeros`, `ones`, and `full` preserve the requested shape exactly.
-- Returned tensor size matches `shape.elements()`.
-- `identity(size)` always returns shape `(size, size)`.
-- Identity diagonal values are `T{1}` and non-diagonal values are `T{}`.
+The following conditions are always true:
 
-## Validation Notes
+- All functions return owning `stratax::container::Tensor<T>`.
+- `zeros`, `ones`, and `full` preserve the input shape exactly.
+- `identity(size)` returns a rank-2 square tensor with shape `(size, size)`.
+- Identity diagonal entries are `T{1}` and off-diagonal entries are `T{}`.
 
-- Creation helpers require `Numeric<T>`.
-- Creation helpers rely on `Tensor` constructors for shape allocation.
-- Zero-sized dimensions are allowed and produce empty tensors.
-- `identity` creates a rank-2 square tensor and assumes `size` is the desired row and column count.
+---
 
-## Implementation Notes
+## Public Interface
 
-- Helpers currently live in the global `creation` namespace.
-- `zeros`, `ones`, and `full` preserve the requested `Shape`.
-- `identity` builds from `zeros<T>({size, size})` and writes `T{1}` on the diagonal.
-- These helpers return `Tensor<T>` instances.
-- Complex numeric values are supported.
+### zeros
 
-## Time Complexity
+```cpp
+template<typename T>
+requires Numeric<T>
+stratax::container::Tensor<T> zeros(const stratax::core::Shape& shape);
+```
 
-- `zeros`, `ones`, and `full` are `O(n + r)`, where `n` is element count and `r` is rank.
-- `identity(size)` is `O(size * size)` to allocate and zero-fill, plus `O(size)` to write the diagonal.
-- Metadata setup is dominated by tensor construction.
+Creates a tensor filled with `T{}`.
 
-## Future Work
+### ones
 
-- Consider `Matrix`-specific identity creation.
-- Add validation for unsupported identity sizes if stricter rules are added.
+```cpp
+template<typename T>
+requires Numeric<T>
+stratax::container::Tensor<T> ones(const stratax::core::Shape& shape);
+```
+
+Creates a tensor filled with `T{1}`.
+
+### full
+
+```cpp
+template<typename T>
+requires Numeric<T>
+stratax::container::Tensor<T> full(const stratax::core::Shape& shape, const T& value);
+```
+
+Creates a tensor filled with `value`.
+
+### identity
+
+```cpp
+template<typename T>
+requires Numeric<T>
+stratax::container::Tensor<T> identity(std::size_t size);
+```
+
+Creates a square identity tensor.
+
+Throws
+
+- Propagates constructor/allocation exceptions from `Tensor`
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| `zeros` / `ones` / `full` | O(n + r) |
+| `identity(size)` | O(size^2) |
+
+`n` is element count and `r` is rank.
+
+---
+
+## Examples
+
+```cpp
+const auto z = creation::zeros<double>(stratax::core::Shape(2, 3));
+const auto o = creation::ones<float>(stratax::core::Shape(4));
+const auto f = creation::full<int>(stratax::core::Shape(2, 2, 2), 7);
+const auto I = creation::identity<double>(3);
+```
+
+---
+
+## Design Notes
+
+Keeping these helpers in a small `creation` namespace provides concise call sites without adding policy complexity to container constructors.
+
+---
+
+## Future Improvements
+
+- Add explicit matrix-returning identity helper if rank-2 specialization is desired
+- Add additional builders (`arange`, `linspace`, random initialization) when needed
+
+---
+
+## See Also
+
+- `include/stratax/core/containers/Tensor.hpp`

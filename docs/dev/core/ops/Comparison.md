@@ -1,49 +1,148 @@
 # Comparison
 
-Developer notes for `include/stratax/core/ops/Comparison.hpp`.
+Version: v0.2.0
 
-## Purpose
+Status: Complete
 
-Implements generic equality and inequality for Stratax array containers.
+Header: `include/stratax/core/ops/Comparison.hpp`
 
-## Main API
+---
 
-### Array Comparison
-- `operator==`
-- `operator!=`
+## Overview
+
+`Comparison.hpp` defines exact equality and inequality operators for Stratax array-like containers.
+
+Comparison is shape-aware and value-based: arrays are equal only when shape and all flat element values match.
+
+---
+
+## Responsibilities
+
+The comparison module is responsible for:
+
+- Fast shape gate before element comparison
+- Exact element-wise equality in flat iteration order
+- Defining inequality as the logical negation of equality
+
+The comparison module is not responsible for:
+
+- Approximate floating-point comparison
+- Broadcasting or implicit shape alignment
+- Ordering comparisons (`<`, `<=`, `>`, `>=`)
+
+---
+
+## Relationships
+
+```text
+operator==
+├── validation::same_shape(lhs, rhs)
+└── element-wise iterator comparison
+
+operator!=
+└── !(lhs == rhs)
+```
+
+Depends on:
+
+- `include/stratax/core/Concepts.hpp`
+- `include/stratax/core/validation/Validation.hpp`
+
+Used by:
+
+- Equality checks in tests and API call sites
+
+---
 
 ## Invariants
 
-- Equality never mutates either operand.
-- Size or shape mismatch means arrays are not equal.
-- Equal arrays must have the same flat element values in storage order.
-- `operator!=` is always the logical negation of `operator==`.
-- Comparison returns `false` for mismatched arrays instead of throwing.
+The following conditions are always true:
 
-## Validation Notes
+- Comparisons do not mutate operands.
+- Shape mismatch produces `false` from `operator==`.
+- `operator!=` is exactly `!(operator==)`.
+- Equality uses exact value comparison (`==`) per element.
 
-- Size or shape mismatch is checked with `core::validation::same_shape()` and returns `false`.
-- Comparison does not throw for mismatched size or shape.
-- Element comparison assumes both containers expose flat iteration in logical order.
+---
 
-## Implementation Notes
+## Public Interface
 
-- Equality checks size and shape first.
-- Values are compared using iterators.
-- Inequality delegates to equality.
-- Works with vectors, matrices, and tensors.
-- Shape compatibility comparison should stay routed through `Validation.hpp`.
+### Equality
 
-## Time Complexity
+```cpp
+template<Array A>
+[[nodiscard]] bool operator==(const A& lhs, const A& rhs);
+```
 
-- Best case for mismatched size is `O(1)`.
-- Shape comparison is `O(r)`.
-- Equality is `O(r + n)` in the worst case.
-- Inequality has the same complexity as equality.
+Behavior
 
-## Future Work
+- Returns `false` immediately on shape mismatch
+- Otherwise compares all elements in flat iteration order
 
-- Add approximate equality for floating-point containers.
-- Add element-wise comparison arrays.
-- Add tolerance controls.
-- Add SIMD comparison paths.
+Throws
+
+- None expected from module logic for shape mismatch paths
+
+Complexity
+
+- Best case O(1) (early mismatch)
+- Worst case O(r + n)
+
+### Inequality
+
+```cpp
+template<Array A>
+[[nodiscard]] bool operator!=(const A& lhs, const A& rhs);
+```
+
+Behavior
+
+- Delegates to `operator==` and negates the result
+
+Complexity
+
+- Same as `operator==`
+
+---
+
+## Complexity Summary
+
+| Operation | Complexity |
+| --------- | ----------: |
+| Shape check | O(r) |
+| Equality value scan | O(n) |
+| `operator==` total | O(r + n), early exit possible |
+| `operator!=` total | O(r + n), early exit possible |
+
+`r` is rank and `n` is element count.
+
+---
+
+## Examples
+
+```cpp
+const bool equal = (a == b);
+const bool different = (a != b);
+```
+
+---
+
+## Design Notes
+
+Keeping comparison exact and minimal avoids surprising semantics at the core layer.
+
+Approximate comparisons for floating-point values should be introduced as separate explicit utilities rather than overloading `operator==` behavior.
+
+---
+
+## Future Improvements
+
+- Add tolerance-based comparison helpers for floating-point arrays
+- Add element-wise boolean comparison utilities
+
+---
+
+## See Also
+
+- `include/stratax/core/ops/Arithmetic.hpp`
+- `include/stratax/core/validation/ShapeValidation.hpp`

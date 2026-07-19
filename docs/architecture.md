@@ -9,6 +9,7 @@ Describes how the library is organized so implementation work stays consistent a
 ## Main API
 
 ### Project Layout
+
 - `include/stratax/core`
 - `include/stratax/containers`
 - `include/stratax/algorithms`
@@ -18,12 +19,14 @@ Describes how the library is organized so implementation work stays consistent a
 - `docs`
 
 ### Core Model
+
 - Containers own contiguous storage.
 - `Shape` describes logical dimensions.
 - `Strides` maps multidimensional indexes to flat offsets.
 - Algorithms are implemented as free functions where possible.
 
 ### Extension Areas
+
 - Linear algebra
 - Statistics
 - Random number support

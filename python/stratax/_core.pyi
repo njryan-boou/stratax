@@ -2,7 +2,7 @@ from collections.abc import Iterable, Iterator
 from typing import overload
 
 
-class _Shape:
+class Shape:
     """C++ shape object storing non-negative array dimensions."""
 
     @overload
@@ -11,7 +11,7 @@ class _Shape:
         ...
 
     @overload
-    def __init__(self, other: "_Shape") -> None:
+    def __init__(self, other: "Shape") -> None:
         """Copy another shape."""
         ...
 
