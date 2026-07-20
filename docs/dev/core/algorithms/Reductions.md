@@ -1,4 +1,4 @@
-# Reductions
+# Reductions {#dev_reductions}
 
 Version: v0.2.0
 

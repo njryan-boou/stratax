@@ -1,4 +1,4 @@
-# Vector\\<T\\>
+# Vector {#dev_vector}
 
 Version: v0.2.0
 
@@ -556,8 +556,8 @@ Unchecked accessors are provided for performance-critical paths, while `at()` of
 
 ## See Also
 
-- Buffer
-- Shape
-- Strides
-- Matrix
-- Tensor
+- [Buffer](Buffer.md)
+- [Shape](Shape.md)
+- [Strides](Strides.md)
+- [Matrix](Matrix.md)
+- [Tensor](Tensor.md)

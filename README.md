@@ -9,17 +9,7 @@ indexing, slicing, reshaping, conversions, creation helpers, printing,
 comparison, and arithmetic are active. Linear algebra, calculus, random, and
 statistics modules are currently reserved API areas.
 
-## Links
-
-- Homepage: [GitHub Repository](https://github.com/njryan-boou/stratax)
-- PyPI: [stratax on PyPI](https://pypi.org/project/stratax/)
-- Issues: [GitHub Issues](https://github.com/njryan-boou/stratax/issues)
-- Changelog: [docs/CHANGELOG.md](docs/CHANGELOG.md)
-- Getting Started: [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)
-- Developer Docs: [docs/dev/README.md](docs/dev/README.md)
-- Roadmap: [docs/roadmap.md](docs/roadmap.md)
-
-## Current Features
+## Features
 
 - C++20 `Vector`, `Matrix`, and `Tensor` containers
 - Contiguous `Buffer` storage with shape and stride metadata
@@ -33,26 +23,20 @@ statistics modules are currently reserved API areas.
 - Python free functions for conversions and tensor creation helpers
 - Doxygen API documentation
 
-## Requirements
+## Quick Start
 
-- C++20 compiler
-- CMake 3.20 or newer
-- Python 3.10 or newer for bindings
-- pybind11 2.12 or newer
-- scikit-build-core 0.10 or newer
-- pytest 8 or newer for Python tests
-- Doxygen 1.9 or newer for API docs
-
-## Quick C++ Example
+### C++
 
 ```cpp
 #include <stratax.h>
 #include <iostream>
 
+using namespace stratax::container;
+
 int main()
 {
-    stratax::container::Vector<double> a{1.0, 2.0, 3.0};
-    stratax::container::Vector<double> b{4.0, 5.0, 6.0};
+    Vector<double> a{1.0, 2.0, 3.0};
+    Vector<double> b{4.0, 5.0, 6.0};
 
     auto c = a + b;
 
@@ -60,121 +44,19 @@ int main()
 }
 ```
 
-## Quick Python Example
+### Python
 
 ```python
-from stratax import Matrix, Shape, Tensor, Vector
-from stratax import identity, to_matrix, to_tensor, to_vector
+from stratax import Vector
 
-# 1) Build a few basic containers.
-shape = Shape([2, 3])
-scores = Vector([10.0, 20.0, 30.0, 40.0, 50.0])
-table = Matrix([[1.0, 2.0], [3.0, 4.0]])
-grid = Tensor([2, 2], 1.0)
+v = Vector([1.0, 2.0, 3.0, 4.0])
 
-# 2) Python-like indexing and slicing.
-last_score = scores[-1]          # 50.0
-every_other_reversed = scores[::-2]
-flipped_table = table[::-1, ::-1]
+print(v[::-1].tolist())
 
-# 3) Update values.
-scores[-1] = 99.0
-grid[1, 1] = 9.0
-
-# 4) Convert between container shapes.
-scores_as_tensor = to_tensor(scores)
-grid_as_vector = to_vector(grid)
-matrix_from_tensor = to_matrix(Tensor([2, 2], 5.0))
-
-# 5) Use creation helpers.
-eye = identity(3)
-
-# 6) Print plain Python data.
-print("shape elements:", shape.elements)
-print("last score:", last_score)
-print("scores:", scores.tolist())
-print("reverse step slice:", every_other_reversed.tolist())
-print("table flipped:", flipped_table.tolist())
-print("grid:", grid.tolist())
-print("scores -> tensor:", scores_as_tensor.tolist())
-print("grid -> vector:", grid_as_vector.tolist())
-print("tensor -> matrix:", matrix_from_tensor.tolist())
-print("identity(3):", eye.tolist())
+# [4.0, 3.0, 2.0, 1.0]
 ```
 
-Python bindings currently expose `double`-based `Shape`, `Vector`, `Matrix`,
-and `Tensor` wrappers plus free-function conversions (`to_vector`,
-`to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`,
-`identity`). The API is intentionally Python-like: use negative indexes,
-slice steps (including reverse slices), and `tolist()` for quick inspection.
-
-## Build From Source
-
-Configure and build with CMake:
-
-```powershell
-cmake -S . -B build
-cmake --build build
-```
-
-For editable Python installation, use pip from an environment with the build
-dependencies available:
-
-```powershell
-python -m pip install -e .
-```
-
-## Run Tests
-
-The C++ tests live under `tests/cpp/` and are registered with CTest through
-GoogleTest:
-
-```powershell
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
-```
-
-The Python tests live under `tests/python/` and use pytest:
-
-```powershell
-python -m pytest tests/python
-```
-
-## Generate Documentation
-
-Generate API documentation with Doxygen:
-
-```powershell
-doxygen Doxyfile
-```
-
-The generated HTML entry point is:
-
-```text
-docs/cpp/html/index.html
-```
-
-Open directly: [docs/cpp/html/index.html](docs/cpp/html/index.html)
-
-If you configure through CMake and Doxygen is available, you can also run:
-
-```powershell
-cmake --build build --target docs
-```
-
-## Repository Layout
-
-- [include/stratax/](include/stratax/) Public C++ headers
-- [bindings/](bindings/) pybind11 binding sources
-- [python/stratax/](python/stratax/) Python package
-- [tests/cpp/](tests/cpp/) C++ tests
-- [tests/python/](tests/python/) Python tests
-- [examples/cpp/](examples/cpp/) C++ examples
-- [examples/python/](examples/python/) Python examples
-- [docs/cpp/](docs/cpp/) C++ API documentation
-- [docs/dev/](docs/dev/) Developer documentation and design notes
-- [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) Setup and build guide
+Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` wrappers plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API is intentionally Python-like: use negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
 
 ## Installation
 
@@ -193,17 +75,97 @@ your build and include the umbrella header:
 #include <stratax.h>
 ```
 
-## License
+## Documentation
 
-Stratax is licensed under the MIT License.
+For complete documentation, see the generated Doxygen docs:
 
-## Contributing
+- **Main Documentation**: [Online Doxygen Docs](docs/output/html/index.html)
+- **Docs Index**: [docs/README.md](docs/README.md)
+- **Getting Started**: [docs/guides/GETTING_STARTED.md](docs/guides/GETTING_STARTED.md)
+- **Architecture**: [docs/guides/architecture.md](docs/guides/architecture.md)
+- **Developer Docs**: [docs/dev/README.md](docs/dev/README.md)
+- **Changelog**: [docs/guides/CHANGELOG.md](docs/guides/CHANGELOG.md)
+- **Roadmap**: [docs/guides/roadmap.md](docs/guides/roadmap.md)
 
-Contributions, bug reports, and feature requests are welcome through GitHub Issues and Pull Requests.
+## Build & Development
+
+### Requirements
+
+- C++20 compiler
+- CMake 3.20 or newer
+- Python 3.10 or newer for bindings
+- pybind11 2.12 or newer
+- scikit-build-core 0.10 or newer
+- pytest 8 or newer for Python tests
+- Doxygen 1.9 or newer for API docs
+
+### Build From Source
+
+Configure and build with CMake:
+
+```powershell
+cmake -S . -B build
+cmake --build build
+```
+
+For editable Python installation, use pip from an environment with the build
+dependencies available:
+
+```powershell
+python -m pip install -e .
+```
+
+### Run Tests
+
+The C++ tests live under `tests/cpp/` and are registered with CTest through
+GoogleTest:
+
+```powershell
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+The Python tests live under `tests/python/` and use pytest:
+
+```powershell
+python -m pytest tests/python
+```
+
+### Generate Documentation
+
+Generate API documentation with Doxygen:
+
+```powershell
+doxygen docs/Doxyfile
+```
+
+The generated HTML entry point is:
+
+```text
+docs/output/html/index.html
+```
+
+If you configure through CMake and Doxygen is available, you can also run:
+
+```powershell
+cmake --build build --target docs
+```
+
+## Repository Layout
+
+- [include/stratax/](include/stratax/) Public C++ headers
+- [bindings/](bindings/) pybind11 binding sources
+- [python/stratax/](python/stratax/) Python package
+- [tests/cpp/](tests/cpp/) C++ tests
+- [tests/python/](tests/python/) Python tests
+- [examples/cpp/](examples/cpp/) C++ examples
+- [examples/python/](examples/python/) Python examples
+- [docs/](docs/) Documentation and API reference
 
 ## Project Status
 
-Implemented:
+### Implemented
 
 - Core storage and metadata: `Buffer`, `Shape`, `Strides`, `Slice`
 - Containers: `Vector`, `Matrix`, `Tensor`
@@ -212,7 +174,7 @@ Implemented:
 - I/O: stream printing
 - Python bindings and Python API: `Shape`, `Vector`, `Matrix`, `Tensor`, conversion free functions, creation free functions, negative indexing, reverse slicing
 
-## Roadmap
+### Roadmap
 
 - Reductions
 - Broadcasting
@@ -222,3 +184,11 @@ Implemented:
 - Random sampling and distributions
 - Statistics routines
 - CSV and binary I/O
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome through GitHub Issues and Pull Requests.
+
+## License
+
+Stratax is licensed under the MIT License.

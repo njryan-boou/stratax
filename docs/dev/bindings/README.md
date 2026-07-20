@@ -1,4 +1,4 @@
-# Bindings Developer Docs
+# Bindings Developer Docs {#dev_bindings}
 
 This section documents the pybind11 binding layer under `bindings/`.
 

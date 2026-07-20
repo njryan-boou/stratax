@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['namespace_0',['Namespace',['../dev_exceptions.html#autotoc_md586',1,'']]],
+  ['naming_1',['Naming',['../contributing.html#autotoc_md886',1,'']]],
+  ['ndarray_2',['NDarray',['../concept_n_darray.html',1,'']]],
+  ['nested_20initializer_20list_20constructor_3',['Nested Initializer List Constructor',['../dev_matrix.html#autotoc_md235',1,'']]],
+  ['nonnegative_5findex_4',['nonnegative_index',['../namespacestratax_1_1core_1_1validation.html#a3ad856dc8229c5f946effbaace3347ea',1,'stratax::core::validation']]],
+  ['nonnegative_5fshape_5fdimension_5',['nonnegative_shape_dimension',['../namespacestratax_1_1core_1_1validation.html#acf73fdaf4748c6a533464b5f99a4a9be',1,'stratax::core::validation']]],
+  ['nonnegative_5fsize_6',['nonnegative_size',['../namespacestratax_1_1core_1_1validation.html#ad4dca5fbce8d1a8e67bf4d12b5e02a38',1,'stratax::core::validation']]],
+  ['normalize_5findex_7',['normalize_index',['../namespacestratax_1_1core_1_1validation.html#a74728d837b23db49544c65e47b4a516c',1,'stratax::core::validation']]],
+  ['normalize_5fslice_8',['normalize_slice',['../namespacestratax_1_1ops_1_1detail.html#a0a30175e1ebe0f9f122b413533832626',1,'stratax::ops::detail']]],
+  ['notes_9',['Notes',['../dev_conversions.html#autotoc_md42',1,'Design Notes'],['../dev_creation.html#autotoc_md66',1,'Design Notes'],['../dev_reshape.html#autotoc_md100',1,'Design Notes'],['../dev_concepts.html#autotoc_md123',1,'Design Notes'],['../dev_config.html#autotoc_md143',1,'Design Notes'],['../dev_buffer.html#autotoc_md209',1,'Design Notes'],['../dev_matrix.html#autotoc_md283',1,'Design Notes'],['../dev_shape.html#autotoc_md351',1,'Design Notes'],['../dev_strides.html#autotoc_md419',1,'Design Notes'],['../dev_tensor.html#autotoc_md493',1,'Design Notes'],['../dev_vector.html#autotoc_md571',1,'Design Notes'],['../dev_exceptions.html#autotoc_md613',1,'Design Notes'],['../dev_print.html#autotoc_md636',1,'Design Notes'],['../dev_meta.html#autotoc_md656',1,'Design Notes'],['../dev_arithmetic.html#autotoc_md682',1,'Design Notes'],['../dev_comparison.html#autotoc_md704',1,'Design Notes'],['../dev_indexing.html#autotoc_md725',1,'Design Notes'],['../dev_ops_slice.html#autotoc_md748',1,'Design Notes'],['../dev_slice.html#autotoc_md775',1,'Design Notes'],['../dev_types.html#autotoc_md800',1,'Design Notes'],['../dev_validation.html#autotoc_md827',1,'Design Notes'],['../dev_stratax.html#autotoc_md860',1,'Design Notes'],['../architecture.html#autotoc_md871',1,'Implementation Notes'],['../contributing.html#autotoc_md888',1,'Implementation Notes'],['../roadmap.html#autotoc_md922',1,'Implementation Notes'],['../architecture.html#autotoc_md870',1,'Validation Notes'],['../contributing.html#autotoc_md887',1,'Validation Notes'],['../roadmap.html#autotoc_md921',1,'Validation Notes']]],
+  ['numeric_10',['Numeric',['../concept_numeric.html',1,'']]]
+];

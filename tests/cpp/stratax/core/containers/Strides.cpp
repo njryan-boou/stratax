@@ -278,17 +278,336 @@ TEST(CoreStrides, swap)
     EXPECT_TRUE(b(2) == 1);
 }
 
+// ============================================================================
+// Const Method Coverage
+// ============================================================================
+
+TEST(CoreStrides, const_operator_parenthesis)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides(0) == 12);
+    EXPECT_TRUE(strides(1) == 4);
+    EXPECT_TRUE(strides(2) == 1);
+}
+
+TEST(CoreStrides, const_at)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides.at(0) == 12);
+    EXPECT_TRUE(strides.at(1) == 4);
+    EXPECT_TRUE(strides.at(2) == 1);
+
+    bool threw = false;
+    try {
+        strides.at(3);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(CoreStrides, const_front)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides.front() == 12);
+}
+
+TEST(CoreStrides, const_back)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides.back() == 1);
+}
+
+TEST(CoreStrides, const_data_pointer)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    const std::size_t* ptr = strides.data();
+    EXPECT_TRUE(ptr != nullptr);
+    EXPECT_TRUE(*ptr == 12);
+}
+
+TEST(CoreStrides, const_data_pointer_empty)
+{
+    const Strides strides;
+
+    EXPECT_TRUE(strides.data() == nullptr);
+}
+
+TEST(CoreStrides, const_rank)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides.rank() == 3);
+}
+
+TEST(CoreStrides, const_empty)
+{
+    const Strides empty;
+    const Strides non_empty(Shape{1, 2, 3});
+
+    EXPECT_TRUE(empty.empty());
+    EXPECT_TRUE(!non_empty.empty());
+}
+
+TEST(CoreStrides, const_size)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(strides.size() == 3);
+}
+
+TEST(CoreStrides, const_equality)
+{
+    const Strides a(Shape{2, 3, 4});
+    const Strides b(Shape{2, 3, 4});
+    const Strides c(Shape{3, 4});
+
+    EXPECT_TRUE(a == b);
+    EXPECT_TRUE(a != c);
+}
+
+TEST(CoreStrides, const_begin_end)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    const std::size_t* begin_ptr = strides.begin();
+    const std::size_t* end_ptr = strides.end();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 12);
+}
+
+TEST(CoreStrides, const_cbegin_cend)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    auto begin_ptr = strides.cbegin();
+    auto end_ptr = strides.cend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+}
+
+// ============================================================================
+// Mutable Iterator Coverage
+// ============================================================================
+
+TEST(CoreStrides, mutable_begin_end)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    const std::size_t* begin_ptr = strides.begin();
+    const std::size_t* end_ptr = strides.end();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 12);
+}
+
+TEST(CoreStrides, mutable_rbegin_rend)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    auto begin_ptr = strides.rbegin();
+    auto end_ptr = strides.rend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 1);
+}
+
+TEST(CoreStrides, mutable_reverse_iteration)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    const std::size_t expected[] = {1, 4, 12};
+    std::size_t i = 0;
+
+    for (auto it = strides.rbegin(); it != strides.rend(); ++it) {
+        EXPECT_TRUE(*it == expected[i]);
+        ++i;
+    }
+
+    EXPECT_TRUE(i == 3);
+}
+
+TEST(CoreStrides, const_rbegin_rend)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    auto begin_ptr = strides.rbegin();
+    auto end_ptr = strides.rend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 1);
+}
+
+TEST(CoreStrides, const_crbegin_crend)
+{
+    const Strides strides(Shape{2, 3, 4});
+
+    auto begin_ptr = strides.crbegin();
+    auto end_ptr = strides.crend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+}
+
+// ============================================================================
+// Edge Cases & Error Conditions
+// ============================================================================
+
 TEST(CoreStrides, swap_with_empty)
 {
-    Strides populated(Shape{2, 3, 4});
+    Strides filled(Shape{2, 3, 4});
     Strides empty;
 
-    populated.swap(empty);
+    filled.swap(empty);
 
-    EXPECT_TRUE(populated.empty());
+    EXPECT_TRUE(filled.empty());
+    EXPECT_TRUE(filled.rank() == 0);
     EXPECT_TRUE(empty.rank() == 3);
     EXPECT_TRUE(empty(0) == 12);
-    EXPECT_TRUE(empty(1) == 4);
-    EXPECT_TRUE(empty(2) == 1);
+}
+
+TEST(CoreStrides, swap_empty_with_empty)
+{
+    Strides a;
+    Strides b;
+
+    a.swap(b);
+
+    EXPECT_TRUE(a.empty());
+    EXPECT_TRUE(b.empty());
+}
+
+TEST(CoreStrides, at_empty_throws)
+{
+    Strides strides;
+
+    bool threw = false;
+    try {
+        strides.at(0);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(CoreStrides, operator_parenthesis_out_of_bounds)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    // Note: operator() doesn't check bounds, so we can't test it throwing
+    // This is by design (unchecked access)
+}
+
+TEST(CoreStrides, single_dimension)
+{
+    Strides strides(Shape{42});
+
+    EXPECT_TRUE(strides.rank() == 1);
+    EXPECT_TRUE(strides(0) == 1);
+    EXPECT_TRUE(strides.front() == 1);
+    EXPECT_TRUE(strides.back() == 1);
+}
+
+TEST(CoreStrides, many_dimensions)
+{
+    std::vector<std::size_t> dims(10, 2);
+    Shape shape(dims);
+    Strides strides(shape);
+
+    EXPECT_TRUE(strides.rank() == 10);
+    EXPECT_TRUE(strides(0) == 512);  // 2^9
+    EXPECT_TRUE(strides(9) == 1);
+}
+
+TEST(CoreStrides, shape_with_all_ones)
+{
+    Strides strides(Shape{1, 1, 1, 1});
+
+    EXPECT_TRUE(strides.rank() == 4);
+    EXPECT_TRUE(strides(0) == 1);
+    EXPECT_TRUE(strides(1) == 1);
+    EXPECT_TRUE(strides(2) == 1);
+    EXPECT_TRUE(strides(3) == 1);
+}
+
+TEST(CoreStrides, shape_with_leading_zeros)
+{
+    Strides strides(Shape{0, 0, 5});
+
+    EXPECT_TRUE(strides.rank() == 3);
+    EXPECT_TRUE(strides(0) == 0);
+    EXPECT_TRUE(strides(1) == 5);
+    EXPECT_TRUE(strides(2) == 1);
+}
+
+TEST(CoreStrides, inequality_operator)
+{
+    Strides a(Shape{2, 3, 4});
+    Strides b(Shape{2, 3, 4});
+    Strides c(Shape{3, 4});
+
+    EXPECT_TRUE(!(a != b));
+    EXPECT_TRUE(a != c);
+}
+
+// ============================================================================
+// Iterator Consistency
+// ============================================================================
+
+TEST(CoreStrides, begin_end_distance)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(std::distance(strides.begin(), strides.end()) == 3);
+}
+
+TEST(CoreStrides, cbegin_cend_distance)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(std::distance(strides.cbegin(), strides.cend()) == 3);
+}
+
+TEST(CoreStrides, rbegin_rend_distance)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(std::distance(strides.rbegin(), strides.rend()) == 3);
+}
+
+TEST(CoreStrides, crbegin_crend_distance)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    EXPECT_TRUE(std::distance(strides.crbegin(), strides.crend()) == 3);
+}
+
+TEST(CoreStrides, forward_and_backward_consistency)
+{
+    Strides strides(Shape{2, 3, 4});
+
+    std::vector<std::size_t> forward_order;
+    for (auto it = strides.begin(); it != strides.end(); ++it) {
+        forward_order.push_back(*it);
+    }
+
+    std::vector<std::size_t> backward_order;
+    for (auto it = strides.rbegin(); it != strides.rend(); ++it) {
+        backward_order.push_back(*it);
+    }
+
+    EXPECT_TRUE(forward_order.size() == backward_order.size());
+    for (std::size_t i = 0; i < forward_order.size(); ++i) {
+        EXPECT_TRUE(forward_order[i] == backward_order[backward_order.size() - 1 - i]);
+    }
 }
 

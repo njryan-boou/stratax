@@ -1,4 +1,4 @@
-# Slice Ops
+# Slice Ops {#dev_ops_slice}
 
 Version: v0.2.0
 

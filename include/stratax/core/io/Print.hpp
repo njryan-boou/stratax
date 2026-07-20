@@ -22,6 +22,7 @@ namespace detail {
  * @param dim Current dimension being printed.
  * @param offset Flat storage offset for the current sub-tensor.
  * @param depth Nesting depth used for indentation.
+ * @param sibling_separator Separator string inserted between sibling elements.
  */
 template<typename T>
 void print_tensor_recursive(

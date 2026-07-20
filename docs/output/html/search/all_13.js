@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['main_20api_0',['Main API',['../architecture.html#autotoc_md866',1,'Main API'],['../contributing.html#autotoc_md882',1,'Main API']]],
+  ['mainpage_2emd_1',['mainpage.md',['../mainpage_8md.html',1,'']]],
+  ['map_2',['File Map',['../dir_296376d1d38b266410c91b33fb74c67c.html#autotoc_md17',1,'']]],
+  ['matrices_3',['Creating Matrices',['../dev_matrix.html#autotoc_md277',1,'']]],
+  ['matrix_4',['Matrix',['../classstratax_1_1container_1_1_matrix.html',1,'stratax::container::Matrix&lt; T &gt;'],['../classstratax_1_1container_1_1_matrix.html#a33ccc6a582e891adb747e80e45eeae8f',1,'stratax::container::Matrix::Matrix()'],['../classstratax_1_1container_1_1_matrix.html#ace69d229aa22754d5e806e4a53a853ba',1,'stratax::container::Matrix::Matrix(std::size_t rows, std::size_t cols)'],['../classstratax_1_1container_1_1_matrix.html#a8d55aa011a73af44a310445b7ec92325',1,'stratax::container::Matrix::Matrix(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_matrix.html#a7fb422da3d1ba9f831f34df14a8056b3',1,'stratax::container::Matrix::Matrix(std::size_t rows, std::size_t cols, const T &amp;value)'],['../classstratax_1_1container_1_1_matrix.html#a347f057e9ede2f3bb1a224074a37567c',1,'stratax::container::Matrix::Matrix(std::initializer_list&lt; std::initializer_list&lt; T &gt; &gt; list)'],['../classstratax_1_1container_1_1_matrix.html#aa813cd0abcc9e56e145a91c0b0239d1a',1,'stratax::container::Matrix::Matrix(const Matrix &amp;)=default'],['../classstratax_1_1container_1_1_matrix.html#aa662952f5c7c228f2d3c3f256923050b',1,'stratax::container::Matrix::Matrix(Matrix &amp;&amp;) noexcept=default'],['../dev_matrix.html',1,'Matrix']]],
+  ['matrix_20slicing_5',['Matrix slicing',['../dev_ops_slice.html#autotoc_md741',1,'']]],
+  ['matrix_20stream_20output_6',['Matrix stream output',['../dev_print.html#autotoc_md629',1,'']]],
+  ['matrix_2ehpp_7',['Matrix.hpp',['../_matrix_8hpp.html',1,'']]],
+  ['matrix_2emd_8',['Matrix.md',['../_matrix_8md.html',1,'']]],
+  ['matrix_3c_20u_20_3e_9',['Matrix&lt; U &gt;',['../classstratax_1_1container_1_1_matrix.html',1,'stratax::container']]],
+  ['matrix_5fshape_10',['matrix_shape',['../_conversions_8hpp.html#aa7d5d3afb444d47306f6261971e0ddb8',1,'Conversions.hpp']]],
+  ['meta_11',['Meta',['../dev_meta.html',1,'']]],
+  ['meta_2ehpp_12',['Meta.hpp',['../_meta_8hpp.html',1,'']]],
+  ['meta_2emd_13',['Meta.md',['../_meta_8md.html',1,'']]],
+  ['metadata_20sources_14',['Metadata Sources',['../dev_module.html#autotoc_md7',1,'']]],
+  ['methods_15',['Methods',['../dev_buffer.html#autotoc_md180',1,'Methods'],['../dev_matrix.html#autotoc_md248',1,'Methods'],['../dev_shape.html#autotoc_md317',1,'Methods'],['../dev_strides.html#autotoc_md384',1,'Methods'],['../dev_tensor.html#autotoc_md454',1,'Methods'],['../dev_vector.html#autotoc_md532',1,'Methods']]],
+  ['model_16',['Core Model',['../architecture.html#autotoc_md868',1,'']]],
+  ['module_17',['_core Extension Module',['../dev_module.html',1,'']]],
+  ['module_2emd_18',['module.md',['../module_8md.html',1,'']]],
+  ['move_20assignment_19',['Move Assignment',['../dev_buffer.html#autotoc_md178',1,'Move Assignment'],['../dev_matrix.html#autotoc_md246',1,'Move Assignment'],['../dev_shape.html#autotoc_md331',1,'Move Assignment'],['../dev_strides.html#autotoc_md382',1,'Move Assignment'],['../dev_tensor.html#autotoc_md452',1,'Move Assignment'],['../dev_vector.html#autotoc_md530',1,'Move Assignment']]],
+  ['move_20constructor_20',['Move Constructor',['../dev_shape.html#autotoc_md311',1,'Buffer Move Constructor'],['../dev_buffer.html#autotoc_md171',1,'Move Constructor'],['../dev_matrix.html#autotoc_md239',1,'Move Constructor'],['../dev_strides.html#autotoc_md375',1,'Move Constructor'],['../dev_tensor.html#autotoc_md445',1,'Move Constructor'],['../dev_vector.html#autotoc_md523',1,'Move Constructor']]],
+  ['multi_20index_21',['multi index',['../dev_tensor.html#autotoc_md465',1,'at() multi-index'],['../dev_tensor.html#autotoc_md480',1,'operator() multi-index']]]
+];

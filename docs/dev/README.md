@@ -1,4 +1,4 @@
-# Developer Docs Index
+# Developer Docs Index {#dev_index}
 
 This index links the Stratax developer documentation organized by subsystem.
 
@@ -6,7 +6,7 @@ This index links the Stratax developer documentation organized by subsystem.
 
 ## Entry Point
 
-- [Umbrella Header (`stratax.h`)](stratax.md)
+- [stratax.h](stratax.md)
 
 ---
 

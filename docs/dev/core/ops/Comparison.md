@@ -1,4 +1,4 @@
-# Comparison
+# Comparison {#dev_comparison}
 
 Version: v0.2.0
 

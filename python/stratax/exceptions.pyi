@@ -1,3 +1,5 @@
+"""Public exception classes re-exported from the core extension."""
+
 from ._core import (
     BroadcastError,
     DimensionError,

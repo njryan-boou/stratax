@@ -1,4 +1,4 @@
-# Tensor\\<T\\>
+# Tensor {#dev_tensor}
 
 Version: v0.2.0
 
@@ -10,7 +10,7 @@ Header: `include/stratax/core/containers/Tensor.hpp`
 
 ## Overview
 
-`Tensor<T>` is Stratax's owning N-dimensional array container for numeric types.
+`Tensor<T>` is an N-dimensional array container for numeric types.
 
 It stores values in contiguous row-major memory and pairs storage with `Shape` and `Strides` metadata for generic multi-dimensional indexing and container interoperability.
 
@@ -542,8 +542,8 @@ Unchecked access is available for performance-critical code paths, while checked
 
 ## See Also
 
-- Buffer
-- Shape
-- Strides
-- Vector
-- Matrix
+- [Buffer](Buffer.md)
+- [Shape](Shape.md)
+- [Strides](Strides.md)
+- [Vector](Vector.md)
+- [Matrix](Matrix.md)

@@ -1,4 +1,4 @@
-# Print
+# Print {#dev_print}
 
 Version: v0.2.0
 
@@ -48,10 +48,10 @@ operator<<(Tensor)
 
 Depends on:
 
-- `include/stratax/core/containers/Vector.hpp`
-- `include/stratax/core/containers/Matrix.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
-- `include/stratax/core/algorithms/Conversions.hpp`
+- [Vector](../containers/Vector.md)
+- [Matrix](../containers/Matrix.md)
+- [Tensor](../containers/Tensor.md)
+- [Conversions](../algorithms/Conversions.md)
 
 ---
 
@@ -161,5 +161,5 @@ Whitespace and separator stability is important because tests and docs often com
 
 ## See Also
 
-- `include/stratax/core/algorithms/Conversions.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- [Conversions](../algorithms/Conversions.md)
+- [Tensor](../containers/Tensor.md)

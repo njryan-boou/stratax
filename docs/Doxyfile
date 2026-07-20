@@ -1,0 +1,31 @@
+PROJECT_NAME           = "Stratax"
+PROJECT_NUMBER         = 0.2.0
+
+OUTPUT_DIRECTORY       = docs/output
+HTML_OUTPUT            = html
+EXCLUDE                = docs/output
+
+INPUT                  = include \
+                         docs \
+                         docs/guides \
+                         docs/dev
+
+FILE_PATTERNS          = *.hpp *.md
+
+RECURSIVE              = YES
+
+MARKDOWN_SUPPORT       = YES
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+
+USE_MDFILE_AS_MAINPAGE = docs/mainpage.md
+
+GENERATE_TREEVIEW      = YES

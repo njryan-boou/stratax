@@ -1,4 +1,4 @@
-# Shape
+# Shape {#dev_shape}
 
 Version: v0.2.0
 
@@ -463,8 +463,8 @@ Dimension storage is contiguous through `Buffer<std::size_t>`, which keeps shape
 
 ## See Also
 
-- Buffer
-- Strides
-- Vector
-- Matrix
-- Tensor
+- [Buffer](Buffer.md)
+- [Strides](Strides.md)
+- [Vector](Vector.md)
+- [Matrix](Matrix.md)
+- [Tensor](Tensor.md)

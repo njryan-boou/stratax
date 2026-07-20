@@ -1,3 +1,9 @@
+"""Typing stubs for the compiled Stratax ``_core`` extension.
+
+This module exposes low-level container types, conversion/creation helpers,
+and exception classes implemented in the native extension.
+"""
+
 from collections.abc import Iterable, Iterator
 from typing import overload
 

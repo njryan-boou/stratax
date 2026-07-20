@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['rank_0',['rank',['../dev_shape.html#autotoc_md320',1,'rank()'],['../dev_strides.html#autotoc_md387',1,'rank()'],['../dev_tensor.html#autotoc_md459',1,'rank()'],['../dev_vector.html#autotoc_md535',1,'rank()'],['../dev_matrix.html#autotoc_md255',1,'shape() / strides() / rank()']]],
+  ['rbegin_20rend_20crbegin_20crend_1',['rbegin()/rend()/crbegin()/crend()',['../dev_strides.html#autotoc_md401',1,'']]],
+  ['re_20exported_20helpers_2',['Re-exported Helpers',['../dev_validation.html#autotoc_md817',1,'']]],
+  ['reductions_3',['Reductions',['../dev_reductions.html',1,'']]],
+  ['references_4',['Developer References',['../dir_49e56c817e5e54854c35e136979f97ca.html#autotoc_md939',1,'']]],
+  ['registration_20order_5',['Registration Order',['../dev_module.html#autotoc_md5',1,'']]],
+  ['related_20files_6',['Related Files',['../dev_module.html#autotoc_md9',1,'']]],
+  ['relationships_7',['Relationships',['../dev_conversions.html#autotoc_md29',1,'Relationships'],['../dev_creation.html#autotoc_md52',1,'Relationships'],['../dev_reshape.html#autotoc_md88',1,'Relationships'],['../dev_concepts.html#autotoc_md110',1,'Relationships'],['../dev_config.html#autotoc_md133',1,'Relationships'],['../dev_buffer.html#autotoc_md153',1,'Relationships'],['../dev_matrix.html#autotoc_md219',1,'Relationships'],['../dev_shape.html#autotoc_md293',1,'Relationships'],['../dev_strides.html#autotoc_md361',1,'Relationships'],['../dev_tensor.html#autotoc_md429',1,'Relationships'],['../dev_vector.html#autotoc_md503',1,'Relationships'],['../dev_exceptions.html#autotoc_md581',1,'Relationships'],['../dev_print.html#autotoc_md623',1,'Relationships'],['../dev_meta.html#autotoc_md646',1,'Relationships'],['../dev_arithmetic.html#autotoc_md666',1,'Relationships'],['../dev_comparison.html#autotoc_md692',1,'Relationships'],['../dev_indexing.html#autotoc_md714',1,'Relationships'],['../dev_ops_slice.html#autotoc_md735',1,'Relationships'],['../dev_slice.html#autotoc_md758',1,'Relationships'],['../dev_types.html#autotoc_md785',1,'Relationships'],['../dev_validation.html#autotoc_md810',1,'Relationships']]],
+  ['rend_20crbegin_20crend_8',['rbegin()/rend()/crbegin()/crend()',['../dev_strides.html#autotoc_md401',1,'']]],
+  ['repository_9',['Clone the Repository',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md895',1,'']]],
+  ['required_10',['Required',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md893',1,'']]],
+  ['reshape_11',['Reshape',['../dev_reshape.html',1,'']]],
+  ['reshape_12',['reshape',['../dev_reshape.html#autotoc_md93',1,'']]],
+  ['responsibilities_13',['Responsibilities',['../dev_module.html#autotoc_md3',1,'Responsibilities'],['../dev_conversions.html#autotoc_md27',1,'Responsibilities'],['../dev_creation.html#autotoc_md50',1,'Responsibilities'],['../dev_reshape.html#autotoc_md86',1,'Responsibilities'],['../dev_concepts.html#autotoc_md108',1,'Responsibilities'],['../dev_config.html#autotoc_md131',1,'Responsibilities'],['../dev_buffer.html#autotoc_md151',1,'Responsibilities'],['../dev_matrix.html#autotoc_md217',1,'Responsibilities'],['../dev_shape.html#autotoc_md291',1,'Responsibilities'],['../dev_strides.html#autotoc_md359',1,'Responsibilities'],['../dev_tensor.html#autotoc_md427',1,'Responsibilities'],['../dev_vector.html#autotoc_md501',1,'Responsibilities'],['../dev_exceptions.html#autotoc_md579',1,'Responsibilities'],['../dev_print.html#autotoc_md621',1,'Responsibilities'],['../dev_meta.html#autotoc_md644',1,'Responsibilities'],['../dev_arithmetic.html#autotoc_md664',1,'Responsibilities'],['../dev_comparison.html#autotoc_md690',1,'Responsibilities'],['../dev_indexing.html#autotoc_md712',1,'Responsibilities'],['../dev_ops_slice.html#autotoc_md733',1,'Responsibilities'],['../dev_slice.html#autotoc_md756',1,'Responsibilities'],['../dev_types.html#autotoc_md783',1,'Responsibilities'],['../dev_validation.html#autotoc_md808',1,'Responsibilities'],['../dev_stratax.html#autotoc_md849',1,'Responsibilities']]],
+  ['roadmap_14',['Stratax Roadmap',['../roadmap.html',1,'md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d']]],
+  ['row_20col_15',['operator()(row, col)',['../dev_matrix.html#autotoc_md270',1,'']]],
+  ['rows_20cols_16',['rows() / cols()',['../dev_matrix.html#autotoc_md253',1,'']]],
+  ['rows_20cols_20constructor_17',['Rows/Cols Constructor',['../dev_matrix.html#autotoc_md229',1,'']]],
+  ['running_20tests_18',['Running Tests',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md907',1,'']]]
+];

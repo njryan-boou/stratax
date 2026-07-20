@@ -1,4 +1,4 @@
-# Strides
+# Strides {#dev_strides}
 
 Version: v0.2.0
 
@@ -464,8 +464,8 @@ By separating shape and stride metadata from value storage, Stratax keeps indexi
 
 ## See Also
 
-- Shape
-- Buffer
-- Vector
-- Matrix
-- Tensor
+- [Shape](Shape.md)
+- [Buffer](Buffer.md)
+- [Vector](Vector.md)
+- [Matrix](Matrix.md)
+- [Tensor](Tensor.md)

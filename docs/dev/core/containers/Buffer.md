@@ -1,4 +1,4 @@
-# Buffer\<T\>
+# Buffer {#dev_buffer}
 
 Version: v0.2.0
 
@@ -10,7 +10,7 @@ Header: `include/stratax/core/containers/Buffer.hpp`
 
 ## Overview
 
-`Buffer<T>` is Stratax's low-level fixed-size contiguous storage container.
+`Buffer<T>` is a fixed-size contiguous storage container.
 
 It owns dynamically allocated memory, provides RAII semantics, and supplies iterator support for all higher-level Stratax containers. `Buffer<T>` serves as the foundation upon which `Shape`, `Strides`, `Vector`, `Matrix`, and `Tensor` are built.
 
@@ -87,6 +87,7 @@ The following conditions are always true:
 - `data()` is either `nullptr` or points to `size()` contiguous elements.
 - `Buffer` always owns the memory it manages.
 - Copy operations perform deep copies.
+- Copying duplicates storage.
 - Move operations transfer ownership.
 - Memory is released automatically when the buffer is destroyed.
 
@@ -248,7 +249,7 @@ Complexity
 T& front();
 ```
 
-Returns the first element.
+Returns the first element of the buffer.
 
 Preconditions
 
@@ -272,7 +273,7 @@ const T& front() const;
 T& back();
 ```
 
-Returns the last element.
+Returns the last element of the buffer.
 
 Preconditions
 
@@ -480,8 +481,8 @@ Higher-level containers such as `Matrix` and `Tensor` interpret this one-dimensi
 
 ## See Also
 
-- Shape
-- Strides
-- Vector
-- Matrix
-- Tensor
+- [Shape](Shape.md)
+- [Strides](Strides.md)
+- [Vector](Vector.md)
+- [Matrix](Matrix.md)
+- [Tensor](Tensor.md)

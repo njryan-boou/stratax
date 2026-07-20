@@ -1,4 +1,4 @@
-# _core Extension Module
+# _core Extension Module {#dev_module}
 
 Version: v0.2.0
 

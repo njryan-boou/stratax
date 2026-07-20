@@ -342,3 +342,417 @@ TEST(ContainersVector, swap_with_empty)
     EXPECT_TRUE(empty.strides().rank() == 1);
 }
 
+// ============================================================================
+// Const Method Coverage
+// ============================================================================
+
+TEST(ContainersVector, const_operator_parenthesis)
+{
+    const Vector<int> vector{10, 20, 30};
+
+    EXPECT_TRUE(vector(0) == 10);
+    EXPECT_TRUE(vector(1) == 20);
+    EXPECT_TRUE(vector(2) == 30);
+}
+
+TEST(ContainersVector, const_operator_bracket)
+{
+    const Vector<int> vector{5, 6, 7};
+
+    EXPECT_TRUE(vector[0] == 5);
+    EXPECT_TRUE(vector[1] == 6);
+    EXPECT_TRUE(vector[2] == 7);
+}
+
+TEST(ContainersVector, const_at)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    EXPECT_TRUE(vector.at(0) == 1);
+    EXPECT_TRUE(vector.at(-1) == 3);
+    EXPECT_TRUE(vector.at(-2) == 2);
+}
+
+TEST(ContainersVector, const_at_throws_out_of_bounds)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    bool threw = false;
+    try {
+        vector.at(10);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(ContainersVector, const_front)
+{
+    const Vector<int> vector{42, 43, 44};
+
+    EXPECT_TRUE(vector.front() == 42);
+}
+
+TEST(ContainersVector, const_back)
+{
+    const Vector<int> vector{42, 43, 44};
+
+    EXPECT_TRUE(vector.back() == 44);
+}
+
+TEST(ContainersVector, const_data)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    const int* ptr = vector.data();
+    EXPECT_TRUE(ptr != nullptr);
+    EXPECT_TRUE(*ptr == 1);
+}
+
+TEST(ContainersVector, const_data_empty)
+{
+    const Vector<int> vector;
+
+    EXPECT_TRUE(vector.data() == nullptr);
+}
+
+TEST(ContainersVector, const_size)
+{
+    const Vector<int> vector{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(vector.size() == 5);
+}
+
+TEST(ContainersVector, const_rank)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    EXPECT_TRUE(vector.rank() == 1);
+}
+
+TEST(ContainersVector, const_rank_default_vector)
+{
+    const Vector<int> vector;
+
+    EXPECT_TRUE(vector.rank() == 0);
+}
+
+TEST(ContainersVector, const_empty)
+{
+    const Vector<int> empty;
+    const Vector<int> non_empty{1, 2, 3};
+
+    EXPECT_TRUE(empty.empty());
+    EXPECT_TRUE(!non_empty.empty());
+}
+
+TEST(ContainersVector, const_shape)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    const auto& shape = vector.shape();
+    EXPECT_TRUE(shape.rank() == 1);
+    EXPECT_TRUE(shape(0) == 3);
+}
+
+TEST(ContainersVector, const_strides)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    const auto& strides = vector.strides();
+    EXPECT_TRUE(strides.rank() == 1);
+    EXPECT_TRUE(strides(0) == 1);
+}
+
+// ============================================================================
+// Mutable Iterator Coverage
+// ============================================================================
+
+TEST(ContainersVector, mutable_begin_end)
+{
+    Vector<int> vector{1, 2, 3};
+
+    int* begin_ptr = vector.begin();
+    int* end_ptr = vector.end();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 1);
+}
+
+TEST(ContainersVector, mutable_rbegin_rend)
+{
+    Vector<int> vector{1, 2, 3};
+
+    auto begin_ptr = vector.rbegin();
+    auto end_ptr = vector.rend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 3);
+}
+
+TEST(ContainersVector, mutable_iteration_modification)
+{
+    Vector<int> vector{1, 2, 3};
+
+    for (auto it = vector.begin(); it != vector.end(); ++it) {
+        *it *= 10;
+    }
+
+    EXPECT_TRUE(vector(0) == 10);
+    EXPECT_TRUE(vector(1) == 20);
+    EXPECT_TRUE(vector(2) == 30);
+}
+
+TEST(ContainersVector, mutable_reverse_iteration_modification)
+{
+    Vector<int> vector{1, 2, 3};
+
+    for (auto it = vector.rbegin(); it != vector.rend(); ++it) {
+        *it *= 10;
+    }
+
+    EXPECT_TRUE(vector(0) == 10);
+    EXPECT_TRUE(vector(1) == 20);
+    EXPECT_TRUE(vector(2) == 30);
+}
+
+TEST(ContainersVector, const_begin_end)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    const int* begin_ptr = vector.begin();
+    const int* end_ptr = vector.end();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 1);
+}
+
+TEST(ContainersVector, const_cbegin_cend)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    auto begin_ptr = vector.cbegin();
+    auto end_ptr = vector.cend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+}
+
+TEST(ContainersVector, const_rbegin_rend)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    auto begin_ptr = vector.rbegin();
+    auto end_ptr = vector.rend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 3);
+}
+
+TEST(ContainersVector, const_crbegin_crend)
+{
+    const Vector<int> vector{1, 2, 3};
+
+    auto begin_ptr = vector.crbegin();
+    auto end_ptr = vector.crend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+}
+
+// ============================================================================
+// Edge Cases
+// ============================================================================
+
+TEST(ContainersVector, single_element_vector)
+{
+    Vector<int> vector(1);
+
+    EXPECT_TRUE(vector.size() == 1);
+    EXPECT_TRUE(!vector.empty());
+    EXPECT_TRUE(vector.front() == vector.back());
+    EXPECT_TRUE(vector.shape()(0) == 1);
+}
+
+TEST(ContainersVector, large_vector)
+{
+    Vector<int> vector(1000);
+
+    EXPECT_TRUE(vector.size() == 1000);
+    EXPECT_TRUE(vector.shape()(0) == 1000);
+
+    vector(500) = 999;
+    EXPECT_TRUE(vector(500) == 999);
+}
+
+TEST(ContainersVector, zero_size_vector)
+{
+    Vector<int> vector(0);
+
+    EXPECT_TRUE(vector.empty());
+    EXPECT_TRUE(vector.size() == 0);
+    EXPECT_TRUE(vector.shape().rank() == 1);
+    EXPECT_TRUE(vector.shape()(0) == 0);
+}
+
+// ============================================================================
+// Error Conditions
+// ============================================================================
+
+TEST(ContainersVector, front_throws_on_empty)
+{
+    Vector<int> vector;
+
+    bool threw = false;
+    try {
+        vector.front();
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(ContainersVector, back_throws_on_empty)
+{
+    Vector<int> vector;
+
+    bool threw = false;
+    try {
+        vector.back();
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(ContainersVector, at_negative_out_of_bounds)
+{
+    Vector<int> vector{1, 2, 3};
+
+    bool threw = false;
+    try {
+        vector.at(-10);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+}
+
+TEST(ContainersVector, fill_on_empty)
+{
+    Vector<int> vector(0);
+
+    vector.fill(42);
+
+    EXPECT_TRUE(vector.empty());
+}
+
+// ============================================================================
+// Resource Management
+// ============================================================================
+
+TEST(ContainersVector, copy_assignment_overwrites_old_data)
+{
+    Vector<int> source{1, 2, 3};
+    Vector<int> target{99, 99, 99, 99, 99};
+
+    target = source;
+
+    EXPECT_TRUE(target.size() == 3);
+    EXPECT_TRUE(target(0) == 1);
+    EXPECT_TRUE(target(1) == 2);
+    EXPECT_TRUE(target(2) == 3);
+}
+
+TEST(ContainersVector, move_assignment_on_nonempty)
+{
+    Vector<int> source{10, 20, 30};
+    Vector<int> target{99, 99};
+
+    target = std::move(source);
+
+    EXPECT_TRUE(target.size() == 3);
+    EXPECT_TRUE(target(0) == 10);
+    EXPECT_TRUE(target(1) == 20);
+    EXPECT_TRUE(target(2) == 30);
+}
+
+// ============================================================================
+// Iterator Consistency
+// ============================================================================
+
+TEST(ContainersVector, begin_end_distance)
+{
+    Vector<int> vector{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(std::distance(vector.begin(), vector.end()) == 5);
+}
+
+TEST(ContainersVector, cbegin_cend_distance)
+{
+    Vector<int> vector{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(std::distance(vector.cbegin(), vector.cend()) == 5);
+}
+
+TEST(ContainersVector, rbegin_rend_distance)
+{
+    Vector<int> vector{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(std::distance(vector.rbegin(), vector.rend()) == 5);
+}
+
+TEST(ContainersVector, crbegin_crend_distance)
+{
+    Vector<int> vector{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(std::distance(vector.crbegin(), vector.crend()) == 5);
+}
+
+TEST(ContainersVector, forward_and_backward_consistency)
+{
+    Vector<int> vector{10, 20, 30, 40};
+
+    std::vector<int> forward_order;
+    for (auto it = vector.begin(); it != vector.end(); ++it) {
+        forward_order.push_back(*it);
+    }
+
+    std::vector<int> backward_order;
+    for (auto it = vector.rbegin(); it != vector.rend(); ++it) {
+        backward_order.push_back(*it);
+    }
+
+    EXPECT_TRUE(forward_order.size() == backward_order.size());
+    for (std::size_t i = 0; i < forward_order.size(); ++i) {
+        EXPECT_TRUE(forward_order[i] == backward_order[backward_order.size() - 1 - i]);
+    }
+}
+
+TEST(ContainersVector, swap_empty_with_empty)
+{
+    Vector<int> a;
+    Vector<int> b;
+
+    a.swap(b);
+
+    EXPECT_TRUE(a.empty());
+    EXPECT_TRUE(b.empty());
+}
+
+TEST(ContainersVector, data_pointer_consistency)
+{
+    Vector<int> vector{5, 6, 7};
+
+    int* ptr = vector.data();
+    EXPECT_TRUE(ptr == vector.begin());
+    EXPECT_TRUE(ptr[0] == vector(0));
+    EXPECT_TRUE(ptr[2] == vector(2));
+}
+

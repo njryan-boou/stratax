@@ -25,6 +25,9 @@ requires Numeric<T>
  *
  * @tparam T Numeric element type.
  */
+/**
+ * @ingroup containers
+ */
 class Matrix
 {
 private:
