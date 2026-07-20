@@ -132,25 +132,9 @@ The Python tests live under `tests/python/` and use pytest:
 python -m pytest tests/python
 ```
 
-### Generate Documentation
+### Documentation
 
-Generate API documentation with Doxygen:
-
-```powershell
-doxygen docs/Doxyfile
-```
-
-The generated HTML entry point is:
-
-```text
-docs/output/html/index.html
-```
-
-If you configure through CMake and Doxygen is available, you can also run:
-
-```powershell
-cmake --build build --target docs
-```
+ - [Documentation Site](https://njryan-boou.github.io/stratax)
 
 ## Repository Layout
 
