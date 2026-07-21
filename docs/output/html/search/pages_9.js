@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['a_20buffer_0',['Creating a Buffer',['../dev_buffer.html#autotoc_md201',1,'']]],
-  ['a_20shape_1',['Building Strides From a Shape',['../dev_strides.html#autotoc_md415',1,'']]],
+  ['a_20buffer_0',['Creating a Buffer',['../buffer.html#autotoc_md201',1,'']]],
+  ['a_20shape_1',['Building Strides From a Shape',['../strides.html#autotoc_md415',1,'']]],
   ['a_20virtual_20environment_2',['Create a Virtual Environment',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md897',1,'']]],
-  ['accessing_20dimensions_3',['Accessing Dimensions',['../dev_shape.html#autotoc_md347',1,'']]],
-  ['accessing_20elements_4',['Accessing Elements',['../dev_matrix.html#autotoc_md279',1,'Accessing Elements'],['../dev_tensor.html#autotoc_md489',1,'Accessing Elements'],['../dev_vector.html#autotoc_md567',1,'Accessing Elements']]],
-  ['accessing_20strides_5',['Accessing Strides',['../dev_strides.html#autotoc_md417',1,'']]],
+  ['accessing_20dimensions_3',['Accessing Dimensions',['../shape.html#autotoc_md347',1,'']]],
+  ['accessing_20elements_4',['Accessing Elements',['../matrix.html#autotoc_md279',1,'Accessing Elements'],['../tensor.html#autotoc_md489',1,'Accessing Elements'],['../vector.html#autotoc_md567',1,'Accessing Elements']]],
+  ['accessing_20strides_5',['Accessing Strides',['../strides.html#autotoc_md417',1,'']]],
   ['accessors_6',['Accessors',['../dev_slice.html#autotoc_md767',1,'']]],
   ['activate_20the_20virtual_20environment_7',['Activate the Virtual Environment',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md899',1,'']]],
   ['added_8',['Added',['../changelog.html#autotoc_md875',1,'Added'],['../changelog.html#autotoc_md880',1,'Added']]],
@@ -15,7 +15,7 @@ var searchData=
   ['algorithms_12',['Algorithms',['../dev_stratax.html#autotoc_md854',1,'Algorithms'],['../dir_5179a46a04c00f26153add2c2c09d3cf.html#autotoc_md839',1,'Core Algorithms']]],
   ['alias_13',['Boolean alias',['../dev_types.html#autotoc_md791',1,'']]],
   ['aliases_14',['aliases',['../dev_types.html#autotoc_md794',1,'Complex aliases'],['../dev_types.html#autotoc_md793',1,'Floating aliases'],['../dev_types.html#autotoc_md790',1,'Index aliases'],['../dev_types.html#autotoc_md792',1,'Integer aliases']]],
-  ['also_15',['Also',['../dev_conversions.html#autotoc_md46',1,'See Also'],['../dev_creation.html#autotoc_md70',1,'See Also'],['../dev_reductions.html#autotoc_md82',1,'See Also'],['../dev_reshape.html#autotoc_md104',1,'See Also'],['../dev_concepts.html#autotoc_md127',1,'See Also'],['../dev_config.html#autotoc_md147',1,'See Also'],['../dev_buffer.html#autotoc_md213',1,'See Also'],['../dev_matrix.html#autotoc_md287',1,'See Also'],['../dev_shape.html#autotoc_md355',1,'See Also'],['../dev_strides.html#autotoc_md423',1,'See Also'],['../dev_tensor.html#autotoc_md497',1,'See Also'],['../dev_vector.html#autotoc_md575',1,'See Also'],['../dev_exceptions.html#autotoc_md617',1,'See Also'],['../dev_print.html#autotoc_md640',1,'See Also'],['../dev_meta.html#autotoc_md660',1,'See Also'],['../dev_arithmetic.html#autotoc_md686',1,'See Also'],['../dev_comparison.html#autotoc_md708',1,'See Also'],['../dev_indexing.html#autotoc_md729',1,'See Also'],['../dev_ops_slice.html#autotoc_md752',1,'See Also'],['../dev_slice.html#autotoc_md779',1,'See Also'],['../dev_types.html#autotoc_md804',1,'See Also'],['../dev_validation.html#autotoc_md831',1,'See Also'],['../dev_stratax.html#autotoc_md864',1,'See Also']]],
+  ['also_15',['Also',['../dev_conversions.html#autotoc_md46',1,'See Also'],['../dev_creation.html#autotoc_md70',1,'See Also'],['../dev_reductions.html#autotoc_md82',1,'See Also'],['../dev_reshape.html#autotoc_md104',1,'See Also'],['../dev_concepts.html#autotoc_md127',1,'See Also'],['../dev_config.html#autotoc_md147',1,'See Also'],['../buffer.html#autotoc_md213',1,'See Also'],['../matrix.html#autotoc_md287',1,'See Also'],['../shape.html#autotoc_md355',1,'See Also'],['../strides.html#autotoc_md423',1,'See Also'],['../tensor.html#autotoc_md497',1,'See Also'],['../vector.html#autotoc_md575',1,'See Also'],['../dev_exceptions.html#autotoc_md617',1,'See Also'],['../dev_print.html#autotoc_md640',1,'See Also'],['../dev_meta.html#autotoc_md660',1,'See Also'],['../dev_arithmetic.html#autotoc_md686',1,'See Also'],['../dev_comparison.html#autotoc_md708',1,'See Also'],['../dev_indexing.html#autotoc_md729',1,'See Also'],['../dev_ops_slice.html#autotoc_md752',1,'See Also'],['../dev_slice.html#autotoc_md779',1,'See Also'],['../dev_types.html#autotoc_md804',1,'See Also'],['../dev_validation.html#autotoc_md831',1,'See Also'],['../dev_stratax.html#autotoc_md864',1,'See Also']]],
   ['and_20examples_16',['Phase 7: Documentation and Examples',['../roadmap.html#autotoc_md919',1,'']]],
   ['and_20output_17',['Phase 6: Input and Output',['../roadmap.html#autotoc_md918',1,'']]],
   ['and_20traits_18',['Container declarations and traits',['../dev_concepts.html#autotoc_md116',1,'']]],
@@ -26,10 +26,10 @@ var searchData=
   ['array_20array_20operators_23',['Array-array operators',['../dev_arithmetic.html#autotoc_md672',1,'']]],
   ['array_20operators_24',['array operators',['../dev_arithmetic.html#autotoc_md672',1,'Array-array operators'],['../dev_arithmetic.html#autotoc_md674',1,'Scalar-array operators']]],
   ['array_20scalar_20operators_25',['Array-scalar operators',['../dev_arithmetic.html#autotoc_md673',1,'']]],
-  ['assignment_26',['Assignment',['../dev_buffer.html#autotoc_md176',1,'Copy Assignment'],['../dev_matrix.html#autotoc_md244',1,'Copy Assignment'],['../dev_shape.html#autotoc_md329',1,'Copy Assignment'],['../dev_strides.html#autotoc_md380',1,'Copy Assignment'],['../dev_tensor.html#autotoc_md450',1,'Copy Assignment'],['../dev_vector.html#autotoc_md528',1,'Copy Assignment'],['../dev_buffer.html#autotoc_md178',1,'Move Assignment'],['../dev_matrix.html#autotoc_md246',1,'Move Assignment'],['../dev_shape.html#autotoc_md331',1,'Move Assignment'],['../dev_strides.html#autotoc_md382',1,'Move Assignment'],['../dev_tensor.html#autotoc_md452',1,'Move Assignment'],['../dev_vector.html#autotoc_md530',1,'Move Assignment']]],
-  ['assignment_20operators_27',['Assignment Operators',['../dev_buffer.html#autotoc_md175',1,'Assignment Operators'],['../dev_matrix.html#autotoc_md243',1,'Assignment Operators'],['../dev_shape.html#autotoc_md328',1,'Assignment Operators'],['../dev_strides.html#autotoc_md379',1,'Assignment Operators'],['../dev_tensor.html#autotoc_md449',1,'Assignment Operators'],['../dev_vector.html#autotoc_md527',1,'Assignment Operators']]],
+  ['assignment_26',['Assignment',['../buffer.html#autotoc_md176',1,'Copy Assignment'],['../matrix.html#autotoc_md244',1,'Copy Assignment'],['../shape.html#autotoc_md329',1,'Copy Assignment'],['../strides.html#autotoc_md380',1,'Copy Assignment'],['../tensor.html#autotoc_md450',1,'Copy Assignment'],['../vector.html#autotoc_md528',1,'Copy Assignment'],['../buffer.html#autotoc_md178',1,'Move Assignment'],['../matrix.html#autotoc_md246',1,'Move Assignment'],['../shape.html#autotoc_md331',1,'Move Assignment'],['../strides.html#autotoc_md382',1,'Move Assignment'],['../tensor.html#autotoc_md452',1,'Move Assignment'],['../vector.html#autotoc_md530',1,'Move Assignment']]],
+  ['assignment_20operators_27',['Assignment Operators',['../buffer.html#autotoc_md175',1,'Assignment Operators'],['../matrix.html#autotoc_md243',1,'Assignment Operators'],['../shape.html#autotoc_md328',1,'Assignment Operators'],['../strides.html#autotoc_md379',1,'Assignment Operators'],['../tensor.html#autotoc_md449',1,'Assignment Operators'],['../vector.html#autotoc_md527',1,'Assignment Operators']]],
   ['assignment_20operators_28',['Compound assignment operators',['../dev_arithmetic.html#autotoc_md675',1,'']]],
-  ['at_29',['at',['../dev_matrix.html#autotoc_md257',1,'at()'],['../dev_strides.html#autotoc_md391',1,'at()'],['../dev_vector.html#autotoc_md543',1,'at()']]],
-  ['at_20flat_30',['at() flat',['../dev_tensor.html#autotoc_md463',1,'']]],
-  ['at_20multi_20index_31',['at() multi-index',['../dev_tensor.html#autotoc_md465',1,'']]]
+  ['at_29',['at',['../matrix.html#autotoc_md257',1,'at()'],['../strides.html#autotoc_md391',1,'at()'],['../vector.html#autotoc_md543',1,'at()']]],
+  ['at_20flat_30',['at() flat',['../tensor.html#autotoc_md463',1,'']]],
+  ['at_20multi_20index_31',['at() multi-index',['../tensor.html#autotoc_md465',1,'']]]
 ];

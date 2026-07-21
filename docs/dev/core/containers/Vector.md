@@ -1,3 +1,5 @@
+@page vector Vector
+
 # Vector {#dev_vector}
 
 Version: v0.2.0
@@ -556,8 +558,8 @@ Unchecked accessors are provided for performance-critical paths, while `at()` of
 
 ## See Also
 
-- [Buffer](Buffer.md)
-- [Shape](Shape.md)
-- [Strides](Strides.md)
-- [Matrix](Matrix.md)
-- [Tensor](Tensor.md)
+- @ref buffer
+- @ref shape
+- @ref strides
+- @ref matrix
+- @ref tensor

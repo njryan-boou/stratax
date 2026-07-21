@@ -1,3 +1,5 @@
+@page strides Strides
+
 # Strides {#dev_strides}
 
 Version: v0.2.0

@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['tag_20constructor_0',['Tag Constructor',['../dev_shape.html#autotoc_md309',1,'Buffer Copy + Tag Constructor'],['../dev_shape.html#autotoc_md305',1,'Initializer List + Tag Constructor']]],
-  ['tensor_1',['Tensor',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container::Tensor&lt; T &gt;'],['../classstratax_1_1container_1_1_tensor.html#a79ee6b29c2456696f45e912e79ba3485',1,'stratax::container::Tensor::Tensor() noexcept=default'],['../classstratax_1_1container_1_1_tensor.html#afb64e8361a0771cd0217166242c0975f',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_tensor.html#a3bc47abf83540457b08080e0f344f7c4',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape, const T &amp;value)'],['../classstratax_1_1container_1_1_tensor.html#a2bfdd6a164d779d029aaffbe449e73b4',1,'stratax::container::Tensor::Tensor(const Tensor &amp;)=default'],['../classstratax_1_1container_1_1_tensor.html#adf9f6ec1da0b3fce12586e71d0a4ebb0',1,'stratax::container::Tensor::Tensor(Tensor &amp;&amp;) noexcept=default'],['../dev_tensor.html',1,'Tensor']]],
+  ['tag_20constructor_0',['Tag Constructor',['../shape.html#autotoc_md309',1,'Buffer Copy + Tag Constructor'],['../shape.html#autotoc_md305',1,'Initializer List + Tag Constructor']]],
+  ['tensor_1',['Tensor',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container::Tensor&lt; T &gt;'],['../classstratax_1_1container_1_1_tensor.html#a79ee6b29c2456696f45e912e79ba3485',1,'stratax::container::Tensor::Tensor() noexcept=default'],['../classstratax_1_1container_1_1_tensor.html#afb64e8361a0771cd0217166242c0975f',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_tensor.html#a3bc47abf83540457b08080e0f344f7c4',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape, const T &amp;value)'],['../classstratax_1_1container_1_1_tensor.html#a2bfdd6a164d779d029aaffbe449e73b4',1,'stratax::container::Tensor::Tensor(const Tensor &amp;)=default'],['../classstratax_1_1container_1_1_tensor.html#adf9f6ec1da0b3fce12586e71d0a4ebb0',1,'stratax::container::Tensor::Tensor(Tensor &amp;&amp;) noexcept=default'],['../tensor.html',1,'Tensor'],['../tensor.html#dev_tensor',1,'Tensor']]],
   ['tensor_20slicing_2',['Tensor slicing',['../dev_ops_slice.html#autotoc_md742',1,'']]],
   ['tensor_20stream_20output_3',['Tensor stream output',['../dev_print.html#autotoc_md630',1,'']]],
   ['tensor_2ehpp_4',['Tensor.hpp',['../_tensor_8hpp.html',1,'']]],
   ['tensor_2emd_5',['Tensor.md',['../_tensor_8md.html',1,'']]],
   ['tensor_3c_20u_20_3e_6',['Tensor&lt; U &gt;',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container']]],
-  ['tensors_7',['Creating Tensors',['../dev_tensor.html#autotoc_md487',1,'']]],
+  ['tensors_7',['Creating Tensors',['../tensor.html#autotoc_md487',1,'']]],
   ['testing_8',['Testing',['../contributing.html#autotoc_md884',1,'']]],
   ['tests_9',['Running Tests',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md907',1,'']]],
   ['the_20project_10',['Build the Project',['../md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md905',1,'']]],

@@ -1,3 +1,5 @@
+@page shape Shape
+
 # Shape {#dev_shape}
 
 Version: v0.2.0

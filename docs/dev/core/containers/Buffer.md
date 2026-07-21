@@ -1,3 +1,5 @@
+@page buffer Buffer
+
 # Buffer {#dev_buffer}
 
 Version: v0.2.0

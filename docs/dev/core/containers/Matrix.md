@@ -1,3 +1,5 @@
+@page matrix Matrix
+
 # Matrix {#dev_matrix}
 
 Version: v0.2.0

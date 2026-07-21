@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded',() => { initNavTree('dev_shape.html','',''); });
+document.addEventListener('DOMContentLoaded',() => { initNavTree('shape.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -118,18 +118,19 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('dev_shape.html
   <div class="headertitle"><div class="title">Shape </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_docs_2dev_2core_2containers_2_shape"></a></p>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="dev_shape"></a>
+Shape</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_shape_8hpp.html">include/stratax/core/containers/Shape.hpp</a></span></p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md290"></a>
-Overview</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md289"></a>
+Overview</h2>
 <p><span class="tt">Shape</span> stores array dimension lengths and provides rank/element-count metadata for Stratax containers.</p>
 <p>It is a lightweight metadata object built on <span class="tt">Buffer&lt;std::size_t&gt;</span> and is used by higher-level types such as <span class="tt">Strides</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span>.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md292"></a>
-Responsibilities</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md291"></a>
+Responsibilities</h2>
 <p>The <span class="tt">Shape</span> class is responsible for:</p>
 <ul>
 <li>Storing dimension lengths</li>
@@ -147,8 +148,8 @@ Responsibilities</h1>
 <li>Mathematical operations on data values</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
-Relationships</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md293"></a>
+Relationships</h2>
 <div class="fragment"><div class="line">Shape</div>
 <div class="line">│</div>
 <div class="line">└── dims_ : Buffer&lt;std::size_t&gt;</div>
@@ -172,8 +173,8 @@ Relationships</h1>
 <li>Strides</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
-Internal Data</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md295"></a>
+Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Member  </th><th class="markdownTableHeadNone">Description  </th></tr>
@@ -181,8 +182,8 @@ Internal Data</h1>
 <td class="markdownTableBodyNone"><span class="tt">Buffer&lt;std::size_t&gt; dims_</span>  </td><td class="markdownTableBodyNone">Contiguous storage for all dimension lengths  </td></tr>
 </table>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
-Invariants</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
+Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
 <li><span class="tt">rank()</span> equals <span class="tt">dims_.size()</span>.</li>
@@ -192,12 +193,12 @@ Invariants</h1>
 <li><span class="tt">elements()</span> checks multiplication overflow and throws on overflow.</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
-Public Interface</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md301"></a>
-Constructors</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md302"></a>
-Default Constructor</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md299"></a>
+Public Interface</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
+Constructors</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md301"></a>
+Default Constructor</h3>
 <div class="fragment"><div class="line">Shape() noexcept;</div>
 </div><!-- fragment --><p>Constructs an empty rank-0 shape.</p>
 <p>Complexity</p>
@@ -209,8 +210,8 @@ Default Constructor</h2>
 <li>None</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
-Variadic Integral Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md303"></a>
+Variadic Integral Constructor</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<a class="code hl_concept" href="concept_integral.html">Integral</a>... Dims&gt;</div>
 <div class="line"><span class="keyword">requires</span> (<span class="keyword">sizeof</span>...(Dims) &gt; 0)</div>
 <div class="line">Shape(Dims... dims);</div>
@@ -225,8 +226,8 @@ Variadic Integral Constructor</h2>
 <li><span class="tt">std::bad_alloc</span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md306"></a>
-Initializer List + Tag Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md305"></a>
+Initializer List + Tag Constructor</h3>
 <div class="fragment"><div class="line">Shape(std::initializer_list&lt;std::size_t&gt; list, allow_zero_t allow_zero);</div>
 </div><!-- fragment --><p>Constructs a shape from explicit dimensions and documents zero-dimension intent.</p>
 <p>Complexity</p>
@@ -234,8 +235,8 @@ Initializer List + Tag Constructor</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
-Buffer Copy Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md307"></a>
+Buffer Copy Constructor</h3>
 <div class="fragment"><div class="line">Shape(<span class="keyword">const</span> Buffer&lt;std::size_t&gt;&amp; dims);</div>
 </div><!-- fragment --><p>Constructs a shape by copying dimensions from a buffer.</p>
 <p>Complexity</p>
@@ -243,8 +244,8 @@ Buffer Copy Constructor</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md310"></a>
-Buffer Copy + Tag Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md309"></a>
+Buffer Copy + Tag Constructor</h3>
 <div class="fragment"><div class="line">Shape(<span class="keyword">const</span> Buffer&lt;std::size_t&gt;&amp; dims, allow_zero_t allow_zero);</div>
 </div><!-- fragment --><p>Constructs a shape by copying dimensions from a buffer and documenting zero-dimension intent.</p>
 <p>Complexity</p>
@@ -252,8 +253,8 @@ Buffer Copy + Tag Constructor</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md312"></a>
-Buffer Move Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md311"></a>
+Buffer Move Constructor</h3>
 <div class="fragment"><div class="line">Shape(Buffer&lt;std::size_t&gt;&amp;&amp; dims);</div>
 </div><!-- fragment --><p>Constructs a shape by taking ownership of dimension storage.</p>
 <p>Complexity</p>
@@ -261,8 +262,8 @@ Buffer Move Constructor</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md314"></a>
-std::vector Constructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md313"></a>
+std::vector Constructor</h3>
 <div class="fragment"><div class="line">Shape(<span class="keyword">const</span> std::vector&lt;std::size_t&gt;&amp; dims);</div>
 </div><!-- fragment --><p>Constructs a shape by copying dimensions from a standard vector.</p>
 <p>Complexity</p>
@@ -274,8 +275,8 @@ std::vector Constructor</h2>
 <li><span class="tt">std::bad_alloc</span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md316"></a>
-Destructor</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md315"></a>
+Destructor</h3>
 <div class="fragment"><div class="line">~Shape() = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Default destructor.</p>
 <p>Complexity</p>
@@ -283,10 +284,10 @@ Destructor</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md318"></a>
-Methods</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md319"></a>
-elements()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md317"></a>
+Methods</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md318"></a>
+elements()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t elements() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns the product of all dimensions. Empty shape returns <span class="tt">0</span>.</p>
 <p>Complexity</p>
@@ -298,8 +299,8 @@ elements()</h1>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on overflow</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md321"></a>
-rank()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md320"></a>
+rank()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t rank() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns the number of stored dimensions.</p>
 <p>Complexity</p>
@@ -307,8 +308,8 @@ rank()</h1>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md323"></a>
-empty()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md322"></a>
+empty()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
 </div><!-- fragment --><p>Returns <span class="tt">true</span> if rank is zero.</p>
 <p>Complexity</p>
@@ -316,8 +317,8 @@ empty()</h1>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md325"></a>
-swap()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md324"></a>
+swap()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Shape&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Exchanges dimension storage with another shape.</p>
 <p>Complexity</p>
@@ -325,8 +326,8 @@ swap()</h1>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md327"></a>
-begin()/end()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md326"></a>
+begin()/end()</h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> begin() noexcept;</div>
 <div class="line">auto end() noexcept;</div>
 <div class="line">auto begin() const noexcept;</div>
@@ -337,29 +338,29 @@ begin()/end()</h1>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md329"></a>
-Assignment Operators</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md328"></a>
+Assignment Operators</h2>
 <p><span class="tt">Shape</span> uses compiler-generated copy and move assignment operators.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md330"></a>
-Copy Assignment</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md329"></a>
+Copy Assignment</h2>
 <div class="fragment"><div class="line">Shape&amp; operator=(<span class="keyword">const</span> Shape&amp;) = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md332"></a>
-Move Assignment</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md331"></a>
+Move Assignment</h2>
 <div class="fragment"><div class="line">Shape&amp; operator=(Shape&amp;&amp;) noexcept = default;</div>
 </div><!-- fragment --><p>Complexity</p>
 <ul>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md334"></a>
-Operators</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md335"></a>
-operator()</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md333"></a>
+Operators</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md334"></a>
+operator()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; operator()(std::size_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns dimension at <span class="tt">index</span> with bounds validation.</p>
 <p>Complexity</p>
@@ -371,8 +372,8 @@ operator()</h1>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if out of bounds</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md337"></a>
-operator[]</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md336"></a>
+operator[]</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; operator[](std::ptrdiff_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns dimension at signed index. Negative indices count from the end.</p>
 <p>Complexity</p>
@@ -384,8 +385,8 @@ operator[]</h1>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if out of bounds</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md339"></a>
-operator== / operator!=</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md338"></a>
+operator== / operator!=</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="_comparison_8hpp.html#aa9cb2feb36125213ffcd23e9b36a0749">operator==</a>(<span class="keyword">const</span> Shape&amp; other) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 <div class="line">[[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="_comparison_8hpp.html#a71c0e7cde6556297ea5c9e9c6ed770b7">operator!=</a>(<span class="keyword">const</span> Shape&amp; other) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 <div class="ttc" id="a_comparison_8hpp_html_a71c0e7cde6556297ea5c9e9c6ed770b7"><div class="ttname"><a href="_comparison_8hpp.html#a71c0e7cde6556297ea5c9e9c6ed770b7">operator!=</a></div><div class="ttdeci">bool operator!=(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Compares two array-like containers for inequality.</div><div class="ttdef"><b>Definition</b> <a href="_comparison_8hpp_source.html#l00048">Comparison.hpp:48</a></div></div>
@@ -396,8 +397,8 @@ operator== / operator!=</h1>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md341"></a>
-stream operator</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md340"></a>
+stream operator</h2>
 <div class="fragment"><div class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Shape&amp; shape);</div>
 </div><!-- fragment --><p>Writes shape in tuple-like form, for example <span class="tt">(2, 3, 4)</span> and <span class="tt">(5,)</span> for rank-1.</p>
 <p>Complexity</p>
@@ -405,8 +406,8 @@ stream operator</h1>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md343"></a>
-Complexity Summary</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md342"></a>
+Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadRight">Complexity  </th></tr>
@@ -446,47 +447,47 @@ Complexity Summary</h1>
 <td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md345"></a>
-Examples</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md346"></a>
-Creating Shapes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md344"></a>
+Examples</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md345"></a>
+Creating Shapes</h2>
 <div class="fragment"><div class="line">Shape a;</div>
 <div class="line">Shape b(2, 3, 4);</div>
 <div class="line">Shape c{std::vector&lt;std::size_t&gt;{1, 5, 7}};</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md348"></a>
-Accessing Dimensions</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md347"></a>
+Accessing Dimensions</h2>
 <div class="fragment"><div class="line">Shape s(3, 224, 224);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> first = s(0);</div>
 <div class="line"><span class="keyword">auto</span> last = s[-1];</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md350"></a>
-Printing</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md349"></a>
+Printing</h2>
 <div class="fragment"><div class="line">Shape s(3, 224, 224);</div>
 <div class="line">std::cout &lt;&lt; s &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>; <span class="comment">// (3, 224, 224)</span></div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md352"></a>
-Design Notes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md351"></a>
+Design Notes</h2>
 <p><span class="tt">Shape</span> stores only metadata and intentionally avoids owning numeric element data.</p>
 <p>Dimension storage is contiguous through <span class="tt">Buffer&lt;std::size_t&gt;</span>, which keeps shape operations lightweight and iteration/cache friendly. Data containers (<span class="tt">Vector</span>, <span class="tt">Matrix</span>, <span class="tt">Tensor</span>) use <span class="tt">Shape</span> to define layout semantics.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md354"></a>
-Future Improvements</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md353"></a>
+Future Improvements</h2>
 <ul>
 <li>Add <span class="tt">cbegin()</span>/<span class="tt">cend()</span> convenience methods</li>
 <li>Add shape utility helpers (concat, slice, transpose-spec helpers)</li>
 <li>Add optional constexpr-friendly construction for fixed-rank usage</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md356"></a>
-See Also</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md355"></a>
+See Also</h2>
 <ul>
 <li><a class="el" href="_buffer_8md.html" title="D:/dev/stratax/docs/dev/core/containers/Buffer.md">Buffer</a></li>
-<li><a class="el" href="dev_strides.html#md_docs_2dev_2core_2containers_2_strides" title="docs/dev/core/containers/Strides.md">Strides</a></li>
-<li><a class="el" href="dev_vector.html#md_docs_2dev_2core_2containers_2_vector" title="docs/dev/core/containers/Vector.md">Vector</a></li>
-<li><a class="el" href="dev_matrix.html#md_docs_2dev_2core_2containers_2_matrix" title="docs/dev/core/containers/Matrix.md">Matrix</a></li>
-<li><a class="el" href="dev_tensor.html#md_docs_2dev_2core_2containers_2_tensor" title="docs/dev/core/containers/Tensor.md">Tensor</a> </li>
+<li><a class="el" href="_strides_8md.html" title="D:/dev/stratax/docs/dev/core/containers/Strides.md">Strides</a></li>
+<li><a class="el" href="_vector_8md.html" title="D:/dev/stratax/docs/dev/core/containers/Vector.md">Vector</a></li>
+<li><a class="el" href="_matrix_8md.html" title="D:/dev/stratax/docs/dev/core/containers/Matrix.md">Matrix</a></li>
+<li><a class="el" href="_tensor_8md.html" title="D:/dev/stratax/docs/dev/core/containers/Tensor.md">Tensor</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

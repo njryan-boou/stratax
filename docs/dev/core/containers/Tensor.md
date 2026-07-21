@@ -1,3 +1,5 @@
+@page tensor Tensor
+
 # Tensor {#dev_tensor}
 
 Version: v0.2.0
