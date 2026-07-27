@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Shape, Vector, to_tensor, to_vector
+from stratax import Shape, Vector, mean, sum, to_tensor, to_vector
 
 
 values = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
@@ -17,6 +17,9 @@ stepped = values[::2]
 reshaped = values.reshape(Shape([1, values.size]))
 as_tensor = to_tensor(values)
 roundtrip = to_vector(as_tensor)
+total = sum(values)
+average = mean(values)
+sum_axis_1 = sum(reshaped, 1)
 
 print("values:", values)
 print("sum:", sum_values)
@@ -25,5 +28,8 @@ print("stepped slice [::2]:", stepped)
 print("reshaped tensor:", reshaped)
 print("converted to tensor:", as_tensor)
 print("roundtrip to vector:", roundtrip)
+print("sum(values):", total)
+print("mean(values):", average)
+print("sum(reshaped, axis=1):", sum_axis_1)
 print("first value:", values[0])
 print("shape:", values.shape)

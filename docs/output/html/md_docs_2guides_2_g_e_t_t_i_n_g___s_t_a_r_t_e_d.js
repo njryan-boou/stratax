@@ -1,65 +1,65 @@
 var md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d =
 [
-    [ "Prerequisites", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md892", null ],
-    [ "Required", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md893", null ],
-    [ "Clone the Repository", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md895", null ],
-    [ "Create a Virtual Environment", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md897", null ],
-    [ "Activate the Virtual Environment", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md899", [
-      [ "PowerShell", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md900", null ],
-      [ "Command Prompt", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md901", null ]
+    [ "Prerequisites", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md943", null ],
+    [ "Required", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md944", null ],
+    [ "Clone the Repository", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md946", null ],
+    [ "Create a Virtual Environment", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md948", null ],
+    [ "Activate the Virtual Environment", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md950", [
+      [ "PowerShell", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md951", null ],
+      [ "Command Prompt", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md952", null ]
     ] ],
-    [ "Install Stratax", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md903", null ],
-    [ "Build the Project", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md905", null ],
-    [ "Running Tests", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md907", null ],
-    [ "Python", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md908", null ],
-    [ "C++", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md909", null ],
+    [ "Install Stratax", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md954", null ],
+    [ "Build the Project", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md956", null ],
+    [ "Running Tests", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md958", null ],
+    [ "Python", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md959", null ],
+    [ "C++", "md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html#autotoc_md960", null ],
     [ "Architecture", "architecture.html", [
-      [ "Purpose", "architecture.html#autotoc_md865", null ],
-      [ "Main API", "architecture.html#autotoc_md866", [
-        [ "Project Layout", "architecture.html#autotoc_md867", null ],
-        [ "Core Model", "architecture.html#autotoc_md868", null ],
-        [ "Extension Areas", "architecture.html#autotoc_md869", null ]
+      [ "Purpose", "architecture.html#autotoc_md916", null ],
+      [ "Main API", "architecture.html#autotoc_md917", [
+        [ "Project Layout", "architecture.html#autotoc_md918", null ],
+        [ "Core Model", "architecture.html#autotoc_md919", null ],
+        [ "Extension Areas", "architecture.html#autotoc_md920", null ]
       ] ],
-      [ "Validation Notes", "architecture.html#autotoc_md870", null ],
-      [ "Implementation Notes", "architecture.html#autotoc_md871", null ],
-      [ "Future Work", "architecture.html#autotoc_md872", null ]
+      [ "Validation Notes", "architecture.html#autotoc_md921", null ],
+      [ "Implementation Notes", "architecture.html#autotoc_md922", null ],
+      [ "Future Work", "architecture.html#autotoc_md923", null ]
     ] ],
     [ "Contributing", "contributing.html", [
-      [ "Purpose", "contributing.html#autotoc_md881", null ],
-      [ "Main API", "contributing.html#autotoc_md882", [
-        [ "Code Style", "contributing.html#autotoc_md883", null ],
-        [ "Testing", "contributing.html#autotoc_md884", null ],
-        [ "Documentation", "contributing.html#autotoc_md885", null ],
-        [ "Naming", "contributing.html#autotoc_md886", null ]
+      [ "Purpose", "contributing.html#autotoc_md932", null ],
+      [ "Main API", "contributing.html#autotoc_md933", [
+        [ "Code Style", "contributing.html#autotoc_md934", null ],
+        [ "Testing", "contributing.html#autotoc_md935", null ],
+        [ "Documentation", "contributing.html#autotoc_md936", null ],
+        [ "Naming", "contributing.html#autotoc_md937", null ]
       ] ],
-      [ "Validation Notes", "contributing.html#autotoc_md887", null ],
-      [ "Implementation Notes", "contributing.html#autotoc_md888", null ],
-      [ "Future Work", "contributing.html#autotoc_md889", null ]
+      [ "Validation Notes", "contributing.html#autotoc_md938", null ],
+      [ "Implementation Notes", "contributing.html#autotoc_md939", null ],
+      [ "Future Work", "contributing.html#autotoc_md940", null ]
     ] ],
     [ "Changelog", "changelog.html", [
-      [ "[0.2.0] - 07-15-2026", "changelog.html#autotoc_md874", [
-        [ "Added", "changelog.html#autotoc_md875", null ],
-        [ "Changed", "changelog.html#autotoc_md876", null ],
-        [ "Fixed", "changelog.html#autotoc_md877", null ]
+      [ "[0.2.0] - 07-15-2026", "changelog.html#autotoc_md925", [
+        [ "Added", "changelog.html#autotoc_md926", null ],
+        [ "Changed", "changelog.html#autotoc_md927", null ],
+        [ "Fixed", "changelog.html#autotoc_md928", null ]
       ] ],
-      [ "[0.1.0] - 07-11-2026", "changelog.html#autotoc_md879", [
-        [ "Added", "changelog.html#autotoc_md880", null ]
+      [ "[0.1.0] - 07-11-2026", "changelog.html#autotoc_md930", [
+        [ "Added", "changelog.html#autotoc_md931", null ]
       ] ]
     ] ],
     [ "Stratax Roadmap", "roadmap.html", [
-      [ "Purpose", "roadmap.html#autotoc_md911", null ],
-      [ "Phases", "roadmap.html#autotoc_md912", [
-        [ "Phase 1: Core Infrastructure", "roadmap.html#autotoc_md913", null ],
-        [ "Phase 2: Containers", "roadmap.html#autotoc_md914", null ],
-        [ "Phase 3: Generic Operators", "roadmap.html#autotoc_md915", null ],
-        [ "Phase 4: Shape Operations", "roadmap.html#autotoc_md916", null ],
-        [ "Phase 5: Linear Algebra", "roadmap.html#autotoc_md917", null ],
-        [ "Phase 6: Input and Output", "roadmap.html#autotoc_md918", null ],
-        [ "Phase 7: Documentation and Examples", "roadmap.html#autotoc_md919", null ],
-        [ "Later Phases", "roadmap.html#autotoc_md920", null ]
+      [ "Purpose", "roadmap.html#autotoc_md962", null ],
+      [ "Phases", "roadmap.html#autotoc_md963", [
+        [ "Phase 1: Core Infrastructure", "roadmap.html#autotoc_md964", null ],
+        [ "Phase 2: Containers", "roadmap.html#autotoc_md965", null ],
+        [ "Phase 3: Generic Operators", "roadmap.html#autotoc_md966", null ],
+        [ "Phase 4: Shape Operations", "roadmap.html#autotoc_md967", null ],
+        [ "Phase 5: Linear Algebra", "roadmap.html#autotoc_md968", null ],
+        [ "Phase 6: Input and Output", "roadmap.html#autotoc_md969", null ],
+        [ "Phase 7: Documentation and Examples", "roadmap.html#autotoc_md970", null ],
+        [ "Later Phases", "roadmap.html#autotoc_md971", null ]
       ] ],
-      [ "Validation Notes", "roadmap.html#autotoc_md921", null ],
-      [ "Implementation Notes", "roadmap.html#autotoc_md922", null ],
-      [ "Future Work", "roadmap.html#autotoc_md923", null ]
+      [ "Validation Notes", "roadmap.html#autotoc_md972", null ],
+      [ "Implementation Notes", "roadmap.html#autotoc_md973", null ],
+      [ "Future Work", "roadmap.html#autotoc_md974", null ]
     ] ]
 ];

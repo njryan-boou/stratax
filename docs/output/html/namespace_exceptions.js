@@ -6,5 +6,6 @@ var namespace_exceptions =
     [ "IndexError", "class_exceptions_1_1_index_error.html", null ],
     [ "TypeError", "class_exceptions_1_1_type_error.html", null ],
     [ "BroadcastError", "class_exceptions_1_1_broadcast_error.html", null ],
-    [ "ZeroDivisionError", "class_exceptions_1_1_zero_division_error.html", null ]
+    [ "ZeroDivisionError", "class_exceptions_1_1_zero_division_error.html", null ],
+    [ "AxisError", "class_exceptions_1_1_axis_error.html", null ]
 ];

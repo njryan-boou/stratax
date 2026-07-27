@@ -23,6 +23,12 @@ int main()
     auto reshaped = reshape(matrix, Shape{3, 2});
     auto flattened = flatten(matrix);
     auto roundtrip = to_matrix(reshaped);
+    auto row_sums = reduction::sum(matrix, 1);
+    auto col_sums_keepdims = reduction::sum(matrix, 0, true);
+
+    Matrix<int> bits{{3, 5, 7}, {8, 10, 12}};
+    auto bitmask = bits & 2;
+    auto bitshift = bits >> 1;
 
     std::cout << "matrix:\n" << matrix << '\n';
     std::cout << "shifted:\n" << shifted << '\n';
@@ -31,6 +37,11 @@ int main()
     std::cout << "reshaped tensor:\n" << reshaped << '\n';
     std::cout << "flattened vector: " << flattened << '\n';
     std::cout << "roundtrip to matrix:\n" << roundtrip << '\n';
+    std::cout << "row sums (axis=1): " << row_sums << '\n';
+    std::cout << "column sums keepdims (axis=0):\n" << col_sums_keepdims << '\n';
+    std::cout << "bits:\n" << bits << '\n';
+    std::cout << "bits & 2:\n" << bitmask << '\n';
+    std::cout << "bits >> 1:\n" << bitshift << '\n';
     std::cout << "rows: " << matrix.rows() << ", cols: " << matrix.cols() << '\n';
     std::cout << "linear index 2: " << matrix[2] << '\n';
 

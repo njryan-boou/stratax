@@ -28,6 +28,8 @@ var classstratax_1_1container_1_1_tensor =
     [ "fill", "classstratax_1_1container_1_1_tensor.html#a054d27aee3c69739f218fa2da78e72c7", null ],
     [ "front", "classstratax_1_1container_1_1_tensor.html#a58454f8b4eb7457292856ca2c24e774e", null ],
     [ "front", "classstratax_1_1container_1_1_tensor.html#a34440ae985c2a8d959427035ca550e25", null ],
+    [ "operator()", "classstratax_1_1container_1_1_tensor.html#a0d1d63ce9f131bc2557edf041f29ee2f", null ],
+    [ "operator()", "classstratax_1_1container_1_1_tensor.html#a88e53049e7ec14f658b3183237174bf6", null ],
     [ "operator()", "classstratax_1_1container_1_1_tensor.html#a1d19e9b9ac0694fd803feefb8b4fbdb1", null ],
     [ "operator()", "classstratax_1_1container_1_1_tensor.html#ae0a9e68f86698e6017b2fa20f4d14e5f", null ],
     [ "operator()", "classstratax_1_1container_1_1_tensor.html#ac9f555409678078bf78146c42e85bedf", null ],

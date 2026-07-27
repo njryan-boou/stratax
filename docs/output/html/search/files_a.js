@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['shape_2ehpp_0',['Shape.hpp',['../_shape_8hpp.html',1,'']]],
-  ['shape_2emd_1',['Shape.md',['../_shape_8md.html',1,'']]],
-  ['shapevalidation_2ehpp_2',['ShapeValidation.hpp',['../_shape_validation_8hpp.html',1,'']]],
-  ['slice_2ehpp_3',['Slice.hpp',['../ops_2_slice_8hpp.html',1,'(Global Namespace)'],['../_slice_8hpp.html',1,'(Global Namespace)']]],
-  ['slice_2emd_4',['Slice.md',['../ops_2_slice_8md.html',1,'(Global Namespace)'],['../_slice_8md.html',1,'(Global Namespace)']]],
-  ['stratax_2emd_5',['stratax.md',['../stratax_8md.html',1,'']]],
-  ['strides_2ehpp_6',['Strides.hpp',['../_strides_8hpp.html',1,'']]],
-  ['strides_2emd_7',['Strides.md',['../_strides_8md.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../dev_2bindings_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../dev_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
+  ['reductions_2ehpp_1',['Reductions.hpp',['../_reductions_8hpp.html',1,'']]],
+  ['reductions_2emd_2',['Reductions.md',['../_reductions_8md.html',1,'']]],
+  ['reshape_2ehpp_3',['Reshape.hpp',['../_reshape_8hpp.html',1,'']]],
+  ['reshape_2emd_4',['Reshape.md',['../_reshape_8md.html',1,'']]],
+  ['roadmap_2emd_5',['roadmap.md',['../roadmap_8md.html',1,'']]]
 ];

@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Matrix, Shape, to_matrix
+from stratax import Matrix, Shape, mean, sum, to_matrix
 
 
 
@@ -21,6 +21,9 @@ stepped = matrix[:, ::2]
 reshaped = matrix.reshape(Shape([3, 2]))
 flattened = matrix.flatten()
 roundtrip = to_matrix(reshaped)
+row_sums = sum(matrix, 1)
+col_sums_keepdims = sum(matrix, 0, keepdims=True)
+global_mean = mean(matrix)
 
 print("matrix:")
 print(matrix)
@@ -36,5 +39,10 @@ print("flattened vector:")
 print(flattened)
 print("roundtrip to matrix:")
 print(roundtrip)
+print("row sums (axis=1):")
+print(row_sums)
+print("column sums keepdims (axis=0):")
+print(col_sums_keepdims)
+print("mean(matrix):", global_mean)
 print("rows:", matrix.rows, "cols:", matrix.cols)
 print("value at (1, 2):", matrix[1, 2])

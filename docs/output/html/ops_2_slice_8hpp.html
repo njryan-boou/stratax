@@ -164,10 +164,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a43d16ac76452dd4b9707da076691d11b" id="r_a43d16ac76452dd4b9707da076691d11b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Slices&gt; </td></tr>
 <tr class="memitem:a43d16ac76452dd4b9707da076691d11b template"><td class="memItemLeft"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a43d16ac76452dd4b9707da076691d11b">slice</a> (const <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt; &amp;tensor, Slices... slices)</td></tr>
 <tr class="memdesc:a43d16ac76452dd4b9707da076691d11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a multidimensional half-open region from a tensor.  <br /></td></tr>
+<tr class="memitem:aed86c9ab75f16c06967fc94ae8742565" id="r_aed86c9ab75f16c06967fc94ae8742565"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:aed86c9ab75f16c06967fc94ae8742565 template"><td class="memItemLeft"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aed86c9ab75f16c06967fc94ae8742565">slice</a> (const <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt; &amp;tensor, const std::vector&lt; <a class="el" href="classstratax_1_1core_1_1_slice.html">stratax::core::Slice</a> &gt; &amp;slices)</td></tr>
+<tr class="memdesc:aed86c9ab75f16c06967fc94ae8742565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a multidimensional half-open region from a tensor using a vector of slices.  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a2c6e23ea0be3901a70b75ffb189d6dd1" name="a2c6e23ea0be3901a70b75ffb189d6dd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c6e23ea0be3901a70b75ffb189d6dd1">&#9670;&#160;</a></span>slice() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c6e23ea0be3901a70b75ffb189d6dd1">&#9670;&#160;</a></span>slice() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,8 +217,51 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="aed86c9ab75f16c06967fc94ae8742565" name="aed86c9ab75f16c06967fc94ae8742565"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed86c9ab75f16c06967fc94ae8742565">&#9670;&#160;</a></span>slice() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt; slice </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>tensor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classstratax_1_1core_1_1_slice.html">stratax::core::Slice</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>slices</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies a multidimensional half-open region from a tensor using a vector of slices. </p>
+<p>One <span class="tt">Slice</span> must be provided for each tensor dimension via the vector. The result shape is formed from the size of each slice, and values are copied in row-major order honoring each slice step.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tensor</td><td>Source tensor. </td></tr>
+    <tr><td class="paramname">slices</td><td>Vector of slices, one per tensor dimension.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Tensor containing the selected region. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exceptions::DimensionError</td><td>If the vector size does not match the tensor rank. </td></tr>
+    <tr><td class="paramname">Exceptions::IndexError</td><td>If any slice exceeds the corresponding dimension. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ops_2_slice_8hpp_source.html#l00317">317</a> of file <a class="el" href="ops_2_slice_8hpp_source.html">Slice.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a43d16ac76452dd4b9707da076691d11b" name="a43d16ac76452dd4b9707da076691d11b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43d16ac76452dd4b9707da076691d11b">&#9670;&#160;</a></span>slice() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a43d16ac76452dd4b9707da076691d11b">&#9670;&#160;</a></span>slice() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +304,7 @@ template&lt;typename T, typename... Slices&gt; </div>
 </div>
 </div>
 <a id="a0d7a3ef95edd7051a871b707b8a8b1e0" name="a0d7a3ef95edd7051a871b707b8a8b1e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d7a3ef95edd7051a871b707b8a8b1e0">&#9670;&#160;</a></span>slice() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d7a3ef95edd7051a871b707b8a8b1e0">&#9670;&#160;</a></span>slice() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

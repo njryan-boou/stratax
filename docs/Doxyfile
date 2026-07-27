@@ -6,11 +6,12 @@ HTML_OUTPUT            = html
 EXCLUDE                = docs/output
 
 INPUT                  = include \
+                         LICENSE \
                          docs \
                          docs/guides \
                          docs/dev
 
-FILE_PATTERNS          = *.hpp *.md
+FILE_PATTERNS          = *.hpp *.md LICENSE
 
 RECURSIVE              = YES
 

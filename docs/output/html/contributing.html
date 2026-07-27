@@ -120,12 +120,12 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('contributing.h
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_docs_2guides_2contributing"></a></p>
 <p>Developer notes for making changes to Stratax consistently.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md881"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
 Purpose</h1>
 <p>Defines the working conventions for code, tests, and documentation so new changes fit the existing project style.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md882"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
 Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md883"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
 Code Style</h2>
 <ul>
 <li>Use C++20.</li>
@@ -133,21 +133,21 @@ Code Style</h2>
 <li>Prefer existing concepts and helper types.</li>
 <li>Use <span class="tt">constexpr</span> when it improves correctness or clarity.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md884"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md935"></a>
 Testing</h2>
 <ul>
 <li>Add or update tests beside the feature being changed.</li>
 <li>Cover normal behavior and edge cases.</li>
 <li>Keep tests focused on public behavior.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md885"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
 Documentation</h2>
 <ul>
 <li>Update the matching file under <span class="tt">docs/dev</span> when public behavior or design intent changes.</li>
 <li>Keep developer docs practical and implementation-focused.</li>
 <li>Use the <a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> document structure for module docs.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md886"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
 Naming</h2>
 <ul>
 <li>Classes use <span class="tt">PascalCase</span>.</li>
@@ -155,14 +155,14 @@ Naming</h2>
 <li>Concepts use <span class="tt">PascalCase</span>.</li>
 <li>Constants use <span class="tt">UPPER_CASE</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md887"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md938"></a>
 Validation Notes</h1>
 <ul>
 <li>Changes that affect shape, indexing, construction, or arithmetic should include edge-case tests.</li>
 <li>Avoid adding validation behavior in docs unless the implementation already supports it or it is clearly marked as future work.</li>
 <li>Keep validation expectations aligned with the current state of <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md888"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
 Implementation Notes</h1>
 <ul>
 <li>Prefer small, local changes over broad refactors.</li>
@@ -170,7 +170,7 @@ Implementation Notes</h1>
 <li>Keep generated or build artifacts out of commits.</li>
 <li>Do not change unrelated files while addressing a focused task.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md889"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md940"></a>
 Future Work</h1>
 <ul>
 <li>Add a full public contribution guide.</li>

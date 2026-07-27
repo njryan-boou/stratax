@@ -23,6 +23,7 @@
 
 #include <stratax/core/ops/Comparison.hpp>
 #include <stratax/core/ops/Arithmetic.hpp>
+#include <stratax/core/ops/Bitwise.hpp>
 #include <stratax/core/ops/Indexing.hpp>
 #include <stratax/core/ops/Slice.hpp>
 

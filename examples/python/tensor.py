@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Shape, Tensor, identity, to_matrix
+from stratax import Shape, Tensor, identity, mean, sum, to_matrix
 
 
 tensor = Tensor(Shape([2, 2, 2]), 1.0)
@@ -18,6 +18,9 @@ stepped = tensor[:, :, ::2]
 reshaped = tensor.reshape(Shape([4, 2]))
 flattened = tensor.flatten()
 as_matrix = to_matrix(eye)
+sum_all = sum(tensor)
+sum_last_axis = sum(tensor, -1)
+mean_keepdims = mean(tensor, 0, keepdims=True)
 
 print("tensor:")
 print(tensor)
@@ -35,6 +38,11 @@ print("identity via creation helper:")
 print(eye)
 print("identity converted to matrix:")
 print(as_matrix)
+print("sum(tensor):", sum_all)
+print("sum over last axis (axis=-1):")
+print(sum_last_axis)
+print("mean keepdims over axis 0:")
+print(mean_keepdims)
 print("rank:", tensor.rank)
 print("shape:", tensor.shape)
 print("linear index 7:", tensor[7])

@@ -378,6 +378,73 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('ops_2_slice_8h
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>}</div>
 </div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;T&gt;</a></div>
+<div class="foldopen" id="foldopen00317" data-start="{" data-end="}">
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="ops_2_slice_8hpp.html#aed86c9ab75f16c06967fc94ae8742565">  317</a></span><a class="code hl_function" href="ops_2_slice_8hpp.html#a0d7a3ef95edd7051a871b707b8a8b1e0">slice</a>(</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;T&gt;</a>&amp; tensor,</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="keyword">const</span> std::vector&lt;stratax::core::Slice&gt;&amp; slices</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>)</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>{</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#aa969623821b98b9eb01b62d0061babfe">stratax::core::validation::require_rank</a>(</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        slices.size(),</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        tensor.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a3d320818fa45b30f3981da39271dd514">rank</a>(),</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="stringliteral">&quot;Slice rank must match tensor rank.&quot;</span>);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    std::vector&lt;stratax::ops::detail::ResolvedSlice&gt; resolved(slices.size());</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    std::vector&lt;std::size_t&gt; out_dims(slices.size());</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="keywordflow">for</span> (std::size_t dim = 0; dim &lt; slices.size(); ++dim)</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    {</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        resolved[dim] = <a class="code hl_function" href="namespacestratax_1_1ops_1_1detail.html#a0a30175e1ebe0f9f122b413533832626">stratax::ops::detail::normalize_slice</a>(</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>            slices[dim],</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            tensor.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a2eab6b53d9b77966b413835ad675c0ee">shape</a>()(dim),</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            <span class="stringliteral">&quot;Tensor slice out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        out_dims[dim] = resolved[dim].size;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keyword">const</span> <span class="keyword">auto</span> result_shape = <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(out_dims);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;T&gt;</a> result(result_shape);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    </div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordflow">if</span> (result.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a47d2907e8b4f9561ad98ae6ab8014c6d">empty</a>())</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    {</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    }</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_strides.html">stratax::core::Strides</a> result_strides(result_shape);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; tensor_strides = tensor.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a60a50001be0ecb373e73649ef63b5a26">strides</a>();</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    <span class="keywordflow">for</span> (std::size_t flat = 0; flat &lt; result.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a4acc25740d164c70c387f9b2bc3a9ef0">size</a>(); ++flat)</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    {</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>        std::size_t remainder = flat;</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>        std::size_t source_offset = 0;</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        <span class="keywordflow">for</span> (std::size_t dim = 0; dim &lt; resolved.size(); ++dim)</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        {</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>            <span class="keyword">const</span> std::size_t index = remainder / result_strides(dim);</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>            remainder %= result_strides(dim);</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>            <span class="keyword">const</span> std::ptrdiff_t source_index =</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>                resolved[dim].start + <span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(index) * resolved[dim].step;</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>            <span class="keyword">const</span> std::size_t term =</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>                <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#a1c4313ea5ca5cf1bff17910514d3608e">stratax::core::validation::checked_multiply</a>(</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                    <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(source_index),</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                    tensor_strides(dim),</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                    <span class="stringliteral">&quot;Tensor slice offset overflow.&quot;</span>);</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>            source_offset =</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#afe90ee2a6c2fdf69ec1f1e32ccd5e207">stratax::core::validation::checked_add</a>(</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                    source_offset,</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                    term,</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                    <span class="stringliteral">&quot;Tensor slice offset overflow.&quot;</span>);</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>        }</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        result[flat] = tensor[source_offset];</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    }</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>}</div>
+</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
 <div class="ttc" id="a_exceptions_8hpp_html"><div class="ttname"><a href="_exceptions_8hpp.html">Exceptions.hpp</a></div></div>
 <div class="ttc" id="a_matrix_8hpp_html"><div class="ttname"><a href="_matrix_8hpp.html">Matrix.hpp</a></div></div>
 <div class="ttc" id="a_shape_8hpp_html"><div class="ttname"><a href="_shape_8hpp.html">Shape.hpp</a></div></div>

@@ -19,12 +19,24 @@ int main()
     auto reshaped = reshape(values, Shape{1, values.size()});
     auto roundtrip = to_vector(reshaped);
 
+    auto total = reduction::sum(values);
+    auto average = reduction::mean(values);
+
+    Vector<int> flags{3, 5, 6};
+    auto masked = flags & 2;
+    auto shifted_left = flags << 1;
+
     std::cout << "values: " << values << '\n';
     std::cout << "sum: " << sum << '\n';
     std::cout << "scaled: " << scaled << '\n';
     std::cout << "stepped slice [::2]: " << stepped << '\n';
     std::cout << "reshaped to tensor: " << reshaped << '\n';
     std::cout << "roundtrip to vector: " << roundtrip << '\n';
+    std::cout << "sum(values): " << total << '\n';
+    std::cout << "mean(values): " << average << '\n';
+    std::cout << "flags: " << flags << '\n';
+    std::cout << "flags & 2: " << masked << '\n';
+    std::cout << "flags << 1: " << shifted_left << '\n';
     std::cout << "front: " << values.front() << '\n';
     std::cout << "shape: " << values.shape() << '\n';
 

@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2guide
   <div class="headertitle"><div class="title">Getting Started </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md890"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md941"></a></p>
 <p>Welcome to Stratax!</p>
 <p>This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.</p>
 <p>Developer-focused design and implementation notes are available in <a class="el" href="dir_5179a46a04c00f26153add2c2c09d3cf.html" title="D:/dev/stratax/docs/dev/README.md">docs/dev/README.md</a>.</p>
@@ -130,10 +130,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2guide
 <li><a class="el" href="dir_5179a46a04c00f26153add2c2c09d3cf.html" title="D:/dev/stratax/docs/dev/README.md">Developer Docs</a></li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md892"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
 Prerequisites</h1>
 <p>Install the following software before cloning the repository.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md893"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
 Required</h1>
 <ul>
 <li>Git</li>
@@ -147,25 +147,25 @@ Required</h1>
 <div class="line">python --version</div>
 <div class="line">cmake --version</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md895"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
 Clone the Repository</h1>
 <div class="fragment"><div class="line">git clone https://github.com/njryan-boou/stratax.git</div>
 <div class="line">cd stratax</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md897"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md948"></a>
 Create a Virtual Environment</h1>
 <div class="fragment"><div class="line">python -m venv .venv</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md899"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md950"></a>
 Activate the Virtual Environment</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md900"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md951"></a>
 PowerShell</h2>
 <div class="fragment"><div class="line">.venv\Scripts\Activate.ps1</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md901"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md952"></a>
 Command Prompt</h2>
 <div class="fragment"><div class="line">.venv\Scripts\activate.bat</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md903"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md954"></a>
 Install Stratax</h1>
 <p>Install the project in editable mode:</p>
 <div class="fragment"><div class="line">python -m pip install -e .</div>
@@ -177,17 +177,17 @@ Install Stratax</h1>
 <li>Install the Python package into the virtual environment</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md905"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md956"></a>
 Build the Project</h1>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md907"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md958"></a>
 Running Tests</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md908"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md959"></a>
 Python</h1>
 <div class="fragment"><div class="line">python -m pytest tests/python</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md909"></a>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md960"></a>
 C++</h1>
 <div class="fragment"><div class="line">ctest --test-dir build --output-on-failure</div>
 </div><!-- fragment --><hr  />

@@ -50,7 +50,7 @@
 
 - [GitHub Repository](https://github.com/njryan-boou/stratax)
 - [Python Package](https://pypi.org/project/stratax)
-- [License](../LICENSE)
+- @ref LICENSE "License"
 
 ---
 

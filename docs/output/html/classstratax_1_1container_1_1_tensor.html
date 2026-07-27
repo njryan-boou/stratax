@@ -169,6 +169,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae0a9e68f86698e6017b2fa20f4d14e5f" id="r_ae0a9e68f86698e6017b2fa20f4d14e5f"><td class="memTemplParams" colspan="2">template&lt;typename... Rest&gt; </td></tr>
 <tr class="memitem:ae0a9e68f86698e6017b2fa20f4d14e5f template"><td class="memItemLeft">const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae0a9e68f86698e6017b2fa20f4d14e5f">operator()</a> (std::size_t first, std::size_t second, Rest... rest) const</td></tr>
 <tr class="memdesc:ae0a9e68f86698e6017b2fa20f4d14e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index with bounds checking.  <br /></td></tr>
+<tr class="memitem:a0d1d63ce9f131bc2557edf041f29ee2f" id="r_a0d1d63ce9f131bc2557edf041f29ee2f"><td class="memItemLeft">T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0d1d63ce9f131bc2557edf041f29ee2f">operator()</a> (const std::vector&lt; std::size_t &gt; &amp;indices)</td></tr>
+<tr class="memdesc:a0d1d63ce9f131bc2557edf041f29ee2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index from a vector with bounds checking.  <br /></td></tr>
+<tr class="memitem:a88e53049e7ec14f658b3183237174bf6" id="r_a88e53049e7ec14f658b3183237174bf6"><td class="memItemLeft">const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a88e53049e7ec14f658b3183237174bf6">operator()</a> (const std::vector&lt; std::size_t &gt; &amp;indices) const</td></tr>
+<tr class="memdesc:a88e53049e7ec14f658b3183237174bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index from a vector with bounds checking.  <br /></td></tr>
 <tr class="memitem:aa3626676ff79f296d4797c791e0f47bc" id="r_aa3626676ff79f296d4797c791e0f47bc"><td class="memItemLeft">T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa3626676ff79f296d4797c791e0f47bc">at</a> (std::ptrdiff_t index)</td></tr>
 <tr class="memdesc:aa3626676ff79f296d4797c791e0f47bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by rank-1 flat index with bounds checking.  <br /></td></tr>
 <tr class="memitem:aa391280b5a5980d783b47285d7315ae0" id="r_aa391280b5a5980d783b47285d7315ae0"><td class="memItemLeft">const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa391280b5a5980d783b47285d7315ae0">at</a> (std::ptrdiff_t index) const</td></tr>
@@ -519,7 +523,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00304">304</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00332">332</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -577,7 +581,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00353">353</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00381">381</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -621,7 +625,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00269">269</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00297">297</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -665,7 +669,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00284">284</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00312">312</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -703,7 +707,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00417">417</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00445">445</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -741,7 +745,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00428">428</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00456">456</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -773,7 +777,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const iterator to the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00468">468</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00496">496</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -805,7 +809,7 @@ template&lt;typename T&gt; </div>
 <p>Returns an iterator to the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the beginning of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00458">458</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00486">486</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -837,7 +841,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const iterator to the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00478">478</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00506">506</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -869,7 +873,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const iterator one past the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00508">508</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00536">536</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -901,7 +905,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const reverse iterator to the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last element. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00538">538</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00566">566</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -933,7 +937,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const reverse iterator before the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00568">568</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00596">596</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -965,7 +969,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the raw data pointer as a const pointer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the first stored element, or <span class="tt">nullptr</span> when empty. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00448">448</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00476">476</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -997,7 +1001,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the raw data pointer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the first stored element, or <span class="tt">nullptr</span> when empty. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00438">438</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00466">466</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1061,7 +1065,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const iterator one past the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00498">498</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00526">526</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1093,7 +1097,7 @@ template&lt;typename T&gt; </div>
 <p>Returns an iterator one past the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the end of the tensor. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00488">488</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00516">516</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1130,7 +1134,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00578">578</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00606">606</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1168,7 +1172,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00395">395</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00423">423</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1206,12 +1210,102 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00406">406</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00434">434</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0d1d63ce9f131bc2557edf041f29ee2f" name="a0d1d63ce9f131bc2557edf041f29ee2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1d63ce9f131bc2557edf041f29ee2f">&#9670;&#160;</a></span>operator()() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an element by multidimensional index from a vector with bounds checking. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">indices</td><td><a class="el" href="classstratax_1_1container_1_1_vector.html">Vector</a> of index components, one per dimension.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Mutable reference to the indexed element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exceptions::DimensionError</td><td>If the vector size does not match the tensor rank. </td></tr>
+    <tr><td class="paramname">Exceptions::IndexError</td><td>If any index component is out of bounds or the offset overflows. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00270">270</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a88e53049e7ec14f658b3183237174bf6" name="a88e53049e7ec14f658b3183237174bf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e53049e7ec14f658b3183237174bf6">&#9670;&#160;</a></span>operator()() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an element by multidimensional index from a vector with bounds checking. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">indices</td><td><a class="el" href="classstratax_1_1container_1_1_vector.html">Vector</a> of index components, one per dimension.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the indexed element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exceptions::DimensionError</td><td>If the vector size does not match the tensor rank. </td></tr>
+    <tr><td class="paramname">Exceptions::IndexError</td><td>If any index component is out of bounds or the offset overflows. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00284">284</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a1d19e9b9ac0694fd803feefb8b4fbdb1" name="a1d19e9b9ac0694fd803feefb8b4fbdb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d19e9b9ac0694fd803feefb8b4fbdb1">&#9670;&#160;</a></span>operator()() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d19e9b9ac0694fd803feefb8b4fbdb1">&#9670;&#160;</a></span>operator()() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1270,7 +1364,7 @@ template&lt;typename... Rest&gt; </div>
 </div>
 </div>
 <a id="ae0a9e68f86698e6017b2fa20f4d14e5f" name="ae0a9e68f86698e6017b2fa20f4d14e5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a9e68f86698e6017b2fa20f4d14e5f">&#9670;&#160;</a></span>operator()() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0a9e68f86698e6017b2fa20f4d14e5f">&#9670;&#160;</a></span>operator()() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1328,7 +1422,7 @@ template&lt;typename... Rest&gt; </div>
 </div>
 </div>
 <a id="ac9f555409678078bf78146c42e85bedf" name="ac9f555409678078bf78146c42e85bedf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9f555409678078bf78146c42e85bedf">&#9670;&#160;</a></span>operator()() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9f555409678078bf78146c42e85bedf">&#9670;&#160;</a></span>operator()() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1367,7 +1461,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a9507333c1a356e3d978457a2dec1d5cc" name="a9507333c1a356e3d978457a2dec1d5cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9507333c1a356e3d978457a2dec1d5cc">&#9670;&#160;</a></span>operator()() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9507333c1a356e3d978457a2dec1d5cc">&#9670;&#160;</a></span>operator()() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1601,7 +1695,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const reverse iterator to the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last element. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00528">528</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00556">556</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1633,7 +1727,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a reverse iterator to the last element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Reverse iterator starting at the last element. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00518">518</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00546">546</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1665,7 +1759,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a const reverse iterator before the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00558">558</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00586">586</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1697,7 +1791,7 @@ template&lt;typename T&gt; </div>
 <p>Returns a reverse iterator before the first element. </p>
 <dl class="section return"><dt>Returns</dt><dd>Reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00548">548</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00576">576</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1830,7 +1924,7 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00588">588</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00616">616</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
