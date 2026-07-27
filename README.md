@@ -138,6 +138,7 @@ python -m pytest tests/python
  - [Python API Reference](docs/guides/python_api.md)
  - [Examples Guide](docs/guides/examples.md)
  - [Troubleshooting](docs/guides/troubleshooting.md)
+ - [Releasing](docs/guides/releasing.md)
 
 ## Repository Layout
 
