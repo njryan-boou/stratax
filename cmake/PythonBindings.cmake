@@ -57,6 +57,7 @@ pybind11_add_module(
 
     bindings/conversions.cpp
     bindings/creation.cpp
+    bindings/reductions.cpp
 )
 
 target_include_directories(

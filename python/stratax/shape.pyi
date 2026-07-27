@@ -35,6 +35,9 @@ class Shape:
         """
         ...
 
+
+    __all__ = ["Shape"]
+
     @overload
     def __init__(self, other: "Shape") -> None:
         """Copy another shape.

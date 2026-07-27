@@ -67,9 +67,14 @@ if(BUILD_TESTING AND STRATAX_BUILD_TESTS)
             GTest::gtest_main
     )
 
-    # Enable /FS flag for MSVC parallel compilation with shared PDB
+    # Avoid compiler PDB contention on Windows by embedding debug info in .obj.
     if(MSVC)
-        target_compile_options(stratax_cpp_tests PRIVATE /FS)
+        target_compile_options(stratax_cpp_tests PRIVATE /FS /Z7)
+        set_target_properties(
+            stratax_cpp_tests
+            PROPERTIES
+                MSVC_DEBUG_INFORMATION_FORMAT Embedded
+        )
     endif()
 
     include(GoogleTest)

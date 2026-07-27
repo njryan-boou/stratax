@@ -18,6 +18,7 @@ statistics modules are currently reserved API areas.
 - Element-wise arithmetic and comparison operators
 - Reshape, flatten, slicing, and container conversion helpers
 - Tensor creation helpers such as `zeros`, `ones`, `full`, and `identity`
+- Axis reductions with optional `keepdims` and negative-axis support in the Python API
 - Stream printing for vectors, matrices, tensors, shapes, and strides
 - Python bindings and Python API wrappers for `Shape`, `Vector`, `Matrix`, and `Tensor`
 - Python free functions for conversions and tensor creation helpers
@@ -57,6 +58,8 @@ print(v[::-1].tolist())
 ```
 
 Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` wrappers plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API is intentionally Python-like: use negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
+
+Axis reductions are available through Python reduction helpers (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`), including `keepdims=True` for shape-preserving reductions and negative-axis indexing (for example `axis=-1` for the last dimension).
 
 ## Installation
 
@@ -148,7 +151,6 @@ python -m pytest tests/python
 
 ### Roadmap
 
-- Reductions
 - Broadcasting
 - Logical operations
 - Linear algebra algorithms

@@ -163,6 +163,13 @@ Complexity
 
 Axis reductions reduce along a specified dimension while preserving all other dimensions.
 
+Axis normalization
+
+- Positive axes use the standard zero-based indexing (`0 .. rank-1`).
+- Negative axes are normalized from the end (`-1` is the last axis, `-2` is the second-to-last axis, and so on).
+- Valid axis range is `[-rank, rank-1]`.
+- An out-of-range axis throws `Exceptions::AxisError`.
+
 #### sum(arr, axis)
 
 ```cpp
@@ -186,6 +193,7 @@ Example
 Matrix<int> m{{1, 2, 3}, {4, 5, 6}};
 auto col_sums = reduction::sum(m, 0);  // [5, 7, 9]
 auto row_sums = reduction::sum(m, 1);  // [6, 15]
+auto row_sums_neg = reduction::sum(m, -1);  // [6, 15]
 ```
 
 #### prod(arr, axis) / max(arr, axis) / min(arr, axis)
@@ -305,6 +313,9 @@ auto t_axis0 = reduction::sum(t, 0);  // Shape [3, 4]
 
 // Reduce second dimension
 auto t_axis1 = reduction::sum(t, 1);  // Shape [2, 4]
+
+// Negative axis resolves from the end
+auto t_last_axis = reduction::sum(t, -1);  // Shape [2, 3]
 
 // Find max indices along last dimension
 auto max_idx = reduction::argmax(t, 2);  // Shape [2, 3] of size_t

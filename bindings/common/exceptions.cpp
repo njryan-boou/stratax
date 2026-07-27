@@ -17,4 +17,5 @@ void bind_common_exceptions(py::module_& m)
     py::register_exception<Exceptions::TypeError>(m, "TypeError", stratax_error.ptr());
     py::register_exception<Exceptions::BroadcastError>(m, "BroadcastError", stratax_error.ptr());
     py::register_exception<Exceptions::ZeroDivisionError>(m, "ZeroDivisionError", stratax_error.ptr());
+    py::register_exception<Exceptions::AxisError>(m, "AxisError", stratax_error.ptr());
 }

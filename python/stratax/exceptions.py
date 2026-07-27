@@ -6,6 +6,7 @@ from ._core import (
     StrataxError,
     TypeError,
     ZeroDivisionError,
+    AxisError
 )
 
 for _exception in (
@@ -16,6 +17,7 @@ for _exception in (
     TypeError,
     BroadcastError,
     ZeroDivisionError,
+    AxisError
 ):
     _exception.__module__ = "builtins"
 
@@ -29,4 +31,5 @@ __all__ = [
     "TypeError",
     "BroadcastError",
     "ZeroDivisionError",
+    "AxisError"
 ]

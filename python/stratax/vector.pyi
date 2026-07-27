@@ -38,6 +38,9 @@ class Vector:
         """
         ...
 
+
+    __all__ = ["Vector"]
+
     @overload
     def __init__(self, other: "Vector") -> None:
         """Copy another vector.

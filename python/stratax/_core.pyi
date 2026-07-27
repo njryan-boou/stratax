@@ -612,3 +612,7 @@ class BroadcastError(StrataxError):
 
 class ZeroDivisionError(StrataxError):
     """Raised when a Stratax operation divides by zero."""
+    
+    
+class AxisError(StrataxError):
+    """Raised when Axis is out of range"""

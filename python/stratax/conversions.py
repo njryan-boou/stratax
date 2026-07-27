@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from ._core import to_matrix as _to_matrix
 from ._core import to_tensor as _to_tensor
 from ._core import to_vector as _to_vector
@@ -9,34 +7,24 @@ from .vector import Vector
 from .exceptions import TypeError as StrataxTypeError
 
 
-def to_vector(arr: Vector | Matrix | Tensor) -> Vector:
-    if isinstance(arr, Vector):
-        return Vector._wrap(_to_vector(arr._impl))
-    if isinstance(arr, Matrix):
-        return Vector._wrap(_to_vector(arr._impl))
-    if isinstance(arr, Tensor):
-        return Vector._wrap(_to_vector(arr._impl))
+def _unwrap_array(arr, name):
+    if isinstance(arr, (Vector, Matrix, Tensor)):
+        return arr._impl
 
-    raise StrataxTypeError("to_vector expects a Vector, Matrix, or Tensor.")
+    raise StrataxTypeError(f"{name} expects a Vector, Matrix, or Tensor.")
 
 
-def to_matrix(arr: Vector | Matrix | Tensor) -> Matrix:
-    if isinstance(arr, Vector):
-        return Matrix._wrap(_to_matrix(arr._impl))
-    if isinstance(arr, Matrix):
-        return Matrix._wrap(_to_matrix(arr._impl))
-    if isinstance(arr, Tensor):
-        return Matrix._wrap(_to_matrix(arr._impl))
+def _make_converter(core_fn, wrapper, name):
+    def _converter(arr):
+        return wrapper._wrap(core_fn(_unwrap_array(arr, name)))
 
-    raise StrataxTypeError("to_matrix expects a Vector, Matrix, or Tensor.")
+    _converter.__name__ = name
+    return _converter
 
 
-def to_tensor(arr: Vector | Matrix | Tensor) -> Tensor:
-    if isinstance(arr, Vector):
-        return Tensor._wrap(_to_tensor(arr._impl))
-    if isinstance(arr, Matrix):
-        return Tensor._wrap(_to_tensor(arr._impl))
-    if isinstance(arr, Tensor):
-        return Tensor._wrap(_to_tensor(arr._impl))
+to_vector = _make_converter(_to_vector, Vector, "to_vector")
+to_matrix = _make_converter(_to_matrix, Matrix, "to_matrix")
+to_tensor = _make_converter(_to_tensor, Tensor, "to_tensor")
 
-    raise StrataxTypeError("to_tensor expects a Vector, Matrix, or Tensor.")
+
+__all__ = ["to_vector", "to_matrix", "to_tensor"]

@@ -39,6 +39,9 @@ class Matrix:
         """
         ...
 
+
+    __all__ = ["Matrix"]
+
     @overload
     def __init__(self, other: "Matrix") -> None:
         """Copy another matrix.

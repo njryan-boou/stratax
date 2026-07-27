@@ -38,6 +38,9 @@ def zeros(shape: Shape | Iterable[int]) -> Tensor:
 	...
 
 
+__all__ = ["zeros", "ones", "full", "identity"]
+
+
 def ones(shape: Shape | Iterable[int]) -> Tensor:
 	"""Create a one-initialized tensor.
 

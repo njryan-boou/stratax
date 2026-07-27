@@ -1,7 +1,6 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
 from numbers import Real
+from operator import add, iadd, imul, isub, itruediv, mul, sub, truediv
 
 from ._core import Vector as _Vector
 from .exceptions import TypeError as StrataxTypeError
@@ -125,93 +124,62 @@ class Vector:
 
         return self._impl != other._impl
 
-    def __add__(self, other):
+    def _binary_op(self, other, operator, reverse=False):
         operand = self._operand(other)
         if operand is NotImplemented:
             return NotImplemented
 
-        return self._wrap(self._impl + operand)
+        if reverse and isinstance(other, Vector):
+            return NotImplemented
+
+        if reverse:
+            return self._wrap(operator(operand, self._impl))
+
+        return self._wrap(operator(self._impl, operand))
+
+    def _inplace_op(self, other, operator):
+        operand = self._operand(other)
+        if operand is NotImplemented:
+            return NotImplemented
+
+        operator(self._impl, operand)
+        return self
+
+    def __add__(self, other):
+        return self._binary_op(other, add)
 
     def __radd__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Vector):
-            return NotImplemented
-
-        return self._wrap(operand + self._impl)
+        return self._binary_op(other, add, reverse=True)
 
     def __sub__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        return self._wrap(self._impl - operand)
+        return self._binary_op(other, sub)
 
     def __rsub__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Vector):
-            return NotImplemented
-
-        return self._wrap(operand - self._impl)
+        return self._binary_op(other, sub, reverse=True)
 
     def __mul__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        return self._wrap(self._impl * operand)
+        return self._binary_op(other, mul)
 
     def __rmul__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Vector):
-            return NotImplemented
-
-        return self._wrap(operand * self._impl)
+        return self._binary_op(other, mul, reverse=True)
 
     def __truediv__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        return self._wrap(self._impl / operand)
+        return self._binary_op(other, truediv)
 
     def __rtruediv__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented or isinstance(other, Vector):
-            return NotImplemented
-
-        return self._wrap(operand / self._impl)
+        return self._binary_op(other, truediv, reverse=True)
 
     def __iadd__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        self._impl += operand
-        return self
+        return self._inplace_op(other, iadd)
 
     def __isub__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        self._impl -= operand
-        return self
+        return self._inplace_op(other, isub)
 
     def __imul__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        self._impl *= operand
-        return self
+        return self._inplace_op(other, imul)
 
     def __itruediv__(self, other):
-        operand = self._operand(other)
-        if operand is NotImplemented:
-            return NotImplemented
-
-        self._impl /= operand
-        return self
+        return self._inplace_op(other, itruediv)
 
     def __pos__(self):
         return self._wrap(+self._impl)
@@ -221,3 +189,6 @@ class Vector:
 
     def __repr__(self):
         return repr(self._impl)
+
+
+__all__ = ["Vector"]

@@ -38,6 +38,9 @@ class Tensor:
         """
         ...
 
+
+    __all__ = ["Tensor"]
+
     @overload
     def __init__(self, other: "Tensor") -> None:
         """Copy another tensor.

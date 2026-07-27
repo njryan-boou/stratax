@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
 
 from ._core import _Shape
@@ -67,3 +65,6 @@ class Shape:
 
     def __repr__(self):
         return repr(self._impl)
+
+
+__all__ = ["Shape"]

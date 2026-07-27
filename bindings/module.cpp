@@ -13,6 +13,7 @@ void bind_matrix(py::module_&);
 void bind_tensor(py::module_&);
 void bind_conversions(py::module_&);
 void bind_creation(py::module_&);
+void bind_reductions(py::module_&);
 
 PYBIND11_MODULE(_core, m)
 {
@@ -32,4 +33,5 @@ PYBIND11_MODULE(_core, m)
     bind_tensor(m);
     bind_conversions(m);
     bind_creation(m);
+    bind_reductions(m);
 }

@@ -8,6 +8,7 @@ from ._core import (
     StrataxError,
     TypeError,
     ZeroDivisionError,
+    AxisError
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "TypeError",
     "BroadcastError",
     "ZeroDivisionError",
+    "AxisError"
 ]

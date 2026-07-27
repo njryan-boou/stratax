@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
 from numbers import Real
 
@@ -12,26 +10,39 @@ from .tensor import Tensor
 from .exceptions import TypeError as StrataxTypeError
 
 
-def zeros(shape: Shape | Iterable[int]) -> Tensor:
-    target_shape = shape if isinstance(shape, Shape) else Shape(shape)
-    return Tensor._wrap(_zeros(target_shape._impl))
+def _as_shape(shape):
+    return shape if isinstance(shape, Shape) else Shape(shape)
 
 
-def ones(shape: Shape | Iterable[int]) -> Tensor:
-    target_shape = shape if isinstance(shape, Shape) else Shape(shape)
-    return Tensor._wrap(_ones(target_shape._impl))
+def _wrap_creation(fn, shape):
+    target_shape = _as_shape(shape)
+    return Tensor._wrap(fn(target_shape._impl))
 
 
-def full(shape: Shape | Iterable[int], value: float) -> Tensor:
+def _make_unary_creation(fn):
+    def _creator(shape):
+        return _wrap_creation(fn, shape)
+
+    return _creator
+
+
+zeros = _make_unary_creation(_zeros)
+ones = _make_unary_creation(_ones)
+
+
+def full(shape, value):
     if isinstance(value, bool) or not isinstance(value, Real):
         raise StrataxTypeError("Tensor fill value must be a number.")
 
-    target_shape = shape if isinstance(shape, Shape) else Shape(shape)
+    target_shape = _as_shape(shape)
     return Tensor._wrap(_full(target_shape._impl, float(value)))
 
 
-def identity(size: int) -> Tensor:
+def identity(size):
     if isinstance(size, bool) or not isinstance(size, int):
         raise StrataxTypeError("Identity size must be an integer.")
 
     return Tensor._wrap(_identity(size))
+
+
+__all__ = ["zeros", "ones", "full", "identity"]

@@ -166,6 +166,122 @@ TEST(AlgorithmsReductions, matrix_sum_axis_1)
     EXPECT_EQ(result[1], 15);  // 4 + 5 + 6
 }
 
+TEST(AlgorithmsReductions, matrix_sum_negative_axis_1_matches_axis_1)
+{
+    Matrix<int> m{
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    auto by_positive_axis = reduction::sum(m, 1);
+    auto by_negative_axis = reduction::sum(m, -1);
+
+    EXPECT_EQ(by_negative_axis.rank(), by_positive_axis.rank());
+    EXPECT_EQ(by_negative_axis.shape()(0), by_positive_axis.shape()(0));
+    EXPECT_EQ(by_negative_axis[0], by_positive_axis[0]);
+    EXPECT_EQ(by_negative_axis[1], by_positive_axis[1]);
+}
+
+TEST(AlgorithmsReductions, matrix_sum_axis_0_keepdims)
+{
+    Matrix<int> m{
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    auto result = reduction::sum(m, 0, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 1);
+    EXPECT_EQ(result.shape()(1), 3);
+    EXPECT_EQ(result(0, 0), 5);
+    EXPECT_EQ(result(0, 1), 7);
+    EXPECT_EQ(result(0, 2), 9);
+}
+
+TEST(AlgorithmsReductions, matrix_prod_axis_0_keepdims)
+{
+    Matrix<int> m{
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    auto result = reduction::prod(m, 0, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 1);
+    EXPECT_EQ(result.shape()(1), 3);
+    EXPECT_EQ(result(0, 0), 4);
+    EXPECT_EQ(result(0, 1), 10);
+    EXPECT_EQ(result(0, 2), 18);
+}
+
+TEST(AlgorithmsReductions, matrix_max_axis_1_keepdims)
+{
+    Matrix<int> m{
+        {1, 7, 3},
+        {4, 2, 6}
+    };
+
+    auto result = reduction::max(m, 1, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 2);
+    EXPECT_EQ(result.shape()(1), 1);
+    EXPECT_EQ(result(0, 0), 7);
+    EXPECT_EQ(result(1, 0), 6);
+}
+
+TEST(AlgorithmsReductions, matrix_argmax_axis_0_keepdims)
+{
+    Matrix<int> m{
+        {1, 7, 3},
+        {4, 2, 6}
+    };
+
+    auto result = reduction::argmax(m, 0, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 1);
+    EXPECT_EQ(result.shape()(1), 3);
+    EXPECT_EQ(result(0, 0), 1);
+    EXPECT_EQ(result(0, 1), 0);
+    EXPECT_EQ(result(0, 2), 1);
+}
+
+TEST(AlgorithmsReductions, matrix_argmin_axis_1_keepdims)
+{
+    Matrix<int> m{
+        {1, 7, 3},
+        {4, 2, 6}
+    };
+
+    auto result = reduction::argmin(m, 1, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 2);
+    EXPECT_EQ(result.shape()(1), 1);
+    EXPECT_EQ(result(0, 0), 0);
+    EXPECT_EQ(result(1, 0), 1);
+}
+
+TEST(AlgorithmsReductions, matrix_mean_axis_0_keepdims)
+{
+    Matrix<double> m{
+        {1.0, 2.0, 3.0},
+        {5.0, 6.0, 7.0}
+    };
+
+    auto result = reduction::mean(m, 0, true);
+
+    EXPECT_EQ(result.rank(), 2);
+    EXPECT_EQ(result.shape()(0), 1);
+    EXPECT_EQ(result.shape()(1), 3);
+    EXPECT_DOUBLE_EQ(result(0, 0), 3.0);
+    EXPECT_DOUBLE_EQ(result(0, 1), 4.0);
+    EXPECT_DOUBLE_EQ(result(0, 2), 5.0);
+}
+
 TEST(AlgorithmsReductions, matrix_prod_axis_0)
 {
     Matrix<int> m{
@@ -280,6 +396,36 @@ TEST(AlgorithmsReductions, tensor_sum_axis_2)
     
     EXPECT_EQ(result(0, 0), 6);   // 1 + 2 + 3
     EXPECT_EQ(result(0, 1), 15);  // 4 + 5 + 6
+}
+
+TEST(AlgorithmsReductions, tensor_sum_negative_axis_1_matches_last_axis)
+{
+    Tensor<int> t(Shape{2, 2, 3});
+    for (std::size_t i = 0; i < t.size(); ++i) {
+        t[i] = static_cast<int>(i + 1);
+    }
+
+    auto by_positive_axis = reduction::sum(t, 2);
+    auto by_negative_axis = reduction::sum(t, -1);
+
+    EXPECT_EQ(by_negative_axis.rank(), by_positive_axis.rank());
+    EXPECT_EQ(by_negative_axis.shape()(0), by_positive_axis.shape()(0));
+    EXPECT_EQ(by_negative_axis.shape()(1), by_positive_axis.shape()(1));
+    EXPECT_EQ(by_negative_axis(0, 0), by_positive_axis(0, 0));
+    EXPECT_EQ(by_negative_axis(0, 1), by_positive_axis(0, 1));
+    EXPECT_EQ(by_negative_axis(1, 0), by_positive_axis(1, 0));
+    EXPECT_EQ(by_negative_axis(1, 1), by_positive_axis(1, 1));
+}
+
+TEST(AlgorithmsReductions, vector_sum_axis_0_keepdims)
+{
+    Vector<int> v{1, 2, 3, 4};
+
+    auto result = reduction::sum(v, 0, true);
+
+    EXPECT_EQ(result.rank(), 1);
+    EXPECT_EQ(result.shape()(0), 1);
+    EXPECT_EQ(result[0], 10);
 }
 
 TEST(AlgorithmsReductions, tensor_max_axis_0)
