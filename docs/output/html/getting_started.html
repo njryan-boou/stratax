@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html','',''); });
+document.addEventListener('DOMContentLoaded',() => { initNavTree('getting_started.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -118,23 +118,28 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('md_docs_2guide
   <div class="headertitle"><div class="title">Getting Started </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md941"></a></p>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md952"></a>
+Getting Started</h1>
 <p>Welcome to Stratax!</p>
 <p>This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.</p>
-<p>Developer-focused design and implementation notes are available in <a class="el" href="dir_5179a46a04c00f26153add2c2c09d3cf.html" title="D:/dev/stratax/docs/dev/README.md">docs/dev/README.md</a>.</p>
+<p>Developer-focused design and implementation notes are available in <a class="el" href="dev_index.html" title="Developer Docs Index">Developer Docs</a>.</p>
 <p><b>Documentation:</b></p><ul>
+<li><a class="el" href="user_guide.html" title="&quot;User Guide&quot;">"User Guide"</a></li>
+<li><a class="el" href="python_api.html" title="&quot;Python API Reference&quot;">"Python API Reference"</a></li>
 <li><a class="el" href="architecture.html" title="Architecture">Architecture</a></li>
 <li><a class="el" href="contributing.html" title="Contributing">Contributing</a></li>
+<li><a class="el" href="examples.html" title="Examples">Examples</a></li>
+<li><a class="el" href="troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
 <li><a class="el" href="changelog.html" title="Changelog">Changelog</a></li>
-<li><a class="el" href="roadmap.html" title="Stratax Roadmap">Stratax Roadmap</a></li>
-<li><a class="el" href="dir_5179a46a04c00f26153add2c2c09d3cf.html" title="D:/dev/stratax/docs/dev/README.md">Developer Docs</a></li>
+<li><a class="el" href="roadmap.html" title="&quot;Stratax Roadmap&quot;">"Stratax Roadmap"</a></li>
+<li><a class="el" href="dev_index.html" title="Developer Docs Index">Developer Docs</a></li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
-Prerequisites</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md954"></a>
+Prerequisites</h2>
 <p>Install the following software before cloning the repository.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
-Required</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md955"></a>
+Required</h2>
 <ul>
 <li>Git</li>
 <li>Python 3.10 or newer</li>
@@ -147,26 +152,26 @@ Required</h1>
 <div class="line">python --version</div>
 <div class="line">cmake --version</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
-Clone the Repository</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md957"></a>
+Clone the Repository</h2>
 <div class="fragment"><div class="line">git clone https://github.com/njryan-boou/stratax.git</div>
 <div class="line">cd stratax</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md948"></a>
-Create a Virtual Environment</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md959"></a>
+Create a Virtual Environment</h2>
 <div class="fragment"><div class="line">python -m venv .venv</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md950"></a>
-Activate the Virtual Environment</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md951"></a>
-PowerShell</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md961"></a>
+Activate the Virtual Environment</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md962"></a>
+PowerShell</h3>
 <div class="fragment"><div class="line">.venv\Scripts\Activate.ps1</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md952"></a>
-Command Prompt</h2>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md963"></a>
+Command Prompt</h3>
 <div class="fragment"><div class="line">.venv\Scripts\activate.bat</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md954"></a>
-Install Stratax</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md965"></a>
+Install Stratax</h2>
 <p>Install the project in editable mode:</p>
 <div class="fragment"><div class="line">python -m pip install -e .</div>
 </div><!-- fragment --><p>This command will:</p>
@@ -176,22 +181,35 @@ Install Stratax</h1>
 <li>Build the C++ extension</li>
 <li>Install the Python package into the virtual environment</li>
 </ul>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md956"></a>
-Build the Project</h1>
+<p>For a quick Python-only setup from a fresh checkout:</p>
+<div class="fragment"><div class="line">python -m venv .venv</div>
+<div class="line">.venv\Scripts\Activate.ps1</div>
+<div class="line">python -m pip install -e .</div>
+<div class="line">python examples/python/vector.py</div>
+</div><!-- fragment --><hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md967"></a>
+Build the Project</h2>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md958"></a>
-Running Tests</h1>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md959"></a>
-Python</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md969"></a>
+Running Tests</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md970"></a>
+Python</h2>
 <div class="fragment"><div class="line">python -m pytest tests/python</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md960"></a>
-C++</h1>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md971"></a>
+C++</h2>
 <div class="fragment"><div class="line">ctest --test-dir build --output-on-failure</div>
 </div><!-- fragment --><hr  />
- </div></div><!-- contents -->
+<h2 class="doxsection"><a class="anchor" id="autotoc_md973"></a>
+Try the Examples</h2>
+<p>Example programs are available in <span class="tt">examples/cpp</span> and <span class="tt">examples/python</span>.</p>
+<p>Run a Python example from the repository root after installing the package:</p>
+<div class="fragment"><div class="line">python examples/python/vector.py</div>
+</div><!-- fragment --><p>For C++ examples, include the repository <span class="tt">include/</span> directory and compile with C++20 support.</p>
+<p>With GCC or Clang-like compilers:</p>
+<div class="fragment"><div class="line">g++ -std=c++20 -I include examples/cpp/vector.cpp -o vector_example</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

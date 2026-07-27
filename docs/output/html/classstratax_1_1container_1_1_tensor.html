@@ -118,8 +118,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classstratax_1
   <div class="headertitle"><div class="title">stratax::container::Tensor&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -135,16 +133,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afb64e8361a0771cd0217166242c0975f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with default-initialized storage for a shape.  <br /></td></tr>
 <tr class="memitem:a3bc47abf83540457b08080e0f344f7c4" id="r_a3bc47abf83540457b08080e0f344f7c4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3bc47abf83540457b08080e0f344f7c4">Tensor</a> (const <a class="el" href="classstratax_1_1core_1_1_shape.html">core::Shape</a> &amp;shape, const T &amp;value)</td></tr>
 <tr class="memdesc:a3bc47abf83540457b08080e0f344f7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor from a shape and fills it with a value.  <br /></td></tr>
-<tr class="memitem:a2bfdd6a164d779d029aaffbe449e73b4" id="r_a2bfdd6a164d779d029aaffbe449e73b4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2bfdd6a164d779d029aaffbe449e73b4">Tensor</a> (const Tensor &amp;)=default</td></tr>
-<tr class="memdesc:a2bfdd6a164d779d029aaffbe449e73b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another tensor.  <br /></td></tr>
-<tr class="memitem:adf9f6ec1da0b3fce12586e71d0a4ebb0" id="r_adf9f6ec1da0b3fce12586e71d0a4ebb0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#adf9f6ec1da0b3fce12586e71d0a4ebb0">Tensor</a> (Tensor &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:adf9f6ec1da0b3fce12586e71d0a4ebb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another tensor.  <br /></td></tr>
-<tr class="memitem:ac3b554e02222e81020f189e2ff917889" id="r_ac3b554e02222e81020f189e2ff917889"><td class="memItemLeft"><a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac3b554e02222e81020f189e2ff917889">operator=</a> (const <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;)=default</td></tr>
-<tr class="memdesc:ac3b554e02222e81020f189e2ff917889"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this tensor with a copy of another tensor.  <br /></td></tr>
-<tr class="memitem:a7733463022443e4f45eed9076d976a41" id="r_a7733463022443e4f45eed9076d976a41"><td class="memItemLeft"><a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7733463022443e4f45eed9076d976a41">operator=</a> (<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a7733463022443e4f45eed9076d976a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this tensor by taking ownership from another tensor.  <br /></td></tr>
-<tr class="memitem:a4508d8d8a173faae42c6a85ef5057614" id="r_a4508d8d8a173faae42c6a85ef5057614"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4508d8d8a173faae42c6a85ef5057614">~Tensor</a> ()=default</td></tr>
-<tr class="memdesc:a4508d8d8a173faae42c6a85ef5057614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the tensor.  <br /></td></tr>
+<tr class="memitem:a2bfdd6a164d779d029aaffbe449e73b4" id="r_a2bfdd6a164d779d029aaffbe449e73b4"><td class="memItemLeft"><a id="a2bfdd6a164d779d029aaffbe449e73b4" name="a2bfdd6a164d779d029aaffbe449e73b4"></a>
+&#160;</td><td class="memItemRight"><b>Tensor</b> (const Tensor &amp;)=default</td></tr>
+<tr class="memdesc:a2bfdd6a164d779d029aaffbe449e73b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another tensor. <br /></td></tr>
+<tr class="memitem:adf9f6ec1da0b3fce12586e71d0a4ebb0" id="r_adf9f6ec1da0b3fce12586e71d0a4ebb0"><td class="memItemLeft"><a id="adf9f6ec1da0b3fce12586e71d0a4ebb0" name="adf9f6ec1da0b3fce12586e71d0a4ebb0"></a>
+&#160;</td><td class="memItemRight"><b>Tensor</b> (Tensor &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:adf9f6ec1da0b3fce12586e71d0a4ebb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another tensor. <br /></td></tr>
+<tr class="memitem:ac3b554e02222e81020f189e2ff917889" id="r_ac3b554e02222e81020f189e2ff917889"><td class="memItemLeft"><a id="ac3b554e02222e81020f189e2ff917889" name="ac3b554e02222e81020f189e2ff917889"></a>
+<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;)=default</td></tr>
+<tr class="memdesc:ac3b554e02222e81020f189e2ff917889"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this tensor with a copy of another tensor. <br /></td></tr>
+<tr class="memitem:a7733463022443e4f45eed9076d976a41" id="r_a7733463022443e4f45eed9076d976a41"><td class="memItemLeft"><a id="a7733463022443e4f45eed9076d976a41" name="a7733463022443e4f45eed9076d976a41"></a>
+<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:a7733463022443e4f45eed9076d976a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this tensor by taking ownership from another tensor. <br /></td></tr>
+<tr class="memitem:a4508d8d8a173faae42c6a85ef5057614" id="r_a4508d8d8a173faae42c6a85ef5057614"><td class="memItemLeft"><a id="a4508d8d8a173faae42c6a85ef5057614" name="a4508d8d8a173faae42c6a85ef5057614"></a>
+&#160;</td><td class="memItemRight"><b>~Tensor</b> ()=default</td></tr>
+<tr class="memdesc:a4508d8d8a173faae42c6a85ef5057614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the tensor. <br /></td></tr>
 <tr class="memitem:a4acc25740d164c70c387f9b2bc3a9ef0" id="r_a4acc25740d164c70c387f9b2bc3a9ef0"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a4acc25740d164c70c387f9b2bc3a9ef0">size</a> () const noexcept</td></tr>
 <tr class="memdesc:a4acc25740d164c70c387f9b2bc3a9ef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of elements in the tensor.  <br /></td></tr>
 <tr class="memitem:a47d2907e8b4f9561ad98ae6ab8014c6d" id="r_a47d2907e8b4f9561ad98ae6ab8014c6d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a47d2907e8b4f9561ad98ae6ab8014c6d">empty</a> () const noexcept</td></tr>
@@ -272,7 +275,7 @@ template&lt;typename T&gt; </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a79ee6b29c2456696f45e912e79ba3485" name="a79ee6b29c2456696f45e912e79ba3485"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79ee6b29c2456696f45e912e79ba3485">&#9670;&#160;</a></span>Tensor() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ee6b29c2456696f45e912e79ba3485">&#9670;&#160;</a></span>Tensor() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -302,7 +305,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="afb64e8361a0771cd0217166242c0975f" name="afb64e8361a0771cd0217166242c0975f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb64e8361a0771cd0217166242c0975f">&#9670;&#160;</a></span>Tensor() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afb64e8361a0771cd0217166242c0975f">&#9670;&#160;</a></span>Tensor() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +343,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a3bc47abf83540457b08080e0f344f7c4" name="a3bc47abf83540457b08080e0f344f7c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bc47abf83540457b08080e0f344f7c4">&#9670;&#160;</a></span>Tensor() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bc47abf83540457b08080e0f344f7c4">&#9670;&#160;</a></span>Tensor() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,93 +381,6 @@ template&lt;typename T&gt; </div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_tensor_8hpp_source.html#l00073">73</a> of file <a class="el" href="_tensor_8hpp_source.html">Tensor.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a2bfdd6a164d779d029aaffbe449e73b4" name="a2bfdd6a164d779d029aaffbe449e73b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bfdd6a164d779d029aaffbe449e73b4">&#9670;&#160;</a></span>Tensor() <span class="overload">[4/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::Tensor </td>
-          <td>(</td>
-          <td class="paramtype">const Tensor&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a copy of another tensor. </p>
-
-</div>
-</div>
-<a id="adf9f6ec1da0b3fce12586e71d0a4ebb0" name="adf9f6ec1da0b3fce12586e71d0a4ebb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf9f6ec1da0b3fce12586e71d0a4ebb0">&#9670;&#160;</a></span>Tensor() <span class="overload">[5/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::Tensor </td>
-          <td>(</td>
-          <td class="paramtype">Tensor&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Transfers ownership from another tensor. </p>
-
-</div>
-</div>
-<a id="a4508d8d8a173faae42c6a85ef5057614" name="a4508d8d8a173faae42c6a85ef5057614"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4508d8d8a173faae42c6a85ef5057614">&#9670;&#160;</a></span>~Tensor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::~<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destroys the tensor. </p>
 
 </div>
 </div>
@@ -1499,64 +1415,6 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ac3b554e02222e81020f189e2ff917889" name="ac3b554e02222e81020f189e2ff917889"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3b554e02222e81020f189e2ff917889">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp; <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this tensor with a copy of another tensor. </p>
-
-</div>
-</div>
-<a id="a7733463022443e4f45eed9076d976a41" name="a7733463022443e4f45eed9076d976a41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7733463022443e4f45eed9076d976a41">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp; <a class="el" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a>&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this tensor by taking ownership from another tensor. </p>
-
-</div>
-</div>
 <a id="a36383eaa1e41b5ee1de197f7f5028504" name="a36383eaa1e41b5ee1de197f7f5028504"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a36383eaa1e41b5ee1de197f7f5028504">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
@@ -1945,7 +1803,7 @@ template&lt;typename T&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacestratax.html">stratax</a></li><li class="navelem"><a href="namespacestratax_1_1container.html">container</a></li><li class="navelem"><a href="classstratax_1_1container_1_1_tensor.html">Tensor</a></li>
+    <li class="navelem"><b>stratax</b></li><li class="navelem"><b>container</b></li><li class="navelem"><a href="classstratax_1_1container_1_1_tensor.html">Tensor</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

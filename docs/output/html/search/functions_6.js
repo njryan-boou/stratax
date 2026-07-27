@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['identity_0',['identity',['../namespacecreation.html#ae30027039e51c35f0ba72ef9db5d92fe',1,'creation']]],
-  ['is_5fmatrix_5fshape_1',['is_matrix_shape',['../_conversions_8hpp.html#a46146ee171fad15457bd2afaebb8730f',1,'Conversions.hpp']]],
-  ['is_5fvector_5fshape_2',['is_vector_shape',['../_conversions_8hpp.html#a6db12d1b3095cc63566a0c053b69a3cf',1,'Conversions.hpp']]]
+  ['matrix_0',['Matrix',['../classstratax_1_1container_1_1_matrix.html#a33ccc6a582e891adb747e80e45eeae8f',1,'stratax::container::Matrix::Matrix()'],['../classstratax_1_1container_1_1_matrix.html#ace69d229aa22754d5e806e4a53a853ba',1,'stratax::container::Matrix::Matrix(std::size_t rows, std::size_t cols)'],['../classstratax_1_1container_1_1_matrix.html#a8d55aa011a73af44a310445b7ec92325',1,'stratax::container::Matrix::Matrix(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_matrix.html#a7fb422da3d1ba9f831f34df14a8056b3',1,'stratax::container::Matrix::Matrix(std::size_t rows, std::size_t cols, const T &amp;value)'],['../classstratax_1_1container_1_1_matrix.html#a347f057e9ede2f3bb1a224074a37567c',1,'stratax::container::Matrix::Matrix(std::initializer_list&lt; std::initializer_list&lt; T &gt; &gt; list)'],['../classstratax_1_1container_1_1_matrix.html#aa813cd0abcc9e56e145a91c0b0239d1a',1,'stratax::container::Matrix::Matrix(const Matrix &amp;)=default'],['../classstratax_1_1container_1_1_matrix.html#aa662952f5c7c228f2d3c3f256923050b',1,'stratax::container::Matrix::Matrix(Matrix &amp;&amp;) noexcept=default']]]
 ];

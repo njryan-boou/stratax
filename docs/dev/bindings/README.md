@@ -1,4 +1,6 @@
-# Bindings Developer Docs {#dev_bindings}
+@page dev_bindings Bindings Developer Docs
+
+# Bindings Developer Docs
 
 This section documents the pybind11 binding layer under `bindings/`.
 
@@ -14,7 +16,7 @@ Current bindings are focused on `double`-based container types and free-function
 
 ## Entry Points
 
-- [Extension Module (`_core`)](module.md)
+- @ref dev_module "Extension Module (`_core`)"
 
 ---
 

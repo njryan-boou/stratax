@@ -1,3 +1,5 @@
+@page docs_index Documentation Index
+
 # Documentation Index
 
 This page is the top-level table of contents for the Stratax documentation.
@@ -6,22 +8,33 @@ This page is the top-level table of contents for the Stratax documentation.
 
 ## Start Here
 
-- [Getting Started](guides/GETTING_STARTED.md)
-- [Developer Docs](dev/README.md)
-- [C++ API (Generated)](cpp/html/index.html)
+- @ref getting_started "Getting Started"
+- @ref dev_index "Developer Docs"
+- @ref mainpage "C++ API (Generated)"
 
 ---
 
 ## Guides
 
-- [Architecture](guides/architecture.md)
-- [Contributing](guides/contributing.md)
-- [Roadmap](guides/roadmap.md)
-- [Changelog](guides/CHANGELOG.md)
+- @ref user_guide "User Guide"
+- @ref python_api "Python API Reference"
+- @ref architecture "Architecture"
+- @ref contributing "Contributing"
+- @ref examples "Examples"
+- @ref troubleshooting "Troubleshooting"
+- @ref releasing "Releasing"
+- @ref roadmap "Roadmap"
+- @ref changelog "Changelog"
 
 ---
 
 ## Developer References
 
-- [Developer Docs Index](dev/README.md)
-- [Templates](templates/)
+- @ref dev_index "Developer Docs Index"
+
+---
+
+## Generated Output
+
+Generated Doxygen HTML is written to `docs/output/html`. Edit the Markdown and
+header sources instead of editing generated HTML directly.

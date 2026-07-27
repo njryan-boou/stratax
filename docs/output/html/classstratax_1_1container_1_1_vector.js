@@ -1,7 +1,5 @@
 var classstratax_1_1container_1_1_vector =
 [
-    [ "rebind", "classstratax_1_1container_1_1_vector.html#a92af2389d22bda6901ab8fa6597584fb", null ],
-    [ "value_type", "classstratax_1_1container_1_1_vector.html#a8eb707c5755fc6c4fab84bc250dda426", null ],
     [ "Vector", "classstratax_1_1container_1_1_vector.html#a98c16d7619a0ab0908dee44a611cc6fa", null ],
     [ "Vector", "classstratax_1_1container_1_1_vector.html#ac83f93553c77bdcad945c6459ee71b68", null ],
     [ "Vector", "classstratax_1_1container_1_1_vector.html#a946aa41b6dd98e65ed882a6c93c81eb6", null ],

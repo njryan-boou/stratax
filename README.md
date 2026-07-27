@@ -78,6 +78,13 @@ your build and include the umbrella header:
 #include <stratax.h>
 ```
 
+For a small CMake target, wire the include directory and C++ standard like this:
+
+```cmake
+target_include_directories(my_app PRIVATE path/to/stratax/include)
+target_compile_features(my_app PRIVATE cxx_std_20)
+```
+
 ## Build & Development
 
 ### Requirements
@@ -126,6 +133,11 @@ python -m pytest tests/python
 ### Documentation
 
  - [Documentation Site](https://njryan-boou.github.io/stratax)
+ - [Local Documentation Index](docs/README.md)
+ - [User Guide](docs/guides/user_guide.md)
+ - [Python API Reference](docs/guides/python_api.md)
+ - [Examples Guide](docs/guides/examples.md)
+ - [Troubleshooting](docs/guides/troubleshooting.md)
 
 ## Repository Layout
 
@@ -139,6 +151,28 @@ python -m pytest tests/python
 - [docs/](docs/) Documentation and API reference
 
 ## Project Status
+
+Stratax is still evolving. The current container, indexing, slicing, reshape,
+conversion, creation, printing, arithmetic, comparison, and reduction APIs are
+usable, but naming and edge-case behavior may still change before a stable 1.0
+release. Linear algebra, calculus, random, statistics, broadcasting, and file
+I/O are reserved or planned areas.
+
+### API Status
+
+| Feature | C++ | Python |
+|---------|-----|--------|
+| `Shape`, `Vector`, `Matrix`, `Tensor` | Available | Available |
+| Negative indexing | Available | Available |
+| Slicing | Copy-based | Copy-based |
+| Arithmetic and comparison | Available | Available |
+| Bitwise operators | Available for integral containers | Not yet exposed |
+| Creation helpers | Available | Available |
+| Conversions | Available | Available |
+| Reshape and flatten | Available | Available |
+| Reductions | Available | Available, with `keepdims` |
+| Broadcasting | Planned | Planned |
+| Linear algebra | Planned | Planned |
 
 ### Implemented
 
@@ -162,6 +196,8 @@ python -m pytest tests/python
 ## Contributing
 
 Contributions, bug reports, and feature requests are welcome through GitHub Issues and Pull Requests.
+See [Contributing](docs/guides/contributing.md) for development notes and
+[Releasing](docs/guides/releasing.md) for release checklist guidance.
 
 ## License
 

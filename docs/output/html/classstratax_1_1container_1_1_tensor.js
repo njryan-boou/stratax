@@ -1,7 +1,5 @@
 var classstratax_1_1container_1_1_tensor =
 [
-    [ "rebind", "classstratax_1_1container_1_1_tensor.html#a95c8422811d5a88bfcc538e9663441f3", null ],
-    [ "value_type", "classstratax_1_1container_1_1_tensor.html#ac96c7524bd8ba61b670363d5ba98e4aa", null ],
     [ "Tensor", "classstratax_1_1container_1_1_tensor.html#a79ee6b29c2456696f45e912e79ba3485", null ],
     [ "Tensor", "classstratax_1_1container_1_1_tensor.html#afb64e8361a0771cd0217166242c0975f", null ],
     [ "Tensor", "classstratax_1_1container_1_1_tensor.html#a3bc47abf83540457b08080e0f344f7c4", null ],

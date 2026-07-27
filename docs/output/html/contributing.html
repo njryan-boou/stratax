@@ -118,63 +118,67 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('contributing.h
   <div class="headertitle"><div class="title">Contributing </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_docs_2guides_2contributing"></a></p>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md938"></a>
+Contributing</h1>
 <p>Developer notes for making changes to Stratax consistently.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
-Purpose</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
+Purpose</h2>
 <p>Defines the working conventions for code, tests, and documentation so new changes fit the existing project style.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
-Main API</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
-Code Style</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md940"></a>
+Main API</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md941"></a>
+Code Style</h3>
 <ul>
 <li>Use C++20.</li>
 <li>Keep headers self-contained.</li>
 <li>Prefer existing concepts and helper types.</li>
 <li>Use <span class="tt">constexpr</span> when it improves correctness or clarity.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md935"></a>
-Testing</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md942"></a>
+Testing</h3>
 <ul>
 <li>Add or update tests beside the feature being changed.</li>
 <li>Cover normal behavior and edge cases.</li>
 <li>Keep tests focused on public behavior.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
-Documentation</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
+Documentation</h3>
 <ul>
 <li>Update the matching file under <span class="tt">docs/dev</span> when public behavior or design intent changes.</li>
 <li>Keep developer docs practical and implementation-focused.</li>
 <li>Use the <a class="el" href="concept_arithmetic.html" title="Matches arithmetic scalar types.">Arithmetic</a> document structure for module docs.</li>
+<li>Update user-facing guides under <span class="tt">docs/guides</span> when behavior changes.</li>
+<li>Regenerate Doxygen output intentionally; do not hand-edit files under <span class="tt">docs/output/html</span>.</li>
+<li>Keep API status notes aligned with implementation.</li>
+<li>Keep troubleshooting and release notes current when build, packaging, or docs deployment changes.</li>
+<li>Keep the Python API reference aligned with <span class="tt">python/stratax/__init__.py</span> and the <span class="tt">.pyi</span> stubs.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
-Naming</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
+Naming</h3>
 <ul>
 <li>Classes use <span class="tt">PascalCase</span>.</li>
 <li>Functions use <span class="tt">snake_case</span>.</li>
 <li>Concepts use <span class="tt">PascalCase</span>.</li>
 <li>Constants use <span class="tt">UPPER_CASE</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md938"></a>
-Validation Notes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md945"></a>
+Validation Notes</h2>
 <ul>
 <li>Changes that affect shape, indexing, construction, or arithmetic should include edge-case tests.</li>
 <li>Avoid adding validation behavior in docs unless the implementation already supports it or it is clearly marked as future work.</li>
 <li>Keep validation expectations aligned with the current state of <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
-Implementation Notes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
+Implementation Notes</h2>
 <ul>
 <li>Prefer small, local changes over broad refactors.</li>
 <li>Reuse existing container interfaces instead of introducing parallel APIs.</li>
 <li>Keep generated or build artifacts out of commits.</li>
 <li>Do not change unrelated files while addressing a focused task.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md940"></a>
-Future Work</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md947"></a>
+Future Work</h2>
 <ul>
-<li>Add a full public contribution guide.</li>
-<li>Document build and test commands once the build system is finalized.</li>
 <li>Add formatting and linting rules.</li>
 <li>Add pull request checklist templates. </li>
 </ul>
@@ -192,7 +196,7 @@ Future Work</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="md_docs_2guides_2_g_e_t_t_i_n_g___s_t_a_r_t_e_d.html">Getting Started</a></li>
+    <li class="navelem"><a href="getting_started.html">Getting Started</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

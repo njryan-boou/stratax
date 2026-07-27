@@ -118,18 +118,18 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
   <div class="headertitle"><div class="title">Reductions.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_reductions_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;<a class="code" href="_concepts_8hpp.html">stratax/core/Concepts.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;<a class="code" href="_exceptions_8hpp.html">stratax/core/Exceptions.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;<a class="code" href="_shape_8hpp.html">stratax/core/containers/Shape.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;stratax/core/Concepts.hpp&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;stratax/core/Exceptions.hpp&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;stratax/core/containers/Shape.hpp&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;<a class="code" href="_validation_8hpp.html">stratax/core/validation/Validation.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;<a class="code" href="_tensor_8hpp.html">stratax/core/containers/Tensor.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="_matrix_8hpp.html">stratax/core/containers/Matrix.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;<a class="code" href="_vector_8hpp.html">stratax/core/containers/Vector.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;<a class="code" href="_slice_8hpp.html">stratax/core/Slice.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;<a class="code" href="ops_2_slice_8hpp.html">stratax/core/ops/Slice.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="_conversions_8hpp.html">Conversions.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;stratax/core/containers/Tensor.hpp&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;stratax/core/containers/Matrix.hpp&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;stratax/core/containers/Vector.hpp&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;stratax/core/Slice.hpp&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stratax/core/ops/Slice.hpp&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;Conversions.hpp&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;numeric&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
@@ -137,14 +137,12 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespacereduction.html">   20</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacereduction.html">reduction</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span>reduction {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">// Advance multi-dimensional indices in row-major order</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// Advances indices to the next valid combination within the shape</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">// Returns true if more indices exist, false if we&#39;ve gone past the end</span></div>
-<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="namespacereduction.html#acc503c5f3559bb695ca151455dfffc40">   25</a></span><span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespacereduction.html#acc503c5f3559bb695ca151455dfffc40">advance</a>(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>&amp; shape, std::vector&lt;std::size_t&gt;&amp; indices)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">inline</span> <span class="keywordtype">bool</span> advance(<span class="keyword">const</span> stratax::core::Shape&amp; shape, std::vector&lt;std::size_t&gt;&amp; indices)</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>{</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// Start from the rightmost dimension</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = shape.<a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>() - 1; d &gt;= 0; --d) {</div>
@@ -157,11 +155,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;  <span class="comment">// All dimensions wrapped around, no more indices</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
-</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="namespacereduction.html#a03d5b4aab8ce7d6e0eaf6d5fe08aa8fc">   40</a></span><span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="namespacereduction.html#a03d5b4aab8ce7d6e0eaf6d5fe08aa8fc">normalize_axis</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">inline</span> <span class="keywordtype">int</span> normalize_axis(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">int</span> init = axis;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">if</span> (axis &lt; 0)</div>
@@ -171,13 +167,11 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">return</span> init;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
-</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="namespacereduction.html#acb33cbf717d8c3ae6c6d39a47ddaadcf">   52</a></span><span class="keyword">inline</span> std::vector&lt;std::size_t&gt; <a class="code hl_function" href="namespacereduction.html#acb33cbf717d8c3ae6c6d39a47ddaadcf">result_shape</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">inline</span> std::vector&lt;std::size_t&gt; result_shape(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a> input_shape = arr.shape();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    stratax::core::Shape input_shape = arr.shape();</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::vector&lt;std::size_t&gt; result_dimensions;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    </div>
@@ -210,36 +204,34 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> result_dimensions;</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
-</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">template</span>&lt;Array A, <span class="keyword">typename</span> Func&gt;</div>
-<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">   88</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(<span class="keyword">const</span> A&amp; array, <span class="keywordtype">int</span> axis, Func func, <span class="keywordtype">bool</span> keepdims = <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keyword">auto</span> axis_reduce(<span class="keyword">const</span> A&amp; array, <span class="keywordtype">int</span> axis, Func func, <span class="keywordtype">bool</span> keepdims = <span class="keyword">false</span>)</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>{</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keyword">using </span>ResultType =</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keyword">decltype</span>(func(std::declval&lt;<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a>&amp;&gt;()));</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keyword">decltype</span>(func(std::declval&lt;<span class="keyword">const</span> stratax::container::Tensor&lt;typename A::value_type&gt;&amp;&gt;()));</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">int</span> Axis = <a class="code hl_function" href="namespacereduction.html#a03d5b4aab8ce7d6e0eaf6d5fe08aa8fc">normalize_axis</a>(array, axis);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">int</span> Axis = normalize_axis(array, axis);</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">if</span> (Axis &lt; 0 || Axis &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(array.rank()))</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_axis_error.html">Exceptions::AxisError</a>(<span class="stringliteral">&quot;axis is out of range.&quot;</span>);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">throw</span> Exceptions::AxisError(<span class="stringliteral">&quot;axis is out of range.&quot;</span>);</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> arr = <a class="code hl_function" href="_conversions_8hpp.html#a57baab83de6ed5a75427515dcc653e66">to_tensor</a>(array);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    stratax::container::Tensor&lt;typename A::value_type&gt; arr = to_tensor(array);</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a> input_shape = arr.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a2eab6b53d9b77966b413835ad675c0ee">shape</a>();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">const</span> stratax::core::Shape input_shape = arr.<a class="code hl_function" href="classstratax_1_1container_1_1_tensor.html#a2eab6b53d9b77966b413835ad675c0ee">shape</a>();</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    std::vector&lt;std::size_t&gt; result_dims = <a class="code hl_function" href="namespacereduction.html#acb33cbf717d8c3ae6c6d39a47ddaadcf">result_shape</a>(array, Axis, keepdims);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    std::vector&lt;std::size_t&gt; result_dims = result_shape(array, Axis, keepdims);</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// A zero-dimensional tensor cannot store values in the current API.</span></div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="comment">// Represent scalar reductions as a single-element tensor.</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (result_dims.empty())</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    {</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        ResultType scalar_result = func(arr);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;ResultType&gt;</a>(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>{1}, scalar_result);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">return</span> stratax::container::Tensor&lt;ResultType&gt;(stratax::core::Shape{1}, scalar_result);</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;ResultType&gt;</a> result(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>{result_dims});</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    stratax::container::Tensor&lt;ResultType&gt; result(stratax::core::Shape{result_dims});</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    std::vector&lt;std::size_t&gt; output_index(result.rank(), 0);</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    std::vector&lt;stratax::core::Slice&gt; slices;</div>
@@ -251,7 +243,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        {</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(dimension) == Axis)</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                slices.push_back(<a class="code hl_class" href="classstratax_1_1core_1_1_slice.html">stratax::core::Slice</a>{<span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(0), </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                slices.push_back(stratax::core::Slice{<span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(0), </div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                <span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(input_shape[dimension])});</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            }</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
@@ -261,27 +253,25 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                    ? output_index[dimension]</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                    : output_index[output_position++];</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                slices.push_back(<a class="code hl_class" href="classstratax_1_1core_1_1_slice.html">stratax::core::Slice</a>{</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                slices.push_back(stratax::core::Slice{</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                    <span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(index),</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                    <span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(index + 1)</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                });</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            }</div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        }</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keyword">auto</span> s = <a class="code hl_function" href="ops_2_slice_8hpp.html#a0d7a3ef95edd7051a871b707b8a8b1e0">slice</a>(arr, slices);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keyword">auto</span> s = slice(arr, slices);</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        ResultType value = func(s);</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        result(output_index) = value;</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">while</span> (<a class="code hl_function" href="namespacereduction.html#acc503c5f3559bb695ca151455dfffc40">reduction::advance</a>(result.shape(), output_index));</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">while</span> (reduction::advance(result.shape(), output_index));</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">return</span> result;</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>}</div>
-</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">// Global Reductions</span></div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00154" data-start="{" data-end="}">
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">  154</a></span><span class="keyword">typename</span> A::value_type <a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">sum</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keyword">typename</span> A::value_type sum(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>{</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">return</span> std::accumulate(</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        arr.begin(),</div>
@@ -289,11 +279,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keyword">typename</span> A::value_type(0)</div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    );</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
-</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00164" data-start="{" data-end="}">
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="namespacereduction.html#a7189056a738d209207cd63745912800c">  164</a></span><span class="keyword">typename</span> A::value_type <a class="code hl_function" href="namespacereduction.html#a7189056a738d209207cd63745912800c">prod</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="keyword">typename</span> A::value_type prod(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>{</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">return</span> std::accumulate(</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        arr.begin(),</div>
@@ -302,11 +290,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        std::multiplies&lt;typename A::value_type&gt;()</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    );</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
-</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00175" data-start="{" data-end="}">
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">  175</a></span><span class="keyword">typename</span> A::value_type <a class="code hl_function" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">max</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="keyword">typename</span> A::value_type max(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>{</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="keyword">auto</span> result = std::max_element(</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        arr.begin(),</div>
@@ -315,11 +301,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">return</span> *result;</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
-</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00186" data-start="{" data-end="}">
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">  186</a></span><span class="keyword">typename</span> A::value_type <a class="code hl_function" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">min</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="keyword">typename</span> A::value_type min(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>{</div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keyword">auto</span> result = std::min_element(</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        arr.begin(),</div>
@@ -328,11 +312,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordflow">return</span> *result;</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>}</div>
-</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">  197</a></span>std::size_t <a class="code hl_function" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">argmax</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>std::size_t argmax(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>{</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keyword">auto</span> result = std::max_element(</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        arr.begin(),</div>
@@ -341,11 +323,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(std::distance(arr.begin(), result));</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>}</div>
-</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00208" data-start="{" data-end="}">
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">  208</a></span>std::size_t <a class="code hl_function" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">argmin</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>std::size_t argmin(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>{</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="keyword">auto</span> result = std::min_element(</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        arr.begin(),</div>
@@ -354,19 +334,15 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(std::distance(arr.begin(), result));</div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>}</div>
-</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00219" data-start="{" data-end="}">
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">  219</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">mean</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="keywordtype">double</span> mean(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>{</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">sum</a>(arr)) / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(arr.size());</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sum(arr)) / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(arr.size());</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>}</div>
-</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00225" data-start="{" data-end="}">
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">  225</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">var</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="keywordtype">double</span> var(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>{</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordtype">double</span> count = 0.0;</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordtype">double</span> mean_value = 0.0;</div>
@@ -383,206 +359,137 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_reductions_8h
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordflow">return</span> count &gt; 0.0 ? m2 / count : 0.0;</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>}</div>
-</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00244" data-start="{" data-end="}">
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">  244</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">std</a>(<span class="keyword">const</span> A&amp; arr)</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="keywordtype">double</span> std(<span class="keyword">const</span> A&amp; arr)</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>{</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keyword">auto</span> vars = <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">var</a>(arr);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keyword">auto</span> vars = var(arr);</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordflow">return</span> std::sqrt(vars);</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>}</div>
-</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment">// Axis Reductions</span></div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00254" data-start="{" data-end="}">
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="namespacereduction.html#a2fe2526d2fa5e801d7359ff9a41d8e41">  254</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">sum</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>stratax::container::Tensor&lt;typename A::value_type&gt; sum(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>{</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">reduction::sum</a>(s); });</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::sum(s); });</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>}</div>
-</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00260" data-start="{" data-end="}">
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="namespacereduction.html#a8d0e0e12410b5c5903a4567d682fc36a">  260</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">sum</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>stratax::container::Tensor&lt;typename A::value_type&gt; sum(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>{</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">reduction::sum</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::sum(s); }, keepdims);</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>}</div>
-</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00266" data-start="{" data-end="}">
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="namespacereduction.html#a14e1a72bb922aa26e906e2fd008c316d">  266</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#a7189056a738d209207cd63745912800c">prod</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>stratax::container::Tensor&lt;typename A::value_type&gt; prod(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>{</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a7189056a738d209207cd63745912800c">reduction::prod</a>(s); });</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::prod(s); });</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>}</div>
-</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00272" data-start="{" data-end="}">
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="namespacereduction.html#aae61cdc38d93bffc14c0d0dda1ab11ff">  272</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#a7189056a738d209207cd63745912800c">prod</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>stratax::container::Tensor&lt;typename A::value_type&gt; prod(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>{</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a7189056a738d209207cd63745912800c">reduction::prod</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::prod(s); }, keepdims);</div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>}</div>
-</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00278" data-start="{" data-end="}">
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="namespacereduction.html#aba294e56e998be3d6e4c6e5822b10645">  278</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">max</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>stratax::container::Tensor&lt;typename A::value_type&gt; max(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>{</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">reduction::max</a>(s); });</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::max(s); });</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>}</div>
-</div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00284" data-start="{" data-end="}">
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="namespacereduction.html#a103e35ece5341cb7ad0b0a5dd699fbdb">  284</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">max</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>stratax::container::Tensor&lt;typename A::value_type&gt; max(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>{</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">reduction::max</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::max(s); }, keepdims);</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>}</div>
-</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00290" data-start="{" data-end="}">
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="namespacereduction.html#a9e95daf972ac73909db58e49235881c3">  290</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">min</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>stratax::container::Tensor&lt;typename A::value_type&gt; min(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>{</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">reduction::min</a>(s); });</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::min(s); });</div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>}</div>
-</div>
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00296" data-start="{" data-end="}">
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="namespacereduction.html#ae501b50f9e572fc56352fe7758321189">  296</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;typename A::value_type&gt;</a> <a class="code hl_function" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">min</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>stratax::container::Tensor&lt;typename A::value_type&gt; min(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>{</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">reduction::min</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::min(s); }, keepdims);</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>}</div>
-</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00302" data-start="{" data-end="}">
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="namespacereduction.html#a2dea5e272bf0bbc7d43bf821a7c19f59">  302</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;std::size_t&gt;</a> <a class="code hl_function" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">argmax</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>stratax::container::Tensor&lt;std::size_t&gt; argmax(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>{</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">reduction::argmax</a>(s); });</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::argmax(s); });</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>}</div>
-</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00308" data-start="{" data-end="}">
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="namespacereduction.html#ae87f53dcccc9628e04bb7d00d4553476">  308</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;std::size_t&gt;</a> <a class="code hl_function" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">argmax</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>stratax::container::Tensor&lt;std::size_t&gt; argmax(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>{</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">reduction::argmax</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::argmax(s); }, keepdims);</div>
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>}</div>
-</div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00314" data-start="{" data-end="}">
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="namespacereduction.html#abe0277d244b9c40bac8c6d8b2684da17">  314</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;std::size_t&gt;</a> <a class="code hl_function" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">argmin</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>stratax::container::Tensor&lt;std::size_t&gt; argmin(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>{</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">reduction::argmin</a>(s); });</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::argmin(s); });</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>}</div>
-</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00320" data-start="{" data-end="}">
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="namespacereduction.html#a8d0589eac34efd842ba0a84887d58b14">  320</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;std::size_t&gt;</a> <a class="code hl_function" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">argmin</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>stratax::container::Tensor&lt;std::size_t&gt; argmin(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>{</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">reduction::argmin</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::argmin(s); }, keepdims);</div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>}</div>
-</div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00326" data-start="{" data-end="}">
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno"><a class="line" href="namespacereduction.html#a6bfe3e1c81553f524b05750c61f21929">  326</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">mean</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>stratax::container::Tensor&lt;double&gt; mean(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>{</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">reduction::mean</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::mean(s); }, keepdims);</div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>}</div>
-</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00332" data-start="{" data-end="}">
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="namespacereduction.html#a13d159b890aa147867dd55c60f4008e7">  332</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">mean</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>stratax::container::Tensor&lt;double&gt; mean(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>{</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">reduction::mean</a>(s); });</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::mean(s); });</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>}</div>
-</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00338" data-start="{" data-end="}">
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="namespacereduction.html#a4ad97b018f131cced223c099a8155317">  338</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">var</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>stratax::container::Tensor&lt;double&gt; var(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>{</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">reduction::var</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::var(s); }, keepdims);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>}</div>
-</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00344" data-start="{" data-end="}">
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="namespacereduction.html#a4dda716c485be0157c19156762752fc9">  344</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">var</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>stratax::container::Tensor&lt;double&gt; var(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>{</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">reduction::var</a>(s); });</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::var(s); });</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>}</div>
-</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00350" data-start="{" data-end="}">
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno"><a class="line" href="namespacereduction.html#ac3777d325c2f8d9652fcd60664647b19">  350</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">std</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>stratax::container::Tensor&lt;double&gt; std(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis, <span class="keywordtype">bool</span> keepdims)</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>{</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">reduction::std</a>(s); }, keepdims);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::std(s); }, keepdims);</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>}</div>
-</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="foldopen" id="foldopen00356" data-start="{" data-end="}">
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="namespacereduction.html#af8ec18cada28d4196fde71f4145d8934">  356</a></span><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> <a class="code hl_function" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">std</a>(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>stratax::container::Tensor&lt;double&gt; std(<span class="keyword">const</span> A&amp; arr, <span class="keywordtype">int</span> axis)</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>{</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">axis_reduce</a>(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">reduction::std</a>(s); });</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordflow">return</span> axis_reduce(arr, axis, [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; s) { <span class="keywordflow">return</span> reduction::std(s); });</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>}</div>
-</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>}</div>
-</div>
-<div class="ttc" id="a_concepts_8hpp_html"><div class="ttname"><a href="_concepts_8hpp.html">Concepts.hpp</a></div></div>
-<div class="ttc" id="a_conversions_8hpp_html"><div class="ttname"><a href="_conversions_8hpp.html">Conversions.hpp</a></div></div>
-<div class="ttc" id="a_conversions_8hpp_html_a57baab83de6ed5a75427515dcc653e66"><div class="ttname"><a href="_conversions_8hpp.html#a57baab83de6ed5a75427515dcc653e66">to_tensor</a></div><div class="ttdeci">stratax::container::Tensor&lt; typename A::value_type &gt; to_tensor(const A &amp;arr)</div><div class="ttdoc">Converts an array-like object to a tensor.</div><div class="ttdef"><b>Definition</b> <a href="_conversions_8hpp_source.html#l00147">Conversions.hpp:147</a></div></div>
-<div class="ttc" id="a_exceptions_8hpp_html"><div class="ttname"><a href="_exceptions_8hpp.html">Exceptions.hpp</a></div></div>
-<div class="ttc" id="a_matrix_8hpp_html"><div class="ttname"><a href="_matrix_8hpp.html">Matrix.hpp</a></div></div>
-<div class="ttc" id="a_shape_8hpp_html"><div class="ttname"><a href="_shape_8hpp.html">Shape.hpp</a></div></div>
-<div class="ttc" id="a_slice_8hpp_html"><div class="ttname"><a href="_slice_8hpp.html">Slice.hpp</a></div></div>
-<div class="ttc" id="a_tensor_8hpp_html"><div class="ttname"><a href="_tensor_8hpp.html">Tensor.hpp</a></div></div>
 <div class="ttc" id="a_validation_8hpp_html"><div class="ttname"><a href="_validation_8hpp.html">Validation.hpp</a></div><div class="ttdoc">Shared runtime validation helpers.</div></div>
-<div class="ttc" id="a_vector_8hpp_html"><div class="ttname"><a href="_vector_8hpp.html">Vector.hpp</a></div></div>
-<div class="ttc" id="aclass_exceptions_1_1_axis_error_html"><div class="ttname"><a href="class_exceptions_1_1_axis_error.html">Exceptions::AxisError</a></div><div class="ttdoc">Signals axis is out of range.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00057">Exceptions.hpp:58</a></div></div>
-<div class="ttc" id="aclassstratax_1_1container_1_1_tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a></div><div class="ttdef"><b>Definition</b> <a href="_tensor_8hpp_source.html#l00030">Tensor.hpp:31</a></div></div>
 <div class="ttc" id="aclassstratax_1_1container_1_1_tensor_html_a2eab6b53d9b77966b413835ad675c0ee"><div class="ttname"><a href="classstratax_1_1container_1_1_tensor.html#a2eab6b53d9b77966b413835ad675c0ee">stratax::container::Tensor::shape</a></div><div class="ttdeci">const core::Shape &amp; shape() const noexcept</div><div class="ttdoc">Returns the tensor shape.</div><div class="ttdef"><b>Definition</b> <a href="_tensor_8hpp_source.html#l00145">Tensor.hpp:145</a></div></div>
-<div class="ttc" id="aclassstratax_1_1core_1_1_shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores a list of dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="_shape_8hpp_source.html#l00021">Shape.hpp:22</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_aab594827ada8a1e18080ab513d0505ec"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">stratax::core::Shape::rank</a></div><div class="ttdeci">std::size_t rank() const</div><div class="ttdoc">Returns the number of stored dimensions.</div><div class="ttdef"><b>Definition</b> <a href="_shape_8hpp_source.html#l00161">Shape.hpp:161</a></div></div>
-<div class="ttc" id="aclassstratax_1_1core_1_1_slice_html"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html">stratax::core::Slice</a></div><div class="ttdoc">Represents a half-open strided range of indices.</div><div class="ttdef"><b>Definition</b> <a href="_slice_8hpp_source.html#l00015">Slice.hpp:16</a></div></div>
-<div class="ttc" id="anamespacereduction_html"><div class="ttname"><a href="namespacereduction.html">reduction</a></div><div class="ttdef"><b>Definition</b> <a href="#l00020">Reductions.hpp:20</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a03d5b4aab8ce7d6e0eaf6d5fe08aa8fc"><div class="ttname"><a href="namespacereduction.html#a03d5b4aab8ce7d6e0eaf6d5fe08aa8fc">reduction::normalize_axis</a></div><div class="ttdeci">int normalize_axis(const A &amp;arr, int axis)</div><div class="ttdef"><b>Definition</b> <a href="#l00040">Reductions.hpp:40</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a1cb71c9894b03589ebd01adf8618ff73"><div class="ttname"><a href="namespacereduction.html#a1cb71c9894b03589ebd01adf8618ff73">reduction::axis_reduce</a></div><div class="ttdeci">auto axis_reduce(const A &amp;array, int axis, Func func, bool keepdims=false)</div><div class="ttdef"><b>Definition</b> <a href="#l00088">Reductions.hpp:88</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a36e61131a33835a1164bc4cb55ef5731"><div class="ttname"><a href="namespacereduction.html#a36e61131a33835a1164bc4cb55ef5731">reduction::mean</a></div><div class="ttdeci">double mean(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00219">Reductions.hpp:219</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a51eaa8307f71bf8797c94d74e4bf85f8"><div class="ttname"><a href="namespacereduction.html#a51eaa8307f71bf8797c94d74e4bf85f8">reduction::var</a></div><div class="ttdeci">double var(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00225">Reductions.hpp:225</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a5f48c6800db11d310fb182788d1dfeca"><div class="ttname"><a href="namespacereduction.html#a5f48c6800db11d310fb182788d1dfeca">reduction::argmax</a></div><div class="ttdeci">std::size_t argmax(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00197">Reductions.hpp:197</a></div></div>
-<div class="ttc" id="anamespacereduction_html_a7189056a738d209207cd63745912800c"><div class="ttname"><a href="namespacereduction.html#a7189056a738d209207cd63745912800c">reduction::prod</a></div><div class="ttdeci">A::value_type prod(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00164">Reductions.hpp:164</a></div></div>
-<div class="ttc" id="anamespacereduction_html_aa4a6ba6bb78053dc63a20674da756f93"><div class="ttname"><a href="namespacereduction.html#aa4a6ba6bb78053dc63a20674da756f93">reduction::argmin</a></div><div class="ttdeci">std::size_t argmin(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00208">Reductions.hpp:208</a></div></div>
-<div class="ttc" id="anamespacereduction_html_ac7a9ac5d07f5805191e92e11142bf913"><div class="ttname"><a href="namespacereduction.html#ac7a9ac5d07f5805191e92e11142bf913">reduction::min</a></div><div class="ttdeci">A::value_type min(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00186">Reductions.hpp:186</a></div></div>
-<div class="ttc" id="anamespacereduction_html_acb33cbf717d8c3ae6c6d39a47ddaadcf"><div class="ttname"><a href="namespacereduction.html#acb33cbf717d8c3ae6c6d39a47ddaadcf">reduction::result_shape</a></div><div class="ttdeci">std::vector&lt; std::size_t &gt; result_shape(const A &amp;arr, int axis, bool keepdims)</div><div class="ttdef"><b>Definition</b> <a href="#l00052">Reductions.hpp:52</a></div></div>
-<div class="ttc" id="anamespacereduction_html_acc503c5f3559bb695ca151455dfffc40"><div class="ttname"><a href="namespacereduction.html#acc503c5f3559bb695ca151455dfffc40">reduction::advance</a></div><div class="ttdeci">bool advance(const stratax::core::Shape &amp;shape, std::vector&lt; std::size_t &gt; &amp;indices)</div><div class="ttdef"><b>Definition</b> <a href="#l00025">Reductions.hpp:25</a></div></div>
-<div class="ttc" id="anamespacereduction_html_ad82c5e17d3d85fc0504bf4750e33f932"><div class="ttname"><a href="namespacereduction.html#ad82c5e17d3d85fc0504bf4750e33f932">reduction::max</a></div><div class="ttdeci">A::value_type max(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00175">Reductions.hpp:175</a></div></div>
-<div class="ttc" id="anamespacereduction_html_aef1cd6f203b80187d225c4bbddfed6e6"><div class="ttname"><a href="namespacereduction.html#aef1cd6f203b80187d225c4bbddfed6e6">reduction::sum</a></div><div class="ttdeci">A::value_type sum(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00154">Reductions.hpp:154</a></div></div>
-<div class="ttc" id="anamespacereduction_html_afd927dbfed38e9e9210e8a99467c4d03"><div class="ttname"><a href="namespacereduction.html#afd927dbfed38e9e9210e8a99467c4d03">reduction::std</a></div><div class="ttdeci">double std(const A &amp;arr)</div><div class="ttdef"><b>Definition</b> <a href="#l00244">Reductions.hpp:244</a></div></div>
-<div class="ttc" id="aops_2_slice_8hpp_html"><div class="ttname"><a href="ops_2_slice_8hpp.html">Slice.hpp</a></div></div>
-<div class="ttc" id="aops_2_slice_8hpp_html_a0d7a3ef95edd7051a871b707b8a8b1e0"><div class="ttname"><a href="ops_2_slice_8hpp.html#a0d7a3ef95edd7051a871b707b8a8b1e0">slice</a></div><div class="ttdeci">stratax::container::Vector&lt; T &gt; slice(const stratax::container::Vector&lt; T &gt; &amp;vec, const stratax::core::Slice &amp;slice)</div><div class="ttdoc">Copies a half-open range from a vector.</div><div class="ttdef"><b>Definition</b> <a href="ops_2_slice_8hpp_source.html#l00143">Slice.hpp:143</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d81e4652eb261ab36273d7eb7356393d.html">stratax</a></li><li class="navelem"><a href="dir_dc51df17c4a34e29a69d782eec26d6c5.html">core</a></li><li class="navelem"><a href="dir_5fc366465544f74d62d590f5407508e4.html">algorithms</a></li><li class="navelem"><a href="_reductions_8hpp.html">Reductions.hpp</a></li>
+    <li class="navelem"><b>include</b></li><li class="navelem"><b>stratax</b></li><li class="navelem"><b>core</b></li><li class="navelem"><b>algorithms</b></li><li class="navelem"><b>Reductions.hpp</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

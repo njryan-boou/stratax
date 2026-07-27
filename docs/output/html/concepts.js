@@ -1,8 +1,8 @@
 var concepts =
 [
-    [ "stratax", "namespacestratax.html", [
-      [ "core", "namespacestratax_1_1core.html", [
-        [ "concept_detail", "namespacestratax_1_1core_1_1concept__detail.html", [
+    [ "stratax", null, [
+      [ "core", null, [
+        [ "concept_detail", null, [
           [ "SameAsAny", "conceptstratax_1_1core_1_1concept__detail_1_1_same_as_any.html", null ],
           [ "CharacterLike", "conceptstratax_1_1core_1_1concept__detail_1_1_character_like.html", null ],
           [ "BoolLike", "conceptstratax_1_1core_1_1concept__detail_1_1_bool_like.html", null ],

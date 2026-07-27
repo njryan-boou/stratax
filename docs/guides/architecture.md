@@ -1,4 +1,6 @@
-# Architecture {#architecture}
+@page architecture Architecture
+
+# Architecture
 
 Developer notes for the overall Stratax project layout and design direction.
 

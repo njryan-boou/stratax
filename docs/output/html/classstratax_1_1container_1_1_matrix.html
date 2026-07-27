@@ -118,8 +118,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classstratax_1
   <div class="headertitle"><div class="title">stratax::container::Matrix&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="_matrix_8hpp_source.html">Matrix.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -139,16 +137,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7fb422da3d1ba9f831f34df14a8056b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a matrix and fills it with a value.  <br /></td></tr>
 <tr class="memitem:a347f057e9ede2f3bb1a224074a37567c" id="r_a347f057e9ede2f3bb1a224074a37567c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a347f057e9ede2f3bb1a224074a37567c">Matrix</a> (std::initializer_list&lt; std::initializer_list&lt; T &gt; &gt; list)</td></tr>
 <tr class="memdesc:a347f057e9ede2f3bb1a224074a37567c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a matrix from a nested initializer list.  <br /></td></tr>
-<tr class="memitem:aa813cd0abcc9e56e145a91c0b0239d1a" id="r_aa813cd0abcc9e56e145a91c0b0239d1a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa813cd0abcc9e56e145a91c0b0239d1a">Matrix</a> (const Matrix &amp;)=default</td></tr>
-<tr class="memdesc:aa813cd0abcc9e56e145a91c0b0239d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another matrix.  <br /></td></tr>
-<tr class="memitem:aa662952f5c7c228f2d3c3f256923050b" id="r_aa662952f5c7c228f2d3c3f256923050b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa662952f5c7c228f2d3c3f256923050b">Matrix</a> (Matrix &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:aa662952f5c7c228f2d3c3f256923050b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another matrix.  <br /></td></tr>
-<tr class="memitem:a7b92b0406694bfc2dd0d3ef6c62e8ad6" id="r_a7b92b0406694bfc2dd0d3ef6c62e8ad6"><td class="memItemLeft"><a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7b92b0406694bfc2dd0d3ef6c62e8ad6">operator=</a> (const <a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;)=default</td></tr>
-<tr class="memdesc:a7b92b0406694bfc2dd0d3ef6c62e8ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this matrix with a copy of another matrix.  <br /></td></tr>
-<tr class="memitem:a8e661d29eb0932f96daa7438e6edbccf" id="r_a8e661d29eb0932f96daa7438e6edbccf"><td class="memItemLeft"><a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8e661d29eb0932f96daa7438e6edbccf">operator=</a> (<a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a8e661d29eb0932f96daa7438e6edbccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this matrix by taking ownership from another matrix.  <br /></td></tr>
-<tr class="memitem:aa2dc134c3e3cb622b7880bf8a34c9f74" id="r_aa2dc134c3e3cb622b7880bf8a34c9f74"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa2dc134c3e3cb622b7880bf8a34c9f74">~Matrix</a> ()=default</td></tr>
-<tr class="memdesc:aa2dc134c3e3cb622b7880bf8a34c9f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the matrix.  <br /></td></tr>
+<tr class="memitem:aa813cd0abcc9e56e145a91c0b0239d1a" id="r_aa813cd0abcc9e56e145a91c0b0239d1a"><td class="memItemLeft"><a id="aa813cd0abcc9e56e145a91c0b0239d1a" name="aa813cd0abcc9e56e145a91c0b0239d1a"></a>
+&#160;</td><td class="memItemRight"><b>Matrix</b> (const Matrix &amp;)=default</td></tr>
+<tr class="memdesc:aa813cd0abcc9e56e145a91c0b0239d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another matrix. <br /></td></tr>
+<tr class="memitem:aa662952f5c7c228f2d3c3f256923050b" id="r_aa662952f5c7c228f2d3c3f256923050b"><td class="memItemLeft"><a id="aa662952f5c7c228f2d3c3f256923050b" name="aa662952f5c7c228f2d3c3f256923050b"></a>
+&#160;</td><td class="memItemRight"><b>Matrix</b> (Matrix &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:aa662952f5c7c228f2d3c3f256923050b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another matrix. <br /></td></tr>
+<tr class="memitem:a7b92b0406694bfc2dd0d3ef6c62e8ad6" id="r_a7b92b0406694bfc2dd0d3ef6c62e8ad6"><td class="memItemLeft"><a id="a7b92b0406694bfc2dd0d3ef6c62e8ad6" name="a7b92b0406694bfc2dd0d3ef6c62e8ad6"></a>
+<a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;)=default</td></tr>
+<tr class="memdesc:a7b92b0406694bfc2dd0d3ef6c62e8ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this matrix with a copy of another matrix. <br /></td></tr>
+<tr class="memitem:a8e661d29eb0932f96daa7438e6edbccf" id="r_a8e661d29eb0932f96daa7438e6edbccf"><td class="memItemLeft"><a id="a8e661d29eb0932f96daa7438e6edbccf" name="a8e661d29eb0932f96daa7438e6edbccf"></a>
+<a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:a8e661d29eb0932f96daa7438e6edbccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this matrix by taking ownership from another matrix. <br /></td></tr>
+<tr class="memitem:aa2dc134c3e3cb622b7880bf8a34c9f74" id="r_aa2dc134c3e3cb622b7880bf8a34c9f74"><td class="memItemLeft"><a id="aa2dc134c3e3cb622b7880bf8a34c9f74" name="aa2dc134c3e3cb622b7880bf8a34c9f74"></a>
+&#160;</td><td class="memItemRight"><b>~Matrix</b> ()=default</td></tr>
+<tr class="memdesc:aa2dc134c3e3cb622b7880bf8a34c9f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the matrix. <br /></td></tr>
 <tr class="memitem:ac8a241fe35ea850d7b5046b87eecdbc7" id="r_ac8a241fe35ea850d7b5046b87eecdbc7"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ac8a241fe35ea850d7b5046b87eecdbc7">size</a> () const noexcept</td></tr>
 <tr class="memdesc:ac8a241fe35ea850d7b5046b87eecdbc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of elements in the matrix.  <br /></td></tr>
 <tr class="memitem:a454ec790954af3faea24f1dc273726c7" id="r_a454ec790954af3faea24f1dc273726c7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a454ec790954af3faea24f1dc273726c7">empty</a> () const noexcept</td></tr>
@@ -262,7 +265,7 @@ template&lt;typename T&gt; </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a33ccc6a582e891adb747e80e45eeae8f" name="a33ccc6a582e891adb747e80e45eeae8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33ccc6a582e891adb747e80e45eeae8f">&#9670;&#160;</a></span>Matrix() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a33ccc6a582e891adb747e80e45eeae8f">&#9670;&#160;</a></span>Matrix() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +297,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ace69d229aa22754d5e806e4a53a853ba" name="ace69d229aa22754d5e806e4a53a853ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace69d229aa22754d5e806e4a53a853ba">&#9670;&#160;</a></span>Matrix() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ace69d229aa22754d5e806e4a53a853ba">&#9670;&#160;</a></span>Matrix() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -336,7 +339,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a8d55aa011a73af44a310445b7ec92325" name="a8d55aa011a73af44a310445b7ec92325"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d55aa011a73af44a310445b7ec92325">&#9670;&#160;</a></span>Matrix() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d55aa011a73af44a310445b7ec92325">&#9670;&#160;</a></span>Matrix() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +382,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a7fb422da3d1ba9f831f34df14a8056b3" name="a7fb422da3d1ba9f831f34df14a8056b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fb422da3d1ba9f831f34df14a8056b3">&#9670;&#160;</a></span>Matrix() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fb422da3d1ba9f831f34df14a8056b3">&#9670;&#160;</a></span>Matrix() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +430,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a347f057e9ede2f3bb1a224074a37567c" name="a347f057e9ede2f3bb1a224074a37567c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a347f057e9ede2f3bb1a224074a37567c">&#9670;&#160;</a></span>Matrix() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a347f057e9ede2f3bb1a224074a37567c">&#9670;&#160;</a></span>Matrix() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -467,93 +470,6 @@ template&lt;typename T&gt; </div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_matrix_8hpp_source.html#l00104">104</a> of file <a class="el" href="_matrix_8hpp_source.html">Matrix.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aa813cd0abcc9e56e145a91c0b0239d1a" name="aa813cd0abcc9e56e145a91c0b0239d1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa813cd0abcc9e56e145a91c0b0239d1a">&#9670;&#160;</a></span>Matrix() <span class="overload">[6/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_matrix.html">stratax::container::Matrix</a>&lt; T &gt;::Matrix </td>
-          <td>(</td>
-          <td class="paramtype">const Matrix&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a copy of another matrix. </p>
-
-</div>
-</div>
-<a id="aa662952f5c7c228f2d3c3f256923050b" name="aa662952f5c7c228f2d3c3f256923050b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa662952f5c7c228f2d3c3f256923050b">&#9670;&#160;</a></span>Matrix() <span class="overload">[7/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_matrix.html">stratax::container::Matrix</a>&lt; T &gt;::Matrix </td>
-          <td>(</td>
-          <td class="paramtype">Matrix&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Transfers ownership from another matrix. </p>
-
-</div>
-</div>
-<a id="aa2dc134c3e3cb622b7880bf8a34c9f74" name="aa2dc134c3e3cb622b7880bf8a34c9f74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2dc134c3e3cb622b7880bf8a34c9f74">&#9670;&#160;</a></span>~Matrix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_matrix.html">stratax::container::Matrix</a>&lt; T &gt;::~<a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destroys the matrix. </p>
 
 </div>
 </div>
@@ -1327,64 +1243,6 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a7b92b0406694bfc2dd0d3ef6c62e8ad6" name="a7b92b0406694bfc2dd0d3ef6c62e8ad6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b92b0406694bfc2dd0d3ef6c62e8ad6">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp; <a class="el" href="classstratax_1_1container_1_1_matrix.html">stratax::container::Matrix</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this matrix with a copy of another matrix. </p>
-
-</div>
-</div>
-<a id="a8e661d29eb0932f96daa7438e6edbccf" name="a8e661d29eb0932f96daa7438e6edbccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e661d29eb0932f96daa7438e6edbccf">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a> &amp; <a class="el" href="classstratax_1_1container_1_1_matrix.html">stratax::container::Matrix</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a33ccc6a582e891adb747e80e45eeae8f">Matrix</a>&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this matrix by taking ownership from another matrix. </p>
-
-</div>
-</div>
 <a id="a9c504e972ef0f691c1baae45aa1e407e" name="a9c504e972ef0f691c1baae45aa1e407e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9c504e972ef0f691c1baae45aa1e407e">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
@@ -1805,7 +1663,7 @@ template&lt;typename T&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacestratax.html">stratax</a></li><li class="navelem"><a href="namespacestratax_1_1container.html">container</a></li><li class="navelem"><a href="classstratax_1_1container_1_1_matrix.html">Matrix</a></li>
+    <li class="navelem"><b>stratax</b></li><li class="navelem"><b>container</b></li><li class="navelem"><a href="classstratax_1_1container_1_1_matrix.html">Matrix</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

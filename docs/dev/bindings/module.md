@@ -1,4 +1,6 @@
-# _core Extension Module {#dev_module}
+@page dev_module "_core Extension Module"
+
+# _core Extension Module
 
 Version: v0.2.0
 

@@ -122,14 +122,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('arithmetic.htm
 Arithmetic</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="_arithmetic_8hpp.html">include/stratax/core/ops/Arithmetic.hpp</a></span></p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md686"></a>
-Overview</h2>
-<p><span class="tt"><a class="el" href="_arithmetic_8hpp.html">Arithmetic.hpp</a></span> defines generic element-wise arithmetic for Stratax array-like containers.</p>
-<p>It provides array-array, array-scalar, scalar-array, compound assignment, and unary operators for types satisfying the <span class="tt"><a class="el" href="concept_array.html">Array</a></span> and <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> concepts.</p>
+<p>Header: <span class="tt"><a class="el" href="_arithmetic_8hpp_source.html">include/stratax/core/ops/Arithmetic.hpp</a></span></p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
+Overview</h2>
+<p><span class="tt"><a class="el" href="_arithmetic_8hpp_source.html">Arithmetic.hpp</a></span> defines generic element-wise arithmetic for Stratax array-like containers.</p>
+<p>It provides array-array, array-scalar, scalar-array, compound assignment, and unary operators for types satisfying the <span class="tt"><a class="el" href="concept_array.html">Array</a></span> and <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> concepts.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
 Responsibilities</h2>
 <p>The arithmetic module is responsible for:</p>
 <ul>
@@ -145,7 +145,7 @@ Responsibilities</h2>
 <li>SIMD or parallel execution policy</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md692"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Arithmetic operators</div>
 <div class="line">├── Array concept constraints</div>
@@ -154,16 +154,16 @@ Relationships</h2>
 <div class="line">└── Exceptions::ZeroDivisionError for division checks</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="_concepts_8hpp.html">include/stratax/core/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_exceptions_8hpp.html">include/stratax/core/Exceptions.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_exceptions_8hpp_source.html">include/stratax/core/Exceptions.hpp</a></span></li>
 </ul>
 <p>Used by:</p>
 <ul>
 <li>User-facing vector/matrix/tensor arithmetic expressions</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md692"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -174,13 +174,12 @@ Invariants</h2>
 <li>Division by zero raises <span class="tt"><a class="el" href="class_exceptions_1_1_zero_division_error.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md696"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md695"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md697"></a>
 Shape guard</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="_arithmetic_8hpp.html#a74ff6831787e3139dab7efa487b3d58d">require_same_arithmetic_shape</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a74ff6831787e3139dab7efa487b3d58d"><div class="ttname"><a href="_arithmetic_8hpp.html#a74ff6831787e3139dab7efa487b3d58d">require_same_arithmetic_shape</a></div><div class="ttdeci">void require_same_arithmetic_shape(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Verifies that two arrays have the same shape before arithmetic.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00016">Arithmetic.hpp:16</a></div></div>
+<div class="line"><span class="keywordtype">void</span> require_same_arithmetic_shape(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_shape_error.html" title="Signals an invalid or incompatible shape.">Exceptions::ShapeError</a></span> on shape mismatch</li>
@@ -189,16 +188,12 @@ Shape guard</h3>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md696"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md698"></a>
 Array-array operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aa9cf2ecccc44fe9ab7f3bf3df03c75f8">operator+</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#ae2f80d18d1b34e4d169139962dd41c94">operator-</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aebac430563f7dc85dcd44c487ee444da">operator*</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#a7446b32fd2eee59bb982925deae7bea1">operator/</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a7446b32fd2eee59bb982925deae7bea1"><div class="ttname"><a href="_arithmetic_8hpp.html#a7446b32fd2eee59bb982925deae7bea1">operator/</a></div><div class="ttdeci">A operator/(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Divides two arrays element by element.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00123">Arithmetic.hpp:123</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_aa9cf2ecccc44fe9ab7f3bf3df03c75f8"><div class="ttname"><a href="_arithmetic_8hpp.html#aa9cf2ecccc44fe9ab7f3bf3df03c75f8">operator+</a></div><div class="ttdeci">A operator+(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Adds two arrays element by element.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00035">Arithmetic.hpp:35</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_ae2f80d18d1b34e4d169139962dd41c94"><div class="ttname"><a href="_arithmetic_8hpp.html#ae2f80d18d1b34e4d169139962dd41c94">operator-</a></div><div class="ttdeci">A operator-(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Subtracts two arrays element by element.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00064">Arithmetic.hpp:64</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_aebac430563f7dc85dcd44c487ee444da"><div class="ttname"><a href="_arithmetic_8hpp.html#aebac430563f7dc85dcd44c487ee444da">operator*</a></div><div class="ttdeci">A operator*(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Multiplies two arrays element by element.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00093">Arithmetic.hpp:93</a></div></div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator*(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator/(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_shape_error.html" title="Signals an invalid or incompatible shape.">Exceptions::ShapeError</a></span> on shape mismatch</li>
@@ -208,12 +203,12 @@ Array-array operators</h3>
 <ul>
 <li>O(n), plus O(r) shape check</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md697"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md699"></a>
 Array-scalar operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aa9cf2ecccc44fe9ab7f3bf3df03c75f8">operator+</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#ae2f80d18d1b34e4d169139962dd41c94">operator-</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aebac430563f7dc85dcd44c487ee444da">operator*</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#a7446b32fd2eee59bb982925deae7bea1">operator/</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator*(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator/(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
 <div class="ttc" id="aconcept_scalar_html"><div class="ttname"><a href="concept_scalar.html">Scalar</a></div><div class="ttdoc">Alias for any scalar type accepted by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00162">Concepts.hpp:162</a></div></div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
@@ -223,12 +218,12 @@ Array-scalar operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md698"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md700"></a>
 Scalar-array operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aa9cf2ecccc44fe9ab7f3bf3df03c75f8">operator+</a>(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#ae2f80d18d1b34e4d169139962dd41c94">operator-</a>(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aebac430563f7dc85dcd44c487ee444da">operator*</a>(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#a7446b32fd2eee59bb982925deae7bea1">operator/</a>(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator+(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator-(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator*(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator/(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_zero_division_error.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span> for <span class="tt">operator/</span> when any array element is zero</li>
@@ -237,21 +232,17 @@ Scalar-array operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md699"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md701"></a>
 Compound assignment operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a28a87cd97c980983d3fec97643c5444a">operator+=</a>(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a593b978f2a1cb24e9ea854cb02f6378a">operator-=</a>(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a2b17da3481f7bb8a9b3ca1ffee4b996e">operator*=</a>(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a44dc5a14ffa5bc71bfcbd908c9242a48">operator/=</a>(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator*=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator/=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a28a87cd97c980983d3fec97643c5444a">operator+=</a>(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a593b978f2a1cb24e9ea854cb02f6378a">operator-=</a>(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a2b17da3481f7bb8a9b3ca1ffee4b996e">operator*=</a>(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; <a class="code hl_function" href="_arithmetic_8hpp.html#a44dc5a14ffa5bc71bfcbd908c9242a48">operator/=</a>(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a28a87cd97c980983d3fec97643c5444a"><div class="ttname"><a href="_arithmetic_8hpp.html#a28a87cd97c980983d3fec97643c5444a">operator+=</a></div><div class="ttdeci">A &amp; operator+=(A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Adds an array to itself in place.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00335">Arithmetic.hpp:335</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a2b17da3481f7bb8a9b3ca1ffee4b996e"><div class="ttname"><a href="_arithmetic_8hpp.html#a2b17da3481f7bb8a9b3ca1ffee4b996e">operator*=</a></div><div class="ttdeci">A &amp; operator*=(A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Multiplies an array by another array in place.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00367">Arithmetic.hpp:367</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a44dc5a14ffa5bc71bfcbd908c9242a48"><div class="ttname"><a href="_arithmetic_8hpp.html#a44dc5a14ffa5bc71bfcbd908c9242a48">operator/=</a></div><div class="ttdeci">A &amp; operator/=(A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Divides an array by another array in place.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00384">Arithmetic.hpp:384</a></div></div>
-<div class="ttc" id="a_arithmetic_8hpp_html_a593b978f2a1cb24e9ea854cb02f6378a"><div class="ttname"><a href="_arithmetic_8hpp.html#a593b978f2a1cb24e9ea854cb02f6378a">operator-=</a></div><div class="ttdeci">A &amp; operator-=(A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Subtracts an array from itself in place.</div><div class="ttdef"><b>Definition</b> <a href="_arithmetic_8hpp_source.html#l00351">Arithmetic.hpp:351</a></div></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator*=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator/=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
 <li>Same categories as corresponding non-compound operator</li>
@@ -260,10 +251,10 @@ Compound assignment operators</h3>
 <ul>
 <li>O(n), plus O(r) shape check for array-array forms</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md700"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md702"></a>
 Unary operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#ae2f80d18d1b34e4d169139962dd41c94">operator-</a>(<span class="keyword">const</span> A&amp; arr);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A <a class="code hl_function" href="_arithmetic_8hpp.html#aa9cf2ecccc44fe9ab7f3bf3df03c75f8">operator+</a>(<span class="keyword">const</span> A&amp; arr);</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; arr);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; arr);</div>
 </div><!-- fragment --><p>Behavior</p>
 <ul>
 <li>Unary minus multiplies by <span class="tt">-1</span></li>
@@ -274,13 +265,13 @@ Unary operators</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md702"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md704"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadRight">Complexity  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_arithmetic_8hpp.html#a74ff6831787e3139dab7efa487b3d58d" title="Verifies that two arrays have the same shape before arithmetic.">require_same_arithmetic_shape</a></span>  </td><td class="markdownTableBodyRight">O(r)  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">require_same_arithmetic_shape</span>  </td><td class="markdownTableBodyRight">O(r)  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Array-array operators  </td><td class="markdownTableBodyRight">O(n + r)  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -294,7 +285,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md704"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md706"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> sum = a + b;</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> shifted = a + 2.0;</div>
@@ -303,12 +294,12 @@ Examples</h2>
 <div class="line">a += b;</div>
 <div class="line">a *= 3.0;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md706"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md708"></a>
 Design Notes</h2>
 <p>Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.</p>
 <p>Compound assignments delegate to their non-compound counterparts to centralize validation and arithmetic behavior.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md708"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md710"></a>
 Future Improvements</h2>
 <ul>
 <li>Broadcasting semantics</li>
@@ -317,12 +308,12 @@ Future Improvements</h2>
 <li>Optional parallel backends</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md710"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md712"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="_concepts_8hpp.html">include/stratax/core/Concepts.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_comparison_8hpp.html">include/stratax/core/ops/Comparison.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_shape_validation_8hpp.html">include/stratax/core/validation/ShapeValidation.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_comparison_8hpp_source.html">include/stratax/core/ops/Comparison.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_shape_validation_8hpp_source.html">include/stratax/core/validation/ShapeValidation.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

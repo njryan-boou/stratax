@@ -1,7 +1,5 @@
 var classstratax_1_1container_1_1_matrix =
 [
-    [ "rebind", "classstratax_1_1container_1_1_matrix.html#a6262d1cefee4cff8fa49104137d460f9", null ],
-    [ "value_type", "classstratax_1_1container_1_1_matrix.html#a82dba402509f48208b10369532f54d41", null ],
     [ "Matrix", "classstratax_1_1container_1_1_matrix.html#a33ccc6a582e891adb747e80e45eeae8f", null ],
     [ "Matrix", "classstratax_1_1container_1_1_matrix.html#ace69d229aa22754d5e806e4a53a853ba", null ],
     [ "Matrix", "classstratax_1_1container_1_1_matrix.html#a8d55aa011a73af44a310445b7ec92325", null ],

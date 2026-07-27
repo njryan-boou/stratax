@@ -1,17 +1,23 @@
+@page getting_started Getting Started
+
 # Getting Started
 
 Welcome to Stratax!
 
 This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.
 
-Developer-focused design and implementation notes are available in [docs/dev/README.md](../dev/README.md).
+Developer-focused design and implementation notes are available in @ref dev_index "Developer Docs".
 
 **Documentation:**
+- @subpage user_guide
+- @subpage python_api
 - @subpage architecture
 - @subpage contributing
+- @subpage examples
+- @subpage troubleshooting
 - @subpage changelog
 - @subpage roadmap
-- [Developer Docs](../dev/README.md)
+- @ref dev_index "Developer Docs"
 
 ---
 
@@ -85,6 +91,15 @@ This command will:
 * Build the C++ extension
 * Install the Python package into the virtual environment
 
+For a quick Python-only setup from a fresh checkout:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e .
+python examples/python/vector.py
+```
+
 ---
 
 ## Build the Project
@@ -111,3 +126,22 @@ ctest --test-dir build --output-on-failure
 ```
 
 ---
+
+## Try the Examples
+
+Example programs are available in `examples/cpp` and `examples/python`.
+
+Run a Python example from the repository root after installing the package:
+
+```powershell
+python examples/python/vector.py
+```
+
+For C++ examples, include the repository `include/` directory and compile with
+C++20 support.
+
+With GCC or Clang-like compilers:
+
+```powershell
+g++ -std=c++20 -I include examples/cpp/vector.cpp -o vector_example
+```

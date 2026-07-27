@@ -122,14 +122,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('indexing.html'
 Indexing</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="_indexing_8hpp.html">include/stratax/core/ops/Indexing.hpp</a></span></p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md760"></a>
-Overview</h2>
-<p><span class="tt"><a class="el" href="_indexing_8hpp.html">Indexing.hpp</a></span> provides the core flat-offset computation used by multidimensional containers.</p>
-<p>The <span class="tt">offset(...)</span> helper maps a rank-matched index container to a row-major storage position using shape and stride metadata.</p>
+<p>Header: <span class="tt"><a class="el" href="_indexing_8hpp_source.html">include/stratax/core/ops/Indexing.hpp</a></span></p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md762"></a>
+Overview</h2>
+<p><span class="tt"><a class="el" href="_indexing_8hpp_source.html">Indexing.hpp</a></span> provides the core flat-offset computation used by multidimensional containers.</p>
+<p>The <span class="tt">offset(...)</span> helper maps a rank-matched index container to a row-major storage position using shape and stride metadata.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md764"></a>
 Responsibilities</h2>
 <p>The indexing module is responsible for:</p>
 <ul>
@@ -144,7 +144,7 @@ Responsibilities</h2>
 <li>Materializing slices/views</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md764"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md766"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">offset(shape, strides, index)</div>
 <div class="line">├── require_rank(...)</div>
@@ -153,10 +153,10 @@ Relationships</h2>
 <div class="line">└── Exceptions::IndexError translation</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="_shape_8hpp.html">include/stratax/core/containers/Shape.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_strides_8hpp.html">include/stratax/core/containers/Strides.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_shape_8hpp_source.html">include/stratax/core/containers/Shape.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_strides_8hpp_source.html">include/stratax/core/containers/Strides.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_exceptions_8hpp.html">include/stratax/core/Exceptions.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_exceptions_8hpp_source.html">include/stratax/core/Exceptions.hpp</a></span></li>
 </ul>
 <p>Used by:</p>
 <ul>
@@ -164,7 +164,7 @@ Relationships</h2>
 <li>Any row-major operation requiring flat addressing</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md766"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md768"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -174,16 +174,15 @@ Invariants</h2>
 <li>Overflow in multiplication/addition is translated to <span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md768"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md770"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md769"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md771"></a>
 offset(...)</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
-<div class="line">std::size_t <a class="code hl_function" href="_indexing_8hpp.html#aec120cd5319b79d80340205544603494">offset</a>(</div>
+<div class="line">std::size_t offset(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>&amp; shape,</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_strides.html">stratax::core::Strides</a>&amp; strides,</div>
 <div class="line">    <span class="keyword">const</span> IndexContainer&amp; index);</div>
-<div class="ttc" id="a_indexing_8hpp_html_aec120cd5319b79d80340205544603494"><div class="ttname"><a href="_indexing_8hpp.html#aec120cd5319b79d80340205544603494">offset</a></div><div class="ttdeci">std::size_t offset(const stratax::core::Shape &amp;shape, const stratax::core::Strides &amp;strides, const IndexContainer &amp;index)</div><div class="ttdoc">Computes a flat storage offset from a shape, strides, and index container.</div><div class="ttdef"><b>Definition</b> <a href="_indexing_8hpp_source.html#l00023">Indexing.hpp:23</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores a list of dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="_shape_8hpp_source.html#l00021">Shape.hpp:22</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_strides_html"><div class="ttname"><a href="classstratax_1_1core_1_1_strides.html">stratax::core::Strides</a></div><div class="ttdoc">Stores strides for a shape in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="_strides_8hpp_source.html#l00022">Strides.hpp:23</a></div></div>
 </div><!-- fragment --><p>Computes <span class="tt">sum(index[i] * strides[i])</span> after validation.</p>
@@ -203,7 +202,7 @@ offset(...)</h2>
 <li>O(r), where <span class="tt">r</span> is rank</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md771"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md773"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -216,32 +215,32 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone">Total <span class="tt">offset(...)</span>  </td><td class="markdownTableBodyRight">O(r)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md773"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md775"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a> shape(2, 3, 4);</div>
 <div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_strides.html">stratax::core::Strides</a> strides(shape);</div>
 <div class="line"><span class="keyword">const</span> std::array&lt;std::size_t, 3&gt; index{1, 0, 2};</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">const</span> std::size_t flat = <a class="code hl_function" href="_indexing_8hpp.html#aec120cd5319b79d80340205544603494">offset</a>(shape, strides, index);</div>
+<div class="line"><span class="keyword">const</span> std::size_t flat = offset(shape, strides, index);</div>
 <div class="line"><span class="comment">// row-major offset for [1,0,2]</span></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md775"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md777"></a>
 Design Notes</h2>
 <p>This helper intentionally keeps behavior strict and explicit: rank mismatch remains <span class="tt">DimensionError</span>, while per-component bounds and overflow are surfaced as <span class="tt">IndexError</span> for callers operating in indexing contexts.</p>
 <p>The API is generic over index containers to avoid forcing a project-specific index type.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md777"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md779"></a>
 Future Improvements</h2>
 <ul>
 <li>Add overloads for fixed-size index packs where rank is compile-time known.</li>
 <li>Add optional debug diagnostics exposing failing dimension indices.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md779"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md781"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="_tensor_8hpp.html">include/stratax/core/containers/Tensor.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_index_validation_8hpp.html">include/stratax/core/validation/IndexValidation.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="_tensor_8hpp_source.html">include/stratax/core/containers/Tensor.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_index_validation_8hpp_source.html">include/stratax/core/validation/IndexValidation.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

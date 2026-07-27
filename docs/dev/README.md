@@ -1,4 +1,6 @@
-# Developer Docs Index {#dev_index}
+@page dev_index Developer Docs Index
+
+# Developer Docs Index
 
 This index links the Stratax developer documentation organized by subsystem.
 
@@ -6,58 +8,58 @@ This index links the Stratax developer documentation organized by subsystem.
 
 ## Entry Point
 
-- [stratax.h](stratax.md)
+- @ref dev_stratax "stratax.h"
 
 ---
 
 ## Core
 
-- [Concepts](core/Concepts.md)
-- [Config](core/Config.md)
-- [Exceptions](core/Exceptions.md)
-- [Meta](core/Meta.md)
-- [Slice](core/Slice.md)
-- [Types](core/Types.md)
-- [Validation](core/Validation.md)
+- @ref concepts "Concepts"
+- @ref config "Config"
+- @ref exceptions "Exceptions"
+- @ref meta "Meta"
+- @ref slice "Slice"
+- @ref types "Types"
+- @ref validation "Validation"
 
 ---
 
 ## Core Containers
 
-- [Buffer](core/containers/Buffer.md)
-- [Shape](core/containers/Shape.md)
-- [Strides](core/containers/Strides.md)
-- [Vector](core/containers/Vector.md)
-- [Matrix](core/containers/Matrix.md)
-- [Tensor](core/containers/Tensor.md)
+- @ref buffer "Buffer"
+- @ref shape "Shape"
+- @ref strides "Strides"
+- @ref vector "Vector"
+- @ref matrix "Matrix"
+- @ref tensor "Tensor"
 
 ---
 
 ## Core Algorithms
 
-- [Creation](core/algorithms/Creation.md)
-- [Conversions](core/algorithms/Conversions.md)
-- [Reshape](core/algorithms/Reshape.md)
-- [Reductions](core/algorithms/Reductions.md)
+- @ref creation "Creation"
+- @ref conversions "Conversions"
+- @ref reshape "Reshape"
+- @ref reductions "Reductions"
 
 ---
 
 ## Core Ops
 
-- [Arithmetic](core/ops/Arithmetic.md)
-- [Comparison](core/ops/Comparison.md)
-- [Indexing](core/ops/Indexing.md)
-- [Slice Ops](core/ops/Slice.md)
+- @ref arithmetic "Arithmetic"
+- @ref comparison "Comparison"
+- @ref indexing "Indexing"
+- @ref ops_slice "Slice Ops"
 
 ---
 
 ## Core I/O
 
-- [Print](core/io/Print.md)
+- @ref print "Print"
 
 ---
 
 ## Bindings
 
-- [Bindings Index](bindings/README.md)
-- [_core Extension Module](bindings/module.md)
+- @ref dev_bindings "Bindings Index"
+- @ref dev_module "_core Extension Module"

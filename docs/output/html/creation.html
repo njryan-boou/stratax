@@ -122,14 +122,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('creation.html'
 Creation</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="_creation_8hpp.html">include/stratax/core/algorithms/Creation.hpp</a></span></p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
-Overview</h2>
-<p><span class="tt"><a class="el" href="_creation_8hpp.html">Creation.hpp</a></span> provides convenience constructors for common tensor initialization patterns.</p>
-<p>All helpers return owning <span class="tt">Tensor&lt;T&gt;</span> values and require <span class="tt">T</span> to satisfy <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span>.</p>
+<p>Header: <span class="tt"><a class="el" href="_creation_8hpp_source.html">include/stratax/core/algorithms/Creation.hpp</a></span></p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md50"></a>
+Overview</h2>
+<p><span class="tt"><a class="el" href="_creation_8hpp_source.html">Creation.hpp</a></span> provides convenience constructors for common tensor initialization patterns.</p>
+<p>All helpers return owning <span class="tt">Tensor&lt;T&gt;</span> values and require <span class="tt">T</span> to satisfy <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span>.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
 Responsibilities</h2>
 <p>The creation module is responsible for:</p>
 <ul>
@@ -144,7 +144,7 @@ Responsibilities</h2>
 <li>Randomized initialization policies</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md54"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">creation::zeros / ones / full</div>
 <div class="line">└── Tensor(shape, value)</div>
@@ -154,12 +154,12 @@ Relationships</h2>
 <div class="line">└── diagonal assignment I(i, i) = T{1}</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="_concepts_8hpp.html">include/stratax/core/Concepts.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_tensor_8hpp.html">include/stratax/core/containers/Tensor.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_shape_8hpp.html">include/stratax/core/containers/Shape.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_tensor_8hpp_source.html">include/stratax/core/containers/Tensor.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_shape_8hpp_source.html">include/stratax/core/containers/Shape.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md54"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -169,9 +169,9 @@ Invariants</h2>
 <li>Identity diagonal entries are <span class="tt">T{1}</span> and off-diagonal entries are <span class="tt">T{}</span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md58"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md57"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md59"></a>
 zeros</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_numeric.html">Numeric&lt;T&gt;</a></div>
@@ -180,19 +180,19 @@ zeros</h3>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores a list of dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="_shape_8hpp_source.html#l00021">Shape.hpp:22</a></div></div>
 <div class="ttc" id="aconcept_numeric_html"><div class="ttname"><a href="concept_numeric.html">Numeric</a></div><div class="ttdoc">Matches all scalar types supported by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00152">Concepts.hpp:152</a></div></div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">T{}</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md58"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
 ones</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_numeric.html">Numeric&lt;T&gt;</a></div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;T&gt;</a> ones(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>&amp; shape);</div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">T{1}</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md59"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
 full</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_numeric.html">Numeric&lt;T&gt;</a></div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;T&gt;</a> full(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>&amp; shape, <span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">value</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
 identity</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_numeric.html">Numeric&lt;T&gt;</a></div>
@@ -203,7 +203,7 @@ identity</h3>
 <li>Propagates constructor/allocation exceptions from <span class="tt">Tensor</span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -215,32 +215,28 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
-Examples</h2>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> z = <a class="code hl_function" href="namespacecreation.html#a559b3711f2776e3719dbde5923d57058">creation::zeros&lt;double&gt;</a>(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(2, 3));</div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> o = <a class="code hl_function" href="namespacecreation.html#afb8e4794b3c1c2ecce0e049c0d1d5a56">creation::ones&lt;float&gt;</a>(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(4));</div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> f = <a class="code hl_function" href="namespacecreation.html#aa635d52c13eae4d2d6d894a55dcff9b3">creation::full&lt;int&gt;</a>(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(2, 2, 2), 7);</div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> I = <a class="code hl_function" href="namespacecreation.html#ae30027039e51c35f0ba72ef9db5d92fe">creation::identity&lt;double&gt;</a>(3);</div>
-<div class="ttc" id="anamespacecreation_html_a559b3711f2776e3719dbde5923d57058"><div class="ttname"><a href="namespacecreation.html#a559b3711f2776e3719dbde5923d57058">creation::zeros</a></div><div class="ttdeci">stratax::container::Tensor&lt; T &gt; zeros(const stratax::core::Shape &amp;shape)</div><div class="ttdoc">Creates a tensor filled with zeros.</div><div class="ttdef"><b>Definition</b> <a href="_creation_8hpp_source.html#l00023">Creation.hpp:23</a></div></div>
-<div class="ttc" id="anamespacecreation_html_aa635d52c13eae4d2d6d894a55dcff9b3"><div class="ttname"><a href="namespacecreation.html#aa635d52c13eae4d2d6d894a55dcff9b3">creation::full</a></div><div class="ttdeci">stratax::container::Tensor&lt; T &gt; full(const stratax::core::Shape &amp;shape, const T &amp;value)</div><div class="ttdoc">Creates a tensor filled with a constant value.</div><div class="ttdef"><b>Definition</b> <a href="_creation_8hpp_source.html#l00054">Creation.hpp:54</a></div></div>
-<div class="ttc" id="anamespacecreation_html_ae30027039e51c35f0ba72ef9db5d92fe"><div class="ttname"><a href="namespacecreation.html#ae30027039e51c35f0ba72ef9db5d92fe">creation::identity</a></div><div class="ttdeci">stratax::container::Tensor&lt; T &gt; identity(const std::size_t size)</div><div class="ttdoc">Creates a square identity tensor.</div><div class="ttdef"><b>Definition</b> <a href="_creation_8hpp_source.html#l00069">Creation.hpp:69</a></div></div>
-<div class="ttc" id="anamespacecreation_html_afb8e4794b3c1c2ecce0e049c0d1d5a56"><div class="ttname"><a href="namespacecreation.html#afb8e4794b3c1c2ecce0e049c0d1d5a56">creation::ones</a></div><div class="ttdeci">stratax::container::Tensor&lt; T &gt; ones(const stratax::core::Shape &amp;shape)</div><div class="ttdoc">Creates a tensor filled with ones.</div><div class="ttdef"><b>Definition</b> <a href="_creation_8hpp_source.html#l00038">Creation.hpp:38</a></div></div>
-</div><!-- fragment --><hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
-Design Notes</h2>
-<p>Keeping these helpers in a small <span class="tt"><a class="el" href="namespacecreation.html">creation</a></span> namespace provides concise call sites without adding policy complexity to container constructors.</p>
-<hr  />
+Examples</h2>
+<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> z = creation::zeros&lt;double&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(2, 3));</div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> o = creation::ones&lt;float&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(4));</div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> f = creation::full&lt;int&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a>(2, 2, 2), 7);</div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> I = creation::identity&lt;double&gt;(3);</div>
+</div><!-- fragment --><hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
+Design Notes</h2>
+<p>Keeping these helpers in a small <span class="tt">creation</span> namespace provides concise call sites without adding policy complexity to container constructors.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
 Future Improvements</h2>
 <ul>
 <li>Add explicit matrix-returning identity helper if rank-2 specialization is desired</li>
 <li>Add additional builders (<span class="tt">arange</span>, <span class="tt">linspace</span>, random initialization) when needed</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="_tensor_8hpp.html">include/stratax/core/containers/Tensor.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="_tensor_8hpp_source.html">include/stratax/core/containers/Tensor.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

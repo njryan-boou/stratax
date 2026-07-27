@@ -1,0 +1,70 @@
+name: Docs Check
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "include/**"
+      - ".github/workflows/docs-check.yml"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Check Markdown links
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import sys
+          from urllib.parse import unquote
+
+          root = Path.cwd()
+          errors = []
+          pattern = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
+
+          for path in root.rglob("*.md"):
+              if "docs/output" in path.as_posix():
+                  continue
+
+              text = path.read_text(encoding="utf-8")
+              for match in pattern.finditer(text):
+                  target = match.group(1).strip()
+                  if not target or target.startswith(("#", "http://", "https://", "mailto:")):
+                      continue
+
+                  target = target.split("#", 1)[0]
+                  target = unquote(target)
+                  if target.endswith(".html"):
+                      continue
+
+                  candidate = (path.parent / target).resolve()
+                  try:
+                      candidate.relative_to(root)
+                  except ValueError:
+                      errors.append(f"{path}: link escapes repository: {target}")
+                      continue
+
+                  if not candidate.exists():
+                      errors.append(f"{path}: missing link target: {target}")
+
+          if errors:
+              print("\n".join(errors))
+              sys.exit(1)
+
+      - name: Generate documentation
+        run: doxygen docs/Doxyfile

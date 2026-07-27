@@ -1,4 +1,6 @@
-# stratax.h {#dev_stratax}
+@page dev_stratax stratax.h
+
+# stratax.h
 
 Version: v0.2.0
 

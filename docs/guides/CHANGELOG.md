@@ -1,4 +1,6 @@
-# Changelog {#changelog}
+@page changelog Changelog
+
+# Changelog
 
 <!-- markdownlint-disable MD024 -->
 

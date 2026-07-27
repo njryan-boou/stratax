@@ -2,8 +2,6 @@ var classstratax_1_1core_1_1_strides =
 [
     [ "Strides", "classstratax_1_1core_1_1_strides.html#afc3ceb575bdfd6d2020adce68fd79cd5", null ],
     [ "Strides", "classstratax_1_1core_1_1_strides.html#ad1bb3bea444d43c180a77f3ca7de5d8b", null ],
-    [ "Strides", "classstratax_1_1core_1_1_strides.html#a372ea4759906067fc5219c5b42c2d608", null ],
-    [ "Strides", "classstratax_1_1core_1_1_strides.html#ad58ad292d5ecb15d49160f290902387c", null ],
     [ "~Strides", "classstratax_1_1core_1_1_strides.html#a18420b20cbae82312b2c2c9e4483e312", null ],
     [ "at", "classstratax_1_1core_1_1_strides.html#a244d19cb0fd2fa6968f0735b49357a77", null ],
     [ "back", "classstratax_1_1core_1_1_strides.html#a9d18b14bfbec55ca97d4aee5903c4637", null ],
@@ -20,8 +18,6 @@ var classstratax_1_1core_1_1_strides =
     [ "front", "classstratax_1_1core_1_1_strides.html#acb94cda66fb1b94fa16f8dd3cdb7aee0", null ],
     [ "operator!=", "classstratax_1_1core_1_1_strides.html#a13e5ba25bc49ef61c4d4300e5a31843b", null ],
     [ "operator()", "classstratax_1_1core_1_1_strides.html#a4b231239b113a54b94e6540fdbb60700", null ],
-    [ "operator=", "classstratax_1_1core_1_1_strides.html#a6b22bc73d97be3c9c51871a9b58d2325", null ],
-    [ "operator=", "classstratax_1_1core_1_1_strides.html#a742a5ed572fed5efe6a8b67366b9931d", null ],
     [ "operator==", "classstratax_1_1core_1_1_strides.html#a1e9643cb3f62e95058715fa01616e679", null ],
     [ "rank", "classstratax_1_1core_1_1_strides.html#a51ae9600ddc77054d58b3ed3e1b3ca20", null ],
     [ "rbegin", "classstratax_1_1core_1_1_strides.html#a141a95df064edf219d20bdd066b9df4e", null ],

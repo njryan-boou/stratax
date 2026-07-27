@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['positive_5fshape_5fdimension_0',['positive_shape_dimension',['../namespacestratax_1_1core_1_1validation.html#a14a23316958bd5cfead5c1f8743dad92',1,'stratax::core::validation']]],
-  ['print_5fmatrix_5flike_1',['print_matrix_like',['../namespacestratax_1_1container_1_1detail.html#a1cf096250c8546b67570ad9f0fb5dafc',1,'stratax::container::detail']]],
-  ['print_5ftensor_5flike_2',['print_tensor_like',['../namespacestratax_1_1container_1_1detail.html#a89071a859e74918309a71155ace86876',1,'stratax::container::detail']]],
-  ['print_5ftensor_5frecursive_3',['print_tensor_recursive',['../namespacestratax_1_1container_1_1detail.html#aff2d1cb30c6ec713254fe839d12d5586',1,'stratax::container::detail']]],
-  ['prod_4',['prod',['../namespacereduction.html#a7189056a738d209207cd63745912800c',1,'reduction::prod(const A &amp;arr)'],['../namespacereduction.html#a14e1a72bb922aa26e906e2fd008c316d',1,'reduction::prod(const A &amp;arr, int axis)'],['../namespacereduction.html#aae61cdc38d93bffc14c0d0dda1ab11ff',1,'reduction::prod(const A &amp;arr, int axis, bool keepdims)']]]
+  ['tensor_0',['Tensor',['../classstratax_1_1container_1_1_tensor.html#a79ee6b29c2456696f45e912e79ba3485',1,'stratax::container::Tensor::Tensor() noexcept=default'],['../classstratax_1_1container_1_1_tensor.html#afb64e8361a0771cd0217166242c0975f',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1_tensor.html#a3bc47abf83540457b08080e0f344f7c4',1,'stratax::container::Tensor::Tensor(const core::Shape &amp;shape, const T &amp;value)'],['../classstratax_1_1container_1_1_tensor.html#a2bfdd6a164d779d029aaffbe449e73b4',1,'stratax::container::Tensor::Tensor(const Tensor &amp;)=default'],['../classstratax_1_1container_1_1_tensor.html#adf9f6ec1da0b3fce12586e71d0a4ebb0',1,'stratax::container::Tensor::Tensor(Tensor &amp;&amp;) noexcept=default']]]
 ];

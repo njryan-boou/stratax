@@ -122,14 +122,14 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('comparison.htm
 Comparison</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="_comparison_8hpp.html">include/stratax/core/ops/Comparison.hpp</a></span></p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md738"></a>
-Overview</h2>
-<p><span class="tt"><a class="el" href="_comparison_8hpp.html">Comparison.hpp</a></span> defines exact equality and inequality operators for Stratax array-like containers.</p>
-<p>Comparison is shape-aware and value-based: arrays are equal only when shape and all flat element values match.</p>
+<p>Header: <span class="tt"><a class="el" href="_comparison_8hpp_source.html">include/stratax/core/ops/Comparison.hpp</a></span></p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md740"></a>
+Overview</h2>
+<p><span class="tt"><a class="el" href="_comparison_8hpp_source.html">Comparison.hpp</a></span> defines exact equality and inequality operators for Stratax array-like containers.</p>
+<p>Comparison is shape-aware and value-based: arrays are equal only when shape and all flat element values match.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md742"></a>
 Responsibilities</h2>
 <p>The comparison module is responsible for:</p>
 <ul>
@@ -144,7 +144,7 @@ Responsibilities</h2>
 <li>Ordering comparisons (<span class="tt">&lt;</span>, <span class="tt">&lt;=</span>, <span class="tt">&gt;</span>, <span class="tt">&gt;=</span>)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md742"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md744"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">operator==</div>
 <div class="line">├── validation::same_shape(lhs, rhs)</div>
@@ -154,7 +154,7 @@ Relationships</h2>
 <div class="line">└── !(lhs == rhs)</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="_concepts_8hpp.html">include/stratax/core/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
 </ul>
 <p>Used by:</p>
@@ -162,7 +162,7 @@ Relationships</h2>
 <li>Equality checks in tests and API call sites</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md744"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md746"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -172,13 +172,12 @@ Invariants</h2>
 <li>Equality uses exact value comparison (<span class="tt">==</span>) per element.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md746"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md748"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md747"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md749"></a>
 Equality</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="_comparison_8hpp.html#aa9cb2feb36125213ffcd23e9b36a0749">operator==</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="ttc" id="a_comparison_8hpp_html_aa9cb2feb36125213ffcd23e9b36a0749"><div class="ttname"><a href="_comparison_8hpp.html#aa9cb2feb36125213ffcd23e9b36a0749">operator==</a></div><div class="ttdeci">bool operator==(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Compares two array-like containers for exact equality.</div><div class="ttdef"><b>Definition</b> <a href="_comparison_8hpp_source.html#l00017">Comparison.hpp:17</a></div></div>
+<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Behavior</p>
 <ul>
 <li>Returns <span class="tt">false</span> immediately on shape mismatch</li>
@@ -193,11 +192,10 @@ Equality</h3>
 <li>Best case O(1) (early mismatch)</li>
 <li>Worst case O(r + n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md748"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md750"></a>
 Inequality</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="_comparison_8hpp.html#a71c0e7cde6556297ea5c9e9c6ed770b7">operator!=</a>(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="ttc" id="a_comparison_8hpp_html_a71c0e7cde6556297ea5c9e9c6ed770b7"><div class="ttname"><a href="_comparison_8hpp.html#a71c0e7cde6556297ea5c9e9c6ed770b7">operator!=</a></div><div class="ttdeci">bool operator!=(const A &amp;lhs, const A &amp;rhs)</div><div class="ttdoc">Compares two array-like containers for inequality.</div><div class="ttdef"><b>Definition</b> <a href="_comparison_8hpp_source.html#l00048">Comparison.hpp:48</a></div></div>
+<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Behavior</p>
 <ul>
 <li>Delegates to <span class="tt">operator==</span> and negates the result</li>
@@ -207,7 +205,7 @@ Inequality</h3>
 <li>Same as <span class="tt">operator==</span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md750"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md752"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -223,28 +221,28 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">r</span> is rank and <span class="tt">n</span> is element count.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md752"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md754"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> equal = (a == b);</div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> different = (a != b);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md754"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md756"></a>
 Design Notes</h2>
 <p>Keeping comparison exact and minimal avoids surprising semantics at the core layer.</p>
 <p>Approximate comparisons for floating-point values should be introduced as separate explicit utilities rather than overloading <span class="tt">operator==</span> behavior.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md756"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md758"></a>
 Future Improvements</h2>
 <ul>
 <li>Add tolerance-based comparison helpers for floating-point arrays</li>
 <li>Add element-wise boolean comparison utilities</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md758"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md760"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="_arithmetic_8hpp.html">include/stratax/core/ops/Arithmetic.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="_shape_validation_8hpp.html">include/stratax/core/validation/ShapeValidation.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="_arithmetic_8hpp_source.html">include/stratax/core/ops/Arithmetic.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="_shape_validation_8hpp_source.html">include/stratax/core/validation/ShapeValidation.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

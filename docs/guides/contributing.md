@@ -1,4 +1,6 @@
-# Contributing {#contributing}
+@page contributing Contributing
+
+# Contributing
 
 Developer notes for making changes to Stratax consistently.
 
@@ -26,6 +28,11 @@ Defines the working conventions for code, tests, and documentation so new change
 - Update the matching file under `docs/dev` when public behavior or design intent changes.
 - Keep developer docs practical and implementation-focused.
 - Use the Arithmetic document structure for module docs.
+- Update user-facing guides under `docs/guides` when behavior changes.
+- Regenerate Doxygen output intentionally; do not hand-edit files under `docs/output/html`.
+- Keep API status notes aligned with implementation.
+- Keep troubleshooting and release notes current when build, packaging, or docs deployment changes.
+- Keep the Python API reference aligned with `python/stratax/__init__.py` and the `.pyi` stubs.
 
 ### Naming
 
@@ -49,7 +56,5 @@ Defines the working conventions for code, tests, and documentation so new change
 
 ## Future Work
 
-- Add a full public contribution guide.
-- Document build and test commands once the build system is finalized.
 - Add formatting and linting rules.
 - Add pull request checklist templates.

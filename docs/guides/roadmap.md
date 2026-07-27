@@ -1,4 +1,6 @@
-# Stratax Roadmap {#roadmap}
+@page roadmap "Stratax Roadmap"
+
+# Stratax Roadmap
 
 Developer notes for planned Stratax feature work.
 
@@ -35,7 +37,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Indexing offsets
 - [x] Slicing
 - [ ] Logical operators
-- [ ] Bitwise operators
+- [x] Bitwise operators
 - [ ] Broadcasting
 
 ### Phase 4: Shape Operations
@@ -78,9 +80,9 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Developer docs for implemented containers
 - [x] Developer docs for implemented ops
 - [x] Developer docs for printing
-- [ ] User-facing guide
+- [x] User-facing guide
 - [ ] API reference
-- [ ] Example refresh
+- [x] Example refresh
 
 ### Later Phases
 

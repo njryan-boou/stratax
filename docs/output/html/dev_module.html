@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Stratax: _core Extension Module</title>
+<title>Stratax: &quot;_core Extension Module&quot;</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
@@ -115,21 +115,22 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('dev_module.htm
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">_core Extension Module </div></div>
+  <div class="headertitle"><div class="title">"_core Extension Module" </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_docs_2dev_2bindings_2module"></a></p>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
+_core Extension Module</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
 <p>Source: <span class="tt">bindings/module.cpp</span></p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
-Overview</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+Overview</h2>
 <p><span class="tt">bindings/module.cpp</span> defines the pybind11 extension module <span class="tt">_core</span> and orchestrates all binding registration calls.</p>
 <p>It is the top-level binding entry point loaded by the Python wrapper package.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
-Responsibilities</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Responsibilities</h2>
 <p>The module entry file is responsible for:</p>
 <ul>
 <li>Declaring <span class="tt">PYBIND11_MODULE(_core, m)</span></li>
@@ -142,8 +143,8 @@ Responsibilities</h1>
 <li>Defining Python wrapper ergonomics (handled in <span class="tt">python/stratax/</span>)</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Registration Order</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Registration Order</h2>
 <p><span class="tt">bind_*</span> calls currently execute in this order:</p>
 <ol type="1">
 <li><span class="tt">bind_common_exceptions</span></li>
@@ -158,17 +159,17 @@ Registration Order</h1>
 </ol>
 <p>This order ensures shared infrastructure is available before container and helper registrations.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Metadata Sources</h1>
-<p>Module metadata values are sourced from <span class="tt"><a class="el" href="_meta_8hpp.html">include/stratax/core/Meta.hpp</a></span>:</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Metadata Sources</h2>
+<p>Module metadata values are sourced from <span class="tt"><a class="el" href="_meta_8hpp_source.html">include/stratax/core/Meta.hpp</a></span>:</p>
 <ul>
-<li><span class="tt"><a class="el" href="_meta_8hpp.html#a71543f47f7a1911d651dbf75111fd6f5">STRATAX_PY_DOC</a></span> -&gt; <span class="tt">m.attr("__doc__")</span></li>
-<li><span class="tt"><a class="el" href="_meta_8hpp.html#a308418f7d85cb4d4d73c7977cc5a7051">STRATAX_VERSION</a></span> -&gt; <span class="tt">m.attr("__version__")</span></li>
-<li><span class="tt"><a class="el" href="_meta_8hpp.html#a48f95b6507f03c7b7d0ef9336b6e90f7">STRATAX_AUTHOR</a></span> -&gt; <span class="tt">m.attr("__author__")</span></li>
+<li><span class="tt">STRATAX_PY_DOC</span> -&gt; <span class="tt">m.attr("__doc__")</span></li>
+<li><span class="tt">STRATAX_VERSION</span> -&gt; <span class="tt">m.attr("__version__")</span></li>
+<li><span class="tt">STRATAX_AUTHOR</span> -&gt; <span class="tt">m.attr("__author__")</span></li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
-Related Files</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+Related Files</h2>
 <ul>
 <li><span class="tt">bindings/common/exceptions.cpp</span></li>
 <li><span class="tt">bindings/common/helpers.cpp</span></li>
@@ -181,8 +182,8 @@ Related Files</h1>
 <li><span class="tt">bindings/creation.cpp</span></li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
-Future Improvements</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+Future Improvements</h2>
 <ul>
 <li>Add explicit registration comments for dependency expectations</li>
 <li>Add startup smoke test asserting required symbols are exported </li>

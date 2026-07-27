@@ -50,10 +50,10 @@ operator<<(Tensor)
 
 Depends on:
 
-- [Vector](../containers/Vector.md)
-- [Matrix](../containers/Matrix.md)
-- [Tensor](../containers/Tensor.md)
-- [Conversions](../algorithms/Conversions.md)
+- @ref vector "Vector"
+- @ref matrix "Matrix"
+- @ref tensor "Tensor"
+- @ref conversions "Conversions"
 
 ---
 
@@ -163,5 +163,5 @@ Whitespace and separator stability is important because tests and docs often com
 
 ## See Also
 
-- [Conversions](../algorithms/Conversions.md)
-- [Tensor](../containers/Tensor.md)
+- @ref conversions "Conversions"
+- @ref tensor "Tensor"

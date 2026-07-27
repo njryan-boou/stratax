@@ -118,18 +118,18 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
   <div class="headertitle"><div class="title">Shape.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_shape_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_buffer_8hpp.html">Buffer.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_concepts_8hpp.html">../Concepts.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="_exceptions_8hpp.html">../Exceptions.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;Buffer.hpp&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../Concepts.hpp&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;../Exceptions.hpp&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="_validation_8hpp.html">../validation/Validation.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;ostream&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacestratax_1_1core.html">stratax::core</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>stratax::core {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
 <div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html">   21</a></span><span class="keyword">class </span><a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aa64c74affec98d8cf9781f06d2599dbd">Shape</a></div>
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">    </span>{</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">for</span> (std::size_t dim : dims_)</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#acf73fdaf4748c6a533464b5f99a4a9be">validation::nonnegative_shape_dimension</a>(</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            validation::nonnegative_shape_dimension(</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                dim,</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="stringliteral">&quot;Shape dimensions cannot be negative.&quot;</span>);</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        }</div>
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">   37</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> {};</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">   38</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> <a class="code hl_variable" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>{};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero{};</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#aa64c74affec98d8cf9781f06d2599dbd">   45</a></span>    <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aa64c74affec98d8cf9781f06d2599dbd">Shape</a>() noexcept = default;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span></div>
@@ -164,9 +164,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span></div>
 <div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#af6299dad2037e6cf8c2efa33f4338f08">   73</a></span>    <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#af6299dad2037e6cf8c2efa33f4338f08">Shape</a>(std::initializer_list&lt;std::size_t&gt; list, <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> <a class="code hl_variable" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>) : dims_(list)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#af6299dad2037e6cf8c2efa33f4338f08">   73</a></span>    <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#af6299dad2037e6cf8c2efa33f4338f08">Shape</a>(std::initializer_list&lt;std::size_t&gt; list, <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero) : dims_(list)</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    {</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        (void)<a class="code hl_variable" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        (void)allow_zero;</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
 </div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
@@ -179,10 +179,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 </div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span></div>
 <div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#af733b4d8584d3173bc53147f5c45627e">   95</a></span>    <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#af733b4d8584d3173bc53147f5c45627e">Shape</a>(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_buffer.html">Buffer&lt;std::size_t&gt;</a>&amp; dims, <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> <a class="code hl_variable" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#af733b4d8584d3173bc53147f5c45627e">   95</a></span>    <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#af733b4d8584d3173bc53147f5c45627e">Shape</a>(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_buffer.html">Buffer&lt;std::size_t&gt;</a>&amp; dims, <a class="code hl_struct" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a> allow_zero)</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    : dims_(dims)</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    {</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        (void)<a class="code hl_variable" href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        (void)allow_zero;</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
 </div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span></div>
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        std::size_t prod = 1;</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">for</span> (std::size_t dim : dims_)</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        {</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            prod = <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#a1c4313ea5ca5cf1bff17910514d3608e">validation::checked_multiply</a>(prod, dim, <span class="stringliteral">&quot;Shape elements overflow&quot;</span>);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            prod = validation::checked_multiply(prod, dim, <span class="stringliteral">&quot;Shape elements overflow&quot;</span>);</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keywordflow">return</span> prod;</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    }</div>
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="foldopen" id="foldopen00175" data-start="{" data-end="}">
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#a6f62cb703a4bede2f237adbec5b39041">  175</a></span>    <span class="keyword">const</span> std::size_t&amp; <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#a6f62cb703a4bede2f237adbec5b39041">operator()</a>(std::size_t index)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#a7c0bd292433193d4f8a84a5b1853b775">validation::require_index</a>(index, <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>(), <span class="stringliteral">&quot;Shape dimension index out of bounds&quot;</span>);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        validation::require_index(index, <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>(), <span class="stringliteral">&quot;Shape dimension index out of bounds&quot;</span>);</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <span class="keywordflow">return</span> dims_[index];</div>
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    }</div>
 </div>
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_shape.html#a1c1f2a28f9da931903b68666a04fd764">  192</a></span>    <span class="keyword">const</span> std::size_t&amp; <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#a1c1f2a28f9da931903b68666a04fd764">operator[]</a>(std::ptrdiff_t index)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">return</span> dims_[<a class="code hl_function" href="namespacestratax_1_1core_1_1validation.html#a74728d837b23db49544c65e47b4a516c">validation::normalize_index</a>(index, <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>(), <span class="stringliteral">&quot;Shape dimension index out of bounds&quot;</span>)];</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">return</span> dims_[validation::normalize_index(index, <a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>(), <span class="stringliteral">&quot;Shape dimension index out of bounds&quot;</span>)];</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
 </div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span></div>
@@ -316,8 +316,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>};</div>
 </div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span></div>
-<div class="foldopen" id="foldopen00302" data-start="{" data-end="}">
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="namespacestratax_1_1core.html#ade19679ded72130edb721768d1b41838">  302</a></span><span class="keyword">inline</span> std::ostream&amp; <a class="code hl_function" href="namespacestratax_1_1core.html#ade19679ded72130edb721768d1b41838">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1_shape.html">Shape</a>&amp; shape)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span><span class="keyword">inline</span> std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Shape&amp; shape)</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>{</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span>;</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
@@ -331,7 +330,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        first = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    }</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">if</span> (shape.<a class="code hl_function" href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>() == 1)</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">if</span> (shape.rank() == 1)</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    {</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        os &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    }</div>
@@ -340,16 +339,11 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keywordflow">return</span> os;</div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>}</div>
-</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
 <div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>}</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
-<div class="ttc" id="a_buffer_8hpp_html"><div class="ttname"><a href="_buffer_8hpp.html">Buffer.hpp</a></div></div>
-<div class="ttc" id="a_concepts_8hpp_html"><div class="ttname"><a href="_concepts_8hpp.html">Concepts.hpp</a></div></div>
-<div class="ttc" id="a_exceptions_8hpp_html"><div class="ttname"><a href="_exceptions_8hpp.html">Exceptions.hpp</a></div></div>
 <div class="ttc" id="a_validation_8hpp_html"><div class="ttname"><a href="_validation_8hpp.html">Validation.hpp</a></div><div class="ttdoc">Shared runtime validation helpers.</div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_buffer_html"><div class="ttname"><a href="classstratax_1_1core_1_1_buffer.html">stratax::core::Buffer</a></div><div class="ttdoc">Owns contiguous dynamically allocated storage.</div><div class="ttdef"><b>Definition</b> <a href="_buffer_8hpp_source.html#l00038">Buffer.hpp:38</a></div></div>
-<div class="ttc" id="aclassstratax_1_1core_1_1_shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores a list of dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="#l00021">Shape.hpp:22</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_a00a2c19e9b295bf9b03870240f70b1ba"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#a00a2c19e9b295bf9b03870240f70b1ba">stratax::core::Shape::~Shape</a></div><div class="ttdeci">~Shape()=default</div><div class="ttdoc">Destroys the shape.</div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_a03a5e37860621d3d2cf0aa6c88d687fc"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#a03a5e37860621d3d2cf0aa6c88d687fc">stratax::core::Shape::Shape</a></div><div class="ttdeci">Shape(const std::vector&lt; std::size_t &gt; &amp;dims)</div><div class="ttdoc">Creates a shape by copying dimension lengths from a standard vector.</div><div class="ttdef"><b>Definition</b> <a href="#l00117">Shape.hpp:117</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_a048f93d32c5fd731362affd06b9cec77"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#a048f93d32c5fd731362affd06b9cec77">stratax::core::Shape::elements</a></div><div class="ttdeci">std::size_t elements() const</div><div class="ttdoc">Returns the total number of elements described by the shape.</div><div class="ttdef"><b>Definition</b> <a href="#l00142">Shape.hpp:142</a></div></div>
@@ -366,17 +360,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_aab594827ada8a1e18080ab513d0505ec"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#aab594827ada8a1e18080ab513d0505ec">stratax::core::Shape::rank</a></div><div class="ttdeci">std::size_t rank() const</div><div class="ttdoc">Returns the number of stored dimensions.</div><div class="ttdef"><b>Definition</b> <a href="#l00161">Shape.hpp:161</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_ac4252cacc24032dcec890999d775e431"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#ac4252cacc24032dcec890999d775e431">stratax::core::Shape::Shape</a></div><div class="ttdeci">Shape(const Buffer&lt; std::size_t &gt; &amp;dims)</div><div class="ttdoc">Creates a shape by copying dimension lengths from a buffer.</div><div class="ttdef"><b>Definition</b> <a href="#l00083">Shape.hpp:83</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_acc775fa1ebc8eef159ca38654fe1d18b"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#acc775fa1ebc8eef159ca38654fe1d18b">stratax::core::Shape::begin</a></div><div class="ttdeci">auto begin() noexcept</div><div class="ttdoc">Returns an iterator to the first stored dimension.</div><div class="ttdef"><b>Definition</b> <a href="#l00247">Shape.hpp:247</a></div></div>
-<div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_acf3df1f0afccd30bb186d1447adfe2c0"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#acf3df1f0afccd30bb186d1447adfe2c0">stratax::core::Shape::allow_zero</a></div><div class="ttdeci">static constexpr allow_zero_t allow_zero</div><div class="ttdef"><b>Definition</b> <a href="#l00038">Shape.hpp:38</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_ae239068266eb336c15a3cba850ca56b7"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#ae239068266eb336c15a3cba850ca56b7">stratax::core::Shape::Shape</a></div><div class="ttdeci">Shape(Buffer&lt; std::size_t &gt; &amp;&amp;dims)</div><div class="ttdoc">Creates a shape by taking ownership of dimension lengths from a buffer.</div><div class="ttdef"><b>Definition</b> <a href="#l00106">Shape.hpp:106</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_af6299dad2037e6cf8c2efa33f4338f08"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#af6299dad2037e6cf8c2efa33f4338f08">stratax::core::Shape::Shape</a></div><div class="ttdeci">Shape(std::initializer_list&lt; std::size_t &gt; list, allow_zero_t allow_zero)</div><div class="ttdoc">Creates a shape from dimension lengths using the explicit zero-dimension tag.</div><div class="ttdef"><b>Definition</b> <a href="#l00073">Shape.hpp:73</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_shape_html_af733b4d8584d3173bc53147f5c45627e"><div class="ttname"><a href="classstratax_1_1core_1_1_shape.html#af733b4d8584d3173bc53147f5c45627e">stratax::core::Shape::Shape</a></div><div class="ttdeci">Shape(const Buffer&lt; std::size_t &gt; &amp;dims, allow_zero_t allow_zero)</div><div class="ttdoc">Creates a shape by copying dimension lengths using the explicit zero-dimension tag.</div><div class="ttdef"><b>Definition</b> <a href="#l00095">Shape.hpp:95</a></div></div>
 <div class="ttc" id="aconcept_integral_html"><div class="ttname"><a href="concept_integral.html">Integral</a></div><div class="ttdoc">Matches signed and unsigned integral types, excluding character-like types.</div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00055">Concepts.hpp:55</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_a1c4313ea5ca5cf1bff17910514d3608e"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#a1c4313ea5ca5cf1bff17910514d3608e">stratax::core::validation::checked_multiply</a></div><div class="ttdeci">std::size_t checked_multiply(std::size_t lhs, std::size_t rhs, const char *message)</div><div class="ttdoc">Multiplies two sizes while checking for overflow.</div><div class="ttdef"><b>Definition</b> <a href="_dimension_validation_8hpp_source.html#l00080">DimensionValidation.hpp:80</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_a74728d837b23db49544c65e47b4a516c"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#a74728d837b23db49544c65e47b4a516c">stratax::core::validation::normalize_index</a></div><div class="ttdeci">std::size_t normalize_index(std::ptrdiff_t value, std::size_t size, const char *message)</div><div class="ttdoc">Normalizes a potentially negative index against a container size.</div><div class="ttdef"><b>Definition</b> <a href="_index_validation_8hpp_source.html#l00043">IndexValidation.hpp:43</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_a7c0bd292433193d4f8a84a5b1853b775"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#a7c0bd292433193d4f8a84a5b1853b775">stratax::core::validation::require_index</a></div><div class="ttdeci">void require_index(std::size_t index, std::size_t size, const char *message)</div><div class="ttdoc">Requires an index to be less than a size.</div><div class="ttdef"><b>Definition</b> <a href="_index_validation_8hpp_source.html#l00075">IndexValidation.hpp:75</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1validation_html_acf73fdaf4748c6a533464b5f99a4a9be"><div class="ttname"><a href="namespacestratax_1_1core_1_1validation.html#acf73fdaf4748c6a533464b5f99a4a9be">stratax::core::validation::nonnegative_shape_dimension</a></div><div class="ttdeci">std::size_t nonnegative_shape_dimension(std::ptrdiff_t value, const char *message)</div><div class="ttdoc">Converts a signed shape dimension to std::size_t after rejecting negatives.</div><div class="ttdef"><b>Definition</b> <a href="_shape_validation_8hpp_source.html#l00019">ShapeValidation.hpp:19</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_html"><div class="ttname"><a href="namespacestratax_1_1core.html">stratax::core</a></div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00009">Concepts.hpp:9</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_html_ade19679ded72130edb721768d1b41838"><div class="ttname"><a href="namespacestratax_1_1core.html#ade19679ded72130edb721768d1b41838">stratax::core::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const Shape &amp;shape)</div><div class="ttdoc">Writes a shape to a stream in tuple-like form.</div><div class="ttdef"><b>Definition</b> <a href="#l00302">Shape.hpp:302</a></div></div>
 <div class="ttc" id="astructstratax_1_1core_1_1_shape_1_1allow__zero__t_html"><div class="ttname"><a href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">stratax::core::Shape::allow_zero_t</a></div><div class="ttdef"><b>Definition</b> <a href="#l00037">Shape.hpp:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -384,7 +371,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shape_8hpp_so
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d81e4652eb261ab36273d7eb7356393d.html">stratax</a></li><li class="navelem"><a href="dir_dc51df17c4a34e29a69d782eec26d6c5.html">core</a></li><li class="navelem"><a href="dir_b42dac81354fdffe98bbfd43cef3454c.html">containers</a></li><li class="navelem"><a href="_shape_8hpp.html">Shape.hpp</a></li>
+    <li class="navelem"><b>include</b></li><li class="navelem"><b>stratax</b></li><li class="navelem"><b>core</b></li><li class="navelem"><b>containers</b></li><li class="navelem"><b>Shape.hpp</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

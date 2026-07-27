@@ -118,8 +118,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classstratax_1
   <div class="headertitle"><div class="title">stratax::container::Vector&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="_vector_8hpp_source.html">Vector.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -139,16 +137,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa6f64c74e03c6153795e6245a9f2c57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a vector and fills it with a value.  <br /></td></tr>
 <tr class="memitem:a9c0ce05b96e88eb7973d71367ad3a4d5" id="r_a9c0ce05b96e88eb7973d71367ad3a4d5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9c0ce05b96e88eb7973d71367ad3a4d5">Vector</a> (std::initializer_list&lt; T &gt; list)</td></tr>
 <tr class="memdesc:a9c0ce05b96e88eb7973d71367ad3a4d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a vector from an initializer list.  <br /></td></tr>
-<tr class="memitem:af65aa7acc1ea137849f43c51b1db112b" id="r_af65aa7acc1ea137849f43c51b1db112b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af65aa7acc1ea137849f43c51b1db112b">Vector</a> (const Vector &amp;)=default</td></tr>
-<tr class="memdesc:af65aa7acc1ea137849f43c51b1db112b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another vector.  <br /></td></tr>
-<tr class="memitem:a3336046cceb82b8a84263a5b94c14bf2" id="r_a3336046cceb82b8a84263a5b94c14bf2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3336046cceb82b8a84263a5b94c14bf2">Vector</a> (Vector &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:a3336046cceb82b8a84263a5b94c14bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another vector.  <br /></td></tr>
-<tr class="memitem:ad65c73ef874eb9f42ce6e20e5bfd9b1e" id="r_ad65c73ef874eb9f42ce6e20e5bfd9b1e"><td class="memItemLeft"><a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad65c73ef874eb9f42ce6e20e5bfd9b1e">operator=</a> (const <a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;)=default</td></tr>
-<tr class="memdesc:ad65c73ef874eb9f42ce6e20e5bfd9b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this vector with a copy of another vector.  <br /></td></tr>
-<tr class="memitem:af84ed12cef0e8e47ab78faff6b7d4006" id="r_af84ed12cef0e8e47ab78faff6b7d4006"><td class="memItemLeft"><a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af84ed12cef0e8e47ab78faff6b7d4006">operator=</a> (<a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memdesc:af84ed12cef0e8e47ab78faff6b7d4006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this vector by taking ownership from another vector.  <br /></td></tr>
-<tr class="memitem:a3850580e1bce12a572491fda69875619" id="r_a3850580e1bce12a572491fda69875619"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3850580e1bce12a572491fda69875619">~Vector</a> ()=default</td></tr>
-<tr class="memdesc:a3850580e1bce12a572491fda69875619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the vector.  <br /></td></tr>
+<tr class="memitem:af65aa7acc1ea137849f43c51b1db112b" id="r_af65aa7acc1ea137849f43c51b1db112b"><td class="memItemLeft"><a id="af65aa7acc1ea137849f43c51b1db112b" name="af65aa7acc1ea137849f43c51b1db112b"></a>
+&#160;</td><td class="memItemRight"><b>Vector</b> (const Vector &amp;)=default</td></tr>
+<tr class="memdesc:af65aa7acc1ea137849f43c51b1db112b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another vector. <br /></td></tr>
+<tr class="memitem:a3336046cceb82b8a84263a5b94c14bf2" id="r_a3336046cceb82b8a84263a5b94c14bf2"><td class="memItemLeft"><a id="a3336046cceb82b8a84263a5b94c14bf2" name="a3336046cceb82b8a84263a5b94c14bf2"></a>
+&#160;</td><td class="memItemRight"><b>Vector</b> (Vector &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:a3336046cceb82b8a84263a5b94c14bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another vector. <br /></td></tr>
+<tr class="memitem:ad65c73ef874eb9f42ce6e20e5bfd9b1e" id="r_ad65c73ef874eb9f42ce6e20e5bfd9b1e"><td class="memItemLeft"><a id="ad65c73ef874eb9f42ce6e20e5bfd9b1e" name="ad65c73ef874eb9f42ce6e20e5bfd9b1e"></a>
+<a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;)=default</td></tr>
+<tr class="memdesc:ad65c73ef874eb9f42ce6e20e5bfd9b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this vector with a copy of another vector. <br /></td></tr>
+<tr class="memitem:af84ed12cef0e8e47ab78faff6b7d4006" id="r_af84ed12cef0e8e47ab78faff6b7d4006"><td class="memItemLeft"><a id="af84ed12cef0e8e47ab78faff6b7d4006" name="af84ed12cef0e8e47ab78faff6b7d4006"></a>
+<a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:af84ed12cef0e8e47ab78faff6b7d4006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this vector by taking ownership from another vector. <br /></td></tr>
+<tr class="memitem:a3850580e1bce12a572491fda69875619" id="r_a3850580e1bce12a572491fda69875619"><td class="memItemLeft"><a id="a3850580e1bce12a572491fda69875619" name="a3850580e1bce12a572491fda69875619"></a>
+&#160;</td><td class="memItemRight"><b>~Vector</b> ()=default</td></tr>
+<tr class="memdesc:a3850580e1bce12a572491fda69875619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the vector. <br /></td></tr>
 <tr class="memitem:a544082372f2b25aa95e681f52a8074be" id="r_a544082372f2b25aa95e681f52a8074be"><td class="memItemLeft">T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a544082372f2b25aa95e681f52a8074be">operator()</a> (std::size_t index) noexcept</td></tr>
 <tr class="memdesc:a544082372f2b25aa95e681f52a8074be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a flat element without bounds checking.  <br /></td></tr>
 <tr class="memitem:a6cd9e71b29cebed5f671c204e0b9f3fd" id="r_a6cd9e71b29cebed5f671c204e0b9f3fd"><td class="memItemLeft">const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6cd9e71b29cebed5f671c204e0b9f3fd">operator()</a> (std::size_t index) const noexcept</td></tr>
@@ -258,7 +261,7 @@ template&lt;typename T&gt; </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a98c16d7619a0ab0908dee44a611cc6fa" name="a98c16d7619a0ab0908dee44a611cc6fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98c16d7619a0ab0908dee44a611cc6fa">&#9670;&#160;</a></span>Vector() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a98c16d7619a0ab0908dee44a611cc6fa">&#9670;&#160;</a></span>Vector() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +291,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ac83f93553c77bdcad945c6459ee71b68" name="ac83f93553c77bdcad945c6459ee71b68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac83f93553c77bdcad945c6459ee71b68">&#9670;&#160;</a></span>Vector() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac83f93553c77bdcad945c6459ee71b68">&#9670;&#160;</a></span>Vector() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -325,7 +328,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a946aa41b6dd98e65ed882a6c93c81eb6" name="a946aa41b6dd98e65ed882a6c93c81eb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a946aa41b6dd98e65ed882a6c93c81eb6">&#9670;&#160;</a></span>Vector() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a946aa41b6dd98e65ed882a6c93c81eb6">&#9670;&#160;</a></span>Vector() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +371,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="aa6f64c74e03c6153795e6245a9f2c57b" name="aa6f64c74e03c6153795e6245a9f2c57b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6f64c74e03c6153795e6245a9f2c57b">&#9670;&#160;</a></span>Vector() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f64c74e03c6153795e6245a9f2c57b">&#9670;&#160;</a></span>Vector() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,7 +413,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a9c0ce05b96e88eb7973d71367ad3a4d5" name="a9c0ce05b96e88eb7973d71367ad3a4d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c0ce05b96e88eb7973d71367ad3a4d5">&#9670;&#160;</a></span>Vector() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c0ce05b96e88eb7973d71367ad3a4d5">&#9670;&#160;</a></span>Vector() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -443,93 +446,6 @@ template&lt;typename T&gt; </div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_vector_8hpp_source.html#l00095">95</a> of file <a class="el" href="_vector_8hpp_source.html">Vector.hpp</a>.</p>
-
-</div>
-</div>
-<a id="af65aa7acc1ea137849f43c51b1db112b" name="af65aa7acc1ea137849f43c51b1db112b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af65aa7acc1ea137849f43c51b1db112b">&#9670;&#160;</a></span>Vector() <span class="overload">[6/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a>&lt; T &gt;::Vector </td>
-          <td>(</td>
-          <td class="paramtype">const Vector&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a copy of another vector. </p>
-
-</div>
-</div>
-<a id="a3336046cceb82b8a84263a5b94c14bf2" name="a3336046cceb82b8a84263a5b94c14bf2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3336046cceb82b8a84263a5b94c14bf2">&#9670;&#160;</a></span>Vector() <span class="overload">[7/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a>&lt; T &gt;::Vector </td>
-          <td>(</td>
-          <td class="paramtype">Vector&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Transfers ownership from another vector. </p>
-
-</div>
-</div>
-<a id="a3850580e1bce12a572491fda69875619" name="a3850580e1bce12a572491fda69875619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3850580e1bce12a572491fda69875619">&#9670;&#160;</a></span>~Vector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a>&lt; T &gt;::~<a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destroys the vector. </p>
 
 </div>
 </div>
@@ -1217,64 +1133,6 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ad65c73ef874eb9f42ce6e20e5bfd9b1e" name="ad65c73ef874eb9f42ce6e20e5bfd9b1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad65c73ef874eb9f42ce6e20e5bfd9b1e">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp; <a class="el" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this vector with a copy of another vector. </p>
-
-</div>
-</div>
-<a id="af84ed12cef0e8e47ab78faff6b7d4006" name="af84ed12cef0e8e47ab78faff6b7d4006"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af84ed12cef0e8e47ab78faff6b7d4006">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a> &amp; <a class="el" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a>&lt; T &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a98c16d7619a0ab0908dee44a611cc6fa">Vector</a>&lt; T &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces this vector by taking ownership from another vector. </p>
-
-</div>
-</div>
 <a id="aa608efafe7e0deff1041d1fcfd1f37af" name="aa608efafe7e0deff1041d1fcfd1f37af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa608efafe7e0deff1041d1fcfd1f37af">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
@@ -1663,7 +1521,7 @@ template&lt;typename T&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacestratax.html">stratax</a></li><li class="navelem"><a href="namespacestratax_1_1container.html">container</a></li><li class="navelem"><a href="classstratax_1_1container_1_1_vector.html">Vector</a></li>
+    <li class="navelem"><b>stratax</b></li><li class="navelem"><b>container</b></li><li class="navelem"><a href="classstratax_1_1container_1_1_vector.html">Vector</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>

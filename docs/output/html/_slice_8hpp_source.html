@@ -118,13 +118,13 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_slice_8hpp_so
   <div class="headertitle"><div class="title">Slice.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_slice_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_exceptions_8hpp.html">Exceptions.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Exceptions.hpp&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacestratax_1_1core.html">stratax::core</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>stratax::core {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
 <div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classstratax_1_1core_1_1_slice.html">   15</a></span><span class="keyword">class </span><a class="code hl_function" href="classstratax_1_1core_1_1_slice.html#a88338340ec77183a20f7caba8da5c6cc">Slice</a></div>
@@ -217,7 +217,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_slice_8hpp_so
 </div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
-<div class="ttc" id="a_exceptions_8hpp_html"><div class="ttname"><a href="_exceptions_8hpp.html">Exceptions.hpp</a></div></div>
 <div class="ttc" id="aclass_exceptions_1_1_index_error_html"><div class="ttname"><a href="class_exceptions_1_1_index_error.html">Exceptions::IndexError</a></div><div class="ttdoc">Signals an invalid index access.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00029">Exceptions.hpp:30</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_slice_html_a0662aa3520cf39877f79657dbafc714e"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html#a0662aa3520cf39877f79657dbafc714e">stratax::core::Slice::start</a></div><div class="ttdeci">std::ptrdiff_t start() const noexcept</div><div class="ttdoc">Returns the first index in the slice.</div><div class="ttdef"><b>Definition</b> <a href="#l00049">Slice.hpp:49</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_slice_html_a3269cbabe672260cb49dc74b8ea0eebb"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html#a3269cbabe672260cb49dc74b8ea0eebb">stratax::core::Slice::operator==</a></div><div class="ttdeci">bool operator==(const Slice &amp;other) const noexcept</div><div class="ttdoc">Compares two slices for identical bounds and step.</div><div class="ttdef"><b>Definition</b> <a href="#l00119">Slice.hpp:119</a></div></div>
@@ -227,14 +226,13 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_slice_8hpp_so
 <div class="ttc" id="aclassstratax_1_1core_1_1_slice_html_a9906cd313773c85a80b7431b76708625"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html#a9906cd313773c85a80b7431b76708625">stratax::core::Slice::operator!=</a></div><div class="ttdeci">bool operator!=(const Slice &amp;other) const noexcept</div><div class="ttdoc">Returns whether two slices have different bounds.</div><div class="ttdef"><b>Definition</b> <a href="#l00131">Slice.hpp:131</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_slice_html_abb039ba0d4475023d9c0ed48bea6fc64"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html#abb039ba0d4475023d9c0ed48bea6fc64">stratax::core::Slice::step</a></div><div class="ttdeci">std::ptrdiff_t step() const noexcept</div><div class="ttdoc">Returns the stride between selected indices.</div><div class="ttdef"><b>Definition</b> <a href="#l00069">Slice.hpp:69</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1_slice_html_af9528c98b01bf451b425ebe3a84a3407"><div class="ttname"><a href="classstratax_1_1core_1_1_slice.html#af9528c98b01bf451b425ebe3a84a3407">stratax::core::Slice::stop</a></div><div class="ttdeci">std::ptrdiff_t stop() const noexcept</div><div class="ttdoc">Returns the index one past the end of the slice.</div><div class="ttdef"><b>Definition</b> <a href="#l00059">Slice.hpp:59</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_html"><div class="ttname"><a href="namespacestratax_1_1core.html">stratax::core</a></div><div class="ttdef"><b>Definition</b> <a href="_concepts_8hpp_source.html#l00009">Concepts.hpp:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d81e4652eb261ab36273d7eb7356393d.html">stratax</a></li><li class="navelem"><a href="dir_dc51df17c4a34e29a69d782eec26d6c5.html">core</a></li><li class="navelem"><a href="_slice_8hpp.html">Slice.hpp</a></li>
+    <li class="navelem"><b>include</b></li><li class="navelem"><b>stratax</b></li><li class="navelem"><b>core</b></li><li class="navelem"><b>Slice.hpp</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
   </ul>
 </div>
