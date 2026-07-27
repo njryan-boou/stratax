@@ -1,3 +1,5 @@
+@page concepts Concepts
+
 # Concepts {#dev_concepts}
 
 Version: v0.2.0

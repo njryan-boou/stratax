@@ -259,6 +259,34 @@ public:
     }
 
     /**
+     * @brief Returns an element by multidimensional index from a vector with bounds checking.
+     *
+     * @param indices Vector of index components, one per dimension.
+     *
+     * @return Mutable reference to the indexed element.
+     * @throws Exceptions::DimensionError If the vector size does not match the tensor rank.
+     * @throws Exceptions::IndexError If any index component is out of bounds or the offset overflows.
+     */
+    T& operator()(const std::vector<std::size_t>& indices)
+    {
+        return buffer_[offset(shape_, strides_, indices)];
+    }
+
+    /**
+     * @brief Returns an element by multidimensional index from a vector with bounds checking.
+     *
+     * @param indices Vector of index components, one per dimension.
+     *
+     * @return Const reference to the indexed element.
+     * @throws Exceptions::DimensionError If the vector size does not match the tensor rank.
+     * @throws Exceptions::IndexError If any index component is out of bounds or the offset overflows.
+     */
+    const T& operator()(const std::vector<std::size_t>& indices) const
+    {
+        return buffer_[offset(shape_, strides_, indices)];
+    }
+
+    /**
      * @brief Returns an element by rank-1 flat index with bounds checking.
      *
      * @param index Flat element index.

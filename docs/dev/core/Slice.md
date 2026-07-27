@@ -1,3 +1,5 @@
+@page slice Slice
+
 # Slice {#dev_slice}
 
 Version: v0.2.0

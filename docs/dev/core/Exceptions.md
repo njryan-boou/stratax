@@ -1,3 +1,5 @@
+@page exceptions Exceptions
+
 # Exceptions {#dev_exceptions}
 
 Version: v0.2.0

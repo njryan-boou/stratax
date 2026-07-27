@@ -298,3 +298,82 @@ slice(
     return result;
 }
 
+template<typename T>
+/**
+ * @brief Copies a multidimensional half-open region from a tensor using a vector of slices.
+ *
+ * One `Slice` must be provided for each tensor dimension via the vector.
+ * The result shape is formed from the size of each slice, and values are 
+ * copied in row-major order honoring each slice step.
+ *
+ * @param tensor Source tensor.
+ * @param slices Vector of slices, one per tensor dimension.
+ *
+ * @return Tensor containing the selected region.
+ * @throws Exceptions::DimensionError If the vector size does not match the tensor rank.
+ * @throws Exceptions::IndexError If any slice exceeds the corresponding dimension.
+ */
+stratax::container::Tensor<T>
+slice(
+    const stratax::container::Tensor<T>& tensor,
+    const std::vector<stratax::core::Slice>& slices
+)
+{
+    stratax::core::validation::require_rank(
+        slices.size(),
+        tensor.rank(),
+        "Slice rank must match tensor rank.");
+
+    std::vector<stratax::ops::detail::ResolvedSlice> resolved(slices.size());
+    std::vector<std::size_t> out_dims(slices.size());
+    
+    for (std::size_t dim = 0; dim < slices.size(); ++dim)
+    {
+        resolved[dim] = stratax::ops::detail::normalize_slice(
+            slices[dim],
+            tensor.shape()(dim),
+            "Tensor slice out of bounds.");
+        out_dims[dim] = resolved[dim].size;
+    }
+
+    const auto result_shape = stratax::core::Shape(out_dims);
+    stratax::container::Tensor<T> result(result_shape);
+    
+    if (result.empty())
+    {
+        return result;
+    }
+    
+    const stratax::core::Strides result_strides(result_shape);
+    const auto& tensor_strides = tensor.strides();
+
+    for (std::size_t flat = 0; flat < result.size(); ++flat)
+    {
+        std::size_t remainder = flat;
+        std::size_t source_offset = 0;
+
+        for (std::size_t dim = 0; dim < resolved.size(); ++dim)
+        {
+            const std::size_t index = remainder / result_strides(dim);
+            remainder %= result_strides(dim);
+
+            const std::ptrdiff_t source_index =
+                resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
+            const std::size_t term =
+                stratax::core::validation::checked_multiply(
+                    static_cast<std::size_t>(source_index),
+                    tensor_strides(dim),
+                    "Tensor slice offset overflow.");
+            source_offset =
+                stratax::core::validation::checked_add(
+                    source_offset,
+                    term,
+                    "Tensor slice offset overflow.");
+        }
+
+        result[flat] = tensor[source_offset];
+    }
+
+    return result;
+}
+

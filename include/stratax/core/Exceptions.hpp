@@ -52,4 +52,11 @@ namespace Exceptions {
 	public:
 		using StrataxError::StrataxError;
 	};
+
+	/** @brief Signals axis is out of range */
+	class AxisError : public StrataxError
+	{
+	public:
+		using StrataxError::StrataxError;
+	};
 }

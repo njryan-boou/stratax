@@ -483,8 +483,8 @@ Higher-level containers such as `Matrix` and `Tensor` interpret this one-dimensi
 
 ## See Also
 
-- [Shape](Shape.md)
-- [Strides](Strides.md)
-- [Vector](Vector.md)
-- [Matrix](Matrix.md)
-- [Tensor](Tensor.md)
+- @ref shape
+- @ref strides
+- @ref vector
+- @ref matrix
+- @ref tensor

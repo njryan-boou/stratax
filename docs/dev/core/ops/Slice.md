@@ -1,3 +1,5 @@
+@page ops_slice "Slice Ops"
+
 # Slice Ops {#dev_ops_slice}
 
 Version: v0.2.0
@@ -125,6 +127,41 @@ Behavior
 - Requires number of slices to match tensor rank
 - Computes output shape from resolved slice sizes
 - Copies result in flat order using source/result strides
+
+Throws
+
+- `Exceptions::DimensionError` on rank mismatch
+- `Exceptions::IndexError` when an extent exceeds `std::ptrdiff_t` range
+- `Exceptions::DimensionError` on offset overflow from checked arithmetic
+
+Complexity
+
+- O(n_out * rank)
+
+### Tensor slicing (vector-based)
+
+```cpp
+template<typename T>
+stratax::container::Tensor<T>
+slice(
+    const stratax::container::Tensor<T>& tensor,
+    const std::vector<stratax::core::Slice>& slices);
+```
+
+Behavior
+
+- Accepts slices as a vector instead of variadic arguments
+- Requires vector size to match tensor rank
+- Computes output shape from resolved slice sizes
+- Copies result in flat order using source/result strides
+
+Usage
+
+```cpp
+Tensor<int> t(Shape{2, 3, 4});
+std::vector<Slice> slices{Slice{0, 2}, Slice{1, 3}, Slice{0, 4}};
+auto result = slice(t, slices);
+```
 
 Throws
 

@@ -1046,3 +1046,130 @@ TEST(ContainersTensor, flat_multi_index_equivalence)
     EXPECT_TRUE(tensor(1, 2, 3) == 33);
 }
 
+// ============================================================================
+// Vector-based Operator() Tests
+// ============================================================================
+
+TEST(ContainersTensor, vector_index_operator_rank_2)
+{
+    Tensor<int> tensor(stratax::core::Shape{3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i + 1);
+    }
+
+    std::vector<std::size_t> indices{1, 2};
+    int value = tensor(indices);
+
+    EXPECT_TRUE(value == 7);
+}
+
+TEST(ContainersTensor, vector_index_operator_rank_3)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i);
+    }
+
+    std::vector<std::size_t> indices{1, 2, 3};
+    int value = tensor(indices);
+
+    // Flat index = 1*12 + 2*4 + 3 = 23
+    EXPECT_TRUE(value == 23);
+}
+
+TEST(ContainersTensor, vector_index_operator_write)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 3});
+
+    std::vector<std::size_t> indices{1, 1};
+    tensor(indices) = 42;
+
+    EXPECT_TRUE(tensor(1, 1) == 42);
+}
+
+TEST(ContainersTensor, vector_index_operator_const)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 3});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i + 1);
+    }
+
+    const Tensor<int>& const_ref = tensor;
+    std::vector<std::size_t> indices{0, 2};
+    int value = const_ref(indices);
+
+    EXPECT_TRUE(value == 3);
+}
+
+TEST(ContainersTensor, vector_index_operator_rank_1)
+{
+    Tensor<int> tensor(stratax::core::Shape{5});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i + 1);
+    }
+
+    std::vector<std::size_t> indices{3};
+    int value = tensor(indices);
+
+    EXPECT_TRUE(value == 4);
+}
+
+TEST(ContainersTensor, vector_index_operator_rank_4)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 2, 2, 2});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i);
+    }
+
+    std::vector<std::size_t> indices{1, 1, 1, 1};
+    int value = tensor(indices);
+
+    // Flat index = 1*8 + 1*4 + 1*2 + 1 = 15
+    EXPECT_TRUE(value == 15);
+}
+
+TEST(ContainersTensor, vector_index_operator_equivalence_to_variadic)
+{
+    Tensor<int> tensor(stratax::core::Shape{3, 4, 5});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor(i) = static_cast<int>(i);
+    }
+
+    std::vector<std::size_t> indices{2, 1, 3};
+    int vector_value = tensor(indices);
+    int variadic_value = tensor(2, 1, 3);
+
+    EXPECT_TRUE(vector_value == variadic_value);
+}
+
+TEST(ContainersTensor, vector_index_operator_double_type)
+{
+    Tensor<double> tensor(stratax::core::Shape{2, 3});
+
+    tensor(0, 0) = 1.5;
+    tensor(1, 2) = 3.14;
+
+    std::vector<std::size_t> indices1{0, 0};
+    std::vector<std::size_t> indices2{1, 2};
+
+    EXPECT_TRUE(tensor(indices1) == 1.5);
+    EXPECT_TRUE(tensor(indices2) == 3.14);
+}
+
+TEST(ContainersTensor, vector_index_operator_mutable_reference)
+{
+    Tensor<int> tensor(stratax::core::Shape{2, 3});
+
+    std::vector<std::size_t> indices{0, 1};
+    tensor(indices) = 99;
+    tensor(indices) += 1;
+
+    EXPECT_TRUE(tensor(0, 1) == 100);
+}
+

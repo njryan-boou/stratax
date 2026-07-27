@@ -1,3 +1,5 @@
+@page indexing Indexing
+
 # Indexing {#dev_indexing}
 
 Version: v0.2.0

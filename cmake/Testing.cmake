@@ -67,6 +67,11 @@ if(BUILD_TESTING AND STRATAX_BUILD_TESTS)
             GTest::gtest_main
     )
 
+    # Enable /FS flag for MSVC parallel compilation with shared PDB
+    if(MSVC)
+        target_compile_options(stratax_cpp_tests PRIVATE /FS)
+    endif()
+
     include(GoogleTest)
 
     gtest_discover_tests(

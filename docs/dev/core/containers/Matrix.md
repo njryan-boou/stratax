@@ -540,8 +540,8 @@ Checked APIs (`operator()(row, col)`, `at`) coexist with unchecked flat access (
 
 ## See Also
 
-- [Buffer](Buffer.md)
-- [Shape](Shape.md)
-- [Strides](Strides.md)
-- [Vector](Vector.md)
-- [Tensor](Vector.md)
+- @ref buffer
+- @ref shape
+- @ref strides
+- @ref vector
+- @ref tensor

@@ -466,8 +466,8 @@ By separating shape and stride metadata from value storage, Stratax keeps indexi
 
 ## See Also
 
-- [Shape](Shape.md)
-- [Buffer](Buffer.md)
-- [Vector](Vector.md)
-- [Matrix](Matrix.md)
-- [Tensor](Tensor.md)
+- @ref shape
+- @ref buffer
+- @ref vector
+- @ref matrix
+- @ref tensor

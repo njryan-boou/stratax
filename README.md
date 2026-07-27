@@ -75,18 +75,6 @@ your build and include the umbrella header:
 #include <stratax.h>
 ```
 
-## Documentation
-
-For complete documentation, see the generated Doxygen docs:
-
-- **Main Documentation**: [Online Doxygen Docs](docs/output/html/index.html)
-- **Docs Index**: [docs/README.md](docs/README.md)
-- **Getting Started**: [docs/guides/GETTING_STARTED.md](docs/guides/GETTING_STARTED.md)
-- **Architecture**: [docs/guides/architecture.md](docs/guides/architecture.md)
-- **Developer Docs**: [docs/dev/README.md](docs/dev/README.md)
-- **Changelog**: [docs/guides/CHANGELOG.md](docs/guides/CHANGELOG.md)
-- **Roadmap**: [docs/guides/roadmap.md](docs/guides/roadmap.md)
-
 ## Build & Development
 
 ### Requirements

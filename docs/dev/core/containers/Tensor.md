@@ -445,6 +445,34 @@ Throws
 
 ---
 
+## operator() vector-based multi-index
+
+```cpp
+T& operator()(const std::vector<std::size_t>& indices);
+const T& operator()(const std::vector<std::size_t>& indices) const;
+```
+
+Returns element by multi-index from a vector of indices. Validates rank/bounds through `offset(shape_, strides_, indices)`.
+
+Usage
+
+```cpp
+Tensor<int> t(Shape{2, 3, 4});
+std::vector<std::size_t> idx{1, 2, 3};
+int value = t(idx);  // Same as t(1, 2, 3)
+```
+
+Complexity
+
+- O(r), where r is rank
+
+Throws
+
+- `Exceptions::DimensionError` on rank mismatch
+- `Exceptions::IndexError` on out-of-bounds component/offset issues
+
+---
+
 ## operator[]
 
 ```cpp
@@ -544,8 +572,8 @@ Unchecked access is available for performance-critical code paths, while checked
 
 ## See Also
 
-- [Buffer](Buffer.md)
-- [Shape](Shape.md)
-- [Strides](Strides.md)
-- [Vector](Vector.md)
-- [Matrix](Matrix.md)
+- @ref buffer
+- @ref shape
+- @ref strides
+- @ref vector
+- @ref matrix

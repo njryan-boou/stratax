@@ -1,3 +1,5 @@
+@page print Print
+
 # Print {#dev_print}
 
 Version: v0.2.0

@@ -1,3 +1,5 @@
+@page validation Validation
+
 # Validation {#dev_validation}
 
 Version: v0.2.0

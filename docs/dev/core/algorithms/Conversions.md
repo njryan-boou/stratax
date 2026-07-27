@@ -1,3 +1,5 @@
+@page conversions Conversions
+
 # Conversions {#dev_conversions}
 
 Version: v0.2.0

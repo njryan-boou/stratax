@@ -465,8 +465,8 @@ Dimension storage is contiguous through `Buffer<std::size_t>`, which keeps shape
 
 ## See Also
 
-- [Buffer](Buffer.md)
-- [Strides](Strides.md)
-- [Vector](Vector.md)
-- [Matrix](Matrix.md)
-- [Tensor](Tensor.md)
+- @ref buffer
+- @ref strides
+- @ref vector
+- @ref matrix
+- @ref tensor

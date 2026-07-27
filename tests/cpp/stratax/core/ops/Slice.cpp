@@ -803,3 +803,134 @@ TEST(OpsSlice, vector_slice_negative_step_middle)
     EXPECT_TRUE(result[2] == 2);
 }
 
+// ============================================================================
+// Vector-based Slice Overload Tests
+// ============================================================================
+
+TEST(OpsSlice, tensor_rank_two_slice_vector_form)
+{
+    Tensor<int> tensor(Shape{3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i + 1);
+    }
+
+    std::vector<Slice> slices{Slice{1, 3}, Slice{1, 4}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 2);
+    EXPECT_TRUE(result.shape()(0) == 2);
+    EXPECT_TRUE(result.shape()(1) == 3);
+    EXPECT_TRUE(result.size() == 6);
+
+    EXPECT_TRUE(result(0, 0) == 6);
+    EXPECT_TRUE(result(0, 1) == 7);
+    EXPECT_TRUE(result(0, 2) == 8);
+    EXPECT_TRUE(result(1, 0) == 10);
+    EXPECT_TRUE(result(1, 1) == 11);
+    EXPECT_TRUE(result(1, 2) == 12);
+}
+
+TEST(OpsSlice, tensor_rank_three_slice_vector_form)
+{
+    Tensor<int> tensor(Shape{2, 3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i);
+    }
+
+    std::vector<Slice> slices{Slice{0, 2}, Slice{1, 3}, Slice{2, 4}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 3);
+    EXPECT_TRUE(result.shape()(0) == 2);
+    EXPECT_TRUE(result.shape()(1) == 2);
+    EXPECT_TRUE(result.shape()(2) == 2);
+    EXPECT_TRUE(result.size() == 8);
+
+    EXPECT_TRUE(result(0, 0, 0) == tensor(0, 1, 2));
+    EXPECT_TRUE(result(0, 0, 1) == tensor(0, 1, 3));
+    EXPECT_TRUE(result(0, 1, 0) == tensor(0, 2, 2));
+    EXPECT_TRUE(result(0, 1, 1) == tensor(0, 2, 3));
+    EXPECT_TRUE(result(1, 0, 0) == tensor(1, 1, 2));
+    EXPECT_TRUE(result(1, 0, 1) == tensor(1, 1, 3));
+    EXPECT_TRUE(result(1, 1, 0) == tensor(1, 2, 2));
+    EXPECT_TRUE(result(1, 1, 1) == tensor(1, 2, 3));
+}
+
+TEST(OpsSlice, tensor_rank_two_slice_vector_with_step)
+{
+    Tensor<int> tensor(Shape{3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i + 1);
+    }
+
+    std::vector<Slice> slices{Slice{0, 3, 2}, Slice{0, 4, 2}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 2);
+    EXPECT_TRUE(result.shape()(0) == 2);
+    EXPECT_TRUE(result.shape()(1) == 2);
+    EXPECT_TRUE(result.size() == 4);
+
+    EXPECT_TRUE(result(0, 0) == 1);
+    EXPECT_TRUE(result(0, 1) == 3);
+    EXPECT_TRUE(result(1, 0) == 9);
+    EXPECT_TRUE(result(1, 1) == 11);
+}
+
+TEST(OpsSlice, tensor_rank_three_slice_vector_with_step)
+{
+    Tensor<int> tensor(Shape{4, 4, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i);
+    }
+
+    std::vector<Slice> slices{Slice{0, 4, 2}, Slice{0, 4, 2}, Slice{0, 4, 2}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 3);
+    EXPECT_TRUE(result.shape()(0) == 2);
+    EXPECT_TRUE(result.shape()(1) == 2);
+    EXPECT_TRUE(result.shape()(2) == 2);
+    EXPECT_TRUE(result.size() == 8);
+}
+
+TEST(OpsSlice, tensor_rank_two_slice_vector_empty)
+{
+    Tensor<int> tensor(Shape{3, 4});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i + 1);
+    }
+
+    std::vector<Slice> slices{Slice{1, 1}, Slice{0, 4}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 2);
+    EXPECT_TRUE(result.shape()(0) == 0);
+    EXPECT_TRUE(result.shape()(1) == 4);
+    EXPECT_TRUE(result.size() == 0);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(OpsSlice, tensor_rank_three_slice_vector_negative_step)
+{
+    Tensor<int> tensor(Shape{3, 3, 3});
+
+    for (std::size_t i = 0; i < tensor.size(); ++i) {
+        tensor[i] = static_cast<int>(i);
+    }
+
+    std::vector<Slice> slices{Slice{-1, -4, -1}, Slice{-1, -4, -1}, Slice{-1, -4, -1}};
+    auto result = slice(tensor, slices);
+
+    EXPECT_TRUE(result.rank() == 3);
+    EXPECT_TRUE(result.shape()(0) == 3);
+    EXPECT_TRUE(result.shape()(1) == 3);
+    EXPECT_TRUE(result.shape()(2) == 3);
+    EXPECT_TRUE(result.size() == 27);
+}
+

@@ -1,3 +1,5 @@
+@page config Config
+
 # Config {#dev_config}
 
 Version: v0.2.0

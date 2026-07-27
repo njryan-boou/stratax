@@ -1,3 +1,5 @@
+@page arithmetic Arithmetic
+
 # Arithmetic {#dev_arithmetic}
 
 Version: v0.2.0
@@ -223,6 +225,6 @@ Compound assignments delegate to their non-compound counterparts to centralize v
 
 ## See Also
 
-- [Concepts](../Concepts.md)
-- [Comparison](Comparison.md)
-- [Shape Validation](../Validation.md)
+- `include/stratax/core/Concepts.hpp`
+- `include/stratax/core/ops/Comparison.hpp`
+- `include/stratax/core/validation/ShapeValidation.hpp`

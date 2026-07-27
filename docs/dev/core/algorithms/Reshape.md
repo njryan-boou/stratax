@@ -1,3 +1,5 @@
+@page reshape Reshape
+
 # Reshape {#dev_reshape}
 
 Version: v0.2.0
