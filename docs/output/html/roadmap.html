@@ -284,10 +284,22 @@ Phase 7: Documentation and Examples</h3>
 </ul>
 <ul class="check">
 <li class="checked">User-facing guide</li>
-<li class="unchecked">API reference</li>
+</ul>
+<ul class="check">
+<li class="checked">Python API reference</li>
 </ul>
 <ul class="check">
 <li class="checked">Example refresh</li>
+</ul>
+<ul class="check">
+<li class="checked">Troubleshooting guide</li>
+</ul>
+<ul class="check">
+<li class="checked">Release checklist</li>
+</ul>
+<ul class="check">
+<li class="checked">Documentation CI check</li>
+<li class="unchecked">Complete generated C++ API reference coverage</li>
 </ul>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
 Later Phases</h3>
@@ -317,9 +329,9 @@ Implementation Notes</h2>
 <ul>
 <li>Complete core and container correctness before expanding into larger numerical features.</li>
 <li>Generic operators should work across all containers before specialized algorithms are added.</li>
-<li>Shape operations should preserve storage invariants and make copy/view semantics explicit.</li>
+<li>Shape operations should preserve storage invariants and document ownership behavior where it affects users.</li>
 <li>Optimization work should come after correctness tests and baseline behavior are stable.</li>
-<li>Current implemented APIs are copy-based; view semantics are future work.</li>
+<li>Current slicing and reshape APIs return owning results; view types are future work.</li>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
 Future Work</h2>

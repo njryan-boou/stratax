@@ -81,8 +81,12 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Developer docs for implemented ops
 - [x] Developer docs for printing
 - [x] User-facing guide
-- [ ] API reference
+- [x] Python API reference
 - [x] Example refresh
+- [x] Troubleshooting guide
+- [x] Release checklist
+- [x] Documentation CI check
+- [ ] Complete generated C++ API reference coverage
 
 ### Later Phases
 
@@ -103,9 +107,9 @@ Tracks the expected build-out of the library from core infrastructure through co
 
 - Complete core and container correctness before expanding into larger numerical features.
 - Generic operators should work across all containers before specialized algorithms are added.
-- Shape operations should preserve storage invariants and make copy/view semantics explicit.
+- Shape operations should preserve storage invariants and document ownership behavior where it affects users.
 - Optimization work should come after correctness tests and baseline behavior are stable.
-- Current implemented APIs are copy-based; view semantics are future work.
+- Current slicing and reshape APIs return owning results; view types are future work.
 
 ## Future Work
 
