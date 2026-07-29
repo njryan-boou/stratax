@@ -2,7 +2,7 @@
 
 # Documentation Index
 
-This page is the top-level table of contents for the Stratax documentation.
+This page is the top-level table of contents for Stratax documentation.
 
 ---
 

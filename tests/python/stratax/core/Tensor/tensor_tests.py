@@ -17,51 +17,51 @@ class TestTensorInterfaceTests:
     def test_default_tensor_is_empty_rank_zero_tensor(self) -> None:
         tensor = Tensor()
 
-        assert tensor.size == 0
-        assert tensor.rank == 0
-        assert tensor.empty
+        assert tensor.size() == 0
+        assert tensor.rank() == 0
+        assert tensor.empty()
         assert len(tensor) == 0
-        assert tensor.shape == Shape()
-        assert tensor.strides == []
+        assert tensor.shape() == Shape()
+        assert tensor.strides() == []
         assert tensor.tolist() == []
         assert list(tensor) == []
 
     def test_shape_constructor_builds_default_values(self) -> None:
-        tensor = Tensor(Shape(2, 3))
+        tensor = Tensor(Shape([2, 3]))
 
-        assert tensor.size == 6
-        assert tensor.rank == 2
-        assert not tensor.empty
-        assert tensor.shape == Shape(2, 3)
-        assert tensor.strides == [3, 1]
+        assert tensor.size() == 6
+        assert tensor.rank() == 2
+        assert not tensor.empty()
+        assert tensor.shape() == Shape([2, 3])
+        assert tensor.strides() == [3, 1]
         assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     def test_shape_value_constructor_fills_values(self) -> None:
-        tensor = Tensor(Shape(2, 2), 3.5)
+        tensor = Tensor(Shape([2, 2]), 3.5)
 
-        assert tensor.size == 4
+        assert tensor.size() == 4
         assert tensor.tolist() == [3.5, 3.5, 3.5, 3.5]
 
     def test_iterable_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor([2, 2, 2])
 
-        assert tensor.size == 8
-        assert tensor.rank == 3
-        assert tensor.shape == Shape(2, 2, 2)
-        assert tensor.strides == [4, 2, 1]
+        assert tensor.size() == 8
+        assert tensor.rank() == 3
+        assert tensor.shape() == Shape([2, 2, 2])
+        assert tensor.strides() == [4, 2, 1]
 
     def test_iterable_shape_value_constructor_fills_values(self) -> None:
         tensor = Tensor([2, 3], 6.0)
 
-        assert tensor.shape == Shape(2, 3)
+        assert tensor.shape() == Shape([2, 3])
         assert tensor.tolist() == [6.0, 6.0, 6.0, 6.0, 6.0, 6.0]
 
     def test_generator_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor(dim for dim in (2, 1, 3))
 
-        assert tensor.size == 6
-        assert tensor.shape == Shape(2, 1, 3)
-        assert tensor.strides == [3, 3, 1]
+        assert tensor.size() == 6
+        assert tensor.shape() == Shape([2, 1, 3])
+        assert tensor.strides() == [3, 3, 1]
 
     def test_copy_constructor_preserves_values(self) -> None:
         original = Tensor([2, 2], 1.5)
@@ -97,7 +97,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[1:4]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([3])
+        assert sliced.shape() == Shape([3])
         assert sliced.tolist() == [2.0, 3.0, 4.0]
 
     def test_mixed_tuple_slice_indexing_returns_tensor(self) -> None:
@@ -108,7 +108,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[:, 1:3]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([2, 2])
+        assert sliced.shape() == Shape([2, 2])
         assert sliced.tolist() == [2.0, 3.0, 5.0, 6.0]
 
     def test_integer_and_slice_tuple_indexing_returns_tensor(self) -> None:
@@ -119,7 +119,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[1, 1:3]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([1, 2])
+        assert sliced.shape() == Shape([1, 2])
         assert sliced.tolist() == [5.0, 6.0]
 
     def test_rank_mismatch_top_level_slice_raises_index_error(self) -> None:
@@ -136,7 +136,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[::2]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([3])
+        assert sliced.shape() == Shape([3])
         assert sliced.tolist() == [1.0, 3.0, 5.0]
 
     def test_slice_indexing_supports_negative_step(self) -> None:
@@ -147,7 +147,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[::-2]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([3])
+        assert sliced.shape() == Shape([3])
         assert sliced.tolist() == [5.0, 3.0, 1.0]
 
     def test_tuple_slice_indexing_supports_negative_step(self) -> None:
@@ -158,7 +158,7 @@ class TestTensorInterfaceTests:
         sliced = tensor[::-1, ::-2]
 
         assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([2, 2])
+        assert sliced.shape() == Shape([2, 2])
         assert sliced.tolist() == [6.0, 4.0, 3.0, 1.0]
 
     def test_fill_updates_all_values(self) -> None:
@@ -173,15 +173,15 @@ class TestTensorInterfaceTests:
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
             tensor[index] = value
 
-        reshaped_with_shape = tensor.reshape(Shape(3, 2))
+        reshaped_with_shape = tensor.reshape(Shape([3, 2]))
         reshaped_with_iterable = tensor.reshape([1, 6])
 
         assert isinstance(reshaped_with_shape, Tensor)
-        assert reshaped_with_shape.shape == Shape(3, 2)
+        assert reshaped_with_shape.shape() == Shape([3, 2])
         assert reshaped_with_shape.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
 
         assert isinstance(reshaped_with_iterable, Tensor)
-        assert reshaped_with_iterable.shape == Shape(1, 6)
+        assert reshaped_with_iterable.shape() == Shape([1, 6])
         assert reshaped_with_iterable.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
 
     def test_flatten_returns_vector(self) -> None:
@@ -207,7 +207,9 @@ class TestTensorInterfaceTests:
         assert Tensor([2, 2], 1.0) == Tensor([2, 2], 1.0)
         assert Tensor([2, 2], 1.0) != Tensor([2, 2], 2.0)
         assert Tensor([2, 2], 1.0) != Tensor([4], 1.0)
-        assert Tensor([2, 2], 1.0) != [1.0, 1.0, 1.0, 1.0]
+
+        with pytest.raises(TypeError):
+            _ = Tensor([2, 2], 1.0) != [1.0, 1.0, 1.0, 1.0]
 
     def test_array_arithmetic(self) -> None:
         lhs = Tensor([2, 2])

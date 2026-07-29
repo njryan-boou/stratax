@@ -33,6 +33,8 @@ and tensor construction.
 C++ uses `operator()` for multidimensional access and `slice(...)` helpers for
 slicing.
 
+Core container types use `operator[]` for flat indexing making container types share algorithm logic.
+
 ```cpp
 using stratax::core::Slice;
 using stratax::container::Vector;
@@ -129,7 +131,7 @@ last_axis = sum(tensor, -1)
 mean_axis0 = mean(tensor, 0, keepdims=True)
 ```
 
-Python reductions support `keepdims=True` for shape-preserving results.
+Python reductions support `keepdims` for preserving rank.
 
 ## Python API Notes
 

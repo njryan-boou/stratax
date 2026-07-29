@@ -25,15 +25,15 @@
 var NAVTREE =
 [
   [ "Stratax", "index.html", [
-    [ "Features", "index.html#autotoc_md1019", null ],
-    [ "Quick Links", "index.html#autotoc_md1020", null ],
-    [ "Core Components", "index.html#autotoc_md1021", [
-      [ "Data Structures", "index.html#autotoc_md1022", null ],
-      [ "Operations", "index.html#autotoc_md1023", null ],
-      [ "Validation", "index.html#autotoc_md1024", null ]
+    [ "Features", "index.html#autotoc_md1021", null ],
+    [ "Quick Links", "index.html#autotoc_md1022", null ],
+    [ "Core Components", "index.html#autotoc_md1023", [
+      [ "Data Structures", "index.html#autotoc_md1024", null ],
+      [ "Operations", "index.html#autotoc_md1025", null ],
+      [ "Validation", "index.html#autotoc_md1026", null ]
     ] ],
-    [ "Documentation Structure", "index.html#autotoc_md1025", null ],
-    [ "Links", "index.html#autotoc_md1026", null ],
+    [ "Documentation Structure", "index.html#autotoc_md1027", null ],
+    [ "Links", "index.html#autotoc_md1028", null ],
     [ "\"_core Extension Module\"", "dev_module.html", [
       [ "_core Extension Module", "dev_module.html#autotoc_md0", [
         [ "Overview", "dev_module.html#autotoc_md2", null ],
@@ -687,11 +687,11 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Documentation Index", "docs_index.html", [
-      [ "Documentation Index", "docs_index.html#autotoc_md1028", [
-        [ "Start Here", "docs_index.html#autotoc_md1030", null ],
-        [ "Guides", "docs_index.html#autotoc_md1032", null ],
-        [ "Developer References", "docs_index.html#autotoc_md1034", null ],
-        [ "Generated Output", "docs_index.html#autotoc_md1036", null ]
+      [ "Documentation Index", "docs_index.html#autotoc_md1030", [
+        [ "Start Here", "docs_index.html#autotoc_md1032", null ],
+        [ "Guides", "docs_index.html#autotoc_md1034", null ],
+        [ "Developer References", "docs_index.html#autotoc_md1036", null ],
+        [ "Generated Output", "docs_index.html#autotoc_md1038", null ]
       ] ]
     ] ],
     [ "Concepts", "concepts.html", "concepts" ],
@@ -716,7 +716,7 @@ var NAVTREEINDEX =
 "classstratax_1_1container_1_1_vector.html#aa10604e254b23976e5a44c832727ae28",
 "dir_d81e4652eb261ab36273d7eb7356393d.html",
 "roadmap.html",
-"vector.html#autotoc_md595"
+"vector.html#autotoc_md591"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

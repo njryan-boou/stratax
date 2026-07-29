@@ -1,20 +1,38 @@
-from ._core import __version__, __doc__ as __core_doc__, __author__
-from .shape import Shape
-from .tensor import Tensor
-from .vector import Vector
-from .matrix import Matrix
-from .conversions import to_matrix, to_tensor, to_vector
-from .creation import full, identity, ones, zeros
-from .reductions import argmax, argmin, max, mean, min, prod, std, sum, var
-from .exceptions import (
+from . import _core
+from ._core import (
+    __author__,
+    __doc__ as __core_doc__,
+    __version__,
+    argmax,
+    argmin,
+    AxisError,
     BroadcastError,
     DimensionError,
+    full,
+    identity,
     IndexError,
+    Matrix,
+    max,
+    mean,
+    min,
+    ones,
+    prod,
     ShapeError,
     StrataxError,
+    std,
+    sum,
+    Tensor,
+    to_matrix,
+    to_tensor,
+    to_vector,
     TypeError,
+    var,
+    Vector,
     ZeroDivisionError,
+    zeros,
 )
+
+Shape = getattr(_core, "_Shape")
 
 __all__ = [
     "Shape",
@@ -44,4 +62,5 @@ __all__ = [
     "TypeError",
     "BroadcastError",
     "ZeroDivisionError",
+    "AxisError",
 ]

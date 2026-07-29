@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Shape, Vector, mean, sum, to_tensor, to_vector
+from stratax._core import Shape, Vector, mean, sum, to_tensor, to_vector
 
 
 values = Vector([1.0, 2.0, 3.0, 4.0, 5.0])

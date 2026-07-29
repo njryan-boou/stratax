@@ -534,7 +534,7 @@ Checked APIs (`operator()(row, col)`, `at`) coexist with unchecked flat access (
 
 - Add row/column view APIs
 - Add slicing/submatrix view support
-- Add specialized SIMD kernels for common elementwise operations
+- Add specialized SIMD kernels for common element-wise operations
 
 ---
 

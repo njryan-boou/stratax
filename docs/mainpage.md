@@ -49,7 +49,7 @@ operations, with Python bindings through pybind11.
 ## Documentation Structure
 
 | Section | Purpose |
-|---------|---------|
+| --------- | --------- |
 | Guides | Getting started, setup instructions, examples, and project workflow |
 | API Reference | C++ header documentation and usage examples |
 | Developer Docs | Architecture, design decisions, and contributor guidelines |

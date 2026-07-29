@@ -31,11 +31,11 @@ class TestConversionsInterfaceTests:
         as_tensor_from_matrix = to_tensor(matrix)
 
         assert isinstance(as_tensor_from_vector, Tensor)
-        assert as_tensor_from_vector.shape == Shape([3])
+        assert as_tensor_from_vector.shape() == Shape([3])
         assert as_tensor_from_vector.tolist() == [1.0, 2.0, 3.0]
 
         assert isinstance(as_tensor_from_matrix, Tensor)
-        assert as_tensor_from_matrix.shape == Shape(2, 2)
+        assert as_tensor_from_matrix.shape() == Shape([2, 2])
         assert as_tensor_from_matrix.tolist() == [1.0, 2.0, 3.0, 4.0]
 
     def test_to_vector_from_rank_one_tensor(self) -> None:
@@ -47,7 +47,7 @@ class TestConversionsInterfaceTests:
         vector = to_vector(tensor)
 
         assert isinstance(vector, Vector)
-        assert vector.shape == Shape([3])
+        assert vector.shape() == Shape([3])
         assert vector.tolist() == [2.0, 4.0, 6.0]
 
     def test_to_vector_rejects_non_rank_one(self) -> None:
@@ -64,7 +64,7 @@ class TestConversionsInterfaceTests:
         matrix = to_matrix(tensor)
 
         assert isinstance(matrix, Matrix)
-        assert matrix.shape == Shape(2, 2)
+        assert matrix.shape() == Shape([2, 2])
         assert matrix.tolist() == [[1.0, 2.0], [3.0, 4.0]]
 
     def test_to_matrix_from_matrix_shaped_tensor_with_singletons(self) -> None:
@@ -75,7 +75,7 @@ class TestConversionsInterfaceTests:
         matrix = to_matrix(tensor)
 
         assert isinstance(matrix, Matrix)
-        assert matrix.shape == Shape(2, 3)
+        assert matrix.shape() == Shape([2, 3])
         assert matrix.tolist() == [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
 
     def test_to_matrix_rejects_non_rank_two(self) -> None:
@@ -91,11 +91,11 @@ class TestConversionsInterfaceTests:
             _ = to_matrix(tensor)
 
     def test_conversion_functions_validate_argument_type(self) -> None:
-        with pytest.raises(StrataxTypeError):
+        with pytest.raises(TypeError):
             _ = to_vector(object())
 
-        with pytest.raises(StrataxTypeError):
+        with pytest.raises(TypeError):
             _ = to_matrix(object())
 
-        with pytest.raises(StrataxTypeError):
+        with pytest.raises(TypeError):
             _ = to_tensor(object())

@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['namespace_0',['Namespace',['../exceptions.html#autotoc_md612',1,'']]],
-  ['naming_1',['Naming',['../contributing.html#autotoc_md944',1,'']]],
-  ['nested_20initializer_20list_20constructor_2',['Nested Initializer List Constructor',['../matrix.html#autotoc_md259',1,'']]],
-  ['not_20run_3',['Tests Do Not Run',['../troubleshooting.html#autotoc_md1009',1,'']]],
-  ['notes_4',['Notes',['../conversions.html#autotoc_md44',1,'Design Notes'],['../creation.html#autotoc_md68',1,'Design Notes'],['../reductions.html#autotoc_md102',1,'Design Notes'],['../reshape.html#autotoc_md124',1,'Design Notes'],['../concepts.html#autotoc_md147',1,'Design Notes'],['../config.html#autotoc_md167',1,'Design Notes'],['../buffer.html#autotoc_md233',1,'Design Notes'],['../matrix.html#autotoc_md307',1,'Design Notes'],['../shape.html#autotoc_md375',1,'Design Notes'],['../strides.html#autotoc_md443',1,'Design Notes'],['../tensor.html#autotoc_md519',1,'Design Notes'],['../vector.html#autotoc_md597',1,'Design Notes'],['../exceptions.html#autotoc_md639',1,'Design Notes'],['../print.html#autotoc_md662',1,'Design Notes'],['../meta.html#autotoc_md682',1,'Design Notes'],['../arithmetic.html#autotoc_md708',1,'Design Notes'],['../bitwise.html#autotoc_md734',1,'Design Notes'],['../comparison.html#autotoc_md756',1,'Design Notes'],['../indexing.html#autotoc_md777',1,'Design Notes'],['../ops_slice.html#autotoc_md801',1,'Design Notes'],['../slice.html#autotoc_md828',1,'Design Notes'],['../types.html#autotoc_md853',1,'Design Notes'],['../validation.html#autotoc_md880',1,'Design Notes'],['../dev_stratax.html#autotoc_md915',1,'Design Notes'],['../architecture.html#autotoc_md927',1,'Implementation Notes'],['../contributing.html#autotoc_md946',1,'Implementation Notes'],['../roadmap.html#autotoc_md1002',1,'Implementation Notes'],['../examples.html#autotoc_md951',1,'Notes'],['../user_guide.html#autotoc_md1017',1,'Python API Notes'],['../architecture.html#autotoc_md926',1,'Validation Notes'],['../contributing.html#autotoc_md945',1,'Validation Notes'],['../roadmap.html#autotoc_md1001',1,'Validation Notes']]]
+  ['later_20phases_0',['Later Phases',['../roadmap.html#autotoc_md1002',1,'']]],
+  ['layout_1',['Project Layout',['../architecture.html#autotoc_md923',1,'']]],
+  ['limits_2',['Current Limits',['../user_guide.html#autotoc_md1020',1,'']]],
+  ['linear_20algebra_3',['Phase 5: Linear Algebra',['../roadmap.html#autotoc_md997',1,'']]],
+  ['links_4',['Links',['../index.html#autotoc_md1028',1,'Links'],['../index.html#autotoc_md1022',1,'Quick Links']]],
+  ['list_5',['Initializer List',['../buffer.html#autotoc_md227',1,'']]],
+  ['list_20constructor_6',['List Constructor',['../buffer.html#autotoc_md191',1,'Initializer List Constructor'],['../vector.html#autotoc_md545',1,'Initializer List Constructor'],['../matrix.html#autotoc_md259',1,'Nested Initializer List Constructor']]],
+  ['list_20tag_20constructor_7',['Initializer List + Tag Constructor',['../shape.html#autotoc_md329',1,'']]],
+  ['looks_20stale_8',['Documentation Looks Stale',['../troubleshooting.html#autotoc_md1012',1,'']]]
 ];

@@ -16,28 +16,28 @@ class TestMatrixInterfaceTests:
     def test_default_matrix_is_empty_rank_two_matrix(self) -> None:
         matrix = Matrix()
 
-        assert matrix.size == 0
-        assert matrix.rank == 2
-        assert matrix.empty
-        assert matrix.rows == 0
-        assert matrix.cols == 0
+        assert matrix.size() == 0
+        assert matrix.rank() == 2
+        assert matrix.empty()
+        assert matrix.rows() == 0
+        assert matrix.cols() == 0
         assert len(matrix) == 0
-        assert list(matrix.shape) == [0, 0]
-        assert matrix.strides == [0, 1]
+        assert list(matrix.shape()) == [0, 0]
+        assert matrix.strides() == [0, 1]
         assert matrix.tolist() == []
         assert list(matrix) == []
 
     def test_rows_cols_constructor_builds_default_values(self) -> None:
         matrix = Matrix(2, 3)
 
-        assert matrix.size == 6
-        assert matrix.rank == 2
-        assert not matrix.empty
-        assert matrix.rows == 2
-        assert matrix.cols == 3
+        assert matrix.size() == 6
+        assert matrix.rank() == 2
+        assert not matrix.empty()
+        assert matrix.rows() == 2
+        assert matrix.cols() == 3
         assert len(matrix) == 2
-        assert matrix.shape == Shape(2, 3)
-        assert matrix.strides == [3, 1]
+        assert matrix.shape() == Shape([2, 3])
+        assert matrix.strides() == [3, 1]
         assert matrix.tolist() == [
             [0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0],
@@ -49,19 +49,19 @@ class TestMatrixInterfaceTests:
         assert matrix.tolist() == [[7.5, 7.5], [7.5, 7.5]]
 
     def test_shape_constructor_builds_matrix(self) -> None:
-        matrix = Matrix(Shape(2, 2))
+        matrix = Matrix(Shape([2, 2]))
 
-        assert matrix.size == 4
-        assert matrix.shape == Shape(2, 2)
+        assert matrix.size() == 4
+        assert matrix.shape() == Shape([2, 2])
         assert matrix.tolist() == [[0.0, 0.0], [0.0, 0.0]]
 
     def test_nested_iterable_constructor_preserves_values(self) -> None:
         matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
 
-        assert matrix.size == 4
-        assert matrix.rows == 2
-        assert matrix.cols == 2
-        assert matrix.shape == Shape(2, 2)
+        assert matrix.size() == 4
+        assert matrix.rows() == 2
+        assert matrix.cols() == 2
+        assert matrix.shape() == Shape([2, 2])
         assert matrix.tolist() == [[1.0, 2.0], [3.0, 4.0]]
         assert list(matrix) == [1.0, 2.0, 3.0, 4.0]
 
@@ -89,7 +89,7 @@ class TestMatrixInterfaceTests:
         sliced = matrix[:, 1:3]
 
         assert isinstance(sliced, Matrix)
-        assert sliced.shape == Shape(2, 2)
+        assert sliced.shape() == Shape([2, 2])
         assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
 
     def test_mixed_integer_and_slice_indexing_returns_matrix(self) -> None:
@@ -98,7 +98,7 @@ class TestMatrixInterfaceTests:
         sliced = matrix[1, :]
 
         assert isinstance(sliced, Matrix)
-        assert sliced.shape == Shape(1, 3)
+        assert sliced.shape() == Shape([1, 3])
         assert sliced.tolist() == [[4.0, 5.0, 6.0]]
 
     def test_slice_indexing_supports_step(self) -> None:
@@ -107,7 +107,7 @@ class TestMatrixInterfaceTests:
         sliced = matrix[:, ::2]
 
         assert isinstance(sliced, Matrix)
-        assert sliced.shape == Shape(2, 2)
+        assert sliced.shape() == Shape([2, 2])
         assert sliced.tolist() == [[1.0, 3.0], [4.0, 6.0]]
 
     def test_slice_indexing_supports_negative_step(self) -> None:
@@ -116,7 +116,7 @@ class TestMatrixInterfaceTests:
         sliced = matrix[::-1, ::-2]
 
         assert isinstance(sliced, Matrix)
-        assert sliced.shape == Shape(2, 2)
+        assert sliced.shape() == Shape([2, 2])
         assert sliced.tolist() == [[6.0, 4.0], [3.0, 1.0]]
 
     def test_fill_updates_all_values(self) -> None:
@@ -129,16 +129,16 @@ class TestMatrixInterfaceTests:
     def test_reshape_and_flatten(self) -> None:
         matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
 
-        reshaped = matrix.reshape(Shape(1, 4))
+        reshaped = matrix.reshape(Shape([1, 4]))
         reshaped_dims = matrix.reshape([4, 1])
         flattened = matrix.flatten()
 
         assert isinstance(reshaped, Tensor)
-        assert reshaped.shape == Shape(1, 4)
+        assert reshaped.shape() == Shape([1, 4])
         assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
 
         assert isinstance(reshaped_dims, Tensor)
-        assert reshaped_dims.shape == Shape(4, 1)
+        assert reshaped_dims.shape() == Shape([4, 1])
         assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
 
         assert isinstance(flattened, Vector)
@@ -151,7 +151,9 @@ class TestMatrixInterfaceTests:
         assert Matrix([[1.0, 2.0], [3.0, 4.0]]) == Matrix([[1.0, 2.0], [3.0, 4.0]])
         assert Matrix([[1.0, 2.0], [3.0, 4.0]]) != Matrix([[1.0, 2.0], [3.0, 9.0]])
         assert Matrix([[1.0, 2.0], [3.0, 4.0]]) != Matrix([[1.0, 2.0, 3.0]])
-        assert Matrix([[1.0, 2.0], [3.0, 4.0]]) != [[1.0, 2.0], [3.0, 4.0]]
+
+        with pytest.raises(TypeError):
+            _ = Matrix([[1.0, 2.0], [3.0, 4.0]]) != [[1.0, 2.0], [3.0, 4.0]]
 
     def test_array_arithmetic(self) -> None:
         lhs = Matrix([[8.0, 12.0], [20.0, 30.0]])

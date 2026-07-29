@@ -9,6 +9,7 @@ This guide walks you through setting up a development environment, building the 
 Developer-focused design and implementation notes are available in @ref dev_index "Developer Docs".
 
 **Documentation:**
+
 - @subpage user_guide
 - @subpage python_api
 - @subpage architecture

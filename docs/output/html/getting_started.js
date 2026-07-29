@@ -17,14 +17,14 @@ var getting_started =
       [ "Try the Examples", "getting_started.html#autotoc_md973", null ]
     ] ],
     [ "\"User Guide\"", "user_guide.html", [
-      [ "User Guide", "user_guide.html#autotoc_md1011", [
-        [ "Containers", "user_guide.html#autotoc_md1012", null ],
-        [ "Indexing and Slicing", "user_guide.html#autotoc_md1013", null ],
-        [ "Shape, Reshape, and Flatten", "user_guide.html#autotoc_md1014", null ],
-        [ "Creation and Conversion", "user_guide.html#autotoc_md1015", null ],
-        [ "Reductions", "user_guide.html#autotoc_md1016", null ],
-        [ "Python API Notes", "user_guide.html#autotoc_md1017", null ],
-        [ "Current Limits", "user_guide.html#autotoc_md1018", null ]
+      [ "User Guide", "user_guide.html#autotoc_md1013", [
+        [ "Containers", "user_guide.html#autotoc_md1014", null ],
+        [ "Indexing and Slicing", "user_guide.html#autotoc_md1015", null ],
+        [ "Shape, Reshape, and Flatten", "user_guide.html#autotoc_md1016", null ],
+        [ "Creation and Conversion", "user_guide.html#autotoc_md1017", null ],
+        [ "Reductions", "user_guide.html#autotoc_md1018", null ],
+        [ "Python API Notes", "user_guide.html#autotoc_md1019", null ],
+        [ "Current Limits", "user_guide.html#autotoc_md1020", null ]
       ] ]
     ] ],
     [ "\"Python API Reference\"", "python_api.html", [
@@ -75,13 +75,13 @@ var getting_started =
       ] ]
     ] ],
     [ "Troubleshooting", "troubleshooting.html", [
-      [ "Troubleshooting", "troubleshooting.html#autotoc_md1004", [
-        [ "Python Import Cannot Find <span class=\"tt\">_core</span>", "troubleshooting.html#autotoc_md1005", null ],
-        [ "Editable Install Fails", "troubleshooting.html#autotoc_md1006", null ],
-        [ "CMake Cannot Find a Compiler", "troubleshooting.html#autotoc_md1007", null ],
-        [ "C++ Examples Cannot Find <span class=\"tt\">stratax.h</span>", "troubleshooting.html#autotoc_md1008", null ],
-        [ "Tests Do Not Run", "troubleshooting.html#autotoc_md1009", null ],
-        [ "Documentation Looks Stale", "troubleshooting.html#autotoc_md1010", null ]
+      [ "Troubleshooting", "troubleshooting.html#autotoc_md1006", [
+        [ "Python Import Cannot Find <span class=\"tt\">_core</span>", "troubleshooting.html#autotoc_md1007", null ],
+        [ "Editable Install Fails", "troubleshooting.html#autotoc_md1008", null ],
+        [ "CMake Cannot Find a Compiler", "troubleshooting.html#autotoc_md1009", null ],
+        [ "C++ Examples Cannot Find <span class=\"tt\">stratax.h</span>", "troubleshooting.html#autotoc_md1010", null ],
+        [ "Tests Do Not Run", "troubleshooting.html#autotoc_md1011", null ],
+        [ "Documentation Looks Stale", "troubleshooting.html#autotoc_md1012", null ]
       ] ]
     ] ],
     [ "Changelog", "changelog.html", [
@@ -106,12 +106,14 @@ var getting_started =
           [ "Phase 4: Shape Operations", "roadmap.html#autotoc_md996", null ],
           [ "Phase 5: Linear Algebra", "roadmap.html#autotoc_md997", null ],
           [ "Phase 6: Input and Output", "roadmap.html#autotoc_md998", null ],
-          [ "Phase 7: Documentation and Examples", "roadmap.html#autotoc_md999", null ],
-          [ "Later Phases", "roadmap.html#autotoc_md1000", null ]
+          [ "Phase 7: Python Bindings", "roadmap.html#autotoc_md999", null ],
+          [ "Phase 8: Testing and CI", "roadmap.html#autotoc_md1000", null ],
+          [ "Phase 9: Documentation and Examples", "roadmap.html#autotoc_md1001", null ],
+          [ "Later Phases", "roadmap.html#autotoc_md1002", null ]
         ] ],
-        [ "Validation Notes", "roadmap.html#autotoc_md1001", null ],
-        [ "Implementation Notes", "roadmap.html#autotoc_md1002", null ],
-        [ "Future Work", "roadmap.html#autotoc_md1003", null ]
+        [ "Validation Notes", "roadmap.html#autotoc_md1003", null ],
+        [ "Implementation Notes", "roadmap.html#autotoc_md1004", null ],
+        [ "Future Work", "roadmap.html#autotoc_md1005", null ]
       ] ]
     ] ]
 ];

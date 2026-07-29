@@ -1,8 +1,28 @@
 var searchData=
 [
-  ['h_0',['h',['../troubleshooting.html#autotoc_md1008',1,'C++ Examples Cannot Find &lt;span class=&quot;tt&quot;&gt;stratax.h&lt;/span&gt;'],['../dev_stratax.html',1,'stratax.h'],['../dev_stratax.html#autotoc_md900',1,'stratax.h']]],
-  ['header_1',['Aggregation Header',['../validation.html#autotoc_md868',1,'']]],
-  ['helpers_2',['Helpers',['../python_api.html#autotoc_md981',1,'Conversion Helpers'],['../python_api.html#autotoc_md980',1,'Creation Helpers'],['../validation.html#autotoc_md870',1,'Re-exported Helpers']]],
-  ['helpers_3',['helpers',['../validation.html#autotoc_md871',1,'Dimension helpers'],['../validation.html#autotoc_md872',1,'Index helpers'],['../conversions.html#autotoc_md36',1,'Shape helpers'],['../validation.html#autotoc_md873',1,'Shape helpers'],['../validation.html#autotoc_md874',1,'Type helpers']]],
-  ['here_4',['Start Here',['../docs_index.html#autotoc_md1030',1,'']]]
+  ['fails_0',['Editable Install Fails',['../troubleshooting.html#autotoc_md1008',1,'']]],
+  ['features_1',['Features',['../index.html#autotoc_md1021',1,'']]],
+  ['file_20map_2',['File Map',['../dev_bindings.html#autotoc_md19',1,'']]],
+  ['files_3',['Related Files',['../dev_module.html#autotoc_md10',1,'']]],
+  ['fill_4',['fill',['../classstratax_1_1core_1_1_buffer.html#a2a5989622da047944997c3263fcab011',1,'stratax::core::Buffer::fill()'],['../classstratax_1_1container_1_1_matrix.html#a121bc3f94593ec11337a9673fa2a7fa5',1,'stratax::container::Matrix::fill()'],['../classstratax_1_1container_1_1_tensor.html#a054d27aee3c69739f218fa2da78e72c7',1,'stratax::container::Tensor::fill()'],['../classstratax_1_1container_1_1_vector.html#a474b660da6b7332a6b89cc0a1fbaa38b',1,'stratax::container::Vector::fill()'],['../buffer.html#autotoc_md215',1,'fill()'],['../matrix.html#autotoc_md289',1,'fill()'],['../tensor.html#autotoc_md497',1,'fill()'],['../vector.html#autotoc_md579',1,'fill()']]],
+  ['fill_20constructor_5',['Fill Constructor',['../buffer.html#autotoc_md189',1,'Fill Constructor'],['../matrix.html#autotoc_md257',1,'Fill Constructor'],['../vector.html#autotoc_md543',1,'Fill Constructor'],['../tensor.html#autotoc_md465',1,'Shape + Fill Constructor']]],
+  ['filling_6',['Filling',['../buffer.html#autotoc_md229',1,'']]],
+  ['find_20_5fcore_7',['Python Import Cannot Find &lt;span class=&quot;tt&quot;&gt;_core&lt;/span&gt;',['../troubleshooting.html#autotoc_md1007',1,'']]],
+  ['find_20a_20compiler_8',['CMake Cannot Find a Compiler',['../troubleshooting.html#autotoc_md1009',1,'']]],
+  ['find_20stratax_20h_9',['C++ Examples Cannot Find &lt;span class=&quot;tt&quot;&gt;stratax.h&lt;/span&gt;',['../troubleshooting.html#autotoc_md1010',1,'']]],
+  ['fixed_10',['Fixed',['../changelog.html#autotoc_md934',1,'']]],
+  ['flat_11',['flat',['../tensor.html#autotoc_md487',1,'at() flat'],['../tensor.html#autotoc_md502',1,'operator() flat']]],
+  ['flatten_12',['Shape, Reshape, and Flatten',['../user_guide.html#autotoc_md1016',1,'']]],
+  ['flatten_13',['flatten',['../reshape.html#autotoc_md118',1,'']]],
+  ['float_14',['Float',['../concept_float.html',1,'']]],
+  ['floating_15',['Floating',['../concept_floating.html',1,'']]],
+  ['floating_20aliases_16',['Floating aliases',['../types.html#autotoc_md846',1,'']]],
+  ['flow_17',['Data Flow',['../dev_bindings.html#autotoc_md21',1,'']]],
+  ['foundations_18',['Core Foundations',['../dev_stratax.html#autotoc_md907',1,'']]],
+  ['from_20a_20shape_19',['Building Strides From a Shape',['../strides.html#autotoc_md439',1,'']]],
+  ['front_20',['front',['../classstratax_1_1core_1_1_buffer.html#afa128349412ea65d1965c0efed488c00',1,'stratax::core::Buffer::front()'],['../classstratax_1_1core_1_1_buffer.html#a5bfcc23dc7a630a7acf439f58cf191b5',1,'stratax::core::Buffer::front() const'],['../classstratax_1_1container_1_1_matrix.html#a3d928987db59160731a169a966853766',1,'stratax::container::Matrix::front()'],['../classstratax_1_1container_1_1_matrix.html#a244c8fffb65a372891c89c09005c64f9',1,'stratax::container::Matrix::front() const'],['../classstratax_1_1core_1_1_strides.html#acb94cda66fb1b94fa16f8dd3cdb7aee0',1,'stratax::core::Strides::front()'],['../classstratax_1_1container_1_1_tensor.html#a58454f8b4eb7457292856ca2c24e774e',1,'stratax::container::Tensor::front()'],['../classstratax_1_1container_1_1_tensor.html#a34440ae985c2a8d959427035ca550e25',1,'stratax::container::Tensor::front() const'],['../classstratax_1_1container_1_1_vector.html#a402e53f48ce7507a229fac21ae2fece6',1,'stratax::container::Vector::front()'],['../classstratax_1_1container_1_1_vector.html#a4a14963a6d083facd7757d47bcac578f',1,'stratax::container::Vector::front() const'],['../buffer.html#autotoc_md205',1,'front()'],['../strides.html#autotoc_md417',1,'front()'],['../vector.html#autotoc_md571',1,'front()']]],
+  ['front_20back_21',['front back',['../matrix.html#autotoc_md283',1,'front() / back()'],['../tensor.html#autotoc_md491',1,'front() / back()']]],
+  ['full_22',['full',['../creation.html#autotoc_md61',1,'']]],
+  ['future_20improvements_23',['Future Improvements',['../dev_module.html#autotoc_md12',1,'Future Improvements'],['../dev_bindings.html#autotoc_md25',1,'Future Improvements'],['../conversions.html#autotoc_md46',1,'Future Improvements'],['../creation.html#autotoc_md70',1,'Future Improvements'],['../reductions.html#autotoc_md104',1,'Future Improvements'],['../reshape.html#autotoc_md126',1,'Future Improvements'],['../concepts.html#autotoc_md149',1,'Future Improvements'],['../config.html#autotoc_md169',1,'Future Improvements'],['../buffer.html#autotoc_md235',1,'Future Improvements'],['../matrix.html#autotoc_md309',1,'Future Improvements'],['../shape.html#autotoc_md377',1,'Future Improvements'],['../strides.html#autotoc_md445',1,'Future Improvements'],['../tensor.html#autotoc_md521',1,'Future Improvements'],['../vector.html#autotoc_md599',1,'Future Improvements'],['../exceptions.html#autotoc_md641',1,'Future Improvements'],['../print.html#autotoc_md664',1,'Future Improvements'],['../meta.html#autotoc_md684',1,'Future Improvements'],['../arithmetic.html#autotoc_md710',1,'Future Improvements'],['../bitwise.html#autotoc_md736',1,'Future Improvements'],['../comparison.html#autotoc_md758',1,'Future Improvements'],['../indexing.html#autotoc_md779',1,'Future Improvements'],['../ops_slice.html#autotoc_md803',1,'Future Improvements'],['../slice.html#autotoc_md830',1,'Future Improvements'],['../types.html#autotoc_md855',1,'Future Improvements'],['../validation.html#autotoc_md882',1,'Future Improvements'],['../dev_stratax.html#autotoc_md917',1,'Future Improvements']]],
+  ['future_20work_24',['Future Work',['../architecture.html#autotoc_md928',1,'Future Work'],['../contributing.html#autotoc_md947',1,'Future Work'],['../roadmap.html#autotoc_md1005',1,'Future Work']]]
 ];

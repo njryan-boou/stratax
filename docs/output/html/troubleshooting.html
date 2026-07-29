@@ -118,16 +118,16 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('troubleshootin
   <div class="headertitle"><div class="title">Troubleshooting </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md1004"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
 Troubleshooting</h1>
 <p>Common setup, build, and import issues while working on Stratax.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
 Python Import Cannot Find <span class="tt">_core</span></h2>
 <p>The Python package depends on the compiled pybind11 extension module. Install the package in editable mode from the repository root:</p>
 <div class="fragment"><div class="line">python -m pip install -e .</div>
 </div><!-- fragment --><p>If an example is run directly from <span class="tt">examples/python</span>, run it from the repository root so its helper path setup resolves the local package consistently:</p>
 <div class="fragment"><div class="line">python examples/python/vector.py</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
 Editable Install Fails</h2>
 <p>Check that Python and build tooling are available:</p>
 <div class="fragment"><div class="line">python --version</div>
@@ -137,20 +137,20 @@ Editable Install Fails</h2>
 <div class="fragment"><div class="line">python -m pip install --upgrade pip</div>
 <div class="line">python -m pip install --upgrade scikit-build-core pybind11</div>
 <div class="line">python -m pip install -e .</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
 CMake Cannot Find a Compiler</h2>
 <p>On Windows, install Visual Studio 2022 with the "Desktop Development with C++" workload. Open a fresh terminal after installation and verify CMake can configure the project:</p>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
 </div><!-- fragment --><p>If multiple compilers are installed, configure from a Visual Studio Developer PowerShell or pass a CMake generator explicitly.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
 C++ Examples Cannot Find <span class="tt">stratax.h</span></h2>
 <p>Stratax is header-first for C++. Add the repository <span class="tt">include</span> directory to your compiler or target.</p>
 <div class="fragment"><div class="line">g++ -std=c++20 -I include examples/cpp/vector.cpp -o vector_example</div>
 </div><!-- fragment --><p>For CMake targets:</p>
 <div class="fragment"><div class="line">target_include_directories(my_app PRIVATE path/to/stratax/include)</div>
 <div class="line">target_compile_features(my_app PRIVATE cxx_std_20)</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1011"></a>
 Tests Do Not Run</h2>
 <p>Build C++ tests before running CTest:</p>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
@@ -159,7 +159,7 @@ Tests Do Not Run</h2>
 </div><!-- fragment --><p>Run Python tests from the repository root after installing development dependencies:</p>
 <div class="fragment"><div class="line">python -m pip install -e .[dev]</div>
 <div class="line">python -m pytest tests/python</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1012"></a>
 Documentation Looks Stale</h2>
 <p>The documentation site is generated from Markdown and headers by Doxygen. GitHub Pages is deployed by <span class="tt">.github/workflows/docs.yml</span> on pushes to <span class="tt">master</span>. Pull requests that touch docs or headers also run <span class="tt">.github/workflows/docs-check.yml</span> to check local Markdown links and verify Doxygen generation.</p>
 <p>For a local refresh:</p>

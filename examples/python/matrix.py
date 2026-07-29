@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Matrix, Shape, mean, sum, to_matrix
+from stratax._core import Matrix, Shape, mean, sum, to_matrix
 
 
 

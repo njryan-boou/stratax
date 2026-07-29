@@ -269,7 +269,64 @@ Phase 6: Input and Output</h3>
 <li class="unchecked">Serialization policy</li>
 </ul>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md999"></a>
-Phase 7: Documentation and Examples</h3>
+Phase 7: Python Bindings</h3>
+<ul class="check">
+<li class="checked"><span class="tt">_core</span> extension module</li>
+</ul>
+<ul class="check">
+<li class="checked"><span class="tt">Shape</span> wrapper</li>
+</ul>
+<ul class="check">
+<li class="checked"><span class="tt">Vector</span> wrapper</li>
+</ul>
+<ul class="check">
+<li class="checked"><span class="tt">Matrix</span> wrapper</li>
+</ul>
+<ul class="check">
+<li class="checked"><span class="tt">Tensor</span> wrapper</li>
+</ul>
+<ul class="check">
+<li class="checked">Creation helpers</li>
+</ul>
+<ul class="check">
+<li class="checked">Conversion helpers</li>
+</ul>
+<ul class="check">
+<li class="checked">Reduction helpers</li>
+</ul>
+<ul class="check">
+<li class="checked">Static typing stubs</li>
+<li class="unchecked">Bitwise operator wrappers</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Full Python docstrings</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Package import smoke test in CI</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
+Phase 8: Testing and CI</h3>
+<ul class="check">
+<li class="checked">C++ unit tests</li>
+</ul>
+<ul class="check">
+<li class="checked">Python unit tests</li>
+</ul>
+<ul class="check">
+<li class="checked">Documentation deploy workflow</li>
+</ul>
+<ul class="check">
+<li class="checked">Documentation check workflow</li>
+<li class="unchecked">Cross-platform build matrix</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Release/package smoke test</li>
+</ul>
+<ul class="check">
+<li class="checked">Markdown link check in CI</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md1001"></a>
+Phase 9: Documentation and Examples</h3>
 <ul class="check">
 <li class="checked">Developer docs for implemented core files</li>
 </ul>
@@ -299,9 +356,15 @@ Phase 7: Documentation and Examples</h3>
 </ul>
 <ul class="check">
 <li class="checked">Documentation CI check</li>
+<li class="unchecked">Resolve Doxygen warnings</li>
+</ul>
+<ul class="check">
 <li class="unchecked">Complete generated C++ API reference coverage</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
+<ul class="check">
+<li class="unchecked">README badges</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
 Later Phases</h3>
 <ul class="check">
 <li class="unchecked">Calculus</li>
@@ -315,7 +378,7 @@ Later Phases</h3>
 <ul class="check">
 <li class="unchecked">Optimization</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1001"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
 Validation Notes</h2>
 <ul>
 <li>The roadmap describes intended scope, not guaranteed current behavior.</li>
@@ -324,7 +387,7 @@ Validation Notes</h2>
 <li>Placeholder headers are intentionally not marked complete until they expose real behavior.</li>
 <li>Empty and zero-dimension shape behavior is tested for implemented containers and ops.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1004"></a>
 Implementation Notes</h2>
 <ul>
 <li>Complete core and container correctness before expanding into larger numerical features.</li>
@@ -333,7 +396,7 @@ Implementation Notes</h2>
 <li>Optimization work should come after correctness tests and baseline behavior are stable.</li>
 <li>Current slicing and reshape APIs return owning results; view types are future work.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
 Future Work</h2>
 <ul>
 <li>Broadcasting</li>

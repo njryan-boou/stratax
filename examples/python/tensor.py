@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Shape, Tensor, identity, mean, sum, to_matrix
+from stratax._core import Shape, Tensor, identity, mean, sum, to_matrix
 
 
 tensor = Tensor(Shape([2, 2, 2]), 1.0)

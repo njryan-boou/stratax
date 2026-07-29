@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax import Shape
+from stratax._core import Shape
 
 
 image_shape = Shape([3, 224, 224])
