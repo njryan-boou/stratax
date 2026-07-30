@@ -32,19 +32,18 @@ from stratax import (
 ```
 
 Python containers currently expose `double`-based storage. Slicing, reshaping,
-flattening, and conversions return copy-based results unless a future API
-documents view semantics explicitly.
+flattening, and conversions return independent containers.
 
 ## Shape
 
 | API | Description |
-|-----|-------------|
+| ----- | ------------- |
 | `Shape()` | Create an empty shape. |
 | `Shape(other)` | Copy another `Shape`. |
 | `Shape([d0, d1, ...])` | Create a shape from dimensions. |
-| `shape.rank()` | Number of dimensions. |
-| `shape.elements()` | Product of all dimensions. |
-| `shape.empty()` | Whether the shape has rank 0. |
+| `shape.rank` | Number of dimensions. |
+| `shape.elements` | Product of all dimensions. |
+| `shape.empty` | Whether the shape has rank 0. |
 | `len(shape)` | Number of dimensions. |
 | `shape[i]` | Dimension at index `i`. |
 | `list(shape)` | Dimensions as a Python list. |
@@ -54,23 +53,23 @@ documents view semantics explicitly.
 `Vector`, `Matrix`, and `Tensor` share the same basic container operations.
 
 | API | Vector | Matrix | Tensor |
-|-----|--------|--------|--------|
+| ----- | -------- | -------- | -------- |
 | Empty constructor | `Vector()` | `Matrix()` | `Tensor()` |
 | Copy constructor | `Vector(v)` | `Matrix(m)` | `Tensor(t)` |
 | Shape constructor | `Vector(Shape([n]))` | `Matrix(Shape([r, c]))` | `Tensor(Shape([...]))` |
 | Filled constructor | `Vector(n, value)` | `Matrix(r, c, value)` | `Tensor(shape, value)` |
 | Iterable constructor | `Vector([...])` | `Matrix([[...]])` | `Tensor([...])` |
-| Size | `.size()` | `.size()` | `.size()` |
-| Rank | `.rank()` | `.rank()` | `.rank()` |
-| Empty check | `.empty()` | `.empty()` | `.empty()` |
-| Shape | `.shape()` | `.shape()` | `.shape()` |
-| Strides | `.strides()` | `.strides()` | `.strides()` |
+| Size | `.size` | `.size` | `.size` |
+| Rank | `.rank` | `.rank` | `.rank` |
+| Empty check | `.empty` | `.empty` | `.empty` |
+| Shape | `.shape` | `.shape` | `.shape` |
+| Strides | `.strides` | `.strides` | `.strides` |
 | Fill | `.fill(value)` | `.fill(value)` | `.fill(value)` |
 | Convert to lists | `.tolist()` | `.tolist()` | `.tolist()` |
 | Reshape | `.reshape(shape)` | `.reshape(shape)` | `.reshape(shape)` |
 | Flatten | `.flatten()` | `.flatten()` | `.flatten()` |
 
-`Matrix` also exposes `.rows()` and `.cols()`.
+`Matrix` also exposes `.rows` and `.cols`.
 
 ## Indexing
 
@@ -98,7 +97,7 @@ copies.
 Containers support element-wise arithmetic with matching containers or scalars:
 
 | Operation | Methods |
-|-----------|---------|
+| ----------- | --------- |
 | Addition | `a + b`, `a += b` |
 | Subtraction | `a - b`, `a -= b` |
 | Multiplication | `a * b`, `a *= b` |
@@ -112,7 +111,7 @@ planned but not currently implemented.
 ## Creation Helpers
 
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `zeros(shape)` | Tensor filled with `0.0`. |
 | `ones(shape)` | Tensor filled with `1.0`. |
 | `full(shape, value)` | Tensor filled with `value`. |
@@ -123,7 +122,7 @@ planned but not currently implemented.
 ## Conversion Helpers
 
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `to_vector(arr)` | Convert a compatible `Vector`, `Matrix`, or `Tensor` to `Vector`. |
 | `to_matrix(arr)` | Convert a compatible `Vector`, `Matrix`, or `Tensor` to `Matrix`. |
 | `to_tensor(arr)` | Convert a `Vector`, `Matrix`, or `Tensor` to `Tensor`. |

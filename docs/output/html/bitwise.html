@@ -124,12 +124,12 @@ Bitwise</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_bitwise_8hpp_source.html">include/stratax/core/ops/Bitwise.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md714"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md696"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="_bitwise_8hpp_source.html">Bitwise.hpp</a></span> defines generic element-wise bitwise operations for Stratax array-like containers whose value type is integer.</p>
 <p>It provides unary, array-array, array-scalar, scalar-array (reverse), and compound assignment bitwise operators.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md716"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md698"></a>
 Responsibilities</h2>
 <p>The bitwise module is responsible for:</p>
 <ul>
@@ -145,7 +145,7 @@ Responsibilities</h2>
 <li>Validating shift-count ranges beyond core language/operator behavior</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md718"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md700"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Bitwise operators</div>
 <div class="line">├── Array concept constraints</div>
@@ -162,7 +162,7 @@ Relationships</h2>
 <li>User-facing vector/matrix/tensor integer bitwise expressions</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md720"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md702"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -173,9 +173,9 @@ Invariants</h2>
 <li>Bitwise operators are available only for integer-valued arrays/scalars.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md722"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md704"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md723"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md705"></a>
 Shape guard</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
@@ -189,7 +189,7 @@ Shape guard</h3>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md724"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md706"></a>
 Unary operator</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
@@ -198,7 +198,7 @@ Unary operator</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md725"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md707"></a>
 Array-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
 <div class="line">A operator&amp;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -222,7 +222,7 @@ Array-array operators</h3>
 <ul>
 <li>O(n), plus O(r) shape check</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md726"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md708"></a>
 Array-scalar operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
@@ -248,7 +248,7 @@ Array-scalar operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md727"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md709"></a>
 Scalar-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
@@ -273,7 +273,7 @@ Scalar-array operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md728"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md710"></a>
 Compound assignment operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="concept_integer.html">Integer&lt;typename A::value_type&gt;</a></div>
 <div class="line">A&amp; operator&amp;=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -318,7 +318,7 @@ Compound assignment operators</h3>
 <li>O(n), plus O(r) shape check for array-array forms</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md730"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md712"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -338,7 +338,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md732"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md714"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> a_and_b = a &amp; b;</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> with_mask = a &amp; 0x0F;</div>
@@ -351,12 +351,12 @@ Examples</h2>
 <div class="line">a |= 0x80;</div>
 <div class="line">a &lt;&lt;= 1;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md734"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md716"></a>
 Design Notes</h2>
 <p>Bitwise operators are constrained to integer-valued arrays to keep semantics explicit and avoid accidental use with floating-point or complex container types.</p>
 <p>Compound assignments delegate to non-compound operators to centralize shape validation and operation behavior.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md736"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md718"></a>
 Future Improvements</h2>
 <ul>
 <li>Explicit policies for shift-count validation and diagnostics</li>
@@ -364,7 +364,7 @@ Future Improvements</h2>
 <li>SIMD kernels for common integer element types</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md738"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md720"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>

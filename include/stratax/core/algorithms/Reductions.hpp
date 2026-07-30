@@ -85,10 +85,15 @@ inline std::vector<std::size_t> result_shape(const A& arr, int axis, bool keepdi
     return result_dimensions;
 }
 template<Array A, typename Func>
-auto axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
+using axis_reduce_value_t =
+    decltype(std::declval<Func>()(
+        std::declval<const stratax::container::Tensor<typename A::value_type>&>()));
+
+template<Array A, typename Func>
+stratax::container::Tensor<axis_reduce_value_t<A, Func>>
+axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 {
-    using ResultType =
-    decltype(func(std::declval<const stratax::container::Tensor<typename A::value_type>&>()));
+    using ResultType = axis_reduce_value_t<A, Func>;
 
     int Axis = normalize_axis(array, axis);
     

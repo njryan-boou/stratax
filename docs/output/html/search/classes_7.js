@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['tensor_0',['Tensor',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container']]],
-  ['tensor_3c_20u_20_3e_1',['Tensor&lt; U &gt;',['../classstratax_1_1container_1_1_tensor.html',1,'stratax::container']]],
-  ['typeerror_2',['TypeError',['../class_exceptions_1_1_type_error.html',1,'Exceptions']]]
+  ['shape_0',['Shape',['../classstratax_1_1core_1_1_shape.html',1,'stratax::core']]],
+  ['shapeerror_1',['ShapeError',['../class_exceptions_1_1_shape_error.html',1,'Exceptions']]],
+  ['slice_2',['Slice',['../classstratax_1_1core_1_1_slice.html',1,'stratax::core']]],
+  ['strataxerror_3',['StrataxError',['../class_exceptions_1_1_stratax_error.html',1,'Exceptions']]],
+  ['strides_4',['Strides',['../classstratax_1_1core_1_1_strides.html',1,'stratax::core']]]
 ];

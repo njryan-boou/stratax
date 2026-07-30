@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
 sys.path.insert(0, str(ROOT / "python"))
 
 import stratax as _core
@@ -66,7 +66,7 @@ class TestReductionsApi:
         result = _core.sum(tensor, 1, True)
 
         assert isinstance(result, Tensor)
-        assert result.shape() == tensor.shape().__class__([2, 1, 2])
+        assert result.shape == tensor.shape.__class__([2, 1, 2])
         assert result.tolist() == [4.0, 6.0, 12.0, 14.0]
 
     def test_tensor_negative_axis_matches_last_axis(self) -> None:

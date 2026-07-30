@@ -24,7 +24,7 @@ var annotated_dup =
       ] ],
       [ "ops", null, [
         [ "detail", null, [
-          [ "ResolvedSlice", "structstratax_1_1ops_1_1detail_1_1_resolved_slice.html", null ]
+          [ "ResolvedSlice", "structstratax_1_1ops_1_1detail_1_1_resolved_slice.html", "structstratax_1_1ops_1_1detail_1_1_resolved_slice" ]
         ] ]
       ] ]
     ] ],

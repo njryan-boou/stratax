@@ -20,11 +20,11 @@ using Tensor = stratax::container::Tensor<double>;
 void bind_tensor_properties(py::class_<Tensor>& cls)
 {
     cls
-        .def("size", &Tensor::size)
-        .def("rank", &Tensor::rank)
-        .def("empty", &Tensor::empty)
-        .def("shape", &Tensor::shape, py::return_value_policy::reference_internal)
-        .def("strides", [](const Tensor& tensor) {
+        .def_property_readonly("size", &Tensor::size)
+        .def_property_readonly("rank", &Tensor::rank)
+        .def_property_readonly("empty", &Tensor::empty)
+        .def_property_readonly("shape", &Tensor::shape, py::return_value_policy::reference_internal)
+        .def_property_readonly("strides", [](const Tensor& tensor) {
             std::vector<std::size_t> values;
             const auto& strides = tensor.strides();
             values.reserve(strides.rank());

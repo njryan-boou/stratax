@@ -94,6 +94,19 @@ The following conditions are always true:
 
 ## Public Interface
 
+## Iterator Aliases
+
+```cpp
+using iterator = typename core::Buffer<T>::iterator;
+using const_iterator = typename core::Buffer<T>::const_iterator;
+using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
+using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+```
+
+`Tensor<T>` mirrors `Buffer<T>` iterator aliases for flat contiguous-storage traversal.
+
+---
+
 ## Constructors
 
 ### Default Constructor
@@ -355,18 +368,18 @@ Complexity
 ## Iterators
 
 ```cpp
-[[nodiscard]] auto begin() noexcept;
-[[nodiscard]] auto begin() const noexcept;
-[[nodiscard]] auto cbegin() const noexcept;
-[[nodiscard]] auto end() noexcept;
-[[nodiscard]] auto end() const noexcept;
-[[nodiscard]] auto cend() const noexcept;
-[[nodiscard]] auto rbegin() noexcept;
-[[nodiscard]] auto rbegin() const noexcept;
-[[nodiscard]] auto crbegin() const noexcept;
-[[nodiscard]] auto rend() noexcept;
-[[nodiscard]] auto rend() const noexcept;
-[[nodiscard]] auto crend() const noexcept;
+[[nodiscard]] iterator begin() noexcept;
+[[nodiscard]] const_iterator begin() const noexcept;
+[[nodiscard]] const_iterator cbegin() const noexcept;
+[[nodiscard]] iterator end() noexcept;
+[[nodiscard]] const_iterator end() const noexcept;
+[[nodiscard]] const_iterator cend() const noexcept;
+[[nodiscard]] reverse_iterator rbegin() noexcept;
+[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
+[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
+[[nodiscard]] reverse_iterator rend() noexcept;
+[[nodiscard]] const_reverse_iterator rend() const noexcept;
+[[nodiscard]] const_reverse_iterator crend() const noexcept;
 ```
 
 Provides forward and reverse iteration over flat contiguous storage.

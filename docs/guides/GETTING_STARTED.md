@@ -28,11 +28,11 @@ Install the following software before cloning the repository.
 
 ## Required
 
-* Git
-* Python 3.10 or newer
-* CMake 3.20 or newer
-* Visual Studio 2022 (Desktop Development with C++)
-* Visual Studio Code (recommended)
+- Git
+- Python 3.10 or newer
+- CMake 3.20 or newer
+- Visual Studio 2022 (Desktop Development with C++)
+- Visual Studio Code (recommended)
 
 Verify your installation:
 
@@ -87,10 +87,10 @@ python -m pip install -e .
 
 This command will:
 
-* Install build dependencies
-* Configure CMake
-* Build the C++ extension
-* Install the Python package into the virtual environment
+- Install build dependencies
+- Configure CMake
+- Build the C++ extension
+- Install the Python package into the virtual environment
 
 For a quick Python-only setup from a fresh checkout:
 

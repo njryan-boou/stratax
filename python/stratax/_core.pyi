@@ -8,7 +8,7 @@ __doc__: str | None
 __version__: str
 
 
-class _Shape:
+class Shape:
     """C++ shape object storing non-negative array dimensions."""
 
     @overload
@@ -17,7 +17,7 @@ class _Shape:
         ...
 
     @overload
-    def __init__(self, other: "_Shape") -> None:
+    def __init__(self, other: "Shape") -> None:
         """Copy another shape."""
         ...
 
@@ -26,14 +26,17 @@ class _Shape:
         """Create a shape from non-negative integer dimensions."""
         ...
 
+    @property
     def rank(self) -> int:
         """Return the number of dimensions."""
         ...
 
+    @property
     def elements(self) -> int:
         """Return the product of all dimensions, or zero for rank 0."""
         ...
 
+    @property
     def empty(self) -> bool:
         """Return whether the shape has rank 0."""
         ...
@@ -72,7 +75,7 @@ class Vector:
         ...
 
     @overload
-    def __init__(self, value: int | Iterable[float] | _Shape | "Vector") -> None:
+    def __init__(self, value: int | Iterable[float] | Shape | "Vector") -> None:
         """Create a vector from a size, iterable, shape, or vector."""
         ...
 
@@ -81,22 +84,27 @@ class Vector:
         """Create a vector and fill every element with value."""
         ...
 
+    @property
     def size(self) -> int:
         """Return the number of elements."""
         ...
 
+    @property
     def rank(self) -> int:
         """Return the vector rank."""
         ...
 
+    @property
     def empty(self) -> bool:
         """Return whether the vector has no elements."""
         ...
 
-    def shape(self) -> _Shape:
+    @property
+    def shape(self) -> Shape:
         """Return the vector shape."""
         ...
 
+    @property
     def strides(self) -> list[int]:
         """Return row-major stride metadata."""
         ...
@@ -109,7 +117,7 @@ class Vector:
         """Return element values as a Python list."""
         ...
 
-    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+    def reshape(self, shape: Shape | Iterable[int]) -> "Tensor":
         """Return a reshaped tensor."""
         ...
 
@@ -222,7 +230,7 @@ class Matrix:
         ...
 
     @overload
-    def __init__(self, value: Iterable[Iterable[float]] | _Shape | "Matrix") -> None:
+    def __init__(self, value: Iterable[Iterable[float]] | Shape | "Matrix") -> None:
         """Create a matrix from rows, a shape, or a matrix."""
         ...
 
@@ -231,30 +239,37 @@ class Matrix:
         """Create a matrix and fill every element with value."""
         ...
 
+    @property
     def size(self) -> int:
         """Return the total number of elements."""
         ...
 
+    @property
     def rank(self) -> int:
         """Return the matrix rank."""
         ...
 
+    @property
     def empty(self) -> bool:
         """Return whether the matrix has no elements."""
         ...
 
+    @property
     def rows(self) -> int:
         """Return the number of rows."""
         ...
 
+    @property
     def cols(self) -> int:
         """Return the number of columns."""
         ...
 
-    def shape(self) -> _Shape:
+    @property
+    def shape(self) -> Shape:
         """Return the matrix shape."""
         ...
 
+    @property
     def strides(self) -> list[int]:
         """Return row-major stride metadata."""
         ...
@@ -267,7 +282,7 @@ class Matrix:
         """Return values as nested row lists."""
         ...
 
-    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+    def reshape(self, shape: Shape | Iterable[int]) -> "Tensor":
         """Return a reshaped tensor."""
         ...
 
@@ -385,31 +400,36 @@ class Tensor:
         ...
 
     @overload
-    def __init__(self, shape: _Shape | Iterable[int] | "Tensor") -> None:
+    def __init__(self, shape: Shape | Iterable[int] | "Tensor") -> None:
         """Create a tensor from a shape, dimensions, or tensor."""
         ...
 
     @overload
-    def __init__(self, shape: _Shape | Iterable[int], value: float) -> None:
+    def __init__(self, shape: Shape | Iterable[int], value: float) -> None:
         """Create a tensor and fill every element with value."""
         ...
 
+    @property
     def size(self) -> int:
         """Return the total number of elements."""
         ...
 
+    @property
     def rank(self) -> int:
         """Return the tensor rank."""
         ...
 
+    @property
     def empty(self) -> bool:
         """Return whether the tensor has no elements."""
         ...
 
-    def shape(self) -> _Shape:
+    @property
+    def shape(self) -> Shape:
         """Return the tensor shape."""
         ...
 
+    @property
     def strides(self) -> list[int]:
         """Return row-major stride metadata."""
         ...
@@ -422,7 +442,7 @@ class Tensor:
         """Return values as a flat Python list."""
         ...
 
-    def reshape(self, shape: _Shape | Iterable[int]) -> "Tensor":
+    def reshape(self, shape: Shape | Iterable[int]) -> "Tensor":
         """Return a tensor with the requested shape."""
         ...
 
@@ -530,17 +550,17 @@ def to_tensor(arr: Vector | Matrix | Tensor) -> Tensor:
     ...
 
 
-def zeros(shape: _Shape) -> Tensor:
+def zeros(shape: Shape) -> Tensor:
     """Create a tensor filled with zeros."""
     ...
 
 
-def ones(shape: _Shape) -> Tensor:
+def ones(shape: Shape) -> Tensor:
     """Create a tensor filled with ones."""
     ...
 
 
-def full(shape: _Shape, value: float) -> Tensor:
+def full(shape: Shape, value: float) -> Tensor:
     """Create a tensor filled with a constant value."""
     ...
 

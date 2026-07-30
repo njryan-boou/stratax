@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['float128_0',['float128',['../namespacestratax_1_1core_1_1dtype.html#a5e9e2b86f0824b04ed93af407df5bc18',1,'stratax::core::dtype']]],
-  ['float32_1',['float32',['../namespacestratax_1_1core_1_1dtype.html#a458b678d63fc637e597b9ba2fdb41d14',1,'stratax::core::dtype']]],
-  ['float64_2',['float64',['../namespacestratax_1_1core_1_1dtype.html#a2ba9998a24ac1401593486768515728e',1,'stratax::core::dtype']]]
+  ['rebind_0',['rebind',['../classstratax_1_1container_1_1_matrix.html#a6262d1cefee4cff8fa49104137d460f9',1,'stratax::container::Matrix::rebind'],['../classstratax_1_1container_1_1_tensor.html#a95c8422811d5a88bfcc538e9663441f3',1,'stratax::container::Tensor::rebind'],['../classstratax_1_1container_1_1_vector.html#a92af2389d22bda6901ab8fa6597584fb',1,'stratax::container::Vector::rebind']]],
+  ['reverse_5fiterator_1',['reverse_iterator',['../classstratax_1_1core_1_1_buffer.html#a11498a4d3467a3ee47e0e3888a11d3bd',1,'stratax::core::Buffer::reverse_iterator'],['../classstratax_1_1container_1_1_matrix.html#adb9209b6f457b3bbe79b869a9cad30d1',1,'stratax::container::Matrix::reverse_iterator'],['../classstratax_1_1core_1_1_shape.html#a47db1e9b2d8d774e2a4f35306d033afe',1,'stratax::core::Shape::reverse_iterator'],['../classstratax_1_1core_1_1_strides.html#a2d1115ec1c3d96aa746f7ca528163f08',1,'stratax::core::Strides::reverse_iterator'],['../classstratax_1_1container_1_1_tensor.html#a5c6f3edb96b03dfbde7de7f47bc957c1',1,'stratax::container::Tensor::reverse_iterator'],['../classstratax_1_1container_1_1_vector.html#a3f0c033aeb5c39c16d96c391678afc41',1,'stratax::container::Vector::reverse_iterator']]]
 ];

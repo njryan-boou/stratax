@@ -513,11 +513,27 @@ TEST(CoreBuffer, begin_end_consistency)
     EXPECT_TRUE(std::distance(buffer.begin(), buffer.end()) == 3);
 }
 
+TEST(CoreBuffer, empty_begin_end_consistency)
+{
+    Buffer<int> buffer;
+
+    EXPECT_TRUE(buffer.begin() == buffer.end());
+    EXPECT_TRUE(std::distance(buffer.begin(), buffer.end()) == 0);
+}
+
 TEST(CoreBuffer, cbegin_cend_consistency)
 {
     const Buffer<int> buffer{1, 2, 3};
 
     EXPECT_TRUE(std::distance(buffer.cbegin(), buffer.cend()) == 3);
+}
+
+TEST(CoreBuffer, empty_cbegin_cend_consistency)
+{
+    const Buffer<int> buffer;
+
+    EXPECT_TRUE(buffer.cbegin() == buffer.cend());
+    EXPECT_TRUE(std::distance(buffer.cbegin(), buffer.cend()) == 0);
 }
 
 TEST(CoreBuffer, rbegin_rend_consistency)
@@ -527,10 +543,26 @@ TEST(CoreBuffer, rbegin_rend_consistency)
     EXPECT_TRUE(std::distance(buffer.rbegin(), buffer.rend()) == 3);
 }
 
+TEST(CoreBuffer, empty_rbegin_rend_consistency)
+{
+    Buffer<int> buffer;
+
+    EXPECT_TRUE(buffer.rbegin() == buffer.rend());
+    EXPECT_TRUE(std::distance(buffer.rbegin(), buffer.rend()) == 0);
+}
+
 TEST(CoreBuffer, crbegin_crend_consistency)
 {
     const Buffer<int> buffer{1, 2, 3};
 
     EXPECT_TRUE(std::distance(buffer.crbegin(), buffer.crend()) == 3);
+}
+
+TEST(CoreBuffer, empty_crbegin_crend_consistency)
+{
+    const Buffer<int> buffer;
+
+    EXPECT_TRUE(buffer.crbegin() == buffer.crend());
+    EXPECT_TRUE(std::distance(buffer.crbegin(), buffer.crend()) == 0);
 }
 

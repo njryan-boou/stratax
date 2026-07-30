@@ -94,6 +94,19 @@ The following conditions are always true:
 
 ## Public Interface
 
+## Iterator Aliases
+
+```cpp
+using iterator = typename core::Buffer<T>::iterator;
+using const_iterator = typename core::Buffer<T>::const_iterator;
+using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
+using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+```
+
+`Vector<T>` mirrors `Buffer<T>` iterator aliases for generic contiguous-storage traversal.
+
+---
+
 ## Constructors
 
 ### Default Constructor
@@ -396,18 +409,18 @@ Complexity
 ## Iterators
 
 ```cpp
-[[nodiscard]] T* begin() noexcept;
-[[nodiscard]] const T* begin() const noexcept;
-[[nodiscard]] const T* cbegin() const noexcept;
-[[nodiscard]] T* end() noexcept;
-[[nodiscard]] const T* end() const noexcept;
-[[nodiscard]] const T* cend() const noexcept;
-[[nodiscard]] std::reverse_iterator<T*> rbegin() noexcept;
-[[nodiscard]] std::reverse_iterator<const T*> rbegin() const noexcept;
-[[nodiscard]] std::reverse_iterator<const T*> crbegin() const noexcept;
-[[nodiscard]] std::reverse_iterator<T*> rend() noexcept;
-[[nodiscard]] std::reverse_iterator<const T*> rend() const noexcept;
-[[nodiscard]] std::reverse_iterator<const T*> crend() const noexcept;
+[[nodiscard]] iterator begin() noexcept;
+[[nodiscard]] const_iterator begin() const noexcept;
+[[nodiscard]] const_iterator cbegin() const noexcept;
+[[nodiscard]] iterator end() noexcept;
+[[nodiscard]] const_iterator end() const noexcept;
+[[nodiscard]] const_iterator cend() const noexcept;
+[[nodiscard]] reverse_iterator rbegin() noexcept;
+[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
+[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
+[[nodiscard]] reverse_iterator rend() noexcept;
+[[nodiscard]] const_reverse_iterator rend() const noexcept;
+[[nodiscard]] const_reverse_iterator crend() const noexcept;
 ```
 
 Provides forward and reverse iteration over contiguous elements.

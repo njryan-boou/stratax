@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import (  # noqa: E402
@@ -26,11 +26,11 @@ class TestCreationInterfaceTests:
         o = ones(Shape([2, 2]))
 
         assert isinstance(z, Tensor)
-        assert z.shape() == Shape([2, 2])
+        assert z.shape == Shape([2, 2])
         assert z.tolist() == [0.0, 0.0, 0.0, 0.0]
 
         assert isinstance(o, Tensor)
-        assert o.shape() == Shape([2, 2])
+        assert o.shape == Shape([2, 2])
         assert o.tolist() == [1.0, 1.0, 1.0, 1.0]
 
     def test_full_accepts_shape(self) -> None:
@@ -38,18 +38,18 @@ class TestCreationInterfaceTests:
         b = full(Shape([2]), 7.0)
 
         assert isinstance(a, Tensor)
-        assert a.shape() == Shape([1, 3])
+        assert a.shape == Shape([1, 3])
         assert a.tolist() == [2.5, 2.5, 2.5]
 
         assert isinstance(b, Tensor)
-        assert b.shape() == Shape([2])
+        assert b.shape == Shape([2])
         assert b.tolist() == [7.0, 7.0]
 
     def test_identity_creates_square_tensor(self) -> None:
         eye = identity(3)
 
         assert isinstance(eye, Tensor)
-        assert eye.shape() == Shape([3, 3])
+        assert eye.shape == Shape([3, 3])
         assert eye.tolist() == [
             1.0, 0.0, 0.0,
             0.0, 1.0, 0.0,

@@ -124,6 +124,17 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classstratax_1
 
 <p><code>#include &lt;<a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a213f58a8f38b46c771ee1ef7d3943b19" id="r_a213f58a8f38b46c771ee1ef7d3943b19"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;<a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">::const_iterator</a></td></tr>
+<tr class="memdesc:a213f58a8f38b46c771ee1ef7d3943b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator over immutable stride values.  <br /></td></tr>
+<tr class="memitem:a2a0d6c8d4e3276db046ee4f6774a7eca" id="r_a2a0d6c8d4e3276db046ee4f6774a7eca"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_iterator</td></tr>
+<tr class="memdesc:a2a0d6c8d4e3276db046ee4f6774a7eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const iterator over stride values.  <br /></td></tr>
+<tr class="memitem:a2d1115ec1c3d96aa746f7ca528163f08" id="r_a2d1115ec1c3d96aa746f7ca528163f08"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;<a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">::const_reverse_iterator</a></td></tr>
+<tr class="memdesc:a2d1115ec1c3d96aa746f7ca528163f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse iterator over immutable stride values.  <br /></td></tr>
+<tr class="memitem:a7ddfaa62b471e9e2f334ddbce3a985cf" id="r_a7ddfaa62b471e9e2f334ddbce3a985cf"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_reverse_iterator</td></tr>
+<tr class="memdesc:a7ddfaa62b471e9e2f334ddbce3a985cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const reverse iterator over stride values.  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afc3ceb575bdfd6d2020adce68fd79cd5" id="r_afc3ceb575bdfd6d2020adce68fd79cd5"><td class="memItemLeft"><a id="afc3ceb575bdfd6d2020adce68fd79cd5" name="afc3ceb575bdfd6d2020adce68fd79cd5"></a>
@@ -133,12 +144,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad1bb3bea444d43c180a77f3ca7de5d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates row-major strides for a given shape.  <br /></td></tr>
 <tr class="memitem:a372ea4759906067fc5219c5b42c2d608" id="r_a372ea4759906067fc5219c5b42c2d608"><td class="memItemLeft"><a id="a372ea4759906067fc5219c5b42c2d608" name="a372ea4759906067fc5219c5b42c2d608"></a>
 &#160;</td><td class="memItemRight"><b>Strides</b> (const Strides &amp;)=default</td></tr>
+<tr class="memdesc:a372ea4759906067fc5219c5b42c2d608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies stride metadata. <br /></td></tr>
 <tr class="memitem:ad58ad292d5ecb15d49160f290902387c" id="r_ad58ad292d5ecb15d49160f290902387c"><td class="memItemLeft"><a id="ad58ad292d5ecb15d49160f290902387c" name="ad58ad292d5ecb15d49160f290902387c"></a>
 &#160;</td><td class="memItemRight"><b>Strides</b> (Strides &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:ad58ad292d5ecb15d49160f290902387c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves stride metadata. <br /></td></tr>
 <tr class="memitem:a6b22bc73d97be3c9c51871a9b58d2325" id="r_a6b22bc73d97be3c9c51871a9b58d2325"><td class="memItemLeft"><a id="a6b22bc73d97be3c9c51871a9b58d2325" name="a6b22bc73d97be3c9c51871a9b58d2325"></a>
 <a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;)=default</td></tr>
+<tr class="memdesc:a6b22bc73d97be3c9c51871a9b58d2325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assigns stride metadata. <br /></td></tr>
 <tr class="memitem:a742a5ed572fed5efe6a8b67366b9931d" id="r_a742a5ed572fed5efe6a8b67366b9931d"><td class="memItemLeft"><a id="a742a5ed572fed5efe6a8b67366b9931d" name="a742a5ed572fed5efe6a8b67366b9931d"></a>
 <a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:a742a5ed572fed5efe6a8b67366b9931d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assigns stride metadata. <br /></td></tr>
 <tr class="memitem:a18420b20cbae82312b2c2c9e4483e312" id="r_a18420b20cbae82312b2c2c9e4483e312"><td class="memItemLeft"><a id="a18420b20cbae82312b2c2c9e4483e312" name="a18420b20cbae82312b2c2c9e4483e312"></a>
 &#160;</td><td class="memItemRight"><b>~Strides</b> ()=default</td></tr>
 <tr class="memdesc:a18420b20cbae82312b2c2c9e4483e312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the stride vector. <br /></td></tr>
@@ -158,30 +173,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9d18b14bfbec55ca97d4aee5903c4637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last stride value.  <br /></td></tr>
 <tr class="memitem:a93839613387d3ff519f0eb73d0f06393" id="r_a93839613387d3ff519f0eb73d0f06393"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#a93839613387d3ff519f0eb73d0f06393">data</a> () const noexcept</td></tr>
 <tr class="memdesc:a93839613387d3ff519f0eb73d0f06393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the raw stride data pointer.  <br /></td></tr>
-<tr class="memitem:aba187193bb7da3f0091f9c658a74dfc1" id="r_aba187193bb7da3f0091f9c658a74dfc1"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#aba187193bb7da3f0091f9c658a74dfc1">begin</a> () noexcept</td></tr>
-<tr class="memdesc:aba187193bb7da3f0091f9c658a74dfc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first stride value.  <br /></td></tr>
-<tr class="memitem:afcebf0092b644f9bfba6801b1944fe91" id="r_afcebf0092b644f9bfba6801b1944fe91"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#afcebf0092b644f9bfba6801b1944fe91">begin</a> () const noexcept</td></tr>
-<tr class="memdesc:afcebf0092b644f9bfba6801b1944fe91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stride value.  <br /></td></tr>
-<tr class="memitem:ab16adc55140d2d32caed910d3ebabc39" id="r_ab16adc55140d2d32caed910d3ebabc39"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#ab16adc55140d2d32caed910d3ebabc39">cbegin</a> () const noexcept</td></tr>
-<tr class="memdesc:ab16adc55140d2d32caed910d3ebabc39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stride value.  <br /></td></tr>
-<tr class="memitem:a9db2201dca94011f357fdac49b928d7a" id="r_a9db2201dca94011f357fdac49b928d7a"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#a9db2201dca94011f357fdac49b928d7a">end</a> () noexcept</td></tr>
-<tr class="memdesc:a9db2201dca94011f357fdac49b928d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator one past the last stride value.  <br /></td></tr>
-<tr class="memitem:aaacd481130cb13434f7c3b47ebd066fc" id="r_aaacd481130cb13434f7c3b47ebd066fc"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#aaacd481130cb13434f7c3b47ebd066fc">end</a> () const noexcept</td></tr>
-<tr class="memdesc:aaacd481130cb13434f7c3b47ebd066fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stride value.  <br /></td></tr>
-<tr class="memitem:aa740354c237e14772c7e87fe46588e09" id="r_aa740354c237e14772c7e87fe46588e09"><td class="memItemLeft">const std::size_t *&#160;</td><td class="memItemRight"><a class="el" href="#aa740354c237e14772c7e87fe46588e09">cend</a> () const noexcept</td></tr>
-<tr class="memdesc:aa740354c237e14772c7e87fe46588e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stride value.  <br /></td></tr>
-<tr class="memitem:a95bbeb2597af98e0099b98dc43febbd1" id="r_a95bbeb2597af98e0099b98dc43febbd1"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a95bbeb2597af98e0099b98dc43febbd1">rbegin</a> () noexcept</td></tr>
-<tr class="memdesc:a95bbeb2597af98e0099b98dc43febbd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator to the last stride value.  <br /></td></tr>
-<tr class="memitem:a141a95df064edf219d20bdd066b9df4e" id="r_a141a95df064edf219d20bdd066b9df4e"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a141a95df064edf219d20bdd066b9df4e">rbegin</a> () const noexcept</td></tr>
-<tr class="memdesc:a141a95df064edf219d20bdd066b9df4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stride value.  <br /></td></tr>
-<tr class="memitem:ac20fb9539c74ad0eba2bbd8487d49a6d" id="r_ac20fb9539c74ad0eba2bbd8487d49a6d"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac20fb9539c74ad0eba2bbd8487d49a6d">crbegin</a> () const noexcept</td></tr>
-<tr class="memdesc:ac20fb9539c74ad0eba2bbd8487d49a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stride value.  <br /></td></tr>
-<tr class="memitem:a5c992ead7e91f203ba2112903e312d26" id="r_a5c992ead7e91f203ba2112903e312d26"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5c992ead7e91f203ba2112903e312d26">rend</a> () noexcept</td></tr>
-<tr class="memdesc:a5c992ead7e91f203ba2112903e312d26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator before the first stride value.  <br /></td></tr>
-<tr class="memitem:a3b932f95a4c0cd3f789c535c76697336" id="r_a3b932f95a4c0cd3f789c535c76697336"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3b932f95a4c0cd3f789c535c76697336">rend</a> () const noexcept</td></tr>
-<tr class="memdesc:a3b932f95a4c0cd3f789c535c76697336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stride value.  <br /></td></tr>
-<tr class="memitem:a8a0d63d66a6c5995c778803297ee2580" id="r_a8a0d63d66a6c5995c778803297ee2580"><td class="memItemLeft">std::reverse_iterator&lt; const std::size_t * &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8a0d63d66a6c5995c778803297ee2580">crend</a> () const noexcept</td></tr>
-<tr class="memdesc:a8a0d63d66a6c5995c778803297ee2580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stride value.  <br /></td></tr>
+<tr class="memitem:ad1da2636693fedcc5c3d709bca77d1b1" id="r_ad1da2636693fedcc5c3d709bca77d1b1"><td class="memItemLeft"><a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad1da2636693fedcc5c3d709bca77d1b1">begin</a> () noexcept</td></tr>
+<tr class="memdesc:ad1da2636693fedcc5c3d709bca77d1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first stride value.  <br /></td></tr>
+<tr class="memitem:a0617e883dbcab071309e093cc9c7c856" id="r_a0617e883dbcab071309e093cc9c7c856"><td class="memItemLeft"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0617e883dbcab071309e093cc9c7c856">begin</a> () const noexcept</td></tr>
+<tr class="memdesc:a0617e883dbcab071309e093cc9c7c856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stride value.  <br /></td></tr>
+<tr class="memitem:a06892bc7521eedce5fd5b5d3dd6c9b45" id="r_a06892bc7521eedce5fd5b5d3dd6c9b45"><td class="memItemLeft"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06892bc7521eedce5fd5b5d3dd6c9b45">cbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a06892bc7521eedce5fd5b5d3dd6c9b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stride value.  <br /></td></tr>
+<tr class="memitem:ab343ad56ff5755947ace231005aa1e39" id="r_ab343ad56ff5755947ace231005aa1e39"><td class="memItemLeft"><a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab343ad56ff5755947ace231005aa1e39">end</a> () noexcept</td></tr>
+<tr class="memdesc:ab343ad56ff5755947ace231005aa1e39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator one past the last stride value.  <br /></td></tr>
+<tr class="memitem:a5dcd074d4f298a70c51835d3850369bd" id="r_a5dcd074d4f298a70c51835d3850369bd"><td class="memItemLeft"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5dcd074d4f298a70c51835d3850369bd">end</a> () const noexcept</td></tr>
+<tr class="memdesc:a5dcd074d4f298a70c51835d3850369bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stride value.  <br /></td></tr>
+<tr class="memitem:a8bc0565468a30141eab7e6bf92118978" id="r_a8bc0565468a30141eab7e6bf92118978"><td class="memItemLeft"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8bc0565468a30141eab7e6bf92118978">cend</a> () const noexcept</td></tr>
+<tr class="memdesc:a8bc0565468a30141eab7e6bf92118978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stride value.  <br /></td></tr>
+<tr class="memitem:abae826598ff5d4ecb00f630d897a033f" id="r_abae826598ff5d4ecb00f630d897a033f"><td class="memItemLeft"><a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#abae826598ff5d4ecb00f630d897a033f">rbegin</a> () noexcept</td></tr>
+<tr class="memdesc:abae826598ff5d4ecb00f630d897a033f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator to the last stride value.  <br /></td></tr>
+<tr class="memitem:a3f755d8050df767833adfe68e72ad39e" id="r_a3f755d8050df767833adfe68e72ad39e"><td class="memItemLeft"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3f755d8050df767833adfe68e72ad39e">rbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a3f755d8050df767833adfe68e72ad39e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stride value.  <br /></td></tr>
+<tr class="memitem:ac7961bca3e076852d34afd992b3302ad" id="r_ac7961bca3e076852d34afd992b3302ad"><td class="memItemLeft"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac7961bca3e076852d34afd992b3302ad">crbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:ac7961bca3e076852d34afd992b3302ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stride value.  <br /></td></tr>
+<tr class="memitem:a9a9135582a2b75e8453f3a67da5bda5d" id="r_a9a9135582a2b75e8453f3a67da5bda5d"><td class="memItemLeft"><a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9a9135582a2b75e8453f3a67da5bda5d">rend</a> () noexcept</td></tr>
+<tr class="memdesc:a9a9135582a2b75e8453f3a67da5bda5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator before the first stride value.  <br /></td></tr>
+<tr class="memitem:afa604f3a5626166e1fe611ad3216e7d2" id="r_afa604f3a5626166e1fe611ad3216e7d2"><td class="memItemLeft"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#afa604f3a5626166e1fe611ad3216e7d2">rend</a> () const noexcept</td></tr>
+<tr class="memdesc:afa604f3a5626166e1fe611ad3216e7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stride value.  <br /></td></tr>
+<tr class="memitem:ac7fb59bcee13ae281d56d8d683e7eca9" id="r_ac7fb59bcee13ae281d56d8d683e7eca9"><td class="memItemLeft"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac7fb59bcee13ae281d56d8d683e7eca9">crend</a> () const noexcept</td></tr>
+<tr class="memdesc:ac7fb59bcee13ae281d56d8d683e7eca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stride value.  <br /></td></tr>
 <tr class="memitem:adbd493059b3c7341dea840df8670ddd3" id="r_adbd493059b3c7341dea840df8670ddd3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adbd493059b3c7341dea840df8670ddd3">swap</a> (<a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:adbd493059b3c7341dea840df8670ddd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the stored strides with another instance.  <br /></td></tr>
 <tr class="memitem:a1e9643cb3f62e95058715fa01616e679" id="r_a1e9643cb3f62e95058715fa01616e679"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1e9643cb3f62e95058715fa01616e679">operator==</a> (const <a class="el" href="#afc3ceb575bdfd6d2020adce68fd79cd5">Strides</a> &amp;other) const noexcept</td></tr>
@@ -194,7 +209,80 @@ Public Member Functions</h2></td></tr>
 <p><a class="el" href="classstratax_1_1core_1_1_strides.html" title="Stores strides for a shape in contiguous memory.">Strides</a> map logical indices to flat storage offsets, typically for row-major layout. The values are stored as metadata and do not own any array elements. </p>
 
 <p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00022">22</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a2a0d6c8d4e3276db046ee4f6774a7eca" name="a2a0d6c8d4e3276db046ee4f6774a7eca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a0d6c8d4e3276db046ee4f6774a7eca">&#9670;&#160;</a></span>const_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">stratax::core::Strides::const_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Const iterator over stride values. </p>
+
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00032">32</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7ddfaa62b471e9e2f334ddbce3a985cf" name="a7ddfaa62b471e9e2f334ddbce3a985cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ddfaa62b471e9e2f334ddbce3a985cf">&#9670;&#160;</a></span>const_reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">stratax::core::Strides::const_reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_reverse_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Const reverse iterator over stride values. </p>
+
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00038">38</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a213f58a8f38b46c771ee1ef7d3943b19" name="a213f58a8f38b46c771ee1ef7d3943b19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a213f58a8f38b46c771ee1ef7d3943b19">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">stratax::core::Strides::iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;<a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">::const_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Iterator over immutable stride values. </p>
+
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00029">29</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d1115ec1c3d96aa746f7ca528163f08" name="a2d1115ec1c3d96aa746f7ca528163f08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1115ec1c3d96aa746f7ca528163f08">&#9670;&#160;</a></span>reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">stratax::core::Strides::reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;<a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">::const_reverse_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reverse iterator over immutable stride values. </p>
+
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00035">35</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad1bb3bea444d43c180a77f3ca7de5d8b" name="ad1bb3bea444d43c180a77f3ca7de5d8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1bb3bea444d43c180a77f3ca7de5d8b">&#9670;&#160;</a></span>Strides()</h2>
 
@@ -233,7 +321,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00043">43</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00055">55</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -276,7 +364,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00123">123</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00141">141</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -306,12 +394,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reference to the last stride value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00144">144</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00162">162</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="afcebf0092b644f9bfba6801b1944fe91" name="afcebf0092b644f9bfba6801b1944fe91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afcebf0092b644f9bfba6801b1944fe91">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
+<a id="a0617e883dbcab071309e093cc9c7c856" name="a0617e883dbcab071309e093cc9c7c856"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0617e883dbcab071309e093cc9c7c856">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,7 +408,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::begin </td>
+          <td class="memname"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a> stratax::core::Strides::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -336,12 +424,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const iterator to the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00174">174</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00192">192</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aba187193bb7da3f0091f9c658a74dfc1" name="aba187193bb7da3f0091f9c658a74dfc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba187193bb7da3f0091f9c658a74dfc1">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
+<a id="ad1da2636693fedcc5c3d709bca77d1b1" name="ad1da2636693fedcc5c3d709bca77d1b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1da2636693fedcc5c3d709bca77d1b1">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -350,7 +438,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::begin </td>
+          <td class="memname"><a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">iterator</a> stratax::core::Strides::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -366,12 +454,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns an iterator to the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the beginning of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00164">164</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00182">182</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab16adc55140d2d32caed910d3ebabc39" name="ab16adc55140d2d32caed910d3ebabc39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab16adc55140d2d32caed910d3ebabc39">&#9670;&#160;</a></span>cbegin()</h2>
+<a id="a06892bc7521eedce5fd5b5d3dd6c9b45" name="a06892bc7521eedce5fd5b5d3dd6c9b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06892bc7521eedce5fd5b5d3dd6c9b45">&#9670;&#160;</a></span>cbegin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +468,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::cbegin </td>
+          <td class="memname"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a> stratax::core::Strides::cbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -396,12 +484,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const iterator to the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00184">184</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00202">202</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa740354c237e14772c7e87fe46588e09" name="aa740354c237e14772c7e87fe46588e09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa740354c237e14772c7e87fe46588e09">&#9670;&#160;</a></span>cend()</h2>
+<a id="a8bc0565468a30141eab7e6bf92118978" name="a8bc0565468a30141eab7e6bf92118978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bc0565468a30141eab7e6bf92118978">&#9670;&#160;</a></span>cend()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,7 +498,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::cend </td>
+          <td class="memname"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a> stratax::core::Strides::cend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -426,12 +514,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const iterator one past the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00214">214</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00232">232</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac20fb9539c74ad0eba2bbd8487d49a6d" name="ac20fb9539c74ad0eba2bbd8487d49a6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac20fb9539c74ad0eba2bbd8487d49a6d">&#9670;&#160;</a></span>crbegin()</h2>
+<a id="ac7961bca3e076852d34afd992b3302ad" name="ac7961bca3e076852d34afd992b3302ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7961bca3e076852d34afd992b3302ad">&#9670;&#160;</a></span>crbegin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -440,7 +528,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::crbegin </td>
+          <td class="memname"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a> stratax::core::Strides::crbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -456,12 +544,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const reverse iterator to the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last stride value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00244">244</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00262">262</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a8a0d63d66a6c5995c778803297ee2580" name="a8a0d63d66a6c5995c778803297ee2580"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a0d63d66a6c5995c778803297ee2580">&#9670;&#160;</a></span>crend()</h2>
+<a id="ac7fb59bcee13ae281d56d8d683e7eca9" name="ac7fb59bcee13ae281d56d8d683e7eca9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7fb59bcee13ae281d56d8d683e7eca9">&#9670;&#160;</a></span>crend()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -470,7 +558,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::crend </td>
+          <td class="memname"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a> stratax::core::Strides::crend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -486,7 +574,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const reverse iterator before the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00274">274</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00292">292</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -516,7 +604,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the raw stride data pointer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the first stored stride, or <span class="tt">nullptr</span> when empty. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00154">154</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00172">172</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -546,12 +634,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns whether the stride vector is empty. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when no strides are stored. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00086">86</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00104">104</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aaacd481130cb13434f7c3b47ebd066fc" name="aaacd481130cb13434f7c3b47ebd066fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaacd481130cb13434f7c3b47ebd066fc">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
+<a id="a5dcd074d4f298a70c51835d3850369bd" name="a5dcd074d4f298a70c51835d3850369bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dcd074d4f298a70c51835d3850369bd">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -560,7 +648,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::end </td>
+          <td class="memname"><a class="el" href="#a2a0d6c8d4e3276db046ee4f6774a7eca">const_iterator</a> stratax::core::Strides::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -576,12 +664,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const iterator one past the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00204">204</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00222">222</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a9db2201dca94011f357fdac49b928d7a" name="a9db2201dca94011f357fdac49b928d7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9db2201dca94011f357fdac49b928d7a">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
+<a id="ab343ad56ff5755947ace231005aa1e39" name="ab343ad56ff5755947ace231005aa1e39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab343ad56ff5755947ace231005aa1e39">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -590,7 +678,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::size_t * stratax::core::Strides::end </td>
+          <td class="memname"><a class="el" href="#a213f58a8f38b46c771ee1ef7d3943b19">iterator</a> stratax::core::Strides::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -606,7 +694,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns an iterator one past the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the end of the stride storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00194">194</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00212">212</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +724,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reference to the first stride value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00134">134</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00152">152</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -672,7 +760,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when the stride vectors are not equal. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00318">318</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00336">336</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -709,7 +797,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Const reference to the requested stride value. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The caller must ensure that the index is in range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00109">109</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00127">127</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -745,7 +833,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when the stride vectors match exactly. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00296">296</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00314">314</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -775,12 +863,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns the number of dimensions represented by the strides. </p>
 <dl class="section return"><dt>Returns</dt><dd>Rank of the stride vector. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00096">96</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00114">114</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a141a95df064edf219d20bdd066b9df4e" name="a141a95df064edf219d20bdd066b9df4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a141a95df064edf219d20bdd066b9df4e">&#9670;&#160;</a></span>rbegin() <span class="overload">[1/2]</span></h2>
+<a id="a3f755d8050df767833adfe68e72ad39e" name="a3f755d8050df767833adfe68e72ad39e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f755d8050df767833adfe68e72ad39e">&#9670;&#160;</a></span>rbegin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -789,7 +877,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::rbegin </td>
+          <td class="memname"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a> stratax::core::Strides::rbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -805,12 +893,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const reverse iterator to the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last stride value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00234">234</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00252">252</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a95bbeb2597af98e0099b98dc43febbd1" name="a95bbeb2597af98e0099b98dc43febbd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95bbeb2597af98e0099b98dc43febbd1">&#9670;&#160;</a></span>rbegin() <span class="overload">[2/2]</span></h2>
+<a id="abae826598ff5d4ecb00f630d897a033f" name="abae826598ff5d4ecb00f630d897a033f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abae826598ff5d4ecb00f630d897a033f">&#9670;&#160;</a></span>rbegin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -819,7 +907,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::rbegin </td>
+          <td class="memname"><a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">reverse_iterator</a> stratax::core::Strides::rbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -835,12 +923,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a reverse iterator to the last stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Reverse iterator starting at the last stride value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00224">224</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00242">242</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3b932f95a4c0cd3f789c535c76697336" name="a3b932f95a4c0cd3f789c535c76697336"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b932f95a4c0cd3f789c535c76697336">&#9670;&#160;</a></span>rend() <span class="overload">[1/2]</span></h2>
+<a id="afa604f3a5626166e1fe611ad3216e7d2" name="afa604f3a5626166e1fe611ad3216e7d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa604f3a5626166e1fe611ad3216e7d2">&#9670;&#160;</a></span>rend() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -849,7 +937,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::rend </td>
+          <td class="memname"><a class="el" href="#a7ddfaa62b471e9e2f334ddbce3a985cf">const_reverse_iterator</a> stratax::core::Strides::rend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -865,12 +953,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns a const reverse iterator before the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00264">264</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00282">282</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a5c992ead7e91f203ba2112903e312d26" name="a5c992ead7e91f203ba2112903e312d26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c992ead7e91f203ba2112903e312d26">&#9670;&#160;</a></span>rend() <span class="overload">[2/2]</span></h2>
+<a id="a9a9135582a2b75e8453f3a67da5bda5d" name="a9a9135582a2b75e8453f3a67da5bda5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a9135582a2b75e8453f3a67da5bda5d">&#9670;&#160;</a></span>rend() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -879,7 +967,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::reverse_iterator&lt; const std::size_t * &gt; stratax::core::Strides::rend </td>
+          <td class="memname"><a class="el" href="#a2d1115ec1c3d96aa746f7ca528163f08">reverse_iterator</a> stratax::core::Strides::rend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -895,7 +983,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a reverse iterator before the first stride value. </p>
 <dl class="section return"><dt>Returns</dt><dd>Reverse iterator representing the end sentinel. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00254">254</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00272">272</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -925,7 +1013,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the number of stored stride values. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of stored stride values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00076">76</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00094">94</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>
@@ -960,7 +1048,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00284">284</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_strides_8hpp_source.html#l00302">302</a> of file <a class="el" href="_strides_8hpp_source.html">Strides.hpp</a>.</p>
 
 </div>
 </div>

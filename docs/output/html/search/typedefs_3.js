@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['index_5ft_0',['index_t',['../namespacestratax_1_1core_1_1dtype.html#ae6995f1252e9c11435838c6bd0bee5c1',1,'stratax::core::dtype']]],
-  ['int16_1',['int16',['../namespacestratax_1_1core_1_1dtype.html#a471e3e4077bf95bea1652f05f8b4b151',1,'stratax::core::dtype']]],
-  ['int32_2',['int32',['../namespacestratax_1_1core_1_1dtype.html#a6d3617dec17817018b58ce0788ac0fea',1,'stratax::core::dtype']]],
-  ['int64_3',['int64',['../namespacestratax_1_1core_1_1dtype.html#a9d18b22895f8f86133181be7ed96ab23',1,'stratax::core::dtype']]],
-  ['int8_4',['int8',['../namespacestratax_1_1core_1_1dtype.html#a9fb0f4b529abcf876cac3de3e9881004',1,'stratax::core::dtype']]]
+  ['value_5ftype_0',['value_type',['../classstratax_1_1container_1_1_matrix.html#a82dba402509f48208b10369532f54d41',1,'stratax::container::Matrix::value_type'],['../classstratax_1_1container_1_1_tensor.html#ac96c7524bd8ba61b670363d5ba98e4aa',1,'stratax::container::Tensor::value_type'],['../classstratax_1_1container_1_1_vector.html#a8eb707c5755fc6c4fab84bc250dda426',1,'stratax::container::Vector::value_type']]]
 ];

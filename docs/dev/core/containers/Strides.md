@@ -88,6 +88,19 @@ The following conditions are always true:
 
 ## Public Interface
 
+## Iterator Aliases
+
+```cpp
+using iterator = Buffer<std::size_t>::const_iterator;
+using const_iterator = Buffer<std::size_t>::const_iterator;
+using reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+```
+
+`Strides` intentionally exposes const-backed iterator aliases because stride values are derived metadata.
+
+---
+
 ## Constructors
 
 ### Default Constructor
@@ -304,12 +317,12 @@ Complexity
 ## begin()/end()/cbegin()/cend()
 
 ```cpp
-[[nodiscard]] const std::size_t* begin() noexcept;
-[[nodiscard]] const std::size_t* begin() const noexcept;
-[[nodiscard]] const std::size_t* cbegin() const noexcept;
-[[nodiscard]] const std::size_t* end() noexcept;
-[[nodiscard]] const std::size_t* end() const noexcept;
-[[nodiscard]] const std::size_t* cend() const noexcept;
+[[nodiscard]] iterator begin() noexcept;
+[[nodiscard]] const_iterator begin() const noexcept;
+[[nodiscard]] const_iterator cbegin() const noexcept;
+[[nodiscard]] iterator end() noexcept;
+[[nodiscard]] const_iterator end() const noexcept;
+[[nodiscard]] const_iterator cend() const noexcept;
 ```
 
 Provides iteration over stride values.
@@ -323,12 +336,12 @@ Complexity
 ## rbegin()/rend()/crbegin()/crend()
 
 ```cpp
-[[nodiscard]] std::reverse_iterator<const std::size_t*> rbegin() noexcept;
-[[nodiscard]] std::reverse_iterator<const std::size_t*> rbegin() const noexcept;
-[[nodiscard]] std::reverse_iterator<const std::size_t*> crbegin() const noexcept;
-[[nodiscard]] std::reverse_iterator<const std::size_t*> rend() noexcept;
-[[nodiscard]] std::reverse_iterator<const std::size_t*> rend() const noexcept;
-[[nodiscard]] std::reverse_iterator<const std::size_t*> crend() const noexcept;
+[[nodiscard]] reverse_iterator rbegin() noexcept;
+[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
+[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
+[[nodiscard]] reverse_iterator rend() noexcept;
+[[nodiscard]] const_reverse_iterator rend() const noexcept;
+[[nodiscard]] const_reverse_iterator crend() const noexcept;
 ```
 
 Provides reverse iteration over stride values.

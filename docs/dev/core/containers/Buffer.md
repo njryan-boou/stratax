@@ -97,6 +97,19 @@ The following conditions are always true:
 
 ## Public Interface
 
+## Iterator Aliases
+
+```cpp
+using iterator = T*;
+using const_iterator = const T*;
+using reverse_iterator = std::reverse_iterator<iterator>;
+using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+```
+
+`Buffer<T>` exposes iterator aliases for STL-style generic code. Other storage-related types such as pointers, references, and sizes remain spelled out in the public API.
+
+---
+
 ## Constructors
 
 ### Default Constructor
@@ -465,6 +478,8 @@ for (const auto& value : values)
 `Buffer<T>` stores data in a single contiguous memory block.
 
 Higher-level containers such as `Matrix` and `Tensor` interpret this one-dimensional storage using `Shape` and `Strides`. This design improves cache locality, simplifies memory management, and allows algorithms to operate on a consistent underlying representation.
+
+Empty buffer iterators are valid sentinels: `begin() == end()` and reverse iterator pairs are also equal for an empty buffer.
 
 `Buffer<T>` intentionally contains no mathematical logic. Its sole responsibility is memory ownership and element storage.
 

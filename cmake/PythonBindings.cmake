@@ -98,3 +98,14 @@ install(
     RUNTIME DESTINATION
         stratax
 )
+
+install(
+
+    FILES
+        ${CMAKE_SOURCE_DIR}/python/stratax/__init__.py
+        ${CMAKE_SOURCE_DIR}/python/stratax/_core.pyi
+        ${CMAKE_SOURCE_DIR}/python/stratax/py.typed
+
+    DESTINATION
+        stratax
+)

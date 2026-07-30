@@ -11,7 +11,7 @@ void bind_shape(py::module_& m)
 {
     using Shape = stratax::core::Shape;
 
-    py::class_<Shape> cls(m, "_Shape");
+    py::class_<Shape> cls(m, "Shape");
 
     bind_shape_constructors(cls);
     bind_shape_properties(cls);

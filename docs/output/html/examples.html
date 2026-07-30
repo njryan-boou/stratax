@@ -118,10 +118,11 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('examples.html'
   <div class="headertitle"><div class="title">Examples </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md948"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
 Examples</h1>
-<p>Short examples for trying the current Stratax APIs from C++ and Python.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md949"></a>
+<p>Workflow-focused examples for trying the current Stratax APIs from C++ and Python.</p>
+<p>Each example is intentionally detailed enough to show the normal path through a container: construction, metadata, element access, iteration or slicing, reshape/conversion helpers, and reductions where applicable. They are still kept small enough to run and inspect quickly.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md935"></a>
 C++</h2>
 <p>The C++ examples live under <span class="tt">examples/cpp</span>.</p>
 <table class="markdownTable">
@@ -139,7 +140,7 @@ C++</h2>
 <p>Stratax is header-first. Point your target at the repository <span class="tt">include</span> directory and compile with C++20 enabled:</p>
 <div class="fragment"><div class="line">target_include_directories(my_app PRIVATE path/to/stratax/include)</div>
 <div class="line">target_compile_features(my_app PRIVATE cxx_std_20)</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md950"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
 Python</h2>
 <p>The Python examples live under <span class="tt">examples/python</span>.</p>
 <table class="markdownTable">
@@ -156,11 +157,12 @@ Python</h2>
 </table>
 <p>After installing the package, run examples from the repository root:</p>
 <div class="fragment"><div class="line">python examples/python/vector.py</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md951"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
 Notes</h2>
 <ul>
 <li>Slicing currently returns copy-based results.</li>
 <li>Python bindings currently expose <span class="tt">double</span> container specializations.</li>
+<li>Examples should favor one complete workflow over many disconnected snippets.</li>
 <li>Examples track implemented behavior and should be updated when public APIs change. </li>
 </ul>
 </div></div><!-- contents -->

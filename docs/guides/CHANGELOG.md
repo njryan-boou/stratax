@@ -10,6 +10,21 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- Simplified Python packaging around the compiled `_core` extension and public package exports.
+- Updated Python API stubs to match the current property-based container interface.
+- Regenerated documentation with a clean Doxygen warning pass.
+
+### Fixed
+
+- Fixed iterator edge cases for empty `Buffer` storage and aligned container iterator aliases.
+- Fixed stale binding documentation that referenced the old Python package layering.
+
+---
+
 ## [0.2.0] - 07-15-2026
 
 ### Added

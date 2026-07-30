@@ -118,10 +118,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('python_api.htm
   <div class="headertitle"><div class="title">"Python API Reference" </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md974"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md960"></a>
 Python API Reference</h1>
 <p>Concise reference for the public Python API exported from <span class="tt">stratax</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md975"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md961"></a>
 Imports</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> (</div>
 <div class="line">    Shape,</div>
@@ -145,8 +145,8 @@ Imports</h2>
 <div class="line">    var,</div>
 <div class="line">    std,</div>
 <div class="line">)</div>
-</div><!-- fragment --><p>Python containers currently expose <span class="tt">double</span>-based storage. Slicing, reshaping, flattening, and conversions return copy-based results unless a future API documents view semantics explicitly.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md976"></a>
+</div><!-- fragment --><p>Python containers currently expose <span class="tt">double</span>-based storage. Slicing, reshaping, flattening, and conversions return independent containers.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md962"></a>
 Shape</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -158,21 +158,19 @@ Shape</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">Shape([d0, d1, ...])</span>  </td><td class="markdownTableBodyNone">Create a shape from dimensions.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">Shape(d0, d1, ...)</span>  </td><td class="markdownTableBodyNone">Create a shape from variadic dimensions.  </td></tr>
-<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">shape.rank</span>  </td><td class="markdownTableBodyNone">Number of dimensions.  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">shape.elements</span>  </td><td class="markdownTableBodyNone">Product of all dimensions.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">shape.empty</span>  </td><td class="markdownTableBodyNone">Whether the shape has rank 0.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">len(shape)</span>  </td><td class="markdownTableBodyNone">Number of dimensions.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">shape[i]</span>  </td><td class="markdownTableBodyNone">Dimension at index <span class="tt">i</span>.  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">len(shape)</span>  </td><td class="markdownTableBodyNone">Number of dimensions.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">shape[i]</span>  </td><td class="markdownTableBodyNone">Dimension at index <span class="tt">i</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">list(shape)</span>  </td><td class="markdownTableBodyNone">Dimensions as a Python list.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md977"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md963"></a>
 Containers</h2>
 <p><span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> share the same basic container operations.</p>
 <table class="markdownTable">
@@ -208,7 +206,7 @@ Containers</h2>
 <td class="markdownTableBodyNone">Flatten  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td></tr>
 </table>
 <p><span class="tt">Matrix</span> also exposes <span class="tt">.rows</span> and <span class="tt">.cols</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md978"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md964"></a>
 Indexing</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> Matrix, Tensor, Vector</div>
 <div class="line"> </div>
@@ -224,7 +222,7 @@ Indexing</h2>
 <div class="line">t[1, 1, 1] = 5.0</div>
 <div class="line">last_axis = t[:, :, -1]</div>
 </div><!-- fragment --><p>Negative indexes and slice steps are supported. Slice results are independent copies.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md979"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md965"></a>
 Arithmetic</h2>
 <p>Containers support element-wise arithmetic with matching containers or scalars:</p>
 <table class="markdownTable">
@@ -244,7 +242,7 @@ Arithmetic</h2>
 <td class="markdownTableBodyNone">Comparison  </td><td class="markdownTableBodyNone"><span class="tt">a == b</span>, <span class="tt">a != b</span>  </td></tr>
 </table>
 <p>Container-to-container operations require compatible shapes. Broadcasting is planned but not currently implemented.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md980"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md966"></a>
 Creation Helpers</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -258,8 +256,8 @@ Creation Helpers</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">identity(size)</span>  </td><td class="markdownTableBodyNone">Rank-2 identity tensor with shape <span class="tt">[size, size]</span>.  </td></tr>
 </table>
-<p><span class="tt">shape</span> may be a <span class="tt">Shape</span> or an iterable of dimensions.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md981"></a>
+<p><span class="tt">shape</span> must be a <span class="tt">Shape</span>.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md967"></a>
 Conversion Helpers</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -271,38 +269,38 @@ Conversion Helpers</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">to_tensor(arr)</span>  </td><td class="markdownTableBodyNone">Convert a <span class="tt">Vector</span>, <span class="tt">Matrix</span>, or <span class="tt">Tensor</span> to <span class="tt">Tensor</span>.  </td></tr>
 </table>
-<p>Conversions return new wrapper containers.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md982"></a>
+<p>Conversions return new containers.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md968"></a>
 Reductions</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> mean, sum</div>
 <div class="line"> </div>
 <div class="line">total = sum(arr)</div>
-<div class="line">last_axis = sum(arr, axis=-1)</div>
-<div class="line">kept = mean(arr, axis=0, keepdims=<span class="keyword">True</span>)</div>
+<div class="line">last_axis = sum(arr, -1)</div>
+<div class="line">kept = mean(arr, 0, keepdims=<span class="keyword">True</span>)</div>
 </div><!-- fragment --><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Function  </th><th class="markdownTableHeadNone">Result without <span class="tt">axis</span>  </th><th class="markdownTableHeadNone">Result with <span class="tt">axis</span>  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">sum(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">sum(arr)</span> / <span class="tt">sum(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">prod(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">prod(arr)</span> / <span class="tt">prod(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">max(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">max(arr)</span> / <span class="tt">max(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">min(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">min(arr)</span> / <span class="tt">min(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">argmax(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">int</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">argmax(arr)</span> / <span class="tt">argmax(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">int</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">argmin(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">int</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">argmin(arr)</span> / <span class="tt">argmin(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">int</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">mean(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">mean(arr)</span> / <span class="tt">mean(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">var(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">var(arr)</span> / <span class="tt">var(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">std(arr, axis=None, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">std(arr)</span> / <span class="tt">std(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 </table>
 <p>Axes may be negative. <span class="tt">keepdims=True</span> preserves the reduced axis with length 1.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md983"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md969"></a>
 Exceptions</h2>
 <p>Stratax exports these exception types:</p>
 <table class="markdownTable">

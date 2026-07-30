@@ -5,7 +5,7 @@ import pytest
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, IndexError as StrataxIndexError
@@ -16,9 +16,9 @@ class TestShapeInterfaceTests:
     def test_default_shape_is_empty(self) -> None:
         shape = Shape()
 
-        assert shape.rank() == 0
-        assert shape.elements() == 0
-        assert shape.empty()
+        assert shape.rank == 0
+        assert shape.elements == 0
+        assert shape.empty
         assert len(shape) == 0
         assert list(shape) == []
         assert repr(shape) == "()"
@@ -26,9 +26,9 @@ class TestShapeInterfaceTests:
     def test_iterable_constructor_exposes_dimensions(self) -> None:
         shape = Shape([2, 3, 4])
 
-        assert shape.rank() == 3
-        assert shape.elements() == 24
-        assert not shape.empty()
+        assert shape.rank == 3
+        assert shape.elements == 24
+        assert not shape.empty
         assert len(shape) == 3
         assert shape[0] == 2
         assert shape[1] == 3
@@ -39,31 +39,31 @@ class TestShapeInterfaceTests:
     def test_varargs_constructor_builds_shape(self) -> None:
         shape = Shape([2, 3, 4])
 
-        assert shape.rank() == 3
-        assert shape.elements() == 24
+        assert shape.rank == 3
+        assert shape.elements == 24
         assert list(shape) == [2, 3, 4]
 
     def test_generator_constructor_builds_shape(self) -> None:
         shape = Shape(dim for dim in (3, 2, 1))
 
-        assert shape.rank() == 3
-        assert shape.elements() == 6
+        assert shape.rank == 3
+        assert shape.elements == 6
         assert list(shape) == [3, 2, 1]
 
     def test_single_dimension_shape_repr_has_trailing_comma(self) -> None:
         shape = Shape([5])
 
-        assert shape.rank() == 1
-        assert shape.elements() == 5
+        assert shape.rank == 1
+        assert shape.elements == 5
         assert list(shape) == [5]
         assert repr(shape) == "(5,)"
 
     def test_zero_dimension_makes_zero_elements_but_keeps_rank(self) -> None:
         shape = Shape([2, 0, 4])
 
-        assert shape.rank() == 3
-        assert shape.elements() == 0
-        assert not shape.empty()
+        assert shape.rank == 3
+        assert shape.elements == 0
+        assert not shape.empty
         assert list(shape) == [2, 0, 4]
 
     def test_copy_constructor_preserves_value(self) -> None:
@@ -104,8 +104,8 @@ class TestShapeInterfaceTests:
     def test_single_zero_dimension_is_allowed(self) -> None:
         shape = Shape([0])
 
-        assert shape.rank() == 1
-        assert shape.elements() == 0
+        assert shape.rank == 1
+        assert shape.elements == 0
         assert list(shape) == [0]
 
     def test_shape_element_count_overflow_raises_overflow_error(self) -> None:

@@ -111,7 +111,7 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Troubleshooting guide
 - [x] Release checklist
 - [x] Documentation CI check
-- [ ] Resolve Doxygen warnings
+- [x] Resolve Doxygen warnings
 - [ ] Complete generated C++ API reference coverage
 - [ ] README badges
 

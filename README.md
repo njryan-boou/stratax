@@ -45,7 +45,7 @@ int main()
 }
 ```
 
-### Python
+### Python Package
 
 ```python
 from stratax import Vector
@@ -69,7 +69,7 @@ Axis reductions are available through Python reduction helpers (`sum`, `prod`, `
 pip install stratax
 ```
 
-### C++
+### C++ Headers
 
 Stratax is header-first for C++. Include the repository `include/` directory in
 your build and include the umbrella header:
@@ -132,13 +132,13 @@ python -m pytest tests/python
 
 ### Documentation
 
- - [Documentation Site](https://njryan-boou.github.io/stratax)
- - [Local Documentation Index](docs/README.md)
- - [User Guide](docs/guides/user_guide.md)
- - [Python API Reference](docs/guides/python_api.md)
- - [Examples Guide](docs/guides/examples.md)
- - [Troubleshooting](docs/guides/troubleshooting.md)
- - [Releasing](docs/guides/releasing.md)
+- [Documentation Site](https://njryan-boou.github.io/stratax)
+- [Local Documentation Index](docs/README.md)
+- [User Guide](docs/guides/user_guide.md)
+- [Python API Reference](docs/guides/python_api.md)
+- [Examples Guide](docs/guides/examples.md)
+- [Troubleshooting](docs/guides/troubleshooting.md)
+- [Releasing](docs/guides/releasing.md)
 
 ## Repository Layout
 
@@ -162,7 +162,7 @@ I/O are reserved or planned areas.
 ### API Status
 
 | Feature | C++ | Python |
-|---------|-----|--------|
+| --------- | ----- | -------- |
 | `Shape`, `Vector`, `Matrix`, `Tensor` | Available | Available |
 | Negative indexing | Available | Available |
 | Slicing | Copy-based | Copy-based |

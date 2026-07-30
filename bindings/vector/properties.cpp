@@ -20,11 +20,11 @@ using Vector = stratax::container::Vector<double>;
 void bind_vector_properties(py::class_<Vector>& cls)
 {
     cls
-        .def("size", &Vector::size)
-        .def("rank", &Vector::rank)
-        .def("empty", &Vector::empty)
-        .def("shape", &Vector::shape, py::return_value_policy::reference_internal)
-        .def("strides", [](const Vector& vector) {
+        .def_property_readonly("size", &Vector::size)
+        .def_property_readonly("rank", &Vector::rank)
+        .def_property_readonly("empty", &Vector::empty)
+        .def_property_readonly("shape", &Vector::shape, py::return_value_policy::reference_internal)
+        .def_property_readonly("strides", [](const Vector& vector) {
             std::vector<std::size_t> values;
             const auto& strides = vector.strides();
             values.reserve(strides.rank());

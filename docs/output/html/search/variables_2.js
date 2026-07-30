@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['default_5falignment_0',['default_alignment',['../namespacestratax_1_1core_1_1config.html#a9a0692d5c83bfb0e2b115b502465c5a6',1,'stratax::core::config']]]
+  ['uninitialized_0',['uninitialized',['../classstratax_1_1core_1_1_buffer.html#a514a45648c22a84d324b40c9de945fea',1,'stratax::core::Buffer']]]
 ];

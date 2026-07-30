@@ -8,7 +8,7 @@ This section documents the pybind11 binding layer under `bindings/`.
 
 ## Overview
 
-Stratax Python bindings are compiled into the `_core` extension module and then surfaced by the Python package wrappers under `python/stratax/`.
+Stratax Python bindings are compiled into the `_core` extension module and re-exported by the `stratax` Python package.
 
 Current bindings are focused on `double`-based container types and free-function helpers.
 
@@ -37,7 +37,7 @@ Current bindings are focused on `double`-based container types and free-function
 
 ```text
 C++ core headers -> pybind11 bindings in bindings/ -> _core extension
--> python/stratax wrapper modules -> user-facing Python API
+-> python/stratax package exports -> user-facing Python API
 ```
 
 ---

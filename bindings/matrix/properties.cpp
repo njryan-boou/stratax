@@ -20,13 +20,13 @@ using Matrix = stratax::container::Matrix<double>;
 void bind_matrix_properties(py::class_<Matrix>& cls)
 {
     cls
-        .def("size", &Matrix::size)
-        .def("rank", &Matrix::rank)
-        .def("empty", &Matrix::empty)
-        .def("rows", &Matrix::rows)
-        .def("cols", &Matrix::cols)
-        .def("shape", &Matrix::shape, py::return_value_policy::reference_internal)
-        .def("strides", [](const Matrix& matrix) {
+        .def_property_readonly("size", &Matrix::size)
+        .def_property_readonly("rank", &Matrix::rank)
+        .def_property_readonly("empty", &Matrix::empty)
+        .def_property_readonly("rows", &Matrix::rows)
+        .def_property_readonly("cols", &Matrix::cols)
+        .def_property_readonly("shape", &Matrix::shape, py::return_value_policy::reference_internal)
+        .def_property_readonly("strides", [](const Matrix& matrix) {
             std::vector<std::size_t> values;
             const auto& strides = matrix.strides();
             values.reserve(strides.rank());

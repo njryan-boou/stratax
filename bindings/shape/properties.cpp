@@ -20,8 +20,8 @@ using Shape = stratax::core::Shape;
 void bind_shape_properties(py::class_<Shape>& cls)
 {
     cls
-        .def("rank", &Shape::rank)
-        .def("elements", [](const Shape& shape)
+        .def_property_readonly("rank", &Shape::rank)
+        .def_property_readonly("elements", [](const Shape& shape)
         {
             try
             {
@@ -32,7 +32,7 @@ void bind_shape_properties(py::class_<Shape>& cls)
                 binding_utils::raise_overflow(e.what());
             }
         })
-        .def("empty", &Shape::empty)
+        .def_property_readonly("empty", &Shape::empty)
         .def("__len__", &Shape::rank)
         .def("__getitem__", [](const Shape& shape, long long index)
         {

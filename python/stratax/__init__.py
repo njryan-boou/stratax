@@ -1,4 +1,3 @@
-from . import _core
 from ._core import (
     __author__,
     __doc__ as __core_doc__,
@@ -19,6 +18,7 @@ from ._core import (
     prod,
     ShapeError,
     StrataxError,
+    Shape,
     std,
     sum,
     Tensor,
@@ -31,8 +31,6 @@ from ._core import (
     ZeroDivisionError,
     zeros,
 )
-
-Shape = getattr(_core, "_Shape")
 
 __all__ = [
     "Shape",
@@ -63,4 +61,6 @@ __all__ = [
     "BroadcastError",
     "ZeroDivisionError",
     "AxisError",
+    "__version__",
+    "__author__",
 ]

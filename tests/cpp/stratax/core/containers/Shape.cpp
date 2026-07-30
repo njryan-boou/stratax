@@ -400,6 +400,43 @@ TEST(CoreShape, const_begin_end)
     EXPECT_TRUE(*begin_ptr == 7);
 }
 
+TEST(CoreShape, cbegin_cend)
+{
+    const Shape shape{7, 8, 9};
+
+    Shape::const_iterator begin_ptr = shape.cbegin();
+    Shape::const_iterator end_ptr = shape.cend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 7);
+}
+
+TEST(CoreShape, const_reverse_iteration)
+{
+    const Shape shape{10, 20, 30};
+
+    std::size_t expected[] = {30, 20, 10};
+    std::size_t i = 0;
+
+    for (auto it = shape.rbegin(); it != shape.rend(); ++it) {
+        EXPECT_TRUE(*it == expected[i]);
+        ++i;
+    }
+
+    EXPECT_TRUE(i == 3);
+}
+
+TEST(CoreShape, crbegin_crend)
+{
+    const Shape shape{7, 8, 9};
+
+    Shape::const_reverse_iterator begin_ptr = shape.crbegin();
+    Shape::const_reverse_iterator end_ptr = shape.crend();
+
+    EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
+    EXPECT_TRUE(*begin_ptr == 9);
+}
+
 // ============================================================================
 // Mutable Iterator Coverage
 // ============================================================================
@@ -413,6 +450,34 @@ TEST(CoreShape, mutable_begin_end)
 
     EXPECT_TRUE(std::distance(begin_ptr, end_ptr) == 3);
     EXPECT_TRUE(*begin_ptr == 1);
+}
+
+TEST(CoreShape, mutable_reverse_iteration)
+{
+    Shape shape{5, 6, 7};
+
+    std::size_t expected[] = {7, 6, 5};
+    std::size_t i = 0;
+
+    for (auto it = shape.rbegin(); it != shape.rend(); ++it) {
+        EXPECT_TRUE(*it == expected[i]);
+        ++i;
+    }
+
+    EXPECT_TRUE(i == 3);
+}
+
+TEST(CoreShape, empty_iterators)
+{
+    Shape shape;
+    const Shape const_shape;
+
+    EXPECT_TRUE(shape.begin() == shape.end());
+    EXPECT_TRUE(shape.cbegin() == shape.cend());
+    EXPECT_TRUE(shape.rbegin() == shape.rend());
+    EXPECT_TRUE(shape.crbegin() == shape.crend());
+    EXPECT_TRUE(const_shape.begin() == const_shape.end());
+    EXPECT_TRUE(const_shape.rbegin() == const_shape.rend());
 }
 
 TEST(CoreShape, mutable_iteration)

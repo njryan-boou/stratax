@@ -15,7 +15,7 @@ namespace
 
 using Vector = stratax::container::Vector<double>;
 
-} // anonymous namespace
+}
 
 void bind_vector_reshape(py::class_<Vector>& cls)
 {

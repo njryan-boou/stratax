@@ -124,7 +124,7 @@ Bindings Developer Docs</h1>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Overview</h2>
-<p>Stratax Python bindings are compiled into the <span class="tt">_core</span> extension module and then surfaced by the Python package wrappers under <span class="tt">python/stratax/</span>.</p>
+<p>Stratax Python bindings are compiled into the <span class="tt">_core</span> extension module and re-exported by the <span class="tt">stratax</span> Python package.</p>
 <p>Current bindings are focused on <span class="tt">double</span>-based container types and free-function helpers.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
@@ -149,7 +149,7 @@ File Map</h2>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Data Flow</h2>
 <div class="fragment"><div class="line">C++ core headers -&gt; pybind11 bindings in bindings/ -&gt; _core extension</div>
-<div class="line">-&gt; python/stratax wrapper modules -&gt; user-facing Python API</div>
+<div class="line">-&gt; python/stratax package exports -&gt; user-facing Python API</div>
 </div><!-- fragment --><hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Current Constraints</h2>

@@ -5,7 +5,7 @@ import pytest
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
@@ -16,44 +16,44 @@ class TestVectorInterfaceTests:
     def test_default_vector_is_empty_rank_one_vector(self) -> None:
         vector = Vector()
 
-        assert vector.size() == 0
-        assert vector.rank() == 1
-        assert vector.empty()
+        assert vector.size == 0
+        assert vector.rank == 1
+        assert vector.empty
         assert len(vector) == 0
-        assert list(vector.shape()) == [0]
-        assert vector.strides() == [1]
+        assert list(vector.shape) == [0]
+        assert vector.strides == [1]
         assert vector.tolist() == []
         assert list(vector) == []
 
     def test_size_constructor_builds_default_values(self) -> None:
         vector = Vector(3)
 
-        assert vector.size() == 3
-        assert vector.rank() == 1
-        assert not vector.empty()
-        assert vector.shape() == Shape([3])
-        assert vector.strides() == [1]
+        assert vector.size == 3
+        assert vector.rank == 1
+        assert not vector.empty
+        assert vector.shape == Shape([3])
+        assert vector.strides == [1]
         assert len(vector) == 3
         assert vector.tolist() == [0.0, 0.0, 0.0]
 
     def test_size_value_constructor_fills_values(self) -> None:
         vector = Vector(4, 2.5)
 
-        assert vector.size() == 4
+        assert vector.size == 4
         assert vector.tolist() == [2.5, 2.5, 2.5, 2.5]
 
     def test_shape_constructor_builds_vector(self) -> None:
         vector = Vector(Shape([3]))
 
-        assert vector.size() == 3
-        assert vector.shape() == Shape([3])
+        assert vector.size == 3
+        assert vector.shape == Shape([3])
         assert vector.tolist() == [0.0, 0.0, 0.0]
 
     def test_iterable_constructor_preserves_values(self) -> None:
         vector = Vector([1.0, 2.5, 3.0])
 
-        assert vector.size() == 3
-        assert vector.shape() == Shape([3])
+        assert vector.size == 3
+        assert vector.shape == Shape([3])
         assert vector.tolist() == [1.0, 2.5, 3.0]
         assert list(vector) == [1.0, 2.5, 3.0]
 
@@ -86,7 +86,7 @@ class TestVectorInterfaceTests:
         sliced = vector[1:3]
 
         assert isinstance(sliced, Vector)
-        assert sliced.shape() == Shape([2])
+        assert sliced.shape == Shape([2])
         assert sliced.tolist() == [2.0, 3.0]
 
     def test_slice_indexing_supports_step(self) -> None:
@@ -95,7 +95,7 @@ class TestVectorInterfaceTests:
         sliced = vector[::2]
 
         assert isinstance(sliced, Vector)
-        assert sliced.shape() == Shape([3])
+        assert sliced.shape == Shape([3])
         assert sliced.tolist() == [1.0, 3.0, 5.0]
 
     def test_slice_indexing_supports_negative_step(self) -> None:
@@ -104,7 +104,7 @@ class TestVectorInterfaceTests:
         sliced = vector[::-2]
 
         assert isinstance(sliced, Vector)
-        assert sliced.shape() == Shape([3])
+        assert sliced.shape == Shape([3])
         assert sliced.tolist() == [5.0, 3.0, 1.0]
 
     def test_fill_updates_all_values(self) -> None:
@@ -122,11 +122,11 @@ class TestVectorInterfaceTests:
         flattened = vector.flatten()
 
         assert isinstance(reshaped, Tensor)
-        assert reshaped.shape() == Shape([2, 2])
+        assert reshaped.shape == Shape([2, 2])
         assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
 
         assert isinstance(reshaped_dims, Tensor)
-        assert reshaped_dims.shape() == Shape([1, 4])
+        assert reshaped_dims.shape == Shape([1, 4])
         assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
 
         assert isinstance(flattened, Vector)

@@ -127,7 +127,7 @@ _core Extension Module</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Overview</h2>
 <p><span class="tt">bindings/module.cpp</span> defines the pybind11 extension module <span class="tt">_core</span> and orchestrates all binding registration calls.</p>
-<p>It is the top-level binding entry point loaded by the Python wrapper package.</p>
+<p>It is the compiled binding entry point re-exported by the public <span class="tt">stratax</span> package.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Responsibilities</h2>
@@ -140,7 +140,7 @@ Responsibilities</h2>
 <p>The module entry file is not responsible for:</p>
 <ul>
 <li>Implementing per-type binding logic directly</li>
-<li>Defining Python wrapper ergonomics (handled in <span class="tt">python/stratax/</span>)</li>
+<li>Defining the public package export list (handled in <span class="tt">python/stratax/__init__.py</span>)</li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>

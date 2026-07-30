@@ -3,20 +3,30 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 
-from stratax._core import Shape, Vector, mean, sum, to_tensor, to_vector
+from stratax import Shape, Vector, mean, sum, to_tensor, to_vector
 
 
+# Build a rank-1 vector and a same-sized vector used for element-wise work.
 values = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
 weights = Vector(values.size, 10.0)
 
+# Indexing is mutable. Negative indexes are accepted by checked bindings too.
 values[1] = 5.0
+last_value = values[-1]
 
+# Arithmetic works with matching containers or scalars.
 sum_values = values + weights
 scaled = values * 2.0
+
+# Slicing returns a new container.
 stepped = values[::2]
+
+# Reshape/conversion helpers preserve flat row-major values.
 reshaped = values.reshape(Shape([1, values.size]))
 as_tensor = to_tensor(values)
 roundtrip = to_vector(as_tensor)
+
+# Reductions return scalars without an axis and tensors with an axis.
 total = sum(values)
 average = mean(values)
 sum_axis_1 = sum(reshaped, 1)
@@ -32,4 +42,7 @@ print("sum(values):", total)
 print("mean(values):", average)
 print("sum(reshaped, axis=1):", sum_axis_1)
 print("first value:", values[0])
+print("last value:", last_value)
 print("shape:", values.shape)
+print("strides:", values.strides)
+print("as list:", values.tolist())

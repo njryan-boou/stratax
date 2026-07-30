@@ -118,106 +118,23 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('dev_config.htm
   <div class="headertitle"><div class="title">Config </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_docs_2dev_2core_2_config"></a></p>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md152"></a>
+Config</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="_config_8hpp.html">include/stratax/core/Config.hpp</a></span></p>
+<p>Header: <span class="tt"><a class="el" href="_config_8hpp_source.html">include/stratax/core/Config.hpp</a></span></p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md129"></a>
-Overview</h1>
-<p><span class="tt"><a class="el" href="_config_8hpp.html">Config.hpp</a></span> defines compile-time configuration constants for core runtime behavior.</p>
-<p>These values are exposed as inline <span class="tt">constexpr</span> constants under <span class="tt"><a class="el" href="namespacestratax_1_1core_1_1config.html">stratax::core::config</a></span>.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md154"></a>
+Overview</h2>
+<p><span class="tt"><a class="el" href="_config_8hpp_source.html">Config.hpp</a></span> defines compile-time constants for core runtime behavior.</p>
+<p>These values centralize allocation alignment and optional execution paths such as bounds checking, SIMD, multithreading, and CUDA.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md131"></a>
-Responsibilities</h1>
-<p>The config module is responsible for:</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md156"></a>
+Related</h2>
 <ul>
-<li>Providing default alignment configuration</li>
-<li>Declaring build-time feature toggles for bounds checking and acceleration paths</li>
-<li>Supplying simple globally visible constants used by core code</li>
-</ul>
-<p>The config module is not responsible for:</p>
-<ul>
-<li>Runtime configuration mutation</li>
-<li>Environment-variable or file-based settings</li>
-<li>Backend implementation details for SIMD, threading, or CUDA</li>
-</ul>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md133"></a>
-Relationships</h1>
-<div class="fragment"><div class="line">stratax::core::config</div>
-<div class="line">|- default_alignment</div>
-<div class="line">|- bounds_checking</div>
-<div class="line">|- use_simd</div>
-<div class="line">|- use_multithreading</div>
-<div class="line">`- use_cuda</div>
-</div><!-- fragment --><p>Depends on:</p>
-<ul>
-<li>C++ header <span class="tt">&lt;cstddef&gt;</span></li>
-</ul>
-<p>Used by:</p>
-<ul>
-<li>Core allocation and execution-path selection logic</li>
-</ul>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md135"></a>
-Invariants</h1>
-<p>The following conditions are always true:</p>
-<ul>
-<li>All configuration values are compile-time constants.</li>
-<li>Values are immutable during runtime.</li>
-<li>Feature toggles express whether a code path may be used, not whether it is currently active.</li>
-</ul>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md137"></a>
-Public Interface</h1>
-<p>Namespace:</p>
-<div class="fragment"><div class="line"><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacestratax_1_1core_1_1config.html">stratax::core::config</a> { ... }</div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1config_html"><div class="ttname"><a href="namespacestratax_1_1core_1_1config.html">stratax::core::config</a></div><div class="ttdef"><b>Definition</b> <a href="_config_8hpp_source.html#l00005">Config.hpp:5</a></div></div>
-</div><!-- fragment --><p>Constants:</p>
-<div class="fragment"><div class="line"><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t default_alignment = 64;</div>
-<div class="line"><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> bounds_checking = <span class="keyword">true</span>;</div>
-<div class="line"><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> use_simd = <span class="keyword">true</span>;</div>
-<div class="line"><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> use_multithreading = <span class="keyword">false</span>;</div>
-<div class="line"><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> use_cuda = <span class="keyword">false</span>;</div>
-</div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md139"></a>
-Complexity Summary</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadRight">Complexity  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Accessing config constants  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Runtime overhead from constants  </td><td class="markdownTableBodyRight">O(0)  </td></tr>
-</table>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md141"></a>
-Examples</h1>
-<div class="fragment"><div class="line"><span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_variable" href="namespacestratax_1_1core_1_1config.html#a1c3ebf749b43ffc3dbbd58f8ec2f7114">stratax::core::config::bounds_checking</a>)</div>
-<div class="line">{</div>
-<div class="line">    <span class="comment">// bounds validation path</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> alignment = <a class="code hl_variable" href="namespacestratax_1_1core_1_1config.html#a9a0692d5c83bfb0e2b115b502465c5a6">stratax::core::config::default_alignment</a>;</div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1config_html_a1c3ebf749b43ffc3dbbd58f8ec2f7114"><div class="ttname"><a href="namespacestratax_1_1core_1_1config.html#a1c3ebf749b43ffc3dbbd58f8ec2f7114">stratax::core::config::bounds_checking</a></div><div class="ttdeci">constexpr bool bounds_checking</div><div class="ttdoc">Enables or disables bounds checking in array operations.</div><div class="ttdef"><b>Definition</b> <a href="_config_8hpp_source.html#l00011">Config.hpp:11</a></div></div>
-<div class="ttc" id="anamespacestratax_1_1core_1_1config_html_a9a0692d5c83bfb0e2b115b502465c5a6"><div class="ttname"><a href="namespacestratax_1_1core_1_1config.html#a9a0692d5c83bfb0e2b115b502465c5a6">stratax::core::config::default_alignment</a></div><div class="ttdeci">constexpr std::size_t default_alignment</div><div class="ttdoc">Default alignment used by Stratax allocations.</div><div class="ttdef"><b>Definition</b> <a href="_config_8hpp_source.html#l00008">Config.hpp:8</a></div></div>
-</div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md143"></a>
-Design Notes</h1>
-<p>Keeping configuration as inline <span class="tt">constexpr</span> values makes behavior explicit and compiler-friendly across translation units.</p>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md145"></a>
-Future Improvements</h1>
-<ul>
-<li>Add documented build-profile presets for debug/performance modes</li>
-<li>Introduce explicit configuration layering if runtime overrides are ever required</li>
-</ul>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md147"></a>
-See Also</h1>
-<ul>
-<li><span class="tt"><a class="el" href="_meta_8hpp.html">include/stratax/core/Meta.hpp</a></span> </li>
+<li><a class="el" href="concepts.html" title="Concepts">Concepts</a></li>
+<li><a class="el" href="types.html" title="Types">Types</a></li>
+<li><span class="tt"><a class="el" href="_config_8hpp_source.html">include/stratax/core/Config.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

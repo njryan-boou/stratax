@@ -3,6 +3,10 @@ build/
 dist/
 main.cpp
 *.exe
+*.pyd
+.markdownlint.json
+.markdownlint-cli2.jsonc
+.markdownlintignore
 .venv
 .pypirc
 test.py

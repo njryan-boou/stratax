@@ -14,7 +14,7 @@ Source: `bindings/module.cpp`
 
 `bindings/module.cpp` defines the pybind11 extension module `_core` and orchestrates all binding registration calls.
 
-It is the top-level binding entry point loaded by the Python wrapper package.
+It is the compiled binding entry point re-exported by the public `stratax` package.
 
 ---
 
@@ -29,7 +29,7 @@ The module entry file is responsible for:
 The module entry file is not responsible for:
 
 - Implementing per-type binding logic directly
-- Defining Python wrapper ergonomics (handled in `python/stratax/`)
+- Defining the public package export list (handled in `python/stratax/__init__.py`)
 
 ---
 
