@@ -4,17 +4,13 @@
 
 int main()
 {
-    using stratax::core::Shape;
-    using stratax::core::Slice;
-    using stratax::container::Matrix;
-
     // Matrices store row-major contiguous values with rank-2 shape metadata.
-    Matrix<double> matrix{
+    stratax::Matrix<double> matrix{
         {1.0, 2.0, 3.0},
         {4.0, 5.0, 6.0}
     };
 
-    Matrix<double> bias(2, 3, 0.5);
+    stratax::Matrix<double> bias(2, 3, 0.5);
 
     // operator(row, col) validates bounds; at() also supports negative indexes.
     matrix(1, 2) = 9.0;
@@ -25,17 +21,17 @@ int main()
     auto doubled = matrix * 2.0;
 
     // Slice, reshape, and flatten preserve row-major order.
-    auto stepped = slice(matrix, Slice{0, matrix.rows(), 1}, Slice{0, matrix.cols(), 2});
-    auto reshaped = reshape(matrix, Shape{3, 2});
-    auto flattened = flatten(matrix);
-    auto roundtrip = to_matrix(reshaped);
+    auto stepped = stratax::slice(matrix, stratax::Slice{0, matrix.rows(), 1}, stratax::Slice{0, matrix.cols(), 2});
+    auto reshaped = stratax::reshape(matrix, stratax::Shape{3, 2});
+    auto flattened = stratax::flatten(matrix);
+    auto roundtrip = stratax::to_matrix(reshaped);
 
     // Axis reductions return tensors. keepdims preserves the reduced axis.
-    auto row_sums = reduction::sum(matrix, 1);
-    auto col_sums_keepdims = reduction::sum(matrix, 0, true);
+    auto row_sums = stratax::reductions::sum(matrix, 1);
+    auto col_sums_keepdims = stratax::reductions::sum(matrix, 0, true);
 
     // Integral matrices can use bitwise operators.
-    Matrix<int> bits{{3, 5, 7}, {8, 10, 12}};
+    stratax::Matrix<int> bits{{3, 5, 7}, {8, 10, 12}};
     auto bitmask = bits & 2;
     auto bitshift = bits >> 1;
 

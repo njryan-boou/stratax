@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['validation_0',['Validation',['../validation.html',1,'Validation'],['../validation.html#dev_validation',1,'Validation'],['../index.html#autotoc_md1012',1,'Validation']]],
-  ['validation_20notes_1',['Validation Notes',['../architecture.html#autotoc_md908',1,'Validation Notes'],['../contributing.html#autotoc_md931',1,'Validation Notes'],['../roadmap.html#autotoc_md989',1,'Validation Notes']]],
+  ['validation_0',['Validation',['../validation.html',1,'Validation'],['../validation.html#dev_validation',1,'Validation'],['../index.html#autotoc_md1013',1,'Validation']]],
+  ['validation_20notes_1',['Validation Notes',['../architecture.html#autotoc_md908',1,'Validation Notes'],['../contributing.html#autotoc_md931',1,'Validation Notes'],['../roadmap.html#autotoc_md990',1,'Validation Notes']]],
   ['var_20arr_20axis_20std_20arr_20axis_2',['mean(arr, axis) / var(arr, axis) / std(arr, axis)',['../reductions.html#autotoc_md93',1,'']]],
   ['var_20std_3',['var / std',['../reductions.html#autotoc_md87',1,'']]],
   ['variadic_20integral_20constructor_4',['Variadic Integral Constructor',['../shape.html#autotoc_md318',1,'']]],

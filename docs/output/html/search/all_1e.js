@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['validation_0',['Validation',['../validation.html',1,'Validation'],['../validation.html#dev_validation',1,'Validation'],['../index.html#autotoc_md1012',1,'Validation']]],
-  ['validation_20notes_1',['Validation Notes',['../architecture.html#autotoc_md908',1,'Validation Notes'],['../contributing.html#autotoc_md931',1,'Validation Notes'],['../roadmap.html#autotoc_md989',1,'Validation Notes']]],
+  ['validation_0',['Validation',['../validation.html',1,'Validation'],['../validation.html#dev_validation',1,'Validation'],['../index.html#autotoc_md1013',1,'Validation']]],
+  ['validation_20notes_1',['Validation Notes',['../architecture.html#autotoc_md908',1,'Validation Notes'],['../contributing.html#autotoc_md931',1,'Validation Notes'],['../roadmap.html#autotoc_md990',1,'Validation Notes']]],
   ['validation_2ehpp_2',['Validation.hpp',['../_validation_8hpp.html',1,'']]],
   ['value_5ftype_3',['value_type',['../classstratax_1_1container_1_1_matrix.html#a82dba402509f48208b10369532f54d41',1,'stratax::container::Matrix::value_type'],['../classstratax_1_1container_1_1_tensor.html#ac96c7524bd8ba61b670363d5ba98e4aa',1,'stratax::container::Tensor::value_type'],['../classstratax_1_1container_1_1_vector.html#a8eb707c5755fc6c4fab84bc250dda426',1,'stratax::container::Vector::value_type']]],
   ['var_20arr_20axis_20std_20arr_20axis_4',['mean(arr, axis) / var(arr, axis) / std(arr, axis)',['../reductions.html#autotoc_md93',1,'']]],

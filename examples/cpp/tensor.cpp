@@ -4,13 +4,9 @@
 
 int main()
 {
-    using stratax::container::Tensor;
-    using stratax::core::Shape;
-    using stratax::core::Slice;
-
     // Tensors store flat row-major values behind N-dimensional shape metadata.
-    Tensor<double> tensor(Shape{2, 2, 2}, 1.0);
-    auto eye = creation::identity<double>(3);
+    stratax::Tensor<double> tensor(stratax::Shape{2, 2, 2}, 1.0);
+    auto eye = stratax::identity<double>(3);
 
     // Multi-index access follows the tensor rank.
     tensor(0, 0, 0) = 10.0;
@@ -23,17 +19,21 @@ int main()
     auto negated = -tensor;
 
     // Slicing can mix full-axis slices and stepped slices.
-    auto stepped = slice(tensor, Slice{0, 2}, Slice{0, 2}, Slice{0, 2, 2});
+    auto stepped = stratax::slice(
+        tensor,
+        stratax::Slice{0, 2},
+        stratax::Slice{0, 2},
+        stratax::Slice{0, 2, 2});
 
     // Reshape, flatten, and conversion helpers preserve row-major values.
-    auto reshaped = reshape(tensor, Shape{4, 2});
-    auto flattened = flatten(tensor);
-    auto as_matrix = to_matrix(eye);
+    auto reshaped = stratax::reshape(tensor, stratax::Shape{4, 2});
+    auto flattened = stratax::flatten(tensor);
+    auto as_matrix = stratax::to_matrix(eye);
 
     // Reductions can target negative axes and can keep reduced dimensions.
-    auto sum_all = reduction::sum(tensor);
-    auto sum_last_axis = reduction::sum(tensor, -1);
-    auto mean_keepdims = reduction::mean(tensor, 0, true);
+    auto sum_all = stratax::sum(tensor);
+    auto sum_last_axis = stratax::reductions::sum(tensor, -1);
+    auto mean_keepdims = stratax::reductions::mean(tensor, 0, true);
 
     std::cout << "tensor:\n" << tensor << '\n';
     std::cout << "shifted:\n" << shifted << '\n';

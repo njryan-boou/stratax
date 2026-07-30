@@ -15,6 +15,7 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 ### Changed
 
 - Simplified Python packaging around the compiled `_core` extension and public package exports.
+- Added a NumPy-style C++ public facade with top-level aliases and module-style namespaces.
 - Updated Python API stubs to match the current property-based container interface.
 - Regenerated documentation with a clean Doxygen warning pass.
 

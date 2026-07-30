@@ -32,12 +32,10 @@ statistics modules are currently reserved API areas.
 #include <stratax.h>
 #include <iostream>
 
-using namespace stratax::container;
-
 int main()
 {
-    Vector<double> a{1.0, 2.0, 3.0};
-    Vector<double> b{4.0, 5.0, 6.0};
+    stratax::Vector<double> a{1.0, 2.0, 3.0};
+    stratax::Vector<double> b{4.0, 5.0, 6.0};
 
     auto c = a + b;
 
@@ -60,6 +58,10 @@ print(v[::-1].tolist())
 Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` types plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API supports negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
 
 Axis reductions are available through Python reduction helpers (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`), including `keepdims=True` for shape-preserving reductions and negative-axis indexing (for example `axis=-1` for the last dimension).
+
+The C++ umbrella header also provides a flat public facade for common APIs, such
+as `stratax::Vector`, `stratax::Shape`, `stratax::zeros`, and `stratax::sum`,
+with grouped module aliases like `stratax::reductions` for specialized calls.
 
 ## Installation
 

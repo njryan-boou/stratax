@@ -7,9 +7,9 @@ var searchData=
   ['real_4',['Real',['../concept_real.html',1,'']]],
   ['rebind_5',['rebind',['../classstratax_1_1container_1_1_matrix.html#a6262d1cefee4cff8fa49104137d460f9',1,'stratax::container::Matrix::rebind'],['../classstratax_1_1container_1_1_tensor.html#a95c8422811d5a88bfcc538e9663441f3',1,'stratax::container::Tensor::rebind'],['../classstratax_1_1container_1_1_vector.html#a92af2389d22bda6901ab8fa6597584fb',1,'stratax::container::Vector::rebind']]],
   ['reduction_20examples_6',['Global Reduction Examples',['../reductions.html#autotoc_md98',1,'']]],
-  ['reductions_7',['Reductions',['../reductions.html#autotoc_md100',1,'3D Tensor Axis Reductions'],['../reductions.html#autotoc_md89',1,'Axis Reductions'],['../reductions.html#autotoc_md81',1,'Global Reductions'],['../reductions.html#autotoc_md99',1,'Matrix Axis Reductions'],['../reductions.html',1,'Reductions'],['../reductions.html#dev_reductions',1,'Reductions'],['../python_api.html#autotoc_md968',1,'Reductions'],['../user_guide.html#autotoc_md1004',1,'Reductions']]],
+  ['reductions_7',['Reductions',['../reductions.html#autotoc_md100',1,'3D Tensor Axis Reductions'],['../reductions.html#autotoc_md89',1,'Axis Reductions'],['../reductions.html#autotoc_md81',1,'Global Reductions'],['../reductions.html#autotoc_md99',1,'Matrix Axis Reductions'],['../reductions.html',1,'Reductions'],['../reductions.html#dev_reductions',1,'Reductions'],['../python_api.html#autotoc_md968',1,'Reductions'],['../user_guide.html#autotoc_md1005',1,'Reductions']]],
   ['reference_8',['Reference',['../python_api.html',1,'&quot;Python API Reference&quot;'],['../python_api.html#autotoc_md960',1,'Python API Reference']]],
-  ['references_9',['Developer References',['../docs_index.html#autotoc_md1022',1,'']]],
+  ['references_9',['Developer References',['../docs_index.html#autotoc_md1023',1,'']]],
   ['registration_20order_10',['Registration Order',['../dev_module.html#autotoc_md6',1,'']]],
   ['related_11',['Related',['../dev_config.html#autotoc_md156',1,'Related'],['../dev_meta.html#autotoc_md668',1,'Related']]],
   ['related_20files_12',['Related Files',['../dev_module.html#autotoc_md10',1,'']]],
@@ -22,7 +22,7 @@ var searchData=
   ['required_19',['Required',['../getting_started.html#autotoc_md941',1,'']]],
   ['reshape_20',['Reshape',['../reshape.html',1,'Reshape'],['../reshape.html#dev_reshape',1,'Reshape']]],
   ['reshape_21',['reshape',['../reshape.html#autotoc_md117',1,'']]],
-  ['reshape_20and_20flatten_22',['Shape, Reshape, and Flatten',['../user_guide.html#autotoc_md1002',1,'']]],
+  ['reshape_20and_20flatten_22',['Shape, Reshape, and Flatten',['../user_guide.html#autotoc_md1003',1,'']]],
   ['resolvedslice_23',['ResolvedSlice',['../structstratax_1_1ops_1_1detail_1_1_resolved_slice.html',1,'stratax::ops::detail']]],
   ['responsibilities_24',['Responsibilities',['../dev_module.html#autotoc_md4',1,'Responsibilities'],['../conversions.html#autotoc_md29',1,'Responsibilities'],['../creation.html#autotoc_md52',1,'Responsibilities'],['../reductions.html#autotoc_md76',1,'Responsibilities'],['../reshape.html#autotoc_md110',1,'Responsibilities'],['../concepts.html#autotoc_md132',1,'Responsibilities'],['../buffer.html#autotoc_md160',1,'Responsibilities'],['../matrix.html#autotoc_md228',1,'Responsibilities'],['../shape.html#autotoc_md304',1,'Responsibilities'],['../strides.html#autotoc_md374',1,'Responsibilities'],['../tensor.html#autotoc_md444',1,'Responsibilities'],['../vector.html#autotoc_md522',1,'Responsibilities'],['../exceptions.html#autotoc_md602',1,'Responsibilities'],['../print.html#autotoc_md644',1,'Responsibilities'],['../arithmetic.html#autotoc_md672',1,'Responsibilities'],['../bitwise.html#autotoc_md698',1,'Responsibilities'],['../comparison.html#autotoc_md724',1,'Responsibilities'],['../indexing.html#autotoc_md746',1,'Responsibilities'],['../ops_slice.html#autotoc_md767',1,'Responsibilities'],['../slice.html#autotoc_md791',1,'Responsibilities'],['../types.html#autotoc_md818',1,'Responsibilities'],['../validation.html#autotoc_md843',1,'Responsibilities'],['../dev_stratax.html#autotoc_md886',1,'Responsibilities']]],
   ['reverse_5fiterator_25',['reverse_iterator',['../classstratax_1_1core_1_1_buffer.html',1,'stratax::core::reverse_iterator&lt; size_t &gt;'],['../classstratax_1_1core_1_1_buffer.html#a11498a4d3467a3ee47e0e3888a11d3bd',1,'stratax::core::Buffer::reverse_iterator'],['../classstratax_1_1container_1_1_matrix.html#adb9209b6f457b3bbe79b869a9cad30d1',1,'stratax::container::Matrix::reverse_iterator'],['../classstratax_1_1core_1_1_shape.html#a47db1e9b2d8d774e2a4f35306d033afe',1,'stratax::core::Shape::reverse_iterator'],['../classstratax_1_1core_1_1_strides.html#a2d1115ec1c3d96aa746f7ca528163f08',1,'stratax::core::Strides::reverse_iterator'],['../classstratax_1_1container_1_1_tensor.html#a5c6f3edb96b03dfbde7de7f47bc957c1',1,'stratax::container::Tensor::reverse_iterator'],['../classstratax_1_1container_1_1_vector.html#a3f0c033aeb5c39c16d96c391678afc41',1,'stratax::container::Vector::reverse_iterator']]],
@@ -31,6 +31,6 @@ var searchData=
   ['rows_28',['rows',['../classstratax_1_1container_1_1_matrix.html#aecab90c02b2142141a9a12a11677f76a',1,'stratax::container::Matrix']]],
   ['rows_20cols_29',['rows() / cols()',['../matrix.html#autotoc_md266',1,'']]],
   ['rows_20cols_20constructor_30',['Rows/Cols Constructor',['../matrix.html#autotoc_md242',1,'']]],
-  ['run_31',['Tests Do Not Run',['../troubleshooting.html#autotoc_md997',1,'']]],
+  ['run_31',['Tests Do Not Run',['../troubleshooting.html#autotoc_md998',1,'']]],
   ['running_20tests_32',['Running Tests',['../getting_started.html#autotoc_md955',1,'']]]
 ];

@@ -17,14 +17,14 @@ var getting_started =
       [ "Try the Examples", "getting_started.html#autotoc_md959", null ]
     ] ],
     [ "\"User Guide\"", "user_guide.html", [
-      [ "User Guide", "user_guide.html#autotoc_md999", [
-        [ "Containers", "user_guide.html#autotoc_md1000", null ],
-        [ "Indexing and Slicing", "user_guide.html#autotoc_md1001", null ],
-        [ "Shape, Reshape, and Flatten", "user_guide.html#autotoc_md1002", null ],
-        [ "Creation and Conversion", "user_guide.html#autotoc_md1003", null ],
-        [ "Reductions", "user_guide.html#autotoc_md1004", null ],
-        [ "Python API Notes", "user_guide.html#autotoc_md1005", null ],
-        [ "Current Limits", "user_guide.html#autotoc_md1006", null ]
+      [ "User Guide", "user_guide.html#autotoc_md1000", [
+        [ "Containers", "user_guide.html#autotoc_md1001", null ],
+        [ "Indexing and Slicing", "user_guide.html#autotoc_md1002", null ],
+        [ "Shape, Reshape, and Flatten", "user_guide.html#autotoc_md1003", null ],
+        [ "Creation and Conversion", "user_guide.html#autotoc_md1004", null ],
+        [ "Reductions", "user_guide.html#autotoc_md1005", null ],
+        [ "Python API Notes", "user_guide.html#autotoc_md1006", null ],
+        [ "Current Limits", "user_guide.html#autotoc_md1007", null ]
       ] ]
     ] ],
     [ "\"Python API Reference\"", "python_api.html", [
@@ -75,13 +75,13 @@ var getting_started =
       ] ]
     ] ],
     [ "Troubleshooting", "troubleshooting.html", [
-      [ "Troubleshooting", "troubleshooting.html#autotoc_md992", [
-        [ "Python Import Cannot Find <span class=\"tt\">_core</span>", "troubleshooting.html#autotoc_md993", null ],
-        [ "Editable Install Fails", "troubleshooting.html#autotoc_md994", null ],
-        [ "CMake Cannot Find a Compiler", "troubleshooting.html#autotoc_md995", null ],
-        [ "C++ Examples Cannot Find <span class=\"tt\">stratax.h</span>", "troubleshooting.html#autotoc_md996", null ],
-        [ "Tests Do Not Run", "troubleshooting.html#autotoc_md997", null ],
-        [ "Documentation Looks Stale", "troubleshooting.html#autotoc_md998", null ]
+      [ "Troubleshooting", "troubleshooting.html#autotoc_md993", [
+        [ "Python Import Cannot Find <span class=\"tt\">_core</span>", "troubleshooting.html#autotoc_md994", null ],
+        [ "Editable Install Fails", "troubleshooting.html#autotoc_md995", null ],
+        [ "CMake Cannot Find a Compiler", "troubleshooting.html#autotoc_md996", null ],
+        [ "C++ Examples Cannot Find <span class=\"tt\">stratax.h</span>", "troubleshooting.html#autotoc_md997", null ],
+        [ "Tests Do Not Run", "troubleshooting.html#autotoc_md998", null ],
+        [ "Documentation Looks Stale", "troubleshooting.html#autotoc_md999", null ]
       ] ]
     ] ],
     [ "Changelog", "changelog.html", [
@@ -111,13 +111,14 @@ var getting_started =
           [ "Phase 5: Linear Algebra", "roadmap.html#autotoc_md983", null ],
           [ "Phase 6: Input and Output", "roadmap.html#autotoc_md984", null ],
           [ "Phase 7: Python Bindings", "roadmap.html#autotoc_md985", null ],
-          [ "Phase 8: Testing and CI", "roadmap.html#autotoc_md986", null ],
-          [ "Phase 9: Documentation and Examples", "roadmap.html#autotoc_md987", null ],
-          [ "Later Phases", "roadmap.html#autotoc_md988", null ]
+          [ "Phase 7.5: C++ Public Facade", "roadmap.html#autotoc_md986", null ],
+          [ "Phase 8: Testing and CI", "roadmap.html#autotoc_md987", null ],
+          [ "Phase 9: Documentation and Examples", "roadmap.html#autotoc_md988", null ],
+          [ "Later Phases", "roadmap.html#autotoc_md989", null ]
         ] ],
-        [ "Validation Notes", "roadmap.html#autotoc_md989", null ],
-        [ "Implementation Notes", "roadmap.html#autotoc_md990", null ],
-        [ "Future Work", "roadmap.html#autotoc_md991", null ]
+        [ "Validation Notes", "roadmap.html#autotoc_md990", null ],
+        [ "Implementation Notes", "roadmap.html#autotoc_md991", null ],
+        [ "Future Work", "roadmap.html#autotoc_md992", null ]
       ] ]
     ] ]
 ];

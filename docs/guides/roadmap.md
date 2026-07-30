@@ -89,6 +89,13 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Single public Python stub
 - [ ] Package import smoke test in CI
 
+### Phase 7.5: C++ Public Facade
+
+- [x] Top-level public aliases for common array types
+- [x] Top-level public aliases for common algorithms
+- [x] Module-style aliases for creation, conversions, reductions, transforms, slicing, arrays, and errors
+- [ ] Dedicated future namespaces for linear algebra, random, statistics, FFT, and I/O
+
 ### Phase 8: Testing and CI
 
 - [x] C++ unit tests

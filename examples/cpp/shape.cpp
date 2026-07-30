@@ -4,13 +4,11 @@
 
 int main()
 {
-    using stratax::core::Shape;
-
     // Shape stores dimensions only. It does not own array values.
-    Shape image_shape{3, 224, 224};
-    Shape empty_shape{};
-    Shape zero_sized{4, 0, 2};
-    Shape copied{image_shape};
+    stratax::Shape image_shape{3, 224, 224};
+    stratax::Shape empty_shape{};
+    stratax::Shape zero_sized{4, 0, 2};
+    stratax::Shape copied{image_shape};
 
     std::cout << "image shape: " << image_shape << '\n';
     std::cout << "rank: " << image_shape.rank() << '\n';

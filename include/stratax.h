@@ -27,3 +27,92 @@
 #include <stratax/core/ops/Indexing.hpp>
 #include <stratax/core/ops/Slice.hpp>
 
+namespace stratax {
+
+// Public array types.
+using core::Shape;
+using core::Slice;
+using core::Strides;
+using container::Matrix;
+using container::Tensor;
+using container::Vector;
+
+// Common public algorithms.
+using ::astype;
+using ::flatten;
+using ::reshape;
+using ::slice;
+using ::to_matrix;
+using ::to_tensor;
+using ::to_vector;
+using ::creation::full;
+using ::creation::identity;
+using ::creation::ones;
+using ::creation::zeros;
+using ::reduction::argmax;
+using ::reduction::argmin;
+using ::reduction::max;
+using ::reduction::mean;
+using ::reduction::min;
+using ::reduction::prod;
+using ::reduction::std;
+using ::reduction::sum;
+using ::reduction::var;
+
+namespace arrays {
+    using ::stratax::Matrix;
+    using ::stratax::Shape;
+    using ::stratax::Slice;
+    using ::stratax::Strides;
+    using ::stratax::Tensor;
+    using ::stratax::Vector;
+}
+
+namespace creation {
+    using ::creation::full;
+    using ::creation::identity;
+    using ::creation::ones;
+    using ::creation::zeros;
+}
+
+namespace conversions {
+    using ::astype;
+    using ::to_matrix;
+    using ::to_tensor;
+    using ::to_vector;
+}
+
+namespace reductions {
+    using ::reduction::argmax;
+    using ::reduction::argmin;
+    using ::reduction::max;
+    using ::reduction::mean;
+    using ::reduction::min;
+    using ::reduction::prod;
+    using ::reduction::std;
+    using ::reduction::sum;
+    using ::reduction::var;
+}
+
+namespace transforms {
+    using ::flatten;
+    using ::reshape;
+}
+
+namespace slicing {
+    using ::slice;
+}
+
+namespace errors = ::Exceptions;
+
+using ::Exceptions::AxisError;
+using ::Exceptions::BroadcastError;
+using ::Exceptions::DimensionError;
+using ::Exceptions::IndexError;
+using ::Exceptions::ShapeError;
+using ::Exceptions::StrataxError;
+using ::Exceptions::TypeError;
+using ::Exceptions::ZeroDivisionError;
+
+} // namespace stratax
+
