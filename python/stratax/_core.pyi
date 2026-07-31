@@ -22,6 +22,11 @@ class Shape:
         ...
 
     @overload
+    def __init__(self, size: int) -> None:
+        """Create a single-dimension shape."""
+        ...
+
+    @overload
     def __init__(self, dims: Iterable[int]) -> None:
         """Create a shape from non-negative integer dimensions."""
         ...

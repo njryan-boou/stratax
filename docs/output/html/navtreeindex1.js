@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classstratax_1_1container_1_1_vector.html#a3f0c033aeb5c39c16d96c391678afc41":[36,0,1,0,2,4],
 "classstratax_1_1container_1_1_vector.html#a3f378c1479cbe449f25bc654e04ef9b3":[36,0,1,0,2,14],
 "classstratax_1_1container_1_1_vector.html#a401e59a3a886da13885e9baa96c7baa1":[36,0,1,0,2,42],
 "classstratax_1_1container_1_1_vector.html#a402e53f48ce7507a229fac21ae2fece6":[36,0,1,0,2,30],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "dev_bindings.html#autotoc_md23":[6,0,4],
 "dev_bindings.html#autotoc_md25":[6,0,5],
 "dev_config.html":[12],
-"dev_config.html#autotoc_md152":[12,0],
-"dev_config.html#autotoc_md154":[12,0,0]
+"dev_config.html#autotoc_md152":[12,0]
 };

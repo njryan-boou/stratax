@@ -3,6 +3,8 @@
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
+#include <functional>
+
 /**
  * @brief Verifies that two arrays have the same shape before bitwise operations.
  *
@@ -17,6 +19,82 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
 		lhs,
 		rhs,
 		"Bitwise operands must have the same shape.");
+}
+
+/**
+ * @brief Applies an element-wise bitwise operation to two integer arrays.
+ *
+ * @param lhs Left-hand array operand.
+ * @param rhs Right-hand array operand.
+ * @param op Callable used to combine each pair of elements.
+ * @return Array containing the element-wise operation result.
+ *
+ * @throws Exceptions::ShapeError If the operands do not match in shape.
+ */
+template<Array A, typename Op>
+requires Integer<typename A::value_type>
+A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
+{
+	require_same_bitwise_shape(lhs, rhs);
+
+	A result(lhs.shape());
+
+	auto out = result.begin();
+	auto it_lhs = lhs.begin();
+	auto it_rhs = rhs.begin();
+
+	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
+	{
+		*out = static_cast<typename A::value_type>(op(*it_lhs, *it_rhs));
+	}
+
+	return result;
+}
+
+/**
+ * @brief Applies an element-wise bitwise operation between an integer array and a scalar.
+ *
+ * @param lhs Array operand.
+ * @param rhs Scalar operand.
+ * @param op Callable used to combine each array element with the scalar.
+ * @return Array containing the element-wise operation result.
+ */
+template<Array A, Integer Scalar, typename Op>
+requires Integer<typename A::value_type>
+A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
+{
+	A result(lhs.shape());
+
+	auto out = result.begin();
+	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
+	{
+		*out = static_cast<typename A::value_type>(op(*it, rhs));
+	}
+
+	return result;
+}
+
+/**
+ * @brief Applies an element-wise bitwise operation between a scalar and an integer array.
+ *
+ * @param lhs Scalar operand.
+ * @param rhs Array operand.
+ * @param op Callable used to combine the scalar with each array element.
+ * @return Array containing the element-wise operation result.
+ */
+template<Integer Scalar, Array A, typename Op>
+requires Integer<typename A::value_type>
+A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
+{
+	A result(rhs.shape());
+
+	auto out = result.begin();
+	for (auto it = rhs.begin(); it != rhs.end(); ++it, ++out)
+	{
+		*out = static_cast<typename A::value_type>(op(lhs, *it));
+	}
+
+	return result;
 }
 
 // Unary
@@ -36,7 +114,7 @@ A operator~(const A& value)
 	auto out = result.begin();
 	for (auto it = value.begin(); it != value.end(); ++it, ++out)
 	{
-		*out = static_cast<typename A::value_type>(~(*it));
+		*out = static_cast<typename A::value_type>(std::bit_not<>{}(*it));
 	}
 
 	return result;
@@ -55,20 +133,7 @@ template<Array A>
 requires Integer<typename A::value_type>
 A operator&(const A& lhs, const A& rhs)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it_lhs & *it_rhs);
-	}
-
-	return result;
+	return binary_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
 /**
@@ -82,20 +147,7 @@ template<Array A>
 requires Integer<typename A::value_type>
 A operator|(const A& lhs, const A& rhs)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it_lhs | *it_rhs);
-	}
-
-	return result;
+	return binary_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
 /**
@@ -109,20 +161,7 @@ template<Array A>
 requires Integer<typename A::value_type>
 A operator^(const A& lhs, const A& rhs)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it_lhs ^ *it_rhs);
-	}
-
-	return result;
+	return binary_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
 /**
@@ -136,20 +175,7 @@ template<Array A>
 requires Integer<typename A::value_type>
 A operator<<(const A& lhs, const A& rhs)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it_lhs << *it_rhs);
-	}
-
-	return result;
+	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
 /**
@@ -163,20 +189,7 @@ template<Array A>
 requires Integer<typename A::value_type>
 A operator>>(const A& lhs, const A& rhs)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it_lhs >> *it_rhs);
-	}
-
-	return result;
+	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
 }
 
 // Array-scalar
@@ -192,15 +205,7 @@ template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator&(const A& lhs, const Scalar& rhs)
 {
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it & rhs);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
 /**
@@ -214,15 +219,7 @@ template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator|(const A& lhs, const Scalar& rhs)
 {
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it | rhs);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
 /**
@@ -236,15 +233,7 @@ template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator^(const A& lhs, const Scalar& rhs)
 {
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it ^ rhs);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
 /**
@@ -258,15 +247,7 @@ template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator<<(const A& lhs, const Scalar& rhs)
 {
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it << rhs);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
 /**
@@ -280,15 +261,7 @@ template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator>>(const A& lhs, const Scalar& rhs)
 {
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	for (auto it = lhs.begin(); it != lhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(*it >> rhs);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
 }
 
 // Scalar-array (reverse)
@@ -304,7 +277,7 @@ template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator&(const Scalar& lhs, const A& rhs)
 {
-	return rhs & lhs;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
 /**
@@ -318,7 +291,7 @@ template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator|(const Scalar& lhs, const A& rhs)
 {
-	return rhs | lhs;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
 /**
@@ -332,7 +305,7 @@ template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator^(const Scalar& lhs, const A& rhs)
 {
-	return rhs ^ lhs;
+	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
 /**
@@ -346,15 +319,7 @@ template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator<<(const Scalar& lhs, const A& rhs)
 {
-	A result(rhs.shape());
-
-	auto out = result.begin();
-	for (auto it = rhs.begin(); it != rhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(lhs << *it);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
 /**
@@ -368,15 +333,7 @@ template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator>>(const Scalar& lhs, const A& rhs)
 {
-	A result(rhs.shape());
-
-	auto out = result.begin();
-	for (auto it = rhs.begin(); it != rhs.end(); ++it, ++out)
-	{
-		*out = static_cast<typename A::value_type>(lhs >> *it);
-	}
-
-	return result;
+	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
 }
 
 // In-place array-array

@@ -705,10 +705,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_arithmetic_8hpp_source.html",
-"classstratax_1_1container_1_1_vector.html#a3f378c1479cbe449f25bc654e04ef9b3",
-"dev_config.html#autotoc_md156",
-"reductions.html#autotoc_md84",
-"validation.html#autotoc_md860"
+"classstratax_1_1container_1_1_vector.html#a3f0c033aeb5c39c16d96c391678afc41",
+"dev_config.html#autotoc_md154",
+"reductions.html#autotoc_md83",
+"validation.html#autotoc_md858"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

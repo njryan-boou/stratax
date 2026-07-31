@@ -210,6 +210,8 @@ a *= 3.0;
 
 Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.
 
+Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.
+
 Compound assignments delegate to their non-compound counterparts to centralize validation and arithmetic behavior.
 
 ---

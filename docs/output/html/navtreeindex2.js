@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"dev_config.html#autotoc_md154":[12,0,0],
 "dev_config.html#autotoc_md156":[12,0,1],
 "dev_index.html":[30],
 "dev_index.html#autotoc_md867":[30,0],
@@ -194,7 +195,7 @@ var NAVTREEINDEX2 =
 "matrix.html#autotoc_md298":[14,0,31],
 "matrix.html#autotoc_md300":[14,0,32],
 "matrix.html#dev_matrix":[14,0],
-"ops_2_slice_8hpp_source.html":[37,0,0,0,0,3,4],
+"ops_2_slice_8hpp_source.html":[37,0,0,0,0,3,5],
 "ops_slice.html":[26],
 "ops_slice.html#autotoc_md765":[26,0,0],
 "ops_slice.html#autotoc_md767":[26,0,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "reductions.html#autotoc_md78":[9,0,2],
 "reductions.html#autotoc_md80":[9,0,3],
 "reductions.html#autotoc_md81":[9,0,3,0],
-"reductions.html#autotoc_md82":[9,0,3,0,0],
-"reductions.html#autotoc_md83":[9,0,3,0,1]
+"reductions.html#autotoc_md82":[9,0,3,0,0]
 };

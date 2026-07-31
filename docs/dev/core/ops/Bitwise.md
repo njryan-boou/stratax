@@ -266,6 +266,10 @@ a <<= 1;
 
 Bitwise operators are constrained to integer-valued arrays to keep semantics explicit and avoid accidental use with floating-point or complex container types.
 
+Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.
+
+The AND, OR, XOR, and NOT operators use standard function objects where available; shift operators use local callables because the standard library does not provide equivalent shift function objects.
+
 Compound assignments delegate to non-compound operators to centralize shape validation and operation behavior.
 
 ---

@@ -2,8 +2,9 @@ var NAVTREEINDEX0 =
 {
 "_arithmetic_8hpp_source.html":[37,0,0,0,0,3,0],
 "_bitwise_8hpp_source.html":[37,0,0,0,0,3,1],
+"_broadcasting_8hpp_source.html":[37,0,0,0,0,3,2],
 "_buffer_8hpp_source.html":[37,0,0,0,0,1,0],
-"_comparison_8hpp_source.html":[37,0,0,0,0,3,2],
+"_comparison_8hpp_source.html":[37,0,0,0,0,3,3],
 "_concepts_8hpp_source.html":[37,0,0,0,0,5],
 "_config_8hpp_source.html":[37,0,0,0,0,6],
 "_conversions_8hpp_source.html":[37,0,0,0,0,0,0],
@@ -11,7 +12,7 @@ var NAVTREEINDEX0 =
 "_dimension_validation_8hpp_source.html":[37,0,0,0,0,4,0],
 "_exceptions_8hpp_source.html":[37,0,0,0,0,7],
 "_index_validation_8hpp_source.html":[37,0,0,0,0,4,1],
-"_indexing_8hpp_source.html":[37,0,0,0,0,3,3],
+"_indexing_8hpp_source.html":[37,0,0,0,0,3,4],
 "_l_i_c_e_n_s_e_source.html":[37,0,1],
 "_matrix_8hpp_source.html":[37,0,0,0,0,1,1],
 "_meta_8hpp_source.html":[37,0,0,0,0,8],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "classstratax_1_1container_1_1_vector.html#a31360ff6f7ae2c7a8c47ec435ed78db3":[36,0,1,0,2,1],
 "classstratax_1_1container_1_1_vector.html#a3336046cceb82b8a84263a5b94c14bf2":[36,0,1,0,2,12],
 "classstratax_1_1container_1_1_vector.html#a3850580e1bce12a572491fda69875619":[36,0,1,0,2,13],
-"classstratax_1_1container_1_1_vector.html#a3b7752db4eb69e4dcd2688323833b60e":[36,0,1,0,2,24],
-"classstratax_1_1container_1_1_vector.html#a3f0c033aeb5c39c16d96c391678afc41":[36,0,1,0,2,4]
+"classstratax_1_1container_1_1_vector.html#a3b7752db4eb69e4dcd2688323833b60e":[36,0,1,0,2,24]
 };

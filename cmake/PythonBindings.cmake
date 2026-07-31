@@ -23,38 +23,9 @@ pybind11_add_module(
     _core
 
     bindings/module.cpp
-    bindings/common/exceptions.cpp
-    bindings/common/helpers.cpp
-    bindings/common/utilities.cpp
-    
-    bindings/shape/bind.cpp
-    bindings/shape/constructors.cpp
-    bindings/shape/properties.cpp
-
-    bindings/vector/constructors.cpp
-    bindings/vector/bind.cpp
-    bindings/vector/indexing.cpp
-    bindings/vector/ops/arithmetic.cpp
-    bindings/vector/ops/comparison.cpp
-    bindings/vector/_reshape.cpp
-    bindings/vector/properties.cpp
-
-    bindings/matrix/constructors.cpp
-    bindings/matrix/bind.cpp
-    bindings/matrix/indexing.cpp
-    bindings/matrix/ops/arithmetic.cpp
-    bindings/matrix/ops/comparison.cpp
-    bindings/matrix/_reshape.cpp
-    bindings/matrix/properties.cpp
-
-    bindings/tensor/constructors.cpp
-    bindings/tensor/bind.cpp
-    bindings/tensor/indexing.cpp
-    bindings/tensor/ops/arithmetic.cpp
-    bindings/tensor/ops/comparison.cpp
-    bindings/tensor/_reshape.cpp
-    bindings/tensor/properties.cpp
-
+    bindings/vector.cpp
+    bindings/matrix.cpp
+    bindings/tensor.cpp
     bindings/conversions.cpp
     bindings/creation.cpp
     bindings/reductions.cpp

@@ -354,6 +354,8 @@ Examples</h2>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md716"></a>
 Design Notes</h2>
 <p>Bitwise operators are constrained to integer-valued arrays to keep semantics explicit and avoid accidental use with floating-point or complex container types.</p>
+<p>Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.</p>
+<p>The AND, OR, XOR, and NOT operators use standard function objects where available; shift operators use local callables because the standard library does not provide equivalent shift function objects.</p>
 <p>Compound assignments delegate to non-compound operators to centralize shape validation and operation behavior.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md718"></a>

@@ -84,9 +84,13 @@ class TestShapeInterfaceTests:
         with pytest.raises(TypeError):
             _ = Shape([2, 3]) != (2, 3)
 
-    def test_single_integer_is_not_a_valid_constructor_argument(self) -> None:
-        with pytest.raises(TypeError):
-            Shape(3)
+    def test_size_constructor_builds_single_dimension_shape(self) -> None:
+        shape = Shape(3)
+
+        assert shape.rank == 1
+        assert shape.elements == 3
+        assert list(shape) == [3]
+        assert repr(shape) == "(3,)"
 
     def test_non_iterable_constructor_argument_raises_type_error(self) -> None:
         with pytest.raises(TypeError):

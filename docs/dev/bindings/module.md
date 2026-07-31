@@ -24,11 +24,13 @@ The module entry file is responsible for:
 
 - Declaring `PYBIND11_MODULE(_core, m)`
 - Setting module metadata (`__doc__`, `__version__`, `__author__`)
+- Registering Stratax exception types
+- Registering the `Shape` metadata type
 - Calling all bind registration functions in a consistent order
 
 The module entry file is not responsible for:
 
-- Implementing per-type binding logic directly
+- Implementing vector, matrix, tensor, algorithm, or creation binding logic directly
 - Defining the public package export list (handled in `python/stratax/__init__.py`)
 
 ---
@@ -37,17 +39,16 @@ The module entry file is not responsible for:
 
 `bind_*` calls currently execute in this order:
 
-1. `bind_common_exceptions`
-2. `bind_common_helpers`
-3. `bind_common_utilities`
-4. `bind_shape`
-5. `bind_vector`
-6. `bind_matrix`
-7. `bind_tensor`
-8. `bind_conversions`
-9. `bind_creation`
+1. `bind_exceptions`
+2. `bind_shape`
+3. `bind_vector`
+4. `bind_matrix`
+5. `bind_tensor`
+6. `bind_conversions`
+7. `bind_creation`
+8. `bind_reductions`
 
-This order ensures shared infrastructure is available before container and helper registrations.
+This order ensures exceptions and `Shape` are registered before container and helper registrations.
 
 ---
 
@@ -63,15 +64,13 @@ Module metadata values are sourced from `include/stratax/core/Meta.hpp`:
 
 ## Related Files
 
-- `bindings/common/exceptions.cpp`
-- `bindings/common/helpers.cpp`
-- `bindings/common/utilities.cpp`
-- `bindings/shape/bind.cpp`
-- `bindings/vector/bind.cpp`
-- `bindings/matrix/bind.cpp`
-- `bindings/tensor/bind.cpp`
+- `bindings/utils.hpp`
+- `bindings/vector.cpp`
+- `bindings/matrix.cpp`
+- `bindings/tensor.cpp`
 - `bindings/conversions.cpp`
 - `bindings/creation.cpp`
+- `bindings/reductions.cpp`
 
 ---
 
