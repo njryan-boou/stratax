@@ -34,8 +34,23 @@ private:
     }
 
 public:
+    /** @brief Tag type documenting that zero-valued dimensions are intentional. */
     struct allow_zero_t {};
+
+    /** @brief Tag value documenting that zero-valued dimensions are intentional. */
     static constexpr allow_zero_t allow_zero{};
+
+    /** @brief Mutable iterator over dimension lengths. */
+    using iterator = Buffer<std::size_t>::iterator;
+
+    /** @brief Const iterator over dimension lengths. */
+    using const_iterator = Buffer<std::size_t>::const_iterator;
+
+    /** @brief Mutable reverse iterator over dimension lengths. */
+    using reverse_iterator = Buffer<std::size_t>::reverse_iterator;
+
+    /** @brief Const reverse iterator over dimension lengths. */
+    using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
 
     /**
      * @brief Creates an empty shape.
@@ -244,7 +259,7 @@ public:
      *
      * @return Iterator to the beginning of the dimension storage.
      */
-    auto begin() noexcept
+    [[nodiscard]] iterator begin() noexcept
     {
         return dims_.begin();
     }
@@ -254,7 +269,7 @@ public:
      *
      * @return Iterator to the end of the dimension storage.
      */
-    auto end() noexcept
+    [[nodiscard]] iterator end() noexcept
     {
         return dims_.end();
     }
@@ -264,7 +279,7 @@ public:
      *
      * @return Const iterator to the beginning of the dimension storage.
      */
-    auto begin() const noexcept
+    [[nodiscard]] const_iterator begin() const noexcept
     {
         return dims_.begin();
     }
@@ -274,9 +289,89 @@ public:
      *
      * @return Const iterator to the end of the dimension storage.
      */
-    auto end() const noexcept
+    [[nodiscard]] const_iterator end() const noexcept
     {
         return dims_.end();
+    }
+
+    /**
+     * @brief Returns a const iterator to the first stored dimension.
+     *
+     * @return Const iterator to the beginning of the dimension storage.
+     */
+    [[nodiscard]] const_iterator cbegin() const noexcept
+    {
+        return dims_.cbegin();
+    }
+
+    /**
+     * @brief Returns a const iterator one past the last stored dimension.
+     *
+     * @return Const iterator to the end of the dimension storage.
+     */
+    [[nodiscard]] const_iterator cend() const noexcept
+    {
+        return dims_.cend();
+    }
+
+    /**
+     * @brief Returns a reverse iterator to the last stored dimension.
+     *
+     * @return Reverse iterator starting at the last stored dimension.
+     */
+    [[nodiscard]] reverse_iterator rbegin() noexcept
+    {
+        return dims_.rbegin();
+    }
+
+    /**
+     * @brief Returns a const reverse iterator to the last stored dimension.
+     *
+     * @return Const reverse iterator starting at the last stored dimension.
+     */
+    [[nodiscard]] const_reverse_iterator rbegin() const noexcept
+    {
+        return dims_.rbegin();
+    }
+
+    /**
+     * @brief Returns a const reverse iterator to the last stored dimension.
+     *
+     * @return Const reverse iterator starting at the last stored dimension.
+     */
+    [[nodiscard]] const_reverse_iterator crbegin() const noexcept
+    {
+        return dims_.crbegin();
+    }
+
+    /**
+     * @brief Returns a reverse iterator before the first stored dimension.
+     *
+     * @return Reverse iterator representing the end sentinel.
+     */
+    [[nodiscard]] reverse_iterator rend() noexcept
+    {
+        return dims_.rend();
+    }
+
+    /**
+     * @brief Returns a const reverse iterator before the first stored dimension.
+     *
+     * @return Const reverse iterator representing the end sentinel.
+     */
+    [[nodiscard]] const_reverse_iterator rend() const noexcept
+    {
+        return dims_.rend();
+    }
+
+    /**
+     * @brief Returns a const reverse iterator before the first stored dimension.
+     *
+     * @return Const reverse iterator representing the end sentinel.
+     */
+    [[nodiscard]] const_reverse_iterator crend() const noexcept
+    {
+        return dims_.crend();
     }
 
     /**

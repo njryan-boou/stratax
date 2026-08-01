@@ -37,8 +37,23 @@ namespace stratax::core {
 template<typename T, std::size_t Alignment = config::default_alignment>
 class Buffer {
 public:
+    /** @brief Tag type selecting allocated storage without element initialization. */
     struct uninitialized_t {};
+
+    /** @brief Tag value selecting allocated storage without element initialization. */
     static constexpr uninitialized_t uninitialized{};
+
+    /** @brief Mutable iterator over contiguous buffer elements. */
+    using iterator = T*;
+
+    /** @brief Const iterator over contiguous buffer elements. */
+    using const_iterator = const T*;
+
+    /** @brief Mutable reverse iterator over contiguous buffer elements. */
+    using reverse_iterator = std::reverse_iterator<iterator>;
+
+    /** @brief Const reverse iterator over contiguous buffer elements. */
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     /**
      * @brief Creates an empty buffer.
@@ -337,7 +352,7 @@ public:
         *
         * @return Iterator to the beginning of the buffer.
      */
-    [[nodiscard]] T* begin() noexcept
+    [[nodiscard]] iterator begin() noexcept
     {
         return data_;
     }
@@ -347,7 +362,7 @@ public:
         *
         * @return Const iterator to the beginning of the buffer.
      */
-    [[nodiscard]] const T* begin() const noexcept
+    [[nodiscard]] const_iterator begin() const noexcept
     {
         return data_;
     }
@@ -357,7 +372,7 @@ public:
         *
         * @return Const iterator to the beginning of the buffer.
      */
-    [[nodiscard]] const T* cbegin() const noexcept
+    [[nodiscard]] const_iterator cbegin() const noexcept
     {
         return data_;
     }
@@ -367,9 +382,9 @@ public:
         *
         * @return Iterator to the end of the buffer.
      */
-    [[nodiscard]] T* end() noexcept
+    [[nodiscard]] iterator end() noexcept
     {
-        return data_ + size_;
+        return empty() ? data_ : data_ + size_;
     }
 
     /**
@@ -377,9 +392,9 @@ public:
         *
         * @return Const iterator to the end of the buffer.
      */
-    [[nodiscard]] const T* end() const noexcept
+    [[nodiscard]] const_iterator end() const noexcept
     {
-        return data_ + size_;
+        return empty() ? data_ : data_ + size_;
     }
 
     /**
@@ -387,9 +402,9 @@ public:
         *
         * @return Const iterator to the end of the buffer.
      */
-    [[nodiscard]] const T* cend() const noexcept
+    [[nodiscard]] const_iterator cend() const noexcept
     {
-        return data_ + size_;
+        return empty() ? data_ : data_ + size_;
     }
 
     /**
@@ -397,9 +412,9 @@ public:
         *
         * @return Reverse iterator starting at the last element.
      */
-    [[nodiscard]] std::reverse_iterator<T*> rbegin() noexcept
+    [[nodiscard]] reverse_iterator rbegin() noexcept
     {
-        return std::reverse_iterator<T*>(end());
+        return reverse_iterator(end());
     }
 
     /**
@@ -407,9 +422,9 @@ public:
         *
         * @return Const reverse iterator starting at the last element.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> rbegin() const noexcept
+    [[nodiscard]] const_reverse_iterator rbegin() const noexcept
     {
-        return std::reverse_iterator<const T*>(end());
+        return const_reverse_iterator(end());
     }
 
     /**
@@ -417,9 +432,9 @@ public:
         *
         * @return Const reverse iterator starting at the last element.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> crbegin() const noexcept
+    [[nodiscard]] const_reverse_iterator crbegin() const noexcept
     {
-        return std::reverse_iterator<const T*>(cend());
+        return const_reverse_iterator(cend());
     }
 
     /**
@@ -427,9 +442,9 @@ public:
         *
         * @return Reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<T*> rend() noexcept
+    [[nodiscard]] reverse_iterator rend() noexcept
     {
-        return std::reverse_iterator<T*>(begin());
+        return reverse_iterator(begin());
     }
 
     /**
@@ -437,9 +452,9 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> rend() const noexcept
+    [[nodiscard]] const_reverse_iterator rend() const noexcept
     {
-        return std::reverse_iterator<const T*>(begin());
+        return const_reverse_iterator(begin());
     }
 
     /**
@@ -447,9 +462,9 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> crend() const noexcept
+    [[nodiscard]] const_reverse_iterator crend() const noexcept
     {
-        return std::reverse_iterator<const T*>(cbegin());
+        return const_reverse_iterator(cbegin());
     }
 
     /**
@@ -595,6 +610,6 @@ private:
             }
         }
     }
-};
+}; // class Buffer
 
-}
+} // namespace stratax::core

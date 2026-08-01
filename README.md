@@ -20,7 +20,7 @@ statistics modules are currently reserved API areas.
 - Tensor creation helpers such as `zeros`, `ones`, `full`, and `identity`
 - Axis reductions with optional `keepdims` and negative-axis support in the Python API
 - Stream printing for vectors, matrices, tensors, shapes, and strides
-- Python bindings and Python API wrappers for `Shape`, `Vector`, `Matrix`, and `Tensor`
+- Python bindings for `Shape`, `Vector`, `Matrix`, and `Tensor`
 - Python free functions for conversions and tensor creation helpers
 - Doxygen API documentation
 
@@ -32,12 +32,10 @@ statistics modules are currently reserved API areas.
 #include <stratax.h>
 #include <iostream>
 
-using namespace stratax::container;
-
 int main()
 {
-    Vector<double> a{1.0, 2.0, 3.0};
-    Vector<double> b{4.0, 5.0, 6.0};
+    stratax::Vector<double> a{1.0, 2.0, 3.0};
+    stratax::Vector<double> b{4.0, 5.0, 6.0};
 
     auto c = a + b;
 
@@ -45,7 +43,7 @@ int main()
 }
 ```
 
-### Python
+### Python Package
 
 ```python
 from stratax import Vector
@@ -57,9 +55,13 @@ print(v[::-1].tolist())
 # [4.0, 3.0, 2.0, 1.0]
 ```
 
-Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` wrappers plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API is intentionally Python-like: use negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
+Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` types plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API supports negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
 
 Axis reductions are available through Python reduction helpers (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`), including `keepdims=True` for shape-preserving reductions and negative-axis indexing (for example `axis=-1` for the last dimension).
+
+The C++ umbrella header also provides a flat public facade for common APIs, such
+as `stratax::Vector`, `stratax::Shape`, `stratax::zeros`, and `stratax::sum`,
+with grouped module aliases like `stratax::reductions` for specialized calls.
 
 ## Installation
 
@@ -69,7 +71,7 @@ Axis reductions are available through Python reduction helpers (`sum`, `prod`, `
 pip install stratax
 ```
 
-### C++
+### C++ Headers
 
 Stratax is header-first for C++. Include the repository `include/` directory in
 your build and include the umbrella header:
@@ -132,13 +134,13 @@ python -m pytest tests/python
 
 ### Documentation
 
- - [Documentation Site](https://njryan-boou.github.io/stratax)
- - [Local Documentation Index](docs/README.md)
- - [User Guide](docs/guides/user_guide.md)
- - [Python API Reference](docs/guides/python_api.md)
- - [Examples Guide](docs/guides/examples.md)
- - [Troubleshooting](docs/guides/troubleshooting.md)
- - [Releasing](docs/guides/releasing.md)
+- [Documentation Site](https://njryan-boou.github.io/stratax)
+- [Local Documentation Index](docs/README.md)
+- [User Guide](docs/guides/user_guide.md)
+- [Python API Reference](docs/guides/python_api.md)
+- [Examples Guide](docs/guides/examples.md)
+- [Troubleshooting](docs/guides/troubleshooting.md)
+- [Releasing](docs/guides/releasing.md)
 
 ## Repository Layout
 
@@ -162,7 +164,7 @@ I/O are reserved or planned areas.
 ### API Status
 
 | Feature | C++ | Python |
-|---------|-----|--------|
+| --------- | ----- | -------- |
 | `Shape`, `Vector`, `Matrix`, `Tensor` | Available | Available |
 | Negative indexing | Available | Available |
 | Slicing | Copy-based | Copy-based |

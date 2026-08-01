@@ -2,7 +2,7 @@
 
 # Stratax Roadmap
 
-Developer notes for planned Stratax feature work.
+Developer notes for planned Stratax features.
 
 ## Purpose
 
@@ -74,7 +74,39 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [ ] Binary I/O
 - [ ] Serialization policy
 
-### Phase 7: Documentation and Examples
+### Phase 7: Python Bindings
+
+- [x] `_core` extension module
+- [x] Top-level `Shape` export
+- [x] Top-level `Vector` export
+- [x] Top-level `Matrix` export
+- [x] Top-level `Tensor` export
+- [x] Creation helpers
+- [x] Conversion helpers
+- [x] Reduction helpers
+- [x] Static typing stubs
+- [ ] Bitwise operator bindings
+- [x] Single public Python stub
+- [ ] Package import smoke test in CI
+
+### Phase 7.5: C++ Public Facade
+
+- [x] Top-level public aliases for common array types
+- [x] Top-level public aliases for common algorithms
+- [x] Module-style aliases for creation, conversions, reductions, transforms, slicing, arrays, and errors
+- [ ] Dedicated future namespaces for linear algebra, random, statistics, FFT, and I/O
+
+### Phase 8: Testing and CI
+
+- [x] C++ unit tests
+- [x] Python unit tests
+- [x] Documentation deploy workflow
+- [x] Documentation check workflow
+- [ ] Cross-platform build matrix
+- [ ] Release/package smoke test
+- [x] Markdown link check in CI
+
+### Phase 9: Documentation and Examples
 
 - [x] Developer docs for implemented core files
 - [x] Developer docs for implemented containers
@@ -86,7 +118,9 @@ Tracks the expected build-out of the library from core infrastructure through co
 - [x] Troubleshooting guide
 - [x] Release checklist
 - [x] Documentation CI check
+- [x] Resolve Doxygen warnings
 - [ ] Complete generated C++ API reference coverage
+- [ ] README badges
 
 ### Later Phases
 

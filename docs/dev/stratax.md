@@ -24,11 +24,12 @@ The umbrella header is responsible for:
 
 - Providing a single include entry point for Stratax C++ usage
 - Aggregating stable public core headers
+- Re-exporting common public types and algorithms under `stratax`
 - Simplifying consumer include management
 
 The umbrella header is not responsible for:
 
-- Declaring new APIs itself
+- Implementing component APIs directly
 - Runtime initialization behavior
 - Build or link configuration
 
@@ -65,6 +66,7 @@ The umbrella header is not responsible for:
 
 - `include/stratax/core/ops/Comparison.hpp`
 - `include/stratax/core/ops/Arithmetic.hpp`
+- `include/stratax/core/ops/Broadcasting.hpp`
 - `include/stratax/core/ops/Indexing.hpp`
 - `include/stratax/core/ops/Slice.hpp`
 
@@ -81,11 +83,17 @@ The umbrella header is not responsible for:
 
 int main()
 {
-    stratax::container::Vector<double> v{1.0, 2.0, 3.0};
-    auto t = to_tensor(v);
+    stratax::Vector<double> v{1.0, 2.0, 3.0};
+    auto t = stratax::to_tensor(v);
     (void)t;
 }
 ```
+
+Common APIs are available directly under `stratax`. Grouped aliases are also
+available for module-style calls such as `stratax::creation::zeros`,
+`stratax::conversions::to_tensor`, and `stratax::reductions::sum`.
+Broadcast helpers are available directly under `stratax` and through the
+grouped `stratax::broadcasting` namespace.
 
 ---
 

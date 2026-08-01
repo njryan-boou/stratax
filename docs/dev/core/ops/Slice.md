@@ -1,4 +1,4 @@
-@page ops_slice "Slice Ops"
+@page ops_slice Slice Ops
 
 # Slice Ops {#dev_ops_slice}
 

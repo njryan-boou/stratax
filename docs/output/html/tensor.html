@@ -124,12 +124,12 @@ Tensor</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_tensor_8hpp_source.html">include/stratax/core/containers/Tensor.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md442"></a>
 Overview</h2>
 <p><span class="tt">Tensor&lt;T&gt;</span> is an N-dimensional array container for numeric types.</p>
 <p>It stores values in contiguous row-major memory and pairs storage with <span class="tt">Shape</span> and <span class="tt">Strides</span> metadata for generic multi-dimensional indexing and container interoperability.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md451"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md444"></a>
 Responsibilities</h2>
 <p>The <span class="tt">Tensor</span> class is responsible for:</p>
 <ul>
@@ -146,7 +146,7 @@ Responsibilities</h2>
 <li>Specialized rank-1/rank-2 APIs (handled by <span class="tt">Vector</span>/<span class="tt">Matrix</span>)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md453"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md446"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Tensor&lt;T&gt;</div>
 <div class="line">│</div>
@@ -176,7 +176,7 @@ Relationships</h2>
 <li>Matrix</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md455"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md448"></a>
 Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -189,7 +189,7 @@ Internal Data</h2>
 <td class="markdownTableBodyNone"><span class="tt">core::Buffer&lt;T&gt; buffer_</span>  </td><td class="markdownTableBodyNone">Contiguous element storage  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md457"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md450"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -200,11 +200,19 @@ Invariants</h2>
 <li>Checked <span class="tt">at(...)</span> overloads validate bounds and support negative indexing.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md459"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md452"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md453"></a>
+Iterator Aliases</h2>
+<div class="fragment"><div class="line"><span class="keyword">using </span>iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::iterator;</div>
+<div class="line"><span class="keyword">using </span>const_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::const_iterator;</div>
+<div class="line"><span class="keyword">using </span>reverse_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::reverse_iterator;</div>
+<div class="line"><span class="keyword">using </span>const_reverse_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::const_reverse_iterator;</div>
+</div><!-- fragment --><p><span class="tt">Tensor&lt;T&gt;</span> mirrors <span class="tt">Buffer&lt;T&gt;</span> iterator aliases for flat contiguous-storage traversal.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md455"></a>
 Constructors</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md461"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md456"></a>
 Default Constructor</h3>
 <div class="fragment"><div class="line">Tensor() noexcept;</div>
 </div><!-- fragment --><p>Constructs an empty rank-0 tensor.</p>
@@ -217,7 +225,7 @@ Default Constructor</h3>
 <li>None</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md463"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md458"></a>
 Shape Constructor</h3>
 <div class="fragment"><div class="line"><span class="keyword">explicit</span> Tensor(<span class="keyword">const</span> core::Shape&amp; shape);</div>
 </div><!-- fragment --><p>Constructs tensor storage for <span class="tt">shape</span> with default-initialized elements.</p>
@@ -231,7 +239,7 @@ Shape Constructor</h3>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on element-count overflow</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md465"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
 Shape + Fill Constructor</h3>
 <div class="fragment"><div class="line">Tensor(<span class="keyword">const</span> core::Shape&amp; shape, <span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Constructs tensor storage for <span class="tt">shape</span> and fills every element with <span class="tt">value</span>.</p>
@@ -245,7 +253,7 @@ Shape + Fill Constructor</h3>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_dimension_error.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on element-count overflow</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md467"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md462"></a>
 Copy Constructor</h3>
 <div class="fragment"><div class="line">Tensor(<span class="keyword">const</span> Tensor&amp;) = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -253,7 +261,7 @@ Copy Constructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md469"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md464"></a>
 Move Constructor</h3>
 <div class="fragment"><div class="line">Tensor(Tensor&amp;&amp;) noexcept = default;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -261,7 +269,7 @@ Move Constructor</h3>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md471"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md466"></a>
 Destructor</h3>
 <div class="fragment"><div class="line">~Tensor() = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -269,9 +277,9 @@ Destructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md473"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md468"></a>
 Assignment Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md474"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md469"></a>
 Copy Assignment</h2>
 <div class="fragment"><div class="line">Tensor&amp; operator=(<span class="keyword">const</span> Tensor&amp;) = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -279,7 +287,7 @@ Copy Assignment</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md471"></a>
 Move Assignment</h2>
 <div class="fragment"><div class="line">Tensor&amp; operator=(Tensor&amp;&amp;) noexcept = default;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -287,9 +295,9 @@ Move Assignment</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md473"></a>
 Methods</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md479"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md474"></a>
 size()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t size() const noexcept;</div>
 </div><!-- fragment --><p>Returns number of stored elements.</p>
@@ -298,7 +306,7 @@ size()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md481"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
 empty()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
 </div><!-- fragment --><p>Returns whether tensor stores no elements.</p>
@@ -307,7 +315,7 @@ empty()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md483"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
 rank()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t rank() const noexcept;</div>
 </div><!-- fragment --><p>Returns number of dimensions.</p>
@@ -316,7 +324,7 @@ rank()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md485"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md480"></a>
 shape() / strides()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> core::Shape&amp; shape() const noexcept;</div>
 <div class="line">const core::Strides&amp; strides() const noexcept;</div>
@@ -326,7 +334,7 @@ shape() / strides()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md487"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md482"></a>
 at() flat</h2>
 <div class="fragment"><div class="line">T&amp; at(std::ptrdiff_t index);</div>
 <div class="line"><span class="keyword">const</span> T&amp; at(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
@@ -340,7 +348,7 @@ at() flat</h2>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if out of bounds</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md489"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md484"></a>
 at() multi-index</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Rest&gt;</div>
 <div class="line"><span class="keyword">requires</span> ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
@@ -359,7 +367,7 @@ at() multi-index</h2>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if rank mismatch or any component is out of bounds</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md491"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md486"></a>
 front() / back()</h2>
 <div class="fragment"><div class="line">T&amp; front();</div>
 <div class="line"><span class="keyword">const</span> T&amp; front() <span class="keyword">const</span>;</div>
@@ -375,7 +383,7 @@ front() / back()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md493"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md488"></a>
 data()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] T* data() noexcept;</div>
 <div class="line">[[nodiscard]] const T* data() const noexcept;</div>
@@ -385,27 +393,27 @@ data()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md495"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md490"></a>
 Iterators</h2>
-<div class="fragment"><div class="line">[[nodiscard]] <span class="keyword">auto</span> begin() noexcept;</div>
-<div class="line">[[nodiscard]] auto begin() const noexcept;</div>
-<div class="line">[[nodiscard]] auto cbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] auto end() noexcept;</div>
-<div class="line">[[nodiscard]] auto end() const noexcept;</div>
-<div class="line">[[nodiscard]] auto cend() const noexcept;</div>
-<div class="line">[[nodiscard]] auto rbegin() noexcept;</div>
-<div class="line">[[nodiscard]] auto rbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] auto crbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] auto rend() noexcept;</div>
-<div class="line">[[nodiscard]] auto rend() const noexcept;</div>
-<div class="line">[[nodiscard]] auto crend() const noexcept;</div>
+<div class="fragment"><div class="line">[[nodiscard]] iterator begin() noexcept;</div>
+<div class="line">[[nodiscard]] const_iterator begin() const noexcept;</div>
+<div class="line">[[nodiscard]] const_iterator cbegin() const noexcept;</div>
+<div class="line">[[nodiscard]] iterator end() noexcept;</div>
+<div class="line">[[nodiscard]] const_iterator end() const noexcept;</div>
+<div class="line">[[nodiscard]] const_iterator cend() const noexcept;</div>
+<div class="line">[[nodiscard]] reverse_iterator rbegin() noexcept;</div>
+<div class="line">[[nodiscard]] const_reverse_iterator rbegin() const noexcept;</div>
+<div class="line">[[nodiscard]] const_reverse_iterator crbegin() const noexcept;</div>
+<div class="line">[[nodiscard]] reverse_iterator rend() noexcept;</div>
+<div class="line">[[nodiscard]] const_reverse_iterator rend() const noexcept;</div>
+<div class="line">[[nodiscard]] const_reverse_iterator crend() const noexcept;</div>
 </div><!-- fragment --><p>Provides forward and reverse iteration over flat contiguous storage.</p>
 <p>Complexity</p>
 <ul>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md497"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md492"></a>
 fill()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(<span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Assigns <span class="tt">value</span> to every element.</p>
@@ -414,7 +422,7 @@ fill()</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md499"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md494"></a>
 swap()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Tensor&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Exchanges metadata and storage with another tensor.</p>
@@ -423,9 +431,9 @@ swap()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md501"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md496"></a>
 Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md502"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md497"></a>
 operator() flat</h2>
 <div class="fragment"><div class="line">T&amp; operator()(std::size_t index) <span class="keyword">noexcept</span>;</div>
 <div class="line"><span class="keyword">const</span> T&amp; operator()(std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
@@ -435,7 +443,7 @@ operator() flat</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md504"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md499"></a>
 operator() multi-index</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Rest&gt;</div>
 <div class="line">T&amp; operator()(std::size_t first, std::size_t second, Rest... rest);</div>
@@ -453,7 +461,7 @@ operator() multi-index</h2>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> on out-of-bounds component/offset issues</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md506"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md501"></a>
 operator() vector-based multi-index</h2>
 <div class="fragment"><div class="line">T&amp; operator()(<span class="keyword">const</span> std::vector&lt;std::size_t&gt;&amp; indices);</div>
 <div class="line"><span class="keyword">const</span> T&amp; operator()(<span class="keyword">const</span> std::vector&lt;std::size_t&gt;&amp; indices) <span class="keyword">const</span>;</div>
@@ -472,7 +480,7 @@ operator() vector-based multi-index</h2>
 <li><span class="tt"><a class="el" href="class_exceptions_1_1_index_error.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> on out-of-bounds component/offset issues</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md508"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md503"></a>
 operator[]</h2>
 <div class="fragment"><div class="line">T&amp; operator[](std::size_t index) <span class="keyword">noexcept</span>;</div>
 <div class="line"><span class="keyword">const</span> T&amp; operator[](std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
@@ -485,7 +493,7 @@ operator[]</h2>
 <div class="fragment"><div class="line">T&amp; at(std::ptrdiff_t index);</div>
 <div class="line"><span class="keyword">const</span> T&amp; at(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md510"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md505"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -522,18 +530,18 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md512"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md507"></a>
 Examples</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md513"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md508"></a>
 Creating Tensors</h2>
 <div class="fragment"><div class="line">core::Shape shape(2, 3, 4);</div>
 <div class="line"> </div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> a;</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> b(shape);</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> c(shape, 1.0);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1_tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a></div><div class="ttdef"><b>Definition</b> <a href="_tensor_8hpp_source.html#l00030">Tensor.hpp:31</a></div></div>
+<div class="ttc" id="aclassstratax_1_1container_1_1_tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Stores an N-dimensional Stratax array in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="_tensor_8hpp_source.html#l00030">Tensor.hpp:31</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md515"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md510"></a>
 Accessing Elements</h2>
 <div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1_tensor.html">stratax::container::Tensor&lt;double&gt;</a> t(core::Shape(2, 2, 2), 0.0);</div>
 <div class="line"> </div>
@@ -541,19 +549,19 @@ Accessing Elements</h2>
 <div class="line"><span class="keyword">auto</span> a = t(1, 0, 1);</div>
 <div class="line"><span class="keyword">auto</span> b = t.at(-1, 0, -1);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md517"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md512"></a>
 Iteration</h2>
 <div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; value : t)</div>
 <div class="line">{</div>
 <div class="line">    std::cout &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md519"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md514"></a>
 Design Notes</h2>
 <p><span class="tt">Tensor&lt;T&gt;</span> keeps shape/stride metadata explicit while storing values in one contiguous <span class="tt">Buffer&lt;T&gt;</span>. Multi-indexing is implemented via offset computation, which centralizes rank and stride logic.</p>
 <p>Unchecked access is available for performance-critical code paths, while checked <span class="tt">at(...)</span> overloads provide safe, signed indexing.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md521"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md516"></a>
 Future Improvements</h2>
 <ul>
 <li>Add non-owning tensor view/slice types</li>
@@ -561,7 +569,7 @@ Future Improvements</h2>
 <li>Add optimized kernels for common tensor operations</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md523"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md518"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="buffer.html" title="Buffer">Buffer</a></li>

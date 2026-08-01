@@ -2,18 +2,15 @@
 # Python
 # =============================================================================
 
-find_package(
-    Python
-    REQUIRED
-    COMPONENTS
-        Interpreter
-        Development
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+
+execute_process(
+    COMMAND ${Python_EXECUTABLE} -m pybind11 --cmakedir
+    OUTPUT_VARIABLE pybind11_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-find_package(
-    pybind11
-    REQUIRED
-)
+find_package(pybind11 REQUIRED)
 
 # =============================================================================
 # Python Extension
@@ -23,38 +20,9 @@ pybind11_add_module(
     _core
 
     bindings/module.cpp
-    bindings/common/exceptions.cpp
-    bindings/common/helpers.cpp
-    bindings/common/utilities.cpp
-    
-    bindings/shape/bind.cpp
-    bindings/shape/constructors.cpp
-    bindings/shape/properties.cpp
-
-    bindings/vector/constructors.cpp
-    bindings/vector/bind.cpp
-    bindings/vector/indexing.cpp
-    bindings/vector/ops/arithmetic.cpp
-    bindings/vector/ops/comparison.cpp
-    bindings/vector/_reshape.cpp
-    bindings/vector/properties.cpp
-
-    bindings/matrix/constructors.cpp
-    bindings/matrix/bind.cpp
-    bindings/matrix/indexing.cpp
-    bindings/matrix/ops/arithmetic.cpp
-    bindings/matrix/ops/comparison.cpp
-    bindings/matrix/_reshape.cpp
-    bindings/matrix/properties.cpp
-
-    bindings/tensor/constructors.cpp
-    bindings/tensor/bind.cpp
-    bindings/tensor/indexing.cpp
-    bindings/tensor/ops/arithmetic.cpp
-    bindings/tensor/ops/comparison.cpp
-    bindings/tensor/_reshape.cpp
-    bindings/tensor/properties.cpp
-
+    bindings/vector.cpp
+    bindings/matrix.cpp
+    bindings/tensor.cpp
     bindings/conversions.cpp
     bindings/creation.cpp
     bindings/reductions.cpp
@@ -96,5 +64,16 @@ install(
         stratax
 
     RUNTIME DESTINATION
+        stratax
+)
+
+install(
+
+    FILES
+        ${CMAKE_SOURCE_DIR}/python/stratax/__init__.py
+        ${CMAKE_SOURCE_DIR}/python/stratax/_core.pyi
+        ${CMAKE_SOURCE_DIR}/python/stratax/py.typed
+
+    DESTINATION
         stratax
 )

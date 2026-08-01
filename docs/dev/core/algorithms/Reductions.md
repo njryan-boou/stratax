@@ -269,7 +269,7 @@ Result type
 
 ## Examples
 
-### Global Reductions
+### Global Reduction Examples
 
 ```cpp
 Vector<int> v{1, 2, 3, 4, 5};

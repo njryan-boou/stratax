@@ -124,7 +124,7 @@ Bindings Developer Docs</h1>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Overview</h2>
-<p>Stratax Python bindings are compiled into the <span class="tt">_core</span> extension module and then surfaced by the Python package wrappers under <span class="tt">python/stratax/</span>.</p>
+<p>Stratax Python bindings are compiled into the <span class="tt">_core</span> extension module and re-exported by the <span class="tt">stratax</span> Python package.</p>
 <p>Current bindings are focused on <span class="tt">double</span>-based container types and free-function helpers.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
@@ -137,19 +137,19 @@ Entry Points</h2>
 File Map</h2>
 <ul>
 <li><span class="tt">bindings/module.cpp</span>: extension module definition, metadata wiring, and bind-order orchestration</li>
-<li><span class="tt">bindings/common/</span>: shared exception translation, helper functions, and utility adapters</li>
-<li><span class="tt">bindings/shape/</span>: <span class="tt">Shape</span> Python API binding surface</li>
-<li><span class="tt">bindings/vector/</span>: <span class="tt">Vector&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
-<li><span class="tt">bindings/matrix/</span>: <span class="tt">Matrix&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
-<li><span class="tt">bindings/tensor/</span>: <span class="tt">Tensor&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
+<li><span class="tt">bindings/utils.hpp</span>: shared conversion, overflow, index, and slice helpers</li>
+<li><span class="tt">bindings/vector.cpp</span>: <span class="tt">Vector&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
+<li><span class="tt">bindings/matrix.cpp</span>: <span class="tt">Matrix&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
+<li><span class="tt">bindings/tensor.cpp</span>: <span class="tt">Tensor&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
 <li><span class="tt">bindings/conversions.cpp</span>: free-function conversions (<span class="tt">to_vector</span>, <span class="tt">to_matrix</span>, <span class="tt">to_tensor</span>)</li>
 <li><span class="tt">bindings/creation.cpp</span>: free-function creation helpers (<span class="tt">zeros</span>, <span class="tt">ones</span>, <span class="tt">full</span>, <span class="tt">identity</span>)</li>
+<li><span class="tt">bindings/reductions.cpp</span>: free-function reductions (<span class="tt">sum</span>, <span class="tt">prod</span>, <span class="tt">max</span>, <span class="tt">min</span>, <span class="tt">argmax</span>, <span class="tt">argmin</span>, <span class="tt">mean</span>, <span class="tt">var</span>, <span class="tt">std</span>)</li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Data Flow</h2>
 <div class="fragment"><div class="line">C++ core headers -&gt; pybind11 bindings in bindings/ -&gt; _core extension</div>
-<div class="line">-&gt; python/stratax wrapper modules -&gt; user-facing Python API</div>
+<div class="line">-&gt; python/stratax package exports -&gt; user-facing Python API</div>
 </div><!-- fragment --><hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Current Constraints</h2>
@@ -163,7 +163,7 @@ Current Constraints</h2>
 Future Improvements</h2>
 <ul>
 <li>Extend bindings to additional numeric dtypes</li>
-<li>Add explicit binding docs per container subfolder</li>
+<li>Add binding-level smoke tests for import and symbol export</li>
 <li>Add binding-level exception mapping matrix </li>
 </ul>
 </div></div><!-- contents -->

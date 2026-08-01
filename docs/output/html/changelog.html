@@ -118,14 +118,31 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('changelog.html
   <div class="headertitle"><div class="title">Changelog </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md929"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md911"></a>
 Changelog</h1>
 <p>All notable changes to Stratax will be documented in this file.</p>
 <p>The format is based on Keep a Changelog and the project follows Semantic Versioning while under active 0.x development.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md913"></a>
+[Unreleased]</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md914"></a>
+Changed</h3>
+<ul>
+<li>Simplified Python packaging around the compiled <span class="tt">_core</span> extension and public package exports.</li>
+<li>Added a NumPy-style C++ public facade with top-level aliases and module-style namespaces.</li>
+<li>Updated Python API stubs to match the current property-based container interface.</li>
+<li>Regenerated documentation with a clean Doxygen warning pass.</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md915"></a>
+Fixed</h3>
+<ul>
+<li>Fixed iterator edge cases for empty <span class="tt">Buffer</span> storage and aligned container iterator aliases.</li>
+<li>Fixed stale binding documentation that referenced the old Python package layering.</li>
+</ul>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md917"></a>
 [0.2.0] - 07-15-2026</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md918"></a>
 Added</h3>
 <ul>
 <li>Completed the Python API for Shape, Vector, Matrix, and Tensor.</li>
@@ -137,7 +154,7 @@ Added</h3>
 <li>Added complete Python type stubs.</li>
 <li>Expanded Python tests.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
 Changed</h3>
 <ul>
 <li>Reorganized the Python package into a cleaner module structure.</li>
@@ -145,7 +162,7 @@ Changed</h3>
 <li>Improved conversion behavior for vector-shaped arrays.</li>
 <li>Improved slicing behavior to better match Python semantics.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md934"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md920"></a>
 Fixed</h3>
 <ul>
 <li>Fixed numerous Python binding issues.</li>
@@ -154,9 +171,9 @@ Fixed</h3>
 <li>Improved exception translation.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md922"></a>
 [0.1.0] - 07-11-2026</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md923"></a>
 Added</h3>
 <ul>
 <li>Initial public release.</li>

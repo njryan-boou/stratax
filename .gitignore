@@ -1,8 +1,12 @@
 .vscode/
 build/
 dist/
-main.cpp
+main/
 *.exe
+*.pyd
+.markdownlint.json
+.markdownlint-cli2.jsonc
+.markdownlintignore
 .venv
 .pypirc
 test.py

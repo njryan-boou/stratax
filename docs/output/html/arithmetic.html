@@ -124,12 +124,12 @@ Arithmetic</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_arithmetic_8hpp_source.html">include/stratax/core/ops/Arithmetic.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md670"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="_arithmetic_8hpp_source.html">Arithmetic.hpp</a></span> defines generic element-wise arithmetic for Stratax array-like containers.</p>
 <p>It provides array-array, array-scalar, scalar-array, compound assignment, and unary operators for types satisfying the <span class="tt"><a class="el" href="concept_array.html">Array</a></span> and <span class="tt"><a class="el" href="concept_numeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> concepts.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md672"></a>
 Responsibilities</h2>
 <p>The arithmetic module is responsible for:</p>
 <ul>
@@ -145,7 +145,7 @@ Responsibilities</h2>
 <li>SIMD or parallel execution policy</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md692"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Arithmetic operators</div>
 <div class="line">├── Array concept constraints</div>
@@ -163,7 +163,7 @@ Relationships</h2>
 <li>User-facing vector/matrix/tensor arithmetic expressions</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -174,9 +174,9 @@ Invariants</h2>
 <li>Division by zero raises <span class="tt"><a class="el" href="class_exceptions_1_1_zero_division_error.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md696"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md697"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md679"></a>
 Shape guard</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
 <div class="line"><span class="keywordtype">void</span> require_same_arithmetic_shape(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -188,7 +188,7 @@ Shape guard</h3>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md698"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
 Array-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -203,7 +203,7 @@ Array-array operators</h3>
 <ul>
 <li>O(n), plus O(r) shape check</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md699"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md681"></a>
 Array-scalar operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; rhs);</div>
@@ -218,7 +218,7 @@ Array-scalar operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md700"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
 Scalar-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator+(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator-(<span class="keyword">const</span> <a class="code hl_concept" href="concept_scalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -232,7 +232,7 @@ Scalar-array operators</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md701"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md683"></a>
 Compound assignment operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -251,7 +251,7 @@ Compound assignment operators</h3>
 <ul>
 <li>O(n), plus O(r) shape check for array-array forms</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md702"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
 Unary operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; arr);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; arr);</div>
@@ -265,7 +265,7 @@ Unary operators</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md704"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md686"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -285,7 +285,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md706"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> sum = a + b;</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> shifted = a + 2.0;</div>
@@ -294,12 +294,13 @@ Examples</h2>
 <div class="line">a += b;</div>
 <div class="line">a *= 3.0;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md708"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
 Design Notes</h2>
 <p>Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.</p>
+<p>Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.</p>
 <p>Compound assignments delegate to their non-compound counterparts to centralize validation and arithmetic behavior.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md710"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md692"></a>
 Future Improvements</h2>
 <ul>
 <li>Broadcasting semantics</li>
@@ -308,7 +309,7 @@ Future Improvements</h2>
 <li>Optional parallel backends</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md712"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="_concepts_8hpp_source.html">include/stratax/core/Concepts.hpp</a></span></li>

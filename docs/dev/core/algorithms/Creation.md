@@ -143,7 +143,7 @@ Keeping these helpers in a small `creation` namespace provides concise call site
 ## Future Improvements
 
 - Add explicit matrix-returning identity helper if rank-2 specialization is desired
-- Add additional builders (`arange`, `linspace`, random initialization) when needed
+- Add additional builders (`arrange`, `linspace`, random initialization) when needed
 
 ---
 

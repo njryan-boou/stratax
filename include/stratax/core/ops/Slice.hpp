@@ -18,10 +18,16 @@
 
 namespace stratax::ops::detail {
 
+/** @brief Normalized slice metadata for a concrete axis extent. */
 struct ResolvedSlice
 {
+    /** @brief First flat index selected by the slice. */
     std::ptrdiff_t start;
+
+    /** @brief Step between selected indices. */
     std::ptrdiff_t step;
+
+    /** @brief Number of selected elements. */
     std::size_t size;
 };
 

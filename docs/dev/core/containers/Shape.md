@@ -89,6 +89,19 @@ The following conditions are always true:
 
 ## Public Interface
 
+## Iterator Aliases
+
+```cpp
+using iterator = Buffer<std::size_t>::iterator;
+using const_iterator = Buffer<std::size_t>::const_iterator;
+using reverse_iterator = Buffer<std::size_t>::reverse_iterator;
+using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+```
+
+`Shape` mirrors `Buffer<std::size_t>` iterator aliases for generic dimension iteration.
+
+---
+
 ## Constructors
 
 ### Default Constructor
@@ -279,16 +292,24 @@ Complexity
 
 ---
 
-## begin()/end()
+## Iterators
 
 ```cpp
-auto begin() noexcept;
-auto end() noexcept;
-auto begin() const noexcept;
-auto end() const noexcept;
+[[nodiscard]] iterator begin() noexcept;
+[[nodiscard]] const_iterator begin() const noexcept;
+[[nodiscard]] const_iterator cbegin() const noexcept;
+[[nodiscard]] iterator end() noexcept;
+[[nodiscard]] const_iterator end() const noexcept;
+[[nodiscard]] const_iterator cend() const noexcept;
+[[nodiscard]] reverse_iterator rbegin() noexcept;
+[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
+[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
+[[nodiscard]] reverse_iterator rend() noexcept;
+[[nodiscard]] const_reverse_iterator rend() const noexcept;
+[[nodiscard]] const_reverse_iterator crend() const noexcept;
 ```
 
-Provides mutable/const iteration over stored dimensions.
+Provides forward and reverse iteration over stored dimensions.
 
 Complexity
 
@@ -457,7 +478,6 @@ Dimension storage is contiguous through `Buffer<std::size_t>`, which keeps shape
 
 ## Future Improvements
 
-- Add `cbegin()`/`cend()` convenience methods
 - Add shape utility helpers (concat, slice, transpose-spec helpers)
 - Add optional constexpr-friendly construction for fixed-rank usage
 

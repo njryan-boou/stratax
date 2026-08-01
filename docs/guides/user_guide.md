@@ -11,9 +11,7 @@ Stratax centers on `Vector`, `Matrix`, and `Tensor`.
 ```cpp
 #include <stratax.h>
 
-using stratax::container::Vector;
-
-Vector<double> values{1.0, 2.0, 3.0};
+stratax::Vector<double> values{1.0, 2.0, 3.0};
 auto doubled = values * 2.0;
 ```
 
@@ -33,13 +31,12 @@ and tensor construction.
 C++ uses `operator()` for multidimensional access and `slice(...)` helpers for
 slicing.
 
-```cpp
-using stratax::core::Slice;
-using stratax::container::Vector;
+Core container types use `operator[]` for flat indexing making container types share algorithm logic.
 
-Vector<double> values{1.0, 2.0, 3.0, 4.0};
+```cpp
+stratax::Vector<double> values{1.0, 2.0, 3.0, 4.0};
 values(1) = 5.0;
-auto every_other = slice(values, Slice{0, values.size(), 2});
+auto every_other = stratax::slice(values, stratax::Slice{0, values.size(), 2});
 ```
 
 Python uses familiar item access and slice syntax.
@@ -61,12 +58,9 @@ copy-based results.
 Use `Shape` when constructing tensors or changing logical dimensions.
 
 ```cpp
-using stratax::core::Shape;
-using stratax::container::Tensor;
-
-Tensor<double> tensor(Shape{2, 2, 2}, 1.0);
-auto matrix_like = reshape(tensor, Shape{4, 2});
-auto flat = flatten(tensor);
+stratax::Tensor<double> tensor(stratax::Shape{2, 2, 2}, 1.0);
+auto matrix_like = stratax::reshape(tensor, stratax::Shape{4, 2});
+auto flat = stratax::flatten(tensor);
 ```
 
 ```python
@@ -85,8 +79,8 @@ container.
 Creation helpers provide common initialized containers.
 
 ```cpp
-auto zeros_tensor = creation::zeros<double>(stratax::core::Shape{2, 3});
-auto eye = creation::identity<double>(3);
+auto zeros_tensor = stratax::zeros<double>(stratax::Shape{2, 3});
+auto eye = stratax::identity<double>(3);
 ```
 
 ```python
@@ -100,8 +94,8 @@ eye = identity(3)
 Conversions move between compatible container shapes.
 
 ```cpp
-auto tensor = to_tensor(values);
-auto roundtrip = to_vector(tensor);
+auto tensor = stratax::to_tensor(values);
+auto roundtrip = stratax::to_vector(tensor);
 ```
 
 ```python
@@ -116,9 +110,9 @@ roundtrip = to_vector(tensor)
 Reductions are available globally and by axis.
 
 ```cpp
-auto total = reduction::sum(tensor);
-auto last_axis = reduction::sum(tensor, -1);
-auto mean_axis0 = reduction::mean(tensor, 0, true);
+auto total = stratax::sum(tensor);
+auto last_axis = stratax::reductions::sum(tensor, -1);
+auto mean_axis0 = stratax::reductions::mean(tensor, 0, true);
 ```
 
 ```python
@@ -129,7 +123,7 @@ last_axis = sum(tensor, -1)
 mean_axis0 = mean(tensor, 0, keepdims=True)
 ```
 
-Python reductions support `keepdims=True` for shape-preserving results.
+Python reductions support `keepdims` for preserving rank.
 
 ## Python API Notes
 

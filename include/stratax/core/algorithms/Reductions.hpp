@@ -19,9 +19,14 @@
 
 namespace reduction {
 
-// Advance multi-dimensional indices in row-major order
-// Advances indices to the next valid combination within the shape
-// Returns true if more indices exist, false if we've gone past the end
+/**
+ * @brief Advances a row-major multidimensional index.
+ *
+ * @param shape Bounds for each index dimension.
+ * @param indices Index vector to advance in place.
+ *
+ * @return True when another index is available, false after wrapping past the end.
+ */
 inline bool advance(const stratax::core::Shape& shape, std::vector<std::size_t>& indices)
 {
     // Start from the rightmost dimension
@@ -36,6 +41,15 @@ inline bool advance(const stratax::core::Shape& shape, std::vector<std::size_t>&
     return false;  // All dimensions wrapped around, no more indices
 }
 
+/**
+ * @brief Converts a possibly negative axis into a non-negative axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array used for rank.
+ * @param axis Axis value to normalize.
+ *
+ * @return Non-negative axis value.
+ */
 template<Array A>
 inline int normalize_axis(const A& arr, int axis)
 {
@@ -48,6 +62,16 @@ inline int normalize_axis(const A& arr, int axis)
     return init;
 }
 
+/**
+ * @brief Computes the shape produced by an axis reduction.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Normalized axis to reduce.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Result dimensions.
+ */
 template<Array A>
 inline std::vector<std::size_t> result_shape(const A& arr, int axis, bool keepdims)
 {
@@ -84,11 +108,37 @@ inline std::vector<std::size_t> result_shape(const A& arr, int axis, bool keepdi
 
     return result_dimensions;
 }
+
+/**
+ * @brief Result value type returned by an axis reduction callback.
+ *
+ * @tparam A Source array-like type.
+ * @tparam Func Reduction callback type.
+ */
 template<Array A, typename Func>
-auto axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
+using axis_reduce_value_t =
+    decltype(std::declval<Func>()(
+        std::declval<const stratax::container::Tensor<typename A::value_type>&>()));
+
+/**
+ * @brief Applies a scalar reduction callback along one axis.
+ *
+ * @tparam A Source array-like type.
+ * @tparam Func Reduction callback type.
+ * @param array Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param func Scalar reduction callback applied to each slice.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing one reduced value per output position.
+ *
+ * @throws Exceptions::AxisError If the axis is out of range.
+ */
+template<Array A, typename Func>
+stratax::container::Tensor<axis_reduce_value_t<A, Func>>
+axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 {
-    using ResultType =
-    decltype(func(std::declval<const stratax::container::Tensor<typename A::value_type>&>()));
+    using ResultType = axis_reduce_value_t<A, Func>;
 
     int Axis = normalize_axis(array, axis);
     
@@ -150,6 +200,14 @@ auto axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 
 // Global Reductions
 
+/**
+ * @brief Returns the sum of all elements.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Sum of all values.
+ */
 template<Array A>
 typename A::value_type sum(const A& arr)
 {
@@ -160,6 +218,14 @@ typename A::value_type sum(const A& arr)
     );
 }
 
+/**
+ * @brief Returns the product of all elements.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Product of all values.
+ */
 template<Array A>
 typename A::value_type prod(const A& arr)
 {
@@ -171,6 +237,14 @@ typename A::value_type prod(const A& arr)
     );
 }
 
+/**
+ * @brief Returns the largest element.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Maximum value.
+ */
 template<Array A>
 typename A::value_type max(const A& arr)
 {
@@ -182,6 +256,14 @@ typename A::value_type max(const A& arr)
     return *result;
 }
 
+/**
+ * @brief Returns the smallest element.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Minimum value.
+ */
 template<Array A>
 typename A::value_type min(const A& arr)
 {
@@ -193,6 +275,14 @@ typename A::value_type min(const A& arr)
     return *result;
 }
 
+/**
+ * @brief Returns the flat index of the largest element.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Zero-based flat index of the first maximum value.
+ */
 template<Array A>
 std::size_t argmax(const A& arr)
 {
@@ -204,6 +294,14 @@ std::size_t argmax(const A& arr)
     return static_cast<std::size_t>(std::distance(arr.begin(), result));
 }
 
+/**
+ * @brief Returns the flat index of the smallest element.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Zero-based flat index of the first minimum value.
+ */
 template<Array A>
 std::size_t argmin(const A& arr)
 {
@@ -215,12 +313,28 @@ std::size_t argmin(const A& arr)
     return static_cast<std::size_t>(std::distance(arr.begin(), result));
 }
 
+/**
+ * @brief Returns the arithmetic mean of all elements.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Mean value as double.
+ */
 template<Array A>
 double mean(const A& arr)
 {
     return static_cast<double>(sum(arr)) / static_cast<double>(arr.size());
 }
 
+/**
+ * @brief Returns the population variance of all elements.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Population variance as double.
+ */
 template<Array A>
 double var(const A& arr)
 {
@@ -240,6 +354,14 @@ double var(const A& arr)
     return count > 0.0 ? m2 / count : 0.0;
 }
 
+/**
+ * @brief Returns the population standard deviation of all elements.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ *
+ * @return Population standard deviation as double.
+ */
 template<Array A>
 double std(const A& arr)
 {
@@ -250,108 +372,279 @@ double std(const A& arr)
 
 // Axis Reductions
 
+/**
+ * @brief Sums values along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing sums for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> sum(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::sum(s); });
 }
 
+/**
+ * @brief Sums values along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing sums for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> sum(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::sum(s); }, keepdims);
 }
 
+/**
+ * @brief Multiplies values along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing products for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::prod(s); });
 }
 
+/**
+ * @brief Multiplies values along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing products for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::prod(s); }, keepdims);
 }
 
+/**
+ * @brief Finds maximum values along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing maxima for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::max(s); });
 }
 
+/**
+ * @brief Finds maximum values along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing maxima for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::max(s); }, keepdims);
 }
 
+/**
+ * @brief Finds minimum values along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing minima for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::min(s); });
 }
 
+/**
+ * @brief Finds minimum values along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing minima for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::min(s); }, keepdims);
 }
 
+/**
+ * @brief Finds flat argmax indices along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing argmax indices for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmax(s); });
 }
 
+/**
+ * @brief Finds flat argmax indices along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing argmax indices for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmax(s); }, keepdims);
 }
 
+/**
+ * @brief Finds flat argmin indices along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing argmin indices for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmin(s); });
 }
 
+/**
+ * @brief Finds flat argmin indices along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing argmin indices for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmin(s); }, keepdims);
 }
 
+/**
+ * @brief Computes means along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing means for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> mean(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::mean(s); }, keepdims);
 }
 
+/**
+ * @brief Computes means along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing means for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> mean(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::mean(s); });
 }
 
+/**
+ * @brief Computes population variances along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing variances for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> var(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::var(s); }, keepdims);
 }
 
+/**
+ * @brief Computes population variances along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing variances for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> var(const A& arr, int axis)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::var(s); });
 }
 
+/**
+ * @brief Computes population standard deviations along an axis with optional dimension retention.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ * @param keepdims Whether to keep the reduced axis with length 1.
+ *
+ * @return Tensor containing standard deviations for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> std(const A& arr, int axis, bool keepdims)
 {
     return axis_reduce(arr, axis, [](const auto& s) { return reduction::std(s); }, keepdims);
 }
 
+/**
+ * @brief Computes population standard deviations along an axis.
+ *
+ * @tparam A Array-like type.
+ * @param arr Source array.
+ * @param axis Axis to reduce; negative axes count from the end.
+ *
+ * @return Tensor containing standard deviations for each output position.
+ */
 template<Array A>
 stratax::container::Tensor<double> std(const A& arr, int axis)
 {

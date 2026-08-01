@@ -118,15 +118,15 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('contributing.h
   <div class="headertitle"><div class="title">Contributing </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md938"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md924"></a>
 Contributing</h1>
 <p>Developer notes for making changes to Stratax consistently.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md925"></a>
 Purpose</h2>
 <p>Defines the working conventions for code, tests, and documentation so new changes fit the existing project style.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md940"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md926"></a>
 Main API</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md941"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md927"></a>
 Code Style</h3>
 <ul>
 <li>Use C++20.</li>
@@ -134,14 +134,14 @@ Code Style</h3>
 <li>Prefer existing concepts and helper types.</li>
 <li>Use <span class="tt">constexpr</span> when it improves correctness or clarity.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md942"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md928"></a>
 Testing</h3>
 <ul>
 <li>Add or update tests beside the feature being changed.</li>
 <li>Cover normal behavior and edge cases.</li>
 <li>Keep tests focused on public behavior.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md943"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md929"></a>
 Documentation</h3>
 <ul>
 <li>Update the matching file under <span class="tt">docs/dev</span> when public behavior or design intent changes.</li>
@@ -153,7 +153,7 @@ Documentation</h3>
 <li>Keep troubleshooting and release notes current when build, packaging, or docs deployment changes.</li>
 <li>Keep the Python API reference aligned with <span class="tt">python/stratax/__init__.py</span> and the <span class="tt">.pyi</span> stubs.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md944"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md930"></a>
 Naming</h3>
 <ul>
 <li>Classes use <span class="tt">PascalCase</span>.</li>
@@ -161,14 +161,14 @@ Naming</h3>
 <li>Concepts use <span class="tt">PascalCase</span>.</li>
 <li>Constants use <span class="tt">UPPER_CASE</span>.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md945"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
 Validation Notes</h2>
 <ul>
 <li>Changes that affect shape, indexing, construction, or arithmetic should include edge-case tests.</li>
 <li>Avoid adding validation behavior in docs unless the implementation already supports it or it is clearly marked as future work.</li>
 <li>Keep validation expectations aligned with the current state of <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span>.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md946"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
 Implementation Notes</h2>
 <ul>
 <li>Prefer small, local changes over broad refactors.</li>
@@ -176,7 +176,7 @@ Implementation Notes</h2>
 <li>Keep generated or build artifacts out of commits.</li>
 <li>Do not change unrelated files while addressing a focused task.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md947"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md933"></a>
 Future Work</h2>
 <ul>
 <li>Add formatting and linting rules.</li>

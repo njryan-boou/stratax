@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['resolvedslice_0',['ResolvedSlice',['../structstratax_1_1ops_1_1detail_1_1_resolved_slice.html',1,'stratax::ops::detail']]]
+  ['matrix_0',['Matrix',['../classstratax_1_1container_1_1_matrix.html',1,'stratax::container']]],
+  ['matrix_3c_20u_20_3e_1',['Matrix&lt; U &gt;',['../classstratax_1_1container_1_1_matrix.html',1,'stratax::container']]]
 ];

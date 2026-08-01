@@ -127,7 +127,7 @@ _core Extension Module</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Overview</h2>
 <p><span class="tt">bindings/module.cpp</span> defines the pybind11 extension module <span class="tt">_core</span> and orchestrates all binding registration calls.</p>
-<p>It is the top-level binding entry point loaded by the Python wrapper package.</p>
+<p>It is the compiled binding entry point re-exported by the public <span class="tt">stratax</span> package.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Responsibilities</h2>
@@ -135,29 +135,30 @@ Responsibilities</h2>
 <ul>
 <li>Declaring <span class="tt">PYBIND11_MODULE(_core, m)</span></li>
 <li>Setting module metadata (<span class="tt">__doc__</span>, <span class="tt">__version__</span>, <span class="tt">__author__</span>)</li>
+<li>Registering Stratax exception types</li>
+<li>Registering the <span class="tt">Shape</span> metadata type</li>
 <li>Calling all bind registration functions in a consistent order</li>
 </ul>
 <p>The module entry file is not responsible for:</p>
 <ul>
-<li>Implementing per-type binding logic directly</li>
-<li>Defining Python wrapper ergonomics (handled in <span class="tt">python/stratax/</span>)</li>
+<li>Implementing vector, matrix, tensor, algorithm, or creation binding logic directly</li>
+<li>Defining the public package export list (handled in <span class="tt">python/stratax/__init__.py</span>)</li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Registration Order</h2>
 <p><span class="tt">bind_*</span> calls currently execute in this order:</p>
 <ol type="1">
-<li><span class="tt">bind_common_exceptions</span></li>
-<li><span class="tt">bind_common_helpers</span></li>
-<li><span class="tt">bind_common_utilities</span></li>
+<li><span class="tt">bind_exceptions</span></li>
 <li><span class="tt">bind_shape</span></li>
 <li><span class="tt">bind_vector</span></li>
 <li><span class="tt">bind_matrix</span></li>
 <li><span class="tt">bind_tensor</span></li>
 <li><span class="tt">bind_conversions</span></li>
 <li><span class="tt">bind_creation</span></li>
+<li><span class="tt">bind_reductions</span></li>
 </ol>
-<p>This order ensures shared infrastructure is available before container and helper registrations.</p>
+<p>This order ensures exceptions and <span class="tt">Shape</span> are registered before container and helper registrations.</p>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Metadata Sources</h2>
@@ -171,15 +172,13 @@ Metadata Sources</h2>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Related Files</h2>
 <ul>
-<li><span class="tt">bindings/common/exceptions.cpp</span></li>
-<li><span class="tt">bindings/common/helpers.cpp</span></li>
-<li><span class="tt">bindings/common/utilities.cpp</span></li>
-<li><span class="tt">bindings/shape/bind.cpp</span></li>
-<li><span class="tt">bindings/vector/bind.cpp</span></li>
-<li><span class="tt">bindings/matrix/bind.cpp</span></li>
-<li><span class="tt">bindings/tensor/bind.cpp</span></li>
+<li><span class="tt">bindings/utils.hpp</span></li>
+<li><span class="tt">bindings/vector.cpp</span></li>
+<li><span class="tt">bindings/matrix.cpp</span></li>
+<li><span class="tt">bindings/tensor.cpp</span></li>
 <li><span class="tt">bindings/conversions.cpp</span></li>
 <li><span class="tt">bindings/creation.cpp</span></li>
+<li><span class="tt">bindings/reductions.cpp</span></li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>

@@ -127,6 +127,18 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classstratax_1
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:allow_5Fzero_5Ft" id="r_allow_5Fzero_5Ft"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag type documenting that zero-valued dimensions are intentional.  <a href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6565346d321928708ddd093a749b45dd" id="r_a6565346d321928708ddd093a749b45dd"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a6565346d321928708ddd093a749b45dd">iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::iterator</td></tr>
+<tr class="memdesc:a6565346d321928708ddd093a749b45dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable iterator over dimension lengths.  <br /></td></tr>
+<tr class="memitem:a387df39b5c980d4c87eec09d8f87356d" id="r_a387df39b5c980d4c87eec09d8f87356d"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_iterator</td></tr>
+<tr class="memdesc:a387df39b5c980d4c87eec09d8f87356d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const iterator over dimension lengths.  <br /></td></tr>
+<tr class="memitem:a47db1e9b2d8d774e2a4f35306d033afe" id="r_a47db1e9b2d8d774e2a4f35306d033afe"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::reverse_iterator</td></tr>
+<tr class="memdesc:a47db1e9b2d8d774e2a4f35306d033afe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable reverse iterator over dimension lengths.  <br /></td></tr>
+<tr class="memitem:ad0cc11bd59eac38d0c6860273ce41036" id="r_ad0cc11bd59eac38d0c6860273ce41036"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_reverse_iterator</td></tr>
+<tr class="memdesc:ad0cc11bd59eac38d0c6860273ce41036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const reverse iterator over dimension lengths.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -163,27 +175,117 @@ requires (sizeof...(Dims) &gt; 0)</td></tr>
 <tr class="memdesc:a86c91e55c1ce5effb5c53f48c1524f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two shapes for exact rank and dimension equality.  <br /></td></tr>
 <tr class="memitem:a40789b61bf16236a1b7f3d0f5a236147" id="r_a40789b61bf16236a1b7f3d0f5a236147"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a40789b61bf16236a1b7f3d0f5a236147">operator!=</a> (const <a class="el" href="#aa64c74affec98d8cf9781f06d2599dbd">Shape</a> &amp;other) const noexcept</td></tr>
 <tr class="memdesc:a40789b61bf16236a1b7f3d0f5a236147"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether two shapes differ in rank or dimension values.  <br /></td></tr>
-<tr class="memitem:acc775fa1ebc8eef159ca38654fe1d18b" id="r_acc775fa1ebc8eef159ca38654fe1d18b"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#acc775fa1ebc8eef159ca38654fe1d18b">begin</a> () noexcept</td></tr>
-<tr class="memdesc:acc775fa1ebc8eef159ca38654fe1d18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first stored dimension.  <br /></td></tr>
-<tr class="memitem:aa1779919cfa2d3e96252237805a92329" id="r_aa1779919cfa2d3e96252237805a92329"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#aa1779919cfa2d3e96252237805a92329">end</a> () noexcept</td></tr>
-<tr class="memdesc:aa1779919cfa2d3e96252237805a92329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator one past the last stored dimension.  <br /></td></tr>
-<tr class="memitem:a2ed088648e99f7237402125c41bb69c1" id="r_a2ed088648e99f7237402125c41bb69c1"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a2ed088648e99f7237402125c41bb69c1">begin</a> () const noexcept</td></tr>
-<tr class="memdesc:a2ed088648e99f7237402125c41bb69c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stored dimension.  <br /></td></tr>
-<tr class="memitem:a7aa09d57e1619b746bb3df2eddbfefeb" id="r_a7aa09d57e1619b746bb3df2eddbfefeb"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a7aa09d57e1619b746bb3df2eddbfefeb">end</a> () const noexcept</td></tr>
-<tr class="memdesc:a7aa09d57e1619b746bb3df2eddbfefeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stored dimension.  <br /></td></tr>
+<tr class="memitem:af72ff510307da1181977134e12186243" id="r_af72ff510307da1181977134e12186243"><td class="memItemLeft"><a class="el" href="#a6565346d321928708ddd093a749b45dd">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#af72ff510307da1181977134e12186243">begin</a> () noexcept</td></tr>
+<tr class="memdesc:af72ff510307da1181977134e12186243"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first stored dimension.  <br /></td></tr>
+<tr class="memitem:ac2016907a9f2585290d08af7e19bdda5" id="r_ac2016907a9f2585290d08af7e19bdda5"><td class="memItemLeft"><a class="el" href="#a6565346d321928708ddd093a749b45dd">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac2016907a9f2585290d08af7e19bdda5">end</a> () noexcept</td></tr>
+<tr class="memdesc:ac2016907a9f2585290d08af7e19bdda5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator one past the last stored dimension.  <br /></td></tr>
+<tr class="memitem:a9a815c316f95a1bca1828483357e42bc" id="r_a9a815c316f95a1bca1828483357e42bc"><td class="memItemLeft"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9a815c316f95a1bca1828483357e42bc">begin</a> () const noexcept</td></tr>
+<tr class="memdesc:a9a815c316f95a1bca1828483357e42bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stored dimension.  <br /></td></tr>
+<tr class="memitem:aa25d5c5ed6ab4c3359e2479bc6514b1d" id="r_aa25d5c5ed6ab4c3359e2479bc6514b1d"><td class="memItemLeft"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa25d5c5ed6ab4c3359e2479bc6514b1d">end</a> () const noexcept</td></tr>
+<tr class="memdesc:aa25d5c5ed6ab4c3359e2479bc6514b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stored dimension.  <br /></td></tr>
+<tr class="memitem:ad89789c4c29cd7a1862606925f6f9921" id="r_ad89789c4c29cd7a1862606925f6f9921"><td class="memItemLeft"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad89789c4c29cd7a1862606925f6f9921">cbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:ad89789c4c29cd7a1862606925f6f9921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first stored dimension.  <br /></td></tr>
+<tr class="memitem:a6865002a505531435d05e9f8b183b951" id="r_a6865002a505531435d05e9f8b183b951"><td class="memItemLeft"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6865002a505531435d05e9f8b183b951">cend</a> () const noexcept</td></tr>
+<tr class="memdesc:a6865002a505531435d05e9f8b183b951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last stored dimension.  <br /></td></tr>
+<tr class="memitem:a4720afad094e12d7d4f462ba891c507d" id="r_a4720afad094e12d7d4f462ba891c507d"><td class="memItemLeft"><a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4720afad094e12d7d4f462ba891c507d">rbegin</a> () noexcept</td></tr>
+<tr class="memdesc:a4720afad094e12d7d4f462ba891c507d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator to the last stored dimension.  <br /></td></tr>
+<tr class="memitem:ae056ed616225e08442ef62a785eb4f7e" id="r_ae056ed616225e08442ef62a785eb4f7e"><td class="memItemLeft"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae056ed616225e08442ef62a785eb4f7e">rbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:ae056ed616225e08442ef62a785eb4f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stored dimension.  <br /></td></tr>
+<tr class="memitem:a94acdff0eda19779ff56c6314912d1b8" id="r_a94acdff0eda19779ff56c6314912d1b8"><td class="memItemLeft"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a94acdff0eda19779ff56c6314912d1b8">crbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a94acdff0eda19779ff56c6314912d1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last stored dimension.  <br /></td></tr>
+<tr class="memitem:a4a7afcc329d25d5daeae42e8cf85c981" id="r_a4a7afcc329d25d5daeae42e8cf85c981"><td class="memItemLeft"><a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4a7afcc329d25d5daeae42e8cf85c981">rend</a> () noexcept</td></tr>
+<tr class="memdesc:a4a7afcc329d25d5daeae42e8cf85c981"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator before the first stored dimension.  <br /></td></tr>
+<tr class="memitem:af191f01f41364d50365c2c2b0e2098a1" id="r_af191f01f41364d50365c2c2b0e2098a1"><td class="memItemLeft"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#af191f01f41364d50365c2c2b0e2098a1">rend</a> () const noexcept</td></tr>
+<tr class="memdesc:af191f01f41364d50365c2c2b0e2098a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stored dimension.  <br /></td></tr>
+<tr class="memitem:ace5bc0f40de401d81a5ca45f6adb2e9d" id="r_ace5bc0f40de401d81a5ca45f6adb2e9d"><td class="memItemLeft"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ace5bc0f40de401d81a5ca45f6adb2e9d">crend</a> () const noexcept</td></tr>
+<tr class="memdesc:ace5bc0f40de401d81a5ca45f6adb2e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first stored dimension.  <br /></td></tr>
 <tr class="memitem:a90edd4779c79d5ff83c2ffb6dbc7c8a6" id="r_a90edd4779c79d5ff83c2ffb6dbc7c8a6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a90edd4779c79d5ff83c2ffb6dbc7c8a6">swap</a> (<a class="el" href="#aa64c74affec98d8cf9781f06d2599dbd">Shape</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:a90edd4779c79d5ff83c2ffb6dbc7c8a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the stored dimensions with another shape.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:acf3df1f0afccd30bb186d1447adfe2c0" id="r_acf3df1f0afccd30bb186d1447adfe2c0"><td class="memItemLeft">static constexpr <a class="el" href="structstratax_1_1core_1_1_shape_1_1allow__zero__t.html">allow_zero_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a> {}</td></tr>
+<tr class="memdesc:acf3df1f0afccd30bb186d1447adfe2c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag value documenting that zero-valued dimensions are intentional.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Stores a list of dimension lengths for an array shape. </p>
 <p><a class="el" href="classstratax_1_1core_1_1_shape.html" title="Stores a list of dimension lengths for an array shape.">Shape</a> tracks rank, dimension sizes, and derived element counts for Stratax containers. It provides lightweight metadata only and does not own any element storage. </p>
 
 <p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00021">21</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a387df39b5c980d4c87eec09d8f87356d" name="a387df39b5c980d4c87eec09d8f87356d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a387df39b5c980d4c87eec09d8f87356d">&#9670;&#160;</a></span>const_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">stratax::core::Shape::const_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Const iterator over dimension lengths. </p>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00047">47</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad0cc11bd59eac38d0c6860273ce41036" name="ad0cc11bd59eac38d0c6860273ce41036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0cc11bd59eac38d0c6860273ce41036">&#9670;&#160;</a></span>const_reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">stratax::core::Shape::const_reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::const_reverse_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Const reverse iterator over dimension lengths. </p>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00053">53</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6565346d321928708ddd093a749b45dd" name="a6565346d321928708ddd093a749b45dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6565346d321928708ddd093a749b45dd">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a6565346d321928708ddd093a749b45dd">stratax::core::Shape::iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable iterator over dimension lengths. </p>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00044">44</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a47db1e9b2d8d774e2a4f35306d033afe" name="a47db1e9b2d8d774e2a4f35306d033afe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47db1e9b2d8d774e2a4f35306d033afe">&#9670;&#160;</a></span>reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">stratax::core::Shape::reverse_iterator</a> = <a class="el" href="classstratax_1_1core_1_1_buffer.html">Buffer</a>&lt;std::size_t&gt;::reverse_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable reverse iterator over dimension lengths. </p>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00050">50</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa64c74affec98d8cf9781f06d2599dbd" name="aa64c74affec98d8cf9781f06d2599dbd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa64c74affec98d8cf9781f06d2599dbd">&#9670;&#160;</a></span>Shape() <span class="overload">[1/7]</span></h2>
 
@@ -247,7 +349,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00058">58</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00073">73</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -288,7 +390,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00073">73</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00088">88</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -323,7 +425,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00083">83</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00098">98</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +465,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00095">95</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00110">110</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -398,7 +500,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00106">106</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00121">121</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -433,13 +535,13 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00117">117</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00132">132</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a2ed088648e99f7237402125c41bb69c1" name="a2ed088648e99f7237402125c41bb69c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ed088648e99f7237402125c41bb69c1">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
+<a id="a9a815c316f95a1bca1828483357e42bc" name="a9a815c316f95a1bca1828483357e42bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a815c316f95a1bca1828483357e42bc">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -448,7 +550,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto stratax::core::Shape::begin </td>
+          <td class="memname"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a> stratax::core::Shape::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -456,7 +558,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -464,12 +566,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns a const iterator to the first stored dimension. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the dimension storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00267">267</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00282">282</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
-<a id="acc775fa1ebc8eef159ca38654fe1d18b" name="acc775fa1ebc8eef159ca38654fe1d18b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc775fa1ebc8eef159ca38654fe1d18b">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
+<a id="af72ff510307da1181977134e12186243" name="af72ff510307da1181977134e12186243"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af72ff510307da1181977134e12186243">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -478,7 +580,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto stratax::core::Shape::begin </td>
+          <td class="memname"><a class="el" href="#a6565346d321928708ddd093a749b45dd">iterator</a> stratax::core::Shape::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -486,7 +588,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -494,7 +596,127 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns an iterator to the first stored dimension. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the beginning of the dimension storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00247">247</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00262">262</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad89789c4c29cd7a1862606925f6f9921" name="ad89789c4c29cd7a1862606925f6f9921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad89789c4c29cd7a1862606925f6f9921">&#9670;&#160;</a></span>cbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a> stratax::core::Shape::cbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const iterator to the first stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const iterator to the beginning of the dimension storage. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00302">302</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6865002a505531435d05e9f8b183b951" name="a6865002a505531435d05e9f8b183b951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6865002a505531435d05e9f8b183b951">&#9670;&#160;</a></span>cend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a> stratax::core::Shape::cend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const iterator one past the last stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the dimension storage. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00312">312</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a94acdff0eda19779ff56c6314912d1b8" name="a94acdff0eda19779ff56c6314912d1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94acdff0eda19779ff56c6314912d1b8">&#9670;&#160;</a></span>crbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a> stratax::core::Shape::crbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const reverse iterator to the last stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last stored dimension. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00342">342</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ace5bc0f40de401d81a5ca45f6adb2e9d" name="ace5bc0f40de401d81a5ca45f6adb2e9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace5bc0f40de401d81a5ca45f6adb2e9d">&#9670;&#160;</a></span>crend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a> stratax::core::Shape::crend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const reverse iterator before the first stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00372">372</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -531,7 +753,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00142">142</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00157">157</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -561,12 +783,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns whether the shape has no dimensions. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when the shape rank is zero. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00202">202</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00217">217</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a7aa09d57e1619b746bb3df2eddbfefeb" name="a7aa09d57e1619b746bb3df2eddbfefeb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7aa09d57e1619b746bb3df2eddbfefeb">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
+<a id="aa25d5c5ed6ab4c3359e2479bc6514b1d" name="aa25d5c5ed6ab4c3359e2479bc6514b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa25d5c5ed6ab4c3359e2479bc6514b1d">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -575,7 +797,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto stratax::core::Shape::end </td>
+          <td class="memname"><a class="el" href="#a387df39b5c980d4c87eec09d8f87356d">const_iterator</a> stratax::core::Shape::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -583,7 +805,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -591,12 +813,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns a const iterator one past the last stored dimension. </p>
 <dl class="section return"><dt>Returns</dt><dd>Const iterator to the end of the dimension storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00277">277</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00292">292</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa1779919cfa2d3e96252237805a92329" name="aa1779919cfa2d3e96252237805a92329"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1779919cfa2d3e96252237805a92329">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
+<a id="ac2016907a9f2585290d08af7e19bdda5" name="ac2016907a9f2585290d08af7e19bdda5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2016907a9f2585290d08af7e19bdda5">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -605,7 +827,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto stratax::core::Shape::end </td>
+          <td class="memname"><a class="el" href="#a6565346d321928708ddd093a749b45dd">iterator</a> stratax::core::Shape::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -613,7 +835,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -621,7 +843,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns an iterator one past the last stored dimension. </p>
 <dl class="section return"><dt>Returns</dt><dd>Iterator to the end of the dimension storage. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00257">257</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00272">272</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -657,7 +879,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when the shapes are not equal. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00237">237</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00252">252</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -699,7 +921,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00175">175</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00190">190</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -735,7 +957,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when both shapes have the same rank and dimension values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00214">214</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00229">229</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -778,7 +1000,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00192">192</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00207">207</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -808,7 +1030,127 @@ requires (sizeof...(Dims) &gt; 0)</div>
 <p>Returns the number of stored dimensions. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classstratax_1_1core_1_1_shape.html" title="Stores a list of dimension lengths for an array shape.">Shape</a> rank. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00161">161</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00176">176</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae056ed616225e08442ef62a785eb4f7e" name="ae056ed616225e08442ef62a785eb4f7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae056ed616225e08442ef62a785eb4f7e">&#9670;&#160;</a></span>rbegin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a> stratax::core::Shape::rbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const reverse iterator to the last stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator starting at the last stored dimension. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00332">332</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4720afad094e12d7d4f462ba891c507d" name="a4720afad094e12d7d4f462ba891c507d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4720afad094e12d7d4f462ba891c507d">&#9670;&#160;</a></span>rbegin() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">reverse_iterator</a> stratax::core::Shape::rbegin </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a reverse iterator to the last stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reverse iterator starting at the last stored dimension. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00322">322</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af191f01f41364d50365c2c2b0e2098a1" name="af191f01f41364d50365c2c2b0e2098a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af191f01f41364d50365c2c2b0e2098a1">&#9670;&#160;</a></span>rend() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad0cc11bd59eac38d0c6860273ce41036">const_reverse_iterator</a> stratax::core::Shape::rend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const reverse iterator before the first stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator representing the end sentinel. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00362">362</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4a7afcc329d25d5daeae42e8cf85c981" name="a4a7afcc329d25d5daeae42e8cf85c981"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a7afcc329d25d5daeae42e8cf85c981">&#9670;&#160;</a></span>rend() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a47db1e9b2d8d774e2a4f35306d033afe">reverse_iterator</a> stratax::core::Shape::rend </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a reverse iterator before the first stored dimension. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reverse iterator representing the end sentinel. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00352">352</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -843,7 +1185,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00287">287</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00382">382</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -868,7 +1210,9 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00038">38</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p>Tag value documenting that zero-valued dimensions are intentional. </p>
+
+<p class="definition">Definition at line <a class="el" href="_shape_8hpp_source.html#l00041">41</a> of file <a class="el" href="_shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>

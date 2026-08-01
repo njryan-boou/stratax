@@ -32,17 +32,15 @@ from stratax import (
 ```
 
 Python containers currently expose `double`-based storage. Slicing, reshaping,
-flattening, and conversions return copy-based results unless a future API
-documents view semantics explicitly.
+flattening, and conversions return independent containers.
 
 ## Shape
 
 | API | Description |
-|-----|-------------|
+| ----- | ------------- |
 | `Shape()` | Create an empty shape. |
 | `Shape(other)` | Copy another `Shape`. |
 | `Shape([d0, d1, ...])` | Create a shape from dimensions. |
-| `Shape(d0, d1, ...)` | Create a shape from variadic dimensions. |
 | `shape.rank` | Number of dimensions. |
 | `shape.elements` | Product of all dimensions. |
 | `shape.empty` | Whether the shape has rank 0. |
@@ -55,7 +53,7 @@ documents view semantics explicitly.
 `Vector`, `Matrix`, and `Tensor` share the same basic container operations.
 
 | API | Vector | Matrix | Tensor |
-|-----|--------|--------|--------|
+| ----- | -------- | -------- | -------- |
 | Empty constructor | `Vector()` | `Matrix()` | `Tensor()` |
 | Copy constructor | `Vector(v)` | `Matrix(m)` | `Tensor(t)` |
 | Shape constructor | `Vector(Shape([n]))` | `Matrix(Shape([r, c]))` | `Tensor(Shape([...]))` |
@@ -99,7 +97,7 @@ copies.
 Containers support element-wise arithmetic with matching containers or scalars:
 
 | Operation | Methods |
-|-----------|---------|
+| ----------- | --------- |
 | Addition | `a + b`, `a += b` |
 | Subtraction | `a - b`, `a -= b` |
 | Multiplication | `a * b`, `a *= b` |
@@ -113,23 +111,23 @@ planned but not currently implemented.
 ## Creation Helpers
 
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `zeros(shape)` | Tensor filled with `0.0`. |
 | `ones(shape)` | Tensor filled with `1.0`. |
 | `full(shape, value)` | Tensor filled with `value`. |
 | `identity(size)` | Rank-2 identity tensor with shape `[size, size]`. |
 
-`shape` may be a `Shape` or an iterable of dimensions.
+`shape` must be a `Shape`.
 
 ## Conversion Helpers
 
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `to_vector(arr)` | Convert a compatible `Vector`, `Matrix`, or `Tensor` to `Vector`. |
 | `to_matrix(arr)` | Convert a compatible `Vector`, `Matrix`, or `Tensor` to `Matrix`. |
 | `to_tensor(arr)` | Convert a `Vector`, `Matrix`, or `Tensor` to `Tensor`. |
 
-Conversions return new wrapper containers.
+Conversions return new containers.
 
 ## Reductions
 
@@ -137,21 +135,21 @@ Conversions return new wrapper containers.
 from stratax import mean, sum
 
 total = sum(arr)
-last_axis = sum(arr, axis=-1)
-kept = mean(arr, axis=0, keepdims=True)
+last_axis = sum(arr, -1)
+kept = mean(arr, 0, keepdims=True)
 ```
 
 | Function | Result without `axis` | Result with `axis` |
-|----------|-----------------------|--------------------|
-| `sum(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `prod(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `max(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `min(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `argmax(arr, axis=None, keepdims=False)` | `int` | `Tensor` |
-| `argmin(arr, axis=None, keepdims=False)` | `int` | `Tensor` |
-| `mean(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `var(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
-| `std(arr, axis=None, keepdims=False)` | `float` | `Tensor` |
+| ---------- | ----------------------- | -------------------- |
+| `sum(arr)` / `sum(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `prod(arr)` / `prod(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `max(arr)` / `max(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `min(arr)` / `min(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `argmax(arr)` / `argmax(arr, axis, keepdims=False)` | `int` | `Tensor` |
+| `argmin(arr)` / `argmin(arr, axis, keepdims=False)` | `int` | `Tensor` |
+| `mean(arr)` / `mean(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `var(arr)` / `var(arr, axis, keepdims=False)` | `float` | `Tensor` |
+| `std(arr)` / `std(arr, axis, keepdims=False)` | `float` | `Tensor` |
 
 Axes may be negative. `keepdims=True` preserves the reduced axis with length 1.
 
@@ -160,7 +158,7 @@ Axes may be negative. `keepdims=True` preserves the reduced axis with length 1.
 Stratax exports these exception types:
 
 | Exception | Typical use |
-|-----------|-------------|
+| ----------- | ------------- |
 | `StrataxError` | Base exception for Stratax errors. |
 | `ShapeError` | Invalid or incompatible shape. |
 | `DimensionError` | Invalid dimension count. |

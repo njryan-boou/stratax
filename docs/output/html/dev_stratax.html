@@ -118,35 +118,36 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('dev_stratax.ht
   <div class="headertitle"><div class="title">stratax.h </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md900"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md882"></a>
 stratax.h</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
 <p>Header: include/stratax.h</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md902"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md884"></a>
 Overview</h2>
 <p><span class="tt">stratax.h</span> is the umbrella include for the C++ API surface.</p>
 <p>Including this header pulls in core metadata/types, containers, algorithms, operations, and I/O helpers so downstream code can use Stratax without manually including each component header.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md904"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md886"></a>
 Responsibilities</h2>
 <p>The umbrella header is responsible for:</p>
 <ul>
 <li>Providing a single include entry point for Stratax C++ usage</li>
 <li>Aggregating stable public core headers</li>
+<li>Re-exporting common public types and algorithms under <span class="tt">stratax</span></li>
 <li>Simplifying consumer include management</li>
 </ul>
 <p>The umbrella header is not responsible for:</p>
 <ul>
-<li>Declaring new APIs itself</li>
+<li>Implementing component APIs directly</li>
 <li>Runtime initialization behavior</li>
 <li>Build or link configuration</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md906"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md888"></a>
 Aggregated Components</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md907"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md889"></a>
 Core Foundations</h3>
 <ul>
 <li><span class="tt"><a class="el" href="_buffer_8hpp_source.html">include/stratax/core/containers/Buffer.hpp</a></span></li>
@@ -159,14 +160,14 @@ Core Foundations</h3>
 <li><span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_slice_8hpp_source.html">include/stratax/core/Slice.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md908"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md890"></a>
 Containers</h3>
 <ul>
 <li><span class="tt"><a class="el" href="_matrix_8hpp_source.html">include/stratax/core/containers/Matrix.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_tensor_8hpp_source.html">include/stratax/core/containers/Tensor.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_vector_8hpp_source.html">include/stratax/core/containers/Vector.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md909"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md891"></a>
 Algorithms</h3>
 <ul>
 <li><span class="tt"><a class="el" href="_creation_8hpp_source.html">include/stratax/core/algorithms/Creation.hpp</a></span></li>
@@ -174,7 +175,7 @@ Algorithms</h3>
 <li><span class="tt"><a class="el" href="_reshape_8hpp_source.html">include/stratax/core/algorithms/Reshape.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="_reductions_8hpp_source.html">include/stratax/core/algorithms/Reductions.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md910"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md892"></a>
 Ops</h3>
 <ul>
 <li><span class="tt"><a class="el" href="_comparison_8hpp_source.html">include/stratax/core/ops/Comparison.hpp</a></span></li>
@@ -182,36 +183,36 @@ Ops</h3>
 <li><span class="tt"><a class="el" href="_indexing_8hpp_source.html">include/stratax/core/ops/Indexing.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="ops_2_slice_8hpp_source.html">include/stratax/core/ops/Slice.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md911"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md893"></a>
 I/O</h3>
 <ul>
 <li><span class="tt"><a class="el" href="_print_8hpp_source.html">include/stratax/core/io/Print.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md913"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md895"></a>
 Usage</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stratax.h&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">    <a class="code hl_class" href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector&lt;double&gt;</a> v{1.0, 2.0, 3.0};</div>
-<div class="line">    <span class="keyword">auto</span> t = to_tensor(v);</div>
+<div class="line">    stratax::Vector&lt;double&gt; v{1.0, 2.0, 3.0};</div>
+<div class="line">    <span class="keyword">auto</span> t = stratax::to_tensor(v);</div>
 <div class="line">    (void)t;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1_vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1_vector.html">stratax::container::Vector</a></div><div class="ttdef"><b>Definition</b> <a href="_vector_8hpp_source.html#l00026">Vector.hpp:27</a></div></div>
-</div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md915"></a>
+</div><!-- fragment --><p>Common APIs are available directly under <span class="tt">stratax</span>. Grouped aliases are also available for module-style calls such as <span class="tt">stratax::creation::zeros</span>, <span class="tt">stratax::conversions::to_tensor</span>, and <span class="tt">stratax::reductions::sum</span>.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md897"></a>
 Design Notes</h2>
 <p>This header intentionally acts as a convenience aggregator. Component-level headers should still be preferred in translation units that need tighter include boundaries or reduced compile-time impact.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md917"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md899"></a>
 Future Improvements</h2>
 <ul>
 <li>Add policy guidance on when to prefer umbrella vs component includes</li>
 <li>Keep include ordering aligned with logical module groupings as APIs expand</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md919"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md901"></a>
 See Also</h2>
 <ul>
 <li><span class="tt">docs/dev/README.md</span></li>

@@ -13,8 +13,6 @@
 
 namespace stratax::container {
 
-template<typename T>
-requires Numeric<T>
 /**
  * @brief Stores a rank-1 Stratax array in contiguous memory.
  *
@@ -23,6 +21,8 @@ requires Numeric<T>
  *
  * @tparam T Numeric element type.
  */
+template<typename T>
+requires Numeric<T>
 class Vector
 {
 private:
@@ -31,8 +31,22 @@ private:
     core::Buffer<T> buffer_;
 
 public:
+    /** @brief Element type stored by the vector. */
     using value_type = T;
 
+    /** @brief Mutable iterator over vector elements. */
+    using iterator = typename core::Buffer<T>::iterator;
+
+    /** @brief Const iterator over vector elements. */
+    using const_iterator = typename core::Buffer<T>::const_iterator;
+
+    /** @brief Mutable reverse iterator over vector elements. */
+    using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
+
+    /** @brief Const reverse iterator over vector elements. */
+    using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+
+    /** @brief Rebinds the vector container to another element type. */
     template<typename U>
     using rebind = Vector<U>;
 
@@ -330,7 +344,7 @@ public:
         *
         * @return Iterator to the beginning of the vector.
      */
-    [[nodiscard]] T* begin() noexcept
+    [[nodiscard]] iterator begin() noexcept
     {
         return buffer_.begin();
     }
@@ -340,7 +354,7 @@ public:
         *
         * @return Const iterator to the beginning of the vector.
      */
-    [[nodiscard]] const T* begin() const noexcept
+    [[nodiscard]] const_iterator begin() const noexcept
     {
         return buffer_.begin();
     }
@@ -350,7 +364,7 @@ public:
         *
         * @return Const iterator to the beginning of the vector.
      */
-    [[nodiscard]] const T* cbegin() const noexcept
+    [[nodiscard]] const_iterator cbegin() const noexcept
     {
         return buffer_.cbegin();
     }
@@ -360,7 +374,7 @@ public:
         *
         * @return Iterator to the end of the vector.
      */
-    [[nodiscard]] T* end() noexcept
+    [[nodiscard]] iterator end() noexcept
     {
         return buffer_.end();
     }
@@ -370,7 +384,7 @@ public:
         *
         * @return Const iterator to the end of the vector.
      */
-    [[nodiscard]] const T* end() const noexcept
+    [[nodiscard]] const_iterator end() const noexcept
     {
         return buffer_.end();
     }
@@ -380,7 +394,7 @@ public:
         *
         * @return Const iterator to the end of the vector.
      */
-    [[nodiscard]] const T* cend() const noexcept
+    [[nodiscard]] const_iterator cend() const noexcept
     {
         return buffer_.cend();
     }
@@ -390,17 +404,7 @@ public:
         *
         * @return Reverse iterator starting at the last element.
      */
-    [[nodiscard]] std::reverse_iterator<T*> rbegin() noexcept
-    {
-    return buffer_.rbegin();
-    }
-
-    /**
-     * @brief Returns a const reverse iterator to the last element.
-        *
-        * @return Const reverse iterator starting at the last element.
-     */
-    [[nodiscard]] std::reverse_iterator<const T*> rbegin() const noexcept
+    [[nodiscard]] reverse_iterator rbegin() noexcept
     {
         return buffer_.rbegin();
     }
@@ -410,7 +414,17 @@ public:
         *
         * @return Const reverse iterator starting at the last element.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> crbegin() const noexcept
+    [[nodiscard]] const_reverse_iterator rbegin() const noexcept
+    {
+        return buffer_.rbegin();
+    }
+
+    /**
+     * @brief Returns a const reverse iterator to the last element.
+        *
+        * @return Const reverse iterator starting at the last element.
+     */
+    [[nodiscard]] const_reverse_iterator crbegin() const noexcept
     {
         return buffer_.crbegin();
     }
@@ -420,7 +434,7 @@ public:
         *
         * @return Reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<T*> rend() noexcept
+    [[nodiscard]] reverse_iterator rend() noexcept
     {
         return buffer_.rend();
     }
@@ -430,7 +444,7 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> rend() const noexcept
+    [[nodiscard]] const_reverse_iterator rend() const noexcept
     {
         return buffer_.rend();
     }
@@ -440,7 +454,7 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const T*> crend() const noexcept
+    [[nodiscard]] const_reverse_iterator crend() const noexcept
     {
         return buffer_.crend();
     }

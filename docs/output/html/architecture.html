@@ -118,15 +118,15 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('architecture.h
   <div class="headertitle"><div class="title">Architecture </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md920"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md902"></a>
 Architecture</h1>
 <p>Developer notes for the overall Stratax project layout and design direction.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md921"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md903"></a>
 Purpose</h2>
 <p>Describes how the library is organized so implementation work stays consistent across core types, containers, operations, tests, and future bindings.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md922"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md904"></a>
 Main API</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md923"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md905"></a>
 Project Layout</h3>
 <ul>
 <li><span class="tt">include/stratax/core</span></li>
@@ -137,7 +137,7 @@ Project Layout</h3>
 <li><span class="tt">tests</span></li>
 <li><span class="tt">docs</span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md924"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md906"></a>
 Core Model</h3>
 <ul>
 <li>Containers own contiguous storage.</li>
@@ -145,7 +145,7 @@ Core Model</h3>
 <li><span class="tt">Strides</span> maps multidimensional indexes to flat offsets.</li>
 <li>Algorithms are implemented as free functions where possible.</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md925"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md907"></a>
 Extension Areas</h3>
 <ul>
 <li>Linear algebra</li>
@@ -154,7 +154,7 @@ Extension Areas</h3>
 <li>Python bindings</li>
 <li>Serialization and file I/O</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md926"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md908"></a>
 Validation Notes</h2>
 <ul>
 <li>Container invariants should be checked at construction boundaries.</li>
@@ -162,7 +162,7 @@ Validation Notes</h2>
 <li>Validation helpers are currently deferred until <span class="tt"><a class="el" href="_validation_8hpp.html" title="Shared runtime validation helpers.">Validation.hpp</a></span> is restored.</li>
 <li>Tests should cover behavior at the public API boundary, not private implementation details.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md927"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md909"></a>
 Implementation Notes</h2>
 <ul>
 <li>The library is header-only C++20.</li>
@@ -171,7 +171,7 @@ Implementation Notes</h2>
 <li>Shared behavior should live in core utilities instead of being duplicated across containers.</li>
 <li>Python binding plans should not force C++ API compromises before the C++ layer is stable.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md928"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md910"></a>
 Future Work</h2>
 <ul>
 <li>SIMD optimization</li>

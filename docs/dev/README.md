@@ -15,9 +15,9 @@ This index links the Stratax developer documentation organized by subsystem.
 ## Core
 
 - @ref concepts "Concepts"
-- @ref config "Config"
+- @ref dev_config "Config"
 - @ref exceptions "Exceptions"
-- @ref meta "Meta"
+- @ref dev_meta "Meta"
 - @ref slice "Slice"
 - @ref types "Types"
 - @ref validation "Validation"
@@ -47,6 +47,7 @@ This index links the Stratax developer documentation organized by subsystem.
 ## Core Ops
 
 - @ref arithmetic "Arithmetic"
+- @ref broadcasting "Broadcasting"
 - @ref comparison "Comparison"
 - @ref indexing "Indexing"
 - @ref ops_slice "Slice Ops"

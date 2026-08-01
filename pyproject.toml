@@ -39,6 +39,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 
     "Programming Language :: C++",
 
@@ -60,8 +61,12 @@ dev = [
 minimum-version = "0.10"
 build-dir = "build/{wheel_tag}"
 
-wheel.packages = [
-    "python/stratax"
+wheel.packages = []
+
+sdist.exclude = [
+    "python/stratax/*.pyd",
+    "python/stratax/*.so",
+    "python/stratax/*.dylib"
 ]
 
 [tool.pytest.ini_options]

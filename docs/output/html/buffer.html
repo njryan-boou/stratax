@@ -124,12 +124,12 @@ Buffer</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_buffer_8hpp_source.html">include/stratax/core/containers/Buffer.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md173"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md158"></a>
 Overview</h2>
 <p><span class="tt">Buffer&lt;T&gt;</span> is a fixed-size contiguous storage container.</p>
 <p>It owns dynamically allocated memory, provides RAII semantics, and supplies iterator support for all higher-level Stratax containers. <span class="tt">Buffer&lt;T&gt;</span> serves as the foundation upon which <span class="tt">Shape</span>, <span class="tt">Strides</span>, <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> are built.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md175"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md160"></a>
 Responsibilities</h2>
 <p>The <span class="tt">Buffer</span> class is responsible for:</p>
 <ul>
@@ -149,7 +149,7 @@ Responsibilities</h2>
 <li>Multidimensional indexing</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md177"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md162"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Buffer&lt;T&gt;</div>
 <div class="line">│</div>
@@ -178,7 +178,7 @@ Relationships</h2>
 <li>Strides</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md179"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md164"></a>
 Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -189,7 +189,7 @@ Internal Data</h2>
 <td class="markdownTableBodyNone"><span class="tt">std::size_t size_</span>  </td><td class="markdownTableBodyNone">Number of stored elements  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md181"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md166"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -202,11 +202,19 @@ Invariants</h2>
 <li>Memory is released automatically when the buffer is destroyed.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md183"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md168"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md184"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md169"></a>
+Iterator Aliases</h2>
+<div class="fragment"><div class="line"><span class="keyword">using </span>iterator = T*;</div>
+<div class="line"><span class="keyword">using </span>const_iterator = <span class="keyword">const</span> T*;</div>
+<div class="line"><span class="keyword">using </span>reverse_iterator = std::reverse_iterator&lt;iterator&gt;;</div>
+<div class="line"><span class="keyword">using </span>const_reverse_iterator = std::reverse_iterator&lt;const_iterator&gt;;</div>
+</div><!-- fragment --><p><span class="tt">Buffer&lt;T&gt;</span> exposes iterator aliases for STL-style generic code. Other storage-related types such as pointers, references, and sizes remain spelled out in the public API.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md171"></a>
 Constructors</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md185"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md172"></a>
 Default Constructor</h3>
 <div class="fragment"><div class="line">Buffer();</div>
 </div><!-- fragment --><p>Constructs an empty buffer that owns no storage.</p>
@@ -219,7 +227,7 @@ Default Constructor</h3>
 <li>None</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md187"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md174"></a>
 Size Constructor</h3>
 <div class="fragment"><div class="line">Buffer(std::size_t size);</div>
 </div><!-- fragment --><p>Constructs a buffer containing <span class="tt">size</span> default-initialized elements.</p>
@@ -232,7 +240,7 @@ Size Constructor</h3>
 <li><span class="tt">std::bad_alloc</span></li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md189"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md176"></a>
 Fill Constructor</h3>
 <div class="fragment"><div class="line">Buffer(std::size_t size, <span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Constructs a buffer containing <span class="tt">size</span> copies of <span class="tt">value</span>.</p>
@@ -245,7 +253,7 @@ Fill Constructor</h3>
 <li><span class="tt">std::bad_alloc</span></li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md191"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md178"></a>
 Initializer List Constructor</h3>
 <div class="fragment"><div class="line">Buffer(std::initializer_list&lt;T&gt; list);</div>
 </div><!-- fragment --><p>Constructs a buffer from an initializer list.</p>
@@ -258,7 +266,7 @@ Initializer List Constructor</h3>
 <li><span class="tt">std::bad_alloc</span></li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md193"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md180"></a>
 Copy Constructor</h3>
 <div class="fragment"><div class="line">Buffer(<span class="keyword">const</span> Buffer&amp; other);</div>
 </div><!-- fragment --><p>Constructs a deep copy of another buffer.</p>
@@ -267,7 +275,7 @@ Copy Constructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md195"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md182"></a>
 Move Constructor</h3>
 <div class="fragment"><div class="line">Buffer(Buffer&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Transfers ownership from another buffer.</p>
@@ -276,7 +284,7 @@ Move Constructor</h3>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md197"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md184"></a>
 Destructor</h3>
 <div class="fragment"><div class="line">~Buffer();</div>
 </div><!-- fragment --><p>Releases owned memory.</p>
@@ -285,9 +293,9 @@ Destructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md199"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md186"></a>
 Assignment Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md200"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md187"></a>
 Copy Assignment</h2>
 <div class="fragment"><div class="line">Buffer&amp; operator=(<span class="keyword">const</span> Buffer&amp; other);</div>
 </div><!-- fragment --><p>Performs a deep copy.</p>
@@ -296,7 +304,7 @@ Copy Assignment</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md202"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md189"></a>
 Move Assignment</h2>
 <div class="fragment"><div class="line">Buffer&amp; operator=(Buffer&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Transfers ownership.</p>
@@ -305,9 +313,9 @@ Move Assignment</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md204"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md191"></a>
 Methods</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md205"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md192"></a>
 front()</h2>
 <div class="fragment"><div class="line">T&amp; front();</div>
 </div><!-- fragment --><p>Returns the first element of the buffer.</p>
@@ -322,7 +330,7 @@ front()</h2>
 <p>See Also</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> T&amp; front() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md207"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md194"></a>
 back()</h2>
 <div class="fragment"><div class="line">T&amp; back();</div>
 </div><!-- fragment --><p>Returns the last element of the buffer.</p>
@@ -337,7 +345,7 @@ back()</h2>
 <p>See Also</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> T&amp; back() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md209"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md196"></a>
 data()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] T* data() noexcept;</div>
 </div><!-- fragment --><p>Returns a pointer to the first stored element.</p>
@@ -348,7 +356,7 @@ data()</h2>
 <p>See Also</p>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keyword">const</span> T* data() const noexcept;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md211"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md198"></a>
 size()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t size() const noexcept;</div>
 </div><!-- fragment --><p>Returns the number of stored elements.</p>
@@ -357,7 +365,7 @@ size()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md213"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md200"></a>
 empty()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
 </div><!-- fragment --><p>Returns <span class="tt">true</span> if the buffer contains no elements.</p>
@@ -366,7 +374,7 @@ empty()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md215"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md202"></a>
 fill()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(<span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Assigns every stored element the value <span class="tt">value</span>.</p>
@@ -383,7 +391,7 @@ fill()</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md217"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md204"></a>
 swap()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Buffer&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Exchanges the contents of two buffers.</p>
@@ -392,9 +400,9 @@ swap()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md219"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md206"></a>
 Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md220"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md207"></a>
 operator[]</h2>
 <div class="fragment"><div class="line">T&amp; operator[](std::size_t index) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Returns a reference to an element.</p>
@@ -406,7 +414,7 @@ operator[]</h2>
 <p>See Also</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> T&amp; operator[](std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md222"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md209"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -439,36 +447,37 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone">swap()  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md211"></a>
 Examples</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md225"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md212"></a>
 Creating a Buffer</h2>
 <div class="fragment"><div class="line">Buffer&lt;double&gt; a(5);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md227"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md214"></a>
 Initializer List</h2>
 <div class="fragment"><div class="line">Buffer&lt;double&gt; b{1.0, 2.0, 3.0};</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md229"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md216"></a>
 Filling</h2>
 <div class="fragment"><div class="line">Buffer&lt;double&gt; values(10);</div>
 <div class="line"> </div>
 <div class="line">values.fill(3.14);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md218"></a>
 Iteration</h2>
 <div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; value : values)</div>
 <div class="line">{</div>
 <div class="line">    std::cout &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md233"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md220"></a>
 Design Notes</h2>
 <p><span class="tt">Buffer&lt;T&gt;</span> stores data in a single contiguous memory block.</p>
 <p>Higher-level containers such as <span class="tt">Matrix</span> and <span class="tt">Tensor</span> interpret this one-dimensional storage using <span class="tt">Shape</span> and <span class="tt">Strides</span>. This design improves cache locality, simplifies memory management, and allows algorithms to operate on a consistent underlying representation.</p>
+<p>Empty buffer iterators are valid sentinels: <span class="tt">begin() == end()</span> and reverse iterator pairs are also equal for an empty buffer.</p>
 <p><span class="tt">Buffer&lt;T&gt;</span> intentionally contains no mathematical logic. Its sole responsibility is memory ownership and element storage.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md222"></a>
 Future Improvements</h2>
 <ul>
 <li>Custom allocators</li>
@@ -479,7 +488,7 @@ Future Improvements</h2>
 <li>Small-buffer optimization (if ever justified)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md237"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="shape.html" title="Shape">Shape</a></li>

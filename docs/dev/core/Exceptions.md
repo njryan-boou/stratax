@@ -216,7 +216,7 @@ if (index >= size)
 ```cpp
 if (lhs.shape() != rhs.shape())
 {
-    throw Exceptions::ShapeError("Shapes must match for elementwise operation.");
+    throw Exceptions::ShapeError("Shapes must match for element-wise operation.");
 }
 ```
 

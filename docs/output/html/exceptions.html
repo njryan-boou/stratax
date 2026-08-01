@@ -124,12 +124,12 @@ Exceptions</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="_exceptions_8hpp_source.html">include/stratax/core/Exceptions.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md603"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md600"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="_exceptions_8hpp_source.html">Exceptions.hpp</a></span> defines Stratax's domain-specific runtime error hierarchy.</p>
 <p>All Stratax exceptions derive from <span class="tt">std::runtime_error</span> through <span class="tt"><a class="el" href="class_exceptions_1_1_stratax_error.html" title="Base class for Stratax-specific runtime errors.">Exceptions::StrataxError</a></span> and are used to communicate shape, dimension, indexing, typing, broadcasting, and arithmetic-domain failures.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md605"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md602"></a>
 Responsibilities</h2>
 <p>The exception module is responsible for:</p>
 <ul>
@@ -144,7 +144,7 @@ Responsibilities</h2>
 <li>Implementing logging or diagnostics transport</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md607"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md604"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">std::runtime_error</div>
 <div class="line">└── Exceptions::StrataxError</div>
@@ -165,7 +165,7 @@ Relationships</h2>
 <li>Operation helpers (<span class="tt">ops/*</span>, <span class="tt">algorithms/*</span>)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md609"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md606"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -175,16 +175,16 @@ Invariants</h2>
 <li>Message construction and storage behavior follows <span class="tt">std::runtime_error</span> semantics.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md611"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md608"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md612"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md609"></a>
 Namespace</h2>
 <div class="fragment"><div class="line"><span class="keyword">namespace </span>Exceptions { ... }</div>
 </div><!-- fragment --><p>All exception classes are defined in namespace <span class="tt">Exceptions</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md614"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md611"></a>
 Base Class</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md615"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md612"></a>
 StrataxError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>StrataxError : <span class="keyword">public</span> std::runtime_error</div>
 <div class="line">{</div>
@@ -193,9 +193,9 @@ StrataxError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Base class for all Stratax runtime errors.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md617"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md614"></a>
 Derived Classes</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md618"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md615"></a>
 ShapeError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>ShapeError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -204,7 +204,7 @@ ShapeError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals an invalid or incompatible shape.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md620"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md617"></a>
 DimensionError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>DimensionError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -213,7 +213,7 @@ DimensionError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals an invalid dimension count or dimension-arithmetic failure.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md622"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md619"></a>
 IndexError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>IndexError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -222,7 +222,7 @@ IndexError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals invalid index access or index normalization failure.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md624"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md621"></a>
 TypeError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>TypeError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -231,7 +231,7 @@ TypeError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals unsupported or incompatible type usage.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md626"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md623"></a>
 BroadcastError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>BroadcastError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -240,7 +240,7 @@ BroadcastError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals that broadcasting rules cannot satisfy an operation.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md628"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md625"></a>
 ZeroDivisionError</h3>
 <div class="fragment"><div class="line"><span class="keyword">class </span>ZeroDivisionError : <span class="keyword">public</span> StrataxError</div>
 <div class="line">{</div>
@@ -249,7 +249,7 @@ ZeroDivisionError</h3>
 <div class="line">};</div>
 </div><!-- fragment --><p>Signals division-by-zero conditions.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md630"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md627"></a>
 Usage Guidelines</h2>
 <ul>
 <li>Throw the most specific exception type available for the failure domain.</li>
@@ -257,7 +257,7 @@ Usage Guidelines</h2>
 <li>Reserve generic <span class="tt">StrataxError</span> for cases that do not fit a more specific category.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md632"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md629"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -270,9 +270,9 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone">Normal path when no exception is thrown  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md634"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md631"></a>
 Examples</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md635"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md632"></a>
 Throwing Specific Errors</h2>
 <div class="fragment"><div class="line"><span class="keywordflow">if</span> (index &gt;= size)</div>
 <div class="line">{</div>
@@ -281,11 +281,11 @@ Throwing Specific Errors</h2>
 <div class="ttc" id="aclass_exceptions_1_1_index_error_html"><div class="ttname"><a href="class_exceptions_1_1_index_error.html">Exceptions::IndexError</a></div><div class="ttdoc">Signals an invalid index access.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00029">Exceptions.hpp:30</a></div></div>
 </div><!-- fragment --><div class="fragment"><div class="line"><span class="keywordflow">if</span> (lhs.shape() != rhs.shape())</div>
 <div class="line">{</div>
-<div class="line">    <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_shape_error.html">Exceptions::ShapeError</a>(<span class="stringliteral">&quot;Shapes must match for elementwise operation.&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">throw</span> <a class="code hl_class" href="class_exceptions_1_1_shape_error.html">Exceptions::ShapeError</a>(<span class="stringliteral">&quot;Shapes must match for element-wise operation.&quot;</span>);</div>
 <div class="line">}</div>
 <div class="ttc" id="aclass_exceptions_1_1_shape_error_html"><div class="ttname"><a href="class_exceptions_1_1_shape_error.html">Exceptions::ShapeError</a></div><div class="ttdoc">Signals an invalid or incompatible shape.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00015">Exceptions.hpp:16</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md637"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md634"></a>
 Catching by Base Type</h2>
 <div class="fragment"><div class="line"><span class="keywordflow">try</span></div>
 <div class="line">{</div>
@@ -297,12 +297,12 @@ Catching by Base Type</h2>
 <div class="line">}</div>
 <div class="ttc" id="aclass_exceptions_1_1_stratax_error_html"><div class="ttname"><a href="class_exceptions_1_1_stratax_error.html">Exceptions::StrataxError</a></div><div class="ttdoc">Base class for Stratax-specific runtime errors.</div><div class="ttdef"><b>Definition</b> <a href="_exceptions_8hpp_source.html#l00008">Exceptions.hpp:9</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md639"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md636"></a>
 Design Notes</h2>
 <p>The hierarchy is intentionally shallow and message-only to keep exception objects lightweight and predictable.</p>
 <p>Using standard runtime-error constructor inheritance (<span class="tt">using ...::runtime_error</span>) avoids duplicate boilerplate and ensures consistent message behavior across all categories.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md641"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md638"></a>
 Future Improvements</h2>
 <ul>
 <li>Consider migration path from <span class="tt">Exceptions</span> to a nested <span class="tt">stratax::core</span> namespace if desired.</li>
@@ -310,7 +310,7 @@ Future Improvements</h2>
 <li>Standardize message format conventions across modules.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md643"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md640"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="_shape_validation_8hpp_source.html">include/stratax/core/validation/ShapeValidation.hpp</a></span></li>

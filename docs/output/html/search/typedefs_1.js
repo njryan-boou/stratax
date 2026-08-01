@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['clean_5ft_0',['clean_t',['../namespacestratax_1_1core_1_1concept__detail.html#a21ff9a34ceccc860525419eff4d1e920',1,'stratax::core::concept_detail']]],
-  ['complex128_1',['complex128',['../namespacestratax_1_1core_1_1dtype.html#adb96d1406581b5b424b356aa566039fc',1,'stratax::core::dtype']]],
-  ['complex256_2',['complex256',['../namespacestratax_1_1core_1_1dtype.html#aa60c5a30d349a935b0cc77b685afb939',1,'stratax::core::dtype']]],
-  ['complex64_3',['complex64',['../namespacestratax_1_1core_1_1dtype.html#a8826909b453ad4926e04125f82eb3328',1,'stratax::core::dtype']]]
+  ['iterator_0',['iterator',['../classstratax_1_1core_1_1_buffer.html#ad1cb1ccbb80c7409158110fdcb7eff2e',1,'stratax::core::Buffer::iterator'],['../classstratax_1_1container_1_1_matrix.html#a33291c55c65b9f0356e0fb4da6e14754',1,'stratax::container::Matrix::iterator'],['../classstratax_1_1core_1_1_shape.html#a6565346d321928708ddd093a749b45dd',1,'stratax::core::Shape::iterator'],['../classstratax_1_1core_1_1_strides.html#a213f58a8f38b46c771ee1ef7d3943b19',1,'stratax::core::Strides::iterator'],['../classstratax_1_1container_1_1_tensor.html#aa240691c5a50d99d2f86adf66be61c30',1,'stratax::container::Tensor::iterator'],['../classstratax_1_1container_1_1_vector.html#a756f00db66df29b40e0840c48c22d022',1,'stratax::container::Vector::iterator']]]
 ];

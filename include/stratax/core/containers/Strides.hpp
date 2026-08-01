@@ -25,6 +25,18 @@ private:
     Buffer<std::size_t> buffer_;
 
 public:
+    /** @brief Iterator over immutable stride values. */
+    using iterator = Buffer<std::size_t>::const_iterator;
+
+    /** @brief Const iterator over stride values. */
+    using const_iterator = Buffer<std::size_t>::const_iterator;
+
+    /** @brief Reverse iterator over immutable stride values. */
+    using reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+
+    /** @brief Const reverse iterator over stride values. */
+    using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+
     /**
      * @brief Creates an empty stride vector.
      */
@@ -57,10 +69,16 @@ public:
         }
     }
 
+    /** @brief Copies stride metadata. */
     Strides(const Strides&) = default;
+
+    /** @brief Moves stride metadata. */
     Strides(Strides&&) noexcept = default;
 
+    /** @brief Copy-assigns stride metadata. */
     Strides& operator=(const Strides&) = default;
+
+    /** @brief Move-assigns stride metadata. */
     Strides& operator=(Strides&&) noexcept = default;
 
     /**
@@ -161,7 +179,7 @@ public:
         *
         * @return Iterator to the beginning of the stride storage.
      */
-    [[nodiscard]] const std::size_t* begin() noexcept
+    [[nodiscard]] iterator begin() noexcept
     {
         return buffer_.begin();
     }
@@ -171,7 +189,7 @@ public:
         *
         * @return Const iterator to the beginning of the stride storage.
      */
-    [[nodiscard]] const std::size_t* begin() const noexcept
+    [[nodiscard]] const_iterator begin() const noexcept
     {
         return buffer_.begin();
     }
@@ -181,7 +199,7 @@ public:
         *
         * @return Const iterator to the beginning of the stride storage.
      */
-    [[nodiscard]] const std::size_t* cbegin() const noexcept
+    [[nodiscard]] const_iterator cbegin() const noexcept
     {
         return buffer_.cbegin();
     }
@@ -191,7 +209,7 @@ public:
         *
         * @return Iterator to the end of the stride storage.
      */
-    [[nodiscard]] const std::size_t* end() noexcept
+    [[nodiscard]] iterator end() noexcept
     {
         return buffer_.end();
     }
@@ -201,7 +219,7 @@ public:
         *
         * @return Const iterator to the end of the stride storage.
      */
-    [[nodiscard]] const std::size_t* end() const noexcept
+    [[nodiscard]] const_iterator end() const noexcept
     {
         return buffer_.end();
     }
@@ -211,7 +229,7 @@ public:
         *
         * @return Const iterator to the end of the stride storage.
      */
-    [[nodiscard]] const std::size_t* cend() const noexcept
+    [[nodiscard]] const_iterator cend() const noexcept
     {
         return buffer_.cend();
     }
@@ -221,7 +239,7 @@ public:
         *
         * @return Reverse iterator starting at the last stride value.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> rbegin() noexcept
+    [[nodiscard]] reverse_iterator rbegin() noexcept
     {
         return buffer_.rbegin();
     }
@@ -231,7 +249,7 @@ public:
         *
         * @return Const reverse iterator starting at the last stride value.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> rbegin() const noexcept
+    [[nodiscard]] const_reverse_iterator rbegin() const noexcept
     {
         return buffer_.rbegin();
     }
@@ -241,7 +259,7 @@ public:
         *
         * @return Const reverse iterator starting at the last stride value.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> crbegin() const noexcept
+    [[nodiscard]] const_reverse_iterator crbegin() const noexcept
     {
         return buffer_.crbegin();
     }
@@ -251,7 +269,7 @@ public:
         *
         * @return Reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> rend() noexcept
+    [[nodiscard]] reverse_iterator rend() noexcept
     {
         return buffer_.rend();
     }
@@ -261,7 +279,7 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> rend() const noexcept
+    [[nodiscard]] const_reverse_iterator rend() const noexcept
     {
         return buffer_.rend();
     }
@@ -271,7 +289,7 @@ public:
         *
         * @return Const reverse iterator representing the end sentinel.
      */
-    [[nodiscard]] std::reverse_iterator<const std::size_t*> crend() const noexcept
+    [[nodiscard]] const_reverse_iterator crend() const noexcept
     {
         return buffer_.crend();
     }

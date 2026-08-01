@@ -2,14 +2,20 @@
 
 # Examples
 
-Short examples for trying the current Stratax APIs from C++ and Python.
+Workflow-focused examples for trying the current Stratax APIs from C++ and
+Python.
+
+Each example is intentionally detailed enough to show the normal path through a
+container: construction, metadata, element access, iteration or slicing,
+reshape/conversion helpers, and reductions where applicable. They are still
+kept small enough to run and inspect quickly.
 
 ## C++
 
 The C++ examples live under `examples/cpp`.
 
 | File | Focus |
-|------|-------|
+| ------ | ------- |
 | `examples/cpp/vector.cpp` | Vector construction, indexing, arithmetic, and slicing |
 | `examples/cpp/matrix.cpp` | Matrix construction, element access, and operations |
 | `examples/cpp/tensor.cpp` | Tensor construction, shape-aware access, and slicing |
@@ -28,7 +34,7 @@ target_compile_features(my_app PRIVATE cxx_std_20)
 The Python examples live under `examples/python`.
 
 | File | Focus |
-|------|-------|
+| ------ | ------- |
 | `examples/python/vector.py` | Vector construction, indexing, arithmetic, and slicing |
 | `examples/python/matrix.py` | Matrix construction, element access, and operations |
 | `examples/python/tensor.py` | Tensor construction, shape-aware access, and slicing |
@@ -44,5 +50,6 @@ python examples/python/vector.py
 
 - Slicing currently returns copy-based results.
 - Python bindings currently expose `double` container specializations.
+- Examples should favor one complete workflow over many disconnected snippets.
 - Examples track implemented behavior and should be updated when public APIs
   change.

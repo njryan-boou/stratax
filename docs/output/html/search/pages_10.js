@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['h_0',['h',['../troubleshooting.html#autotoc_md1008',1,'C++ Examples Cannot Find &lt;span class=&quot;tt&quot;&gt;stratax.h&lt;/span&gt;'],['../dev_stratax.html',1,'stratax.h'],['../dev_stratax.html#autotoc_md900',1,'stratax.h']]],
-  ['header_1',['Aggregation Header',['../validation.html#autotoc_md868',1,'']]],
-  ['helpers_2',['Helpers',['../python_api.html#autotoc_md981',1,'Conversion Helpers'],['../python_api.html#autotoc_md980',1,'Creation Helpers'],['../validation.html#autotoc_md870',1,'Re-exported Helpers']]],
-  ['helpers_3',['helpers',['../validation.html#autotoc_md871',1,'Dimension helpers'],['../validation.html#autotoc_md872',1,'Index helpers'],['../conversions.html#autotoc_md36',1,'Shape helpers'],['../validation.html#autotoc_md873',1,'Shape helpers'],['../validation.html#autotoc_md874',1,'Type helpers']]],
-  ['here_4',['Start Here',['../docs_index.html#autotoc_md1030',1,'']]]
+  ['facade_0',['Phase 7.5: C++ Public Facade',['../roadmap.html#autotoc_md986',1,'']]],
+  ['fails_1',['Editable Install Fails',['../troubleshooting.html#autotoc_md995',1,'']]],
+  ['features_2',['Features',['../index.html#autotoc_md1008',1,'']]],
+  ['file_20map_3',['File Map',['../dev_bindings.html#autotoc_md19',1,'']]],
+  ['files_4',['Related Files',['../dev_module.html#autotoc_md10',1,'']]],
+  ['fill_5',['fill',['../buffer.html#autotoc_md202',1,'fill()'],['../matrix.html#autotoc_md278',1,'fill()'],['../tensor.html#autotoc_md492',1,'fill()'],['../vector.html#autotoc_md576',1,'fill()']]],
+  ['fill_20constructor_6',['Fill Constructor',['../buffer.html#autotoc_md176',1,'Fill Constructor'],['../matrix.html#autotoc_md246',1,'Fill Constructor'],['../vector.html#autotoc_md540',1,'Fill Constructor'],['../tensor.html#autotoc_md460',1,'Shape + Fill Constructor']]],
+  ['filling_7',['Filling',['../buffer.html#autotoc_md216',1,'']]],
+  ['find_20_5fcore_8',['Python Import Cannot Find &lt;span class=&quot;tt&quot;&gt;_core&lt;/span&gt;',['../troubleshooting.html#autotoc_md994',1,'']]],
+  ['find_20a_20compiler_9',['CMake Cannot Find a Compiler',['../troubleshooting.html#autotoc_md996',1,'']]],
+  ['find_20stratax_20h_10',['C++ Examples Cannot Find &lt;span class=&quot;tt&quot;&gt;stratax.h&lt;/span&gt;',['../troubleshooting.html#autotoc_md997',1,'']]],
+  ['fixed_11',['Fixed',['../changelog.html#autotoc_md915',1,'Fixed'],['../changelog.html#autotoc_md920',1,'Fixed']]],
+  ['flat_12',['flat',['../tensor.html#autotoc_md482',1,'at() flat'],['../tensor.html#autotoc_md497',1,'operator() flat']]],
+  ['flatten_13',['Shape, Reshape, and Flatten',['../user_guide.html#autotoc_md1003',1,'']]],
+  ['flatten_14',['flatten',['../reshape.html#autotoc_md118',1,'']]],
+  ['floating_20aliases_15',['Floating aliases',['../types.html#autotoc_md828',1,'']]],
+  ['flow_16',['Data Flow',['../dev_bindings.html#autotoc_md21',1,'']]],
+  ['foundations_17',['Core Foundations',['../dev_stratax.html#autotoc_md889',1,'']]],
+  ['from_20a_20shape_18',['Building Strides From a Shape',['../strides.html#autotoc_md432',1,'']]],
+  ['front_19',['front',['../buffer.html#autotoc_md192',1,'front()'],['../strides.html#autotoc_md410',1,'front()'],['../vector.html#autotoc_md568',1,'front()']]],
+  ['front_20back_20',['front back',['../matrix.html#autotoc_md272',1,'front() / back()'],['../tensor.html#autotoc_md486',1,'front() / back()']]],
+  ['full_21',['full',['../creation.html#autotoc_md61',1,'']]],
+  ['future_20improvements_22',['Future Improvements',['../dev_module.html#autotoc_md12',1,'Future Improvements'],['../dev_bindings.html#autotoc_md25',1,'Future Improvements'],['../conversions.html#autotoc_md46',1,'Future Improvements'],['../creation.html#autotoc_md70',1,'Future Improvements'],['../reductions.html#autotoc_md104',1,'Future Improvements'],['../reshape.html#autotoc_md126',1,'Future Improvements'],['../concepts.html#autotoc_md149',1,'Future Improvements'],['../buffer.html#autotoc_md222',1,'Future Improvements'],['../matrix.html#autotoc_md298',1,'Future Improvements'],['../shape.html#autotoc_md368',1,'Future Improvements'],['../strides.html#autotoc_md438',1,'Future Improvements'],['../tensor.html#autotoc_md516',1,'Future Improvements'],['../vector.html#autotoc_md596',1,'Future Improvements'],['../exceptions.html#autotoc_md638',1,'Future Improvements'],['../print.html#autotoc_md661',1,'Future Improvements'],['../arithmetic.html#autotoc_md692',1,'Future Improvements'],['../bitwise.html#autotoc_md718',1,'Future Improvements'],['../comparison.html#autotoc_md740',1,'Future Improvements'],['../indexing.html#autotoc_md761',1,'Future Improvements'],['../ops_slice.html#autotoc_md785',1,'Future Improvements'],['../slice.html#autotoc_md812',1,'Future Improvements'],['../types.html#autotoc_md837',1,'Future Improvements'],['../validation.html#autotoc_md864',1,'Future Improvements'],['../dev_stratax.html#autotoc_md899',1,'Future Improvements']]],
+  ['future_20work_23',['Future Work',['../architecture.html#autotoc_md910',1,'Future Work'],['../contributing.html#autotoc_md933',1,'Future Work'],['../roadmap.html#autotoc_md992',1,'Future Work']]]
 ];
