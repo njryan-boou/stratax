@@ -89,12 +89,6 @@ int main()
 }
 ```
 
-Common APIs are available directly under `stratax`. Grouped aliases are also
-available for module-style calls such as `stratax::creation::zeros`,
-`stratax::conversions::to_tensor`, and `stratax::reductions::sum`.
-Broadcast helpers are available directly under `stratax` and through the
-grouped `stratax::broadcasting` namespace.
-
 ---
 
 ## Design Notes

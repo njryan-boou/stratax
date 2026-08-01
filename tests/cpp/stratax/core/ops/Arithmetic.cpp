@@ -72,6 +72,24 @@ TEST(OpsArithmetic, array_and_scalar_operators_preserve_order)
     EXPECT_EQ((16 / values)[2], 2);
 }
 
+TEST(OpsArithmetic, zero_rhs_elements_are_allowed_for_non_division_array_ops)
+{
+    Vector<int> lhs{2, 4, 8};
+    Vector<int> rhs{0, 2, 0};
+
+    Vector<int> sum = lhs + rhs;
+    Vector<int> diff = lhs - rhs;
+    Vector<int> product = lhs * rhs;
+
+    EXPECT_TRUE(sum[0] == 2);
+    EXPECT_TRUE(sum[1] == 6);
+    EXPECT_TRUE(diff[0] == 2);
+    EXPECT_TRUE(diff[1] == 2);
+    EXPECT_TRUE(product[0] == 0);
+    EXPECT_TRUE(product[1] == 8);
+    EXPECT_TRUE(product[2] == 0);
+}
+
 TEST(OpsArithmetic, complex_values_support_array_and_scalar_operations)
 {
     using Complex = std::complex<double>;

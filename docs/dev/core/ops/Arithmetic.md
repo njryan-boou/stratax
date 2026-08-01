@@ -192,9 +192,7 @@ column += row; // column now has shape (2, 3)
 
 ## Design Notes
 
-Arithmetic operators are intentionally small forwarding wrappers. Broadcasting
-owns binary traversal and shape projection, while arithmetic supplies the
-operation and division checks.
+Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.
 
 Scalar operand order is preserved for noncommutative operations such as
 subtraction and division.
