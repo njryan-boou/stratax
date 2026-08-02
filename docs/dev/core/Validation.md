@@ -179,7 +179,6 @@ Centralizing these checks keeps error category behavior consistent across contai
 
 ## Future Improvements
 
-- Add broadcast-compatibility validation helpers once broadcasting rules are finalized.
 - Add optional diagnostic helpers that build richer messages in debug builds.
 
 ---

@@ -1,7 +1,7 @@
 .vscode/
 build/
 dist/
-main/
+main.cpp
 *.exe
 *.pyd
 .markdownlint.json

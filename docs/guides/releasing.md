@@ -96,8 +96,8 @@ contains `stratax/_core.pyi` and `stratax/py.typed`.
 Create the release tag after tests, examples, docs, and packaging checks pass.
 
 ```powershell
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
 Upload distributions only after the tag and changelog match the intended

@@ -15,7 +15,7 @@ statistics modules are currently reserved API areas.
 - Contiguous `Buffer` storage with shape and stride metadata
 - Bounds-checked `at(...)` and multidimensional `operator(...)` access
 - Negative indexing and reverse slicing in both the C++ and Python APIs
-- Element-wise arithmetic and comparison operators
+- Element-wise arithmetic with NumPy-style broadcasting, plus comparison operators
 - Reshape, flatten, slicing, and container conversion helpers
 - Tensor creation helpers such as `zeros`, `ones`, `full`, and `identity`
 - Axis reductions with optional `keepdims` and negative-axis support in the Python API
@@ -158,8 +158,8 @@ python -m pytest tests/python
 Stratax is still evolving. The current container, indexing, slicing, reshape,
 conversion, creation, printing, arithmetic, comparison, and reduction APIs are
 usable, but naming and edge-case behavior may still change before a stable 1.0
-release. Linear algebra, calculus, random, statistics, broadcasting, and file
-I/O are reserved or planned areas.
+release. Linear algebra, calculus, random, statistics, and file I/O are reserved
+or planned areas.
 
 ### API Status
 
@@ -174,21 +174,21 @@ I/O are reserved or planned areas.
 | Conversions | Available | Available |
 | Reshape and flatten | Available | Available |
 | Reductions | Available | Available, with `keepdims` |
-| Broadcasting | Planned | Planned |
+| Broadcasting arithmetic | Available | Available through the core operators |
 | Linear algebra | Planned | Planned |
 
 ### Implemented
 
 - Core storage and metadata: `Buffer`, `Shape`, `Strides`, `Slice`
 - Containers: `Vector`, `Matrix`, `Tensor`
-- Operations: arithmetic, comparison, indexing, negative indexing, reshape, slicing
+- Operations: broadcasted arithmetic, comparison, indexing, negative indexing, reshape, slicing
 - Container helpers: creation and conversions
 - I/O: stream printing
 - Python bindings and Python API: `Shape`, `Vector`, `Matrix`, `Tensor`, conversion free functions, creation free functions, negative indexing, reverse slicing
 
 ### Roadmap
 
-- Broadcasting
+- Python broadcasting regression tests
 - Logical operations
 - Linear algebra algorithms
 - Calculus helpers

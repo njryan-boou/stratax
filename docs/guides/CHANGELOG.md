@@ -12,17 +12,36 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ## [Unreleased]
 
+---
+
+## [0.3.0] - 08-02-2026
+
+### Added
+
+- Added NumPy-style broadcasting to C++ array arithmetic, including shape validation, result-shape calculation, singleton-dimension projection, scalar operations, and compound assignment.
+- Added complete reduction APIs for C++ and Python: `sum`, `prod`, `min`, `max`, `argmin`, `argmax`, `mean`, `var`, and `std`, with axis, negative-axis, and `keepdims` support.
+- Added focused broadcasting tests and developer documentation alongside same-shape arithmetic coverage.
+- Added a NumPy-style C++ public facade with top-level aliases and module-style namespaces.
+- Added GitHub Pages documentation deployment and expanded contributor and architecture documentation.
+
 ### Changed
 
-- Simplified Python packaging around the compiled `_core` extension and public package exports.
-- Added a NumPy-style C++ public facade with top-level aliases and module-style namespaces.
-- Updated Python API stubs to match the current property-based container interface.
-- Regenerated documentation with a clean Doxygen warning pass.
+- Simplified Python packaging around direct exports from the compiled `_core` extension and a single public type stub.
+- Updated Python API stubs to match the property-based container interface.
+- Refactored the C++ and Python implementation structure to reduce duplication and keep bindings aligned with the core API.
+- Refreshed the project roadmap to reflect the implemented broadcasting and reduction systems and the remaining release work.
+- Regenerated the documentation with a clean Doxygen warning pass.
 
 ### Fixed
 
 - Fixed iterator edge cases for empty `Buffer` storage and aligned container iterator aliases.
-- Fixed stale binding documentation that referenced the old Python package layering.
+- Fixed arithmetic behavior for broadcast-compatible arrays and scalars, including empty-array cases.
+- Fixed stale binding and package documentation that referenced the previous Python layering.
+
+### Removed
+
+- Removed legacy Python wrapper layering and split stub files.
+- Stopped tracking generated Python extension binaries.
 
 ---
 

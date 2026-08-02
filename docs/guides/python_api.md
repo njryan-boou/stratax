@@ -105,8 +105,10 @@ Containers support element-wise arithmetic with matching containers or scalars:
 | Unary | `+a`, `-a` |
 | Comparison | `a == b`, `a != b` |
 
-Container-to-container operations require compatible shapes. Broadcasting is
-planned but not currently implemented.
+Container-to-container arithmetic uses NumPy-style trailing-dimension
+broadcasting. Corresponding dimensions must be equal or one of them must be
+`1`; incompatible shapes raise `BroadcastError`. Comparisons remain
+shape-sensitive.
 
 ## Creation Helpers
 

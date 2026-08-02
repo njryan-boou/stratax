@@ -142,5 +142,6 @@ see @ref python_api "Python API Reference".
 
 ## Current Limits
 
-Broadcasting, view types, linear algebra, random sampling, statistics, and file
-I/O are planned areas. Check @ref roadmap "Roadmap" for the current direction.
+Non-owning views, linear algebra, random sampling, statistics, and file I/O are
+planned areas. Arithmetic broadcasting is available; comparisons remain
+shape-sensitive. Check @ref roadmap "Roadmap" for the current direction.
