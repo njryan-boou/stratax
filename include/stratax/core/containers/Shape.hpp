@@ -25,12 +25,7 @@ private:
 
     void validate_dimensions() const
     {
-        for (std::size_t dim : dims_)
-        {
-            validation::nonnegative_shape_dimension(
-                dim,
-                "Shape dimensions cannot be negative.");
-        }
+        // Dimensions are stored as std::size_t, so negative values are not representable.
     }
 
 public:

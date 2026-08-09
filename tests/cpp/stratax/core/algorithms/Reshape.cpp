@@ -126,7 +126,7 @@ TEST(OpsReshape, reshape_overflow_shape_throws)
     Vector<int> vector(0);
 
     EXPECT_THROW(
-        reshape(vector, Shape{2, std::numeric_limits<long long>::max(), 2}),
+        reshape(vector, Shape{2, std::numeric_limits<std::size_t>::max(), 2}),
         Exceptions::StrataxError);
 }
 

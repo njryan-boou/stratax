@@ -40,7 +40,7 @@ TEST(CoreShape, zero_dimension_elements)
 {
     Shape scalar_zero{0};
     Shape matrix_zero{0, 3};
-    Shape later_zero{std::numeric_limits<long long>::max(), 0};
+    Shape later_zero{std::numeric_limits<std::size_t>::max(), 0};
 
     EXPECT_TRUE(scalar_zero.rank() == 1);
     EXPECT_TRUE(scalar_zero.elements() == 0);
@@ -60,7 +60,7 @@ TEST(CoreShape, initializer_list_constructor_rejects_bool_and_char_like_types)
 
 TEST(CoreShape, elements_overflow_throws)
 {
-    Shape shape{2, std::numeric_limits<long long>::max(), 2};
+    Shape shape{2, std::numeric_limits<std::size_t>::max(), 2};
 
     EXPECT_THROW(
         [[maybe_unused]] const std::size_t elements = shape.elements(),

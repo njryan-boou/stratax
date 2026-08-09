@@ -102,7 +102,7 @@ TEST(ContainersMatrix, size_overflow_throws)
         Exceptions::StrataxError);
 
     EXPECT_THROW(
-        Matrix<int> matrix(stratax::core::Shape{std::numeric_limits<long long>::max(), 2}),
+        Matrix<int> matrix(stratax::core::Shape{std::numeric_limits<std::size_t>::max(), 2}),
         std::exception);
 }
 

@@ -99,7 +99,7 @@ TEST(CoreStrides, shape_with_zero_dimension)
 TEST(CoreStrides, large_shape_constructs)
 {
     EXPECT_NO_THROW({
-        Strides strides(Shape{2, std::numeric_limits<long long>::max(), 2});
+        Strides strides(Shape{2, std::numeric_limits<std::size_t>::max(), 2});
         EXPECT_TRUE(strides.rank() == 3);
     });
 }

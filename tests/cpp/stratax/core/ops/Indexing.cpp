@@ -124,8 +124,8 @@ TEST(OpsIndexing, offset_rejects_zero_dimension_index)
 
 TEST(OpsIndexing, offset_overflow_throws)
 {
-    stratax::core::Shape shape{std::numeric_limits<long long>::max(), 2};
-    stratax::core::Strides strides(stratax::core::Shape{std::numeric_limits<long long>::max(), 2});
+    stratax::core::Shape shape{std::numeric_limits<std::size_t>::max(), 2};
+    stratax::core::Strides strides(stratax::core::Shape{std::numeric_limits<std::size_t>::max(), 2});
 
     bool threw = false;
 

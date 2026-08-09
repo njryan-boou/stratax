@@ -85,7 +85,7 @@ TEST(ContainersTensor, zero_dimension_shape_constructor)
 TEST(ContainersTensor, shape_overflow_throws)
 {
     EXPECT_THROW(
-        Tensor<int> tensor(stratax::core::Shape{2, std::numeric_limits<long long>::max(), 2}),
+        Tensor<int> tensor(stratax::core::Shape{2, std::numeric_limits<std::size_t>::max(), 2}),
         Exceptions::StrataxError);
 }
 

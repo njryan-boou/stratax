@@ -140,7 +140,7 @@ TEST(ContainersCreation, empty_shape_creates_rank_zero_tensor)
 TEST(ContainersCreation, overflow_shape_throws)
 {
     EXPECT_THROW(
-        creation::zeros<int>(stratax::core::Shape{2, std::numeric_limits<long long>::max(), 2}),
+        creation::zeros<int>(stratax::core::Shape{2, std::numeric_limits<std::size_t>::max(), 2}),
         Exceptions::StrataxError);
 
     EXPECT_THROW(

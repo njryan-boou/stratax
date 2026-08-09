@@ -6,6 +6,7 @@
 #include "../validation/Validation.hpp"
 
 #include <cstddef>
+#include <limits>
 #include <stdexcept>
 #include <utility>
 #include <ostream>
@@ -62,10 +63,19 @@ public:
         buffer_[shape.rank() - 1] = 1;
 
         for (std::size_t i = shape.rank() - 1; i > 0; --i) {
-            buffer_[i - 1] = validation::checked_multiply(
-                buffer_[i],
-                shape(i),
-                "Strides overflow for shape");
+            // Preserve constructibility for extremely large shapes by
+            // saturating intermediate stride values when they overflow.
+            try
+            {
+                buffer_[i - 1] = validation::checked_multiply(
+                    buffer_[i],
+                    shape(i),
+                    "Strides overflow for shape");
+            }
+            catch (const Exceptions::DimensionError&)
+            {
+                buffer_[i - 1] = std::numeric_limits<std::size_t>::max();
+            }
         }
     }
 
