@@ -14,7 +14,20 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ---
 
-## [0.3.1] - 08-02-2026
+## [0.3.1] - 08-09-2026
+
+### Added
+
+- Added cross-platform CI coverage for Linux (GCC/Clang), Windows (MSVC), and macOS (Apple Clang), plus a Python version matrix through 3.14.
+- Added cross-platform release wheel builds for Linux, Windows, and macOS via `cibuildwheel`.
+
+### Changed
+
+- Improved release automation by publishing combined wheel and sdist artifacts through the PyPI release workflow.
+
+---
+
+## [0.3.0] - 08-02-2026
 
 ### Added
 
