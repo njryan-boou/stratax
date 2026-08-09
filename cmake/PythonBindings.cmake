@@ -2,7 +2,13 @@
 # Python
 # =============================================================================
 
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
+find_package(
+    Python
+    REQUIRED
+    COMPONENTS
+        Interpreter
+        Development.Module
+)
 
 execute_process(
     COMMAND ${Python_EXECUTABLE} -m pybind11 --cmakedir
