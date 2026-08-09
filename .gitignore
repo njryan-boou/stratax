@@ -1,18 +1,76 @@
+# IDE and editor settings
 .vscode/
-build/
-dist/
-main.cpp
-*.exe
-*.pyd
-.markdownlint.json
-.markdownlint-cli2.jsonc
-.markdownlintignore
-.venv
+*.swp
+*.swo
+*~
+
+# Virtual environments and local config
+.venv/
+.env
+.env.*
 .pypirc
-test.py
-*__pycache__/
-*.pytest_cache
-test.md
+
+# Python caches, test, and packaging artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+
+# CMake, Ninja, and build trees
+build/
+build-*/
+cmake-build-*/
+CMakeUserPresets.json
+CMakePresets.json.user
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+build.ninja
+.ninja_log
+.ninja_deps
+Testing/
+CTestTestfile.cmake
+DartConfiguration.tcl
+
+# Native binaries and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.dylib
+*.so
+*.pyd
+*.exe
+*.out
+/bin/
+/main
+/maain
+
+# OS-specific junk files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.Trash-*/
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
 
 
 
