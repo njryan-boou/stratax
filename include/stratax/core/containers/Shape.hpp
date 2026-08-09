@@ -77,6 +77,17 @@ public:
     }
 
     /**
+     * @brief Creates a shape from dimension lengths in an initializer list.
+     *
+     * @param dims Dimension lengths.
+     */
+    Shape(std::initializer_list<std::size_t> dims)
+        : dims_(dims)
+    {
+        validate_dimensions();
+    }
+
+    /**
      * @brief Creates a shape from dimension lengths using the explicit zero-dimension tag.
      *
      * This overload documents zero-preserving construction for call sites that
@@ -136,6 +147,8 @@ public:
         {
             dims_[i] = dims[i];
         }
+
+        validate_dimensions();
     }
 
     /**
