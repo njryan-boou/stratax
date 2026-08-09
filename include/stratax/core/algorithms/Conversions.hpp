@@ -72,16 +72,7 @@ inline stratax::core::Shape matrix_shape(const stratax::core::Shape& shape)
     return stratax::core::Shape(dims);
 }
 
-/**
- * @brief Converts an array-like object to a vector.
- *
- * @tparam A Source array type.
- * @param arr Source array.
- *
- * @return Vector containing the same values and shape.
- *
- * @throws Exceptions::DimensionError If the source is not rank 1.
- */
+/** @brief Converts an array-like object to a vector. */
 template<Array A>
 stratax::container::Vector<typename A::value_type>
 to_vector(const A& arr)
@@ -103,16 +94,7 @@ to_vector(const A& arr)
     return result;
 }
 
-/**
- * @brief Converts an array-like object to a matrix.
- *
- * @tparam A Source array type.
- * @param arr Source array.
- *
- * @return Matrix containing the same values and shape.
- *
- * @throws Exceptions::DimensionError If the source is not matrix-shaped.
- */
+/** @brief Converts an array-like object to a matrix. */
 template<Array A>
 stratax::container::Matrix<typename A::value_type>
 to_matrix(const A& arr)
@@ -134,14 +116,7 @@ to_matrix(const A& arr)
     return result;
 }
 
-/**
- * @brief Converts an array-like object to a tensor.
- *
- * @tparam A Source array type.
- * @param arr Source array.
- *
- * @return Tensor containing the same values and shape.
- */
+/** @brief Converts an array-like object to a tensor. */
 template<Array A>
 stratax::container::Tensor<typename A::value_type>
 to_tensor(const A& arr)
@@ -156,15 +131,7 @@ to_tensor(const A& arr)
     return result;
 }
 
-/**
- * @brief Casts a vector to a different numeric value type.
- *
- * @tparam To Target numeric type.
- * @tparam From Source numeric type.
- * @param vec Source vector.
- *
- * @return Vector with each element cast to the target type.
- */
+/** @brief Casts a vector to a different numeric value type. */
 template<typename To, typename From>
 requires Numeric<To> && Numeric<From>
 stratax::container::Vector<To>
@@ -180,15 +147,7 @@ astype(const stratax::container::Vector<From>& vec)
     return result;
 }
 
-/**
- * @brief Casts a matrix to a different numeric value type.
- *
- * @tparam To Target numeric type.
- * @tparam From Source numeric type.
- * @param mat Source matrix.
- *
- * @return Matrix with each element cast to the target type.
- */
+/** @brief Casts a matrix to a different numeric value type. */
 template<typename To, typename From>
 requires Numeric<To> && Numeric<From>
 stratax::container::Matrix<To>
@@ -204,15 +163,7 @@ astype(const stratax::container::Matrix<From>& mat)
     return result;
 }
 
-/**
- * @brief Casts a tensor to a different numeric value type.
- *
- * @tparam To Target numeric type.
- * @tparam From Source numeric type.
- * @param tensor Source tensor.
- *
- * @return Tensor with each element cast to the target type.
- */
+/** @brief Casts a tensor to a different numeric value type. */
 template<typename To, typename From>
 requires Numeric<To> && Numeric<From>
 stratax::container::Tensor<To>

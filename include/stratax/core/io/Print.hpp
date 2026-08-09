@@ -14,16 +14,7 @@ namespace stratax::container {
 
 namespace detail {
 
-/**
- * @brief Recursively prints a tensor using nested bracket notation.
- *
- * @param os Output stream.
- * @param tensor Tensor to print.
- * @param dim Current dimension being printed.
- * @param offset Flat storage offset for the current sub-tensor.
- * @param depth Nesting depth used for indentation.
- * @param sibling_separator Separator string inserted between sibling elements.
- */
+/** @brief Recursively prints a tensor using nested bracket notation. */
 template<typename T>
 void print_tensor_recursive(
     std::ostream& os,
@@ -98,14 +89,7 @@ std::ostream& print_matrix_like(std::ostream& os, const Tensor<T>& tensor)
 
 }
 
-/**
- * @brief Writes a vector in compact bracketed list form.
- *
- * @param os Output stream.
- * @param vector Vector to print.
- *
- * @return The updated output stream.
- */
+/** @brief Writes a vector in compact bracketed list form. */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Vector<T>& vector)
 {
@@ -113,14 +97,7 @@ std::ostream& operator<<(std::ostream& os, const Vector<T>& vector)
     return detail::print_tensor_like(os, tensor);
 }
 
-/**
- * @brief Writes a matrix in a human-readable row-major layout.
- *
- * @param os Output stream.
- * @param matrix Matrix to print.
- *
- * @return The updated output stream.
- */
+/** @brief Writes a matrix in a human-readable row-major layout. */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
 {
@@ -128,18 +105,8 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
     return detail::print_matrix_like(os, tensor);
 }
 
+/** @brief Writes a tensor in nested bracket notation. */
 template<typename T>
-/**
- * @brief Writes a tensor in nested bracket notation.
- *
- * Empty tensors are written as `[]`. Non-empty tensors are printed recursively
- * using the tensor shape and row-major strides.
- *
- * @param os Output stream.
- * @param tensor Tensor to print.
- *
- * @return The updated output stream.
- */
 std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor)
 {
     return detail::print_tensor_like(os, tensor);

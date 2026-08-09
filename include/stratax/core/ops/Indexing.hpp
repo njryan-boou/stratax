@@ -7,18 +7,7 @@
 #include <stratax/core/containers/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
-/**
- * @brief Computes a flat storage offset from a shape, strides, and index container.
- *
- * @param shape Array shape.
- * @param strides Row-major or custom strides matching the shape.
- * @param index Index container with one entry per dimension.
- *
- * @return Flat storage offset.
- *
- * @throws Exceptions::DimensionError If the ranks do not match.
- * @throws Exceptions::IndexError If an index is out of bounds or the offset overflows.
- */
+/** @brief Computes a flat storage offset from a shape, strides, and index container. */
 template<typename IndexContainer>
 std::size_t offset(
     const stratax::core::Shape& shape,

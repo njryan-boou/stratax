@@ -5,9 +5,6 @@
 #include "ShapeValidation.hpp"
 #include "TypeValidation.hpp"
 
-/**
- * @file Validation.hpp
- * @brief Shared runtime validation helpers.
- */
+/** @file Validation.hpp @brief Shared runtime validation helpers. */
 
 namespace stratax::core::validation {}

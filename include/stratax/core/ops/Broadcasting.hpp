@@ -53,17 +53,7 @@ inline std::size_t flat_operand_index(
 
 } // namespace stratax::core::broadcast_detail
 
-/**
- * @brief Tests whether two shapes follow element-wise broadcasting rules.
- *
- * Shapes are aligned from their trailing dimensions. A pair of dimensions is
- * compatible when the lengths match or either length is one. Missing leading
- * dimensions are treated as having length one.
- *
- * @param shape1 Left operand shape.
- * @param shape2 Right operand shape.
- * @return `true` when the shapes can be broadcast together.
- */
+/** @brief Tests whether two shapes follow element-wise broadcasting rules. */
 inline bool validate_broadcast(
     const stratax::core::Shape& shape1,
     const stratax::core::Shape& shape2)
@@ -86,14 +76,7 @@ inline bool validate_broadcast(
     return true;
 }
 
-/**
- * @brief Computes the common shape produced by broadcasting two shapes.
- *
- * @param shape1 Left operand shape.
- * @param shape2 Right operand shape.
- * @return Shape containing the broadcasted dimension lengths.
- * @throws Exceptions::BroadcastError If the shapes are not compatible.
- */
+/** @brief Computes the common shape produced by broadcasting two shapes. */
 inline stratax::core::Shape broadcasted_shape(
     const stratax::core::Shape& shape1,
     const stratax::core::Shape& shape2)
@@ -119,17 +102,7 @@ inline stratax::core::Shape broadcasted_shape(
     return stratax::core::Shape{result};
 }
 
-/**
- * @brief Applies a binary operation to two broadcast-compatible arrays.
- *
- * @tparam A Stratax array type shared by both operands and the result.
- * @tparam Op Binary callable type.
- * @param lhs Left array operand.
- * @param rhs Right array operand.
- * @param op Callable receiving one value from each operand.
- * @return Array containing the operation results in the broadcasted shape.
- * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
- */
+/** @brief Applies a binary operation to two broadcast-compatible arrays. */
 template<Array A, typename Op>
 A broadcasted_op(const A& lhs, const A& rhs, Op op)
 {
@@ -157,17 +130,7 @@ A broadcasted_op(const A& lhs, const A& rhs, Op op)
     return result;
 }
 
-/**
- * @brief Applies a binary operation between every array value and a scalar.
- *
- * @tparam A Stratax array type returned by the operation.
- * @tparam S Numeric scalar type.
- * @tparam Op Binary callable type.
- * @param lhs Left array operand.
- * @param rhs Right scalar operand.
- * @param op Callable receiving an array value followed by the scalar.
- * @return Array with the same shape as `lhs`.
- */
+/** @brief Applies a binary operation between every array value and a scalar. */
 template<Array A, Numeric S, typename Op>
 A broadcasted_op(const A& lhs, const S& rhs, Op op)
 {
@@ -181,17 +144,7 @@ A broadcasted_op(const A& lhs, const S& rhs, Op op)
     return result;
 }
 
-/**
- * @brief Applies a binary operation between a scalar and every array value.
- *
- * @tparam S Numeric scalar type.
- * @tparam A Stratax array type returned by the operation.
- * @tparam Op Binary callable type.
- * @param lhs Left scalar operand.
- * @param rhs Right array operand.
- * @param op Callable receiving the scalar followed by an array value.
- * @return Array with the same shape as `rhs`.
- */
+/** @brief Applies a binary operation between a scalar and every array value. */
 template<Numeric S, Array A, typename Op>
 A broadcasted_op(const S& lhs, const A& rhs, Op op)
 {

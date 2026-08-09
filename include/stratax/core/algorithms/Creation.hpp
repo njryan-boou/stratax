@@ -10,14 +10,7 @@
 
 namespace creation {
 
-/**
- * @brief Creates a tensor filled with zeros.
- *
- * @tparam T Numeric value type.
- * @param shape Target shape.
- *
- * @return Tensor filled with default-constructed numeric zeros.
- */
+/** @brief Creates a tensor filled with zeros. */
 template<typename T>
 requires Numeric<T>
 stratax::container::Tensor<T> zeros(const stratax::core::Shape& shape)
@@ -25,14 +18,7 @@ stratax::container::Tensor<T> zeros(const stratax::core::Shape& shape)
     return stratax::container::Tensor<T>(shape, T{});
 }
 
-/**
- * @brief Creates a tensor filled with ones.
- *
- * @tparam T Numeric value type.
- * @param shape Target shape.
- *
- * @return Tensor filled with numeric ones.
- */
+/** @brief Creates a tensor filled with ones. */
 template<typename T>
 requires Numeric<T>
 stratax::container::Tensor<T> ones(const stratax::core::Shape& shape)
@@ -40,15 +26,7 @@ stratax::container::Tensor<T> ones(const stratax::core::Shape& shape)
     return stratax::container::Tensor<T>(shape, T{1});
 }
 
-/**
- * @brief Creates a tensor filled with a constant value.
- *
- * @tparam T Numeric value type.
- * @param shape Target shape.
- * @param value Value to copy into every element.
- *
- * @return Tensor filled with the requested value.
- */
+/** @brief Creates a tensor filled with a constant value. */
 template<typename T>
 requires Numeric<T>
 stratax::container::Tensor<T> full(const stratax::core::Shape& shape, const T& value)
@@ -56,14 +34,7 @@ stratax::container::Tensor<T> full(const stratax::core::Shape& shape, const T& v
     return stratax::container::Tensor<T>(shape, value);
 }
 
-/**
- * @brief Creates a square identity tensor.
- *
- * @tparam T Numeric value type.
- * @param size Side length of the identity matrix.
- *
- * @return Square tensor with ones on the diagonal and zeros elsewhere.
- */
+/** @brief Creates a square identity tensor. */
 template<typename T>
 requires Numeric<T>
 stratax::container::Tensor<T> identity(const std::size_t size)

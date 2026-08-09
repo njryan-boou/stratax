@@ -7,15 +7,7 @@
 
 namespace stratax::core::validation {
 
-/**
- * @brief Requires a type to exactly match an expected type after cv/ref removal.
- *
- * @tparam Actual Type being validated.
- * @tparam Expected Required type.
- * @param message Error message used on mismatch.
- *
- * @throws Exceptions::TypeError If the normalized types differ.
- */
+/** @brief Requires a type to exactly match an expected type after cv/ref removal. */
 template<typename Actual, typename Expected>
 void require_type(const char* message)
 {
@@ -25,14 +17,7 @@ void require_type(const char* message)
     }
 }
 
-/**
- * @brief Requires a type to satisfy Stratax's numeric type rules.
- *
- * @tparam T Type being validated.
- * @param message Error message used when the type is unsupported.
- *
- * @throws Exceptions::TypeError If `T` is not a supported numeric type.
- */
+/** @brief Requires a type to satisfy Stratax's numeric type rules. */
 template<typename T>
 void require_numeric_type(const char* message)
 {
@@ -42,15 +27,7 @@ void require_numeric_type(const char* message)
     }
 }
 
-/**
- * @brief Requires two array-like objects to have the same value type.
- *
- * @param lhs Left object.
- * @param rhs Right object.
- * @param message Error message used on mismatch.
- *
- * @throws Exceptions::TypeError If the objects' normalized `value_type`s differ.
- */
+/** @brief Requires two array-like objects to have the same value type. */
 template<typename Lhs, typename Rhs>
 requires requires
 {

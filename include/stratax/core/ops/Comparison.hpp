@@ -4,15 +4,7 @@
 #include <stratax/core/Concepts.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
-/**
- * @brief Compares two array-like containers for exact equality.
- *
- * @tparam A Array type satisfying the Stratax array concept.
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- *
- * @return `true` if both arrays have the same shape and element values.
- */
+/** @brief Compares two array-like containers for exact equality. */
 template<Array A>
 [[nodiscard]] bool operator==(const A& lhs, const A& rhs)
 {
@@ -35,15 +27,7 @@ template<Array A>
     return true;
 }
 
-/**
- * @brief Compares two array-like containers for inequality.
- *
- * @tparam A Array type satisfying the Stratax array concept.
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- *
- * @return `true` if the arrays differ in shape or element values.
- */
+/** @brief Compares two array-like containers for inequality. */
 template<Array A>
 [[nodiscard]] bool operator!=(const A& lhs, const A& rhs)
 {

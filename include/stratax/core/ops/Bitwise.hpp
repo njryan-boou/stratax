@@ -5,12 +5,7 @@
 
 #include <functional>
 
-/**
- * @brief Verifies that two arrays have the same shape before bitwise operations.
- *
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- */
+/** @brief Verifies that two arrays have the same shape before bitwise operations. */
 template<Array A>
 requires Integer<typename A::value_type>
 void require_same_bitwise_shape(const A& lhs, const A& rhs)
@@ -21,16 +16,7 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
 		"Bitwise operands must have the same shape.");
 }
 
-/**
- * @brief Applies an element-wise bitwise operation to two integer arrays.
- *
- * @param lhs Left-hand array operand.
- * @param rhs Right-hand array operand.
- * @param op Callable used to combine each pair of elements.
- * @return Array containing the element-wise operation result.
- *
- * @throws Exceptions::ShapeError If the operands do not match in shape.
- */
+/** @brief Applies an element-wise bitwise operation to two integer arrays. */
 template<Array A, typename Op>
 requires Integer<typename A::value_type>
 A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
@@ -51,14 +37,7 @@ A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
 	return result;
 }
 
-/**
- * @brief Applies an element-wise bitwise operation between an integer array and a scalar.
- *
- * @param lhs Array operand.
- * @param rhs Scalar operand.
- * @param op Callable used to combine each array element with the scalar.
- * @return Array containing the element-wise operation result.
- */
+/** @brief Applies an element-wise bitwise operation between an integer array and a scalar. */
 template<Array A, Integer Scalar, typename Op>
 requires Integer<typename A::value_type>
 A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
@@ -74,14 +53,7 @@ A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
 	return result;
 }
 
-/**
- * @brief Applies an element-wise bitwise operation between a scalar and an integer array.
- *
- * @param lhs Scalar operand.
- * @param rhs Array operand.
- * @param op Callable used to combine the scalar with each array element.
- * @return Array containing the element-wise operation result.
- */
+/** @brief Applies an element-wise bitwise operation between a scalar and an integer array. */
 template<Integer Scalar, Array A, typename Op>
 requires Integer<typename A::value_type>
 A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
@@ -99,12 +71,7 @@ A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
 
 // Unary
 
-/**
- * @brief Applies bitwise NOT to each element of an integer array.
- *
- * @param value Input array.
- * @return Array with element-wise bitwise NOT results.
- */
+/** @brief Applies bitwise NOT to each element of an integer array. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator~(const A& value)
@@ -122,13 +89,7 @@ A operator~(const A& value)
 
 // Array-array
 
-/**
- * @brief Applies element-wise bitwise AND between two arrays.
- *
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- * @return Array with element-wise bitwise AND results.
- */
+/** @brief Applies element-wise bitwise AND between two arrays. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator&(const A& lhs, const A& rhs)
@@ -136,13 +97,7 @@ A operator&(const A& lhs, const A& rhs)
 	return binary_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
-/**
- * @brief Applies element-wise bitwise OR between two arrays.
- *
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- * @return Array with element-wise bitwise OR results.
- */
+/** @brief Applies element-wise bitwise OR between two arrays. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator|(const A& lhs, const A& rhs)
@@ -150,13 +105,7 @@ A operator|(const A& lhs, const A& rhs)
 	return binary_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
-/**
- * @brief Applies element-wise bitwise XOR between two arrays.
- *
- * @param lhs Left-hand operand.
- * @param rhs Right-hand operand.
- * @return Array with element-wise bitwise XOR results.
- */
+/** @brief Applies element-wise bitwise XOR between two arrays. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator^(const A& lhs, const A& rhs)
@@ -164,13 +113,7 @@ A operator^(const A& lhs, const A& rhs)
 	return binary_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
-/**
- * @brief Applies element-wise left shift using per-element shift counts.
- *
- * @param lhs Value operand array.
- * @param rhs Shift-count operand array.
- * @return Array with element-wise left-shift results.
- */
+/** @brief Applies element-wise left shift using per-element shift counts. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator<<(const A& lhs, const A& rhs)
@@ -178,13 +121,7 @@ A operator<<(const A& lhs, const A& rhs)
 	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
-/**
- * @brief Applies element-wise right shift using per-element shift counts.
- *
- * @param lhs Value operand array.
- * @param rhs Shift-count operand array.
- * @return Array with element-wise right-shift results.
- */
+/** @brief Applies element-wise right shift using per-element shift counts. */
 template<Array A>
 requires Integer<typename A::value_type>
 A operator>>(const A& lhs, const A& rhs)
@@ -194,13 +131,7 @@ A operator>>(const A& lhs, const A& rhs)
 
 // Array-scalar
 
-/**
- * @brief Applies bitwise AND between each array element and a scalar.
- *
- * @param lhs Array operand.
- * @param rhs Scalar operand.
- * @return Array with element-wise bitwise AND results.
- */
+/** @brief Applies bitwise AND between each array element and a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator&(const A& lhs, const Scalar& rhs)
@@ -208,13 +139,7 @@ A operator&(const A& lhs, const Scalar& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
-/**
- * @brief Applies bitwise OR between each array element and a scalar.
- *
- * @param lhs Array operand.
- * @param rhs Scalar operand.
- * @return Array with element-wise bitwise OR results.
- */
+/** @brief Applies bitwise OR between each array element and a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator|(const A& lhs, const Scalar& rhs)
@@ -222,13 +147,7 @@ A operator|(const A& lhs, const Scalar& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
-/**
- * @brief Applies bitwise XOR between each array element and a scalar.
- *
- * @param lhs Array operand.
- * @param rhs Scalar operand.
- * @return Array with element-wise bitwise XOR results.
- */
+/** @brief Applies bitwise XOR between each array element and a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator^(const A& lhs, const Scalar& rhs)
@@ -236,13 +155,7 @@ A operator^(const A& lhs, const Scalar& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
-/**
- * @brief Left-shifts each array element by a scalar shift count.
- *
- * @param lhs Array operand.
- * @param rhs Scalar shift count.
- * @return Array with element-wise left-shift results.
- */
+/** @brief Left-shifts each array element by a scalar shift count. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator<<(const A& lhs, const Scalar& rhs)
@@ -250,13 +163,7 @@ A operator<<(const A& lhs, const Scalar& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
-/**
- * @brief Right-shifts each array element by a scalar shift count.
- *
- * @param lhs Array operand.
- * @param rhs Scalar shift count.
- * @return Array with element-wise right-shift results.
- */
+/** @brief Right-shifts each array element by a scalar shift count. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A operator>>(const A& lhs, const Scalar& rhs)
@@ -266,13 +173,7 @@ A operator>>(const A& lhs, const Scalar& rhs)
 
 // Scalar-array (reverse)
 
-/**
- * @brief Applies bitwise AND between a scalar and each array element.
- *
- * @param lhs Scalar operand.
- * @param rhs Array operand.
- * @return Array with element-wise bitwise AND results.
- */
+/** @brief Applies bitwise AND between a scalar and each array element. */
 template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator&(const Scalar& lhs, const A& rhs)
@@ -280,13 +181,7 @@ A operator&(const Scalar& lhs, const A& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
-/**
- * @brief Applies bitwise OR between a scalar and each array element.
- *
- * @param lhs Scalar operand.
- * @param rhs Array operand.
- * @return Array with element-wise bitwise OR results.
- */
+/** @brief Applies bitwise OR between a scalar and each array element. */
 template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator|(const Scalar& lhs, const A& rhs)
@@ -294,13 +189,7 @@ A operator|(const Scalar& lhs, const A& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
-/**
- * @brief Applies bitwise XOR between a scalar and each array element.
- *
- * @param lhs Scalar operand.
- * @param rhs Array operand.
- * @return Array with element-wise bitwise XOR results.
- */
+/** @brief Applies bitwise XOR between a scalar and each array element. */
 template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator^(const Scalar& lhs, const A& rhs)
@@ -308,13 +197,7 @@ A operator^(const Scalar& lhs, const A& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
-/**
- * @brief Left-shifts a scalar value by each array element as shift count.
- *
- * @param lhs Scalar value operand.
- * @param rhs Array shift-count operand.
- * @return Array with element-wise left-shift results.
- */
+/** @brief Left-shifts a scalar value by each array element as shift count. */
 template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator<<(const Scalar& lhs, const A& rhs)
@@ -322,13 +205,7 @@ A operator<<(const Scalar& lhs, const A& rhs)
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
-/**
- * @brief Right-shifts a scalar value by each array element as shift count.
- *
- * @param lhs Scalar value operand.
- * @param rhs Array shift-count operand.
- * @return Array with element-wise right-shift results.
- */
+/** @brief Right-shifts a scalar value by each array element as shift count. */
 template<Integer Scalar, Array A>
 requires Integer<typename A::value_type>
 A operator>>(const Scalar& lhs, const A& rhs)
@@ -338,13 +215,7 @@ A operator>>(const Scalar& lhs, const A& rhs)
 
 // In-place array-array
 
-/**
- * @brief Applies element-wise bitwise AND assignment.
- *
- * @param lhs Left-hand operand to modify.
- * @param rhs Right-hand operand.
- * @return Reference to the modified left-hand operand.
- */
+/** @brief Applies element-wise bitwise AND assignment. */
 template<Array A>
 requires Integer<typename A::value_type>
 A& operator&=(A& lhs, const A& rhs)
@@ -353,13 +224,7 @@ A& operator&=(A& lhs, const A& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies element-wise bitwise OR assignment.
- *
- * @param lhs Left-hand operand to modify.
- * @param rhs Right-hand operand.
- * @return Reference to the modified left-hand operand.
- */
+/** @brief Applies element-wise bitwise OR assignment. */
 template<Array A>
 requires Integer<typename A::value_type>
 A& operator|=(A& lhs, const A& rhs)
@@ -368,13 +233,7 @@ A& operator|=(A& lhs, const A& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies element-wise bitwise XOR assignment.
- *
- * @param lhs Left-hand operand to modify.
- * @param rhs Right-hand operand.
- * @return Reference to the modified left-hand operand.
- */
+/** @brief Applies element-wise bitwise XOR assignment. */
 template<Array A>
 requires Integer<typename A::value_type>
 A& operator^=(A& lhs, const A& rhs)
@@ -383,13 +242,7 @@ A& operator^=(A& lhs, const A& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies element-wise left-shift assignment.
- *
- * @param lhs Left-hand value operand to modify.
- * @param rhs Right-hand shift-count operand.
- * @return Reference to the modified left-hand operand.
- */
+/** @brief Applies element-wise left-shift assignment. */
 template<Array A>
 requires Integer<typename A::value_type>
 A& operator<<=(A& lhs, const A& rhs)
@@ -398,13 +251,7 @@ A& operator<<=(A& lhs, const A& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies element-wise right-shift assignment.
- *
- * @param lhs Left-hand value operand to modify.
- * @param rhs Right-hand shift-count operand.
- * @return Reference to the modified left-hand operand.
- */
+/** @brief Applies element-wise right-shift assignment. */
 template<Array A>
 requires Integer<typename A::value_type>
 A& operator>>=(A& lhs, const A& rhs)
@@ -415,13 +262,7 @@ A& operator>>=(A& lhs, const A& rhs)
 
 // In-place array-scalar
 
-/**
- * @brief Applies bitwise AND assignment with a scalar.
- *
- * @param lhs Array operand to modify.
- * @param rhs Scalar operand.
- * @return Reference to the modified array.
- */
+/** @brief Applies bitwise AND assignment with a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A& operator&=(A& lhs, const Scalar& rhs)
@@ -430,13 +271,7 @@ A& operator&=(A& lhs, const Scalar& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies bitwise OR assignment with a scalar.
- *
- * @param lhs Array operand to modify.
- * @param rhs Scalar operand.
- * @return Reference to the modified array.
- */
+/** @brief Applies bitwise OR assignment with a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A& operator|=(A& lhs, const Scalar& rhs)
@@ -445,13 +280,7 @@ A& operator|=(A& lhs, const Scalar& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies bitwise XOR assignment with a scalar.
- *
- * @param lhs Array operand to modify.
- * @param rhs Scalar operand.
- * @return Reference to the modified array.
- */
+/** @brief Applies bitwise XOR assignment with a scalar. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A& operator^=(A& lhs, const Scalar& rhs)
@@ -460,13 +289,7 @@ A& operator^=(A& lhs, const Scalar& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies left-shift assignment with a scalar shift count.
- *
- * @param lhs Array value operand to modify.
- * @param rhs Scalar shift count.
- * @return Reference to the modified array.
- */
+/** @brief Applies left-shift assignment with a scalar shift count. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A& operator<<=(A& lhs, const Scalar& rhs)
@@ -475,13 +298,7 @@ A& operator<<=(A& lhs, const Scalar& rhs)
 	return lhs;
 }
 
-/**
- * @brief Applies right-shift assignment with a scalar shift count.
- *
- * @param lhs Array value operand to modify.
- * @param rhs Scalar shift count.
- * @return Reference to the modified array.
- */
+/** @brief Applies right-shift assignment with a scalar shift count. */
 template<Array A, Integer Scalar>
 requires Integer<typename A::value_type>
 A& operator>>=(A& lhs, const Scalar& rhs)
