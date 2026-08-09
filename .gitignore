@@ -56,7 +56,6 @@ DartConfiguration.tcl
 *.out
 /bin/
 /main
-/maain
 
 # OS-specific junk files
 .DS_Store
@@ -72,8 +71,6 @@ $RECYCLE.BIN/
 .Trashes
 .fseventsd
 
-
-
-
-
-main.cpp
+# miscellaneous
+/main.cpp
+/exit
