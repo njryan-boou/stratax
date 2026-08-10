@@ -3,24 +3,24 @@ var concepts =
     [ "stratax", null, [
       [ "core", null, [
         [ "concept_detail", null, [
-          [ "SameAsAny", "conceptstratax_1_1core_1_1concept__detail_1_1_same_as_any.html", null ],
-          [ "CharacterLike", "conceptstratax_1_1core_1_1concept__detail_1_1_character_like.html", null ],
-          [ "BoolLike", "conceptstratax_1_1core_1_1concept__detail_1_1_bool_like.html", null ],
-          [ "SupportedComplex", "conceptstratax_1_1core_1_1concept__detail_1_1_supported_complex.html", null ]
+          [ "SameAsAny", "conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html", null ],
+          [ "CharacterLike", "conceptstratax_1_1core_1_1concept__detail_1_1CharacterLike.html", null ],
+          [ "BoolLike", "conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html", null ],
+          [ "SupportedComplex", "conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html", null ]
         ] ]
       ] ]
     ] ],
-    [ "Arithmetic", "concept_arithmetic.html", null ],
-    [ "Array", "concept_array.html", null ],
-    [ "Complex", "concept_complex.html", null ],
-    [ "Float", "concept_float.html", null ],
-    [ "Floating", "concept_floating.html", null ],
-    [ "Integer", "concept_integer.html", null ],
-    [ "Integral", "concept_integral.html", null ],
-    [ "NDarray", "concept_n_darray.html", null ],
-    [ "Numeric", "concept_numeric.html", null ],
-    [ "Real", "concept_real.html", null ],
-    [ "Scalar", "concept_scalar.html", null ],
-    [ "SignedInteger", "concept_signed_integer.html", null ],
-    [ "UnsignedInteger", "concept_unsigned_integer.html", null ]
+    [ "Arithmetic", "conceptArithmetic.html", null ],
+    [ "Array", "conceptArray.html", null ],
+    [ "Complex", "conceptComplex.html", null ],
+    [ "Float", "conceptFloat.html", null ],
+    [ "Floating", "conceptFloating.html", null ],
+    [ "Integer", "conceptInteger.html", null ],
+    [ "Integral", "conceptIntegral.html", null ],
+    [ "NDarray", "conceptNDarray.html", null ],
+    [ "Numeric", "conceptNumeric.html", null ],
+    [ "Real", "conceptReal.html", null ],
+    [ "Scalar", "conceptScalar.html", null ],
+    [ "SignedInteger", "conceptSignedInteger.html", null ],
+    [ "UnsignedInteger", "conceptUnsignedInteger.html", null ]
 ];

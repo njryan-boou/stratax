@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/io/Print.hpp`
+Header: `include/stratax/io/Print.hpp`
 
 ---
 

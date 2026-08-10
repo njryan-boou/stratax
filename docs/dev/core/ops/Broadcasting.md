@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Broadcasting.hpp`
+Header: `include/stratax/indexing/Broadcasting.hpp`
 
 ---
 
@@ -52,13 +52,13 @@ broadcasted_op(...)
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/containers/Shape.hpp`
-- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/Shape.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
 
 Used by:
 
-- `include/stratax/core/ops/Arithmetic.hpp`
+- `include/stratax/ops/Arithmetic.hpp`
 - Direct custom element-wise operations
 
 ---
@@ -237,5 +237,5 @@ coordinate vector for each element.
 ## See Also
 
 - @ref arithmetic "Arithmetic"
-- `include/stratax/core/containers/Shape.hpp`
-- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/core/Shape.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`

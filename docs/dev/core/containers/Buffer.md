@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/containers/Buffer.hpp`
+Header: `include/stratax/core/Buffer.hpp`
 
 ---
 

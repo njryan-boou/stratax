@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Slice.hpp`
+Header: `include/stratax/indexing/Slicing.hpp`
 
 ---
 
@@ -47,9 +47,9 @@ slice(...) overloads
 Depends on:
 
 - `include/stratax/core/Slice.hpp`
-- `include/stratax/core/containers/Vector.hpp`
-- `include/stratax/core/containers/Matrix.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/containers/Vector.hpp`
+- `include/stratax/containers/Matrix.hpp`
+- `include/stratax/containers/Tensor.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 
 ---
@@ -215,4 +215,4 @@ Tensor slicing currently copies into new storage rather than producing a view to
 ## See Also
 
 - `include/stratax/core/Slice.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/containers/Tensor.hpp`

@@ -2,7 +2,7 @@
 
 #include <pybind11/pybind11.h>
 
-#include <stratax/core/Exceptions.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 #include <cmath>
 #include <cstddef>

@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Arithmetic.hpp`
+Header: `include/stratax/ops/Arithmetic.hpp`
 
 ---
 
@@ -51,9 +51,9 @@ Arithmetic operators
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/ops/Broadcasting.hpp`
-- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/indexing/Broadcasting.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
 
 Used by:
 
@@ -210,5 +210,5 @@ subtraction and division.
 ## See Also
 
 - @ref broadcasting "Broadcasting"
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/ops/Comparison.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/ops/Comparison.hpp`

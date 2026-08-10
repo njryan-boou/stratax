@@ -1,0 +1,7 @@
+<map id="Exceptions::ZeroDivisionError" name="Exceptions::ZeroDivisionError">
+<area shape="rect" id="Node000001" title="Signals a division by zero." alt="" coords="5,157,189,201"/>
+<area shape="rect" id="Node000002" href="$classExceptions_1_1StrataxError.html" title="Base class for Stratax&#45;specific runtime errors." alt="" coords="8,81,186,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,123,100,157,94,155,95,127"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="28,5,166,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,46,100,81,94,80,96,51"/>
+</map>

@@ -50,7 +50,7 @@ Depends on:
 
 Used by:
 
-- `include/stratax/core/Concepts.hpp`
+- `include/stratax/concepts/Numeric.hpp`
 - Container templates and algorithm signatures
 
 ---
@@ -157,4 +157,4 @@ Eligibility for concepts like `Numeric` is determined in `Concepts.hpp`, not in 
 
 ## See Also
 
-- `include/stratax/core/Concepts.hpp`
+- `include/stratax/concepts/Numeric.hpp`

@@ -2,9 +2,9 @@
 
 #include "utils.hpp"
 
-#include <stratax/core/Exceptions.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Meta.hpp>
-#include <stratax/core/containers/Shape.hpp>
+#include <stratax/core/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
 #include <cstddef>

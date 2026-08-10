@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['arithmetic_0',['Arithmetic',['../concept_arithmetic.html',1,'']]],
-  ['array_1',['Array',['../concept_array.html',1,'']]]
+  ['arithmetic_0',['Arithmetic',['../conceptArithmetic.html',1,'']]],
+  ['array_1',['Array',['../conceptArray.html',1,'']]]
 ];

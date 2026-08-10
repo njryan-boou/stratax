@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/algorithms/Reductions.hpp`
+Header: `include/stratax/algorithms/Reductions.hpp`
 
 ---
 
@@ -47,9 +47,9 @@ reduction::* functions
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp` (Array concept)
-- `include/stratax/core/containers/Tensor.hpp`
-- `include/stratax/core/ops/Slice.hpp`
+- `include/stratax/concepts/Numeric.hpp` (Array concept)
+- `include/stratax/containers/Tensor.hpp`
+- `include/stratax/indexing/Slicing.hpp`
 - `<numeric>`, `<algorithm>`, `<cmath>`
 
 Used by:
@@ -343,6 +343,6 @@ auto max_idx = reduction::argmax(t, 2);  // Shape [2, 3] of size_t
 
 ## See Also
 
-- `include/stratax/core/algorithms/Creation.hpp`
-- `include/stratax/core/algorithms/Reshape.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/algorithms/Creation.hpp`
+- `include/stratax/algorithms/Reshape.hpp`
+- `include/stratax/containers/Tensor.hpp`

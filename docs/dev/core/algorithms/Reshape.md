@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/algorithms/Reshape.hpp`
+Header: `include/stratax/algorithms/Reshape.hpp`
 
 ---
 
@@ -47,10 +47,10 @@ flatten(arr)
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/containers/Shape.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
-- `include/stratax/core/containers/Vector.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/Shape.hpp`
+- `include/stratax/containers/Tensor.hpp`
+- `include/stratax/containers/Vector.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 
 ---
@@ -135,5 +135,5 @@ The module keeps behavior explicit and safe: reshape validates total size first 
 
 ## See Also
 
-- `include/stratax/core/algorithms/Conversions.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/algorithms/Conversion.hpp`
+- `include/stratax/containers/Tensor.hpp`

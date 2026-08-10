@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/containers/Vector.hpp`
+Header: `include/stratax/containers/Vector.hpp`
 
 ---
 

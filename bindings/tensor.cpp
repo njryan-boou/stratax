@@ -4,13 +4,13 @@
 
 #include "utils.hpp"
 
-#include <stratax/core/Exceptions.hpp>
-#include <stratax/core/algorithms/Reshape.hpp>
-#include <stratax/core/containers/Shape.hpp>
-#include <stratax/core/containers/Tensor.hpp>
-#include <stratax/core/io/Print.hpp>
-#include <stratax/core/ops/Arithmetic.hpp>
-#include <stratax/core/ops/Comparison.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/algorithms/Reshape.hpp>
+#include <stratax/core/Shape.hpp>
+#include <stratax/containers/Tensor.hpp>
+#include <stratax/io/Print.hpp>
+#include <stratax/ops/Arithmetic.hpp>
+#include <stratax/ops/Comparison.hpp>
 
 #include <cstddef>
 #include <sstream>

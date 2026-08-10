@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ndarray_0',['NDarray',['../concept_n_darray.html',1,'']]],
-  ['numeric_1',['Numeric',['../concept_numeric.html',1,'']]]
+  ['ndarray_0',['NDarray',['../conceptNDarray.html',1,'']]],
+  ['numeric_1',['Numeric',['../conceptNumeric.html',1,'']]]
 ];

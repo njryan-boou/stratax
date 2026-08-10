@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/containers/Tensor.hpp`
+Header: `include/stratax/containers/Tensor.hpp`
 
 ---
 

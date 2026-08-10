@@ -1,35 +1,36 @@
 var annotated_dup =
 [
     [ "Exceptions", null, [
-      [ "StrataxError", "class_exceptions_1_1_stratax_error.html", null ],
-      [ "ShapeError", "class_exceptions_1_1_shape_error.html", null ],
-      [ "DimensionError", "class_exceptions_1_1_dimension_error.html", null ],
-      [ "IndexError", "class_exceptions_1_1_index_error.html", null ],
-      [ "TypeError", "class_exceptions_1_1_type_error.html", null ],
-      [ "BroadcastError", "class_exceptions_1_1_broadcast_error.html", null ],
-      [ "ZeroDivisionError", "class_exceptions_1_1_zero_division_error.html", null ],
-      [ "AxisError", "class_exceptions_1_1_axis_error.html", null ]
+      [ "StrataxError", "classExceptions_1_1StrataxError.html", null ],
+      [ "ShapeError", "classExceptions_1_1ShapeError.html", null ],
+      [ "DimensionError", "classExceptions_1_1DimensionError.html", null ],
+      [ "IndexError", "classExceptions_1_1IndexError.html", null ],
+      [ "TypeError", "classExceptions_1_1TypeError.html", null ],
+      [ "BroadcastError", "classExceptions_1_1BroadcastError.html", null ],
+      [ "ZeroDivisionError", "classExceptions_1_1ZeroDivisionError.html", null ],
+      [ "AxisError", "classExceptions_1_1AxisError.html", null ]
     ] ],
     [ "stratax", null, [
-      [ "container", null, [
-        [ "Matrix", "classstratax_1_1container_1_1_matrix.html", "classstratax_1_1container_1_1_matrix" ],
-        [ "Tensor", "classstratax_1_1container_1_1_tensor.html", "classstratax_1_1container_1_1_tensor" ],
-        [ "Vector", "classstratax_1_1container_1_1_vector.html", "classstratax_1_1container_1_1_vector" ]
-      ] ],
       [ "core", null, [
-        [ "Buffer", "classstratax_1_1core_1_1_buffer.html", "classstratax_1_1core_1_1_buffer" ],
-        [ "Shape", "classstratax_1_1core_1_1_shape.html", "classstratax_1_1core_1_1_shape" ],
-        [ "Slice", "classstratax_1_1core_1_1_slice.html", "classstratax_1_1core_1_1_slice" ],
-        [ "Strides", "classstratax_1_1core_1_1_strides.html", "classstratax_1_1core_1_1_strides" ]
+        [ "ArrayBase", "classstratax_1_1core_1_1ArrayBase.html", null ],
+        [ "Buffer", "classstratax_1_1core_1_1Buffer.html", "classstratax_1_1core_1_1Buffer" ],
+        [ "Shape", "classstratax_1_1core_1_1Shape.html", "classstratax_1_1core_1_1Shape" ],
+        [ "Slice", "classstratax_1_1core_1_1Slice.html", "classstratax_1_1core_1_1Slice" ],
+        [ "Strides", "classstratax_1_1core_1_1Strides.html", "classstratax_1_1core_1_1Strides" ]
+      ] ],
+      [ "container", null, [
+        [ "Vector", "classstratax_1_1container_1_1Vector.html", "classstratax_1_1container_1_1Vector" ],
+        [ "Matrix", "classstratax_1_1container_1_1Matrix.html", "classstratax_1_1container_1_1Matrix" ],
+        [ "Tensor", "classstratax_1_1container_1_1Tensor.html", "classstratax_1_1container_1_1Tensor" ]
       ] ],
       [ "ops", null, [
         [ "detail", null, [
-          [ "ResolvedSlice", "structstratax_1_1ops_1_1detail_1_1_resolved_slice.html", "structstratax_1_1ops_1_1detail_1_1_resolved_slice" ]
+          [ "ResolvedSlice", "structstratax_1_1ops_1_1detail_1_1ResolvedSlice.html", "structstratax_1_1ops_1_1detail_1_1ResolvedSlice" ]
         ] ]
       ] ]
     ] ],
     [ "is_array", "structis__array.html", null ],
-    [ "is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_matrix_3_01_t_01_4_01_4.html", null ],
-    [ "is_array&lt; stratax::container::Tensor&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_tensor_3_01_t_01_4_01_4.html", null ],
-    [ "is_array&lt; stratax::container::Vector&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1_vector_3_01_t_01_4_01_4.html", null ]
+    [ "is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4.html", null ],
+    [ "is_array&lt; stratax::container::Tensor&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1Tensor_3_01T_01_4_01_4.html", null ],
+    [ "is_array&lt; stratax::container::Vector&lt; T &gt; &gt;", "structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html", null ]
 ];

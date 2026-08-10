@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/Exceptions.hpp`
+Header: `include/stratax/exceptions/Exceptions.hpp`
 
 ---
 

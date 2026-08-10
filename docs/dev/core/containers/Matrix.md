@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/containers/Matrix.hpp`
+Header: `include/stratax/containers/Matrix.hpp`
 
 ---
 

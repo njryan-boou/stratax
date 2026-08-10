@@ -2,8 +2,8 @@
 
 #include <type_traits>
 
-#include <stratax/core/Concepts.hpp>
-#include <stratax/core/Exceptions.hpp>
+#include <stratax/concepts/Numeric.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core::validation {
 

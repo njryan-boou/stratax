@@ -1,0 +1,5 @@
+<map id="stratax::core::Buffer&lt; T, Alignment &gt;" name="stratax::core::Buffer&lt; T, Alignment &gt;">
+<area shape="rect" id="Node000001" title="Owns contiguous dynamically allocated storage for Stratax arrays." alt="" coords="47,123,198,168"/>
+<area shape="rect" id="Node000002" href="$structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html" title="Tag type selecting allocated storage without element initialization." alt="" coords="5,5,240,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,64,125,123,120,122,121,68"/>
+</map>

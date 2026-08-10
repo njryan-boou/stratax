@@ -1,0 +1,7 @@
+<map id="Exceptions::TypeError" name="Exceptions::TypeError">
+<area shape="rect" id="Node000001" title="Signals an invalid or unsupported type." alt="" coords="14,157,175,184"/>
+<area shape="rect" id="Node000002" href="$classExceptions_1_1StrataxError.html" title="Base class for Stratax&#45;specific runtime errors." alt="" coords="5,81,184,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,123,97,157,92,155,93,126"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="25,5,164,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,46,97,81,92,80,93,51"/>
+</map>

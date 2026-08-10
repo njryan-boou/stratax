@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-#include <stratax/core/Exceptions.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core::validation {
 

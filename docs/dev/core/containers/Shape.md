@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/containers/Shape.hpp`
+Header: `include/stratax/core/Shape.hpp`
 
 ---
 

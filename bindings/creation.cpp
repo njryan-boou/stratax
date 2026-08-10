@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 
-#include <stratax/core/algorithms/Creation.hpp>
+#include <stratax/algorithms/Creation.hpp>
 
 namespace py = pybind11;
 

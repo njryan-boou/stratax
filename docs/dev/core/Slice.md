@@ -45,11 +45,11 @@ stratax::core::Slice
 
 Depends on:
 
-- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
 
 Used by:
 
-- `include/stratax/core/ops/Slice.hpp`
+- `include/stratax/indexing/Slicing.hpp`
 
 ---
 
@@ -171,4 +171,4 @@ Using signed fields enables Python-like negative-index flows at higher layers wi
 
 ## See Also
 
-- `include/stratax/core/ops/Slice.hpp`
+- `include/stratax/indexing/Slicing.hpp`

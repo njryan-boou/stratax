@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/Concepts.hpp`
+Header: `include/stratax/concepts/Numeric.hpp`
 
 ---
 

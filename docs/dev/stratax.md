@@ -39,40 +39,40 @@ The umbrella header is not responsible for:
 
 ### Core Foundations
 
-- `include/stratax/core/containers/Buffer.hpp`
-- `include/stratax/core/Concepts.hpp`
+- `include/stratax/core/Buffer.hpp`
+- `include/stratax/concepts/Numeric.hpp`
 - `include/stratax/core/Config.hpp`
-- `include/stratax/core/Exceptions.hpp`
-- `include/stratax/core/containers/Shape.hpp`
-- `include/stratax/core/containers/Strides.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
+- `include/stratax/core/Shape.hpp`
+- `include/stratax/core/Strides.hpp`
 - `include/stratax/core/Types.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 - `include/stratax/core/Slice.hpp`
 
 ### Containers
 
-- `include/stratax/core/containers/Matrix.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
-- `include/stratax/core/containers/Vector.hpp`
+- `include/stratax/containers/Matrix.hpp`
+- `include/stratax/containers/Tensor.hpp`
+- `include/stratax/containers/Vector.hpp`
 
 ### Algorithms
 
-- `include/stratax/core/algorithms/Creation.hpp`
-- `include/stratax/core/algorithms/Conversions.hpp`
-- `include/stratax/core/algorithms/Reshape.hpp`
-- `include/stratax/core/algorithms/Reductions.hpp`
+- `include/stratax/algorithms/Creation.hpp`
+- `include/stratax/algorithms/Conversion.hpp`
+- `include/stratax/algorithms/Reshape.hpp`
+- `include/stratax/algorithms/Reductions.hpp`
 
 ### Ops
 
-- `include/stratax/core/ops/Comparison.hpp`
-- `include/stratax/core/ops/Arithmetic.hpp`
-- `include/stratax/core/ops/Broadcasting.hpp`
-- `include/stratax/core/ops/Indexing.hpp`
-- `include/stratax/core/ops/Slice.hpp`
+- `include/stratax/ops/Comparison.hpp`
+- `include/stratax/ops/Arithmetic.hpp`
+- `include/stratax/indexing/Broadcasting.hpp`
+- `include/stratax/indexing/Indexing.hpp`
+- `include/stratax/indexing/Slicing.hpp`
 
 ### I/O
 
-- `include/stratax/core/io/Print.hpp`
+- `include/stratax/io/Print.hpp`
 
 ---
 

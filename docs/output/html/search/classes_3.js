@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dimensionerror_0',['DimensionError',['../class_exceptions_1_1_dimension_error.html',1,'Exceptions']]]
+  ['dimensionerror_0',['DimensionError',['../classExceptions_1_1DimensionError.html',1,'Exceptions']]]
 ];

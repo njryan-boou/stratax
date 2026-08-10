@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Bitwise.hpp`
+Header: `include/stratax/ops/Bitwise.hpp`
 
 ---
 
@@ -47,7 +47,7 @@ Bitwise operators
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
+- `include/stratax/concepts/Numeric.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 
 Used by:
@@ -284,6 +284,6 @@ Compound assignments delegate to non-compound operators to centralize shape vali
 
 ## See Also
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/ops/Arithmetic.hpp`
-- `include/stratax/core/ops/Comparison.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/ops/Arithmetic.hpp`
+- `include/stratax/ops/Comparison.hpp`

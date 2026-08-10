@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/algorithms/Conversions.hpp`
+Header: `include/stratax/algorithms/Conversion.hpp`
 
 ---
 
@@ -46,11 +46,11 @@ astype<To>(...)
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/Exceptions.hpp`
-- `include/stratax/core/containers/Vector.hpp`
-- `include/stratax/core/containers/Matrix.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
+- `include/stratax/containers/Vector.hpp`
+- `include/stratax/containers/Matrix.hpp`
+- `include/stratax/containers/Tensor.hpp`
 
 ---
 
@@ -156,5 +156,5 @@ Vector/matrix conversion is intentionally permissive for singleton dimensions, w
 
 ## See Also
 
-- `include/stratax/core/algorithms/Reshape.hpp`
-- `include/stratax/core/containers/Shape.hpp`
+- `include/stratax/algorithms/Reshape.hpp`
+- `include/stratax/core/Shape.hpp`

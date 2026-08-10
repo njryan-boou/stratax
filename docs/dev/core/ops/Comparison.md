@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Comparison.hpp`
+Header: `include/stratax/ops/Comparison.hpp`
 
 ---
 
@@ -47,7 +47,7 @@ operator!=
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
+- `include/stratax/concepts/Numeric.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 
 Used by:
@@ -146,5 +146,5 @@ Approximate comparisons for floating-point values should be introduced as separa
 
 ## See Also
 
-- `include/stratax/core/ops/Arithmetic.hpp`
+- `include/stratax/ops/Arithmetic.hpp`
 - `include/stratax/core/validation/ShapeValidation.hpp`

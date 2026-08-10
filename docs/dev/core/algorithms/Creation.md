@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/algorithms/Creation.hpp`
+Header: `include/stratax/algorithms/Creation.hpp`
 
 ---
 
@@ -47,9 +47,9 @@ creation::identity
 
 Depends on:
 
-- `include/stratax/core/Concepts.hpp`
-- `include/stratax/core/containers/Tensor.hpp`
-- `include/stratax/core/containers/Shape.hpp`
+- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/containers/Tensor.hpp`
+- `include/stratax/core/Shape.hpp`
 
 ---
 
@@ -149,4 +149,4 @@ Keeping these helpers in a small `creation` namespace provides concise call site
 
 ## See Also
 
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/containers/Tensor.hpp`

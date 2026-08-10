@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/ops/Indexing.hpp`
+Header: `include/stratax/indexing/Indexing.hpp`
 
 ---
 
@@ -46,10 +46,10 @@ offset(shape, strides, index)
 
 Depends on:
 
-- `include/stratax/core/containers/Shape.hpp`
-- `include/stratax/core/containers/Strides.hpp`
+- `include/stratax/core/Shape.hpp`
+- `include/stratax/core/Strides.hpp`
 - `include/stratax/core/validation/Validation.hpp`
-- `include/stratax/core/Exceptions.hpp`
+- `include/stratax/exceptions/Exceptions.hpp`
 
 Used by:
 
@@ -140,5 +140,5 @@ The API is generic over index containers to avoid forcing a project-specific ind
 
 ## See Also
 
-- `include/stratax/core/containers/Tensor.hpp`
+- `include/stratax/containers/Tensor.hpp`
 - `include/stratax/core/validation/IndexValidation.hpp`

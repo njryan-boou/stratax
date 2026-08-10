@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <limits>
 
-#include <stratax/core/Exceptions.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core::validation {
 
