@@ -1,6 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"types.html":[29],
 "types.html#autotoc_md844":[29,0,0],
 "types.html#autotoc_md846":[29,0,1],
 "types.html#autotoc_md848":[29,0,2],

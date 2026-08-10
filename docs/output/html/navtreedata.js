@@ -728,7 +728,7 @@ var NAVTREEINDEX =
 "classstratax_1_1container_1_1Tensor.html#ac3b554e02222e81020f189e2ff917889",
 "conversions.html#autotoc_md50",
 "print.html#autotoc_md650",
-"types.html"
+"types.html#autotoc_md844"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

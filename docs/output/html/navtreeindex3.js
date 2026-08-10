@@ -147,7 +147,6 @@ var NAVTREEINDEX3 =
 "slice.html#autotoc_md840":[28,0,12],
 "slice.html#autotoc_md842":[28,0,13],
 "slice.html#dev_slice":[28,0],
-"stratax_8hpp_source.html":[38,0,1,1],
 "strides.html":[16],
 "strides.html#autotoc_md374":[16,0,0],
 "strides.html#autotoc_md376":[16,0,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX3 =
 "troubleshooting.html#autotoc_md1036":[33,6,0,2],
 "troubleshooting.html#autotoc_md1037":[33,6,0,3],
 "troubleshooting.html#autotoc_md1038":[33,6,0,4],
-"troubleshooting.html#autotoc_md1039":[33,6,0,5]
+"troubleshooting.html#autotoc_md1039":[33,6,0,5],
+"types.html":[29]
 };

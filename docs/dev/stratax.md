@@ -66,7 +66,7 @@ The umbrella header is not responsible for:
 
 - `include/stratax/ops/Comparison.hpp`
 - `include/stratax/ops/Arithmetic.hpp`
-- `include/stratax/indexing/Broadcasting.hpp`
+- `include/stratax/ops/Broadcasting.hpp`
 - `include/stratax/indexing/Indexing.hpp`
 - `include/stratax/indexing/Slicing.hpp`
 

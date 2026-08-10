@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/indexing/Broadcasting.hpp`
+Header: `include/stratax/ops/Broadcasting.hpp`
 
 ---
 

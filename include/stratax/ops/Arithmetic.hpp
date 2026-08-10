@@ -2,7 +2,7 @@
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/indexing/Broadcasting.hpp>
+#include <stratax/ops/Broadcasting.hpp>
 
 #include <functional>
 

@@ -7,6 +7,7 @@
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
@@ -17,13 +18,8 @@ namespace stratax::container {
 /** @brief Stores a rank-2 Stratax array in row-major order. */
 template<typename T>
 requires Numeric<T>
-class Matrix
+class Matrix : public core::ArrayBase<T>
 {
-private:
-	core::Shape shape_;
-	core::Strides strides_;
-	core::Buffer<T> buffer_;
-
 public:
 	/** @brief Element type stored by the matrix. */
 	using value_type = T;
