@@ -23,6 +23,11 @@ template<typename T>
 requires Numeric<T>
 class Tensor : public stratax::core::ArrayBase<T>
 {
+protected:
+	using stratax::core::ArrayBase<T>::buffer_;
+	using stratax::core::ArrayBase<T>::shape_;
+	using stratax::core::ArrayBase<T>::strides_;
+
 public:
 	/** @brief Element type stored by the tensor. */
 	using value_type = T;
@@ -48,18 +53,18 @@ public:
 
 	/** @brief Creates a tensor with default-initialized storage for a shape. */
 	explicit Tensor(const core::Shape& shape)
-		: shape_(shape),
-		  strides_(shape_),
-		  buffer_(shape_.elements())
 	{
+		shape_ = shape;
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(shape_.elements());
 	}
 
 	/** @brief Creates a tensor from a shape and fills it with a value. */
 	Tensor(const core::Shape& shape, const T& value)
-		: shape_(shape),
-		  strides_(shape_),
-		  buffer_(shape_.elements(), value)
 	{
+		shape_ = shape;
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(shape_.elements(), value);
 	}
 
 	/** @brief Creates a copy of another tensor. */

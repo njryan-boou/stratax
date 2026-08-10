@@ -20,6 +20,11 @@ template<typename T>
 requires Numeric<T>
 class Vector : public core::ArrayBase<T>
 {
+protected:
+	using core::ArrayBase<T>::buffer_;
+	using core::ArrayBase<T>::shape_;
+	using core::ArrayBase<T>::strides_;
+
 public:
 	/** @brief Element type stored by the vector. */
 	using value_type = T;
@@ -45,34 +50,34 @@ public:
 
 	/** @brief Creates a vector with the given number of elements. */
 	explicit Vector(std::size_t size)
-		: shape_({size}, core::Shape::allow_zero),
-		  strides_(shape_),
-		  buffer_(size)
 	{
+		shape_ = core::Shape({size}, core::Shape::allow_zero);
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(size);
 	}
 
 	/** @brief Creates a vector from a validated rank-1 shape. */
 	explicit Vector(const core::Shape& shape)
-		: shape_(core::validation::require_rank(shape, 1, "Shape must be rank 1")),
-		  strides_(shape_),
-		  buffer_(shape_.elements())
 	{
+		shape_ = core::validation::require_rank(shape, 1, "Shape must be rank 1");
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(shape_.elements());
 	}
 
 	/** @brief Creates a vector and fills it with a value. */
 	Vector(std::size_t size, const T& value)
-		: shape_({size}, core::Shape::allow_zero),
-		  strides_(shape_),
-		  buffer_(size, value)
 	{
+		shape_ = core::Shape({size}, core::Shape::allow_zero);
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(size, value);
 	}
 
 	/** @brief Creates a vector from an initializer list. */
 	Vector(std::initializer_list<T> list)
-		: shape_({list.size()}, core::Shape::allow_zero),
-		  strides_(shape_),
-		  buffer_(list)
 	{
+		shape_ = core::Shape({list.size()}, core::Shape::allow_zero);
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(list);
 	}
 
 	/** @brief Creates a copy of another vector. */

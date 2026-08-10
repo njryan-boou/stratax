@@ -20,6 +20,11 @@ template<typename T>
 requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
+protected:
+	using core::ArrayBase<T>::buffer_;
+	using core::ArrayBase<T>::shape_;
+	using core::ArrayBase<T>::strides_;
+
 public:
 	/** @brief Element type stored by the matrix. */
 	using value_type = T;
@@ -45,29 +50,31 @@ public:
 
 	/** @brief Creates a rank-2 matrix with the given number of rows and columns. */
 	Matrix(std::size_t rows, std::size_t cols)
-		: shape_({rows, cols}, core::Shape::allow_zero),
-		  strides_(shape_),
-		  buffer_(core::validation::checked_multiply(rows, cols, "Matrix size overflow"))
 	{
+		shape_ = core::Shape({rows, cols}, core::Shape::allow_zero);
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(
+			core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
 	}
 
 	/** @brief Creates a matrix from a validated rank-2 shape. */
 	explicit Matrix(const core::Shape& shape)
-		: shape_(core::validation::require_rank(shape, 2, "Shape must be rank 2")),
-		  strides_(shape_),
-		  buffer_(core::validation::checked_multiply(
-			  shape_(0),
-			  shape_(1),
-			  "Matrix size overflow"))
 	{
+		shape_ = core::validation::require_rank(shape, 2, "Shape must be rank 2");
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(core::validation::checked_multiply(
+			shape_(0),
+			shape_(1),
+			"Matrix size overflow"));
 	}
 
 	/** @brief Creates a matrix and fills it with a value. */
 	Matrix(std::size_t rows, std::size_t cols, const T& value)
-		: shape_({rows, cols}, core::Shape::allow_zero),
-		  strides_(shape_),
-		  buffer_(core::validation::checked_multiply(rows, cols, "Matrix size overflow"), value)
 	{
+		shape_ = core::Shape({rows, cols}, core::Shape::allow_zero);
+		strides_ = core::Strides(shape_);
+		buffer_ = core::Buffer<T>(
+			core::validation::checked_multiply(rows, cols, "Matrix size overflow"), value);
 	}
 
 	/** @brief Creates a matrix from a nested initializer list. */

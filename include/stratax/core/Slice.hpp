@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Exceptions.hpp"
+#include <stratax/exceptions/Exceptions.hpp>
 
 #include <cstddef>
 
