@@ -25,7 +25,7 @@ inline bool advance(const stratax::core::Shape& shape, std::vector<std::size_t>&
 	// Start from the rightmost dimension
 	for (int d = shape.rank() - 1; d >= 0; --d) {
 		indices[d]++;
-		if (indices[d] < shape(d)) {
+		if (indices[d] < shape[d]) {
 			return true;  // Successfully advanced, more indices exist
 		}
 		indices[d] = 0;  // Reset and carry over to next dimension

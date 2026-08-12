@@ -205,7 +205,7 @@ slice(
 	{
 		resolved[dim] = stratax::ops::detail::normalize_slice(
 			ranges[dim],
-			tensor.shape()(dim),
+			tensor.shape()[dim],
 			"Tensor slice out of bounds.");
 		out_dims[dim] = resolved[dim].size;
 	}
@@ -228,15 +228,15 @@ slice(
 
 		for (std::size_t dim = 0; dim < resolved.size(); ++dim)
 		{
-			const std::size_t index = remainder / result_strides(dim);
-			remainder %= result_strides(dim);
+			const std::size_t index = remainder / result_strides[dim];
+			remainder %= result_strides[dim];
 
 			const std::ptrdiff_t source_index =
 				resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
 			const std::size_t term =
 				stratax::core::validation::checked_multiply(
 					static_cast<std::size_t>(source_index),
-					tensor_strides(dim),
+					tensor_strides[dim],
 					"Tensor slice offset overflow.");
 			source_offset =
 				stratax::core::validation::checked_add(
@@ -271,7 +271,7 @@ slice(
 	{
 		resolved[dim] = stratax::ops::detail::normalize_slice(
 			slices[dim],
-			tensor.shape()(dim),
+			tensor.shape()[dim],
 			"Tensor slice out of bounds.");
 		out_dims[dim] = resolved[dim].size;
 	}
@@ -294,15 +294,15 @@ slice(
 
 		for (std::size_t dim = 0; dim < resolved.size(); ++dim)
 		{
-			const std::size_t index = remainder / result_strides(dim);
-			remainder %= result_strides(dim);
+			const std::size_t index = remainder / result_strides[dim];
+			remainder %= result_strides[dim];
 
 			const std::ptrdiff_t source_index =
 				resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
 			const std::size_t term =
 				stratax::core::validation::checked_multiply(
 					static_cast<std::size_t>(source_index),
-					tensor_strides(dim),
+					tensor_strides[dim],
 					"Tensor slice offset overflow.");
 			source_offset =
 				stratax::core::validation::checked_add(

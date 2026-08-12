@@ -15,7 +15,7 @@ inline std::size_t dimension_from_right(
 	std::size_t offset)
 {
 	return offset < shape.rank()
-		? shape(shape.rank() - 1 - offset)
+		? shape[shape.rank() - 1 - offset]
 		: 1;
 }
 
@@ -30,8 +30,8 @@ inline std::size_t flat_operand_index(
 	for (std::size_t result_axis = result_shape.rank(); result_axis-- > 0;)
 	{
 		const std::size_t coordinate =
-			result_index % result_shape(result_axis);
-		result_index /= result_shape(result_axis);
+			result_index % result_shape[result_axis];
+		result_index /= result_shape[result_axis];
 
 		const std::size_t offset = result_shape.rank() - 1 - result_axis;
 		if (offset >= operand_shape.rank())
@@ -40,7 +40,7 @@ inline std::size_t flat_operand_index(
 		}
 
 		const std::size_t operand_axis = operand_shape.rank() - 1 - offset;
-		const std::size_t operand_dimension = operand_shape(operand_axis);
+		const std::size_t operand_dimension = operand_shape[operand_axis];
 		const std::size_t operand_coordinate =
 			operand_dimension == 1 ? 0 : coordinate;
 

@@ -123,17 +123,23 @@ public:
 		return dims_.size();
 	}
 
-	/** @brief Returns the dimension length at a zero-based index. */
-	const std::size_t& operator()(std::size_t index) const
+	/** @brief Returns the dimension length without bounds checking. */
+	const std::size_t& operator[](std::size_t index) const noexcept
 	{
-		validation::require_index(index, rank(), "Shape dimension index out of bounds");
 		return dims_[index];
 	}
 
-	/** @brief Returns the dimension length using signed indexing. */
-	const std::size_t& operator[](std::ptrdiff_t index) const
+	/** @brief Returns the dimension length without bounds checking. */
+	const std::size_t& operator()(std::size_t index) const noexcept
 	{
 		return dims_[index];
+	}
+
+	/** @brief Returns the dimension length with bounds checking. */
+	const std::size_t& at(std::ptrdiff_t index) const
+	{
+		const std::size_t normalized = validation::normalize_index(index, rank(), "Shape dimension index out of bounds");
+		return dims_[normalized];
 	}
 
 	/** @brief Returns whether the shape has no dimensions. */

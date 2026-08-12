@@ -26,6 +26,8 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
+	using core::ArrayBase<T>::operator();
+
 	/** @brief Element type stored by the matrix. */
 	using value_type = T;
 

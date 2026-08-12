@@ -52,7 +52,7 @@ public:
 			{
 				buffer_[i - 1] = validation::checked_multiply(
 					buffer_[i],
-					shape(i),
+					shape[i],
 					"Strides overflow for shape");
 			}
 			catch (const Exceptions::DimensionError&)
@@ -96,16 +96,22 @@ public:
 	}
 
 	/** @brief Returns a stride value without bounds checking. */
-	const std::size_t& operator()(std::size_t index) const
+	const std::size_t& operator[](std::size_t index) const noexcept
+	{
+		return buffer_[index];
+	}
+
+	/** @brief Returns a stride value without bounds checking. */
+	const std::size_t& operator()(std::size_t index) const noexcept
 	{
 		return buffer_[index];
 	}
 
 	/** @brief Returns a stride value with bounds checking. */
-	const std::size_t& at(std::size_t index) const
+	const std::size_t& at(std::ptrdiff_t index) const
 	{
-		validation::require_index(index, rank(), "Strides index out of bounds");
-		return buffer_[index];
+		const std::size_t normalized = validation::normalize_index(index, rank(), "Strides index out of bounds");
+		return buffer_[normalized];
 	}
 
 	 /** @brief Returns the first stride value. */

@@ -26,8 +26,6 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
-	/** @brief Element type stored by the vector. */
-	using value_type = T;
 
 	/** @brief Rebinds the vector container to another element type. */
 	template<typename U>

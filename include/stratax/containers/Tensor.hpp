@@ -29,6 +29,8 @@ protected:
 	using stratax::core::ArrayBase<T>::strides_;
 
 public:
+	using stratax::core::ArrayBase<T>::operator();
+
 	/** @brief Element type stored by the tensor. */
 	using value_type = T;
 
@@ -136,7 +138,7 @@ public:
 		{
 			indices[i] = core::validation::normalize_index(
 				raw_indices[i],
-				this->shape()(i),
+				this->shape()[i],
 				"Tensor multi-index component is out of bounds.");
 		}
 
@@ -175,7 +177,7 @@ public:
 		{
 			indices[i] = core::validation::normalize_index(
 				raw_indices[i],
-				this->shape()(i),
+				this->shape()[i],
 				"Tensor multi-index component is out of bounds.");
 		}
 

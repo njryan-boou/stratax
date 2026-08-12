@@ -48,6 +48,10 @@ TEST(CoreStrides, shape_constructor)
     EXPECT_TRUE(strides.rank() == 3);
     EXPECT_TRUE(!strides.empty());
 
+    EXPECT_TRUE(strides[0] == 12);
+    EXPECT_TRUE(strides[1] == 4);
+    EXPECT_TRUE(strides[2] == 1);
+
     EXPECT_TRUE(strides(0) == 12);
     EXPECT_TRUE(strides(1) == 4);
     EXPECT_TRUE(strides(2) == 1);
@@ -63,6 +67,7 @@ TEST(CoreStrides, vector_shape_constructor)
 
     EXPECT_TRUE(strides.size() == 1);
     EXPECT_TRUE(strides.rank() == 1);
+    EXPECT_TRUE(strides[0] == 1);
     EXPECT_TRUE(strides(0) == 1);
 }
 
@@ -112,11 +117,25 @@ TEST(CoreStrides, at)
     EXPECT_TRUE(strides.at(0) == 12);
     EXPECT_TRUE(strides.at(1) == 4);
     EXPECT_TRUE(strides.at(2) == 1);
+    EXPECT_TRUE(strides.at(-1) == 1);
+    EXPECT_TRUE(strides.at(-2) == 4);
+    EXPECT_TRUE(strides.at(-3) == 12);
 
     bool threw = false;
 
     try {
         strides.at(3);
+    }
+    catch (const Exceptions::IndexError&) {
+        threw = true;
+    }
+
+    EXPECT_TRUE(threw);
+
+    threw = false;
+
+    try {
+        strides.at(-4);
     }
     catch (const Exceptions::IndexError&) {
         threw = true;

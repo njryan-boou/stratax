@@ -83,6 +83,12 @@ std::ostream& print_tensor_like(std::ostream& os, const Tensor<T>& tensor)
 template<typename T>
 std::ostream& print_matrix_like(std::ostream& os, const Tensor<T>& tensor)
 {
+	if (tensor.shape().elements() == 0)
+	{
+		os << "[]";
+		return os;
+	}
+
 	print_tensor_recursive(os, tensor, 0, 0, 0, "\n");
 	return os;
 }
