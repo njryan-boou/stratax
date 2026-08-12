@@ -91,7 +91,7 @@ $(function(){initNavTree('getting_started.html','',''); });
   <div class="headertitle"><div class="title">Getting Started </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md992"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md989"></a>
 Getting Started</h1>
 <p>Welcome to Stratax!</p>
 <p>This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.</p>
@@ -109,10 +109,10 @@ Getting Started</h1>
 <li><a class="el" href="dev_index.html">Developer Docs</a></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md994"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md991"></a>
 Prerequisites</h2>
 <p>Install the following software before cloning the repository.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md995"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md992"></a>
 Required</h2>
 <ul>
 <li>Git</li>
@@ -126,25 +126,25 @@ Required</h2>
 <div class="line">python --version</div>
 <div class="line">cmake --version</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md997"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md994"></a>
 Clone the Repository</h2>
 <div class="fragment"><div class="line">git clone https://github.com/njryan-boou/stratax.git</div>
 <div class="line">cd stratax</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md999"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md996"></a>
 Create a Virtual Environment</h2>
 <div class="fragment"><div class="line">python -m venv .venv</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1001"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md998"></a>
 Activate the Virtual Environment</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md999"></a>
 PowerShell</h3>
 <div class="fragment"><div class="line">.venv\Scripts\Activate.ps1</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
 Command Prompt</h3>
 <div class="fragment"><div class="line">.venv\Scripts\activate.bat</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
 Install Stratax</h2>
 <p>Install the project in editable mode:</p>
 <div class="fragment"><div class="line">python -m pip install -e .</div>
@@ -161,21 +161,21 @@ Install Stratax</h2>
 <div class="line">python -m pip install -e .</div>
 <div class="line">python examples/python/vector.py</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1004"></a>
 Build the Project</h2>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
 Running Tests</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
 Python</h2>
 <div class="fragment"><div class="line">python -m pytest tests/python</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1011"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
 C++</h2>
 <div class="fragment"><div class="line">ctest --test-dir build --output-on-failure</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1013"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
 Try the Examples</h2>
 <p>Example programs are available in <span class="tt">examples/cpp</span> and <span class="tt">examples/python</span>.</p>
 <p>Run a Python example from the repository root after installing the package:</p>

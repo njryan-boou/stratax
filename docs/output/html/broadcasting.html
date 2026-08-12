@@ -97,12 +97,12 @@ Broadcasting</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md597"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md594"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">Broadcasting.hpp</a></span> defines shape compatibility, result-shape calculation, and element-wise traversal for operands with different but compatible shapes.</p>
 <p>Shapes align from the trailing dimension. Two aligned dimensions are compatible when they are equal or either dimension has length one. Missing leading dimensions behave as dimensions of length one.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md599"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md596"></a>
 Responsibilities</h2>
 <p>The broadcasting module is responsible for:</p>
 <ul>
@@ -120,7 +120,7 @@ Responsibilities</h2>
 <li>Mutating either input operand</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md601"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md598"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">broadcasted_op(...)</div>
 <div class="line">|-- validate_broadcast(...)</div>
@@ -139,7 +139,7 @@ Relationships</h2>
 <li>Direct custom element-wise operations</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md603"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md600"></a>
 Broadcasting Rules</h2>
 <p>Dimensions are compared from right to left:</p>
 <div class="fragment"><div class="line">left:       (2, 3, 1)</div>
@@ -154,7 +154,7 @@ Broadcasting Rules</h2>
 </ul>
 <p>During traversal, an expanded singleton dimension always reads coordinate zero from its source operand.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md605"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md602"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -166,9 +166,9 @@ Invariants</h2>
 <li>Incompatible array shapes raise <span class="tt"><a class="el" href="classExceptions_1_1BroadcastError.html" title="Signals that an operation cannot be completed with the current broadcast rules.">Exceptions::BroadcastError</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md607"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md604"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md608"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md605"></a>
 Shape validation</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">bool</span> validate_broadcast(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>&amp; shape1,</div>
@@ -179,7 +179,7 @@ Shape validation</h3>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md609"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md606"></a>
 Result shape</h3>
 <div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a> broadcasted_shape(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>&amp; shape1,</div>
@@ -192,7 +192,7 @@ Result shape</h3>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md610"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md607"></a>
 Array-array operation</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, <span class="keyword">typename</span> Op&gt;</div>
 <div class="line">A broadcasted_op(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs, Op op);</div>
@@ -206,7 +206,7 @@ Array-array operation</h3>
 <ul>
 <li>O(nr)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md611"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md608"></a>
 Array-scalar operation</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric S, <span class="keyword">typename</span> Op&gt;</div>
 <div class="line">A broadcasted_op(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> S&amp; rhs, Op op);</div>
@@ -215,7 +215,7 @@ Array-scalar operation</h3>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md612"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md609"></a>
 Scalar-array operation</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric S, Array A, <span class="keyword">typename</span> Op&gt;</div>
 <div class="line">A broadcasted_op(<span class="keyword">const</span> S&amp; lhs, <span class="keyword">const</span> A&amp; rhs, Op op);</div>
@@ -225,7 +225,7 @@ Scalar-array operation</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md614"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md611"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -243,7 +243,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is result element count and <span class="tt">r</span> is result rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md616"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md613"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;stratax.h&gt;</span></div>
@@ -259,12 +259,12 @@ Examples</h2>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> reverse = stratax::broadcasted_op(100, shifted, std::minus&lt;&gt;{});</div>
 </div><!-- fragment --><p>The functions are also available through the grouped <span class="tt">stratax::broadcasting</span> namespace.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md618"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md615"></a>
 Design Notes</h2>
 <p>The public shape operations remain separate from traversal so callers can validate or inspect a result shape without allocating a result array.</p>
 <p>Flat operand offsets are computed from output coordinates without allocating a coordinate vector for each element.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md620"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md617"></a>
 Future Improvements</h2>
 <ul>
 <li>Support mixed container and element types with an explicit result policy</li>
@@ -272,7 +272,7 @@ Future Improvements</h2>
 <li>Add optional parallel broadcasting kernels</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md622"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md619"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="arithmetic.html">Arithmetic</a></li>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
@@ -183,9 +185,101 @@ public:
     }
 
 protected:
+    void set_shape_and_strides(const Shape& shape)
+    {
+        shape_ = shape;
+        strides_ = Strides(shape_);
+    }
+
+    void allocate_from_shape()
+    {
+        buffer_ = Buffer<T>(shape_.elements());
+    }
+
+    void allocate_from_shape(const T& value)
+    {
+        buffer_ = Buffer<T>(shape_.elements(), value);
+    }
+
+    void allocate_with_size(std::size_t size)
+    {
+        buffer_ = Buffer<T>(size);
+    }
+
+    void allocate_with_size(std::size_t size, const T& value)
+    {
+        buffer_ = Buffer<T>(size, value);
+    }
+
+    template<std::size_t N>
+    std::array<std::size_t, N> normalize_multi_indices(
+        const std::array<std::ptrdiff_t, N>& raw_indices,
+        const char* rank_mismatch_message = "Multi-index rank must match array rank.") const
+    {
+        if (N != rank())
+        {
+            throw Exceptions::IndexError(rank_mismatch_message);
+        }
+
+        std::array<std::size_t, N> indices{};
+        for (std::size_t i = 0; i < N; ++i)
+        {
+            indices[i] = normalize_axis_index(raw_indices[i], shape_[i]);
+        }
+
+        return indices;
+    }
+
+    template<std::size_t N>
+    std::size_t normalized_flat_offset(
+        const std::array<std::ptrdiff_t, N>& raw_indices,
+        const char* rank_mismatch_message = "Multi-index rank must match array rank.",
+        const char* component_oob_message = nullptr) const
+    {
+        try
+        {
+            const auto indices = normalize_multi_indices(raw_indices, rank_mismatch_message);
+            return flat_offset(indices);
+        }
+        catch (const Exceptions::DimensionError&)
+        {
+            throw Exceptions::IndexError(rank_mismatch_message);
+        }
+        catch (const Exceptions::IndexError&)
+        {
+            if (component_oob_message != nullptr)
+            {
+                throw Exceptions::IndexError(component_oob_message);
+            }
+
+            throw;
+        }
+    }
+
+    template<typename IndexContainer>
+    std::size_t flat_offset(const IndexContainer& indices) const
+    {
+        return stratax::indexing::offset(shape_, strides_, indices);
+    }
+
     std::size_t normalize_flat_index(std::ptrdiff_t index) const
     {
         return stratax::indexing::normalize_index(index, size());
+    }
+
+    std::size_t normalize_axis_index(std::ptrdiff_t index, std::size_t extent) const
+    {
+        return stratax::indexing::normalize_index(index, extent);
+    }
+
+    T& checked_flat_ref(std::ptrdiff_t index)
+    {
+        return buffer_[normalize_flat_index(index)];
+    }
+
+    const T& checked_flat_ref(std::ptrdiff_t index) const
+    {
+        return buffer_[normalize_flat_index(index)];
     }
 
     Buffer<T> buffer_;

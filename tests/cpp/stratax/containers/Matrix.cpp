@@ -63,7 +63,10 @@ TEST(Matrix, operators)
 	// Checked access
 	{
 		EXPECT_EQ(matrix.at(0, 0), 11);
+		EXPECT_EQ(matrix.at(-2, -3), 11);
 		EXPECT_EQ(matrix.at(-1, -1), 21);
+		EXPECT_THROW(matrix.at(-3, 0), Exceptions::IndexError);
+		EXPECT_THROW(matrix.at(0, 3), Exceptions::IndexError);
 	}
 }
 

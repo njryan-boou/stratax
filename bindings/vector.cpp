@@ -14,6 +14,7 @@
 #include <stratax/ops/Comparison.hpp>
 
 #include <cstddef>
+#include <limits>
 #include <sstream>
 #include <vector>
 
@@ -123,7 +124,7 @@ namespace
 
 using Vector = stratax::container::Vector<double>;
 
-} // anonymous namespace
+}
 
 void bind_vector_properties(py::class_<Vector>& cls)
 {
@@ -341,7 +342,7 @@ namespace
 
 using Vector = stratax::container::Vector<double>;
 
-}
+} // anonymous namespace
 
 void bind_vector_reshape(py::class_<Vector>& cls)
 {

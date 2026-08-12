@@ -11,7 +11,7 @@ int main()
     // Multi-index access follows the tensor rank.
     tensor(0, 0, 0) = 10.0;
     tensor(1, 1, 1) = 20.0;
-    double last_value = tensor.at(-1);
+    double last_value = tensor[tensor.size() - 1];
     double far_corner = tensor.at(-1, -1, -1);
 
     // Tensor arithmetic supports scalars and matching tensor shapes.
@@ -50,7 +50,7 @@ int main()
     std::cout << "shape: " << tensor.shape() << '\n';
     std::cout << "strides: " << tensor.strides() << '\n';
     std::cout << "linear index 7: " << tensor[7] << '\n';
-    std::cout << "last value via at(-1): " << last_value << '\n';
+    std::cout << "last value via flat index: " << last_value << '\n';
     std::cout << "far corner via at(-1, -1, -1): " << far_corner << '\n';
 
     return 0;

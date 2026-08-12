@@ -21,7 +21,11 @@ requires Numeric<T>
 class Vector : public core::ArrayBase<T>
 {
 protected:
+	using core::ArrayBase<T>::allocate_with_size;
 	using core::ArrayBase<T>::buffer_;
+	using core::ArrayBase<T>::checked_flat_ref;
+	using core::ArrayBase<T>::allocate_from_shape;
+	using core::ArrayBase<T>::set_shape_and_strides;
 	using core::ArrayBase<T>::shape_;
 	using core::ArrayBase<T>::strides_;
 	using core::ArrayBase<T>::normalize_flat_index;
@@ -37,32 +41,28 @@ public:
 	/** @brief Creates a vector with the given number of elements. */
 	explicit Vector(std::size_t size)
 	{
-		shape_ = core::Shape({size}, core::Shape::allow_zero);
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(size);
+		set_shape_and_strides(core::Shape({size}, core::Shape::allow_zero));
+		allocate_with_size(size);
 	}
 
 	/** @brief Creates a vector from a validated rank-1 shape. */
 	explicit Vector(const core::Shape& shape)
 	{
-		shape_ = core::validation::require_rank(shape, 1, "Shape must be rank 1");
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(shape_.elements());
+		set_shape_and_strides(core::validation::require_rank(shape, 1, "Shape must be rank 1"));
+		allocate_from_shape();
 	}
 
 	/** @brief Creates a vector and fills it with a value. */
 	Vector(std::size_t size, const T& value)
 	{
-		shape_ = core::Shape({size}, core::Shape::allow_zero);
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(size, value);
+		set_shape_and_strides(core::Shape({size}, core::Shape::allow_zero));
+		allocate_with_size(size, value);
 	}
 
 	/** @brief Creates a vector from an initializer list. */
 	Vector(std::initializer_list<T> list)
 	{
-		shape_ = core::Shape({list.size()}, core::Shape::allow_zero);
-		strides_ = core::Strides(shape_);
+		set_shape_and_strides(core::Shape({list.size()}, core::Shape::allow_zero));
 		buffer_ = core::Buffer<T>(list);
 	}
 
@@ -75,27 +75,25 @@ public:
 	/** @brief Returns a flat element without bounds checking. */
 	T& operator()(std::size_t index)
 	{
-    	return this->buffer_[index];
+		return buffer_[index];
 	}
 
 	/** @brief Returns a flat element without bounds checking. */
 	const T& operator()(std::size_t index) const
 	{
-		return this->buffer_[index];
+		return buffer_[index];
 	}
 
 	/** @brief Returns a flat element with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{
-		const std::size_t normalized = normalize_flat_index(index);
-		return buffer_[normalized];
+		return checked_flat_ref(index);
 	}
 
 	/** @brief Returns a flat element with bounds checking. */
 	const T& at(std::ptrdiff_t index) const
 	{
-		const std::size_t normalized = normalize_flat_index(index);
-		return buffer_[normalized];
+		return checked_flat_ref(index);
 	}
 
 };

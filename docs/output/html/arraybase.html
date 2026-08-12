@@ -97,12 +97,12 @@ ArrayBase</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="ArrayBase_8hpp_source.html">include/stratax/core/ArrayBase.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md366"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md362"></a>
 Overview</h2>
 <p><span class="tt">ArrayBase&lt;T&gt;</span> is the shared base class for Stratax owning containers.</p>
 <p>It centralizes contiguous storage ownership and common container surface area for <span class="tt">Vector&lt;T&gt;</span>, <span class="tt">Matrix&lt;T&gt;</span>, and <span class="tt">Tensor&lt;T&gt;</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md368"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md364"></a>
 Responsibilities</h2>
 <p>The <span class="tt">ArrayBase</span> class is responsible for:</p>
 <ul>
@@ -111,16 +111,17 @@ Responsibilities</h2>
 <li>Providing shared contiguous access (<span class="tt">data</span>, <span class="tt">operator[]</span>)</li>
 <li>Providing shared iterator and reverse-iterator APIs</li>
 <li>Providing shared modifiers (<span class="tt">fill</span>, <span class="tt">swap</span>)</li>
+<li>Providing shared protected helpers for shape/stride setup, storage allocation, index normalization, and offset computation</li>
 </ul>
 <p>The <span class="tt">ArrayBase</span> class is <b>not</b> responsible for:</p>
 <ul>
 <li>Container-specific constructors and rank contracts</li>
-<li>Multidimensional indexing semantics</li>
-<li>Checked indexing policy for each concrete container</li>
+<li>Public multidimensional indexing entry points</li>
+<li>Container-specific checked-index error policy text/messages</li>
 <li>Numerical algorithms or broadcasting behavior</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md370"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md366"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">ArrayBase&lt;T&gt;</div>
 <div class="line">│</div>
@@ -152,7 +153,7 @@ Relationships</h2>
 <li>Strides</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md372"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md368"></a>
 Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -165,7 +166,7 @@ Internal Data</h2>
 <td class="markdownTableBodyNone"><span class="tt">core::Strides strides_</span>  </td><td class="markdownTableBodyNone">Row-major stride metadata  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md374"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md370"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -176,9 +177,9 @@ Invariants</h2>
 <li><span class="tt">operator[]</span> and iterator traversal are unchecked (container-style semantics).</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md376"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md372"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md377"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md373"></a>
 Common metadata and accessors</h3>
 <div class="fragment"><div class="line">std::size_t size() const noexcept;</div>
 <div class="line"><span class="keywordtype">bool</span> empty() const noexcept;</div>
@@ -187,7 +188,7 @@ Common metadata and accessors</h3>
 <div class="line">const Strides&amp; strides() const noexcept;</div>
 <div class="line">T* data() noexcept;</div>
 <div class="line">const T* data() const noexcept;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md378"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md374"></a>
 Element and iterator surface</h3>
 <div class="fragment"><div class="line">T&amp; front();</div>
 <div class="line"><span class="keyword">const</span> T&amp; front() <span class="keyword">const</span>;</div>
@@ -208,16 +209,43 @@ Element and iterator surface</h3>
 <div class="line">reverse_iterator rend() noexcept;</div>
 <div class="line">const_reverse_iterator rend() const noexcept;</div>
 <div class="line">const_reverse_iterator crend() const noexcept;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md379"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md375"></a>
 Modifiers</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(<span class="keyword">const</span> T&amp; value);</div>
 <div class="line"><span class="keywordtype">void</span> swap(ArrayBase&amp; other) <span class="keyword">noexcept</span>;</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md376"></a>
+Protected shared helpers used by derived containers</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> set_shape_and_strides(<span class="keyword">const</span> Shape&amp; shape);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> allocate_from_shape();</div>
+<div class="line"><span class="keywordtype">void</span> allocate_from_shape(<span class="keyword">const</span> T&amp; value);</div>
+<div class="line"><span class="keywordtype">void</span> allocate_with_size(std::size_t size);</div>
+<div class="line"><span class="keywordtype">void</span> allocate_with_size(std::size_t size, <span class="keyword">const</span> T&amp; value);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> N&gt;</div>
+<div class="line">std::array&lt;std::size_t, N&gt; normalize_multi_indices(</div>
+<div class="line">  <span class="keyword">const</span> std::array&lt;std::ptrdiff_t, N&gt;&amp; raw_indices,</div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* rank_mismatch_message = <span class="stringliteral">&quot;Multi-index rank must match array rank.&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> N&gt;</div>
+<div class="line">std::size_t normalized_flat_offset(</div>
+<div class="line">  <span class="keyword">const</span> std::array&lt;std::ptrdiff_t, N&gt;&amp; raw_indices,</div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* rank_mismatch_message = <span class="stringliteral">&quot;Multi-index rank must match array rank.&quot;</span>,</div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* component_oob_message = <span class="keyword">nullptr</span>) <span class="keyword">const</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
+<div class="line">std::size_t flat_offset(<span class="keyword">const</span> IndexContainer&amp; indices) <span class="keyword">const</span>;</div>
+<div class="line"> </div>
+<div class="line">std::size_t normalize_flat_index(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
+<div class="line">std::size_t normalize_axis_index(std::ptrdiff_t index, std::size_t extent) <span class="keyword">const</span>;</div>
+<div class="line">T&amp; checked_flat_ref(std::ptrdiff_t index);</div>
+<div class="line"><span class="keyword">const</span> T&amp; checked_flat_ref(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md381"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md378"></a>
 Design Notes</h2>
-<p><span class="tt">ArrayBase&lt;T&gt;</span> intentionally keeps policy minimal. Concrete containers own constructor contracts and indexing semantics while sharing storage/metadata plumbing and iteration behavior through inheritance.</p>
+<p><span class="tt">ArrayBase&lt;T&gt;</span> intentionally keeps public policy minimal. Concrete containers own constructor contracts and public indexing APIs while sharing storage/metadata plumbing plus reusable protected indexing/allocation primitives through inheritance.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md383"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md380"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="vector.html">Vector</a></li>

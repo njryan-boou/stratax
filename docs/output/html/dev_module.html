@@ -107,7 +107,7 @@ Responsibilities</h2>
 <p>The module entry file is responsible for:</p>
 <ul>
 <li>Declaring <span class="tt">PYBIND11_MODULE(_core, m)</span></li>
-<li>Setting module metadata (<span class="tt">__doc__</span>, <span class="tt">__version__</span>, <span class="tt">__author__</span>)</li>
+<li>Setting module metadata (<span class="tt">__doc__</span>, <span class="tt">__version__</span>, <span class="tt">__author__</span>, <span class="tt">__license__</span>, <span class="tt">__homepage__</span>, <span class="tt">__repository__</span>, <span class="tt">__issues__</span>)</li>
 <li>Registering Stratax exception types</li>
 <li>Registering the <span class="tt">Shape</span> metadata type</li>
 <li>Calling all bind registration functions in a consistent order</li>
@@ -137,9 +137,13 @@ Registration Order</h2>
 Metadata Sources</h2>
 <p>Module metadata values are defined directly in <span class="tt">bindings/module.cpp</span> as internal constants:</p>
 <ul>
-<li><span class="tt">kPythonModuleDoc</span> -&gt; <span class="tt">m.attr("__doc__")</span></li>
-<li><span class="tt">kPythonModuleVersion</span> -&gt; <span class="tt">m.attr("__version__")</span></li>
-<li><span class="tt">kPythonModuleAuthor</span> -&gt; <span class="tt">m.attr("__author__")</span></li>
+<li><span class="tt">PyDoc</span> -&gt; <span class="tt">m.attr("__doc__")</span></li>
+<li><span class="tt">PyVersion</span> -&gt; <span class="tt">m.attr("__version__")</span></li>
+<li><span class="tt">PyAuthor</span> -&gt; <span class="tt">m.attr("__author__")</span></li>
+<li><span class="tt">PyLicense</span> -&gt; <span class="tt">m.attr("__license__")</span></li>
+<li><span class="tt">PyHomepage</span> -&gt; <span class="tt">m.attr("__homepage__")</span></li>
+<li><span class="tt">PyRepository</span> -&gt; <span class="tt">m.attr("__repository__")</span></li>
+<li><span class="tt">PyIssues</span> -&gt; <span class="tt">m.attr("__issues__")</span></li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>

@@ -24,7 +24,7 @@ The `Tensor` class is responsible for:
 
 - Owning contiguous N-dimensional element storage
 - Exposing shape and stride metadata
-- Providing checked and unchecked flat/multi-index element access
+- Providing unchecked flat access and checked signed multi-index access
 - Providing iterator access over contiguous storage
 - Supporting copy/move ownership semantics
 
@@ -32,6 +32,7 @@ The `Tensor` class is **not** responsible for:
 
 - Broadcasting policy decisions
 - High-level numerical algorithms
+- Flat checked single-index `at(index)` access (provided by `Vector`)
 - Specialized rank-1/rank-2 APIs (handled by `Vector`/`Matrix`)
 
 ---
@@ -87,7 +88,7 @@ The following conditions are always true:
 - `rank()` equals `shape().rank()`.
 - `strides()` is derived from `shape()` using row-major layout.
 - `data()` points to contiguous storage when non-empty.
-- Checked `at(...)` overloads validate bounds and support negative indexing.
+- Checked `at(...)` overloads validate signed multi-index bounds and support negative components.
 
 ---
 
@@ -285,25 +286,6 @@ Complexity
 
 ---
 
-## at() flat
-
-```cpp
-T& at(std::ptrdiff_t index);
-const T& at(std::ptrdiff_t index) const;
-```
-
-Returns flat element with bounds checking and negative-index normalization.
-
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
-
----
-
 ## at() multi-index
 
 ```cpp
@@ -419,21 +401,6 @@ Complexity
 
 ## Operators
 
-## operator() flat
-
-```cpp
-T& operator()(std::size_t index) noexcept;
-const T& operator()(std::size_t index) const noexcept;
-```
-
-Unchecked flat indexing.
-
-Complexity
-
-- O(1)
-
----
-
 ## operator() multi-index
 
 ```cpp
@@ -500,10 +467,7 @@ Complexity
 
 See Also
 
-```cpp
-T& at(std::ptrdiff_t index);
-const T& at(std::ptrdiff_t index) const;
-```
+- Checked signed multi-index access: `at(first, second, ...)`
 
 ---
 
@@ -520,7 +484,7 @@ const T& at(std::ptrdiff_t index) const;
 | Destruction | O(n) |
 | `size()` / `rank()` / `empty()` | O(1) |
 | `shape()` / `strides()` | O(1) |
-| Flat indexing (`operator[]`, flat `operator()`, flat `at`) | O(1) |
+| Flat indexing (`operator[]`) | O(1) |
 | Multi-index (`operator()`, `at`) | O(r) |
 | `front()` / `back()` | O(1) |
 | Iteration | O(n) |

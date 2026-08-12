@@ -8,6 +8,6 @@ var classstratax_1_1container_1_1Vector =
     [ "Vector", "classstratax_1_1container_1_1Vector.html#a9c0ce05b96e88eb7973d71367ad3a4d5", null ],
     [ "at", "classstratax_1_1container_1_1Vector.html#a3f378c1479cbe449f25bc654e04ef9b3", null ],
     [ "at", "classstratax_1_1container_1_1Vector.html#ab8afe392e0c7d7b91ab15b011a22179a", null ],
-    [ "operator()", "classstratax_1_1container_1_1Vector.html#a6cd9e71b29cebed5f671c204e0b9f3fd", null ],
-    [ "operator()", "classstratax_1_1container_1_1Vector.html#a544082372f2b25aa95e681f52a8074be", null ]
+    [ "operator()", "classstratax_1_1container_1_1Vector.html#a3886bb933c267d8ba87ab132ab2a3ba9", null ],
+    [ "operator()", "classstratax_1_1container_1_1Vector.html#a22745306da9a69df95fb8c66e2701fb0", null ]
 ];

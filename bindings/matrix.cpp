@@ -38,7 +38,7 @@ void require_allocatable_matrix_elements(std::size_t elements)
     {
         binding_utils::raise_overflow("Matrix storage size overflow.");
     }
-}
+} // anonymous namespace
 
 std::size_t checked_matrix_elements(std::size_t rows, std::size_t cols)
 {
@@ -55,19 +55,19 @@ std::size_t checked_matrix_elements(std::size_t rows, std::size_t cols)
     {
         binding_utils::raise_overflow(e.what());
     }
-}
+} // anonymous namespace
 
 std::size_t checked_matrix_dimension(long long value, const char* message)
 {
     return stratax::core::validation::nonnegative_size(value, message);
-}
+} // anonymous namespace
 
 Matrix make_matrix_from_shape(const Shape& shape)
 {
     stratax::core::validation::require_rank(shape, 2, "Matrix shape must have rank 2.");
     checked_matrix_elements(shape(0), shape(1));
     return Matrix(shape);
-}
+} // anonymous namespace
 
 Matrix make_matrix_from_iterable(py::iterable rows)
 {
@@ -117,7 +117,7 @@ Matrix make_matrix_from_iterable(py::iterable rows)
     }
 
     return matrix;
-}
+} // anonymous namespace
 
 Matrix make_matrix_from_object(py::object value)
 {
@@ -128,7 +128,7 @@ Matrix make_matrix_from_object(py::object value)
 
     throw Exceptions::TypeError(
         "Matrix constructor expects a Matrix, Shape, or iterable of row values.");
-}
+} // anonymous namespace
 
 }
 

@@ -70,11 +70,6 @@ TEST(Tensor, operators)
 
 	// Checked access
 	{
-		EXPECT_EQ(tensor.at(0), 0);
-		EXPECT_EQ(tensor.at(-1), 21);
-		EXPECT_THROW(tensor.at(24), Exceptions::IndexError);
-		EXPECT_THROW(tensor.at(-25), Exceptions::IndexError);
-
 		EXPECT_EQ(tensor.at(1, 2, 3), 21);
 		EXPECT_EQ(tensor.at(-1, -1, -1), 21);
 		EXPECT_THROW(tensor.at(0, 0), Exceptions::IndexError);

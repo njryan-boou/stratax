@@ -96,13 +96,17 @@ Inheritance diagram for stratax::core::ArrayBase&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classstratax_1_1core_1_1ArrayBase__inherit__graph.png" border="0" usemap="#astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map" id="astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,83,222,111"/>
+<area shape="rect" title=" " alt="" coords="5,152,222,180"/>
 <area shape="rect" href="classstratax_1_1container_1_1Matrix.html" title=" " alt="" coords="270,5,406,50"/>
-<area shape="poly" title=" " alt="" coords="174,76,271,47,267,50,176,81"/>
+<area shape="poly" title=" " alt="" coords="145,141,268,60,293,49,289,52,271,65,149,145"/>
 <area shape="rect" href="classstratax_1_1container_1_1Tensor.html" title=" " alt="" coords="270,75,406,119"/>
-<area shape="poly" title=" " alt="" coords="237,94,272,96,267,98,237,100"/>
+<area shape="poly" title=" " alt="" coords="174,145,271,116,267,120,177,150"/>
 <area shape="rect" href="classstratax_1_1container_1_1Vector.html" title=" " alt="" coords="270,144,406,189"/>
-<area shape="poly" title=" " alt="" coords="176,113,272,144,267,146,175,119"/>
+<area shape="poly" title=" " alt="" coords="236,164,272,165,267,167,238,169"/>
+<area shape="rect" href="classstratax_1_1container_1_1Matrix.html" title="Stores a rank&#45;2 Stratax array in row&#45;major order." alt="" coords="270,213,406,258"/>
+<area shape="poly" title=" " alt="" coords="175,183,272,214,267,216,175,188"/>
+<area shape="rect" href="classstratax_1_1container_1_1Vector.html" title="Stores a rank&#45;1 Stratax array in contiguous memory." alt="" coords="270,283,406,327"/>
+<area shape="poly" title=" " alt="" coords="148,187,271,268,293,282,288,282,268,273,146,192"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -166,6 +170,24 @@ ArrayBase &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=<
 <tr class="memitem:ad9ae1f37f51fc40d5f1a9a7836911e00" id="r_ad9ae1f37f51fc40d5f1a9a7836911e00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9ae1f37f51fc40d5f1a9a7836911e00">fill</a> (const T &amp;value)</td></tr>
 <tr class="memitem:afb2492322a2286fde91600766f4abd34" id="r_afb2492322a2286fde91600766f4abd34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb2492322a2286fde91600766f4abd34">swap</a> (ArrayBase &amp;other) noexcept</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a0ff73d04dfb5d38227c6a6ff946e7f79" id="r_a0ff73d04dfb5d38227c6a6ff946e7f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ff73d04dfb5d38227c6a6ff946e7f79">set_shape_and_strides</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;shape)</td></tr>
+<tr class="memitem:ae6f34bbfa5272e21e9f2a9cd58757a1f" id="r_ae6f34bbfa5272e21e9f2a9cd58757a1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6f34bbfa5272e21e9f2a9cd58757a1f">allocate_from_shape</a> ()</td></tr>
+<tr class="memitem:a44f7e634feae23e51d64c04c5c86e526" id="r_a44f7e634feae23e51d64c04c5c86e526"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44f7e634feae23e51d64c04c5c86e526">allocate_from_shape</a> (const T &amp;value)</td></tr>
+<tr class="memitem:a883cad3cc1fc42e042d0af166f28d871" id="r_a883cad3cc1fc42e042d0af166f28d871"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883cad3cc1fc42e042d0af166f28d871">allocate_with_size</a> (std::size_t size)</td></tr>
+<tr class="memitem:a60cc391ba8e99e28466cf5dbe5885c9a" id="r_a60cc391ba8e99e28466cf5dbe5885c9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60cc391ba8e99e28466cf5dbe5885c9a">allocate_with_size</a> (std::size_t size, const T &amp;value)</td></tr>
+<tr class="memitem:a107b911eb1749df416d05deef12a43f8" id="r_a107b911eb1749df416d05deef12a43f8"><td class="memTemplParams" colspan="2">template&lt;std::size_t N&gt; </td></tr>
+<tr class="memitem:a107b911eb1749df416d05deef12a43f8 template"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::size_t, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a107b911eb1749df416d05deef12a43f8">normalize_multi_indices</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;) const</td></tr>
+<tr class="memitem:af96fbc8074e85e2f2388a402c61c17da" id="r_af96fbc8074e85e2f2388a402c61c17da"><td class="memTemplParams" colspan="2">template&lt;std::size_t N&gt; </td></tr>
+<tr class="memitem:af96fbc8074e85e2f2388a402c61c17da template"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af96fbc8074e85e2f2388a402c61c17da">normalized_flat_offset</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
+<tr class="memitem:ad0c470e17dda753029bf43ef36d02523" id="r_ad0c470e17dda753029bf43ef36d02523"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
+<tr class="memitem:ad0c470e17dda753029bf43ef36d02523 template"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0c470e17dda753029bf43ef36d02523">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
+<tr class="memitem:ace6e4c108be35bff3a2a615870c7a02f" id="r_ace6e4c108be35bff3a2a615870c7a02f"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace6e4c108be35bff3a2a615870c7a02f">normalize_flat_index</a> (std::ptrdiff_t index) const</td></tr>
+<tr class="memitem:a3eda7b4e74780fd8880821c2881d385c" id="r_a3eda7b4e74780fd8880821c2881d385c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eda7b4e74780fd8880821c2881d385c">normalize_axis_index</a> (std::ptrdiff_t index, std::size_t extent) const</td></tr>
+<tr class="memitem:ae4888f79bda43ef2db4c9132b22c0c1b" id="r_ae4888f79bda43ef2db4c9132b22c0c1b"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4888f79bda43ef2db4c9132b22c0c1b">checked_flat_ref</a> (std::ptrdiff_t index)</td></tr>
+<tr class="memitem:a4d22585b705bbac6af94e9ed207f3f40" id="r_a4d22585b705bbac6af94e9ed207f3f40"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d22585b705bbac6af94e9ed207f3f40">checked_flat_ref</a> (std::ptrdiff_t index) const</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a3f4769f7e335384479faf2b5aaa62b4d" id="r_a3f4769f7e335384479faf2b5aaa62b4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f4769f7e335384479faf2b5aaa62b4d">buffer_</a></td></tr>
@@ -175,7 +197,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt;<br />
 class stratax::core::ArrayBase&lt; T &gt;</div>
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00012">12</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00015">15</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="afb52ca9e00e90098d80274ba29995ae9" name="afb52ca9e00e90098d80274ba29995ae9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb52ca9e00e90098d80274ba29995ae9">&#9670;&#160;</a></span>const_iterator</h2>
@@ -191,7 +213,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00033">33</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00036">36</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -209,7 +231,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00035">35</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00038">38</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -227,7 +249,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00032">32</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00035">35</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +267,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00034">34</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00037">37</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -263,11 +285,131 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00031">31</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00034">34</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ae6f34bbfa5272e21e9f2a9cd58757a1f" name="ae6f34bbfa5272e21e9f2a9cd58757a1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6f34bbfa5272e21e9f2a9cd58757a1f">&#9670;&#160;</a></span>allocate_from_shape() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_from_shape </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00194">194</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a44f7e634feae23e51d64c04c5c86e526" name="a44f7e634feae23e51d64c04c5c86e526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44f7e634feae23e51d64c04c5c86e526">&#9670;&#160;</a></span>allocate_from_shape() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_from_shape </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00199">199</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a883cad3cc1fc42e042d0af166f28d871" name="a883cad3cc1fc42e042d0af166f28d871"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883cad3cc1fc42e042d0af166f28d871">&#9670;&#160;</a></span>allocate_with_size() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_with_size </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00204">204</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a60cc391ba8e99e28466cf5dbe5885c9a" name="a60cc391ba8e99e28466cf5dbe5885c9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60cc391ba8e99e28466cf5dbe5885c9a">&#9670;&#160;</a></span>allocate_with_size() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_with_size </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00209">209</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a4c5e4c0149174a01d3d78c6406c5637a" name="a4c5e4c0149174a01d3d78c6406c5637a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4c5e4c0149174a01d3d78c6406c5637a">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
 
@@ -293,7 +435,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00086">86</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00089">89</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +464,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00093">93</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00096">96</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -351,7 +493,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00115">115</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00118">118</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,7 +522,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00110">110</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00113">113</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -409,7 +551,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00120">120</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00123">123</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +580,65 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00135">135</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00138">138</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae4888f79bda43ef2db4c9132b22c0c1b" name="ae4888f79bda43ef2db4c9132b22c0c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4888f79bda43ef2db4c9132b22c0c1b">&#9670;&#160;</a></span>checked_flat_ref() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::checked_flat_ref </td>
+          <td>(</td>
+          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00275">275</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4d22585b705bbac6af94e9ed207f3f40" name="a4d22585b705bbac6af94e9ed207f3f40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d22585b705bbac6af94e9ed207f3f40">&#9670;&#160;</a></span>checked_flat_ref() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::checked_flat_ref </td>
+          <td>(</td>
+          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00280">280</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -467,7 +667,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00150">150</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00153">153</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -496,7 +696,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00165">165</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00168">168</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -525,7 +725,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00067">67</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00070">70</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +754,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00062">62</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00065">65</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -583,7 +783,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00042">42</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00045">45</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -612,7 +812,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00130">130</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00133">133</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -641,7 +841,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00125">125</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00128">128</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -670,7 +870,38 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00170">170</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00173">173</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad0c470e17dda753029bf43ef36d02523" name="ad0c470e17dda753029bf43ef36d02523"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0c470e17dda753029bf43ef36d02523">&#9670;&#160;</a></span>flat_offset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<div class="memtemplate">
+template&lt;typename IndexContainer&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::flat_offset </td>
+          <td>(</td>
+          <td class="paramtype">const IndexContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00260">260</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -699,7 +930,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00072">72</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00075">75</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -728,7 +959,144 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00079">79</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00082">82</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a3eda7b4e74780fd8880821c2881d385c" name="a3eda7b4e74780fd8880821c2881d385c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3eda7b4e74780fd8880821c2881d385c">&#9670;&#160;</a></span>normalize_axis_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_axis_index </td>
+          <td>(</td>
+          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>extent</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00270">270</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ace6e4c108be35bff3a2a615870c7a02f" name="ace6e4c108be35bff3a2a615870c7a02f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6e4c108be35bff3a2a615870c7a02f">&#9670;&#160;</a></span>normalize_flat_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_flat_index </td>
+          <td>(</td>
+          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00265">265</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a107b911eb1749df416d05deef12a43f8" name="a107b911eb1749df416d05deef12a43f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a107b911eb1749df416d05deef12a43f8">&#9670;&#160;</a></span>normalize_multi_indices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; std::size_t, N &gt; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_multi_indices </td>
+          <td>(</td>
+          <td class="paramtype">const std::array&lt; std::ptrdiff_t, N &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>raw_indices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>rank_mismatch_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Multi-index&#160;rank&#160;must&#160;match&#160;array&#160;rank.&quot;</span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00215">215</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af96fbc8074e85e2f2388a402c61c17da" name="af96fbc8074e85e2f2388a402c61c17da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af96fbc8074e85e2f2388a402c61c17da">&#9670;&#160;</a></span>normalized_flat_offset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<div class="memtemplate">
+template&lt;std::size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalized_flat_offset </td>
+          <td>(</td>
+          <td class="paramtype">const std::array&lt; std::ptrdiff_t, N &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>raw_indices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>rank_mismatch_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Multi-index&#160;rank&#160;must&#160;match&#160;array&#160;rank.&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>component_oob_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00234">234</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -757,7 +1125,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00105">105</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00108">108</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -786,7 +1154,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00100">100</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00103">103</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -815,7 +1183,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00047">47</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00050">50</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -844,7 +1212,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00145">145</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00148">148</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -873,7 +1241,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00140">140</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00143">143</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -902,7 +1270,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00160">160</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00163">163</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -931,7 +1299,36 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00155">155</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00158">158</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0ff73d04dfb5d38227c6a6ff946e7f79" name="a0ff73d04dfb5d38227c6a6ff946e7f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ff73d04dfb5d38227c6a6ff946e7f79">&#9670;&#160;</a></span>set_shape_and_strides()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::set_shape_and_strides </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shape</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00188">188</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -960,7 +1357,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00052">52</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00055">55</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -989,7 +1386,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00037">37</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00040">40</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1018,7 +1415,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00057">57</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00060">60</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1047,7 +1444,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00175">175</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00178">178</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1074,7 +1471,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00185">185</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00285">285</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1100,7 +1497,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00186">186</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00286">286</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1126,7 +1523,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00187">187</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00287">287</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>

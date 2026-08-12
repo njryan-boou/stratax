@@ -154,10 +154,6 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;)=default</td></tr>
 <tr class="memitem:a7733463022443e4f45eed9076d976a41" id="r_a7733463022443e4f45eed9076d976a41"><td class="memItemLeft" align="right" valign="top"><a id="a7733463022443e4f45eed9076d976a41" name="a7733463022443e4f45eed9076d976a41"></a>
 <a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="#a79ee6b29c2456696f45e912e79ba3485">Tensor</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="memitem:a9507333c1a356e3d978457a2dec1d5cc" id="r_a9507333c1a356e3d978457a2dec1d5cc"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9507333c1a356e3d978457a2dec1d5cc">operator()</a> (std::size_t index) noexcept</td></tr>
-<tr class="memdesc:a9507333c1a356e3d978457a2dec1d5cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a flat element without bounds checking.  <br /></td></tr>
-<tr class="memitem:ac9f555409678078bf78146c42e85bedf" id="r_ac9f555409678078bf78146c42e85bedf"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9f555409678078bf78146c42e85bedf">operator()</a> (std::size_t index) const noexcept</td></tr>
-<tr class="memdesc:ac9f555409678078bf78146c42e85bedf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a flat element without bounds checking.  <br /></td></tr>
 <tr class="memitem:a1d19e9b9ac0694fd803feefb8b4fbdb1" id="r_a1d19e9b9ac0694fd803feefb8b4fbdb1"><td class="memTemplParams" colspan="2">template&lt;typename... Rest&gt; </td></tr>
 <tr class="memitem:a1d19e9b9ac0694fd803feefb8b4fbdb1 template"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d19e9b9ac0694fd803feefb8b4fbdb1">operator()</a> (std::size_t first, std::size_t second, Rest... rest)</td></tr>
 <tr class="memdesc:a1d19e9b9ac0694fd803feefb8b4fbdb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index with bounds checking.  <br /></td></tr>
@@ -168,10 +164,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0d1d63ce9f131bc2557edf041f29ee2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index from a vector with bounds checking.  <br /></td></tr>
 <tr class="memitem:a88e53049e7ec14f658b3183237174bf6" id="r_a88e53049e7ec14f658b3183237174bf6"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88e53049e7ec14f658b3183237174bf6">operator()</a> (const std::vector&lt; std::size_t &gt; &amp;indices) const</td></tr>
 <tr class="memdesc:a88e53049e7ec14f658b3183237174bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by multidimensional index from a vector with bounds checking.  <br /></td></tr>
-<tr class="memitem:aa3626676ff79f296d4797c791e0f47bc" id="r_aa3626676ff79f296d4797c791e0f47bc"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3626676ff79f296d4797c791e0f47bc">at</a> (std::ptrdiff_t index)</td></tr>
-<tr class="memdesc:aa3626676ff79f296d4797c791e0f47bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by rank-1 flat index with bounds checking.  <br /></td></tr>
-<tr class="memitem:aa391280b5a5980d783b47285d7315ae0" id="r_aa391280b5a5980d783b47285d7315ae0"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa391280b5a5980d783b47285d7315ae0">at</a> (std::ptrdiff_t index) const</td></tr>
-<tr class="memdesc:aa391280b5a5980d783b47285d7315ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element by rank-1 flat index with bounds checking.  <br /></td></tr>
 <tr class="memitem:afb9d9d2cf2176bfdc790c7b0c9a5d949" id="r_afb9d9d2cf2176bfdc790c7b0c9a5d949"><td class="memTemplParams" colspan="2">template&lt;typename... Rest&gt; <br />
 requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</td></tr>
 <tr class="memitem:afb9d9d2cf2176bfdc790c7b0c9a5d949 template"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb9d9d2cf2176bfdc790c7b0c9a5d949">at</a> (std::ptrdiff_t first, std::ptrdiff_t second, Rest... rest)</td></tr>
@@ -205,6 +197,16 @@ ArrayBase &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=<
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_classstratax_1_1core_1_1ArrayBase"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classstratax_1_1core_1_1ArrayBase')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase&lt; double &gt;</a></td></tr>
+<tr class="memitem:a0ff73d04dfb5d38227c6a6ff946e7f79 inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a0ff73d04dfb5d38227c6a6ff946e7f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a0ff73d04dfb5d38227c6a6ff946e7f79">set_shape_and_strides</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;shape)</td></tr>
+<tr class="memitem:ae6f34bbfa5272e21e9f2a9cd58757a1f inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_ae6f34bbfa5272e21e9f2a9cd58757a1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#ae6f34bbfa5272e21e9f2a9cd58757a1f">allocate_from_shape</a> ()</td></tr>
+<tr class="memitem:a883cad3cc1fc42e042d0af166f28d871 inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a883cad3cc1fc42e042d0af166f28d871"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a883cad3cc1fc42e042d0af166f28d871">allocate_with_size</a> (std::size_t size)</td></tr>
+<tr class="memitem:a107b911eb1749df416d05deef12a43f8 inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a107b911eb1749df416d05deef12a43f8"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::size_t, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a107b911eb1749df416d05deef12a43f8">normalize_multi_indices</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;) const</td></tr>
+<tr class="memitem:af96fbc8074e85e2f2388a402c61c17da inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_af96fbc8074e85e2f2388a402c61c17da"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#af96fbc8074e85e2f2388a402c61c17da">normalized_flat_offset</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
+<tr class="memitem:ad0c470e17dda753029bf43ef36d02523 inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_ad0c470e17dda753029bf43ef36d02523"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#ad0c470e17dda753029bf43ef36d02523">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
+<tr class="memitem:ace6e4c108be35bff3a2a615870c7a02f inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_ace6e4c108be35bff3a2a615870c7a02f"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#ace6e4c108be35bff3a2a615870c7a02f">normalize_flat_index</a> (std::ptrdiff_t index) const</td></tr>
+<tr class="memitem:a3eda7b4e74780fd8880821c2881d385c inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a3eda7b4e74780fd8880821c2881d385c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a3eda7b4e74780fd8880821c2881d385c">normalize_axis_index</a> (std::ptrdiff_t index, std::size_t extent) const</td></tr>
+<tr class="memitem:ae4888f79bda43ef2db4c9132b22c0c1b inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_ae4888f79bda43ef2db4c9132b22c0c1b"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#ae4888f79bda43ef2db4c9132b22c0c1b">checked_flat_ref</a> (std::ptrdiff_t index)</td></tr>
 <tr class="inherit_header pro_attribs_classstratax_1_1core_1_1ArrayBase"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classstratax_1_1core_1_1ArrayBase')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase&lt; double &gt;</a></td></tr>
 <tr class="memitem:a3f4769f7e335384479faf2b5aaa62b4d inherit pro_attribs_classstratax_1_1core_1_1ArrayBase" id="r_a3f4769f7e335384479faf2b5aaa62b4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a3f4769f7e335384479faf2b5aaa62b4d">buffer_</a></td></tr>
 <tr class="memitem:a3fa77277e58522acfd65358fb72c497f inherit pro_attribs_classstratax_1_1core_1_1ArrayBase" id="r_a3fa77277e58522acfd65358fb72c497f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a3fa77277e58522acfd65358fb72c497f">shape_</a></td></tr>
@@ -235,7 +237,7 @@ template&lt;typename U&gt; </div>
 
 <p>Rebinds the tensor container to another element type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00037">37</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00041">41</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -255,7 +257,7 @@ template&lt;typename T = double&gt; </div>
 
 <p>Element type stored by the tensor. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00033">33</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00037">37</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -287,7 +289,7 @@ template&lt;typename T = double&gt; </div>
 
 <p>Creates a tensor with default-initialized storage for a shape. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00043">43</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00047">47</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,13 +324,13 @@ template&lt;typename T = double&gt; </div>
 
 <p>Creates a tensor from a shape and fills it with a value. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00051">51</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00054">54</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="afb9d9d2cf2176bfdc790c7b0c9a5d949" name="afb9d9d2cf2176bfdc790c7b0c9a5d949"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb9d9d2cf2176bfdc790c7b0c9a5d949">&#9670;&#160;</a></span>at() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afb9d9d2cf2176bfdc790c7b0c9a5d949">&#9670;&#160;</a></span>at() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -366,12 +368,12 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 
 <p>Returns an element by multi-index with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00131">131</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00107">107</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="ac93a31729d4120bacd5cca4e9284679f" name="ac93a31729d4120bacd5cca4e9284679f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac93a31729d4120bacd5cca4e9284679f">&#9670;&#160;</a></span>at() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac93a31729d4120bacd5cca4e9284679f">&#9670;&#160;</a></span>at() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -409,74 +411,12 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 
 <p>Returns an element by multi-index with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00169">169</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aa3626676ff79f296d4797c791e0f47bc" name="aa3626676ff79f296d4797c791e0f47bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3626676ff79f296d4797c791e0f47bc">&#9670;&#160;</a></span>at() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a>&lt; T &gt;::at </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns an element by rank-1 flat index with bounds checking. </p>
-
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00115">115</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aa391280b5a5980d783b47285d7315ae0" name="aa391280b5a5980d783b47285d7315ae0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa391280b5a5980d783b47285d7315ae0">&#9670;&#160;</a></span>at() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a>&lt; T &gt;::at </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns an element by rank-1 flat index with bounds checking. </p>
-
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00122">122</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00124">124</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a0d1d63ce9f131bc2557edf041f29ee2f" name="a0d1d63ce9f131bc2557edf041f29ee2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d1d63ce9f131bc2557edf041f29ee2f">&#9670;&#160;</a></span>operator()() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1d63ce9f131bc2557edf041f29ee2f">&#9670;&#160;</a></span>operator()() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -502,12 +442,12 @@ template&lt;typename T = double&gt; </div>
 
 <p>Returns an element by multidimensional index from a vector with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00103">103</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00093">93</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a88e53049e7ec14f658b3183237174bf6" name="a88e53049e7ec14f658b3183237174bf6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88e53049e7ec14f658b3183237174bf6">&#9670;&#160;</a></span>operator()() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e53049e7ec14f658b3183237174bf6">&#9670;&#160;</a></span>operator()() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -533,12 +473,12 @@ template&lt;typename T = double&gt; </div>
 
 <p>Returns an element by multidimensional index from a vector with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00109">109</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00099">99</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a1d19e9b9ac0694fd803feefb8b4fbdb1" name="a1d19e9b9ac0694fd803feefb8b4fbdb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d19e9b9ac0694fd803feefb8b4fbdb1">&#9670;&#160;</a></span>operator()() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d19e9b9ac0694fd803feefb8b4fbdb1">&#9670;&#160;</a></span>operator()() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -575,12 +515,12 @@ template&lt;typename... Rest&gt; </div>
 
 <p>Returns an element by multidimensional index with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00078">78</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00068">68</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
 <a id="ae0a9e68f86698e6017b2fa20f4d14e5f" name="ae0a9e68f86698e6017b2fa20f4d14e5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a9e68f86698e6017b2fa20f4d14e5f">&#9670;&#160;</a></span>operator()() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0a9e68f86698e6017b2fa20f4d14e5f">&#9670;&#160;</a></span>operator()() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -617,69 +557,7 @@ template&lt;typename... Rest&gt; </div>
 
 <p>Returns an element by multidimensional index with bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00091">91</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ac9f555409678078bf78146c42e85bedf" name="ac9f555409678078bf78146c42e85bedf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9f555409678078bf78146c42e85bedf">&#9670;&#160;</a></span>operator()() <span class="overload">[5/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a flat element without bounds checking. </p>
-
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00071">71</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a9507333c1a356e3d978457a2dec1d5cc" name="a9507333c1a356e3d978457a2dec1d5cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9507333c1a356e3d978457a2dec1d5cc">&#9670;&#160;</a></span>operator()() <span class="overload">[6/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a>&lt; T &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a flat element without bounds checking. </p>
-
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00065">65</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00081">81</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>

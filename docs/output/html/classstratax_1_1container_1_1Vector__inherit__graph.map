@@ -1,5 +1,5 @@
 <map id="stratax::container::Vector&lt; T &gt;" name="stratax::container::Vector&lt; T &gt;">
-<area shape="rect" id="Node000001" title="Stores a rank&#45;1 Stratax array in contiguous memory." alt="" coords="26,98,163,143"/>
-<area shape="rect" id="Node000002" href="$classstratax_1_1core_1_1ArrayBase.html" title=" " alt="" coords="5,5,184,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,64,97,99,92,97,93,68"/>
+<area shape="rect" id="Node000001" title="Stores a rank&#45;1 Stratax array in contiguous memory." alt="" coords="45,81,182,126"/>
+<area shape="rect" id="Node000002" href="$classstratax_1_1core_1_1ArrayBase.html" title=" " alt="" coords="5,5,222,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,47,116,81,111,79,112,51"/>
 </map>

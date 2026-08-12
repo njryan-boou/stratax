@@ -27,12 +27,13 @@ The `ArrayBase` class is responsible for:
 - Providing shared contiguous access (`data`, `operator[]`)
 - Providing shared iterator and reverse-iterator APIs
 - Providing shared modifiers (`fill`, `swap`)
+- Providing shared protected helpers for shape/stride setup, storage allocation, index normalization, and offset computation
 
 The `ArrayBase` class is **not** responsible for:
 
 - Container-specific constructors and rank contracts
-- Multidimensional indexing semantics
-- Checked indexing policy for each concrete container
+- Public multidimensional indexing entry points
+- Container-specific checked-index error policy text/messages
 - Numerical algorithms or broadcasting behavior
 
 ---
@@ -140,11 +141,41 @@ void fill(const T& value);
 void swap(ArrayBase& other) noexcept;
 ```
 
+### Protected shared helpers used by derived containers
+
+```cpp
+void set_shape_and_strides(const Shape& shape);
+
+void allocate_from_shape();
+void allocate_from_shape(const T& value);
+void allocate_with_size(std::size_t size);
+void allocate_with_size(std::size_t size, const T& value);
+
+template<std::size_t N>
+std::array<std::size_t, N> normalize_multi_indices(
+  const std::array<std::ptrdiff_t, N>& raw_indices,
+  const char* rank_mismatch_message = "Multi-index rank must match array rank.") const;
+
+template<std::size_t N>
+std::size_t normalized_flat_offset(
+  const std::array<std::ptrdiff_t, N>& raw_indices,
+  const char* rank_mismatch_message = "Multi-index rank must match array rank.",
+  const char* component_oob_message = nullptr) const;
+
+template<typename IndexContainer>
+std::size_t flat_offset(const IndexContainer& indices) const;
+
+std::size_t normalize_flat_index(std::ptrdiff_t index) const;
+std::size_t normalize_axis_index(std::ptrdiff_t index, std::size_t extent) const;
+T& checked_flat_ref(std::ptrdiff_t index);
+const T& checked_flat_ref(std::ptrdiff_t index) const;
+```
+
 ---
 
 ## Design Notes
 
-`ArrayBase<T>` intentionally keeps policy minimal. Concrete containers own constructor contracts and indexing semantics while sharing storage/metadata plumbing and iteration behavior through inheritance.
+`ArrayBase<T>` intentionally keeps public policy minimal. Concrete containers own constructor contracts and public indexing APIs while sharing storage/metadata plumbing plus reusable protected indexing/allocation primitives through inheritance.
 
 ---
 

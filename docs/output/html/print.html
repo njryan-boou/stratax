@@ -97,12 +97,12 @@ Print</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Print_8hpp_source.html">include/stratax/io/Print.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md523"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md520"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Print_8hpp_source.html">Print.hpp</a></span> implements stream insertion operators for Stratax containers.</p>
 <p>Vector and matrix printing route through tensor conversion/formatting helpers, and tensor output uses recursive nested bracket formatting.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md525"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md522"></a>
 Responsibilities</h2>
 <p>The print module is responsible for:</p>
 <ul>
@@ -117,7 +117,7 @@ Responsibilities</h2>
 <li>Validation or repair of container metadata</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md527"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md524"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">operator&lt;&lt;(Vector)</div>
 <div class="line">└── to_tensor(vector) -&gt; detail::print_tensor_like</div>
@@ -136,7 +136,7 @@ Relationships</h2>
 <li><a class="el" href="conversions.html">Conversions</a></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md526"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -148,9 +148,9 @@ Invariants</h2>
 <li>Tensor path uses comma-newline sibling separators.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md528"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md532"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
 Vector stream output</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Vector&lt;T&gt;&amp; vector);</div>
@@ -163,7 +163,7 @@ Vector stream output</h3>
 <ul>
 <li>O(n) output work</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md533"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md530"></a>
 Matrix stream output</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Matrix&lt;T&gt;&amp; matrix);</div>
@@ -176,7 +176,7 @@ Matrix stream output</h3>
 <ul>
 <li>O(n) output work</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md534"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
 Tensor stream output</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Tensor&lt;T&gt;&amp; tensor);</div>
@@ -190,7 +190,7 @@ Tensor stream output</h3>
 <li>O(n + s), where <span class="tt">s</span> is emitted structural separator/indent text</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md536"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md533"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -206,18 +206,18 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md538"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md535"></a>
 Examples</h2>
 <div class="fragment"><div class="line">std::cout &lt;&lt; vec &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">std::cout &lt;&lt; mat &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">std::cout &lt;&lt; tensor &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md540"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md537"></a>
 Design Notes</h2>
 <p>Using shared recursive tensor formatting keeps output behavior consistent across container families while still allowing matrix-specific sibling separation.</p>
 <p>Whitespace and separator stability is important because tests and docs often compare emitted strings.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md542"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md539"></a>
 Future Improvements</h2>
 <ul>
 <li>Add configurable formatting profiles (compact vs pretty)</li>
@@ -225,7 +225,7 @@ Future Improvements</h2>
 <li>Add custom indentation and separator settings</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md544"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md541"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="conversions.html">Conversions</a></li>

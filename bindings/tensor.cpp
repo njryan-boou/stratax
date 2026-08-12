@@ -13,6 +13,7 @@
 #include <stratax/ops/Comparison.hpp>
 
 #include <cstddef>
+#include <limits>
 #include <sstream>
 #include <vector>
 
@@ -34,7 +35,7 @@ void require_allocatable_tensor_elements(std::size_t elements)
     {
         binding_utils::raise_overflow("Tensor storage size overflow.");
     }
-}
+} // anonymous namespace
 
 std::size_t checked_tensor_elements(const Shape& shape)
 {
@@ -330,7 +331,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
 
                 if (!any_slice)
                 {
-                    return py::cast(tensor.at(tensor_offset(tensor, tuple_index)));
+					return py::cast(tensor[tensor_offset(tensor, tuple_index)]);
                 }
 
                 std::vector<binding_utils::ResolvedSlice> ranges;
@@ -359,29 +360,29 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 return py::cast(tensor_slice_runtime(tensor, ranges));
             }
 
-            return py::cast(tensor.at(
+			return py::cast(tensor[
                 binding_utils::resolve_index(
                     index,
                     tensor.size(),
                     "Tensor index must be an integer.",
                     "Tensor index is too large to fit in a signed integer.",
                     "Tensor index is out of bounds.")
-            ));
+			]);
         })
         .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
             if (py::isinstance<py::tuple>(index)) {
-                tensor.at(tensor_offset(tensor, index.cast<py::tuple>())) = value;
+				tensor[tensor_offset(tensor, index.cast<py::tuple>())] = value;
                 return;
             }
 
-            tensor.at(
+			tensor[
                 binding_utils::resolve_index(
                     index,
                     tensor.size(),
                     "Tensor index must be an integer.",
                     "Tensor index is too large to fit in a signed integer.",
                     "Tensor index is out of bounds.")
-            ) = value;
+			] = value;
         });
 }
 

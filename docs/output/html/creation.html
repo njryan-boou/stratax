@@ -97,12 +97,12 @@ Creation</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Creation_8hpp_source.html">include/stratax/algorithms/Creation.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md286"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md282"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Creation_8hpp_source.html">Creation.hpp</a></span> provides convenience constructors for common tensor initialization patterns.</p>
 <p>All helpers return owning <span class="tt">Tensor&lt;T&gt;</span> values and require <span class="tt">T</span> to satisfy <span class="tt"><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md288"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md284"></a>
 Responsibilities</h2>
 <p>The creation module is responsible for:</p>
 <ul>
@@ -117,7 +117,7 @@ Responsibilities</h2>
 <li>Randomized initialization policies</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md290"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md286"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">creation::zeros / ones / full</div>
 <div class="line">└── Tensor(shape, value)</div>
@@ -132,7 +132,7 @@ Relationships</h2>
 <li><span class="tt"><a class="el" href="Shape_8hpp_source.html">include/stratax/core/Shape.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md292"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md288"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -142,9 +142,9 @@ Invariants</h2>
 <li>Identity diagonal entries are <span class="tt">T{1}</span> and off-diagonal entries are <span class="tt">T{}</span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md290"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md295"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md291"></a>
 zeros</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a></div>
@@ -153,19 +153,19 @@ zeros</h3>
 <div class="ttc" id="aclassstratax_1_1core_1_1Shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="Shape_8hpp_source.html#l00014">Shape.hpp:15</a></div></div>
 <div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdoc">Matches all scalar types supported by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00097">Numeric.hpp:97</a></div></div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">T{}</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md292"></a>
 ones</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a></div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> ones(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>&amp; shape);</div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">T{1}</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md293"></a>
 full</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a></div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> full(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>&amp; shape, <span class="keyword">const</span> T&amp; value);</div>
 </div><!-- fragment --><p>Creates a tensor filled with <span class="tt">value</span>.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
 identity</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a></div>
@@ -176,7 +176,7 @@ identity</h3>
 <li>Propagates constructor/allocation exceptions from <span class="tt">Tensor</span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -188,25 +188,25 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md302"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> z = creation::zeros&lt;double&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>(2, 3));</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> o = creation::ones&lt;float&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>(4));</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> f = creation::full&lt;int&gt;(<a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>(2, 2, 2), 7);</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> I = creation::identity&lt;double&gt;(3);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
 Design Notes</h2>
 <p>Keeping these helpers in a small <span class="tt">creation</span> namespace provides concise call sites without adding policy complexity to container constructors.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md306"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md302"></a>
 Future Improvements</h2>
 <ul>
 <li>Add explicit matrix-returning identity helper if rank-2 specialization is desired</li>
 <li>Add additional builders (<span class="tt">arrange</span>, <span class="tt">linspace</span>, random initialization) when needed</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="Tensor_8hpp_source.html">include/stratax/containers/Tensor.hpp</a></span> </li>

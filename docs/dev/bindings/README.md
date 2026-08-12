@@ -48,6 +48,7 @@ C++ core headers -> pybind11 bindings in bindings/ -> _core extension
 - Numeric bindings currently expose `double` container specializations.
 - Conversion and creation helpers in Python are module-level free functions.
 - Extension metadata is defined directly in `bindings/module.cpp`.
+- Tensor Python indexing dispatches to C++ unchecked flat `operator[]` for scalar indices and checked signed multi-index `at(...)` for tuple indices.
 
 ---
 

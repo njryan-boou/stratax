@@ -131,6 +131,7 @@ Current Constraints</h2>
 <li><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a> bindings currently expose <span class="tt">double</span> container specializations.</li>
 <li>Conversion and creation helpers in Python are module-level free functions.</li>
 <li>Extension metadata is defined directly in <span class="tt">bindings/module.cpp</span>.</li>
+<li>Tensor Python indexing dispatches to C++ unchecked flat <span class="tt">operator[]</span> for scalar indices and checked signed multi-index <span class="tt">at(...)</span> for tuple indices.</li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>

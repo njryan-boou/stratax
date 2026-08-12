@@ -25,6 +25,7 @@ The `Vector` class is responsible for:
 - Owning contiguous rank-1 element storage
 - Exposing shape and stride metadata
 - Providing checked and unchecked element access
+- Providing flat checked signed indexing via `at(index)`
 - Providing iterator access over contiguous storage
 - Supporting copy/move ownership semantics
 

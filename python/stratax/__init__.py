@@ -68,7 +68,4 @@ __all__ = [
     "__version__",
     "__author__",
     "__license__",
-    "__homepage__",
-    "__repository__",
-    "__issues__",
 ]

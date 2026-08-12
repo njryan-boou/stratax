@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <initializer_list>
 #include <iterator>
@@ -12,7 +13,6 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
-#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
@@ -22,7 +22,10 @@ requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
 protected:
+	using core::ArrayBase<T>::allocate_with_size;
 	using core::ArrayBase<T>::buffer_;
+	using core::ArrayBase<T>::normalized_flat_offset;
+	using core::ArrayBase<T>::set_shape_and_strides;
 	using core::ArrayBase<T>::shape_;
 	using core::ArrayBase<T>::strides_;
 
@@ -32,23 +35,20 @@ public:
 	using rebind = Matrix<U>;
 
 	/** @brief Creates a default rank-2 empty matrix. */
-	Matrix(): Matrix(0, 0) {}
+	Matrix() : Matrix(0, 0) {}
 
 	/** @brief Creates a rank-2 matrix with the given number of rows and columns. */
 	Matrix(std::size_t rows, std::size_t cols)
 	{
-		shape_ = core::Shape({rows, cols}, core::Shape::allow_zero);
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(
-			core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
+		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
+		allocate_with_size(core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
 	}
 
 	/** @brief Creates a matrix from a validated rank-2 shape. */
 	explicit Matrix(const core::Shape& shape)
 	{
-		shape_ = core::validation::require_rank(shape, 2, "Shape must be rank 2");
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(core::validation::checked_multiply(
+		set_shape_and_strides(core::validation::require_rank(shape, 2, "Shape must be rank 2"));
+		allocate_with_size(core::validation::checked_multiply(
 			shape_(0),
 			shape_(1),
 			"Matrix size overflow"));
@@ -57,10 +57,10 @@ public:
 	/** @brief Creates a matrix and fills it with a value. */
 	Matrix(std::size_t rows, std::size_t cols, const T& value)
 	{
-		shape_ = stratax::core::Shape({rows, cols}, stratax::core::Shape::allow_zero);
-		strides_ = stratax::core::Strides(shape_);
-		buffer_ = stratax::core::Buffer<T>(
-			core::validation::checked_multiply(rows, cols, "Matrix size overflow"), value);
+		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
+		allocate_with_size(
+			core::validation::checked_multiply(rows, cols, "Matrix size overflow"),
+			value);
 	}
 
 	/** @brief Creates a matrix from a nested initializer list. */
@@ -78,10 +78,8 @@ public:
 			}
 		}
 
-		shape_ = stratax::core::Shape({rows, cols}, stratax::core::Shape::allow_zero);
-		strides_ = stratax::core::Strides(shape_);
-		buffer_ = stratax::core::Buffer<T>(
-			core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
+		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
+		allocate_with_size(core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
 
 		std::size_t index = 0;
 
@@ -127,21 +125,15 @@ public:
 	/** @brief Returns an element by row and column. */
 	T& at(std::ptrdiff_t row, std::ptrdiff_t col)
 	{
-		const std::size_t normalized_row =
-			stratax::indexing::normalize_index(row, rows());
-		const std::size_t normalized_col =
-			stratax::indexing::normalize_index(col, cols());
-		return (*this)(normalized_row, normalized_col);
+		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
 	/** @brief Returns an element by row and column. */
 	const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
 	{
-		const std::size_t normalized_row = stratax::indexing::normalize_index(row, rows());
-		const std::size_t normalized_col = stratax::indexing::normalize_index(col, cols());
-		return (*this)(normalized_row, normalized_col);
+		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
 };
 
-}
+} // namespace stratax::container

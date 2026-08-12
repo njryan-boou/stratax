@@ -24,13 +24,15 @@ The `Matrix` class is responsible for:
 
 - Owning contiguous rank-2 element storage
 - Exposing row/column shape and stride metadata
-- Providing checked and unchecked element access
+- Providing checked signed row/column indexing via `at(row, col)`
+- Providing unchecked flat and row/column element access
 - Providing iterator access over contiguous row-major storage
 - Supporting copy/move ownership semantics
 
 The `Matrix` class is **not** responsible for:
 
 - Rank-1 or rank-N container semantics
+- Flat checked single-index `at(index)` access
 - Broadcasting policy decisions
 - High-level numerical algorithms
 - Tensor reshaping outside matrix-specific APIs
@@ -90,6 +92,7 @@ The following conditions are always true:
 - `data()` points to row-major contiguous storage when non-empty.
 - `at(row, col)` validates bounds and supports negative indexing.
 - `operator[](flat)` is unchecked flat access.
+- `operator()(row, col)` is unchecked row/column access.
 
 ---
 
