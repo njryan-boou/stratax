@@ -97,12 +97,12 @@ Strides</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Strides_8hpp_source.html">include/stratax/core/Strides.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md374"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md790"></a>
 Overview</h2>
 <p><span class="tt">Strides</span> stores row-major stride metadata for a <span class="tt">Shape</span>.</p>
 <p>It maps logical multi-dimensional indices to flat storage offsets and is used as lightweight layout metadata by Stratax containers.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md376"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md792"></a>
 Responsibilities</h2>
 <p>The <span class="tt">Strides</span> class is responsible for:</p>
 <ul>
@@ -120,7 +120,7 @@ Responsibilities</h2>
 <li>Multidimensional indexing logic itself</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md378"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md794"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Strides</div>
 <div class="line">│</div>
@@ -145,7 +145,7 @@ Relationships</h2>
 <li>Buffer</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md380"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md796"></a>
 Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -154,7 +154,7 @@ Internal Data</h2>
 <td class="markdownTableBodyNone"><span class="tt">Buffer&lt;std::size_t&gt; buffer_</span>  </td><td class="markdownTableBodyNone">Contiguous storage of stride values  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md382"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md798"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -165,9 +165,9 @@ Invariants</h2>
 <li><span class="tt">operator==</span> compares both rank and all stride values.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md384"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md800"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md385"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md801"></a>
 Iterator Aliases</h2>
 <div class="fragment"><div class="line"><span class="keyword">using </span>iterator = Buffer&lt;std::size_t&gt;::const_iterator;</div>
 <div class="line"><span class="keyword">using </span>const_iterator = Buffer&lt;std::size_t&gt;::const_iterator;</div>
@@ -175,9 +175,9 @@ Iterator Aliases</h2>
 <div class="line"><span class="keyword">using </span>const_reverse_iterator = Buffer&lt;std::size_t&gt;::const_reverse_iterator;</div>
 </div><!-- fragment --><p><span class="tt">Strides</span> intentionally exposes const-backed iterator aliases because stride values are derived metadata.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md387"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md803"></a>
 Constructors</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md388"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md804"></a>
 Default Constructor</h3>
 <div class="fragment"><div class="line">Strides() noexcept;</div>
 </div><!-- fragment --><p>Constructs an empty stride vector.</p>
@@ -190,7 +190,7 @@ Default Constructor</h3>
 <li>None</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md390"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md806"></a>
 Shape Constructor</h3>
 <div class="fragment"><div class="line"><span class="keyword">explicit</span> Strides(<span class="keyword">const</span> Shape&amp; shape);</div>
 </div><!-- fragment --><p>Constructs row-major strides for a shape.</p>
@@ -204,7 +204,7 @@ Shape Constructor</h3>
 <li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on stride overflow</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md392"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md808"></a>
 Copy Constructor</h3>
 <div class="fragment"><div class="line">Strides(<span class="keyword">const</span> Strides&amp;) = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -212,7 +212,7 @@ Copy Constructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md394"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md810"></a>
 Move Constructor</h3>
 <div class="fragment"><div class="line">Strides(Strides&amp;&amp;) noexcept = default;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -220,7 +220,7 @@ Move Constructor</h3>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md396"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md812"></a>
 Destructor</h3>
 <div class="fragment"><div class="line">~Strides() = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -228,9 +228,9 @@ Destructor</h3>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md398"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md814"></a>
 Assignment Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md399"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md815"></a>
 Copy Assignment</h2>
 <div class="fragment"><div class="line">Strides&amp; operator=(<span class="keyword">const</span> Strides&amp;) = <span class="keywordflow">default</span>;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -238,7 +238,7 @@ Copy Assignment</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md401"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md817"></a>
 Move Assignment</h2>
 <div class="fragment"><div class="line">Strides&amp; operator=(Strides&amp;&amp;) noexcept = default;</div>
 </div><!-- fragment --><p>Complexity</p>
@@ -246,9 +246,9 @@ Move Assignment</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md403"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md819"></a>
 Methods</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md404"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md820"></a>
 size()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t size() const noexcept;</div>
 </div><!-- fragment --><p>Returns the number of stored stride values.</p>
@@ -257,7 +257,7 @@ size()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md406"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md822"></a>
 rank()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] std::size_t rank() const noexcept;</div>
 </div><!-- fragment --><p>Returns the represented dimensional rank.</p>
@@ -266,7 +266,7 @@ rank()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md408"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md824"></a>
 empty()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
 </div><!-- fragment --><p>Returns <span class="tt">true</span> if no strides are stored.</p>
@@ -275,7 +275,7 @@ empty()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md410"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md826"></a>
 at()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; at(std::size_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns a stride value with bounds checking.</p>
@@ -288,7 +288,7 @@ at()</h2>
 <li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if out of bounds</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md412"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md828"></a>
 front()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; front() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns first stride.</p>
@@ -301,7 +301,7 @@ front()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md414"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md830"></a>
 back()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; back() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns last stride.</p>
@@ -314,7 +314,7 @@ back()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md416"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md832"></a>
 data()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keyword">const</span> std::size_t* data() const noexcept;</div>
 </div><!-- fragment --><p>Returns pointer to first stride value.</p>
@@ -323,7 +323,7 @@ data()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md418"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md834"></a>
 begin()/end()/cbegin()/cend()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] iterator begin() noexcept;</div>
 <div class="line">[[nodiscard]] const_iterator begin() const noexcept;</div>
@@ -337,7 +337,7 @@ begin()/end()/cbegin()/cend()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md420"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md836"></a>
 rbegin()/rend()/crbegin()/crend()</h2>
 <div class="fragment"><div class="line">[[nodiscard]] reverse_iterator rbegin() noexcept;</div>
 <div class="line">[[nodiscard]] const_reverse_iterator rbegin() const noexcept;</div>
@@ -351,7 +351,7 @@ rbegin()/rend()/crbegin()/crend()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md422"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md838"></a>
 swap()</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Strides&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Exchanges stride storage with another instance.</p>
@@ -360,9 +360,9 @@ swap()</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md424"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md840"></a>
 Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md425"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md841"></a>
 operator()</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; operator()(std::size_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns stride value without bounds checking.</p>
@@ -373,7 +373,7 @@ operator()</h2>
 <p>See Also</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> std::size_t&amp; at(std::size_t index) <span class="keyword">const</span>;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md427"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md843"></a>
 operator== / operator!=</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> Strides&amp; other) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 <div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> Strides&amp; other) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
@@ -383,7 +383,7 @@ operator== / operator!=</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md429"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md845"></a>
 stream operator</h2>
 <div class="fragment"><div class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> Strides&amp; stride);</div>
 </div><!-- fragment --><p>Writes tuple-like stride representation, for example <span class="tt">(12, 4, 1)</span> and <span class="tt">(1,)</span> for rank-1.</p>
@@ -392,7 +392,7 @@ stream operator</h2>
 <li>O(n)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md431"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md847"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -425,28 +425,28 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md433"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md849"></a>
 Examples</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md434"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md850"></a>
 Building Strides From a Shape</h2>
 <div class="fragment"><div class="line">Shape shape(2, 3, 4);</div>
 <div class="line">Strides strides(shape);</div>
 <div class="line"> </div>
 <div class="line">std::cout &lt;&lt; strides &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>; <span class="comment">// (12, 4, 1)</span></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md436"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md852"></a>
 Accessing Strides</h2>
 <div class="fragment"><div class="line">Strides strides(Shape(2, 3, 4));</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> first = strides(0);   <span class="comment">// unchecked</span></div>
 <div class="line"><span class="keyword">auto</span> safe = strides.at(1); <span class="comment">// checked</span></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md438"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md854"></a>
 Design Notes</h2>
 <p><span class="tt">Strides</span> stores only layout metadata and intentionally avoids array value ownership.</p>
 <p>By separating shape and stride metadata from value storage, Stratax keeps indexing and layout logic explicit and reusable across <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md440"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md856"></a>
 Future Improvements</h2>
 <ul>
 <li>Optional column-major stride construction helper</li>
@@ -454,7 +454,7 @@ Future Improvements</h2>
 <li>Additional constexpr-friendly constructors</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md442"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md858"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="shape.html">Shape</a></li>

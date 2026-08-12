@@ -17,6 +17,8 @@
 #include <cstddef>
 #include <sstream>
 #include <vector>
+#include <utility>
+#include <limits>
 
 // =============================================================================
 // Matrix constructors

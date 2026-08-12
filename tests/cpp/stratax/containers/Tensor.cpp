@@ -50,16 +50,6 @@ TEST(Tensor, operators)
 {
 	Tensor<int> tensor({2, 3, 4}, 0);
 
-	// Mutable flat access
-	{
-		tensor[0] = 5;
-		tensor[1] = 10;
-		tensor(tensor.size() - 1) = 20;
-		EXPECT_EQ(tensor[0], 5);
-		EXPECT_EQ(tensor[1], 10);
-		EXPECT_EQ(tensor(tensor.size() - 1), 20);
-	}
-
 	// Mutable multidimensional access
 	{
 		tensor(1, 2, 3) = 21;
@@ -74,15 +64,13 @@ TEST(Tensor, operators)
 	{
 		const Tensor<int>& const_tensor = tensor;
 		std::vector<std::size_t> idx{1, 2, 3};
-		EXPECT_EQ(const_tensor[0], 5);
-		EXPECT_EQ(const_tensor(const_tensor.size() - 1), 21);
 		EXPECT_EQ(const_tensor(1, 2, 3), 21);
 		EXPECT_EQ(const_tensor(idx), 21);
 	}
 
 	// Checked access
 	{
-		EXPECT_EQ(tensor.at(0), 5);
+		EXPECT_EQ(tensor.at(0), 0);
 		EXPECT_EQ(tensor.at(-1), 21);
 		EXPECT_THROW(tensor.at(24), Exceptions::IndexError);
 		EXPECT_THROW(tensor.at(-25), Exceptions::IndexError);

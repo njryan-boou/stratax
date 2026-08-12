@@ -13,12 +13,11 @@
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/indexing/Indexing.hpp>
-#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
 /** @brief Stores a rank-2 Stratax array in row-major order. */
-template<typename T = double>
+template<typename T>
 requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
@@ -101,18 +100,6 @@ public:
 	Matrix& operator=(Matrix&&) noexcept = default;
 	~Matrix() = default;
 
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index) noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
-
 	/** @brief Returns the number of rows. */
 	[[nodiscard]] std::size_t rows() const noexcept
 	{
@@ -125,19 +112,15 @@ public:
 		return shape_(1);
 	}
 
-	/** @brief Returns an element by row and column with bounds checking. */
+	/** @brief Returns an element by row and column without bounds checking. */
 	T& operator()(std::size_t row, std::size_t col)
 	{
-		core::validation::require_index(row, rows(), "Row index out of bounds.");
-		core::validation::require_index(col, cols(), "Column index out of bounds.");
 		return buffer_[row * cols() + col];
 	}
 
-	/** @brief Returns an element by row and column with bounds checking. */
+	/** @brief Returns an element by row and column without bounds checking. */
 	const T& operator()(std::size_t row, std::size_t col) const
 	{
-		core::validation::require_index(row, rows(), "Row index out of bounds.");
-		core::validation::require_index(col, cols(), "Column index out of bounds.");
 		return buffer_[row * cols() + col];
 	}
 

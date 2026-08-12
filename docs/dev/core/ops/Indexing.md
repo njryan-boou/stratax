@@ -12,9 +12,9 @@ Header: `include/stratax/indexing/Indexing.hpp`
 
 ## Overview
 
-`Indexing.hpp` provides the core flat-offset computation used by multidimensional containers.
+`Indexing.hpp` provides core indexing helpers used by multidimensional containers.
 
-The `offset(...)` helper maps a rank-matched index container to a row-major storage position using shape and stride metadata.
+The `stratax::indexing::offset(...)` helper maps a rank-matched index container to a row-major storage position using shape and stride metadata. The `stratax::indexing::normalize_index(...)` helper resolves signed indexing into validated non-negative positions.
 
 ---
 
@@ -37,11 +37,14 @@ The indexing module is **not** responsible for:
 ## Relationships
 
 ```text
-offset(shape, strides, index)
+stratax::indexing::offset(shape, strides, index)
 ├── require_rank(...)
 ├── checked_multiply(...)
 ├── checked_add(...)
 └── Exceptions::IndexError translation
+
+stratax::indexing::normalize_index(index, size)
+└── signed-to-valid-index normalization
 ```
 
 Depends on:
@@ -71,7 +74,7 @@ The following conditions are always true:
 
 ## Public Interface
 
-## offset(...)
+## stratax::indexing::offset(...)
 
 ```cpp
 template<typename IndexContainer>
@@ -100,6 +103,24 @@ Complexity
 
 ---
 
+## stratax::indexing::normalize_index(...)
+
+```cpp
+std::size_t normalize_index(std::ptrdiff_t index, std::size_t size);
+```
+
+Normalizes signed indices where negative values count from the end.
+
+Throws
+
+- `Exceptions::IndexError` when `index` is out of bounds
+
+Complexity
+
+- O(1)
+
+---
+
 ## Complexity Summary
 
 | Operation | Complexity |
@@ -117,8 +138,11 @@ const stratax::core::Shape shape(2, 3, 4);
 const stratax::core::Strides strides(shape);
 const std::array<std::size_t, 3> index{1, 0, 2};
 
-const std::size_t flat = offset(shape, strides, index);
+const std::size_t flat = stratax::indexing::offset(shape, strides, index);
 // row-major offset for [1,0,2]
+
+const std::size_t i0 = stratax::indexing::normalize_index(-1, 4);
+// i0 == 3
 ```
 
 ---

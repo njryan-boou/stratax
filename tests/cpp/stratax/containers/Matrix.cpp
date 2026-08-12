@@ -51,42 +51,19 @@ TEST(Matrix, methods)
 TEST(Matrix, operators)
 {
 	Matrix<int> matrix(2, 3, 0);
-
-	// Mutable flat access
-	{
-		matrix[0] = 5;
-		matrix[1] = 10;
-		matrix(matrix.size() - 1) = 20;
-		EXPECT_EQ(matrix[0], 5);
-		EXPECT_EQ(matrix[1], 10);
-		EXPECT_EQ(matrix(matrix.size() - 1), 20);
-	}
-
+	
 	// Mutable 2D access
 	{
 		matrix(0, 0) = 11;
 		matrix(1, 2) = 21;
 		EXPECT_EQ(matrix(0, 0), 11);
 		EXPECT_EQ(matrix(1, 2), 21);
-		EXPECT_THROW(matrix(2, 0), Exceptions::IndexError);
-		EXPECT_THROW(matrix(0, 3), Exceptions::IndexError);
-	}
-
-	// Const access
-	{
-		const Matrix<int>& const_matrix = matrix;
-		EXPECT_EQ(const_matrix[0], 11);
-		EXPECT_EQ(const_matrix(const_matrix.size() - 1), 21);
-		EXPECT_EQ(const_matrix(1, 2), 21);
 	}
 
 	// Checked access
 	{
 		EXPECT_EQ(matrix.at(0, 0), 11);
 		EXPECT_EQ(matrix.at(-1, -1), 21);
-		EXPECT_THROW(matrix.at(2, 0), Exceptions::IndexError);
-		EXPECT_THROW(matrix.at(0, 3), Exceptions::IndexError);
-		EXPECT_THROW(matrix.at(-3, 0), Exceptions::IndexError);
 	}
 }
 

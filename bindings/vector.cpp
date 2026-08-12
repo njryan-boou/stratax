@@ -43,16 +43,6 @@ std::size_t checked_vector_size(long long size)
     return value;
 }
 
-Vector make_vector_from_shape(const Shape& shape)
-{
-    stratax::core::validation::require_rank(shape, 1, "Vector shape must have rank 1.");
-    if (shape(0) > std::numeric_limits<std::size_t>::max() / sizeof(double))
-    {
-        binding_utils::raise_overflow("Vector storage size overflow.");
-    }
-
-    return Vector(shape);
-}
 
 Vector make_vector_from_iterable(py::iterable values)
 {
@@ -107,9 +97,6 @@ void bind_vector_constructors(py::class_<Vector>& cls)
         .def(py::init([]() {
             return Vector(0);
         }))
-        .def(py::init([](const Shape& shape) {
-            return make_vector_from_shape(shape);
-        }), py::arg("shape"))
         .def(py::init<const Vector&>(), py::arg("other"))
         .def(py::init([](py::object value) {
             return make_vector_from_object(value);

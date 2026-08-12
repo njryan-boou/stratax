@@ -5,6 +5,7 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::core {
 
@@ -182,6 +183,11 @@ public:
     }
 
 protected:
+    std::size_t normalize_flat_index(std::ptrdiff_t index) const
+    {
+        return stratax::indexing::normalize_index(index, size());
+    }
+
     Buffer<T> buffer_;
     Shape shape_;
     Strides strides_;

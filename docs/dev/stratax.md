@@ -39,6 +39,7 @@ The umbrella header is not responsible for:
 
 ### Core Foundations
 
+- `include/stratax/core/ArrayBase.hpp`
 - `include/stratax/core/Buffer.hpp`
 - `include/stratax/concepts/Numeric.hpp`
 - `include/stratax/core/Config.hpp`
@@ -108,4 +109,4 @@ This header intentionally acts as a convenience aggregator. Component-level head
 
 - `docs/dev/README.md`
 - `docs/dev/core/Concepts.md`
-- `docs/dev/core/containers/Vector.md`
+- `docs/dev/containers/Vector.md`

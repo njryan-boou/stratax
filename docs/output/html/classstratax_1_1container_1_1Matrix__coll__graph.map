@@ -1,11 +1,11 @@
 <map id="stratax::container::Matrix&lt; T &gt;" name="stratax::container::Matrix&lt; T &gt;">
-<area shape="rect" id="Node000001" title="Stores a rank&#45;2 Stratax array in row&#45;major order." alt="" coords="102,301,238,345"/>
-<area shape="rect" id="Node000002" href="$classstratax_1_1core_1_1ArrayBase.html" title=" " alt="" coords="62,224,278,251"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,265,173,301,168,299,169,269"/>
+<area shape="rect" id="Node000001" title="Stores a rank&#45;2 Stratax array in row&#45;major order." alt="" coords="102,318,238,362"/>
+<area shape="rect" id="Node000002" href="$classstratax_1_1core_1_1ArrayBase.html" title=" " alt="" coords="81,224,260,268"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,282,173,318,168,316,169,286"/>
 <area shape="rect" id="Node000003" href="$classstratax_1_1core_1_1Shape.html" title="Stores dimension lengths for an array shape." alt="" coords="5,123,157,151"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,159,161,222,156,224,102,164"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="102,160,155,222,150,224,101,165"/>
 <area shape="rect" id="Node000004" href="$structstratax_1_1core_1_1Shape_1_1allow__zero__t.html" title="Tag type documenting that zero&#45;valued dimensions are intentional." alt="" coords="5,5,157,50"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="82,63,84,123,78,122,80,68"/>
 <area shape="rect" id="Node000005" href="$classstratax_1_1core_1_1Strides.html" title="Stores strides for a shape in contiguous memory." alt="" coords="180,123,336,151"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="239,161,184,225,180,221,234,164"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="240,161,190,225,186,221,236,164"/>
 </map>

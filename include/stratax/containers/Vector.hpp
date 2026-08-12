@@ -12,12 +12,11 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
-#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
 /** @brief Stores a rank-1 Stratax array in contiguous memory. */
-template<typename T = double>
+template<typename T>
 requires Numeric<T>
 class Vector : public core::ArrayBase<T>
 {
@@ -25,6 +24,7 @@ protected:
 	using core::ArrayBase<T>::buffer_;
 	using core::ArrayBase<T>::shape_;
 	using core::ArrayBase<T>::strides_;
+	using core::ArrayBase<T>::normalize_flat_index;
 
 public:
 	/** @brief Rebinds the vector container to another element type. */
@@ -73,33 +73,31 @@ public:
 	~Vector() = default;
 
 	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index) noexcept
+	T& operator()(std::size_t index)
 	{
-		return buffer_[index];
+    	return this->buffer_[index];
 	}
 
 	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const noexcept
+	const T& operator()(std::size_t index) const
 	{
-		return buffer_[index];
+		return this->buffer_[index];
 	}
 
 	/** @brief Returns a flat element with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{
-		const std::size_t normalized =
-			stratax::indexing::normalize_index(index, this->size());
+		const std::size_t normalized = normalize_flat_index(index);
 		return buffer_[normalized];
 	}
 
 	/** @brief Returns a flat element with bounds checking. */
 	const T& at(std::ptrdiff_t index) const
 	{
-		const std::size_t normalized =
-			stratax::indexing::normalize_index(index, this->size());
+		const std::size_t normalized = normalize_flat_index(index);
 		return buffer_[normalized];
 	}
 
 };
 
-} // namespace stratax::containers
+} // namespace stratax::container

@@ -4,7 +4,9 @@ var hierarchy =
     [ "stratax::core::ArrayBase&lt; T &gt;", "classstratax_1_1core_1_1ArrayBase.html", [
       [ "stratax::container::Matrix< U >", "classstratax_1_1container_1_1Matrix.html", null ],
       [ "stratax::container::Tensor< U >", "classstratax_1_1container_1_1Tensor.html", null ],
-      [ "stratax::container::Vector< U >", "classstratax_1_1container_1_1Vector.html", null ],
+      [ "stratax::container::Vector< U >", "classstratax_1_1container_1_1Vector.html", null ]
+    ] ],
+    [ "stratax::core::ArrayBase&lt; double &gt;", "classstratax_1_1core_1_1ArrayBase.html", [
       [ "stratax::container::Matrix< T >", "classstratax_1_1container_1_1Matrix.html", null ],
       [ "stratax::container::Tensor< T >", "classstratax_1_1container_1_1Tensor.html", null ],
       [ "stratax::container::Vector< T >", "classstratax_1_1container_1_1Vector.html", null ]

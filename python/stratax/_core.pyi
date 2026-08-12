@@ -80,8 +80,8 @@ class Vector:
         ...
 
     @overload
-    def __init__(self, value: int | Iterable[float] | Shape | "Vector") -> None:
-        """Create a vector from a size, iterable, shape, or vector."""
+    def __init__(self, value: int | Iterable[float] | "Vector") -> None:
+        """Create a vector from a size, iterable, or vector."""
         ...
 
     @overload

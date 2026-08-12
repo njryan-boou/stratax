@@ -51,8 +51,7 @@ Depends on:
 - Buffer
 - Shape
 - Strides
-- Indexing helpers (`core::offset`)
-- Validation helpers (`validation::normalize_index`)
+- Indexing helpers (`stratax::indexing::offset`, `stratax::indexing::normalize_index`)
 - Exceptions (`Exceptions::IndexError`, `Exceptions::DimensionError`)
 
 Used by:

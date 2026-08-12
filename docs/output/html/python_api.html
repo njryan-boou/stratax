@@ -91,10 +91,10 @@ $(function(){initNavTree('python_api.html','',''); });
   <div class="headertitle"><div class="title">"Python API Reference" </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md996"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md1014"></a>
 Python API Reference</h1>
 <p>Concise reference for the public Python API exported from <span class="tt">stratax</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md997"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1015"></a>
 Imports</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> (</div>
 <div class="line">    Shape,</div>
@@ -119,7 +119,7 @@ Imports</h2>
 <div class="line">    std,</div>
 <div class="line">)</div>
 </div><!-- fragment --><p>Python containers currently expose <span class="tt">double</span>-based storage. Slicing, reshaping, flattening, and conversions return independent containers.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md998"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1016"></a>
 Shape</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -143,7 +143,7 @@ Shape</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">list(shape)</span>  </td><td class="markdownTableBodyNone">Dimensions as a Python list.  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md999"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1017"></a>
 Containers</h2>
 <p><span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> share the same basic container operations.</p>
 <table class="markdownTable">
@@ -179,7 +179,7 @@ Containers</h2>
 <td class="markdownTableBodyNone">Flatten  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td><td class="markdownTableBodyNone"><span class="tt">.flatten()</span>  </td></tr>
 </table>
 <p><span class="tt">Matrix</span> also exposes <span class="tt">.rows</span> and <span class="tt">.cols</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1018"></a>
 Indexing</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> Matrix, Tensor, Vector</div>
 <div class="line"> </div>
@@ -195,7 +195,7 @@ Indexing</h2>
 <div class="line">t[1, 1, 1] = 5.0</div>
 <div class="line">last_axis = t[:, :, -1]</div>
 </div><!-- fragment --><p>Negative indexes and slice steps are supported. Slice results are independent copies.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1001"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1019"></a>
 Arithmetic</h2>
 <p>Containers support element-wise arithmetic with matching containers or scalars:</p>
 <table class="markdownTable">
@@ -215,7 +215,7 @@ Arithmetic</h2>
 <td class="markdownTableBodyNone">Comparison  </td><td class="markdownTableBodyNone"><span class="tt">a == b</span>, <span class="tt">a != b</span>  </td></tr>
 </table>
 <p>Container-to-container arithmetic uses NumPy-style trailing-dimension broadcasting. Corresponding dimensions must be equal or one of them must be <span class="tt">1</span>; incompatible shapes raise <span class="tt">BroadcastError</span>. Comparisons remain shape-sensitive.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1020"></a>
 Creation Helpers</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -230,7 +230,7 @@ Creation Helpers</h2>
 <td class="markdownTableBodyNone"><span class="tt">identity(size)</span>  </td><td class="markdownTableBodyNone">Rank-2 identity tensor with shape <span class="tt">[size, size]</span>.  </td></tr>
 </table>
 <p><span class="tt">shape</span> must be a <span class="tt">Shape</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1021"></a>
 Conversion Helpers</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -243,7 +243,7 @@ Conversion Helpers</h2>
 <td class="markdownTableBodyNone"><span class="tt">to_tensor(arr)</span>  </td><td class="markdownTableBodyNone">Convert a <span class="tt">Vector</span>, <span class="tt">Matrix</span>, or <span class="tt">Tensor</span> to <span class="tt">Tensor</span>.  </td></tr>
 </table>
 <p>Conversions return new containers.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1004"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1022"></a>
 Reductions</h2>
 <div class="fragment"><div class="line"><span class="keyword">from</span> stratax <span class="keyword">import</span> mean, sum</div>
 <div class="line"> </div>
@@ -273,7 +273,7 @@ Reductions</h2>
 <td class="markdownTableBodyNone"><span class="tt">std(arr)</span> / <span class="tt">std(arr, axis, keepdims=False)</span>  </td><td class="markdownTableBodyNone"><span class="tt">float</span>  </td><td class="markdownTableBodyNone"><span class="tt">Tensor</span>  </td></tr>
 </table>
 <p>Axes may be negative. <span class="tt">keepdims=True</span> preserves the reduced axis with length 1.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1023"></a>
 Exceptions</h2>
 <p>Stratax exports these exception types:</p>
 <table class="markdownTable">

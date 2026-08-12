@@ -117,7 +117,7 @@ $(function(){initNavTree('Reductions_8hpp_source.html','',''); });
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// Start from the rightmost dimension</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = shape.<a class="code hl_function" href="classstratax_1_1core_1_1Shape.html#aab594827ada8a1e18080ab513d0505ec">rank</a>() - 1; d &gt;= 0; --d) {</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        indices[d]++;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">if</span> (indices[d] &lt; shape(d)) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">if</span> (indices[d] &lt; shape[d]) {</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;  <span class="comment">// Successfully advanced, more indices exist</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        indices[d] = 0;  <span class="comment">// Reset and carry over to next dimension</span></div>
@@ -195,7 +195,7 @@ $(function(){initNavTree('Reductions_8hpp_source.html','',''); });
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    stratax::container::Tensor&lt;typename A::value_type&gt; arr = to_tensor(array);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keyword">const</span> stratax::core::Shape input_shape = arr.<a class="code hl_function" href="classstratax_1_1container_1_1Tensor.html#a2eab6b53d9b77966b413835ad675c0ee">shape</a>();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keyword">const</span> stratax::core::Shape input_shape = arr.shape();</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    std::vector&lt;std::size_t&gt; result_dims = result_shape(array, Axis, keepdims);</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
@@ -457,7 +457,6 @@ $(function(){initNavTree('Reductions_8hpp_source.html','',''); });
 <div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>}</div>
 <div class="ttc" id="aValidation_8hpp_html"><div class="ttname"><a href="Validation_8hpp.html">Validation.hpp</a></div><div class="ttdoc">Shared runtime validation helpers.</div></div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html_a2eab6b53d9b77966b413835ad675c0ee"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html#a2eab6b53d9b77966b413835ad675c0ee">stratax::container::Tensor::shape</a></div><div class="ttdeci">const core::Shape &amp; shape() const noexcept</div><div class="ttdoc">Returns the tensor shape.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00104">Tensor.hpp:104</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Shape_html_aab594827ada8a1e18080ab513d0505ec"><div class="ttname"><a href="classstratax_1_1core_1_1Shape.html#aab594827ada8a1e18080ab513d0505ec">stratax::core::Shape::rank</a></div><div class="ttdeci">std::size_t rank() const</div><div class="ttdoc">Returns the number of stored dimensions.</div><div class="ttdef"><b>Definition</b> <a href="Shape_8hpp_source.html#l00121">Shape.hpp:121</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

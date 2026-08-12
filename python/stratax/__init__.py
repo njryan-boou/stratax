@@ -1,6 +1,10 @@
 from ._core import (
     __author__,
     __doc__ as __core_doc__,
+    __homepage__,
+    __issues__,
+    __license__,
+    __repository__,
     __version__,
     argmax,
     argmin,
@@ -63,4 +67,8 @@ __all__ = [
     "AxisError",
     "__version__",
     "__author__",
+    "__license__",
+    "__homepage__",
+    "__repository__",
+    "__issues__",
 ]

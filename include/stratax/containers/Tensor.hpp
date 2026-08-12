@@ -27,6 +27,7 @@ protected:
 	using stratax::core::ArrayBase<T>::buffer_;
 	using stratax::core::ArrayBase<T>::shape_;
 	using stratax::core::ArrayBase<T>::strides_;
+	using stratax::core::ArrayBase<T>::normalize_flat_index;
 
 public:
 	/** @brief Element type stored by the tensor. */
@@ -61,18 +62,6 @@ public:
 	Tensor& operator=(Tensor&&) noexcept = default;
 	~Tensor() = default;
 
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index) noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
-
 	/** @brief Returns an element by multidimensional index with bounds checking. */
 	template<typename... Rest>
 	T& operator()(std::size_t first, std::size_t second, Rest... rest)
@@ -96,32 +85,32 @@ public:
 			static_cast<std::size_t>(rest)...
 		};
 
-		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(this->shape_, this->strides_, indices)];
 	}
 
 	/** @brief Returns an element by multidimensional index from a vector with bounds checking. */
 	T& operator()(const std::vector<std::size_t>& indices)
 	{
-		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(this->shape_, this->strides_, indices)];
 	}
 
 	/** @brief Returns an element by multidimensional index from a vector with bounds checking. */
 	const T& operator()(const std::vector<std::size_t>& indices) const
 	{
-		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(this->shape_, this->strides_, indices)];
 	}
 
 	/** @brief Returns an element by rank-1 flat index with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{
-		const std::size_t normalized = stratax::indexing::normalize_index(index, this->size());
+		const std::size_t normalized = normalize_flat_index(index);
 		return buffer_[normalized];
 	}
 
 	/** @brief Returns an element by rank-1 flat index with bounds checking. */
 	const T& at(std::ptrdiff_t index) const
 	{
-		const std::size_t normalized = stratax::indexing::normalize_index(index, this->size());
+		const std::size_t normalized = normalize_flat_index(index);
 		return buffer_[normalized];
 	}
 

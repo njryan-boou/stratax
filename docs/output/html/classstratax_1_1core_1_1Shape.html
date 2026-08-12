@@ -135,7 +135,7 @@ requires (sizeof...(Dims) &gt; 0)</td></tr>
 <tr class="memitem:abef5cc6d198f827c46ae9fff9281e832" id="r_abef5cc6d198f827c46ae9fff9281e832"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abef5cc6d198f827c46ae9fff9281e832">Shape</a> (std::initializer_list&lt; std::size_t &gt; dims)</td></tr>
 <tr class="memdesc:abef5cc6d198f827c46ae9fff9281e832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from an initializer list of dimensions.  <br /></td></tr>
 <tr class="memitem:af6299dad2037e6cf8c2efa33f4338f08" id="r_af6299dad2037e6cf8c2efa33f4338f08"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6299dad2037e6cf8c2efa33f4338f08">Shape</a> (std::initializer_list&lt; std::size_t &gt; list, <a class="el" href="structstratax_1_1core_1_1Shape_1_1allow__zero__t.html">allow_zero_t</a> <a class="el" href="#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>)</td></tr>
-<tr class="memdesc:af6299dad2037e6cf8c2efa33f4338f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from dimensions with an explicit zero-allowed tag.  <br /></td></tr>
+<tr class="memdesc:af6299dad2037e6cf8c2efa33f4338f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape from an initializer list with an explicit zero-allowed tag.  <br /></td></tr>
 <tr class="memitem:ac4252cacc24032dcec890999d775e431" id="r_ac4252cacc24032dcec890999d775e431"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4252cacc24032dcec890999d775e431">Shape</a> (const <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;dims)</td></tr>
 <tr class="memdesc:ac4252cacc24032dcec890999d775e431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a shape by copying dimensions from a buffer.  <br /></td></tr>
 <tr class="memitem:af733b4d8584d3173bc53147f5c45627e" id="r_af733b4d8584d3173bc53147f5c45627e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af733b4d8584d3173bc53147f5c45627e">Shape</a> (const <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; std::size_t &gt; &amp;dims, <a class="el" href="structstratax_1_1core_1_1Shape_1_1allow__zero__t.html">allow_zero_t</a> <a class="el" href="#acf3df1f0afccd30bb186d1447adfe2c0">allow_zero</a>)</td></tr>
@@ -151,10 +151,12 @@ requires (sizeof...(Dims) &gt; 0)</td></tr>
 <tr class="memdesc:a048f93d32c5fd731362affd06b9cec77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of elements implied by the shape.  <br /></td></tr>
 <tr class="memitem:aab594827ada8a1e18080ab513d0505ec" id="r_aab594827ada8a1e18080ab513d0505ec"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab594827ada8a1e18080ab513d0505ec">rank</a> () const</td></tr>
 <tr class="memdesc:aab594827ada8a1e18080ab513d0505ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of stored dimensions.  <br /></td></tr>
-<tr class="memitem:a6f62cb703a4bede2f237adbec5b39041" id="r_a6f62cb703a4bede2f237adbec5b39041"><td class="memItemLeft" align="right" valign="top">const std::size_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f62cb703a4bede2f237adbec5b39041">operator()</a> (std::size_t index) const</td></tr>
-<tr class="memdesc:a6f62cb703a4bede2f237adbec5b39041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dimension length at a zero-based index.  <br /></td></tr>
-<tr class="memitem:a1c1f2a28f9da931903b68666a04fd764" id="r_a1c1f2a28f9da931903b68666a04fd764"><td class="memItemLeft" align="right" valign="top">const std::size_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c1f2a28f9da931903b68666a04fd764">operator[]</a> (std::ptrdiff_t index) const</td></tr>
-<tr class="memdesc:a1c1f2a28f9da931903b68666a04fd764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dimension length using signed indexing.  <br /></td></tr>
+<tr class="memitem:a26c53d2dacbe74153f35ab2c13a3908b" id="r_a26c53d2dacbe74153f35ab2c13a3908b"><td class="memItemLeft" align="right" valign="top">const std::size_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26c53d2dacbe74153f35ab2c13a3908b">operator[]</a> (std::size_t index) const noexcept</td></tr>
+<tr class="memdesc:a26c53d2dacbe74153f35ab2c13a3908b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dimension length without bounds checking.  <br /></td></tr>
+<tr class="memitem:ad5a6fd1813378d94fc8dbdd84dc1fbec" id="r_ad5a6fd1813378d94fc8dbdd84dc1fbec"><td class="memItemLeft" align="right" valign="top">const std::size_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5a6fd1813378d94fc8dbdd84dc1fbec">operator()</a> (std::size_t index) const noexcept</td></tr>
+<tr class="memdesc:ad5a6fd1813378d94fc8dbdd84dc1fbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dimension length without bounds checking.  <br /></td></tr>
+<tr class="memitem:a5dc87631cd95e20bea58ccb11a88835c" id="r_a5dc87631cd95e20bea58ccb11a88835c"><td class="memItemLeft" align="right" valign="top">const std::size_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dc87631cd95e20bea58ccb11a88835c">at</a> (std::ptrdiff_t index) const</td></tr>
+<tr class="memdesc:a5dc87631cd95e20bea58ccb11a88835c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dimension length with bounds checking.  <br /></td></tr>
 <tr class="memitem:a7293c1169e57e2ac747112b1699594c3" id="r_a7293c1169e57e2ac747112b1699594c3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7293c1169e57e2ac747112b1699594c3">empty</a> () const noexcept</td></tr>
 <tr class="memdesc:a7293c1169e57e2ac747112b1699594c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the shape has no dimensions.  <br /></td></tr>
 <tr class="memitem:a86c91e55c1ce5effb5c53f48c1524f38" id="r_a86c91e55c1ce5effb5c53f48c1524f38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86c91e55c1ce5effb5c53f48c1524f38">operator==</a> (const <a class="el" href="#aa64c74affec98d8cf9781f06d2599dbd">Shape</a> &amp;other) const noexcept</td></tr>
@@ -359,7 +361,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a shape from dimensions with an explicit zero-allowed tag. </p>
+<p>Creates a shape from an initializer list with an explicit zero-allowed tag. </p>
 
 <p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00063">63</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
@@ -486,6 +488,35 @@ requires (sizeof...(Dims) &gt; 0)</div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a5dc87631cd95e20bea58ccb11a88835c" name="a5dc87631cd95e20bea58ccb11a88835c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dc87631cd95e20bea58ccb11a88835c">&#9670;&#160;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::size_t &amp; stratax::core::Shape::at </td>
+          <td>(</td>
+          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the dimension length with bounds checking. </p>
+
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00139">139</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a9a815c316f95a1bca1828483357e42bc" name="a9a815c316f95a1bca1828483357e42bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a815c316f95a1bca1828483357e42bc">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
@@ -511,7 +542,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const iterator to the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00181">181</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00187">187</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +571,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns an iterator to the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00169">169</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00175">175</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -569,7 +600,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const iterator to the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00193">193</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00199">199</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -598,7 +629,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const iterator one past the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00199">199</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00205">205</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -627,7 +658,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const reverse iterator to the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00217">217</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00223">223</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -656,7 +687,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const reverse iterator before the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00235">235</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00241">241</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -714,7 +745,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns whether the shape has no dimensions. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00140">140</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00146">146</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -743,7 +774,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const iterator one past the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00187">187</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00193">193</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -772,7 +803,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns an iterator one past the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00175">175</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00181">181</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -801,12 +832,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns whether two shapes differ in rank or dimension values. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00163">163</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00169">169</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a6f62cb703a4bede2f237adbec5b39041" name="a6f62cb703a4bede2f237adbec5b39041"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f62cb703a4bede2f237adbec5b39041">&#9670;&#160;</a></span>operator()()</h2>
+<a id="ad5a6fd1813378d94fc8dbdd84dc1fbec" name="ad5a6fd1813378d94fc8dbdd84dc1fbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5a6fd1813378d94fc8dbdd84dc1fbec">&#9670;&#160;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -823,14 +854,14 @@ requires (sizeof...(Dims) &gt; 0)</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the dimension length at a zero-based index. </p>
+<p>Returns the dimension length without bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00127">127</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00133">133</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -859,12 +890,12 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Compares two shapes for rank and dimension equality. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00146">146</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00152">152</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a1c1f2a28f9da931903b68666a04fd764" name="a1c1f2a28f9da931903b68666a04fd764"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c1f2a28f9da931903b68666a04fd764">&#9670;&#160;</a></span>operator[]()</h2>
+<a id="a26c53d2dacbe74153f35ab2c13a3908b" name="a26c53d2dacbe74153f35ab2c13a3908b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26c53d2dacbe74153f35ab2c13a3908b">&#9670;&#160;</a></span>operator[]()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -875,20 +906,20 @@ requires (sizeof...(Dims) &gt; 0)</div>
         <tr>
           <td class="memname">const std::size_t &amp; stratax::core::Shape::operator[] </td>
           <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the dimension length using signed indexing. </p>
+<p>Returns the dimension length without bounds checking. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00134">134</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00127">127</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -946,7 +977,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const reverse iterator to the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00211">211</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00217">217</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -975,7 +1006,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a reverse iterator to the last stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00205">205</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00211">211</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -1004,7 +1035,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a const reverse iterator before the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00229">229</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00235">235</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -1033,7 +1064,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Returns a reverse iterator before the first stored dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00223">223</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00229">229</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>
@@ -1062,7 +1093,7 @@ requires (sizeof...(Dims) &gt; 0)</div>
 
 <p>Swaps the stored dimensions with another shape. </p>
 
-<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00241">241</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Shape_8hpp_source.html#l00247">247</a> of file <a class="el" href="Shape_8hpp_source.html">Shape.hpp</a>.</p>
 
 </div>
 </div>

@@ -110,6 +110,7 @@ Entry Points</h2>
 File Map</h2>
 <ul>
 <li><span class="tt">bindings/module.cpp</span>: extension module definition, metadata wiring, and bind-order orchestration</li>
+<li><span class="tt">bindings/shape.cpp</span>: <span class="tt">Shape</span> metadata bindings (constructors, indexing, properties, iteration)</li>
 <li><span class="tt">bindings/utils.hpp</span>: shared conversion, overflow, index, and slice helpers</li>
 <li><span class="tt">bindings/vector.cpp</span>: <span class="tt">Vector&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
 <li><span class="tt">bindings/matrix.cpp</span>: <span class="tt">Matrix&lt;double&gt;</span> bindings (constructors, indexing, properties, ops, reshape)</li>
@@ -129,7 +130,7 @@ Current Constraints</h2>
 <ul>
 <li><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a> bindings currently expose <span class="tt">double</span> container specializations.</li>
 <li>Conversion and creation helpers in Python are module-level free functions.</li>
-<li>Extension metadata is sourced from <span class="tt"><a class="el" href="Meta_8hpp_source.html">include/stratax/core/Meta.hpp</a></span>.</li>
+<li>Extension metadata is defined directly in <span class="tt">bindings/module.cpp</span>.</li>
 </ul>
 <hr  />
 <h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>

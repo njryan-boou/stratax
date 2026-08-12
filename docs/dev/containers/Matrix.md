@@ -52,7 +52,8 @@ Depends on:
 - Buffer
 - Shape
 - Strides
-- Validation helpers (`validation::checked_multiply`, `validation::normalize_index`, `validation::require_index`, `validation::require_rank`)
+- Validation helpers (`validation::checked_multiply`, `validation::require_index`, `validation::require_rank`)
+- Indexing helpers (`stratax::indexing::normalize_index`)
 - Exceptions (`Exceptions::IndexError`, `Exceptions::DimensionError`, `Exceptions::ShapeError`)
 
 Used by:

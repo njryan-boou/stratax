@@ -14,21 +14,26 @@ This index links the Stratax developer documentation organized by subsystem.
 
 ## Core
 
+- @ref arraybase "ArrayBase"
 - @ref concepts "Concepts"
 - @ref dev_config "Config"
 - @ref exceptions "Exceptions"
-- @ref dev_meta "Meta"
 - @ref slice "Slice"
 - @ref types "Types"
 - @ref validation "Validation"
 
 ---
 
-## Core Containers
+## Core
 
 - @ref buffer "Buffer"
 - @ref shape "Shape"
 - @ref strides "Strides"
+
+---
+
+## Containers
+
 - @ref vector "Vector"
 - @ref matrix "Matrix"
 - @ref tensor "Tensor"

@@ -23,6 +23,7 @@ Current bindings are focused on `double`-based container types and free-function
 ## File Map
 
 - `bindings/module.cpp`: extension module definition, metadata wiring, and bind-order orchestration
+- `bindings/shape.cpp`: `Shape` metadata bindings (constructors, indexing, properties, iteration)
 - `bindings/utils.hpp`: shared conversion, overflow, index, and slice helpers
 - `bindings/vector.cpp`: `Vector<double>` bindings (constructors, indexing, properties, ops, reshape)
 - `bindings/matrix.cpp`: `Matrix<double>` bindings (constructors, indexing, properties, ops, reshape)
@@ -46,7 +47,7 @@ C++ core headers -> pybind11 bindings in bindings/ -> _core extension
 
 - Numeric bindings currently expose `double` container specializations.
 - Conversion and creation helpers in Python are module-level free functions.
-- Extension metadata is sourced from `include/stratax/core/Meta.hpp`.
+- Extension metadata is defined directly in `bindings/module.cpp`.
 
 ---
 

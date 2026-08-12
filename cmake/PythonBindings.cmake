@@ -43,6 +43,7 @@ pybind11_add_module(
     _core
 
     bindings/module.cpp
+    bindings/shape.cpp
     bindings/vector.cpp
     bindings/matrix.cpp
     bindings/tensor.cpp

@@ -23,7 +23,7 @@ It is the compiled binding entry point re-exported by the public `stratax` packa
 The module entry file is responsible for:
 
 - Declaring `PYBIND11_MODULE(_core, m)`
-- Setting module metadata (`__doc__`, `__version__`, `__author__`)
+- Setting module metadata (`__doc__`, `__version__`, `__author__`, `__license__`, `__homepage__`, `__repository__`, `__issues__`)
 - Registering Stratax exception types
 - Registering the `Shape` metadata type
 - Calling all bind registration functions in a consistent order
@@ -54,11 +54,12 @@ This order ensures exceptions and `Shape` are registered before container and he
 
 ## Metadata Sources
 
-Module metadata values are sourced from `include/stratax/core/Meta.hpp`:
+Module metadata values are defined directly in `bindings/module.cpp` as internal constants:
 
-- `STRATAX_PY_DOC` -> `m.attr("__doc__")`
-- `STRATAX_VERSION` -> `m.attr("__version__")`
-- `STRATAX_AUTHOR` -> `m.attr("__author__")`
+- `PyDoc` -> `m.attr("__doc__")`
+- `PyVersion` -> `m.attr("__version__")`
+- `PyAuthor` -> `m.attr("__author__")`
+- `PyLicense` -> `m.attr("__license__")`
 
 ---
 
