@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   linux-gcc:
     name: Linux - GCC
@@ -13,13 +17,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build pybind11-dev
+          python -m pip install --upgrade pip
+          python -m pip install pybind11 ninja
 
       - name: Configure
-        run: cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON
+        run: cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON -Dpybind11_DIR=$(python -m pybind11 --cmakedir)
 
       - name: Build
         run: cmake --build build
@@ -35,13 +45,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
+          python -m pip install pybind11 ninja
           sudo apt-get update
-          sudo apt-get install -y ninja-build pybind11-dev clang
+          sudo apt-get install -y clang
 
       - name: Configure
-        run: CC=clang CXX=clang++ cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON
+        run: CC=clang CXX=clang++ cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON -Dpybind11_DIR=$(python -m pybind11 --cmakedir)
 
       - name: Build
         run: cmake --build build
@@ -61,11 +79,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.14"
+          cache: pip
 
       - name: Install pybind11
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pybind11
+          python -m pip install pybind11 ninja
 
       - name: Verify Python environment
         run: |
@@ -96,12 +115,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
       - name: Install dependencies
         run: |
-          brew install ninja pybind11
+          python -m pip install --upgrade pip
+          python -m pip install pybind11 ninja
 
       - name: Configure
-        run: cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON
+        run: cmake -S . -B build -G Ninja -DSTRATAX_BUILD_TESTS=ON -Dpybind11_DIR=$(python -m pybind11 --cmakedir)
 
       - name: Build
         run: cmake --build build
