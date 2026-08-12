@@ -59,7 +59,7 @@ public:
 		validate_dimensions();
 	}
 
-	/** @brief Creates a shape from dimensions with an explicit zero-allowed tag. */
+	/** @brief Creates a shape from an initializer list with an explicit zero-allowed tag. */
 	Shape(std::initializer_list<std::size_t> list, allow_zero_t allow_zero) : dims_(list)
 	{
 		(void)allow_zero;

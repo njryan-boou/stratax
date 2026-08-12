@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/Config.hpp>

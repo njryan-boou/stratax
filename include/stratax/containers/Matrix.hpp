@@ -16,7 +16,7 @@
 namespace stratax::container {
 
 /** @brief Stores a rank-2 Stratax array in row-major order. */
-template<typename T>
+template<typename T = double>
 requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
@@ -28,18 +28,6 @@ protected:
 public:
 	/** @brief Element type stored by the matrix. */
 	using value_type = T;
-
-	/** @brief Mutable iterator over matrix elements. */
-	using iterator = typename core::Buffer<T>::iterator;
-
-	/** @brief Const iterator over matrix elements. */
-	using const_iterator = typename core::Buffer<T>::const_iterator;
-
-	/** @brief Mutable reverse iterator over matrix elements. */
-	using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
-
-	/** @brief Const reverse iterator over matrix elements. */
-	using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
 
 	/** @brief Rebinds the matrix container to another element type. */
 	template<typename U>
@@ -71,9 +59,9 @@ public:
 	/** @brief Creates a matrix and fills it with a value. */
 	Matrix(std::size_t rows, std::size_t cols, const T& value)
 	{
-		shape_ = core::Shape({rows, cols}, core::Shape::allow_zero);
-		strides_ = core::Strides(shape_);
-		buffer_ = core::Buffer<T>(
+		shape_ = stratax::core::Shape({rows, cols}, stratax::core::Shape::allow_zero);
+		strides_ = stratax::core::Strides(shape_);
+		buffer_ = stratax::core::Buffer<T>(
 			core::validation::checked_multiply(rows, cols, "Matrix size overflow"), value);
 	}
 
@@ -123,18 +111,6 @@ public:
 	/** @brief Destroys the matrix. */
 	~Matrix() = default;
 
-	/** @brief Returns the total number of elements in the matrix. */
-	[[nodiscard]] std::size_t size() const noexcept
-	{
-		return shape_.elements();
-	}
-
-	/** @brief Returns whether the matrix contains no elements. */
-	[[nodiscard]] bool empty() const noexcept
-	{
-		return buffer_.empty();
-	}
-
 	/** @brief Returns the number of rows. */
 	[[nodiscard]] std::size_t rows() const noexcept
 	{
@@ -145,24 +121,6 @@ public:
 	[[nodiscard]] std::size_t cols() const noexcept
 	{
 		return shape_(1);
-	}
-
-	/** @brief Returns the matrix shape. */
-	const stratax::core::Shape& shape() const noexcept
-	{
-		return shape_;
-	}
-
-	/** @brief Returns the matrix strides. */
-	const stratax::core::Strides& strides() const noexcept
-	{
-		return strides_;
-	}
-
-	/** @brief Returns the matrix rank. */
-	[[nodiscard]] std::size_t rank() const noexcept
-	{
-		return shape_.rank();
 	}
 
 	/** @brief Returns an element by row and column with bounds checking. */
@@ -179,18 +137,6 @@ public:
 		core::validation::require_index(row, rows(), "Row index out of bounds.");
 		core::validation::require_index(col, cols(), "Column index out of bounds.");
 		return buffer_[row * cols() + col];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator[](std::size_t index) noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator[](std::size_t index) const noexcept
-	{
-		return buffer_[index];
 	}
 
 	/** @brief Returns an element by row and column. */
@@ -213,149 +159,6 @@ public:
 		return (*this)(normalized_row, normalized_col);
 	}
 
-	/** @brief Returns the first element. */
-	T& front()
-	{
-		if (empty())
-		{
-			throw Exceptions::IndexError("Matrix front cannot be accessed when the matrix is empty.");
-		}
-
-		return buffer_.front();
-	}
-
-	/** @brief Returns the first element as a const reference. */
-	const T& front() const
-	{
-		if (empty())
-		{
-			throw Exceptions::IndexError("Matrix front cannot be accessed when the matrix is empty.");
-		}
-
-		return buffer_.front();
-	}
-
-	/** @brief Returns the last element. */
-	T& back()
-	{
-		if (empty())
-		{
-			throw Exceptions::IndexError("Matrix back cannot be accessed when the matrix is empty.");
-		}
-
-		return buffer_.back();
-	}
-
-	/** @brief Returns the last element as a const reference. */
-	const T& back() const
-	{
-		if (empty())
-		{
-			throw Exceptions::IndexError("Matrix back cannot be accessed when the matrix is empty.");
-		}
-
-		return buffer_.back();
-	}
-
-	/** @brief Returns the raw data pointer. */
-	[[nodiscard]] T* data() noexcept
-	{
-		return buffer_.data();
-	}
-
-	/** @brief Returns the raw data pointer as a const pointer. */
-	[[nodiscard]] const T* data() const noexcept
-	{
-		return buffer_.data();
-	}
-
-	/** @brief Returns an iterator to the first element. */
-	[[nodiscard]] iterator begin() noexcept
-	{
-		return buffer_.begin();
-	}
-
-	/** @brief Returns a const iterator to the first element. */
-	[[nodiscard]] const_iterator begin() const noexcept
-	{
-		return buffer_.begin();
-	}
-
-	/** @brief Returns a const iterator to the first element. */
-	[[nodiscard]] const_iterator cbegin() const noexcept
-	{
-		return buffer_.cbegin();
-	}
-
-	/** @brief Returns an iterator one past the last element. */
-	[[nodiscard]] iterator end() noexcept
-	{
-		return buffer_.end();
-	}
-
-	/** @brief Returns a const iterator one past the last element. */
-	[[nodiscard]] const_iterator end() const noexcept
-	{
-		return buffer_.end();
-	}
-
-	/** @brief Returns a const iterator one past the last element. */
-	[[nodiscard]] const_iterator cend() const noexcept
-	{
-		return buffer_.cend();
-	}
-
-	 /** @brief Returns a reverse iterator to the last element. */
-	[[nodiscard]] reverse_iterator rbegin() noexcept
-	{
-		return buffer_.rbegin();
-	}
-
-	 /** @brief Returns a const reverse iterator to the last element. */
-	[[nodiscard]] const_reverse_iterator rbegin() const noexcept
-	{
-		return buffer_.rbegin();
-	}
-
-	 /** @brief Returns a const reverse iterator to the last element. */
-	[[nodiscard]] const_reverse_iterator crbegin() const noexcept
-	{
-		return buffer_.crbegin();
-	}
-
-	 /** @brief Returns a reverse iterator before the first element. */
-	[[nodiscard]] reverse_iterator rend() noexcept
-	{
-		return buffer_.rend();
-	}
-
-	 /** @brief Returns a const reverse iterator before the first element. */
-	[[nodiscard]] const_reverse_iterator rend() const noexcept
-	{
-		return buffer_.rend();
-	}
-
-	 /** @brief Returns a const reverse iterator before the first element. */
-	[[nodiscard]] const_reverse_iterator crend() const noexcept
-	{
-		return buffer_.crend();
-	}
-
-	/** @brief Fills every element with the same value. */
-	void fill(const T& value)
-	{
-		buffer_.fill(value);
-	}
-
-	/** @brief Swaps the contents of two matrices. */
-	void swap(Matrix& other) noexcept
-	{
-		using std::swap;
-
-		swap(shape_, other.shape_);
-		swap(strides_, other.strides_);
-		swap(buffer_, other.buffer_);
-	}
 };
 
 }
