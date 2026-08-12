@@ -14,7 +14,7 @@ include(cmake/Documentation.cmake)
 option(
     STRATAX_BUILD_PYTHON_BINDINGS
     "Build the Stratax Python extension"
-    ON
+    OFF
 )
 
 if(STRATAX_BUILD_PYTHON_BINDINGS)
