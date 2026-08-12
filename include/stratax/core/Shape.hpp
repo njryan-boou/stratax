@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <ostream>
 #include <vector>
 
@@ -90,10 +91,7 @@ public:
 	Shape(const std::vector<std::size_t>& dims)
 		: dims_(dims.size())
 	{
-		for (std::size_t i = 0; i < dims.size(); ++i)
-		{
-			dims_[i] = dims[i];
-		}
+		std::copy(dims.begin(), dims.end(), dims_.begin());
 
 		validate_dimensions();
 	}

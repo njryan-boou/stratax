@@ -9,7 +9,7 @@ ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (cand
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Matrix, Shape, StrataxError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import Matrix, Shape, ShapeError, StrataxError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
 
 
 class TestMatrixInterfaceTests:
@@ -92,6 +92,15 @@ class TestMatrixInterfaceTests:
         assert sliced.shape == Shape([2, 2])
         assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
 
+    def test_top_level_row_slice_returns_matrix(self) -> None:
+        matrix = Matrix([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+
+        sliced = matrix[1:]
+
+        assert isinstance(sliced, Matrix)
+        assert sliced.shape == Shape([2, 2])
+        assert sliced.tolist() == [[3.0, 4.0], [5.0, 6.0]]
+
     def test_mixed_integer_and_slice_indexing_returns_matrix(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
@@ -143,6 +152,15 @@ class TestMatrixInterfaceTests:
 
         assert isinstance(flattened, Vector)
         assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
+
+    def test_flatten_returns_independent_copy(self) -> None:
+        matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
+
+        flattened = matrix.flatten()
+        flattened[0] = 9.0
+
+        assert matrix.tolist() == [[1.0, 2.0], [3.0, 4.0]]
+        assert flattened.tolist() == [9.0, 2.0, 3.0, 4.0]
 
     def test_repr_returns_matrix_text(self) -> None:
         assert repr(Matrix([[1.0, 2.0], [3.0, 4.0]])) == "[\n    [1, 2]\n    [3, 4]\n]"
@@ -235,6 +253,18 @@ class TestMatrixInterfaceTests:
 
         with pytest.raises(TypeError):
             _ = object() + matrix
+
+    def test_slice_step_zero_raises_value_error(self) -> None:
+        matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
+
+        with pytest.raises(ValueError):
+            _ = matrix[:, ::0]
+
+    def test_reshape_rejects_incompatible_shape(self) -> None:
+        matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
+
+        with pytest.raises(ShapeError):
+            matrix.reshape([3, 2])
 
     def test_jagged_rows_raise_error(self) -> None:
         with pytest.raises(StrataxError):

@@ -9,7 +9,7 @@ ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (cand
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Shape, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import Shape, ShapeError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
 
 
 class TestVectorInterfaceTests:
@@ -125,6 +125,15 @@ class TestVectorInterfaceTests:
         assert isinstance(flattened, Vector)
         assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
 
+    def test_flatten_returns_independent_copy(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+
+        flattened = vector.flatten()
+        flattened[0] = 9.0
+
+        assert vector.tolist() == [1.0, 2.0, 3.0]
+        assert flattened.tolist() == [9.0, 2.0, 3.0]
+
     def test_repr_returns_vector_text(self) -> None:
         assert repr(Vector([1.0, 2.0, 3.0])) == "[1, 2, 3]"
 
@@ -221,6 +230,18 @@ class TestVectorInterfaceTests:
 
         with pytest.raises(TypeError):
             _ = object() + vector
+
+    def test_slice_step_zero_raises_value_error(self) -> None:
+        vector = Vector([1.0, 2.0])
+
+        with pytest.raises(ValueError):
+            _ = vector[::0]
+
+    def test_reshape_rejects_incompatible_shape(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+
+        with pytest.raises(ShapeError):
+            vector.reshape([2, 2])
 
     def test_negative_size_raises_error(self) -> None:
         with pytest.raises(DimensionError):

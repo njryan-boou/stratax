@@ -1,17 +1,16 @@
-﻿#include <pybind11/operators.h>
-#include <pybind11/pybind11.h>
+﻿#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 #include "utils.hpp"
 
 #include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/algorithms/Reshape.hpp>
-#include <stratax/core/Shape.hpp>
-#include <stratax/containers/Tensor.hpp>
+#include "properties.hpp"
+#include "arithmetic.hpp"
+#include "reshape.hpp"
 #include <stratax/containers/Vector.hpp>
 #include <stratax/io/Print.hpp>
-#include <stratax/ops/Arithmetic.hpp>
-#include <stratax/ops/Comparison.hpp>
+
+#include "comparison.hpp"
 
 #include <cstddef>
 #include <limits>
@@ -29,21 +28,24 @@ namespace
 {
 
 using Vector = stratax::container::Vector<double>;
-using Shape = stratax::core::Shape;
 
 std::size_t checked_vector_size(long long size)
 {
     if (size < 0)
     {
-        throw Exceptions::DimensionError("Vector size cannot be negative.");
+        throw Exceptions::DimensionError(
+            "Vector size cannot be negative.");
     }
 
-    if (size > std::numeric_limits<std::size_t>::max() / sizeof(double))
+    const auto value = static_cast<std::size_t>(size);
+
+    if (value > std::numeric_limits<std::size_t>::max() / sizeof(double))
     {
-        binding_utils::raise_overflow("Vector storage size overflow.");
+        binding_utils::raise_overflow(
+            "Vector storage size overflow.");
     }
 
-    return static_cast<std::size_t>(size);
+    return value;
 }
 
 
@@ -59,13 +61,9 @@ Vector make_vector_from_iterable(py::iterable values)
             "Vector value is too large to represent as a float."));
     }
 
-    if (parsed.size() > std::numeric_limits<std::size_t>::max() / sizeof(double))
-    {
-        binding_utils::raise_overflow("Vector storage size overflow.");
-    }
-
     Vector vector(parsed.size());
     std::copy(parsed.begin(), parsed.end(), vector.begin());
+
     return vector;
 }
 
@@ -73,15 +71,18 @@ Vector make_vector_from_object(py::object value)
 {
     if (py::isinstance<py::int_>(value))
     {
-        return Vector(checked_vector_size(binding_utils::cast_integer(
-            value,
-            "Vector size must be an integer.",
-            "Vector size is too large to fit in a signed integer.")));
+        return Vector(checked_vector_size(
+            binding_utils::cast_integer(
+                value,
+                "Vector size must be an integer.",
+                "Vector size is too large to fit in a signed integer.")));
     }
 
-    if (py::isinstance<py::iterable>(value) && !py::isinstance<py::str>(value))
+    if (py::isinstance<py::iterable>(value) &&
+        !py::isinstance<py::str>(value))
     {
-        return make_vector_from_iterable(value.cast<py::iterable>());
+        return make_vector_from_iterable(
+            value.cast<py::iterable>());
     }
 
     throw Exceptions::TypeError(
@@ -90,18 +91,11 @@ Vector make_vector_from_object(py::object value)
 
 std::ptrdiff_t checked_vector_index(py::object index)
 {
-    const long long value = binding_utils::cast_integer(
-        index,
-        "Vector index must be an integer.",
-        "Vector index is too large to fit in a signed integer.");
-
-    if (value < static_cast<long long>(std::numeric_limits<std::ptrdiff_t>::min())
-        || value > static_cast<long long>(std::numeric_limits<std::ptrdiff_t>::max()))
-    {
-        binding_utils::raise_overflow("Vector index is too large to fit in a signed integer.");
-    }
-
-    return static_cast<std::ptrdiff_t>(value);
+    return static_cast<std::ptrdiff_t>(
+        binding_utils::cast_integer(
+            index,
+            "Vector index must be an integer.",
+            "Vector index is too large to fit in a signed integer."));
 }
 
 } // anonymous namespace
@@ -115,7 +109,7 @@ void bind_vector_constructors(py::class_<Vector>& cls)
             return make_vector_from_object(value);
         }), py::arg("value"))
         .def(py::init([](py::object size, py::object value) {
-            
+
             const auto checked_size = checked_vector_size(
                 binding_utils::cast_integer(
                     size,
@@ -144,13 +138,9 @@ void bind_vector_constructors(py::class_<Vector>& cls)
 
 void bind_vector_properties(py::class_<Vector>& cls)
 {
+    bind_properties(cls);
+
     cls
-        .def_property_readonly("size", &Vector::size)
-        .def_property_readonly("rank", &Vector::rank)
-        .def_property_readonly("empty", &Vector::empty)
-        .def_property_readonly("shape", &Vector::shape, py::return_value_policy::reference_internal)
-        .def_property_readonly("strides", &Vector::strides, py::return_value_policy::reference_internal)
-        .def("fill", &Vector::fill, py::arg("value"))
         .def("tolist", [](const Vector& vector) {
             return std::vector<double>(vector.begin(), vector.end());
         })
@@ -165,7 +155,7 @@ void bind_vector_properties(py::class_<Vector>& cls)
 // Vector indexing
 // =============================================================================
 
-Vector slice_vector_runtime(const Vector& vector, const binding_utils::ResolvedSlice& slice)
+Vector slice_vector(const Vector& vector, const binding_utils::ResolvedSlice& slice)
 {
     Vector result(static_cast<std::size_t>(slice.length));
 
@@ -190,7 +180,7 @@ void bind_vector_indexing(py::class_<Vector>& cls)
                     index.cast<py::slice>(),
                     vector.size(),
                     "Vector slice step cannot be zero.");
-                return py::cast(slice_vector_runtime(vector, range));
+                return py::cast(slice_vector(vector, range));
             }
 
             return py::cast(vector.at(checked_vector_index(index)));
@@ -204,138 +194,6 @@ void bind_vector_indexing(py::class_<Vector>& cls)
 }
 
 // =============================================================================
-// Vector arithmetic
-// =============================================================================
-
-void bind_vector_arithmetic(py::class_<Vector>& cls)
-{
-    cls
-        .def("__add__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs + rhs;
-        })
-        .def("__add__", [](const Vector& lhs, double rhs) {
-            return lhs + rhs;
-        })
-        .def("__radd__", [](const Vector& rhs, double lhs) {
-            return lhs + rhs;
-        })
-        .def("__sub__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs - rhs;
-        })
-        .def("__sub__", [](const Vector& lhs, double rhs) {
-            return lhs - rhs;
-        })
-        .def("__rsub__", [](const Vector& rhs, double lhs) {
-            return lhs - rhs;
-        })
-        .def("__mul__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs * rhs;
-        })
-        .def("__mul__", [](const Vector& lhs, double rhs) {
-            return lhs * rhs;
-        })
-        .def("__rmul__", [](const Vector& rhs, double lhs) {
-            return lhs * rhs;
-        })
-        .def("__truediv__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs / rhs;
-        })
-        .def("__truediv__", [](const Vector& lhs, double rhs) {
-            return lhs / rhs;
-        })
-        .def("__rtruediv__", [](const Vector& rhs, double lhs) {
-            return lhs / rhs;
-        })
-        .def("__iadd__", [](Vector& lhs, const Vector& rhs) -> Vector& {
-            lhs += rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__iadd__", [](Vector& lhs, double rhs) -> Vector& {
-            lhs += rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__isub__", [](Vector& lhs, const Vector& rhs) -> Vector& {
-            lhs -= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__isub__", [](Vector& lhs, double rhs) -> Vector& {
-            lhs -= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__imul__", [](Vector& lhs, const Vector& rhs) -> Vector& {
-            lhs *= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__imul__", [](Vector& lhs, double rhs) -> Vector& {
-            lhs *= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__itruediv__", [](Vector& lhs, const Vector& rhs) -> Vector& {
-            lhs /= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__itruediv__", [](Vector& lhs, double rhs) -> Vector& {
-            lhs /= rhs;
-            return lhs;
-        }, py::return_value_policy::reference_internal)
-        .def("__pos__", [](const Vector& vector) {
-            return +vector;
-        })
-        .def("__neg__", [](const Vector& vector) {
-            return -vector;
-        });
-}
-
-// =============================================================================
-// Vector comparison
-// =============================================================================
-
-void bind_vector_comparison(py::class_<Vector>& cls)
-{
-    cls
-        .def("__eq__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs == rhs;
-        })
-        .def("__ne__", [](const Vector& lhs, const Vector& rhs) {
-            return lhs != rhs;
-        });
-}
-
-// =============================================================================
-// Vector reshape
-// =============================================================================
-
-void bind_vector_reshape(py::class_<Vector>& cls)
-{
-    cls
-        .def(
-            "reshape",
-            [](const Vector& self,
-               const stratax::core::Shape& shape)
-            {
-                return reshape(self, shape);
-            },
-            py::arg("shape"),
-            "Return a reshaped tensor.")
-        .def(
-            "reshape",
-            [](const Vector& self,
-               const std::vector<std::size_t>& dims)
-            {
-                return reshape(self, stratax::core::Shape(dims));
-            },
-            py::arg("shape"),
-            "Return a reshaped tensor.")
-        .def(
-            "flatten",
-            [](const Vector& self)
-            {
-                return flatten(self);
-            },
-            "Return a flattened vector.");
-}
-
-// =============================================================================
 // Vector registration
 // =============================================================================
 
@@ -346,7 +204,7 @@ void bind_vector(py::module_& m)
     bind_vector_constructors(cls);
     bind_vector_properties(cls);
     bind_vector_indexing(cls);
-    bind_vector_arithmetic(cls);
-    bind_vector_comparison(cls);
-    bind_vector_reshape(cls);
+    bind_arithmetic(cls);
+    bind_comparison(cls);
+    bind_reshape(cls);
 }

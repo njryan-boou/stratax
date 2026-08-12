@@ -235,8 +235,8 @@ class Matrix:
         ...
 
     @overload
-    def __init__(self, value: Iterable[Iterable[float]] | Shape | "Matrix") -> None:
-        """Create a matrix from rows, a shape, or a matrix."""
+    def __init__(self, value: Iterable[Iterable[float]] | "Matrix") -> None:
+        """Create a matrix from rows or a matrix."""
         ...
 
     @overload

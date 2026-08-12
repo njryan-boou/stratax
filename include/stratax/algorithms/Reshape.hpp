@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include <stratax/core/Buffer.hpp>
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
@@ -20,11 +22,7 @@ reshape(const A& arr, const stratax::core::Shape& shape)
 		"Shape mismatch.");
 
 	stratax::container::Tensor<typename A::value_type> result(shape);
-
-	for (std::size_t i = 0; i < result.size(); ++i)
-	{
-		result[i] = arr[i];
-	}
+	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
 }
@@ -35,11 +33,7 @@ stratax::container::Vector<typename A::value_type>
 flatten(const A& arr)
 {
 	stratax::container::Vector<typename A::value_type> result(arr.size());
-
-	for (std::size_t i = 0; i < arr.size(); ++i)
-	{
-		result[i] = arr[i];
-	}
+	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
 }

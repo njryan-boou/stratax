@@ -194,6 +194,15 @@ class TestTensorInterfaceTests:
         assert isinstance(flattened, Vector)
         assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
 
+    def test_flatten_returns_independent_copy(self) -> None:
+        tensor = Tensor([2, 2], 1.0)
+
+        flattened = tensor.flatten()
+        flattened[0] = 9.0
+
+        assert tensor.tolist() == [1.0, 1.0, 1.0, 1.0]
+        assert flattened.tolist() == [9.0, 1.0, 1.0, 1.0]
+
     def test_repr_returns_tensor_text(self) -> None:
         tensor = Tensor([2, 2])
         tensor[0] = 1.0
@@ -210,6 +219,13 @@ class TestTensorInterfaceTests:
 
         with pytest.raises(TypeError):
             _ = Tensor([2, 2], 1.0) != [1.0, 1.0, 1.0, 1.0]
+
+    def test_iteration_yields_flat_values_in_storage_order(self) -> None:
+        tensor = Tensor([2, 2])
+        for index, value in enumerate([1.0, 2.0, 3.0, 4.0]):
+            tensor[index] = value
+
+        assert list(tensor) == [1.0, 2.0, 3.0, 4.0]
 
     def test_array_arithmetic(self) -> None:
         lhs = Tensor([2, 2])
@@ -286,6 +302,18 @@ class TestTensorInterfaceTests:
 
         with pytest.raises(TypeError):
             _ = object() + tensor
+
+    def test_slice_step_zero_raises_value_error(self) -> None:
+        tensor = Tensor([4], 1.0)
+
+        with pytest.raises(ValueError):
+            _ = tensor[::0]
+
+    def test_reshape_rejects_incompatible_shape(self) -> None:
+        tensor = Tensor([2, 2], 1.0)
+
+        with pytest.raises(ShapeError):
+            tensor.reshape([3, 2])
 
     def test_negative_dimension_raises_error(self) -> None:
         with pytest.raises(ShapeError):

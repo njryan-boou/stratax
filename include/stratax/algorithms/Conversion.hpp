@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cstddef>
 
 #include <stratax/containers/Matrix.hpp>
@@ -85,11 +86,7 @@ to_vector(const A& arr)
 	}
 
 	stratax::container::Vector<typename A::value_type> result(arr.size());
-
-	for (std::size_t i = 0; i < arr.size(); ++i)
-	{
-		result[i] = arr[i];
-	}
+	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
 }
@@ -107,11 +104,7 @@ to_matrix(const A& arr)
 
 	const auto shape = matrix_shape(arr.shape());
 	stratax::container::Matrix<typename A::value_type> result(shape);
-
-	for (std::size_t i = 0; i < arr.size(); ++i)
-	{
-		result[i] = arr[i];
-	}
+	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
 }
@@ -122,11 +115,7 @@ stratax::container::Tensor<typename A::value_type>
 to_tensor(const A& arr)
 {
 	stratax::container::Tensor<typename A::value_type> result(arr.shape());
-
-	for (std::size_t i = 0; i < arr.size(); ++i)
-	{
-		result[i] = arr[i];
-	}
+	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
 }
