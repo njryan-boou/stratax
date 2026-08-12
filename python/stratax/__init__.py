@@ -1,10 +1,7 @@
 from ._core import (
     __author__,
     __doc__ as __core_doc__,
-    __homepage__,
-    __issues__,
     __license__,
-    __repository__,
     __version__,
     argmax,
     argmin,

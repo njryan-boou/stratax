@@ -4,7 +4,7 @@
 
 find_package(
     Python
-    QUIET
+    REQUIRED
     COMPONENTS
         Interpreter
         Development.Module
@@ -27,7 +27,7 @@ if(pybind11_cmakedir_result EQUAL 0 AND pybind11_DIR)
     list(APPEND CMAKE_PREFIX_PATH "${pybind11_DIR}")
 endif()
 
-find_package(pybind11 CONFIG QUIET)
+find_package(pybind11 CONFIG REQUIRED)
 
 if(NOT pybind11_FOUND)
     message(WARNING "pybind11 not found; disabling STRATAX_BUILD_PYTHON_BINDINGS.")
