@@ -74,18 +74,6 @@ public:
 	Vector& operator=(Vector&&) noexcept = default;
 	~Vector() = default;
 
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index) noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
-
 	/** @brief Returns a flat element with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{

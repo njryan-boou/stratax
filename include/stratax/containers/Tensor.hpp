@@ -55,32 +55,11 @@ public:
 		buffer_ = core::Buffer<T>(shape_.elements(), value);
 	}
 
-	/** @brief Creates a copy of another tensor. */
 	Tensor(const Tensor&) = default;
-
-	/** @brief Transfers ownership from another tensor. */
 	Tensor(Tensor&&) noexcept = default;
-
-	/** @brief Replaces this tensor with a copy of another tensor. */
 	Tensor& operator=(const Tensor&) = default;
-
-	/** @brief Replaces this tensor by taking ownership from another tensor. */
 	Tensor& operator=(Tensor&&) noexcept = default;
-
-	/** @brief Destroys the tensor. */
 	~Tensor() = default;
-
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index) noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
 
 	/** @brief Returns an element by multidimensional index with bounds checking. */
 	template<typename... Rest>

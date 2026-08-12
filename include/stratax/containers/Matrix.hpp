@@ -96,19 +96,10 @@ public:
 		}
 	}
 
-	/** @brief Creates a copy of another matrix. */
 	Matrix(const Matrix&) = default;
-
-	/** @brief Transfers ownership from another matrix. */
 	Matrix(Matrix&&) noexcept = default;
-
-	/** @brief Replaces this matrix with a copy of another matrix. */
 	Matrix& operator=(const Matrix&) = default;
-
-	/** @brief Replaces this matrix by taking ownership from another matrix. */
 	Matrix& operator=(Matrix&&) noexcept = default;
-
-	/** @brief Destroys the matrix. */
 	~Matrix() = default;
 
 	/** @brief Returns the number of rows. */

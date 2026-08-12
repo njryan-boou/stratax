@@ -81,13 +81,33 @@ TEST(ArrayBase, operators)
         EXPECT_EQ(tensor[tensor.size() - 1], 20);
     }
 
+    // Mutable call operator access
+    {
+        tensor(0) = 11;
+        tensor(1) = 12;
+        tensor(tensor.size() - 1) = 21;
+
+        EXPECT_EQ(tensor(0), 11);
+        EXPECT_EQ(tensor(1), 12);
+        EXPECT_EQ(tensor(tensor.size() - 1), 21);
+    }
+
     // Const access
     {
         const Tensor<int>& const_tensor = tensor;
 
-        EXPECT_EQ(const_tensor[0], 5);
-        EXPECT_EQ(const_tensor[1], 10);
-        EXPECT_EQ(const_tensor[const_tensor.size() - 1], 20);
+        EXPECT_EQ(const_tensor[0], 11);
+        EXPECT_EQ(const_tensor[1], 12);
+        EXPECT_EQ(const_tensor[const_tensor.size() - 1], 21);
+    }
+
+    // Const call operator access
+    {
+        const Tensor<int>& const_tensor = tensor;
+
+        EXPECT_EQ(const_tensor(0), 11);
+        EXPECT_EQ(const_tensor(1), 12);
+        EXPECT_EQ(const_tensor(const_tensor.size() - 1), 21);
     }
 }
 
