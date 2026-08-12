@@ -12,6 +12,8 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/indexing/Indexing.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
@@ -26,11 +28,6 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
-	using core::ArrayBase<T>::operator();
-
-	/** @brief Element type stored by the matrix. */
-	using value_type = T;
-
 	/** @brief Rebinds the matrix container to another element type. */
 	template<typename U>
 	using rebind = Matrix<U>;
@@ -104,6 +101,18 @@ public:
 	Matrix& operator=(Matrix&&) noexcept = default;
 	~Matrix() = default;
 
+	/** @brief Returns a flat element without bounds checking. */
+	T& operator()(std::size_t index) noexcept
+	{
+		return buffer_[index];
+	}
+
+	/** @brief Returns a flat element without bounds checking. */
+	const T& operator()(std::size_t index) const noexcept
+	{
+		return buffer_[index];
+	}
+
 	/** @brief Returns the number of rows. */
 	[[nodiscard]] std::size_t rows() const noexcept
 	{
@@ -136,19 +145,17 @@ public:
 	T& at(std::ptrdiff_t row, std::ptrdiff_t col)
 	{
 		const std::size_t normalized_row =
-			core::validation::normalize_index(row, rows(), "Row index out of bounds.");
+			stratax::indexing::normalize_index(row, rows());
 		const std::size_t normalized_col =
-			core::validation::normalize_index(col, cols(), "Column index out of bounds.");
+			stratax::indexing::normalize_index(col, cols());
 		return (*this)(normalized_row, normalized_col);
 	}
 
 	/** @brief Returns an element by row and column. */
 	const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
 	{
-		const std::size_t normalized_row =
-			core::validation::normalize_index(row, rows(), "Row index out of bounds.");
-		const std::size_t normalized_col =
-			core::validation::normalize_index(col, cols(), "Column index out of bounds.");
+		const std::size_t normalized_row = stratax::indexing::normalize_index(row, rows());
+		const std::size_t normalized_col = stratax::indexing::normalize_index(col, cols());
 		return (*this)(normalized_row, normalized_col);
 	}
 

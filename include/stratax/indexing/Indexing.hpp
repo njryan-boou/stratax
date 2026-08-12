@@ -7,6 +7,8 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
+namespace stratax::indexing {
+
 /** @brief Computes a flat storage offset from a shape, strides, and index container. */
 template<typename IndexContainer>
 std::size_t offset(
@@ -65,3 +67,32 @@ std::size_t offset(
 
 	return result;
 }
+
+inline std::size_t normalize_index(
+    std::ptrdiff_t index,
+    std::size_t size)
+{
+    if (index >= 0)
+    {
+        const auto normalized = static_cast<std::size_t>(index);
+
+        if (normalized >= size)
+        {
+            throw Exceptions::IndexError("Index is out of bounds.");
+        }
+
+        return normalized;
+    }
+
+    const std::size_t magnitude =
+        static_cast<std::size_t>(-(index + 1)) + 1;
+
+    if (magnitude > size)
+    {
+        throw Exceptions::IndexError("Index is out of bounds.");
+    }
+
+    return size - magnitude;
+}
+
+} // namespace stratax::indexing

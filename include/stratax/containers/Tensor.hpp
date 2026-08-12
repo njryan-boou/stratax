@@ -29,8 +29,6 @@ protected:
 	using stratax::core::ArrayBase<T>::strides_;
 
 public:
-	using stratax::core::ArrayBase<T>::operator();
-
 	/** @brief Element type stored by the tensor. */
 	using value_type = T;
 
@@ -63,6 +61,18 @@ public:
 	Tensor& operator=(Tensor&&) noexcept = default;
 	~Tensor() = default;
 
+	/** @brief Returns a flat element without bounds checking. */
+	T& operator()(std::size_t index) noexcept
+	{
+		return buffer_[index];
+	}
+
+	/** @brief Returns a flat element without bounds checking. */
+	const T& operator()(std::size_t index) const noexcept
+	{
+		return buffer_[index];
+	}
+
 	/** @brief Returns an element by multidimensional index with bounds checking. */
 	template<typename... Rest>
 	T& operator()(std::size_t first, std::size_t second, Rest... rest)
@@ -73,7 +83,7 @@ public:
 			static_cast<std::size_t>(rest)...
 		};
 
-		return buffer_[offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
 	}
 
 	/** @brief Returns an element by multidimensional index with bounds checking. */
@@ -86,34 +96,32 @@ public:
 			static_cast<std::size_t>(rest)...
 		};
 
-		return buffer_[offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
 	}
 
 	/** @brief Returns an element by multidimensional index from a vector with bounds checking. */
 	T& operator()(const std::vector<std::size_t>& indices)
 	{
-		return buffer_[offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
 	}
 
 	/** @brief Returns an element by multidimensional index from a vector with bounds checking. */
 	const T& operator()(const std::vector<std::size_t>& indices) const
 	{
-		return buffer_[offset(shape_, strides_, indices)];
+		return buffer_[stratax::indexing::offset(shape_, strides_, indices)];
 	}
 
 	/** @brief Returns an element by rank-1 flat index with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{
-		const std::size_t normalized =
-			core::validation::normalize_index(index, this->size(), "Tensor flat index out of bounds.");
+		const std::size_t normalized = stratax::indexing::normalize_index(index, this->size());
 		return buffer_[normalized];
 	}
 
 	/** @brief Returns an element by rank-1 flat index with bounds checking. */
 	const T& at(std::ptrdiff_t index) const
 	{
-		const std::size_t normalized =
-			core::validation::normalize_index(index, this->size(), "Tensor flat index out of bounds.");
+		const std::size_t normalized = stratax::indexing::normalize_index(index, this->size());
 		return buffer_[normalized];
 	}
 
@@ -136,15 +144,14 @@ public:
 
 		for (std::size_t i = 0; i < indices.size(); ++i)
 		{
-			indices[i] = core::validation::normalize_index(
+			indices[i] = stratax::indexing::normalize_index(
 				raw_indices[i],
-				this->shape()[i],
-				"Tensor multi-index component is out of bounds.");
+				this->shape()[i]);
 		}
 
 		try
 		{
-			return buffer_[offset(this->shape_, this->strides_, indices)];
+			return buffer_[stratax::indexing::offset(this->shape_, this->strides_, indices)];
 		}
 		catch (const Exceptions::DimensionError&)
 		{
@@ -175,15 +182,14 @@ public:
 
 		for (std::size_t i = 0; i < indices.size(); ++i)
 		{
-			indices[i] = core::validation::normalize_index(
+			indices[i] = stratax::indexing::normalize_index(
 				raw_indices[i],
-				this->shape()[i],
-				"Tensor multi-index component is out of bounds.");
+				this->shape()[i]);
 		}
 
 		try
 		{
-			return buffer_[offset(this->shape_, this->strides_, indices)];
+			return buffer_[stratax::indexing::offset(this->shape_, this->strides_, indices)];
 		}
 		catch (const Exceptions::DimensionError&)
 		{

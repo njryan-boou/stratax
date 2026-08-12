@@ -26,8 +26,12 @@ if ! "$PYTHON" -c "import pytest" 2>/dev/null; then
     exit 1
 fi
 
-# Build Stratax first
-SUPPRESS_PAUSE=1 "$SCRIPT_DIR/build.sh"
+# Build Stratax first unless the caller has already done so.
+if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
+    SUPPRESS_PAUSE=1 "$SCRIPT_DIR/build.sh"
+else
+    echo "==> Skipping build (SKIP_BUILD=1)"
+fi
 
 echo
 echo "==> Running Python tests"

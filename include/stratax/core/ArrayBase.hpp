@@ -107,16 +107,6 @@ public:
         return buffer_[index];
     }
 
-    T& operator()(std::size_t index) noexcept
-    {
-        return buffer_[index];
-    }
-
-    const T& operator()(std::size_t index) const noexcept
-    {
-        return buffer_[index];
-    }
-
     iterator begin() noexcept
     {
         return buffer_.begin();

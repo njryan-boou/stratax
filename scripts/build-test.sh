@@ -11,7 +11,11 @@ echo "================================"
 echo "        BUILD + TEST"
 echo "================================"
 
-SUPPRESS_PAUSE=1 "$SCRIPT_DIR/build.sh"
+if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
+    SUPPRESS_PAUSE=1 "$SCRIPT_DIR/build.sh"
+else
+    echo "==> Skipping build (SKIP_BUILD=1)"
+fi
 
 echo
 echo "==> Running C++ tests"

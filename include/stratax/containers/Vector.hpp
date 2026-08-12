@@ -12,6 +12,7 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
@@ -26,7 +27,6 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
-
 	/** @brief Rebinds the vector container to another element type. */
 	template<typename U>
 	using rebind = Vector<U>;
@@ -72,11 +72,23 @@ public:
 	Vector& operator=(Vector&&) noexcept = default;
 	~Vector() = default;
 
+	/** @brief Returns a flat element without bounds checking. */
+	T& operator()(std::size_t index) noexcept
+	{
+		return buffer_[index];
+	}
+
+	/** @brief Returns a flat element without bounds checking. */
+	const T& operator()(std::size_t index) const noexcept
+	{
+		return buffer_[index];
+	}
+
 	/** @brief Returns a flat element with bounds checking. */
 	T& at(std::ptrdiff_t index)
 	{
 		const std::size_t normalized =
-			core::validation::normalize_index(index, this->size(), "Vector index out of bounds.");
+			stratax::indexing::normalize_index(index, this->size());
 		return buffer_[normalized];
 	}
 
@@ -84,10 +96,10 @@ public:
 	const T& at(std::ptrdiff_t index) const
 	{
 		const std::size_t normalized =
-			core::validation::normalize_index(index, this->size(), "Vector index out of bounds.");
+			stratax::indexing::normalize_index(index, this->size());
 		return buffer_[normalized];
 	}
 
 };
 
-} // namespace stratax::container
+} // namespace stratax::containers
