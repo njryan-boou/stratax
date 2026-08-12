@@ -17,6 +17,7 @@
 #include <limits>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 // =============================================================================
 // Vector constructors
@@ -64,11 +65,7 @@ Vector make_vector_from_iterable(py::iterable values)
     }
 
     Vector vector(parsed.size());
-    for (std::size_t i = 0; i < parsed.size(); ++i)
-    {
-        vector[i] = parsed[i];
-    }
-
+    std::copy(parsed.begin(), parsed.end(), vector.begin());
     return vector;
 }
 
@@ -88,7 +85,7 @@ Vector make_vector_from_object(py::object value)
     }
 
     throw Exceptions::TypeError(
-        "Vector constructor expects a Vector, Shape, size, or iterable of numbers.");
+        "Vector constructor expects a Vector, size, or iterable of numbers.");
 }
 
 std::ptrdiff_t checked_vector_index(py::object index)
@@ -112,22 +109,32 @@ std::ptrdiff_t checked_vector_index(py::object index)
 void bind_vector_constructors(py::class_<Vector>& cls)
 {
     cls
-        .def(py::init([]() {
-            return Vector(0);
-        }))
+        .def(py::init<>())
         .def(py::init<const Vector&>(), py::arg("other"))
         .def(py::init([](py::object value) {
             return make_vector_from_object(value);
         }), py::arg("value"))
         .def(py::init([](py::object size, py::object value) {
-            return Vector(checked_vector_size(binding_utils::cast_integer(
-                size,
-                "Vector size must be an integer.",
-                "Vector size is too large to fit in a signed integer.")), binding_utils::cast_scalar(
-                    value,
-                    "Vector fill value must be a number.",
-                    "Vector fill value is too large to represent as a float."));
-        }), py::arg("size"), py::arg("value"));
+            
+            const auto checked_size = checked_vector_size(
+                binding_utils::cast_integer(
+                    size,
+                    "Vector size must be an integer.",
+                    "Vector size is too large to fit in a signed integer."
+                )
+            );
+
+            const auto checked_value = binding_utils::cast_scalar(
+                value,
+                "Vector fill value must be a number.",
+                "Vector fill value is too large to represent as a float."
+            );
+
+            return Vector(checked_size, checked_value);
+        }),
+        py::arg("size"),
+        py::arg("value")
+    );
 }
 
 
