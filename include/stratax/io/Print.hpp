@@ -31,11 +31,11 @@ void print_tensor_recursive(
 
 	if (dim == shape.rank() - 1)
 	{
-		for (std::size_t i = 0; i < shape(dim); ++i)
+		for (std::size_t i = 0; i < shape[dim]; ++i)
 		{
-			os << tensor(offset + i * strides(dim));
+			os << tensor[offset + i * strides[dim]];
 
-			if (i + 1 != shape(dim))
+			if (i + 1 != shape[dim])
 				os << ", ";
 		}
 	}
@@ -43,18 +43,18 @@ void print_tensor_recursive(
 	{
 		os << '\n';
 
-		for (std::size_t i = 0; i < shape(dim); ++i)
+		for (std::size_t i = 0; i < shape[dim]; ++i)
 		{
 			os << std::string((depth + 1) * 4, ' ');
 			print_tensor_recursive(
 				os,
 				tensor,
 				dim + 1,
-				offset + i * strides(dim),
+				offset + i * strides[dim],
 				depth + 1,
 				sibling_separator);
 
-			if (i + 1 != shape(dim))
+			if (i + 1 != shape[dim])
 			{
 				os << sibling_separator;
 			}

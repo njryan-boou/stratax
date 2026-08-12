@@ -133,7 +133,7 @@ public:
 	/** @brief Returns the dimension length using signed indexing. */
 	const std::size_t& operator[](std::ptrdiff_t index) const
 	{
-		return dims_[validation::normalize_index(index, rank(), "Shape dimension index out of bounds")];
+		return dims_[index];
 	}
 
 	/** @brief Returns whether the shape has no dimensions. */
