@@ -24,12 +24,7 @@ private:
         }
     }
 public:
-    ArrayBase() = default;
-    ArrayBase(const ArrayBase&) = default;
-    ArrayBase(ArrayBase&&) noexcept = default;
-    ArrayBase& operator=(const ArrayBase&) = default;
-    ArrayBase& operator=(ArrayBase&&) noexcept = default;
-    ~ArrayBase() = default;
+    
 
     using value_type = T;
     using iterator = typename Buffer<T>::iterator;
@@ -185,6 +180,21 @@ public:
     }
 
 protected:
+
+    ArrayBase() = default;
+
+    explicit ArrayBase(const Shape& shape)
+        : buffer_(shape.elements()),
+          shape_(shape),
+          strides_(shape)
+    {}
+
+    ArrayBase(const Shape& shape, const T& value)
+        : buffer_(shape.elements(), value),
+          shape_(shape),
+          strides_(shape)
+    {}
+
     void set_shape_and_strides(const Shape& shape)
     {
         shape_ = shape;

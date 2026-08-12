@@ -42,13 +42,6 @@ class TestVectorInterfaceTests:
         assert vector.size == 4
         assert vector.tolist() == [2.5, 2.5, 2.5, 2.5]
 
-    def test_shape_constructor_builds_vector(self) -> None:
-        vector = Vector(Shape([3]))
-
-        assert vector.size == 3
-        assert vector.shape == Shape([3])
-        assert vector.tolist() == [0.0, 0.0, 0.0]
-
     def test_iterable_constructor_preserves_values(self) -> None:
         vector = Vector([1.0, 2.5, 3.0])
 

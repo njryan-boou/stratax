@@ -21,51 +21,37 @@ requires Numeric<T>
 class Vector : public core::ArrayBase<T>
 {
 protected:
-	using core::ArrayBase<T>::allocate_with_size;
 	using core::ArrayBase<T>::buffer_;
 	using core::ArrayBase<T>::checked_flat_ref;
-	using core::ArrayBase<T>::allocate_from_shape;
-	using core::ArrayBase<T>::set_shape_and_strides;
-	using core::ArrayBase<T>::shape_;
-	using core::ArrayBase<T>::strides_;
-	using core::ArrayBase<T>::normalize_flat_index;
 
 public:
-	/** @brief Rebinds the vector container to another element type. */
-	template<typename U>
-	using rebind = Vector<U>;
-
-	/** @brief Creates a default vector with no logical dimensions. */
-	Vector() noexcept = default;
 
 	/** @brief Creates a vector with the given number of elements. */
 	explicit Vector(std::size_t size)
+		: core::ArrayBase<T>(core::Shape({size}, core::Shape::allow_zero))
 	{
-		set_shape_and_strides(core::Shape({size}, core::Shape::allow_zero));
-		allocate_with_size(size);
 	}
 
 	/** @brief Creates a vector from a validated rank-1 shape. */
 	explicit Vector(const core::Shape& shape)
+		: core::ArrayBase<T>(core::validation::require_rank(shape, 1, "Shape must be rank 1"))
 	{
-		set_shape_and_strides(core::validation::require_rank(shape, 1, "Shape must be rank 1"));
-		allocate_from_shape();
 	}
 
 	/** @brief Creates a vector and fills it with a value. */
 	Vector(std::size_t size, const T& value)
+		: core::ArrayBase<T>(core::Shape({size}, core::Shape::allow_zero), value)
 	{
-		set_shape_and_strides(core::Shape({size}, core::Shape::allow_zero));
-		allocate_with_size(size, value);
 	}
 
 	/** @brief Creates a vector from an initializer list. */
 	Vector(std::initializer_list<T> list)
+		: core::ArrayBase<T>(core::Shape({list.size()}, core::Shape::allow_zero))
 	{
-		set_shape_and_strides(core::Shape({list.size()}, core::Shape::allow_zero));
 		buffer_ = core::Buffer<T>(list);
 	}
 
+	Vector() = default;
 	Vector(const Vector&) = default;
 	Vector(Vector&&) noexcept = default;
 	Vector& operator=(const Vector&) = default;

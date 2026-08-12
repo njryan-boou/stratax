@@ -33,30 +33,18 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
-	/** @brief Element type stored by the tensor. */
-	using value_type = T;
-
-	/** @brief Rebinds the tensor container to another element type. */
-	template<typename U>
-	using rebind = Tensor<U>;
-
-	/** @brief Creates an empty tensor with rank 0. */
-	Tensor() noexcept = default;
 
 	/** @brief Creates a tensor with default-initialized storage for a shape. */
 	explicit Tensor(const core::Shape& shape)
-	{
-		set_shape_and_strides(shape);
-		allocate_from_shape();
-	}
+    : core::ArrayBase<T>(shape)
+{}
 
 	/** @brief Creates a tensor from a shape and fills it with a value. */
 	Tensor(const core::Shape& shape, const T& value)
-	{
-		set_shape_and_strides(shape);
-		allocate_from_shape(value);
-	}
+    : core::ArrayBase<T>(shape, value)
+{}
 
+	Tensor() = default;
 	Tensor(const Tensor&) = default;
 	Tensor(Tensor&&) noexcept = default;
 	Tensor& operator=(const Tensor&) = default;

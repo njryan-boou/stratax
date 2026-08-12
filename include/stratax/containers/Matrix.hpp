@@ -30,37 +30,30 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
-	/** @brief Rebinds the matrix container to another element type. */
-	template<typename U>
-	using rebind = Matrix<U>;
-
 	/** @brief Creates a default rank-2 empty matrix. */
 	Matrix() : Matrix(0, 0) {}
 
 	/** @brief Creates a rank-2 matrix with the given number of rows and columns. */
 	Matrix(std::size_t rows, std::size_t cols)
-	{
-		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
-		allocate_with_size(core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
-	}
+    : core::ArrayBase<T>(
+        core::Shape({rows, cols}, core::Shape::allow_zero))
+{}
 
 	/** @brief Creates a matrix from a validated rank-2 shape. */
-	explicit Matrix(const core::Shape& shape)
-	{
-		set_shape_and_strides(core::validation::require_rank(shape, 2, "Shape must be rank 2"));
-		allocate_with_size(core::validation::checked_multiply(
-			shape_(0),
-			shape_(1),
-			"Matrix size overflow"));
-	}
-
-	/** @brief Creates a matrix and fills it with a value. */
 	Matrix(std::size_t rows, std::size_t cols, const T& value)
+    : core::ArrayBase<T>(
+          core::Shape({rows, cols}, core::Shape::allow_zero),
+          value
+      )
+{}
+
+	  explicit Matrix(const core::Shape& shape)
+    : core::ArrayBase<T>(shape)
 	{
-		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
-		allocate_with_size(
-			core::validation::checked_multiply(rows, cols, "Matrix size overflow"),
-			value);
+    core::validation::require_rank(
+        shape.rank(),
+        2,
+        "Matrix requires a rank-2 shape.");
 	}
 
 	/** @brief Creates a matrix from a nested initializer list. */
