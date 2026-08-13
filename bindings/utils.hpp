@@ -104,57 +104,23 @@ inline std::size_t normalize_index(long long index, std::size_t size, const char
     return static_cast<std::size_t>(normalized);
 }
 
-inline std::size_t resolve_index(
+inline stratax::core::Slice single_index_slice(
     py::handle value,
     std::size_t size,
     const char* type_message,
-    const char* overflow_message,
-    const char* bounds_message)
+    const char* overflow_message)
 {
-    return normalize_index(cast_integer(value, type_message, overflow_message), size, bounds_message);
-}
-
-struct ResolvedSlice
-{
-    py::ssize_t start;
-    py::ssize_t step;
-    py::ssize_t length;
-};
-
-inline ResolvedSlice resolve_slice(py::slice slice, std::size_t size, const char* step_message)
-{
-    py::ssize_t start = 0;
-    py::ssize_t stop = 0;
-    py::ssize_t step = 0;
-    py::ssize_t slicelength = 0;
-
-    if (!slice.compute(static_cast<py::ssize_t>(size), &start, &stop, &step, &slicelength))
-    {
-        throw py::error_already_set();
-    }
-
-    if (step == 0)
-    {
-        throw Exceptions::TypeError(step_message);
-    }
-
-    return ResolvedSlice{start, step, slicelength};
-}
-
-inline ResolvedSlice single_index_slice(
-    py::handle value,
-    std::size_t size,
-    const char* type_message,
-    const char* overflow_message,
-    const char* bounds_message)
-{
-    const std::size_t index = resolve_index(
+    const std::ptrdiff_t index = cast_index(
         value,
-        size,
         type_message,
-        overflow_message,
-        bounds_message);
-    return ResolvedSlice{static_cast<py::ssize_t>(index), 1, 1};
+        overflow_message);
+
+    const std::size_t normalized =
+        stratax::indexing::normalize_index(index, size);
+
+    return stratax::core::Slice(
+        static_cast<std::ptrdiff_t>(normalized),
+        static_cast<std::ptrdiff_t>(normalized + 1));
 }
 
 inline stratax::core::Slice cast_slice(

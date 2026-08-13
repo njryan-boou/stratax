@@ -4,9 +4,10 @@
 #include "utils.hpp"
 
 #include <stratax/containers/Matrix.hpp>
-#include <stratax/core/Shape.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/io/Print.hpp>
+#include <stratax/core/Slice.hpp>
+#include <stratax/indexing/Slicing.hpp>
 
 #include "arithmetic.hpp"
 #include "comparison.hpp"
@@ -14,7 +15,6 @@
 #include "reshape.hpp"
 
 #include <cstddef>
-#include <limits>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -76,32 +76,6 @@ Matrix make_matrix_from_iterable(py::iterable rows)
     }
 
     return matrix;
-}
-
-Matrix matrix_slice_runtime(
-    const Matrix& matrix,
-    const binding_utils::ResolvedSlice& rows,
-    const binding_utils::ResolvedSlice& cols)
-{
-    Matrix result(
-        static_cast<std::size_t>(rows.length),
-        static_cast<std::size_t>(cols.length));
-
-    py::ssize_t source_row = rows.start;
-    for (std::size_t out_row = 0; out_row < result.rows(); ++out_row)
-    {
-        py::ssize_t source_col = cols.start;
-        for (std::size_t out_col = 0; out_col < result.cols(); ++out_col)
-        {
-            result(out_row, out_col) = matrix(
-                static_cast<std::size_t>(source_row),
-                static_cast<std::size_t>(source_col));
-            source_col += cols.step;
-        }
-        source_row += rows.step;
-    }
-
-    return result;
 }
 
 } // anonymous namespace
@@ -201,18 +175,16 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
         .def("__getitem__", [](const Matrix& matrix, py::object index) -> py::object {
             if (py::isinstance<py::slice>(index))
             {
-                const auto row_slice = binding_utils::resolve_slice(
+                const auto rows = binding_utils::cast_slice(
                     index.cast<py::slice>(),
-                    matrix.rows(),
-                    "Matrix row slice step cannot be zero.");
+                    matrix.rows());
 
-                const binding_utils::ResolvedSlice col_slice{
+                const stratax::core::Slice cols(
                     0,
-                    1,
-                    static_cast<py::ssize_t>(matrix.cols())
-                };
+                    static_cast<std::ptrdiff_t>(matrix.cols()));
 
-                return py::cast(matrix_slice_runtime(matrix, row_slice, col_slice));
+                return py::cast(
+                    slice(matrix, rows, cols));
             }
 
             if (!py::isinstance<py::tuple>(index))
@@ -243,30 +215,29 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
             }
 
             const auto row_slice = row_is_slice
-                ? binding_utils::resolve_slice(
-                    tuple_index[0].cast<py::slice>(),
-                    matrix.rows(),
-                    "Matrix row slice step cannot be zero.")
-                : binding_utils::single_index_slice(
-                    tuple_index[0],
-                    matrix.rows(),
-                    "Matrix row index must be an integer.",
-                    "Matrix row index is too large to fit in a signed integer.",
-                    "Matrix row index is out of bounds.");
+    ? binding_utils::cast_slice(
+        tuple_index[0].cast<py::slice>(),
+        matrix.rows())
+    : binding_utils::single_index_slice(
+        tuple_index[0],
+        matrix.rows(),
+        "Matrix row index must be an integer.",
+        "Matrix row index is too large to fit in a signed integer.",
+        "Matrix row index is out of bounds.");
 
             const auto col_slice = col_is_slice
-                ? binding_utils::resolve_slice(
-                    tuple_index[1].cast<py::slice>(),
-                    matrix.cols(),
-                    "Matrix column slice step cannot be zero.")
-                : binding_utils::single_index_slice(
-                    tuple_index[1],
-                    matrix.cols(),
-                    "Matrix column index must be an integer.",
-                    "Matrix column index is too large to fit in a signed integer.",
-                    "Matrix column index is out of bounds.");
+    ? binding_utils::cast_slice(
+        tuple_index[1].cast<py::slice>(),
+        matrix.cols())
+    : binding_utils::single_index_slice(
+        tuple_index[1],
+        matrix.cols(),
+        "Matrix column index must be an integer.",
+        "Matrix column index is too large to fit in a signed integer.",
+        "Matrix column index is out of bounds.");
 
-            return py::cast(matrix_slice_runtime(matrix, row_slice, col_slice));
+            return py::cast(
+                slice(matrix, row_slice, col_slice));
         })
         .def("__setitem__", [](Matrix& matrix, py::tuple index, double value) {
             if (index.size() != 2)
@@ -301,5 +272,5 @@ void bind_matrix(py::module_& m)
     bind_matrix_indexing(cls);
     bind_arithmetic(cls);
     bind_comparison(cls);
-    bind_reshape(cls);
+    binding_utils::bind_reshape(cls);
 }

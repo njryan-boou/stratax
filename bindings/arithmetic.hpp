@@ -2,6 +2,8 @@
 
 #include <pybind11/pybind11.h>
 
+#include <stratax/ops/Arithmetic.hpp>
+
 namespace py = pybind11;
 
 template<typename Array>

@@ -137,7 +137,7 @@ public:
 		{
 			try
 			{
-				indices[i] = normalize_axis_index(raw_indices[i], shape_[i]);
+				indices[i] = this->normalize_axis_index(raw_indices[i], shape_[i]);
 			}
 			catch (const Exceptions::IndexError&)
 			{
@@ -161,7 +161,7 @@ public:
 		{
 			try
 			{
-				indices[i] = normalize_axis_index(raw_indices[i], shape_[i]);
+				indices[i] = this->normalize_axis_index(raw_indices[i], shape_[i]);
 			}
 			catch (const Exceptions::IndexError&)
 			{

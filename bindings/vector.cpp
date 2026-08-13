@@ -9,6 +9,7 @@
 #include "reshape.hpp"
 #include <stratax/containers/Vector.hpp>
 #include <stratax/io/Print.hpp>
+#include <stratax/indexing/Slicing.hpp>
 
 #include "comparison.hpp"
 
@@ -147,7 +148,7 @@ void bind_vector_indexing(py::class_<Vector>& cls)
             if (py::isinstance<py::slice>(index))
             {
                 return py::cast(
-                    stratax::ops::slice(
+                    slice(
                     vector,
                     binding_utils::cast_slice(
                         index.cast<py::slice>(),
@@ -183,5 +184,5 @@ void bind_vector(py::module_& m)
     bind_vector_indexing(cls);
     bind_arithmetic(cls);
     bind_comparison(cls);
-    bind_reshape(cls);
+    binding_utils::bind_reshape(cls);
 }
