@@ -172,6 +172,16 @@ public:
 		return buffer_[flat_offset(indices)];
 	}
 
+	T& at(std::ptrdiff_t index)
+	{
+    	return buffer_[normalized_flat_index(index)];
+	}
+
+	const T& at(std::ptrdiff_t index) const
+	{
+    	return buffer_[normalized_flat_index(index)];
+	}
+
 };
 
 } // namespace stratax::container

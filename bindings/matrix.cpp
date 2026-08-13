@@ -222,8 +222,7 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
         tuple_index[0],
         matrix.rows(),
         "Matrix row index must be an integer.",
-        "Matrix row index is too large to fit in a signed integer.",
-        "Matrix row index is out of bounds.");
+        "Matrix row index is too large to fit in a signed integer.");
 
             const auto col_slice = col_is_slice
     ? binding_utils::cast_slice(
@@ -233,8 +232,7 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
         tuple_index[1],
         matrix.cols(),
         "Matrix column index must be an integer.",
-        "Matrix column index is too large to fit in a signed integer.",
-        "Matrix column index is out of bounds.");
+        "Matrix column index is too large to fit in a signed integer.");
 
             return py::cast(
                 slice(matrix, row_slice, col_slice));

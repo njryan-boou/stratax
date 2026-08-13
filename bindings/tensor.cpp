@@ -205,8 +205,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                             tuple_index[dim],
                             tensor.shape()(dim),
                             "Tensor index components must be integers.",
-                            "Tensor index component is too large to fit in a signed integer.",
-                            "Tensor index component is out of bounds."));
+                            "Tensor index component is too large to fit in a signed integer."));
                     }
                 }
 
