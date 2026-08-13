@@ -213,12 +213,12 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 return py::cast(slice(tensor, ranges));
             }
 
-            return py::cast(tensor[binding_utils::resolve_index(
-                index,
-                tensor.size(),
-                "Tensor index must be an integer.",
-                "Tensor index is too large to fit in a signed integer.",
-                "Tensor index is out of bounds.")]);
+            return py::cast(
+    tensor.at(
+        binding_utils::cast_index(
+            index,
+            "Tensor index must be an integer.",
+            "Tensor index is too large to fit in a signed integer.")));
         })
         .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
             if (py::isinstance<py::tuple>(index))
@@ -227,12 +227,10 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 return;
             }
 
-            tensor[binding_utils::resolve_index(
+            tensor.at(binding_utils::cast_index(
                 index,
-                tensor.size(),
                 "Tensor index must be an integer.",
-                "Tensor index is too large to fit in a signed integer.",
-                "Tensor index is out of bounds.")] = value;
+                "Tensor index is too large to fit in a signed integer.")) = value;
         });
 }
 

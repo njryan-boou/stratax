@@ -4,6 +4,7 @@
 
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Slice.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 #include <cmath>
 #include <cstddef>
