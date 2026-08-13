@@ -18,9 +18,7 @@
 #include <vector>
 #include <algorithm>
 
-// =============================================================================
 // Vector constructors
-// =============================================================================
 
 namespace py = pybind11;
 
@@ -89,15 +87,6 @@ Vector make_vector_from_object(py::object value)
         "Vector constructor expects a Vector, size, or iterable of numbers.");
 }
 
-std::ptrdiff_t checked_vector_index(py::object index)
-{
-    return static_cast<std::ptrdiff_t>(
-        binding_utils::cast_integer(
-            index,
-            "Vector index must be an integer.",
-            "Vector index is too large to fit in a signed integer."));
-}
-
 } // anonymous namespace
 
 void bind_vector_constructors(py::class_<Vector>& cls)
@@ -131,10 +120,7 @@ void bind_vector_constructors(py::class_<Vector>& cls)
     );
 }
 
-
-// =============================================================================
 // Vector properties
-// =============================================================================
 
 void bind_vector_properties(py::class_<Vector>& cls)
 {
@@ -151,23 +137,7 @@ void bind_vector_properties(py::class_<Vector>& cls)
         });
 }
 
-// =============================================================================
 // Vector indexing
-// =============================================================================
-
-Vector slice_vector(const Vector& vector, const binding_utils::ResolvedSlice& slice)
-{
-    Vector result(static_cast<std::size_t>(slice.length));
-
-    py::ssize_t source = slice.start;
-    for (std::size_t i = 0; i < result.size(); ++i)
-    {
-        result[i] = vector[static_cast<std::size_t>(source)];
-        source += slice.step;
-    }
-
-    return result;
-}
 
 void bind_vector_indexing(py::class_<Vector>& cls)
 {
@@ -176,26 +146,33 @@ void bind_vector_indexing(py::class_<Vector>& cls)
         .def("__getitem__", [](const Vector& vector, py::object index) -> py::object {
             if (py::isinstance<py::slice>(index))
             {
-                const auto range = binding_utils::resolve_slice(
-                    index.cast<py::slice>(),
-                    vector.size(),
-                    "Vector slice step cannot be zero.");
-                return py::cast(slice_vector(vector, range));
-            }
+                return py::cast(
+                    stratax::ops::slice(
+                    vector,
+                    binding_utils::cast_slice(
+                        index.cast<py::slice>(),
+                        vector.size())));
+}
 
-            return py::cast(vector.at(checked_vector_index(index)));
+            return py::cast(vector.at(binding_utils::cast_index(
+                index,
+                "Vector index must be an integer.",
+                "Vector index is too large to fit in a signed integer."
+            )));
         })
         .def("__setitem__", [](Vector& vector, py::object index, double value) {
-            vector.at(checked_vector_index(index)) = value;
+            vector.at(binding_utils::cast_index(
+                index,
+                "Vector index must be an integer.",
+                "Vector index is too large to fit in a signed integer."
+            )) = value;
         })
         .def("__iter__", [](const Vector& vector) {
             return py::make_iterator(vector.begin(), vector.end());
         }, py::keep_alive<0, 1>());
 }
 
-// =============================================================================
 // Vector registration
-// =============================================================================
 
 void bind_vector(py::module_& m)
 {

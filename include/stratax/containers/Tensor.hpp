@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
@@ -121,6 +122,54 @@ public:
 			raw_indices,
 			"Tensor multi-index rank must match tensor rank.",
 			"Tensor multi-index component is out of bounds.")];
+	}
+
+	/** @brief Returns an element by runtime-sized multi-index with bounds checking. */
+	T& at(const std::vector<std::ptrdiff_t>& raw_indices)
+	{
+		if (raw_indices.size() != shape_.rank())
+		{
+			throw Exceptions::IndexError("Tensor multi-index rank must match tensor rank.");
+		}
+
+		std::vector<std::size_t> indices(raw_indices.size());
+		for (std::size_t i = 0; i < raw_indices.size(); ++i)
+		{
+			try
+			{
+				indices[i] = normalize_axis_index(raw_indices[i], shape_[i]);
+			}
+			catch (const Exceptions::IndexError&)
+			{
+				throw Exceptions::IndexError("Tensor multi-index component is out of bounds.");
+			}
+		}
+
+		return buffer_[flat_offset(indices)];
+	}
+
+	/** @brief Returns an element by runtime-sized multi-index with bounds checking. */
+	const T& at(const std::vector<std::ptrdiff_t>& raw_indices) const
+	{
+		if (raw_indices.size() != shape_.rank())
+		{
+			throw Exceptions::IndexError("Tensor multi-index rank must match tensor rank.");
+		}
+
+		std::vector<std::size_t> indices(raw_indices.size());
+		for (std::size_t i = 0; i < raw_indices.size(); ++i)
+		{
+			try
+			{
+				indices[i] = normalize_axis_index(raw_indices[i], shape_[i]);
+			}
+			catch (const Exceptions::IndexError&)
+			{
+				throw Exceptions::IndexError("Tensor multi-index component is out of bounds.");
+			}
+		}
+
+		return buffer_[flat_offset(indices)];
 	}
 
 };

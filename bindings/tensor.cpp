@@ -1,5 +1,4 @@
-﻿#include <pybind11/operators.h>
-#include <pybind11/pybind11.h>
+﻿#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 #include "utils.hpp"
@@ -16,7 +15,6 @@
 #include "properties.hpp"
 
 #include <cstddef>
-#include <limits>
 #include <sstream>
 #include <vector>
 
@@ -33,46 +31,9 @@ namespace
 
 using Shape = stratax::core::Shape;
 
-void require_allocatable_tensor_elements(std::size_t elements)
-{
-    if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
-    {
-        binding_utils::raise_overflow("Tensor storage size overflow.");
-    }
-} // anonymous namespace
-
-std::size_t checked_tensor_elements(const Shape& shape)
-{
-    try
-    {
-        const std::size_t elements = shape.elements();
-        require_allocatable_tensor_elements(elements);
-        return elements;
-    }
-    catch (const Exceptions::DimensionError& e)
-    {
-        binding_utils::raise_overflow(e.what());
-    }
-}
-
-Shape make_shape(const std::vector<long long>& dims)
+Shape make_shape_from_iterable(py::iterable dims)
 {
     std::vector<std::size_t> values;
-    values.reserve(dims.size());
-    for (std::size_t i = 0; i < dims.size(); ++i) {
-        values.push_back(stratax::core::validation::nonnegative_shape_dimension(
-            dims[i],
-            "Tensor shape dimension cannot be negative."));
-    }
-
-    Shape shape(values);
-    checked_tensor_elements(shape);
-    return shape;
-}
-
-Shape make_shape(py::iterable dims)
-{
-    std::vector<long long> values;
 
     for (py::handle dim : dims) {
         values.push_back(binding_utils::cast_integer(
@@ -81,29 +42,7 @@ Shape make_shape(py::iterable dims)
             "Tensor shape dimension is too large to fit in a signed integer."));
     }
 
-    return make_shape(values);
-}
-
-Shape make_shape_from_object(py::object dims)
-{
-    if (py::isinstance<py::iterable>(dims) && !py::isinstance<py::str>(dims))
-    {
-        return make_shape(dims.cast<py::iterable>());
-    }
-
-    throw Exceptions::TypeError("Tensor shape must be a Shape or iterable of dimensions.");
-}
-
-Tensor make_tensor_from_shape(const Shape& shape)
-{
-    checked_tensor_elements(shape);
-    return Tensor(shape);
-}
-
-Tensor make_tensor_from_shape(const Shape& shape, double value)
-{
-    checked_tensor_elements(shape);
-    return Tensor(shape, value);
+    return Shape(values);
 }
 
 } // anonymous namespace
@@ -112,24 +51,42 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
 {
     cls
         .def(py::init<>())
-        .def(py::init([](const Shape& shape) {
-            return make_tensor_from_shape(shape);
+        .def(py::init<const Shape&>(), py::arg("shape"))
+        .def(py::init<const Tensor&>(), py::arg("other"))
+
+        .def(py::init([](py::object dims) {
+            if (!py::isinstance<py::iterable>(dims) ||
+                py::isinstance<py::str>(dims))
+            {
+                throw Exceptions::TypeError(
+                    "Tensor shape must be a Shape or iterable of dimensions.");
+            }
+
+            return Tensor(
+                make_shape_from_iterable(
+                    dims.cast<py::iterable>()));
         }), py::arg("shape"))
+
         .def(py::init([](const Shape& shape, py::object value) {
-            return make_tensor_from_shape(
+            return Tensor(
                 shape,
                 binding_utils::cast_scalar(
                     value,
                     "Tensor fill value must be a number.",
                     "Tensor fill value is too large to represent as a float."));
         }), py::arg("shape"), py::arg("value"))
-        .def(py::init<const Tensor&>(), py::arg("other"))
-        .def(py::init([](py::object dims) {
-            return Tensor(make_shape_from_object(dims));
-        }), py::arg("shape"))
+
         .def(py::init([](py::object dims, py::object value) {
+            if (!py::isinstance<py::iterable>(dims) ||
+                py::isinstance<py::str>(dims))
+            {
+                throw Exceptions::TypeError(
+                    "Tensor shape must be a Shape or iterable of dimensions.");
+            }
+
             return Tensor(
-                make_shape_from_object(dims),
+                make_shape_from_iterable(
+                    dims.cast<py::iterable>()),
                 binding_utils::cast_scalar(
                     value,
                     "Tensor fill value must be a number.",
@@ -142,11 +99,6 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
 // Tensor properties
 // =============================================================================
 
-
-namespace
-{
-} // anonymous namespace
-
 void bind_tensor_properties(py::class_<Tensor>& cls)
 {
     bind_properties(cls);
@@ -155,9 +107,7 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
         .def("tolist", [](const Tensor& tensor) {
             std::vector<double> values;
             values.reserve(tensor.size());
-            for (std::size_t i = 0; i < tensor.size(); ++i) {
-                values.push_back(tensor[i]);
-            }
+            std::copy(tensor.begin(), tensor.end(), std::back_inserter(values));
             return values;
         })
         .def("__iter__", [](const Tensor& tensor) {
@@ -177,50 +127,20 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
 
 namespace
 {
-std::size_t tensor_offset(const Tensor& tensor, py::tuple index)
+std::vector<std::ptrdiff_t> tensor_indices(py::tuple index)
 {
-    const auto& shape = tensor.shape();
-    if (index.size() != shape.rank()) {
-        throw Exceptions::IndexError("Tensor index rank must match tensor rank.");
-    }
+    std::vector<std::ptrdiff_t> indices;
+    indices.reserve(index.size());
 
-    std::size_t offset = 0;
-    std::size_t stride = 1;
-
-    for (std::size_t reverse_dim = shape.rank(); reverse_dim > 0; --reverse_dim) {
-        const std::size_t dim = reverse_dim - 1;
-        const std::size_t component = binding_utils::resolve_index(
-            index[dim],
-            shape(dim),
+    for (py::handle component : index)
+    {
+        indices.push_back(binding_utils::cast_index(
+            component,
             "Tensor index components must be integers.",
-            "Tensor index component is too large to fit in a signed integer.",
-            "Tensor index component is out of bounds.");
-
-        try
-        {
-            const std::size_t component_offset =
-                stratax::core::validation::checked_multiply(
-                    component,
-                    stride,
-                    "Tensor index offset multiplication overflow.");
-
-            offset = stratax::core::validation::checked_add(
-                offset,
-                component_offset,
-                "Tensor index offset addition overflow.");
-
-            stride = stratax::core::validation::checked_multiply(
-                stride,
-                shape(dim),
-                "Tensor index stride overflow.");
-        }
-        catch (const Exceptions::DimensionError& e)
-        {
-            binding_utils::raise_overflow(e.what());
-        }
+            "Tensor index component is too large to fit in a signed integer."));
     }
 
-    return offset;
+    return indices;
 }
 
 Tensor tensor_slice_runtime(const Tensor& tensor, const std::vector<binding_utils::ResolvedSlice>& ranges)
@@ -317,7 +237,8 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
 
                 if (!any_slice)
                 {
-					return py::cast(tensor[tensor_offset(tensor, tuple_index)]);
+                    return py::cast(
+                        tensor.at(tensor_indices(tuple_index)));
                 }
 
                 std::vector<binding_utils::ResolvedSlice> ranges;
@@ -346,30 +267,28 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 return py::cast(tensor_slice_runtime(tensor, ranges));
             }
 
-			return py::cast(tensor[
-                binding_utils::resolve_index(
-                    index,
-                    tensor.size(),
-                    "Tensor index must be an integer.",
-                    "Tensor index is too large to fit in a signed integer.",
-                    "Tensor index is out of bounds.")
-			]);
-        })
+			return py::cast(
+                tensor.at(
+                    binding_utils::cast_index(
+                        index,
+                        "Tensor index must be an integer.",
+                        "Tensor index is too large to fit in a signed integer.")));
+            })
         .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
-            if (py::isinstance<py::tuple>(index)) {
-				tensor[tensor_offset(tensor, index.cast<py::tuple>())] = value;
+            if (py::isinstance<py::tuple>(index))
+            {
+                tensor.at(
+                    tensor_indices(index.cast<py::tuple>())) = value;
+
                 return;
             }
 
-			tensor[
-                binding_utils::resolve_index(
+			tensor.at(
+                binding_utils::cast_index(
                     index,
-                    tensor.size(),
                     "Tensor index must be an integer.",
-                    "Tensor index is too large to fit in a signed integer.",
-                    "Tensor index is out of bounds.")
-			] = value;
-        });
+                    "Tensor index is too large to fit in a signed integer.")) = value;
+            });
 }
 
 

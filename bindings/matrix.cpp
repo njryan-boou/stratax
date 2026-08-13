@@ -20,9 +20,7 @@
 #include <vector>
 #include <algorithm>
 
-// =============================================================================
 // Matrix constructors
-// =============================================================================
 
 namespace py = pybind11;
 
@@ -30,30 +28,6 @@ using Matrix = stratax::container::Matrix<double>;
 
 namespace
 {
-
-    std::size_t resolve_matrix_row(
-    py::handle index,
-    const Matrix& matrix)
-{
-    return binding_utils::resolve_index(
-        index,
-        matrix.rows(),
-        "Matrix row index must be an integer.",
-        "Matrix row index is too large to fit in a signed integer.",
-        "Matrix row index is out of bounds.");
-}
-
-std::size_t resolve_matrix_col(
-    py::handle index,
-    const Matrix& matrix)
-{
-    return binding_utils::resolve_index(
-        index,
-        matrix.cols(),
-        "Matrix column index must be an integer.",
-        "Matrix column index is too large to fit in a signed integer.",
-        "Matrix column index is out of bounds.");
-}
 
 Matrix make_matrix_from_iterable(py::iterable rows)
 {
@@ -190,10 +164,7 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
         }), py::arg("rows"), py::arg("cols"), py::arg("value"));
 }
 
-
-// =============================================================================
 // Matrix properties
-// =============================================================================
 
 void bind_matrix_properties(py::class_<Matrix>& cls)
 {
@@ -221,9 +192,7 @@ void bind_matrix_properties(py::class_<Matrix>& cls)
         });
 }
 
-// =============================================================================
 // Matrix indexing
-// =============================================================================
 
 void bind_matrix_indexing(py::class_<Matrix>& cls)
 {
@@ -263,8 +232,14 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
             if (!row_is_slice && !col_is_slice)
             {
                 return py::cast(matrix.at(
-                    resolve_matrix_row(tuple_index[0], matrix),
-                    resolve_matrix_col(tuple_index[1], matrix)));
+                    binding_utils::cast_index(
+                        tuple_index[0],
+                        "Matrix row index must be an integer.",
+                        "Matrix row index is too large to fit in a signed integer."),
+                    binding_utils::cast_index(
+                        tuple_index[1],
+                        "Matrix column index must be an integer.",
+                        "Matrix column index is too large to fit in a signed integer.")));
             }
 
             const auto row_slice = row_is_slice
@@ -300,8 +275,14 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
             }
 
             matrix.at(
-                resolve_matrix_row(index[0], matrix),
-                resolve_matrix_col(index[1], matrix)
+                binding_utils::cast_index(
+                    index[0],
+                    "Matrix row index must be an integer.",
+                    "Matrix row index is too large to fit in a signed integer."),
+                binding_utils::cast_index(
+                    index[1],
+                    "Matrix column index must be an integer.",
+                    "Matrix column index is too large to fit in a signed integer.")
             ) = value;
         })
         .def("__iter__", [](const Matrix& matrix) {
@@ -309,9 +290,7 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
         }, py::keep_alive<0, 1>());
 }
 
-// =============================================================================
 // Matrix registration
-// =============================================================================
 
 void bind_matrix(py::module_& m)
 {

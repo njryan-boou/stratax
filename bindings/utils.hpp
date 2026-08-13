@@ -3,6 +3,7 @@
 #include <pybind11/pybind11.h>
 
 #include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/core/Slice.hpp>
 
 #include <cmath>
 #include <cstddef>
@@ -34,6 +35,26 @@ inline long long cast_integer(py::handle value, const char* type_message, const 
     }
 
     return result;
+}
+
+inline std::ptrdiff_t cast_index(
+    py::handle value,
+    const char* type_message,
+    const char* overflow_message)
+{
+    const long long result =
+        cast_integer(value, type_message, overflow_message);
+
+    if constexpr (sizeof(std::ptrdiff_t) < sizeof(long long))
+    {
+        if (result < std::numeric_limits<std::ptrdiff_t>::min() ||
+            result > std::numeric_limits<std::ptrdiff_t>::max())
+        {
+            raise_overflow(overflow_message);
+        }
+    }
+
+    return static_cast<std::ptrdiff_t>(result);
 }
 
 inline double cast_scalar(py::handle value, const char* type_message, const char* overflow_message)
@@ -134,6 +155,38 @@ inline ResolvedSlice single_index_slice(
         overflow_message,
         bounds_message);
     return ResolvedSlice{static_cast<py::ssize_t>(index), 1, 1};
+}
+
+inline stratax::core::Slice cast_slice(
+    py::slice slice,
+    std::size_t size)
+{
+    if (size > static_cast<std::size_t>(
+            std::numeric_limits<py::ssize_t>::max()))
+    {
+        raise_overflow(
+            "Container is too large to slice with Python indices.");
+    }
+
+    py::ssize_t start;
+    py::ssize_t stop;
+    py::ssize_t step;
+    py::ssize_t length;
+
+    if (!slice.compute(
+            static_cast<py::ssize_t>(size),
+            &start,
+            &stop,
+            &step,
+            &length))
+    {
+        throw py::error_already_set();
+    }
+
+    return stratax::core::Slice(
+        static_cast<std::ptrdiff_t>(start),
+        static_cast<std::ptrdiff_t>(stop),
+        static_cast<std::ptrdiff_t>(step));
 }
 
 }
