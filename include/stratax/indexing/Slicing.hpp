@@ -10,6 +10,7 @@
 #include <stratax/core/validation/Validation.hpp>
 
 #include <array>
+#include <algorithm>
 #include <cstddef>
 #include <limits>
 #include <vector>
@@ -26,19 +27,6 @@ struct ResolvedSlice
 	std::size_t size;
 };
 
-inline std::ptrdiff_t clamp(std::ptrdiff_t value, std::ptrdiff_t lower, std::ptrdiff_t upper)
-{
-	if (value < lower)
-	{
-		return lower;
-	}
-	if (value > upper)
-	{
-		return upper;
-	}
-	return value;
-}
-
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
 	std::size_t extent,
@@ -54,19 +42,19 @@ inline ResolvedSlice normalize_slice(
 	std::ptrdiff_t stop = slice.stop();
 	const std::ptrdiff_t step = slice.step();
 
-	if (start < 0)
-	{
-		start += n;
-	}
-	if (stop < 0)
-	{
-		stop += n;
-	}
-
 	if (step > 0)
 	{
-		start = clamp(start, 0, n);
-		stop = clamp(stop, 0, n);
+		if (start < 0)
+		{
+			start += n;
+		}
+		if (stop < 0)
+		{
+			stop += n;
+		}
+
+		start = std::clamp(start, std::ptrdiff_t{0}, n);
+		stop = std::clamp(stop, std::ptrdiff_t{0}, n);
 
 		if (start >= stop)
 		{
@@ -78,8 +66,17 @@ inline ResolvedSlice normalize_slice(
 		return ResolvedSlice{start, step, count};
 	}
 
-	start = clamp(start, -1, n - 1);
-	stop = clamp(stop, -1, n - 1);
+	if (start < 0)
+	{
+		start += n;
+	}
+	if (stop < 0 && stop != -1)
+	{
+		stop += n;
+	}
+
+	start = std::clamp(start, std::ptrdiff_t{-1}, n - 1);
+	stop = std::clamp(stop, std::ptrdiff_t{-1}, n - 1);
 
 	if (start <= stop)
 	{

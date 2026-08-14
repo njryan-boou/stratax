@@ -11,9 +11,6 @@
 
 namespace py = pybind11;
 
-namespace binding_utils
-{
-
 template<typename Array>
 void bind_reshape(py::class_<Array>& cls)
 {
@@ -42,5 +39,3 @@ void bind_reshape(py::class_<Array>& cls)
             }
         );
 }
-
-};

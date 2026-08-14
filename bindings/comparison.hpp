@@ -16,4 +16,4 @@ void bind_comparison(py::class_<Array>& cls)
         .def("__ne__", [](const Array& lhs, const Array& rhs) {
             return lhs != rhs;
         });
-};
+}

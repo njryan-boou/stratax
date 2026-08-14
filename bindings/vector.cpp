@@ -1,25 +1,21 @@
 ﻿#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "arithmetic.hpp"
+#include "comparison.hpp"
+#include "properties.hpp"
+#include "reshape.hpp"
 #include "utils.hpp"
 
-#include <stratax/exceptions/Exceptions.hpp>
-#include "properties.hpp"
-#include "arithmetic.hpp"
-#include "reshape.hpp"
 #include <stratax/containers/Vector.hpp>
-#include <stratax/io/Print.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
+#include <stratax/io/Print.hpp>
 
-#include "comparison.hpp"
-
+#include <algorithm>
 #include <cstddef>
-#include <limits>
 #include <sstream>
 #include <vector>
-#include <algorithm>
-
-// Vector constructors
 
 namespace py = pybind11;
 
@@ -36,15 +32,7 @@ std::size_t checked_vector_size(long long size)
             "Vector size cannot be negative.");
     }
 
-    const auto value = static_cast<std::size_t>(size);
-
-    if (value > std::numeric_limits<std::size_t>::max() / sizeof(double))
-    {
-        binding_utils::raise_overflow(
-            "Vector storage size overflow.");
-    }
-
-    return value;
+    return static_cast<std::size_t>(size);
 }
 
 
@@ -121,8 +109,6 @@ void bind_vector_constructors(py::class_<Vector>& cls)
     );
 }
 
-// Vector properties
-
 void bind_vector_properties(py::class_<Vector>& cls)
 {
     bind_properties(cls);
@@ -137,8 +123,6 @@ void bind_vector_properties(py::class_<Vector>& cls)
             return os.str();
         });
 }
-
-// Vector indexing
 
 void bind_vector_indexing(py::class_<Vector>& cls)
 {
@@ -161,19 +145,21 @@ void bind_vector_indexing(py::class_<Vector>& cls)
                 "Vector index is too large to fit in a signed integer."
             )));
         })
-        .def("__setitem__", [](Vector& vector, py::object index, double value) {
-            vector.at(binding_utils::cast_index(
-                index,
-                "Vector index must be an integer.",
-                "Vector index is too large to fit in a signed integer."
-            )) = value;
-        })
+        .def("__setitem__", [](Vector& vector, py::object index, py::object value) {
+    vector.at(binding_utils::cast_index(
+        index,
+        "Vector index must be an integer.",
+        "Vector index is too large to fit in a signed integer."
+    )) = binding_utils::cast_scalar(
+        value,
+        "Vector value must be a number.",
+        "Vector value is too large to represent as a float."
+    );
+})
         .def("__iter__", [](const Vector& vector) {
             return py::make_iterator(vector.begin(), vector.end());
         }, py::keep_alive<0, 1>());
 }
-
-// Vector registration
 
 void bind_vector(py::module_& m)
 {
@@ -184,5 +170,5 @@ void bind_vector(py::module_& m)
     bind_vector_indexing(cls);
     bind_arithmetic(cls);
     bind_comparison(cls);
-    binding_utils::bind_reshape(cls);
+    bind_reshape(cls);
 }

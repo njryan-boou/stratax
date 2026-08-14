@@ -15,6 +15,7 @@
 #include "reshape.hpp"
 
 #include <cstddef>
+#include <limits>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -28,6 +29,20 @@ using Matrix = stratax::container::Matrix<double>;
 
 namespace
 {
+
+void ensure_matrix_storage_fits(std::size_t rows, std::size_t cols)
+{
+    if (cols != 0 && rows > std::numeric_limits<std::size_t>::max() / cols)
+    {
+        binding_utils::raise_overflow("Matrix size overflow.");
+    }
+
+    const std::size_t elements = rows * cols;
+    if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
+    {
+        binding_utils::raise_overflow("Matrix storage size overflow.");
+    }
+}
 
 Matrix make_matrix_from_iterable(py::iterable rows)
 {
@@ -99,8 +114,10 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
                         "Matrix column count must be an integer.",
                         "Matrix column count is too large to fit in a signed integer."),
                     "Matrix column count cannot be negative.");
+            ensure_matrix_storage_fits(row_count, col_count);
             return Matrix(row_count, col_count);
         }), py::arg("rows"), py::arg("cols"))
+        .def(py::init<const stratax::core::Shape&>(), py::arg("shape"))
         .def(py::init<const Matrix&>(), py::arg("other"))
         .def(py::init([](py::object value) {
             if (!py::isinstance<py::iterable>(value) ||
@@ -128,6 +145,7 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
                             "Matrix column count must be an integer.",
                             "Matrix column count is too large to fit in a signed integer."),
                         "Matrix column count cannot be negative.");
+            ensure_matrix_storage_fits(row_count, col_count);
             return Matrix(
                 row_count,
                 col_count,
@@ -270,5 +288,5 @@ void bind_matrix(py::module_& m)
     bind_matrix_indexing(cls);
     bind_arithmetic(cls);
     bind_comparison(cls);
-    binding_utils::bind_reshape(cls);
+    bind_reshape(cls);
 }

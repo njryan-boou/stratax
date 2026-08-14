@@ -25,6 +25,7 @@ protected:
 	using core::ArrayBase<T>::checked_flat_ref;
 
 public:
+	using core::ArrayBase<T>::at;
 
 	/** @brief Creates a vector with the given number of elements. */
 	explicit Vector(std::size_t size)
@@ -51,7 +52,7 @@ public:
 		buffer_ = core::Buffer<T>(list);
 	}
 
-	Vector() = default;
+	Vector() : Vector(0) {}
 	Vector(const Vector&) = default;
 	Vector(Vector&&) noexcept = default;
 	Vector& operator=(const Vector&) = default;

@@ -105,6 +105,16 @@ public:
         return buffer_[index];
     }
 
+    T& at(std::ptrdiff_t index)
+    {
+        return buffer_[normalize_flat_index(index)];
+    }
+
+    const T& at(std::ptrdiff_t index) const
+    {
+        return buffer_[normalize_flat_index(index)];
+    }
+
     iterator begin() noexcept
     {
         return buffer_.begin();

@@ -82,29 +82,6 @@ inline double cast_scalar(py::handle value, const char* type_message, const char
     return result;
 }
 
-inline std::size_t normalize_index(long long index, std::size_t size, const char* bounds_message)
-{
-    if (size > static_cast<std::size_t>(std::numeric_limits<long long>::max()))
-    {
-        raise_overflow("Container size is too large to index with Python integers.");
-    }
-
-    const long long limit = static_cast<long long>(size);
-    long long normalized = index;
-
-    if (normalized < 0)
-    {
-        normalized += limit;
-    }
-
-    if (normalized < 0 || normalized >= limit)
-    {
-        throw Exceptions::IndexError(bounds_message);
-    }
-
-    return static_cast<std::size_t>(normalized);
-}
-
 inline stratax::core::Slice single_index_slice(
     py::handle value,
     std::size_t size,

@@ -10,8 +10,9 @@
 using stratax::core::Buffer;
 using stratax::core::Shape;
 
-static_assert(std::constructible_from<Shape, int>);
-static_assert(std::constructible_from<Shape, int, int, int>);
+static_assert(!std::constructible_from<Shape, int>);
+static_assert(!std::constructible_from<Shape, int, int, int>);
+static_assert(std::constructible_from<Shape, std::initializer_list<std::size_t>>);
 static_assert(!std::constructible_from<Shape, bool>);
 static_assert(!std::constructible_from<Shape, char>);
 static_assert(!std::constructible_from<Shape, double>);

@@ -30,6 +30,8 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
+	using core::ArrayBase<T>::at;
+
 	/** @brief Creates a default rank-2 empty matrix. */
 	Matrix() : Matrix(0, 0) {}
 

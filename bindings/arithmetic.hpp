@@ -84,4 +84,4 @@ void bind_arithmetic(py::class_<Array>& cls)
         .def("__neg__", [](const Array& arr) {
             return -arr;
         });
-};
+}

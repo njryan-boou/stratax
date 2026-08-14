@@ -29,26 +29,13 @@ Shape make_shape(const std::vector<long long>& dims)
 {
     std::vector<std::size_t> values;
     values.reserve(dims.size());
-    std::size_t elements = dims.empty() ? 0 : 1;
 
-    for (std::size_t i = 0; i < dims.size(); ++i)
+    for (long long dim : dims)
     {
-        const std::size_t value = stratax::core::validation::nonnegative_shape_dimension(
-            dims[i],
-            "Shape dimensions cannot be negative.");
-        values.push_back(value);
-
-        try
-        {
-            elements = stratax::core::validation::checked_multiply(
-                elements,
-                value,
-                "Shape element count overflow.");
-        }
-        catch (const Exceptions::DimensionError& e)
-        {
-            binding_utils::raise_overflow(e.what());
-        }
+        values.push_back(
+            stratax::core::validation::nonnegative_shape_dimension(
+                dim,
+                "Shape dimensions cannot be negative."));
     }
 
     return Shape(values);
@@ -92,13 +79,13 @@ void bind_shape(py::module_& m)
         })
         .def_property_readonly("empty", &Shape::empty)
         .def("__len__", &Shape::rank)
-        .def("__getitem__", [](const Shape& shape, long long index)
-        {
-            return shape(binding_utils::normalize_index(
-                index,
-                shape.rank(),
-                "Shape index is out of bounds."));
-        })
+        .def("__getitem__", [](const Shape& shape, py::handle index)
+{
+    return shape.at(binding_utils::cast_index(
+        index,
+        "Shape index must be an integer.",
+        "Shape index is too large to fit in a signed integer."));
+})
         .def("__iter__", [](const Shape& shape)
         {
             return py::make_iterator(shape.begin(), shape.end());

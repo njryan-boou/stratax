@@ -20,7 +20,7 @@
 namespace stratax::container {
 
 /** @brief Stores an N-dimensional Stratax array in contiguous memory. */
-template<typename T = double>
+template<typename T>
 requires Numeric<T>
 class Tensor : public core::ArrayBase<T>
 {
@@ -34,6 +34,7 @@ protected:
 	using core::ArrayBase<T>::strides_;
 
 public:
+	using core::ArrayBase<T>::at;
 
 	/** @brief Creates a tensor with default-initialized storage for a shape. */
 	explicit Tensor(const core::Shape& shape)
@@ -170,16 +171,6 @@ public:
 		}
 
 		return buffer_[flat_offset(indices)];
-	}
-
-	T& at(std::ptrdiff_t index)
-	{
-    	return buffer_[normalized_flat_index(index)];
-	}
-
-	const T& at(std::ptrdiff_t index) const
-	{
-    	return buffer_[normalized_flat_index(index)];
 	}
 
 };

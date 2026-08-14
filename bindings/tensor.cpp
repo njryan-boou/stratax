@@ -18,12 +18,9 @@
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
+#include <limits>
 #include <sstream>
 #include <vector>
-
-// =============================================================================
-// Tensor constructors
-// =============================================================================
 
 namespace py = pybind11;
 
@@ -37,14 +34,44 @@ using Shape = stratax::core::Shape;
 Shape make_shape_from_iterable(py::iterable dims)
 {
     std::vector<std::size_t> values;
-    values.reserve(static_cast<std::size_t>(py::len(dims)));
+    std::size_t elements = 1;
+    bool saw_dim = false;
 
     for (py::handle dim : dims)
     {
-        values.push_back(binding_utils::cast_integer(
+        const long long raw = binding_utils::cast_integer(
             dim,
             "Tensor shape dimensions must be integers.",
-            "Tensor shape dimension is too large to fit in a signed integer."));
+            "Tensor shape dimension is too large to fit in a signed integer.");
+
+        const std::size_t value = stratax::core::validation::nonnegative_shape_dimension(
+            raw,
+            "Tensor shape dimensions cannot be negative.");
+
+        values.push_back(value);
+        saw_dim = true;
+
+        try
+        {
+            elements = stratax::core::validation::checked_multiply(
+                elements,
+                value,
+                "Tensor shape element count overflow.");
+        }
+        catch (const Exceptions::DimensionError& e)
+        {
+            binding_utils::raise_overflow(e.what());
+        }
+
+        if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
+        {
+            binding_utils::raise_overflow("Tensor storage size overflow.");
+        }
+    }
+
+    if (!saw_dim)
+    {
+        return Shape();
     }
 
     return Shape(values);
@@ -108,11 +135,6 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
         }), py::arg("shape"), py::arg("value"));
 }
 
-
-// =============================================================================
-// Tensor properties
-// =============================================================================
-
 void bind_tensor_properties(py::class_<Tensor>& cls)
 {
     bind_properties(cls);
@@ -133,15 +155,6 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
             return os.str();
         });
 }
-
-// =============================================================================
-// Tensor indexing
-// =============================================================================
-
-namespace
-{
-
-} // anonymous namespace
 
 void bind_tensor_indexing(py::class_<Tensor>& cls)
 {
@@ -212,12 +225,10 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 return py::cast(slice(tensor, ranges));
             }
 
-            return py::cast(
-    tensor.at(
-        binding_utils::cast_index(
-            index,
-            "Tensor index must be an integer.",
-            "Tensor index is too large to fit in a signed integer.")));
+            return py::cast(tensor.at(binding_utils::cast_index(
+                index,
+                "Tensor index must be an integer.",
+                "Tensor index is too large to fit in a signed integer.")));
         })
         .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
             if (py::isinstance<py::tuple>(index))
@@ -233,11 +244,6 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
         });
 }
 
-
-// =============================================================================
-// Tensor registration
-// =============================================================================
-
 void bind_tensor(py::module_& m)
 {
     py::class_<Tensor> cls(m, "Tensor");
@@ -247,5 +253,5 @@ void bind_tensor(py::module_& m)
     bind_tensor_indexing(cls);
     bind_arithmetic(cls);
     bind_comparison(cls);
-    binding_utils::bind_reshape(cls);
+    bind_reshape(cls);
 }

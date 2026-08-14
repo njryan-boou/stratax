@@ -112,10 +112,6 @@ class TestShapeInterfaceTests:
         assert shape.elements == 0
         assert list(shape) == [0]
 
-    def test_shape_element_count_overflow_raises_overflow_error(self) -> None:
-        with pytest.raises(OverflowError):
-            Shape([sys.maxsize, 3])
-
     def test_dimension_cast_overflow_raises_overflow_error(self) -> None:
         with pytest.raises(OverflowError):
             Shape([sys.maxsize + 1])

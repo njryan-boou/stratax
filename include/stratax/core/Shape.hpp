@@ -4,7 +4,6 @@
 #include <ostream>
 #include <vector>
 
-#include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/validation/Validation.hpp>
@@ -16,11 +15,6 @@ class Shape
 {
 private:
 	Buffer<std::size_t> dims_;
-
-	void validate_dimensions() const
-	{
-		// Dimensions are stored as std::size_t, so negative values are not representable.
-	}
 
 public:
 	/** @brief Tag type documenting that zero-valued dimensions are intentional. */
@@ -44,20 +38,10 @@ public:
 	/** @brief Creates an empty shape. */
 	Shape() noexcept = default;
 
-	/** @brief Creates a shape from integral dimension lengths. */
-	template<Integral... Dims>
-	requires (sizeof...(Dims) > 0)
-	Shape(Dims... dims)
-		: dims_{static_cast<std::size_t>(dims)...}
-	{
-		validate_dimensions();
-	}
-
 	/** @brief Creates a shape from an initializer list of dimensions. */
 	Shape(std::initializer_list<std::size_t> dims)
 		: dims_(dims)
 	{
-		validate_dimensions();
 	}
 
 	/** @brief Creates a shape from an initializer list with an explicit zero-allowed tag. */
@@ -70,7 +54,6 @@ public:
 	Shape(const Buffer<std::size_t>& dims)
 	: dims_(dims)
 	{
-		validate_dimensions();
 	}
 
 	/** @brief Creates a shape from a buffer with an explicit zero-allowed tag. */
@@ -84,7 +67,6 @@ public:
 	Shape(Buffer<std::size_t>&& dims)
 	: dims_(std::move(dims))
 	{
-		validate_dimensions();
 	}
 
 	/** @brief Creates a shape by copying dimensions from a std::vector. */
@@ -92,8 +74,6 @@ public:
 		: dims_(dims.size())
 	{
 		std::copy(dims.begin(), dims.end(), dims_.begin());
-
-		validate_dimensions();
 	}
 
 	/** @brief Destroys the shape. */

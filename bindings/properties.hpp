@@ -1,6 +1,9 @@
 #pragma once
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+
+#include <vector>
 
 namespace py = pybind11;
 
@@ -17,7 +20,10 @@ void bind_properties(py::class_<Array>& cls)
             py::return_value_policy::reference_internal)
         .def_property_readonly(
             "strides",
-            &Array::strides,
-            py::return_value_policy::reference_internal)
+            [](const Array& arr) {
+                return std::vector<std::size_t>(
+                    arr.strides().begin(),
+                    arr.strides().end());
+            })
         .def("fill", &Array::fill, py::arg("value"));
-};
+}
