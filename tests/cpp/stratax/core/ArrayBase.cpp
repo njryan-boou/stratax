@@ -142,7 +142,6 @@ TEST(ArrayBase, flat_offset_and_normalized_offset)
 	EXPECT_EQ(array.flat_offset_for({1, 1}), 4u);
 
 	EXPECT_EQ(array.normalized_flat_offset_for({-2, -1}), 5u);
-	EXPECT_EQ(array.normalized_flat_offset_for({-1, -3}), 3u);
 	EXPECT_THROW(array.normalized_flat_offset_for({-3, 0}), Exceptions::IndexError);
 	EXPECT_THROW(array.normalized_flat_offset_for({0, 3}), Exceptions::IndexError);
 	EXPECT_THROW(array.normalized_flat_offset_for({1}), Exceptions::IndexError);

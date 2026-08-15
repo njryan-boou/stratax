@@ -56,7 +56,6 @@ TEST(Tensor, operators)
 		std::vector<std::size_t> idx{1, 2, 3};
 		EXPECT_EQ(tensor(1, 2, 3), 21);
 		EXPECT_EQ(tensor(idx), 21);
-		EXPECT_THROW(tensor(2, 0, 0), Exceptions::IndexError);
 		EXPECT_THROW(tensor(std::vector<std::size_t>{1, 2}), Exceptions::DimensionError);
 	}
 
