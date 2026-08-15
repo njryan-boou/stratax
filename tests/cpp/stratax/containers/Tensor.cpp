@@ -127,6 +127,37 @@ TEST(Tensor, iterators)
 	}
 }
 
+TEST(Tensor, constructors)
+{
+	Tensor<int> default_ctor;
+	EXPECT_EQ(default_ctor.size(), 0);
+	EXPECT_TRUE(default_ctor.empty());
+
+	Tensor<int> shape_ctor(stratax::Shape{2, 3, 4});
+	EXPECT_EQ(shape_ctor.rank(), 3);
+	EXPECT_EQ(shape_ctor.shape(), (stratax::Shape{2, 3, 4}));
+	EXPECT_EQ(shape_ctor.size(), 24);
+	for (std::size_t i = 0; i < shape_ctor.size(); ++i)
+	{
+		EXPECT_EQ(shape_ctor[i], 0);
+	}
+
+	Tensor<int> value_ctor(stratax::Shape{2, 3, 2}, 7);
+	EXPECT_EQ(value_ctor.size(), 12);
+	for (std::size_t i = 0; i < value_ctor.size(); ++i)
+	{
+		EXPECT_EQ(value_ctor[i], 7);
+	}
+
+	Tensor<int> shape_value_ctor({2, 3, 4}, 9);
+	EXPECT_EQ(shape_value_ctor.shape(), (stratax::Shape{2, 3, 4}));
+	EXPECT_EQ(shape_value_ctor.size(), 24);
+	for (std::size_t i = 0; i < shape_value_ctor.size(); ++i)
+	{
+		EXPECT_EQ(shape_value_ctor[i], 9);
+	}
+}
+
 TEST(Tensor, modifiers)
 {
 	Tensor<int> tensor({2, 3, 4}, 0);

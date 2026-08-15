@@ -1,14 +1,13 @@
+// TODO: Consider zero-copy reshape/flatten views once view support is implemented.
+
 #pragma once
 
 #include <algorithm>
 
-#include <stratax/core/Buffer.hpp>
 #include <stratax/concepts/Numeric.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/containers/Tensor.hpp>
-#include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Vector.hpp>
 
 /** @brief Reshapes an array-like object into a tensor with the requested shape. */
@@ -19,7 +18,7 @@ reshape(const A& arr, const stratax::core::Shape& shape)
 	stratax::core::validation::require_equal_size(
 		arr.size(),
 		shape.elements(),
-		"Shape mismatch.");
+		"Reshape requires the new shape to contain the same number of elements.");
 
 	stratax::container::Tensor<typename A::value_type> result(shape);
 	std::copy(arr.begin(), arr.end(), result.begin());

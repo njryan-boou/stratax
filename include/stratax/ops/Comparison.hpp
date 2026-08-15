@@ -1,3 +1,5 @@
+// TODO: Add element-wise comparison operations when boolean array support is implemented.
+
 #pragma once
 
 #include <stratax/concepts/Numeric.hpp>

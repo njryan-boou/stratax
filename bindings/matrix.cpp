@@ -202,7 +202,7 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
                     static_cast<std::ptrdiff_t>(matrix.cols()));
 
                 return py::cast(
-                    slice(matrix, rows, cols));
+                    stratax::indexing::slice(matrix, rows, cols));
             }
 
             if (!py::isinstance<py::tuple>(index))
@@ -253,7 +253,7 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
         "Matrix column index is too large to fit in a signed integer.");
 
             return py::cast(
-                slice(matrix, row_slice, col_slice));
+                stratax::indexing::slice(matrix, row_slice, col_slice));
         })
         .def("__setitem__", [](Matrix& matrix, py::tuple index, double value) {
             if (index.size() != 2)

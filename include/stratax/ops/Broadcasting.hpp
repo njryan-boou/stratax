@@ -53,8 +53,7 @@ inline std::size_t flat_operand_index(
 
 } // namespace stratax::core::broadcast_detail
 
-/** @brief Tests whether two shapes follow element-wise broadcasting rules. */
-inline bool validate_broadcast(
+inline bool broadcastable(
 	const stratax::core::Shape& shape1,
 	const stratax::core::Shape& shape2)
 {
@@ -76,12 +75,11 @@ inline bool validate_broadcast(
 	return true;
 }
 
-/** @brief Computes the common shape produced by broadcasting two shapes. */
 inline stratax::core::Shape broadcasted_shape(
 	const stratax::core::Shape& shape1,
 	const stratax::core::Shape& shape2)
 {
-	if (!validate_broadcast(shape1, shape2))
+	if (!broadcastable(shape1, shape2))
 	{
 		throw Exceptions::BroadcastError("Shapes are not broadcastable");
 	}
@@ -102,18 +100,16 @@ inline stratax::core::Shape broadcasted_shape(
 	return stratax::core::Shape{result};
 }
 
-/** @brief Applies a binary operation to two broadcast-compatible arrays. */
-template<Array A, typename Op>
-A broadcasted_op(const A& lhs, const A& rhs, Op op)
+// TODO: Define result-container promotion rules for mixed container types.
+// Same-type operations should preserve the container type;
+// mixed Vector/Matrix/Tensor operations may promote to Tensor.
+template<Array L, Array R, typename Op>
+auto broadcasted_op(const L& lhs, const R& rhs, Op op)
 {
-	if (lhs.empty() && rhs.empty() && lhs.shape() == rhs.shape())
-	{
-		return A{};
-	}
 
-	const stratax::core::Shape result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
-	A result(result_shape);
+	const auto result_shape =
+    	broadcasted_shape(lhs.shape(), rhs.shape());
+	L result(result_shape);
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{
@@ -130,11 +126,10 @@ A broadcasted_op(const A& lhs, const A& rhs, Op op)
 	return result;
 }
 
-/** @brief Applies a binary operation between every array value and a scalar. */
-template<Array A, Numeric S, typename Op>
-A broadcasted_op(const A& lhs, const S& rhs, Op op)
+template<Array L, Numeric S, typename Op>
+L broadcasted_op(const L& lhs, const S& rhs, Op op)
 {
-	A result(lhs.shape());
+	L result(lhs.shape());
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{
@@ -144,11 +139,10 @@ A broadcasted_op(const A& lhs, const S& rhs, Op op)
 	return result;
 }
 
-/** @brief Applies a binary operation between a scalar and every array value. */
-template<Numeric S, Array A, typename Op>
-A broadcasted_op(const S& lhs, const A& rhs, Op op)
+template<Numeric S, Array R, typename Op>
+R broadcasted_op(const S& lhs, const R& rhs, Op op)
 {
-	A result(rhs.shape());
+	R result(rhs.shape());
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{

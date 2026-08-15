@@ -171,10 +171,10 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 std::vector<stratax::core::Slice> slices{
                     binding_utils::cast_slice(
                         index.cast<py::slice>(),
-                        tensor.shape()(0))
+                        tensor.shape()[0])
                 };
 
-                return py::cast(slice(tensor, slices));
+                return py::cast(stratax::indexing::slice(tensor, slices));
             }
 
             if (py::isinstance<py::tuple>(index))
@@ -210,19 +210,19 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                     {
                         ranges.push_back(binding_utils::cast_slice(
                             tuple_index[dim].cast<py::slice>(),
-                            tensor.shape()(dim)));
+                            tensor.shape()[dim]));
                     }
                     else
                     {
                         ranges.push_back(binding_utils::single_index_slice(
                             tuple_index[dim],
-                            tensor.shape()(dim),
+                            tensor.shape()[dim],
                             "Tensor index components must be integers.",
                             "Tensor index component is too large to fit in a signed integer."));
                     }
                 }
 
-                return py::cast(slice(tensor, ranges));
+                return py::cast(stratax::indexing::slice(tensor, ranges));
             }
 
             return py::cast(tensor.at(binding_utils::cast_index(

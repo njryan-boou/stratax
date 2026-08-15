@@ -120,6 +120,7 @@ to_tensor(const A& arr)
 	return result;
 }
 
+
 /** @brief Casts a vector to a different numeric value type. */
 template<typename To, typename From>
 requires Numeric<To> && Numeric<From>

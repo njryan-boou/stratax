@@ -1,31 +1,28 @@
 #pragma once
 
-#include <iterator>
 #include <ostream>
 #include <string>
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
-#include <stratax/algorithms/Conversion.hpp>
-#include <stratax/core/Shape.hpp>
 
 namespace stratax::container {
 
 namespace detail {
 
 /** @brief Recursively prints a tensor using nested bracket notation. */
-template<typename T>
-void print_tensor_recursive(
-	std::ostream& os,
-	const Tensor<T>& tensor,
-	std::size_t dim,
-	std::size_t offset,
-	std::size_t depth,
-	const char* sibling_separator)
+template<Array A>
+void print_recursive(
+    std::ostream& os,
+    const A& array,
+    std::size_t dim,
+    std::size_t offset,
+    std::size_t depth,
+    const char* sibling_separator)
 {
-	const auto& shape = tensor.shape();
-	const auto& strides = tensor.strides();
+	const auto& shape = array.shape();
+	const auto& strides = array.strides();
 
 	os << "[";
 
@@ -33,7 +30,7 @@ void print_tensor_recursive(
 	{
 		for (std::size_t i = 0; i < shape[dim]; ++i)
 		{
-			os << tensor[offset + i * strides[dim]];
+			os << array[offset + i * strides[dim]];
 
 			if (i + 1 != shape[dim])
 				os << ", ";
@@ -46,9 +43,9 @@ void print_tensor_recursive(
 		for (std::size_t i = 0; i < shape[dim]; ++i)
 		{
 			os << std::string((depth + 1) * 4, ' ');
-			print_tensor_recursive(
+			print_recursive(
 				os,
-				tensor,
+				array,
 				dim + 1,
 				offset + i * strides[dim],
 				depth + 1,
@@ -67,55 +64,54 @@ void print_tensor_recursive(
 	os << "]";
 }
 
-template<typename T>
-std::ostream& print_tensor_like(std::ostream& os, const Tensor<T>& tensor)
+template<Array A>
+std::ostream& print_tensor_like(
+    std::ostream& os,
+    const A& array)
 {
-	if (tensor.shape().elements() == 0)
-	{
-		os << "[]";
-		return os;
-	}
+    if (array.empty())
+    {
+        os << "[]";
+        return os;
+    }
 
-	print_tensor_recursive(os, tensor, 0, 0, 0, ",\n");
-	return os;
+    print_recursive(os, array, 0, 0, 0, ",\n");
+    return os;
 }
 
-template<typename T>
-std::ostream& print_matrix_like(std::ostream& os, const Tensor<T>& tensor)
+template<Array A>
+std::ostream& print_matrix_like(
+    std::ostream& os,
+    const A& array)
 {
-	if (tensor.shape().elements() == 0)
-	{
-		os << "[]";
-		return os;
-	}
+    if (array.empty())
+    {
+        os << "[]";
+        return os;
+    }
 
-	print_tensor_recursive(os, tensor, 0, 0, 0, "\n");
-	return os;
+    print_recursive(os, array, 0, 0, 0, "\n");
+    return os;
 }
 
 }
 
-/** @brief Writes a vector in compact bracketed list form. */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Vector<T>& vector)
 {
-	const auto tensor = to_tensor(vector);
-	return detail::print_tensor_like(os, tensor);
+    return detail::print_tensor_like(os, vector);
 }
 
-/** @brief Writes a matrix in a human-readable row-major layout. */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
 {
-	const auto tensor = to_tensor(matrix);
-	return detail::print_matrix_like(os, tensor);
+    return detail::print_matrix_like(os, matrix);
 }
 
-/** @brief Writes a tensor in nested bracket notation. */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor)
 {
-	return detail::print_tensor_like(os, tensor);
+    return detail::print_tensor_like(os, tensor);
 }
 
 }

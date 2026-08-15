@@ -3,79 +3,71 @@
 #include <array>
 #include <cstddef>
 #include <initializer_list>
-#include <iterator>
-#include <utility>
 
 #include <stratax/concepts/Numeric.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/ArrayBase.hpp>
-#include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::container {
 
-/** @brief Stores a rank-2 Stratax array in row-major order. */
 template<typename T>
 requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
-protected:
-	using core::ArrayBase<T>::allocate_with_size;
-	using core::ArrayBase<T>::buffer_;
-	using core::ArrayBase<T>::normalized_flat_offset;
-	using core::ArrayBase<T>::set_shape_and_strides;
-	using core::ArrayBase<T>::shape_;
-	using core::ArrayBase<T>::strides_;
-
-public:
-	using core::ArrayBase<T>::at;
-
-	/** @brief Creates a default rank-2 empty matrix. */
-	Matrix() : Matrix(0, 0) {}
-
-	/** @brief Creates a rank-2 matrix with the given number of rows and columns. */
-	Matrix(std::size_t rows, std::size_t cols)
-    : core::ArrayBase<T>(
-        core::Shape({rows, cols}, core::Shape::allow_zero))
-{}
-
-	/** @brief Creates a matrix from a validated rank-2 shape. */
-	Matrix(std::size_t rows, std::size_t cols, const T& value)
-    : core::ArrayBase<T>(
-          core::Shape({rows, cols}, core::Shape::allow_zero),
-          value
-      )
-{}
-
-	  explicit Matrix(const core::Shape& shape)
-    : core::ArrayBase<T>(shape)
+private:
+	static core::Shape initializer_shape(
+		std::initializer_list<std::initializer_list<T>> list)
 	{
-    core::validation::require_rank(
-        shape.rank(),
-        2,
-        "Matrix requires a rank-2 shape.");
-	}
+		const std::size_t rows = list.size();
+		const std::size_t cols = rows == 0 ? 0 : list.begin()->size();
 
-	/** @brief Creates a matrix from a nested initializer list. */
-	Matrix(std::initializer_list<std::initializer_list<T>> list)
-	{
-		std::size_t rows = list.size();
-		std::size_t cols = (rows == 0) ? 0 : list.begin()->size();
-
-		// Ensure all rows have the same length
 		for (const auto& row : list)
 		{
 			if (row.size() != cols)
 			{
-				throw Exceptions::ShapeError("Matrix initializer rows must all have the same number of columns.");
+				throw Exceptions::ShapeError(
+					"Matrix initializer rows must all have the same number of columns.");
 			}
 		}
 
-		set_shape_and_strides(core::Shape({rows, cols}, core::Shape::allow_zero));
-		allocate_with_size(core::validation::checked_multiply(rows, cols, "Matrix size overflow"));
+		return core::Shape({rows, cols});
+	}
 
+protected:
+	using core::ArrayBase<T>::buffer_;
+	using core::ArrayBase<T>::normalized_flat_offset;
+	using core::ArrayBase<T>::shape_;
+	using core::ArrayBase<T>::flat_offset;
+
+public:
+	using core::ArrayBase<T>::at;
+
+	Matrix() : Matrix(0, 0) {}
+
+	Matrix(std::size_t rows, std::size_t cols)
+		: core::ArrayBase<T>(
+			core::Shape({rows, cols}))
+	{}
+
+	Matrix(std::size_t rows, std::size_t cols, const T& value)
+		: core::ArrayBase<T>(
+			core::Shape({rows, cols}),
+			value)
+	{}
+
+	explicit Matrix(const core::Shape& shape)
+		: core::ArrayBase<T>(
+			core::validation::require_rank(
+				shape,
+				2,
+				"Matrix requires a rank-2 shape."))
+	{}
+
+	Matrix(std::initializer_list<std::initializer_list<T>> list)
+		: core::ArrayBase<T>(initializer_shape(list))
+	{
 		std::size_t index = 0;
 
 		for (const auto& row : list)
@@ -87,48 +79,49 @@ public:
 		}
 	}
 
-	Matrix(const Matrix&) = default;
-	Matrix(Matrix&&) noexcept = default;
-	Matrix& operator=(const Matrix&) = default;
-	Matrix& operator=(Matrix&&) noexcept = default;
-	~Matrix() = default;
-
-	/** @brief Returns the number of rows. */
 	[[nodiscard]] std::size_t rows() const noexcept
 	{
-		return shape_(0);
+		return shape_[0];
 	}
 
-	/** @brief Returns the number of columns. */
 	[[nodiscard]] std::size_t cols() const noexcept
 	{
-		return shape_(1);
+		return shape_[1];
 	}
 
-	/** @brief Returns an element by row and column without bounds checking. */
 	T& operator()(std::size_t row, std::size_t col)
 	{
 		return buffer_[row * cols() + col];
 	}
 
-	/** @brief Returns an element by row and column without bounds checking. */
 	const T& operator()(std::size_t row, std::size_t col) const
 	{
 		return buffer_[row * cols() + col];
 	}
 
-	/** @brief Returns an element by row and column. */
 	T& at(std::ptrdiff_t row, std::ptrdiff_t col)
 	{
 		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
-	/** @brief Returns an element by row and column. */
 	const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
 	{
 		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
+	void swap(Matrix& other) noexcept
+	{
+		using std::swap;
+
+		swap(this->shape_, other.shape_);
+		swap(this->strides_, other.strides_);
+		swap(this->buffer_, other.buffer_);
+	}
+
+	friend void swap(Matrix& lhs, Matrix& rhs) noexcept
+	{
+		lhs.swap(rhs);
+	}
 };
 
 } // namespace stratax::container

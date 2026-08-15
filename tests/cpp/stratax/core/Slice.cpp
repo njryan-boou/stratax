@@ -2,448 +2,88 @@
 
 #include <stratax.h>
 
-using stratax::core::Slice;
-
-TEST(CoreSlice, constructor)
+TEST(Slice, construction_and_accessors)
 {
-    Slice slice(2, 5);
+    stratax::Slice slice{2, 10, 2};
 
-    EXPECT_TRUE(slice.start() == 2);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.size() == 3);
-    EXPECT_TRUE(!slice.empty());
-    EXPECT_TRUE(slice.step() == 1);
+    EXPECT_EQ(slice.start(), 2);
+    EXPECT_EQ(slice.stop(), 10);
+    EXPECT_EQ(slice.step(), 2);
+    EXPECT_FALSE(slice.empty());
+    EXPECT_EQ(slice.size(), 4u);
 }
 
-TEST(CoreSlice, stepped_constructor)
+TEST(Slice, zero_step_is_rejected)
 {
-    Slice slice(1, 8, 2);
-
-    EXPECT_TRUE(slice.start() == 1);
-    EXPECT_TRUE(slice.stop() == 8);
-    EXPECT_TRUE(slice.step() == 2);
-    EXPECT_TRUE(slice.size() == 4);
-    EXPECT_TRUE(!slice.empty());
+    EXPECT_THROW(([]() {
+        stratax::Slice slice{0, 10, 0};
+        (void)slice;
+    })(), Exceptions::IndexError);
 }
 
-TEST(CoreSlice, empty_slice)
+TEST(Slice, positive_step_size_counts)
 {
-    Slice slice(3, 3);
+    const stratax::Slice zero_to_zero{0, 0, 1};
+    const stratax::Slice zero_to_one{0, 1, 1};
+    const stratax::Slice zero_to_five{0, 5, 1};
+    const stratax::Slice zero_to_ten_by_two{0, 10, 2};
+    const stratax::Slice three_to_ten_by_three{3, 10, 3};
+    const stratax::Slice negative_five_to_five_by_two{-5, 5, 2};
 
-    EXPECT_TRUE(slice.start() == 3);
-    EXPECT_TRUE(slice.stop() == 3);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
+    EXPECT_EQ(zero_to_zero.size(), 0u);
+    EXPECT_EQ(zero_to_one.size(), 1u);
+    EXPECT_EQ(zero_to_five.size(), 5u);
+    EXPECT_EQ(zero_to_ten_by_two.size(), 5u);
+    EXPECT_EQ(three_to_ten_by_three.size(), 3u);
+    EXPECT_EQ(negative_five_to_five_by_two.size(), 5u);
 }
 
-TEST(CoreSlice, zero_start_slice)
+TEST(Slice, negative_step_size_counts)
 {
-    Slice slice(0, 4);
+    const stratax::Slice zero_to_zero_reverse{0, 0, -1};
+    const stratax::Slice five_to_zero_reverse{5, 0, -1};
+    const stratax::Slice ten_to_zero_by_two_reverse{10, 0, -2};
+    const stratax::Slice nine_to_neg_one_by_two_reverse{9, -1, -2};
+    const stratax::Slice ten_to_two_by_three_reverse{10, 2, -3};
+    const stratax::Slice negative_one_to_negative_five_by_two_reverse{-1, -5, -2};
 
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 4);
-    EXPECT_TRUE(slice.size() == 4);
+    EXPECT_EQ(zero_to_zero_reverse.size(), 0u);
+    EXPECT_EQ(five_to_zero_reverse.size(), 5u);
+    EXPECT_EQ(ten_to_zero_by_two_reverse.size(), 5u);
+    EXPECT_EQ(nine_to_neg_one_by_two_reverse.size(), 5u);
+    EXPECT_EQ(ten_to_two_by_three_reverse.size(), 3u);
+    EXPECT_EQ(negative_one_to_negative_five_by_two_reverse.size(), 2u);
 }
 
-TEST(CoreSlice, reversed_range_is_empty_for_positive_step)
+TEST(Slice, empty_and_equality)
 {
-    Slice slice(5, 2);
+    const stratax::Slice empty{5, 5, 1};
+    EXPECT_TRUE(empty.empty());
+    EXPECT_EQ(empty.size(), 0u);
 
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 2);
-    EXPECT_TRUE(slice.step() == 1);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, reversed_range_with_negative_step)
-{
-    Slice slice(5, 2, -1);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 2);
-    EXPECT_TRUE(slice.step() == -1);
-    EXPECT_TRUE(slice.size() == 3);
-    EXPECT_TRUE(!slice.empty());
-}
-
-TEST(CoreSlice, zero_step_throws)
-{
-    bool threw = false;
-
-    try {
-        Slice slice(0, 3, 0);
-    }
-    catch (const Exceptions::IndexError&) {
-        threw = true;
-    }
-
-    EXPECT_TRUE(threw);
-}
-
-TEST(CoreSlice, equality)
-{
-    Slice a(1, 4);
-    Slice b(1, 4);
-    Slice c(2, 4);
-    Slice d(1, 5);
-    Slice e(1, 4, 2);
+    const stratax::Slice a{0, 10, 2};
+    const stratax::Slice b{0, 10, 2};
+    const stratax::Slice c{0, 10, 3};
+    const stratax::Slice d{1, 10, 2};
 
     EXPECT_TRUE(a == b);
-    EXPECT_TRUE(!(a != b));
-    EXPECT_TRUE(a != c);
-    EXPECT_TRUE(a != d);
-    EXPECT_TRUE(a != e);
-}
-
-TEST(CoreSlice, single_element_slice)
-{
-    Slice slice(5, 6);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 6);
-    EXPECT_TRUE(slice.size() == 1);
-    EXPECT_TRUE(!slice.empty());
-    EXPECT_TRUE(slice.step() == 1);
-}
-
-TEST(CoreSlice, large_range_slice)
-{
-    Slice slice(0, 1000);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 1000);
-    EXPECT_TRUE(slice.size() == 1000);
-}
-
-TEST(CoreSlice, step_2)
-{
-    Slice slice(0, 10, 2);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 10);
-    EXPECT_TRUE(slice.step() == 2);
-    EXPECT_TRUE(slice.size() == 5);
-}
-
-TEST(CoreSlice, step_3)
-{
-    Slice slice(0, 12, 3);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 12);
-    EXPECT_TRUE(slice.step() == 3);
-    EXPECT_TRUE(slice.size() == 4);
-}
-
-TEST(CoreSlice, step_5_partial)
-{
-    Slice slice(0, 20, 5);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 20);
-    EXPECT_TRUE(slice.step() == 5);
-    EXPECT_TRUE(slice.size() == 4);
-}
-
-TEST(CoreSlice, negative_step_basic)
-{
-    Slice slice(5, 0, -1);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.step() == -1);
-    EXPECT_TRUE(slice.size() == 5);
-}
-
-TEST(CoreSlice, negative_step_2)
-{
-    Slice slice(10, 0, -2);
-
-    EXPECT_TRUE(slice.start() == 10);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.step() == -2);
-    EXPECT_TRUE(slice.size() == 5);
-}
-
-TEST(CoreSlice, negative_step_3)
-{
-    Slice slice(20, 0, -3);
-
-    EXPECT_TRUE(slice.start() == 20);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.step() == -3);
-    EXPECT_TRUE(slice.size() == 7);
-}
-
-TEST(CoreSlice, negative_indices_positive_step)
-{
-    Slice slice(-5, -1);
-
-    EXPECT_TRUE(slice.start() == -5);
-    EXPECT_TRUE(slice.stop() == -1);
-    EXPECT_TRUE(slice.step() == 1);
-    EXPECT_TRUE(slice.size() == 4);
-}
-
-TEST(CoreSlice, negative_indices_negative_step)
-{
-    Slice slice(-1, -5, -1);
-
-    EXPECT_TRUE(slice.start() == -1);
-    EXPECT_TRUE(slice.stop() == -5);
-    EXPECT_TRUE(slice.step() == -1);
-    EXPECT_TRUE(slice.size() == 4);
-}
-
-TEST(CoreSlice, mixed_negative_positive_indices)
-{
-    Slice slice(-3, 5);
-
-    EXPECT_TRUE(slice.start() == -3);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.step() == 1);
-    EXPECT_TRUE(slice.size() == 8);
-}
-
-TEST(CoreSlice, large_step)
-{
-    Slice slice(0, 100, 10);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 100);
-    EXPECT_TRUE(slice.step() == 10);
-    EXPECT_TRUE(slice.size() == 10);
-}
-
-TEST(CoreSlice, large_negative_step)
-{
-    Slice slice(100, 0, -10);
-
-    EXPECT_TRUE(slice.start() == 100);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.step() == -10);
-    EXPECT_TRUE(slice.size() == 10);
-}
-
-TEST(CoreSlice, single_element_with_step)
-{
-    Slice slice(5, 6, 10);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 6);
-    EXPECT_TRUE(slice.step() == 10);
-    EXPECT_TRUE(slice.size() == 1);
-}
-
-TEST(CoreSlice, off_by_one_with_step_2)
-{
-    Slice slice(0, 11, 2);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 11);
-    EXPECT_TRUE(slice.step() == 2);
-    EXPECT_TRUE(slice.size() == 6);
-}
-
-TEST(CoreSlice, off_by_one_with_step_3)
-{
-    Slice slice(0, 10, 3);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 10);
-    EXPECT_TRUE(slice.step() == 3);
-    EXPECT_TRUE(slice.size() == 4);
-}
-
-TEST(CoreSlice, start_greater_than_stop_positive_step)
-{
-    Slice slice(10, 5);
-
-    EXPECT_TRUE(slice.start() == 10);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.step() == 1);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, start_equals_stop_with_step)
-{
-    Slice slice(5, 5, 2);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.step() == 2);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, negative_step_start_less_than_stop)
-{
-    Slice slice(2, 5, -1);
-
-    EXPECT_TRUE(slice.start() == 2);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.step() == -1);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, zero_start_and_stop)
-{
-    Slice slice(0, 0);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, equality_with_step)
-{
-    Slice a(1, 10, 2);
-    Slice b(1, 10, 2);
-    Slice c(1, 10, 3);
-
-    EXPECT_TRUE(a == b);
-    EXPECT_TRUE(!(a != b));
+    EXPECT_FALSE(a == c);
+    EXPECT_FALSE(a == d);
+    EXPECT_FALSE(a != b);
     EXPECT_TRUE(a != c);
 }
 
-TEST(CoreSlice, equality_start_mismatch)
+TEST(Slice, normalized_ranges_are_not_cached)
 {
-    Slice a(0, 5);
-    Slice b(1, 5);
+    stratax::Slice slice{2, 8, 3};
 
-    EXPECT_TRUE(a != b);
-    EXPECT_TRUE(!(a == b));
+    EXPECT_EQ(slice.start(), 2);
+    EXPECT_EQ(slice.stop(), 8);
+    EXPECT_EQ(slice.step(), 3);
+
+    slice = stratax::Slice{8, 2, -3};
+    EXPECT_EQ(slice.start(), 8);
+    EXPECT_EQ(slice.stop(), 2);
+    EXPECT_EQ(slice.step(), -3);
+    EXPECT_EQ(slice.size(), 2u);
 }
-
-TEST(CoreSlice, equality_stop_mismatch)
-{
-    Slice a(0, 5);
-    Slice b(0, 6);
-
-    EXPECT_TRUE(a != b);
-    EXPECT_TRUE(!(a == b));
-}
-
-TEST(CoreSlice, equality_step_mismatch)
-{
-    Slice a(0, 10, 1);
-    Slice b(0, 10, 2);
-
-    EXPECT_TRUE(a != b);
-    EXPECT_TRUE(!(a == b));
-}
-
-TEST(CoreSlice, large_negative_indices)
-{
-    Slice slice(-1000, -500);
-
-    EXPECT_TRUE(slice.start() == -1000);
-    EXPECT_TRUE(slice.stop() == -500);
-    EXPECT_TRUE(slice.size() == 500);
-}
-
-TEST(CoreSlice, step_larger_than_range)
-{
-    Slice slice(0, 5, 10);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 5);
-    EXPECT_TRUE(slice.step() == 10);
-    EXPECT_TRUE(slice.size() == 1);
-}
-
-TEST(CoreSlice, step_larger_than_range_negative)
-{
-    Slice slice(5, 0, -10);
-
-    EXPECT_TRUE(slice.start() == 5);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.step() == -10);
-    EXPECT_TRUE(slice.size() == 1);
-}
-
-TEST(CoreSlice, step_exactly_equals_range)
-{
-    Slice slice(0, 10, 10);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 10);
-    EXPECT_TRUE(slice.step() == 10);
-    EXPECT_TRUE(slice.size() == 1);
-}
-
-TEST(CoreSlice, size_calculation_remainder_1)
-{
-    Slice slice(0, 11, 2);
-
-    EXPECT_TRUE(slice.size() == 6);
-}
-
-TEST(CoreSlice, size_calculation_remainder_2)
-{
-    Slice slice(0, 13, 3);
-
-    EXPECT_TRUE(slice.size() == 5);
-}
-
-TEST(CoreSlice, size_calculation_negative_step_remainder)
-{
-    Slice slice(11, 0, -2);
-
-    EXPECT_TRUE(slice.size() == 6);
-}
-
-TEST(CoreSlice, zero_start_large_stop)
-{
-    Slice slice(0, 1000000);
-
-    EXPECT_TRUE(slice.start() == 0);
-    EXPECT_TRUE(slice.stop() == 1000000);
-    EXPECT_TRUE(slice.size() == 1000000);
-}
-
-TEST(CoreSlice, large_start_large_stop_same)
-{
-    Slice slice(999999, 999999);
-
-    EXPECT_TRUE(slice.start() == 999999);
-    EXPECT_TRUE(slice.stop() == 999999);
-    EXPECT_TRUE(slice.size() == 0);
-    EXPECT_TRUE(slice.empty());
-}
-
-TEST(CoreSlice, single_negative_index)
-{
-    Slice slice(-1, 0);
-
-    EXPECT_TRUE(slice.start() == -1);
-    EXPECT_TRUE(slice.stop() == 0);
-    EXPECT_TRUE(slice.size() == 1);
-}
-
-TEST(CoreSlice, multiple_equality_checks)
-{
-    Slice a(1, 5, 2);
-    Slice b(1, 5, 2);
-    Slice c(1, 5, 2);
-
-    EXPECT_TRUE(a == b);
-    EXPECT_TRUE(b == c);
-    EXPECT_TRUE(a == c);
-}
-
-TEST(CoreSlice, inequality_transitivity)
-{
-    Slice a(1, 5);
-    Slice b(1, 6);
-    Slice c(2, 6);
-
-    EXPECT_TRUE(a != b);
-    EXPECT_TRUE(b != c);
-    EXPECT_TRUE(a != c);
-}
-

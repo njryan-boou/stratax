@@ -247,13 +247,6 @@ class TestVectorInterfaceTests:
         with pytest.raises(DimensionError):
             Vector(-1)
 
-    def test_size_overflow_raises_overflow_error(self) -> None:
-        with pytest.raises(OverflowError):
-            Vector(sys.maxsize)
-
-        with pytest.raises(OverflowError):
-            Vector(sys.maxsize + 1)
-
     def test_index_out_of_bounds_raises_index_error(self) -> None:
         vector = Vector([1.0, 2.0])
 

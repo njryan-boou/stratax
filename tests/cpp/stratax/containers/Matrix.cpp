@@ -51,7 +51,7 @@ TEST(Matrix, methods)
 TEST(Matrix, operators)
 {
 	Matrix<int> matrix(2, 3, 0);
-	
+
 	// Mutable 2D access
 	{
 		matrix(0, 0) = 11;
@@ -117,6 +117,44 @@ TEST(Matrix, iterators)
 		EXPECT_EQ(empty.cbegin(), empty.cend());
 		EXPECT_EQ(empty.rbegin(), empty.rend());
 	}
+}
+
+TEST(Matrix, constructors)
+{
+	Matrix<int> default_ctor;
+	EXPECT_EQ(default_ctor.rows(), 0);
+	EXPECT_EQ(default_ctor.cols(), 0);
+	EXPECT_TRUE(default_ctor.empty());
+
+	Matrix<int> size_ctor(2, 3);
+	EXPECT_EQ(size_ctor.rows(), 2);
+	EXPECT_EQ(size_ctor.cols(), 3);
+	EXPECT_EQ(size_ctor.size(), 6);
+	for (std::size_t i = 0; i < size_ctor.size(); ++i)
+	{
+		EXPECT_EQ(size_ctor[i], 0);
+	}
+
+	Matrix<int> value_ctor(2, 3, 5);
+	EXPECT_EQ(value_ctor.rows(), 2);
+	EXPECT_EQ(value_ctor.cols(), 3);
+	for (std::size_t i = 0; i < value_ctor.size(); ++i)
+	{
+		EXPECT_EQ(value_ctor[i], 5);
+	}
+
+	EXPECT_THROW(([]() { Matrix<int> invalid_shape(stratax::Shape{2, 3, 4}); })(), Exceptions::DimensionError);
+
+	Matrix<int> shape_ctor(stratax::Shape{2, 3});
+	EXPECT_EQ(shape_ctor.rows(), 2);
+	EXPECT_EQ(shape_ctor.cols(), 3);
+	EXPECT_EQ(shape_ctor.shape(), (stratax::Shape{2, 3}));
+
+	Matrix<int> init_list_ctor{{{1, 2, 3}, {4, 5, 6}}};
+	EXPECT_EQ(init_list_ctor.rows(), 2);
+	EXPECT_EQ(init_list_ctor.cols(), 3);
+	EXPECT_EQ(init_list_ctor(0, 0), 1);
+	EXPECT_EQ(init_list_ctor(1, 2), 6);
 }
 
 TEST(Matrix, modifiers)

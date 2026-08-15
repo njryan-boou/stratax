@@ -2,87 +2,51 @@
 
 #include <cstddef>
 #include <initializer_list>
-#include <iterator>
-#include <utility>
 
 #include <stratax/concepts/Numeric.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
 namespace stratax::container {
 
-/** @brief Stores a rank-1 Stratax array in contiguous memory. */
 template<typename T>
 requires Numeric<T>
 class Vector : public core::ArrayBase<T>
 {
-protected:
-	using core::ArrayBase<T>::buffer_;
-	using core::ArrayBase<T>::checked_flat_ref;
-
 public:
-	using core::ArrayBase<T>::at;
-
-	/** @brief Creates a vector with the given number of elements. */
 	explicit Vector(std::size_t size)
-		: core::ArrayBase<T>(core::Shape({size}, core::Shape::allow_zero))
-	{
-	}
+		: core::ArrayBase<T>(core::Shape({size}))
+	{}
 
-	/** @brief Creates a vector from a validated rank-1 shape. */
 	explicit Vector(const core::Shape& shape)
 		: core::ArrayBase<T>(core::validation::require_rank(shape, 1, "Shape must be rank 1"))
-	{
-	}
+	{}
 
-	/** @brief Creates a vector and fills it with a value. */
 	Vector(std::size_t size, const T& value)
-		: core::ArrayBase<T>(core::Shape({size}, core::Shape::allow_zero), value)
-	{
-	}
+		: core::ArrayBase<T>(core::Shape({size}), value)
+	{}
 
-	/** @brief Creates a vector from an initializer list. */
 	Vector(std::initializer_list<T> list)
-		: core::ArrayBase<T>(core::Shape({list.size()}, core::Shape::allow_zero))
-	{
-		buffer_ = core::Buffer<T>(list);
-	}
+		: core::ArrayBase<T>(core::Shape({list.size()}), core::Buffer<T>(list))
+	{}
 
 	Vector() : Vector(0) {}
-	Vector(const Vector&) = default;
-	Vector(Vector&&) noexcept = default;
-	Vector& operator=(const Vector&) = default;
-	Vector& operator=(Vector&&) noexcept = default;
-	~Vector() = default;
 
-	/** @brief Returns a flat element without bounds checking. */
-	T& operator()(std::size_t index)
+	void swap(Vector& other) noexcept
 	{
-		return buffer_[index];
+		using std::swap;
+
+		swap(this->shape_, other.shape_);
+		swap(this->strides_, other.strides_);
+		swap(this->buffer_, other.buffer_);
 	}
 
-	/** @brief Returns a flat element without bounds checking. */
-	const T& operator()(std::size_t index) const
+	friend void swap(Vector& lhs, Vector& rhs) noexcept
 	{
-		return buffer_[index];
+		lhs.swap(rhs);
 	}
-
-	/** @brief Returns a flat element with bounds checking. */
-	T& at(std::ptrdiff_t index)
-	{
-		return checked_flat_ref(index);
-	}
-
-	/** @brief Returns a flat element with bounds checking. */
-	const T& at(std::ptrdiff_t index) const
-	{
-		return checked_flat_ref(index);
-	}
-
 };
 
 } // namespace stratax::container

@@ -132,7 +132,7 @@ void bind_vector_indexing(py::class_<Vector>& cls)
             if (py::isinstance<py::slice>(index))
             {
                 return py::cast(
-                    slice(
+                    stratax::indexing::slice(
                     vector,
                     binding_utils::cast_slice(
                         index.cast<py::slice>(),

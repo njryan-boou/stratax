@@ -92,7 +92,7 @@ container::Tensor<T> full(const core::Shape& shape, const T& value)
 
 template<typename T>
 requires Numeric<T>
-container::Tensor<T> identity(std::size_t size)
+container::Matrix<T> identity(std::size_t size)
 {
 	return ::creation::identity<T>(size);
 }
@@ -119,10 +119,12 @@ using ::to_matrix;
 
 }
 
+namespace indexing {
+using ::stratax::indexing::slice;
+}
+
 namespace slicing {
-
-using ::slice;
-
+using ::stratax::indexing::slice;
 }
 
 }

@@ -1,3 +1,6 @@
+// TODO: Rewrite axis_reduce to iterate directly over source strides
+// instead of materializing a temporary Tensor slice for each output value.
+
 #pragma once
 
 #include <stratax/concepts/Numeric.hpp>
@@ -147,7 +150,7 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 				});
 			}
 		}
-		auto s = slice(arr, slices);
+		auto s = stratax::indexing::slice(arr, slices);
 		ResultType value = func(s);
 		result(output_index) = value;
 	}

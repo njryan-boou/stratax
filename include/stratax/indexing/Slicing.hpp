@@ -17,9 +17,11 @@
 #include <type_traits>
 #include <utility>
 
-namespace stratax::ops::detail {
+namespace stratax::indexing {
 
-/** @brief Normalized slice metadata for a concrete axis extent. */
+namespace detail
+{
+
 struct ResolvedSlice
 {
 	std::ptrdiff_t start;
@@ -89,52 +91,33 @@ inline ResolvedSlice normalize_slice(
 	return ResolvedSlice{start, step, count};
 }
 
-/** @brief Builds a shape from a compile-time slice array. */
-template<std::size_t N, std::size_t... Is>
-stratax::core::Shape shape_from_slices_impl(
-	const std::array<stratax::core::Slice, N>& ranges,
-	std::index_sequence<Is...>)
-{
-	return stratax::core::Shape{ranges[Is].size()...};
-}
+} // namespace detail
 
-/** @brief Builds a shape from a slice array. */
-template<std::size_t N>
-stratax::core::Shape shape_from_slices(
-	const std::array<stratax::core::Slice, N>& ranges)
-{
-	return shape_from_slices_impl(ranges, std::make_index_sequence<N>{});
-}
-
-}
-
-/** @brief Copies a half-open range from a vector. */
 template<typename T>
 stratax::container::Vector<T>
 slice(
-	const stratax::container::Vector<T>& vec,
-	const stratax::core::Slice& slice
-)
+    const stratax::container::Vector<T>& vec,
+    const stratax::core::Slice& slice)
 {
-	const auto resolved = stratax::ops::detail::normalize_slice(
-		slice,
-		vec.size(),
-		"Vector slice out of bounds.");
+    const auto resolved =
+        detail::normalize_slice(
+            slice,
+            vec.size(),
+            "Vector slice out of bounds.");
 
-	stratax::container::Vector<T> result(resolved.size);
+    stratax::container::Vector<T> result(resolved.size);
 
-	std::ptrdiff_t source = resolved.start;
-	for (std::size_t i = 0; i < result.size(); ++i)
-	{
-		result[i] = vec[static_cast<std::size_t>(source)];
-		source += resolved.step;
-	}
+    std::ptrdiff_t source = resolved.start;
 
-	return result;
+    for (std::size_t i = 0; i < result.size(); ++i)
+    {
+        result[i] = vec[static_cast<std::size_t>(source)];
+        source += resolved.step;
+    }
 
+    return result;
 }
 
-/** @brief Copies a rectangular half-open region from a matrix. */
 template<typename T>
 stratax::container::Matrix<T>
 slice(
@@ -143,11 +126,11 @@ slice(
 	const stratax::core::Slice& cols
 )
 {
-	const auto resolved_rows = stratax::ops::detail::normalize_slice(
+	const auto resolved_rows = detail::normalize_slice(
 		rows,
 		mat.rows(),
 		"Matrix row slice out of bounds.");
-	const auto resolved_cols = stratax::ops::detail::normalize_slice(
+	const auto resolved_cols = detail::normalize_slice(
 		cols,
 		mat.cols(),
 		"Matrix column slice out of bounds.");
@@ -171,7 +154,6 @@ slice(
 	return result;
 }
 
-/** @brief Copies a multidimensional half-open region from a tensor. */
 template<typename T, typename... Slices>
 stratax::container::Tensor<T>
 slice(
@@ -191,11 +173,11 @@ slice(
 		tensor.rank(),
 		"Slice rank must match tensor rank.");
 
-	std::array<stratax::ops::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
+	std::array<stratax::indexing::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
 	std::array<std::size_t, sizeof...(Slices)> out_dims{};
 	for (std::size_t dim = 0; dim < ranges.size(); ++dim)
 	{
-		resolved[dim] = stratax::ops::detail::normalize_slice(
+		resolved[dim] = detail::normalize_slice(
 			ranges[dim],
 			tensor.shape()[dim],
 			"Tensor slice out of bounds.");
@@ -243,7 +225,6 @@ slice(
 	return result;
 }
 
-/** @brief Copies a multidimensional half-open region from a tensor using a vector of slices. */
 template<typename T>
 stratax::container::Tensor<T>
 slice(
@@ -256,12 +237,12 @@ slice(
 		tensor.rank(),
 		"Slice rank must match tensor rank.");
 
-	std::vector<stratax::ops::detail::ResolvedSlice> resolved(slices.size());
+	std::vector<detail::ResolvedSlice> resolved(slices.size());
 	std::vector<std::size_t> out_dims(slices.size());
     
 	for (std::size_t dim = 0; dim < slices.size(); ++dim)
 	{
-		resolved[dim] = stratax::ops::detail::normalize_slice(
+		resolved[dim] = detail::normalize_slice(
 			slices[dim],
 			tensor.shape()[dim],
 			"Tensor slice out of bounds.");
@@ -308,3 +289,5 @@ slice(
 
 	return result;
 }
+
+} // namespace stratax::indexing

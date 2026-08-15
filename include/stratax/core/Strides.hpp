@@ -1,41 +1,28 @@
 #pragma once
 
 #include <cstddef>
-#include <limits>
 #include <ostream>
-#include <stdexcept>
-#include <utility>
 
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/indexing/Normalize.hpp>
 
 namespace stratax::core {
 
-/** @brief Stores strides for a shape in contiguous memory. */
 class Strides
 {
 private:
 	Buffer<std::size_t> buffer_;
 
 public:
-	/** @brief Iterator over immutable stride values. */
-	using iterator = Buffer<std::size_t>::const_iterator;
-
-	/** @brief Const iterator over stride values. */
+	using iterator = Buffer<std::size_t>::iterator;
 	using const_iterator = Buffer<std::size_t>::const_iterator;
-
-	/** @brief Reverse iterator over immutable stride values. */
-	using reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
-
-	/** @brief Const reverse iterator over stride values. */
+	using reverse_iterator = Buffer<std::size_t>::reverse_iterator;
 	using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
 
-	/** @brief Creates an empty stride vector. */
 	Strides() noexcept = default;
 
-	/** @brief Creates row-major strides for a given shape. */
 	explicit Strides(const Shape& shape)
 		: buffer_(shape.rank())
 	{
@@ -46,8 +33,6 @@ public:
 		buffer_[shape.rank() - 1] = 1;
 
 		for (std::size_t i = shape.rank() - 1; i > 0; --i) {
-			// Preserve constructibility for extremely large shapes by
-			// saturating intermediate stride values when they overflow.
 			try
 			{
 				buffer_[i - 1] = validation::checked_multiply(
@@ -62,155 +47,133 @@ public:
 		}
 	}
 
-	/** @brief Copies stride metadata. */
-	Strides(const Strides&) = default;
-
-	/** @brief Moves stride metadata. */
-	Strides(Strides&&) noexcept = default;
-
-	/** @brief Copy-assigns stride metadata. */
-	Strides& operator=(const Strides&) = default;
-
-	/** @brief Move-assigns stride metadata. */
-	Strides& operator=(Strides&&) noexcept = default;
-
-	/** @brief Destroys the stride vector. */
-	~Strides() = default;
-
-	 /** @brief Returns the number of stored stride values. */
-	[[nodiscard]] std::size_t size() const noexcept
+	[[nodiscard]] std::size_t* data() noexcept
 	{
-		return buffer_.size();
+		return buffer_.data();
 	}
 
-	 /** @brief Returns whether the stride vector is empty. */
-	[[nodiscard]] bool empty() const noexcept
-	{
-		return buffer_.empty();
-	}
-
-	 /** @brief Returns the number of dimensions represented by the strides. */
-	[[nodiscard]] std::size_t rank() const noexcept
-	{
-		return buffer_.size();
-	}
-
-	/** @brief Returns a stride value without bounds checking. */
-	const std::size_t& operator[](std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a stride value without bounds checking. */
-	const std::size_t& operator()(std::size_t index) const noexcept
-	{
-		return buffer_[index];
-	}
-
-	/** @brief Returns a stride value with bounds checking. */
-	const std::size_t& at(std::ptrdiff_t index) const
-	{
-		const std::size_t normalized = validation::normalize_index(index, rank(), "Strides index out of bounds");
-		return buffer_[normalized];
-	}
-
-	 /** @brief Returns the first stride value. */
-	const std::size_t& front() const
-	{
-		return buffer_.front();
-	}
-
-	 /** @brief Returns the last stride value. */
-	const std::size_t& back() const
-	{
-		return buffer_.back();
-	}
-
-	 /** @brief Returns the raw stride data pointer. */
 	[[nodiscard]] const std::size_t* data() const noexcept
 	{
 		return buffer_.data();
 	}
 
-	 /** @brief Returns an iterator to the first stride value. */
+	[[nodiscard]] std::size_t& front()
+	{
+		if (empty()) {
+			throw Exceptions::IndexError("Strides front cannot be accessed when the strides are empty.");
+		}
+		return buffer_.front();
+	}
+
+	[[nodiscard]] const std::size_t& front() const
+	{
+		if (empty()) {
+			throw Exceptions::IndexError("Strides front cannot be accessed when the strides are empty.");
+		}
+		return buffer_.front();
+	}
+
+	[[nodiscard]] std::size_t& back()
+	{
+		if (empty()) {
+			throw Exceptions::IndexError("Strides back cannot be accessed when the strides are empty.");
+		}
+		return buffer_.back();
+	}
+
+	[[nodiscard]] const std::size_t& back() const
+	{
+		if (empty()) {
+			throw Exceptions::IndexError("Strides back cannot be accessed when the strides are empty.");
+		}
+		return buffer_.back();
+	}
+
 	[[nodiscard]] iterator begin() noexcept
 	{
 		return buffer_.begin();
 	}
 
-	 /** @brief Returns a const iterator to the first stride value. */
 	[[nodiscard]] const_iterator begin() const noexcept
 	{
 		return buffer_.begin();
 	}
 
-	 /** @brief Returns a const iterator to the first stride value. */
 	[[nodiscard]] const_iterator cbegin() const noexcept
 	{
 		return buffer_.cbegin();
 	}
 
-	 /** @brief Returns an iterator one past the last stride value. */
 	[[nodiscard]] iterator end() noexcept
 	{
 		return buffer_.end();
 	}
 
-	 /** @brief Returns a const iterator one past the last stride value. */
 	[[nodiscard]] const_iterator end() const noexcept
 	{
 		return buffer_.end();
 	}
 
-	 /** @brief Returns a const iterator one past the last stride value. */
 	[[nodiscard]] const_iterator cend() const noexcept
 	{
 		return buffer_.cend();
 	}
 
-	 /** @brief Returns a reverse iterator to the last stride value. */
 	[[nodiscard]] reverse_iterator rbegin() noexcept
 	{
 		return buffer_.rbegin();
 	}
 
-	 /** @brief Returns a const reverse iterator to the last stride value. */
 	[[nodiscard]] const_reverse_iterator rbegin() const noexcept
 	{
 		return buffer_.rbegin();
 	}
 
-	 /** @brief Returns a const reverse iterator to the last stride value. */
 	[[nodiscard]] const_reverse_iterator crbegin() const noexcept
 	{
 		return buffer_.crbegin();
 	}
 
-	 /** @brief Returns a reverse iterator before the first stride value. */
 	[[nodiscard]] reverse_iterator rend() noexcept
 	{
 		return buffer_.rend();
 	}
 
-	 /** @brief Returns a const reverse iterator before the first stride value. */
 	[[nodiscard]] const_reverse_iterator rend() const noexcept
 	{
 		return buffer_.rend();
 	}
 
-	 /** @brief Returns a const reverse iterator before the first stride value. */
 	[[nodiscard]] const_reverse_iterator crend() const noexcept
 	{
 		return buffer_.crend();
 	}
 
-	 /** @brief Swaps the stored strides with another instance. */
+	[[nodiscard]] bool empty() const noexcept
+	{
+		return buffer_.empty();
+	}
+
+	[[nodiscard]] std::size_t rank() const noexcept
+	{
+		return buffer_.size();
+	}
+
+	const std::size_t& operator[](std::size_t index) const noexcept
+	{
+		return buffer_[index];
+	}
+
+	const std::size_t& at(std::ptrdiff_t index) const
+{
+    return buffer_[stratax::indexing::normalize_index(index, rank())];
+}
+
 	void swap(Strides& other) noexcept
 	{
 		buffer_.swap(other.buffer_);
 	}
 
-	 /** @brief Compares two stride vectors for equality. */
 	[[nodiscard]] bool operator==(const Strides& other) const noexcept
 	{
 		if (rank() != other.rank()) {
@@ -226,11 +189,6 @@ public:
 		return true;
 	}
 
-	/** @brief Returns whether two stride vectors differ. */
-	[[nodiscard]] bool operator!=(const Strides& other) const noexcept
-	{
-		return !(*this == other);
-	}
 };
 
 /** @brief Streams strides in tuple-like notation. */
@@ -239,14 +197,15 @@ inline std::ostream& operator<<(std::ostream& os, const Strides& stride)
 	os << "(";
 
 	bool first = true;
-	for (std::size_t dim : stride)
-	{
-		if (!first)
-			os << ", ";
+	for (std::size_t i = 0; i < stride.rank(); ++i)
+{
+    if (i != 0)
+    {
+        os << ", ";
+    }
 
-		os << dim;
-		first = false;
-	}
+    os << stride[i];
+}
 
 	if (stride.rank() == 1)
 	{

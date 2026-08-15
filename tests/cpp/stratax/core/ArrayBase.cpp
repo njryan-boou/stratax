@@ -1,203 +1,180 @@
 #include <gtest/gtest.h>
-#include <stratax/core/ArrayBase.hpp>
+
+#include <array>
+#include <vector>
+
 #include <stratax.h>
 
-using namespace stratax::container;
-using namespace stratax::core;
+namespace {
 
-TEST(ArrayBase, methods)
+class TestArray : public stratax::core::ArrayBase<int>
 {
-    Tensor<int> tensor({2, 3, 4});
+public:
+	using stratax::core::ArrayBase<int>::at;
+	using stratax::core::ArrayBase<int>::back;
+	using stratax::core::ArrayBase<int>::begin;
+	using stratax::core::ArrayBase<int>::cbegin;
+	using stratax::core::ArrayBase<int>::cend;
+	using stratax::core::ArrayBase<int>::data;
+	using stratax::core::ArrayBase<int>::empty;
+	using stratax::core::ArrayBase<int>::end;
+	using stratax::core::ArrayBase<int>::fill;
+	using stratax::core::ArrayBase<int>::front;
+	using stratax::core::ArrayBase<int>::operator[];
+	using stratax::core::ArrayBase<int>::rbegin;
+	using stratax::core::ArrayBase<int>::rend;
+	using stratax::core::ArrayBase<int>::rank;
+	using stratax::core::ArrayBase<int>::shape;
+	using stratax::core::ArrayBase<int>::size;
+	using stratax::core::ArrayBase<int>::strides;
 
-    // Metadata
-    {
-        EXPECT_EQ(tensor.size(), 2 * 3 * 4);
-        EXPECT_FALSE(tensor.empty());
-        EXPECT_EQ(tensor.rank(), 3);
+	TestArray(const stratax::core::Shape& shape)
+		: stratax::core::ArrayBase<int>(shape)
+	{}
 
-        EXPECT_EQ(
-            tensor.shape(),
-            (stratax::Shape{2, 3, 4})
-        );
+	TestArray(const stratax::core::Shape& shape, const int& value)
+		: stratax::core::ArrayBase<int>(shape, value)
+	{}
 
-        EXPECT_EQ(
-            tensor.strides(),
-            stratax::Strides(tensor.shape())
-        );
-    }
+	TestArray(const stratax::core::Shape& shape, stratax::core::Buffer<int>&& buffer)
+		: stratax::core::ArrayBase<int>(shape, std::move(buffer))
+	{}
 
-    // Data access
-    {
-        EXPECT_NE(tensor.data(), nullptr);
+	std::size_t flat_offset_for(const std::vector<std::size_t>& indices) const
+	{
+		return this->flat_offset(indices);
+	}
 
-        tensor.data()[1] = 42;
+	std::size_t normalized_flat_offset_for(const std::vector<std::ptrdiff_t>& indices) const
+	{
+		return this->normalized_flat_offset(
+			indices,
+			"ArrayBase rank mismatch.",
+			"ArrayBase component is out of bounds.");
+	}
+};
 
-        EXPECT_EQ(tensor.data()[1], 42);
-    }
+} // namespace
 
-    // Front and back
-    {
-        tensor.data()[0] = 10;
-        tensor.data()[tensor.size() - 1] = 20;
+TEST(ArrayBase, metadata)
+{
+	TestArray array(stratax::Shape{2, 3});
 
-        EXPECT_EQ(tensor.front(), 10);
-        EXPECT_EQ(tensor.back(), 20);
-    }
-
-    // Const access
-    {
-        const Tensor<int>& const_tensor = tensor;
-
-        EXPECT_NE(const_tensor.data(), nullptr);
-        EXPECT_EQ(const_tensor.data()[1], 42);
-        EXPECT_EQ(const_tensor.front(), 10);
-        EXPECT_EQ(const_tensor.back(), 20);
-    }
-
-    // Empty array
-    {
-        Tensor<int> empty(stratax::Shape{});
-
-        EXPECT_EQ(empty.size(), 0);
-        EXPECT_TRUE(empty.empty());
-
-        EXPECT_THROW(empty.front(), Exceptions::IndexError);
-        EXPECT_THROW(empty.back(), Exceptions::IndexError);
-    }
+	EXPECT_EQ(array.size(), 6);
+	EXPECT_FALSE(array.empty());
+	EXPECT_EQ(array.rank(), 2);
+	EXPECT_EQ(array.shape(), (stratax::Shape{2, 3}));
+	EXPECT_EQ(array.strides(), stratax::Strides(array.shape()));
+	EXPECT_NE(array.data(), nullptr);
 }
 
-TEST(ArrayBase, operators)
+TEST(ArrayBase, data_and_checked_access)
 {
-    Tensor<int> tensor({2, 3, 4});
+	TestArray array(stratax::Shape{2, 3}, 0);
+	array[0] = 10;
+	array[5] = 20;
+	array.data()[2] = 30;
 
-    // Mutable access
-    {
-        tensor[0] = 5;
-        tensor[1] = 10;
-        tensor[tensor.size() - 1] = 20;
+	EXPECT_EQ(array[0], 10);
+	EXPECT_EQ(array[5], 20);
+	EXPECT_EQ(array.data()[2], 30);
+	EXPECT_EQ(array.front(), 10);
+	EXPECT_EQ(array.back(), 20);
 
-        EXPECT_EQ(tensor[0], 5);
-        EXPECT_EQ(tensor[1], 10);
-        EXPECT_EQ(tensor[tensor.size() - 1], 20);
-    }
-
-    // Mutable call operator access
-    {
-        tensor[0] = 11;
-        tensor[1] = 12;
-        tensor[tensor.size() - 1] = 21;
-
-        EXPECT_EQ(tensor[0], 11);
-        EXPECT_EQ(tensor[1], 12);
-        EXPECT_EQ(tensor[tensor.size() - 1], 21);
-    }
-
-    // Const access
-    {
-        const Tensor<int>& const_tensor = tensor;
-
-        EXPECT_EQ(const_tensor[0], 11);
-        EXPECT_EQ(const_tensor[1], 12);
-        EXPECT_EQ(const_tensor[const_tensor.size() - 1], 21);
-    }
-
-    // Const call operator access
-    {
-        const Tensor<int>& const_tensor = tensor;
-
-        EXPECT_EQ(const_tensor[0], 11);
-        EXPECT_EQ(const_tensor[1], 12);
-        EXPECT_EQ(const_tensor[const_tensor.size() - 1], 21);
-    }
+	const TestArray& const_array = array;
+	EXPECT_EQ(const_array.front(), 10);
+	EXPECT_EQ(const_array.back(), 20);
+	EXPECT_EQ(const_array.at(-6), 10);
+	EXPECT_EQ(const_array.at(-1), 20);
+	EXPECT_THROW(const_array.at(-7), Exceptions::IndexError);
+	EXPECT_THROW(const_array.at(6), Exceptions::IndexError);
 }
 
 TEST(ArrayBase, iterators)
 {
-    Tensor<int> tensor({2, 3, 4});
+	TestArray array(stratax::Shape{2, 3}, 0);
+	for (std::size_t i = 0; i < array.size(); ++i)
+	{
+		array[i] = static_cast<int>(i + 1);
+	}
 
-    // Fill the tensor with values
-    for (std::size_t i = 0; i < tensor.size(); ++i)
-    {
-        tensor[i] = static_cast<int>(i);
-    }
+	std::size_t index = 0;
+	for (auto it = array.begin(); it != array.end(); ++it)
+	{
+		EXPECT_EQ(*it, static_cast<int>(index + 1));
+		++index;
+	}
+	EXPECT_EQ(index, array.size());
 
-    // Test mutable iterators
-    {
-        std::size_t index = 0;
-        for (auto it = tensor.begin(); it != tensor.end(); ++it)
-        {
-            EXPECT_EQ(*it, static_cast<int>(index));
-            ++index;
-        }
-        EXPECT_EQ(index, tensor.size());
-    }
+	const TestArray& const_array = array;
+	index = 0;
+	for (auto it = const_array.cbegin(); it != const_array.cend(); ++it)
+	{
+		EXPECT_EQ(*it, static_cast<int>(index + 1));
+		++index;
+	}
+	EXPECT_EQ(index, const_array.size());
 
-    // Test const iterators
-    {
-        const Tensor<int>& const_tensor = tensor;
-        std::size_t index = 0;
-        for (auto it = const_tensor.begin(); it != const_tensor.end(); ++it)
-        {
-            EXPECT_EQ(*it, static_cast<int>(index));
-            ++index;
-        }
-        EXPECT_EQ(index, const_tensor.size());
-    }
+	index = array.size();
+	for (auto it = array.rbegin(); it != array.rend(); ++it)
+	{
+		--index;
+		EXPECT_EQ(*it, static_cast<int>(index + 1));
+	}
+	EXPECT_EQ(index, 0);
 
-    // Test reverse iterators
-    {
-        std::size_t index = tensor.size();
-        for (auto it = tensor.rbegin(); it != tensor.rend(); ++it)
-        {
-            --index;
-            EXPECT_EQ(*it, static_cast<int>(index));
-        }
-        EXPECT_EQ(index, 0);
-    }
-
-    // Empty tensor
-    {
-        Tensor<int> empty(stratax::Shape{});
-
-        EXPECT_EQ(empty.begin(), empty.end());
-        EXPECT_EQ(empty.cbegin(), empty.cend());
-        EXPECT_EQ(empty.rbegin(), empty.rend());
-    }
+	TestArray empty(stratax::Shape{});
+	EXPECT_EQ(empty.begin(), empty.end());
+	EXPECT_EQ(empty.cbegin(), empty.cend());
+	EXPECT_EQ(empty.rbegin(), empty.rend());
 }
 
-TEST(ArrayBase, modifiers)
+TEST(ArrayBase, flat_offset_and_normalized_offset)
 {
-    Tensor<int> tensor({2, 3, 4});
-    Tensor<int> other({2, 3, 4});
+	TestArray array(stratax::Shape{2, 3}, 0);
+	for (std::size_t i = 0; i < array.size(); ++i)
+	{
+		array[i] = static_cast<int>(i + 1);
+	}
 
-    // Fill the tensor with values
-    for (std::size_t i = 0; i < tensor.size(); ++i)
-    {
-        tensor[i] = static_cast<int>(i);
-    }
+	EXPECT_EQ(array.flat_offset_for({0, 0}), 0u);
+	EXPECT_EQ(array.flat_offset_for({1, 2}), 5u);
+	EXPECT_EQ(array.flat_offset_for({1, 1}), 4u);
 
-    // Fill the other tensor with a different value
-    other.fill(42);
-
-    // Test fill
-    {
-        tensor.fill(7);
-        for (std::size_t i = 0; i < tensor.size(); ++i)
-        {
-            EXPECT_EQ(tensor[i], 7);
-        }
-    }
-
-    // Test swap
-    {
-        tensor.swap(other);
-
-        for (std::size_t i = 0; i < tensor.size(); ++i)
-        {
-            EXPECT_EQ(tensor[i], 42);
-            EXPECT_EQ(other[i], 7);
-        }
-    }
+	EXPECT_EQ(array.normalized_flat_offset_for({-2, -1}), 5u);
+	EXPECT_EQ(array.normalized_flat_offset_for({-1, -3}), 3u);
+	EXPECT_THROW(array.normalized_flat_offset_for({-3, 0}), Exceptions::IndexError);
+	EXPECT_THROW(array.normalized_flat_offset_for({0, 3}), Exceptions::IndexError);
+	EXPECT_THROW(array.normalized_flat_offset_for({1}), Exceptions::IndexError);
 }
 
+TEST(ArrayBase, constructors_and_fill)
+{
+	TestArray default_array(stratax::Shape{2, 3});
+	for (std::size_t i = 0; i < default_array.size(); ++i)
+	{
+		EXPECT_EQ(default_array[i], 0);
+	}
 
+	TestArray value_array(stratax::Shape{2, 3}, 7);
+	for (std::size_t i = 0; i < value_array.size(); ++i)
+	{
+		EXPECT_EQ(value_array[i], 7);
+	}
+
+	stratax::core::Buffer<int> buffer{1, 2, 3, 4, 5, 6};
+	TestArray buffer_array(stratax::Shape{2, 3}, std::move(buffer));
+	EXPECT_EQ(buffer_array.size(), 6);
+	EXPECT_EQ(buffer_array[0], 1);
+	EXPECT_EQ(buffer_array[5], 6);
+
+	stratax::core::Buffer<int> bad_buffer{1, 2, 3};
+	EXPECT_THROW(([]() { TestArray bad(stratax::Shape{2, 3}, stratax::core::Buffer<int>{1, 2, 3}); })(), Exceptions::ShapeError);
+
+	TestArray fill_array(stratax::Shape{2, 3}, 0);
+	fill_array.fill(11);
+	for (std::size_t i = 0; i < fill_array.size(); ++i)
+	{
+		EXPECT_EQ(fill_array[i], 11);
+	}
+}

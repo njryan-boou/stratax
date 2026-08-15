@@ -14,8 +14,8 @@ TEST(OpsReshape, vector_reshapes_to_tensor)
     auto tensor = reshape(vector, Shape{2, 3});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 3);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 3);
     EXPECT_TRUE(tensor.size() == 6);
 
     EXPECT_TRUE(tensor[0] == 1);
@@ -36,8 +36,8 @@ TEST(OpsReshape, matrix_reshapes_to_tensor)
     auto tensor = reshape(matrix, Shape{3, 2});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 3);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 3);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
     EXPECT_TRUE(tensor.size() == 6);
 
     EXPECT_TRUE(tensor(0, 0) == 1);
@@ -59,8 +59,8 @@ TEST(OpsReshape, tensor_reshapes_to_new_shape)
     auto reshaped = reshape(tensor, Shape{4, 2});
 
     EXPECT_TRUE(reshaped.rank() == 2);
-    EXPECT_TRUE(reshaped.shape()(0) == 4);
-    EXPECT_TRUE(reshaped.shape()(1) == 2);
+    EXPECT_TRUE(reshaped.shape()[0] == 4);
+    EXPECT_TRUE(reshaped.shape()[1] == 2);
     EXPECT_TRUE(reshaped.size() == 8);
 
     for (std::size_t i = 0; i < reshaped.size(); ++i) {
@@ -91,8 +91,8 @@ TEST(OpsReshape, reshape_to_zero_sized_shape)
     auto tensor = reshape(vector, Shape{0, 3});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 0);
-    EXPECT_TRUE(tensor.shape()(1) == 3);
+    EXPECT_TRUE(tensor.shape()[0] == 0);
+    EXPECT_TRUE(tensor.shape()[1] == 3);
     EXPECT_TRUE(tensor.size() == 0);
     EXPECT_TRUE(tensor.empty());
 }
@@ -116,7 +116,7 @@ TEST(OpsReshape, reshape_zero_dimension_tensor)
     auto reshaped = reshape(tensor, Shape{0});
 
     EXPECT_TRUE(reshaped.rank() == 1);
-    EXPECT_TRUE(reshaped.shape()(0) == 0);
+    EXPECT_TRUE(reshaped.shape()[0] == 0);
     EXPECT_TRUE(reshaped.size() == 0);
     EXPECT_TRUE(reshaped.empty());
 }
@@ -137,7 +137,7 @@ TEST(OpsReshape, flatten_vector_copies_values)
     auto flat = flatten(vector);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 3);
+    EXPECT_TRUE(flat.shape()[0] == 3);
     EXPECT_TRUE(flat.size() == 3);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[1] == 2);
@@ -154,7 +154,7 @@ TEST(OpsReshape, flatten_matrix_copies_row_major_values)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 4);
+    EXPECT_TRUE(flat.shape()[0] == 4);
     EXPECT_TRUE(flat.size() == 4);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[1] == 2);
@@ -174,7 +174,7 @@ TEST(OpsReshape, flatten_tensor_copies_linear_values)
     auto flat = flatten(tensor);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 4);
+    EXPECT_TRUE(flat.shape()[0] == 4);
     EXPECT_TRUE(flat.size() == 4);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[1] == 2);
@@ -189,7 +189,7 @@ TEST(OpsReshape, flatten_empty_matrix_preserves_size)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 0);
+    EXPECT_TRUE(flat.shape()[0] == 0);
     EXPECT_TRUE(flat.size() == 0);
     EXPECT_TRUE(flat.empty());
 }
@@ -204,7 +204,7 @@ TEST(OpsReshape, flatten_complex_tensor_copies_values)
     auto flat = flatten(tensor);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 2);
+    EXPECT_TRUE(flat.shape()[0] == 2);
     EXPECT_TRUE(flat[0] == std::complex<double>(1.0, 2.0));
     EXPECT_TRUE(flat[1] == std::complex<double>(3.0, -4.0));
 }
@@ -216,9 +216,9 @@ TEST(OpsReshape, reshape_vector_to_3d)
     auto tensor = reshape(vector, Shape{2, 2, 2});
 
     EXPECT_TRUE(tensor.rank() == 3);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
-    EXPECT_TRUE(tensor.shape()(2) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
+    EXPECT_TRUE(tensor.shape()[2] == 2);
     EXPECT_TRUE(tensor.size() == 8);
     EXPECT_TRUE(tensor[0] == 1);
     EXPECT_TRUE(tensor[7] == 8);
@@ -231,7 +231,7 @@ TEST(OpsReshape, reshape_vector_to_1d)
     auto tensor = reshape(vector, Shape{3});
 
     EXPECT_TRUE(tensor.rank() == 1);
-    EXPECT_TRUE(tensor.shape()(0) == 3);
+    EXPECT_TRUE(tensor.shape()[0] == 3);
     EXPECT_TRUE(tensor.size() == 3);
 }
 
@@ -242,8 +242,8 @@ TEST(OpsReshape, reshape_vector_to_single_element)
     auto tensor = reshape(vector, Shape{1, 1});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 1);
-    EXPECT_TRUE(tensor.shape()(1) == 1);
+    EXPECT_TRUE(tensor.shape()[0] == 1);
+    EXPECT_TRUE(tensor.shape()[1] == 1);
     EXPECT_TRUE(tensor[0] == 42);
 }
 
@@ -257,7 +257,7 @@ TEST(OpsReshape, reshape_matrix_to_1d)
     auto tensor = reshape(matrix, Shape{6});
 
     EXPECT_TRUE(tensor.rank() == 1);
-    EXPECT_TRUE(tensor.shape()(0) == 6);
+    EXPECT_TRUE(tensor.shape()[0] == 6);
     EXPECT_TRUE(tensor.size() == 6);
     EXPECT_TRUE(tensor[0] == 1);
     EXPECT_TRUE(tensor[5] == 6);
@@ -273,9 +273,9 @@ TEST(OpsReshape, reshape_matrix_to_3d)
     auto tensor = reshape(matrix, Shape{2, 2, 2});
 
     EXPECT_TRUE(tensor.rank() == 3);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
-    EXPECT_TRUE(tensor.shape()(2) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
+    EXPECT_TRUE(tensor.shape()[2] == 2);
     EXPECT_TRUE(tensor.size() == 8);
 }
 
@@ -290,8 +290,8 @@ TEST(OpsReshape, reshape_3d_to_2d)
     auto reshaped = reshape(tensor, Shape{6, 4});
 
     EXPECT_TRUE(reshaped.rank() == 2);
-    EXPECT_TRUE(reshaped.shape()(0) == 6);
-    EXPECT_TRUE(reshaped.shape()(1) == 4);
+    EXPECT_TRUE(reshaped.shape()[0] == 6);
+    EXPECT_TRUE(reshaped.shape()[1] == 4);
     EXPECT_TRUE(reshaped.size() == 24);
 }
 
@@ -306,8 +306,8 @@ TEST(OpsReshape, reshape_4d_to_2d)
     auto reshaped = reshape(tensor, Shape{4, 6});
 
     EXPECT_TRUE(reshaped.rank() == 2);
-    EXPECT_TRUE(reshaped.shape()(0) == 4);
-    EXPECT_TRUE(reshaped.shape()(1) == 6);
+    EXPECT_TRUE(reshaped.shape()[0] == 4);
+    EXPECT_TRUE(reshaped.shape()[1] == 6);
     EXPECT_TRUE(reshaped.size() == 24);
 }
 
@@ -318,8 +318,8 @@ TEST(OpsReshape, reshape_float_vector)
     auto tensor = reshape(vector, Shape{2, 2});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
     EXPECT_TRUE(tensor[0] == 1.5f);
     EXPECT_TRUE(tensor[3] == 4.5f);
 }
@@ -334,8 +334,8 @@ TEST(OpsReshape, reshape_double_matrix)
     auto tensor = reshape(matrix, Shape{3, 2});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 3);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 3);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
     EXPECT_TRUE(tensor[0] > 1.0 && tensor[0] < 1.2);
 }
 
@@ -350,8 +350,8 @@ TEST(OpsReshape, reshape_large_vector_to_matrix)
     auto matrix = reshape(vector, Shape{10, 10});
 
     EXPECT_TRUE(matrix.rank() == 2);
-    EXPECT_TRUE(matrix.shape()(0) == 10);
-    EXPECT_TRUE(matrix.shape()(1) == 10);
+    EXPECT_TRUE(matrix.shape()[0] == 10);
+    EXPECT_TRUE(matrix.shape()[1] == 10);
     EXPECT_TRUE(matrix.size() == 100);
     EXPECT_TRUE(matrix[0] == 0);
     EXPECT_TRUE(matrix[99] == 99);
@@ -369,7 +369,7 @@ TEST(OpsReshape, reshape_large_matrix_to_vector)
     auto vector = reshape(matrix, Shape{100});
 
     EXPECT_TRUE(vector.rank() == 1);
-    EXPECT_TRUE(vector.shape()(0) == 100);
+    EXPECT_TRUE(vector.shape()[0] == 100);
     EXPECT_TRUE(vector.size() == 100);
     EXPECT_TRUE(vector[0] == 0);
     EXPECT_TRUE(vector[99] == 99);
@@ -387,8 +387,8 @@ TEST(OpsReshape, reshape_rectangular_to_different_rectangular)
     auto reshaped = reshape(matrix, Shape{5, 3});
 
     EXPECT_TRUE(reshaped.rank() == 2);
-    EXPECT_TRUE(reshaped.shape()(0) == 5);
-    EXPECT_TRUE(reshaped.shape()(1) == 3);
+    EXPECT_TRUE(reshaped.shape()[0] == 5);
+    EXPECT_TRUE(reshaped.shape()[1] == 3);
     EXPECT_TRUE(reshaped.size() == 15);
     EXPECT_TRUE(reshaped[0] == 1);
     EXPECT_TRUE(reshaped[14] == 15);
@@ -422,7 +422,7 @@ TEST(OpsReshape, flatten_vector_to_vector)
     auto flat = flatten(vector);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 5);
+    EXPECT_TRUE(flat.shape()[0] == 5);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[4] == 5);
 }
@@ -438,7 +438,7 @@ TEST(OpsReshape, flatten_3d_tensor)
     auto flat = flatten(tensor);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 12);
+    EXPECT_TRUE(flat.shape()[0] == 12);
     EXPECT_TRUE(flat.size() == 12);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[11] == 12);
@@ -455,7 +455,7 @@ TEST(OpsReshape, flatten_4d_tensor)
     auto flat = flatten(tensor);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 16);
+    EXPECT_TRUE(flat.shape()[0] == 16);
     EXPECT_TRUE(flat.size() == 16);
 }
 
@@ -469,7 +469,7 @@ TEST(OpsReshape, flatten_float_matrix)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 6);
+    EXPECT_TRUE(flat.shape()[0] == 6);
     EXPECT_TRUE(flat[0] == 1.5f);
     EXPECT_TRUE(flat[5] == 6.5f);
 }
@@ -486,7 +486,7 @@ TEST(OpsReshape, flatten_large_matrix)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 2500);
+    EXPECT_TRUE(flat.shape()[0] == 2500);
     EXPECT_TRUE(flat.size() == 2500);
     EXPECT_TRUE(flat[0] == 0);
     EXPECT_TRUE(flat[2499] == 2499);
@@ -503,7 +503,7 @@ TEST(OpsReshape, flatten_single_row_matrix)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 5);
+    EXPECT_TRUE(flat.shape()[0] == 5);
     EXPECT_TRUE(flat[0] == 1);
     EXPECT_TRUE(flat[4] == 5);
 }
@@ -519,7 +519,7 @@ TEST(OpsReshape, flatten_single_column_matrix)
     auto flat = flatten(matrix);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 5);
+    EXPECT_TRUE(flat.shape()[0] == 5);
     EXPECT_TRUE(flat[0] == 10);
     EXPECT_TRUE(flat[4] == 14);
 }
@@ -544,9 +544,9 @@ TEST(OpsReshape, reshape_rank_increase)
     auto tensor = reshape(vector, Shape{2, 3, 2});
 
     EXPECT_TRUE(tensor.rank() == 3);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 3);
-    EXPECT_TRUE(tensor.shape()(2) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 3);
+    EXPECT_TRUE(tensor.shape()[2] == 2);
     EXPECT_TRUE(tensor.size() == 12);
 }
 
@@ -561,7 +561,7 @@ TEST(OpsReshape, reshape_rank_decrease)
     auto flat = reshape(tensor, Shape{12});
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 12);
+    EXPECT_TRUE(flat.shape()[0] == 12);
     EXPECT_TRUE(flat.size() == 12);
 }
 
@@ -572,8 +572,8 @@ TEST(OpsReshape, reshape_complex_values)
     auto tensor = reshape(vector, Shape{2, 2});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
     EXPECT_TRUE(tensor[0] == std::complex<double>(1, 2));
     EXPECT_TRUE(tensor[3] == std::complex<double>(7, 8));
 }
@@ -589,7 +589,7 @@ TEST(OpsReshape, flatten_asymmetric_tensor)
     auto flat = flatten(tensor);
 
     EXPECT_TRUE(flat.rank() == 1);
-    EXPECT_TRUE(flat.shape()(0) == 15);
+    EXPECT_TRUE(flat.shape()[0] == 15);
     EXPECT_TRUE(flat.size() == 15);
 }
 
@@ -600,8 +600,8 @@ TEST(OpsReshape, reshape_to_rectangular_3x2)
     auto tensor = reshape(vector, Shape{3, 2});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 3);
-    EXPECT_TRUE(tensor.shape()(1) == 2);
+    EXPECT_TRUE(tensor.shape()[0] == 3);
+    EXPECT_TRUE(tensor.shape()[1] == 2);
 }
 
 TEST(OpsReshape, reshape_to_rectangular_2x3)
@@ -611,7 +611,7 @@ TEST(OpsReshape, reshape_to_rectangular_2x3)
     auto tensor = reshape(vector, Shape{2, 3});
 
     EXPECT_TRUE(tensor.rank() == 2);
-    EXPECT_TRUE(tensor.shape()(0) == 2);
-    EXPECT_TRUE(tensor.shape()(1) == 3);
+    EXPECT_TRUE(tensor.shape()[0] == 2);
+    EXPECT_TRUE(tensor.shape()[1] == 3);
 }
 

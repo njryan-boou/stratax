@@ -1,3 +1,5 @@
+// TODO: Validate shift counts to prevent invalid or undefined shifts.
+
 #pragma once
 
 #include <stratax/concepts/Numeric.hpp>
@@ -7,7 +9,7 @@
 
 /** @brief Verifies that two arrays have the same shape before bitwise operations. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 void require_same_bitwise_shape(const A& lhs, const A& rhs)
 {
 	stratax::core::validation::require_same_shape(
@@ -18,7 +20,7 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
 
 /** @brief Applies an element-wise bitwise operation to two integer arrays. */
 template<Array A, typename Op>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
 {
 	require_same_bitwise_shape(lhs, rhs);
@@ -38,8 +40,8 @@ A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
 }
 
 /** @brief Applies an element-wise bitwise operation between an integer array and a scalar. */
-template<Array A, Integer Scalar, typename Op>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar, typename Op>
+requires Integral<typename A::value_type>
 A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
 {
 	A result(lhs.shape());
@@ -54,8 +56,8 @@ A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
 }
 
 /** @brief Applies an element-wise bitwise operation between a scalar and an integer array. */
-template<Integer Scalar, Array A, typename Op>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A, typename Op>
+requires Integral<typename A::value_type>
 A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
 {
 	A result(rhs.shape());
@@ -73,7 +75,7 @@ A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
 
 /** @brief Applies bitwise NOT to each element of an integer array. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator~(const A& value)
 {
 	A result(value.shape());
@@ -91,7 +93,7 @@ A operator~(const A& value)
 
 /** @brief Applies element-wise bitwise AND between two arrays. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator&(const A& lhs, const A& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_and<>{});
@@ -99,7 +101,7 @@ A operator&(const A& lhs, const A& rhs)
 
 /** @brief Applies element-wise bitwise OR between two arrays. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator|(const A& lhs, const A& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_or<>{});
@@ -107,7 +109,7 @@ A operator|(const A& lhs, const A& rhs)
 
 /** @brief Applies element-wise bitwise XOR between two arrays. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator^(const A& lhs, const A& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_xor<>{});
@@ -115,7 +117,7 @@ A operator^(const A& lhs, const A& rhs)
 
 /** @brief Applies element-wise left shift using per-element shift counts. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator<<(const A& lhs, const A& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
@@ -123,7 +125,7 @@ A operator<<(const A& lhs, const A& rhs)
 
 /** @brief Applies element-wise right shift using per-element shift counts. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A operator>>(const A& lhs, const A& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
@@ -132,40 +134,40 @@ A operator>>(const A& lhs, const A& rhs)
 // Array-scalar
 
 /** @brief Applies bitwise AND between each array element and a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A operator&(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
 /** @brief Applies bitwise OR between each array element and a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A operator|(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
 /** @brief Applies bitwise XOR between each array element and a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A operator^(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
 /** @brief Left-shifts each array element by a scalar shift count. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A operator<<(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
 /** @brief Right-shifts each array element by a scalar shift count. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A operator>>(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
@@ -174,40 +176,40 @@ A operator>>(const A& lhs, const Scalar& rhs)
 // Scalar-array (reverse)
 
 /** @brief Applies bitwise AND between a scalar and each array element. */
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A>
+requires Integral<typename A::value_type>
 A operator&(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
 /** @brief Applies bitwise OR between a scalar and each array element. */
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A>
+requires Integral<typename A::value_type>
 A operator|(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
 /** @brief Applies bitwise XOR between a scalar and each array element. */
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A>
+requires Integral<typename A::value_type>
 A operator^(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }
 
 /** @brief Left-shifts a scalar value by each array element as shift count. */
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A>
+requires Integral<typename A::value_type>
 A operator<<(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
 }
 
 /** @brief Right-shifts a scalar value by each array element as shift count. */
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
+template<Integral Scalar, Array A>
+requires Integral<typename A::value_type>
 A operator>>(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
@@ -217,7 +219,7 @@ A operator>>(const Scalar& lhs, const A& rhs)
 
 /** @brief Applies element-wise bitwise AND assignment. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A& operator&=(A& lhs, const A& rhs)
 {
 	lhs = lhs & rhs;
@@ -226,7 +228,7 @@ A& operator&=(A& lhs, const A& rhs)
 
 /** @brief Applies element-wise bitwise OR assignment. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A& operator|=(A& lhs, const A& rhs)
 {
 	lhs = lhs | rhs;
@@ -235,7 +237,7 @@ A& operator|=(A& lhs, const A& rhs)
 
 /** @brief Applies element-wise bitwise XOR assignment. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A& operator^=(A& lhs, const A& rhs)
 {
 	lhs = lhs ^ rhs;
@@ -244,7 +246,7 @@ A& operator^=(A& lhs, const A& rhs)
 
 /** @brief Applies element-wise left-shift assignment. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A& operator<<=(A& lhs, const A& rhs)
 {
 	lhs = lhs << rhs;
@@ -253,7 +255,7 @@ A& operator<<=(A& lhs, const A& rhs)
 
 /** @brief Applies element-wise right-shift assignment. */
 template<Array A>
-requires Integer<typename A::value_type>
+requires Integral<typename A::value_type>
 A& operator>>=(A& lhs, const A& rhs)
 {
 	lhs = lhs >> rhs;
@@ -263,8 +265,8 @@ A& operator>>=(A& lhs, const A& rhs)
 // In-place array-scalar
 
 /** @brief Applies bitwise AND assignment with a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A& operator&=(A& lhs, const Scalar& rhs)
 {
 	lhs = lhs & rhs;
@@ -272,8 +274,8 @@ A& operator&=(A& lhs, const Scalar& rhs)
 }
 
 /** @brief Applies bitwise OR assignment with a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A& operator|=(A& lhs, const Scalar& rhs)
 {
 	lhs = lhs | rhs;
@@ -281,8 +283,8 @@ A& operator|=(A& lhs, const Scalar& rhs)
 }
 
 /** @brief Applies bitwise XOR assignment with a scalar. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A& operator^=(A& lhs, const Scalar& rhs)
 {
 	lhs = lhs ^ rhs;
@@ -290,8 +292,8 @@ A& operator^=(A& lhs, const Scalar& rhs)
 }
 
 /** @brief Applies left-shift assignment with a scalar shift count. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A& operator<<=(A& lhs, const Scalar& rhs)
 {
 	lhs = lhs << rhs;
@@ -299,8 +301,8 @@ A& operator<<=(A& lhs, const Scalar& rhs)
 }
 
 /** @brief Applies right-shift assignment with a scalar shift count. */
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
+template<Array A, Integral Scalar>
+requires Integral<typename A::value_type>
 A& operator>>=(A& lhs, const Scalar& rhs)
 {
 	lhs = lhs >> rhs;
