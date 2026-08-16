@@ -58,12 +58,14 @@ public:
 	{}
 
 	explicit Matrix(const core::Shape& shape)
-		: core::ArrayBase<T>(
-			core::validation::require_rank(
-				shape,
-				2,
-				"Matrix requires a rank-2 shape."))
-	{}
+		: core::ArrayBase<T>(shape)
+	{
+		if (shape.rank() != 2)
+		{
+			throw Exceptions::ShapeError(
+				"Matrix shape must be rank 2.");
+		}
+	}
 
 	Matrix(std::initializer_list<std::initializer_list<T>> list)
 		: core::ArrayBase<T>(initializer_shape(list))

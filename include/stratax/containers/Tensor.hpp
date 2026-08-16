@@ -1,9 +1,12 @@
+// TODO: make normalize flat offset more explicit
+
 #pragma once
 
 #include <array>
 #include <cstddef>
 #include <type_traits>
 #include <vector>
+#include <string>
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/ArrayBase.hpp>

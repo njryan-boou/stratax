@@ -7,7 +7,7 @@
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::container {
 
@@ -21,8 +21,14 @@ public:
 	{}
 
 	explicit Vector(const core::Shape& shape)
-		: core::ArrayBase<T>(core::validation::require_rank(shape, 1, "Shape must be rank 1"))
-	{}
+		: core::ArrayBase<T>(shape)
+	{
+		if (shape.rank() != 1)
+		{
+			throw Exceptions::ShapeError(
+				"Vector shape must be rank 1.");
+		}
+	}
 
 	Vector(std::size_t size, const T& value)
 		: core::ArrayBase<T>(core::Shape({size}), value)
