@@ -17,7 +17,7 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
 		throw Exceptions::ShapeError(
 			"Bitwise operations require arrays of the same shape.");
 	}
-
+}
 /** @brief Applies an element-wise bitwise operation to two integer arrays. */
 template<Array A, typename Op>
 requires Integral<typename A::value_type>

@@ -19,10 +19,10 @@ TEST(PublicApi, top_level_array_type_aliases_are_available)
 
 TEST(PublicApi, top_level_common_algorithms_are_available)
 {
-    const auto tensor = stratax::zeros<double>(stratax::Shape{2, 3});
+    const auto tensor = stratax::zeros<double>(stratax::core::Shape{2, 3});
     const auto identity = stratax::identity<double>(3);
     const auto flat = stratax::flatten(identity);
-    const auto reshaped = stratax::reshape(flat, stratax::Shape{3, 3});
+    const auto reshaped = stratax::reshape(flat, stratax::core::Shape{3, 3});
 
     EXPECT_EQ(tensor.shape(), (stratax::Shape{2, 3}));
     EXPECT_EQ(identity(0, 0), 1.0);

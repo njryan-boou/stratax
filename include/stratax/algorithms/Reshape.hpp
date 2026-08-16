@@ -15,7 +15,7 @@ template<Array A>
 stratax::container::Tensor<typename A::value_type>
 reshape(const A& arr, const stratax::core::Shape& shape)
 {
-	if (arr.size() != shape.size())
+	if (arr.size() != shape.elements())
 	{
 		throw Exceptions::ShapeError(
 			"Reshape size must match original array size.");
