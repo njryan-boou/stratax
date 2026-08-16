@@ -1,19 +1,16 @@
 #pragma once
 
 #include <algorithm>
-#include <cstring>
 #include <cstddef>
 #include <initializer_list>
 #include <iterator>
 #include <limits>
 #include <memory>
 #include <new>
-#include <type_traits>
 #include <utility>
 
 #include <stratax/core/Config.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/concepts/Numeric.hpp>
 
 namespace stratax::core {
 
@@ -25,63 +22,71 @@ class Buffer
     static_assert((Alignment & (Alignment - 1)) == 0);
 
 public:
-    using iterator = T*;
-    using const_iterator = const T*;
+    using value_type = T;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+    using reference = T&;
+    using const_reference = const T&;
+    using pointer = T*;
+    using const_pointer = const T*;
+    using iterator = pointer;
+    using const_iterator = const_pointer;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    Buffer() noexcept
-        : data_(nullptr), size_(0)
+    [[nodiscard]] static constexpr size_type alignment() noexcept
     {
+        return Alignment;
     }
 
-    explicit Buffer(std::size_t size)
+    [[nodiscard]] static constexpr size_type max_size() noexcept
+    {
+        return std::numeric_limits<size_type>::max() / sizeof(value_type);
+    }
+
+    Buffer() noexcept: data_(nullptr), size_(0) {}
+
+    explicit Buffer(size_type size)
         : data_(allocate(size)), size_(size)
     {
-        construct_fill(T{});
+        construct_fill(value_type{});
     }
 
-    Buffer(std::size_t size, const T& value)
+    Buffer(size_type size, const_reference value)
         : data_(allocate(size)), size_(size)
     {
         construct_fill(value);
     }
 
-    Buffer(std::initializer_list<T> list)
+    Buffer(std::initializer_list<value_type> list)
         : data_(allocate(list.size())), size_(list.size())
     {
-        std::size_t i = 0;
+        size_type i = 0;
 
         try {
-            for (const T& value : list) {
+            for (const_reference value : list) {
                 std::construct_at(data_ + i, value);
                 ++i;
             }
         } catch (...) {
-            destroy(i);
+            std::destroy_n(data_, i);
             deallocate(data_);
             throw;
         }
     }
 
     Buffer(const Buffer& other)
-        : data_(allocate(other.size_)), size_(other.size_)
+        : data_(allocate(other.size_)),
+          size_(other.size_)
     {
-        if constexpr (std::is_trivially_copyable_v<T>) {
-            if (size_ != 0) {
-                std::memcpy(data_, other.data_, sizeof(T) * size_);
-            }
-            return;
-        }
-
-        std::size_t i = 0;
-
         try {
-            for (; i < size_; ++i) {
-                std::construct_at(data_ + i, other.data_[i]);
-            }
-        } catch (...) {
-            destroy(i);
+            std::uninitialized_copy_n(
+                other.data_,
+                size_,
+                data_
+            );
+        }
+        catch (...) {
             deallocate(data_);
             throw;
         }
@@ -111,7 +116,10 @@ public:
             return *this;
         }
 
-        destroy(size_);
+        if (size_ != 0) {
+            std::destroy_n(data_, size_);
+        }
+
         deallocate(data_);
 
         data_ = other.data_;
@@ -125,21 +133,17 @@ public:
 
     ~Buffer()
     {
-        destroy(size_);
+        if (size_ != 0) {
+            std::destroy_n(data_, size_);
+        }
+
         deallocate(data_);
     }
 
-    T& operator[](std::size_t index) noexcept
-    {
-        return data_[index];
-    }
+    reference operator[](size_type index) noexcept {return data_[index];}
+    const_reference operator[](size_type index) const noexcept {return data_[index];}
 
-    const T& operator[](std::size_t index) const noexcept
-    {
-        return data_[index];
-    }
-
-    T& front()
+    reference front()
     {
         if (empty()) {
             throw Exceptions::IndexError("Buffer front cannot be accessed when the buffer is empty.");
@@ -148,7 +152,7 @@ public:
         return data_[0];
     }
 
-    const T& front() const
+    const_reference front() const
     {
         if (empty()) {
             throw Exceptions::IndexError("Buffer front cannot be accessed when the buffer is empty.");
@@ -157,7 +161,7 @@ public:
         return data_[0];
     }
 
-    T& back()
+    reference back()
     {
         if (empty()) {
             throw Exceptions::IndexError("Buffer back cannot be accessed when the buffer is empty.");
@@ -166,7 +170,7 @@ public:
         return data_[size_ - 1];
     }
 
-    const T& back() const
+    const_reference back() const
     {
         if (empty()) {
             throw Exceptions::IndexError("Buffer back cannot be accessed when the buffer is empty.");
@@ -175,87 +179,27 @@ public:
         return data_[size_ - 1];
     }
 
-    [[nodiscard]] T* data() noexcept
-    {
-        return data_;
-    }
+    [[nodiscard]] pointer data() noexcept {return data_;}
+    [[nodiscard]] const_pointer data() const noexcept {return data_;}
 
-    [[nodiscard]] const T* data() const noexcept
-    {
-        return data_;
-    }
+    iterator begin() noexcept {return data_;}
+    const_iterator begin() const noexcept {return data_;}
+    const_iterator cbegin() const noexcept {return data_;}
+    iterator end() noexcept {return empty() ? data_ : data_ + size_;}
+    const_iterator end() const noexcept {return empty() ? data_ : data_ + size_;}
+    const_iterator cend() const noexcept {return empty() ? data_ : data_ + size_;}
+    reverse_iterator rbegin() noexcept {return reverse_iterator(end());}
+    const_reverse_iterator rbegin() const noexcept {return const_reverse_iterator(end());}
+    const_reverse_iterator crbegin() const noexcept {return const_reverse_iterator(cend());}
+    reverse_iterator rend() noexcept {return reverse_iterator(begin());}
+    const_reverse_iterator rend() const noexcept {return const_reverse_iterator(begin());}
+    const_reverse_iterator crend() const noexcept {return const_reverse_iterator(cbegin());}
 
-    iterator begin() noexcept
-    {
-        return data_;
-    }
+    [[nodiscard]] size_type size() const noexcept {return size_;}
 
-    const_iterator begin() const noexcept
-    {
-        return data_;
-    }
+    [[nodiscard]] bool empty() const noexcept {return size_ == 0;}
 
-    const_iterator cbegin() const noexcept
-    {
-        return data_;
-    }
-
-    iterator end() noexcept
-    {
-        return empty() ? data_ : data_ + size_;
-    }
-
-    const_iterator end() const noexcept
-    {
-        return empty() ? data_ : data_ + size_;
-    }
-
-    const_iterator cend() const noexcept
-    {
-        return empty() ? data_ : data_ + size_;
-    }
-
-    reverse_iterator rbegin() noexcept
-    {
-        return reverse_iterator(end());
-    }
-
-    const_reverse_iterator rbegin() const noexcept
-    {
-        return const_reverse_iterator(end());
-    }
-
-    const_reverse_iterator crbegin() const noexcept
-    {
-        return const_reverse_iterator(cend());
-    }
-
-    reverse_iterator rend() noexcept
-    {
-        return reverse_iterator(begin());
-    }
-
-    const_reverse_iterator rend() const noexcept
-    {
-        return const_reverse_iterator(begin());
-    }
-
-    const_reverse_iterator crend() const noexcept
-    {
-        return const_reverse_iterator(cbegin());
-    }
-
-    [[nodiscard]] std::size_t size() const noexcept
-    {
-        return size_;
-    }
-
-    [[nodiscard]] bool empty() const noexcept
-    {
-        return size_ == 0;
-    }
-
-    void fill(const T& value)
+    void fill(const_reference value)
     {
         std::fill_n(data_, size_, value);
     }
@@ -267,28 +211,28 @@ public:
     }
 
 private:
-    T* data_;
-    std::size_t size_;
+    pointer data_;
+    size_type size_;
 
-    static T* allocate(std::size_t space)
+    static pointer allocate(size_type space)
     {
         if (space == 0) {
             return nullptr;
         }
 
-        if (space > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
+        if (space > max_size()) {
             throw std::bad_array_new_length();
         }
 
-        return static_cast<T*>(
+        return static_cast<pointer>(
             ::operator new(
-                sizeof(T) * space,
+                sizeof(value_type) * space,
                 std::align_val_t{Alignment}
             )
         );
     }
 
-    static void deallocate(T* ptr) noexcept
+    static void deallocate(pointer ptr) noexcept
     {
         if (ptr == nullptr) {
             return;
@@ -300,26 +244,16 @@ private:
         );
     }
 
-    void construct_fill(const T& value)
+    void construct_fill(const_reference value)
     {
         try {
             std::uninitialized_fill_n(data_, size_, value);
         } catch (...) {
             deallocate(data_);
-            data_ = nullptr;
-            size_ = 0;
             throw;
         }
     }
 
-    void destroy(std::size_t count) noexcept
-    {
-        if constexpr (!std::is_trivially_destructible_v<T>) {
-            for (std::size_t index = 0; index < count; ++index) {
-                std::destroy_at(data_ + index);
-            }
-        }
-    }
 };
 
 }
