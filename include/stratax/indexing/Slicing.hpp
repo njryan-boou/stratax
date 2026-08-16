@@ -1,3 +1,5 @@
+// TODO: morre explicit error messages for tensor slice out of bounds
+
 #pragma once
 
 #include <stratax/containers/Matrix.hpp>
@@ -168,10 +170,11 @@ slice(
 
 	std::array<stratax::core::Slice, sizeof...(Slices)> ranges{ slices... };
     
-	stratax::core::validation::require_rank(
-		ranges.size(),
-		tensor.rank(),
-		"Slice rank must match tensor rank.");
+	if (ranges.size() != tensor.rank())
+	{
+		throw Exceptions::IndexError(
+			"Tensor slice rank must match tensor rank.");
+	}
 
 	std::array<stratax::indexing::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
 	std::array<std::size_t, sizeof...(Slices)> out_dims{};
