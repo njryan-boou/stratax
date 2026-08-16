@@ -13,12 +13,14 @@
 
 #include <stratax/core/Config.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/concepts/Numeric.hpp>
 
 namespace stratax::core {
 
-template<typename T, std::size_t Alignment = config::default_alignment>
+template<Numeric T, std::size_t Alignment = config::default_alignment>
 class Buffer
 {
+
     static_assert(Alignment >= alignof(T));
     static_assert((Alignment & (Alignment - 1)) == 0);
 
