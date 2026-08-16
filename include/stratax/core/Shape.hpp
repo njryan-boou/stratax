@@ -7,7 +7,7 @@
 #include <vector>
 
 #include <stratax/core/Buffer.hpp>
-#include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Normalize.hpp>
 
 namespace stratax::core {
@@ -42,7 +42,12 @@ public:
 		std::size_t prod = 1;
 		for (std::size_t dim : dims_)
 		{
-			prod = validation::checked_multiply(prod, dim, "Shape elements overflow");
+			if (prod > std::numeric_limits<std::size_t>::max() / dim)
+			{
+				throw Exceptions::DimensionError(
+					"Shape has too many elements to fit in a size_t.");
+			}
+			prod *= dim;
 		}
 		return prod;
 	}
