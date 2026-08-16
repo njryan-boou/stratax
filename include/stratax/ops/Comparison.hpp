@@ -4,12 +4,12 @@
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
-/** @brief Compares two array-like containers for exact equality. */
 template<Array A>
 [[nodiscard]] bool operator==(const A& lhs, const A& rhs)
 {
-	if (!stratax::core::validation::same_shape(lhs, rhs))
+	if (lhs.shape() != rhs.shape())
 	{
 		return false;
 	}
@@ -28,7 +28,6 @@ template<Array A>
 	return true;
 }
 
-/** @brief Compares two array-like containers for inequality. */
 template<Array A>
 [[nodiscard]] bool operator!=(const A& lhs, const A& rhs)
 {

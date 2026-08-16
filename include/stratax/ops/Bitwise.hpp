@@ -12,11 +12,11 @@ template<Array A>
 requires Integral<typename A::value_type>
 void require_same_bitwise_shape(const A& lhs, const A& rhs)
 {
-	stratax::core::validation::require_same_shape(
-		lhs,
-		rhs,
-		"Bitwise operands must have the same shape.");
-}
+	if (rhs.shape() != lhs.shape())
+	{
+		throw Exceptions::ShapeError(
+			"Bitwise operations require arrays of the same shape.");
+	}
 
 /** @brief Applies an element-wise bitwise operation to two integer arrays. */
 template<Array A, typename Op>
