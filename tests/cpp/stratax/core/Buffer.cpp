@@ -50,4 +50,9 @@ TEST(BufferConstructor, CopyConstructor)
 
     EXPECT_EQ(copy.size(), original.size());
     EXPECT_NE(copy.data(), original.data());
+
+    copy[0] = 100;
+    EXPECT_EQ(copy[0], 100);
+    EXPECT_EQ(original[0], 1);
+
 }
