@@ -38,7 +38,7 @@ public:
     explicit Buffer(std::size_t size)
         : data_(allocate(size)), size_(size)
     {
-        construct_default();
+        construct_fill(T{});
     }
 
     Buffer(std::size_t size, const T& value)
@@ -304,18 +304,6 @@ private:
     {
         try {
             std::uninitialized_fill_n(data_, size_, value);
-        } catch (...) {
-            deallocate(data_);
-            data_ = nullptr;
-            size_ = 0;
-            throw;
-        }
-    }
-
-    void construct_default()
-    {
-        try {
-            std::uninitialized_value_construct_n(data_, size_);
         } catch (...) {
             deallocate(data_);
             data_ = nullptr;
