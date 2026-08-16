@@ -6,7 +6,7 @@
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
 
@@ -15,10 +15,11 @@ template<Array A>
 stratax::container::Tensor<typename A::value_type>
 reshape(const A& arr, const stratax::core::Shape& shape)
 {
-	stratax::core::validation::require_equal_size(
-		arr.size(),
-		shape.elements(),
-		"Reshape requires the new shape to contain the same number of elements.");
+	if (arr.size() != shape.size())
+	{
+		throw Exceptions::ShapeError(
+			"Reshape size must match original array size.");
+	}
 
 	stratax::container::Tensor<typename A::value_type> result(shape);
 	std::copy(arr.begin(), arr.end(), result.begin());
