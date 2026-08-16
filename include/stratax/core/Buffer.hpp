@@ -17,7 +17,7 @@
 
 namespace stratax::core {
 
-template<Numeric T, std::size_t Alignment = config::default_alignment>
+template<typename T, std::size_t Alignment = config::default_alignment>
 class Buffer
 {
 

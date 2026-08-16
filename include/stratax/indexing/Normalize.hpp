@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <string>
 
 #include <stratax/exceptions/Exceptions.hpp>
 
@@ -16,7 +17,8 @@ inline std::size_t normalize_index(
 
         if (normalized >= size)
         {
-            throw Exceptions::IndexError("Index is out of bounds.");
+            throw Exceptions::IndexError("Index " + std::to_string(index) + 
+                " is out of bounds for array with size " + std::to_string(size) + ".");
         }
 
         return normalized;
@@ -27,7 +29,8 @@ inline std::size_t normalize_index(
 
     if (magnitude > size)
     {
-        throw Exceptions::IndexError("Index is out of bounds.");
+        throw Exceptions::IndexError("Index " + std::to_string(index) + 
+            " is out of bounds for array with size " + std::to_string(size) + ".");
     }
 
     return size - magnitude;

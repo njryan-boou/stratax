@@ -13,7 +13,7 @@
 
 namespace stratax::core {
 
-template<Numeric T>
+template<typename T>
 class ArrayBase
 {
 public:
