@@ -32,7 +32,7 @@ TEST(BufferConstructor, Size)
 
 TEST(BufferConstructor, ListConstructor)
 {
-    Buffer<int> buffer({1, 2, 3, 4, 5});
+    Buffer<int> buffer{1, 2, 3, 4, 5};
     
     EXPECT_EQ(buffer.size(), 5);
     EXPECT_NE(buffer.data(), nullptr);
@@ -54,5 +54,19 @@ TEST(BufferConstructor, CopyConstructor)
     copy[0] = 100;
     EXPECT_EQ(copy[0], 100);
     EXPECT_EQ(original[0], 1);
+}
 
+TEST(BufferConstructor, MoveConstructor)
+{
+    Buffer<int> source{1, 2, 3};
+
+    auto* original_data = source.data();
+
+    Buffer<int> destination(std::move(source));
+
+    EXPECT_EQ(destination.size(), 3);
+    EXPECT_EQ(destination.data(), original_data);
+    EXPECT_EQ(source.size(), 0);
+    EXPECT_EQ(source.data(), nullptr);
+    EXPECT_EQ(source.empty(), true);
 }
