@@ -6,8 +6,6 @@
 
 using namespace stratax::core;
 
-// Constructor Tests
-
 TEST(BufferConstructor, DefaultConstructor)
 {
     Buffer<int> buffer;
@@ -71,7 +69,7 @@ TEST(BufferConstructor, MoveConstructor)
     EXPECT_EQ(source.empty(), true);
 }
 
-TEST(BufferConstructor, CopyAssignmentConstructor)
+TEST(BufferAssignment, CopyAssignment)
 {
     Buffer<int> source{1, 2, 3};
     Buffer<int> destination{4, 5};
@@ -92,7 +90,7 @@ TEST(BufferConstructor, CopyAssignmentConstructor)
     EXPECT_EQ(source[0], 1);
 }
 
-TEST(BufferConstructor, SelfCopyAssignmentConstructor)
+TEST(BufferAssignment, SelfCopyAssignment)
 {
     Buffer<int> buffer{1, 2, 3};
 
@@ -101,7 +99,7 @@ TEST(BufferConstructor, SelfCopyAssignmentConstructor)
     EXPECT_EQ(buffer.size(), 3);
 }
 
-TEST(BufferConstructor, MoveAssignmentConstructor)
+TEST(BufferAssignment, MoveAssignment)
 {
     Buffer<int> source{1, 2, 3};
     Buffer<int> destination{4, 5};
@@ -120,4 +118,20 @@ TEST(BufferConstructor, MoveAssignmentConstructor)
     EXPECT_EQ(source.size(), 0);
     EXPECT_EQ(source.data(), nullptr);
     EXPECT_TRUE(source.empty());
+}
+
+TEST(BufferAssignment, SelfMove)
+{
+    Buffer<int> buffer{1, 2, 3};
+
+    auto* original_data = buffer.data();
+
+    buffer = std::move(buffer);
+
+    EXPECT_EQ(buffer.size(), 3);
+    EXPECT_EQ(buffer.data(), original_data);
+
+    EXPECT_EQ(buffer[0], 1);
+    EXPECT_EQ(buffer[1], 2);
+    EXPECT_EQ(buffer[2], 3);
 }
