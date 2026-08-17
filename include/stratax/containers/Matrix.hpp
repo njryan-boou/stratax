@@ -32,14 +32,11 @@ private:
 			}
 		}
 
-		return core::Shape({rows, cols});
+		return core::Shape{rows, cols};
 	}
 
 protected:
-	using core::ArrayBase<T>::buffer_;
 	using core::ArrayBase<T>::normalized_flat_offset;
-	using core::ArrayBase<T>::shape_;
-	using core::ArrayBase<T>::flat_offset;
 
 public:
 	using core::ArrayBase<T>::at;
@@ -76,53 +73,44 @@ public:
 		{
 			for (const auto& value : row)
 			{
-				buffer_[index++] = value;
+				(*this)[index++] = value;
 			}
 		}
 	}
 
 	[[nodiscard]] std::size_t rows() const noexcept
 	{
-		return shape_[0];
+		return this->shape()[0];
 	}
 
 	[[nodiscard]] std::size_t cols() const noexcept
 	{
-		return shape_[1];
+		return this->shape()[1];
 	}
 
 	T& operator()(std::size_t row, std::size_t col)
 	{
-		return buffer_[row * cols() + col];
+    	return (*this)[row * cols() + col];
 	}
 
 	const T& operator()(std::size_t row, std::size_t col) const
 	{
-		return buffer_[row * cols() + col];
+    	return (*this)[row * cols() + col];
 	}
 
 	T& at(std::ptrdiff_t row, std::ptrdiff_t col)
 	{
-		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
+		return (*this)[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
 	const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
 	{
-		return buffer_[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
+		return (*this)[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
 	}
 
 	void swap(Matrix& other) noexcept
 	{
-		using std::swap;
-
-		swap(this->shape_, other.shape_);
-		swap(this->strides_, other.strides_);
-		swap(this->buffer_, other.buffer_);
-	}
-
-	friend void swap(Matrix& lhs, Matrix& rhs) noexcept
-	{
-		lhs.swap(rhs);
+		core::ArrayBase<T>::swap(other);
 	}
 };
 
