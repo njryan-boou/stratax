@@ -28,7 +28,7 @@ TEST(BufferConstructor, Size)
     }
 }
 
-TEST(BufferConstructor, ListConstructor)
+TEST(BufferConstructor, List)
 {
     Buffer<int> buffer{1, 2, 3, 4, 5};
     
@@ -41,7 +41,7 @@ TEST(BufferConstructor, ListConstructor)
     }
 }
 
-TEST(BufferConstructor, CopyConstructor)
+TEST(BufferConstructor, Copy)
 {
     Buffer<int> original{1, 2, 3};
     Buffer<int> copy(original);
@@ -54,7 +54,7 @@ TEST(BufferConstructor, CopyConstructor)
     EXPECT_EQ(original[0], 1);
 }
 
-TEST(BufferConstructor, MoveConstructor)
+TEST(BufferConstructor, Move)
 {
     Buffer<int> source{1, 2, 3};
 
@@ -120,7 +120,7 @@ TEST(BufferAssignment, MoveAssignment)
     EXPECT_TRUE(source.empty());
 }
 
-TEST(BufferAssignment, SelfMove)
+TEST(BufferAssignment, SelfMoveAssignment)
 {
     Buffer<int> buffer{1, 2, 3};
 
@@ -134,4 +134,60 @@ TEST(BufferAssignment, SelfMove)
     EXPECT_EQ(buffer[0], 1);
     EXPECT_EQ(buffer[1], 2);
     EXPECT_EQ(buffer[2], 3);
+}
+
+TEST(BufferMeta, Front)
+{
+    Buffer<int> buffer{1, 2, 3, 4};
+
+    EXPECT_EQ(buffer.front(), 1);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<Buffer<int>&>().front()),
+            int&
+        >
+    );
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Buffer<int>&>().front()),
+            const int&
+        >
+    );
+}
+
+TEST(BufferMeta, Back)
+{
+    Buffer<int> buffer{1, 2, 3, 4};
+
+    EXPECT_EQ(buffer.back(), 4);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<Buffer<int>&>().front()),
+            int&
+        >
+    );
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Buffer<int>&>().back()),
+            const int&
+        >
+    );
+}
+
+TEST(BufferMeta, FrontEmpty)
+{
+    Buffer<int> buffer;
+
+    EXPECT_THROW(buffer.front(), Exceptions::IndexError);
+}
+
+TEST(BufferMeta, BackEmpty)
+{
+    Buffer<int> buffer;
+
+    EXPECT_THROW(buffer.back(), Exceptions::IndexError);
 }
