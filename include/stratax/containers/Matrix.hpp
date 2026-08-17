@@ -16,12 +16,25 @@ template<typename T>
 requires Numeric<T>
 class Matrix : public core::ArrayBase<T>
 {
+public:
+	using value_type = typename core::ArrayBase<T>::value_type;
+	using size_type = typename core::ArrayBase<T>::size_type;
+	using difference_type = typename core::ArrayBase<T>::difference_type;
+	using reference = typename core::ArrayBase<T>::reference;
+	using const_reference = typename core::ArrayBase<T>::const_reference;
+	using pointer = typename core::ArrayBase<T>::pointer;
+	using const_pointer = typename core::ArrayBase<T>::const_pointer;
+	using iterator = typename core::ArrayBase<T>::iterator;
+	using const_iterator = typename core::ArrayBase<T>::const_iterator;
+	using reverse_iterator = typename core::ArrayBase<T>::reverse_iterator;
+	using const_reverse_iterator = typename core::ArrayBase<T>::const_reverse_iterator;
+
 private:
 	static core::Shape initializer_shape(
-		std::initializer_list<std::initializer_list<T>> list)
+		std::initializer_list<std::initializer_list<value_type>> list)
 	{
-		const std::size_t rows = list.size();
-		const std::size_t cols = rows == 0 ? 0 : list.begin()->size();
+		const size_type rows = list.size();
+		const size_type cols = rows == 0 ? 0 : list.begin()->size();
 
 		for (const auto& row : list)
 		{
@@ -43,15 +56,12 @@ public:
 
 	Matrix() : Matrix(0, 0) {}
 
-	Matrix(std::size_t rows, std::size_t cols)
-		: core::ArrayBase<T>(
-			core::Shape({rows, cols}))
+	Matrix(size_type rows, size_type cols)
+		: core::ArrayBase<T>(core::Shape({rows, cols}))
 	{}
 
-	Matrix(std::size_t rows, std::size_t cols, const T& value)
-		: core::ArrayBase<T>(
-			core::Shape({rows, cols}),
-			value)
+	Matrix(size_type rows, size_type cols, const_reference value)
+		: core::ArrayBase<T>(core::Shape({rows, cols}), value)
 	{}
 
 	explicit Matrix(const core::Shape& shape)
@@ -64,10 +74,10 @@ public:
 		}
 	}
 
-	Matrix(std::initializer_list<std::initializer_list<T>> list)
+	Matrix(std::initializer_list<std::initializer_list<value_type>> list)
 		: core::ArrayBase<T>(initializer_shape(list))
 	{
-		std::size_t index = 0;
+		size_type index = 0;
 
 		for (const auto& row : list)
 		{
@@ -78,40 +88,16 @@ public:
 		}
 	}
 
-	[[nodiscard]] std::size_t rows() const noexcept
-	{
-		return this->shape()[0];
-	}
+	[[nodiscard]] size_type rows() const noexcept {return this->shape()[0];}
+	[[nodiscard]] size_type cols() const noexcept {return this->shape()[1];}
 
-	[[nodiscard]] std::size_t cols() const noexcept
-	{
-		return this->shape()[1];
-	}
+	reference operator()(size_type row, size_type col) {return (*this)[row * cols() + col];}
+	const_reference operator()(size_type row, size_type col) const {return (*this)[row * cols() + col];}
 
-	T& operator()(std::size_t row, std::size_t col)
-	{
-    	return (*this)[row * cols() + col];
-	}
+	reference at(difference_type row, difference_type col) {return (*this)[normalized_flat_offset(std::array<difference_type, 2>{row, col})];}
+	const_reference at(difference_type row, difference_type col) const {return (*this)[normalized_flat_offset(std::array<difference_type, 2>{row, col})];}
 
-	const T& operator()(std::size_t row, std::size_t col) const
-	{
-    	return (*this)[row * cols() + col];
-	}
-
-	T& at(std::ptrdiff_t row, std::ptrdiff_t col)
-	{
-		return (*this)[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
-	}
-
-	const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const
-	{
-		return (*this)[normalized_flat_offset(std::array<std::ptrdiff_t, 2>{row, col})];
-	}
-
-	void swap(Matrix& other) noexcept
-	{
-		core::ArrayBase<T>::swap(other);
-	}
+	void swap(Matrix& other) noexcept {core::ArrayBase<T>::swap(other);}
 };
 
 } // namespace stratax::container

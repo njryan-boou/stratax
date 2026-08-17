@@ -12,100 +12,93 @@ Header: `include/stratax/containers/Vector.hpp`
 
 ## Overview
 
-`Vector<T>` is Stratax's rank-1 owning array container for numeric types.
+`stratax::container::Vector<T>` is a one-dimensional owning array for types
+that satisfy the `Numeric` concept. It derives from `core::ArrayBase<T>` and
+uses the base class's contiguous `Buffer`, `Shape`, and row-major `Strides`
+state.
 
-It stores values in contiguous memory and pairs that storage with `Shape` and `Strides` metadata to participate in the common container model used across Stratax arrays.
+A normally constructed vector always has rank one. This includes an empty
+vector, whose shape is `{0}` and whose size is zero.
+
+```cpp
+stratax::container::Vector<double> values{1.0, 2.0, 3.0};
+
+values[0] = 4.0; // unchecked access
+values.at(-1);   // 3.0; negative indices count from the end
+values.fill(2.0);
+```
 
 ---
 
 ## Responsibilities
 
-The `Vector` class is responsible for:
+`Vector<T>` is responsible for:
 
-- Owning contiguous rank-1 element storage
-- Exposing shape and stride metadata
-- Providing checked and unchecked element access
-- Providing flat checked signed indexing via `at(index)`
-- Providing iterator access over contiguous storage
-- Supporting copy/move ownership semantics
+- Enforcing a rank-one shape at construction
+- Providing convenient size, fill-value, shape, and initializer-list constructors
+- Exposing the common owning-array interface inherited from `ArrayBase<T>`
+- Supporting constant-time member and argument-dependent `swap`
 
-The `Vector` class is **not** responsible for:
+The inherited `ArrayBase<T>` interface provides:
 
-- Rank-2 or rank-N multidimensional storage semantics
-- Broadcasting logic
-- High-level numerical algorithms
-- Shape transformation outside the rank-1 contract
+- Contiguous storage ownership
+- Shape and stride metadata
+- Checked signed flat indexing through `at(index)`
+- Unchecked flat indexing through `operator[]`
+- Forward and reverse iteration
+- `front()`, `back()`, `data()`, and `fill()`
+- Copy and move value semantics
+
+`Vector<T>` does not provide multidimensional indexing, broadcasting, or
+rank-changing operations directly. Those operations belong to other
+containers or algorithms.
 
 ---
 
-## Relationships
+## Representation and Invariants
 
 ```text
 Vector<T>
-│
-├── shape_   : core::Shape
-├── strides_ : core::Strides
-└── buffer_  : core::Buffer<T>
+└── core::ArrayBase<T>
+    ├── core::Buffer<T> buffer_
+    ├── core::Shape     shape_
+    └── core::Strides   strides_
 ```
 
-Depends on:
+For every normally constructed vector:
 
-- Buffer
-- Shape
-- Strides
-- Validation helpers (`validation::require_rank`)
-- Indexing helpers (`stratax::indexing::normalize_index`)
-- Exceptions (`Exceptions::IndexError`, `Exceptions::DimensionError`)
+- `rank() == 1`
+- `shape() == Shape{size()}`
+- `strides() == Strides{1}`
+- `size() == shape().elements()`
+- Elements occupy one contiguous memory range
 
-Used by:
-
-- Matrix/Tensor conversion paths
-- Generic Stratax container utilities
-
-Related classes:
-
-- Shape
-- Strides
-- Buffer
-- Matrix
-- Tensor
+As with other movable containers, a moved-from vector remains destructible and
+assignable, but its previous contents and layout must not be relied upon.
 
 ---
 
-## Internal Data
+## Type Aliases
 
-| Member | Description |
-| ------- | ----------- |
-| `core::Shape shape_` | Shape metadata (typically rank 1, rank 0 for default state) |
-| `core::Strides strides_` | Stride metadata for the vector layout |
-| `core::Buffer<T> buffer_` | Contiguous element storage |
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- `size()` equals `shape().elements()`.
-- For constructed rank-1 vectors, `rank() == 1` and `strides().rank() == 1`.
-- `data()` is contiguous and compatible with pointer iteration.
-- `at(index)` performs bounds validation and supports negative indexing.
-- `operator[]` and `operator()` are unchecked.
-
----
-
-## Public Interface
-
-## Iterator Aliases
+`Vector<T>` republishes the complete container alias set from
+`core::ArrayBase<T>`:
 
 ```cpp
-using iterator = typename core::Buffer<T>::iterator;
-using const_iterator = typename core::Buffer<T>::const_iterator;
-using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
-using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+using value_type = typename core::ArrayBase<T>::value_type;
+using size_type = typename core::ArrayBase<T>::size_type;
+using difference_type = typename core::ArrayBase<T>::difference_type;
+using reference = typename core::ArrayBase<T>::reference;
+using const_reference = typename core::ArrayBase<T>::const_reference;
+using pointer = typename core::ArrayBase<T>::pointer;
+using const_pointer = typename core::ArrayBase<T>::const_pointer;
+using iterator = typename core::ArrayBase<T>::iterator;
+using const_iterator = typename core::ArrayBase<T>::const_iterator;
+using reverse_iterator = typename core::ArrayBase<T>::reverse_iterator;
+using const_reverse_iterator = typename core::ArrayBase<T>::const_reverse_iterator;
 ```
 
-`Vector<T>` mirrors `Buffer<T>` iterator aliases for generic contiguous-storage traversal.
+These aliases allow generic contiguous-container code to use `Vector<T>`
+without depending directly on `Buffer<T>`.
 
 ---
 
@@ -114,38 +107,25 @@ using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
 ### Default Constructor
 
 ```cpp
-Vector() noexcept;
+Vector();
 ```
 
-Constructs an empty default vector state (rank 0).
+Constructs an empty rank-one vector with shape `{0}` and strides `{1}`.
 
-Complexity
-
-- O(1)
-
-Throws
-
-- None
-
----
+Complexity: O(1).
 
 ### Size Constructor
 
 ```cpp
-explicit Vector(std::size_t size);
+explicit Vector(size_type size);
 ```
 
-Constructs a rank-1 vector of `size` default-initialized elements.
+Constructs a rank-one vector with `size` value-initialized elements. For
+arithmetic types, value initialization produces zero.
 
-Complexity
+Complexity: O(size).
 
-- O(n)
-
-Throws
-
-- `std::bad_alloc`
-
----
+May throw `std::bad_alloc` or an exception from `value_type` construction.
 
 ### Shape Constructor
 
@@ -153,349 +133,149 @@ Throws
 explicit Vector(const core::Shape& shape);
 ```
 
-Constructs from a validated rank-1 shape.
+Constructs a value-initialized vector from `shape`. The shape must have exactly
+one dimension; both `Shape{0}` and nonzero rank-one shapes are valid.
 
-Complexity
+Complexity: O(shape.elements()).
 
-- O(n)
+Throws:
 
-Throws
-
-- `Exceptions::DimensionError` if `shape` is not rank 1
-- `std::bad_alloc`
-
----
+- `Exceptions::ShapeError` when `shape.rank() != 1`
+- `std::bad_alloc` when allocation fails
+- Any exception propagated from `value_type` construction
 
 ### Fill Constructor
 
 ```cpp
-Vector(std::size_t size, const T& value);
+Vector(size_type size, const_reference value);
 ```
 
-Constructs a rank-1 vector of `size` elements, all initialized to `value`.
+Constructs a rank-one vector containing `size` copies of `value`.
 
-Complexity
+Complexity: O(size).
 
-- O(n)
+May throw `std::bad_alloc` or an exception from the `value_type` copy
+constructor.
 
-Throws
-
-- `std::bad_alloc`
-
----
-
-### Initializer List Constructor
+### Initializer-list Constructor
 
 ```cpp
-Vector(std::initializer_list<T> list);
+Vector(std::initializer_list<value_type> list);
 ```
 
-Constructs a rank-1 vector from initializer-list values.
+Copies the list elements into contiguous storage in their original order. An
+empty list produces a rank-one vector with shape `{0}`.
 
-Complexity
+Complexity: O(list.size()).
 
-- O(n)
-
-Throws
-
-- `std::bad_alloc`
+May throw `std::bad_alloc` or an exception from the `value_type` copy
+constructor.
 
 ---
 
-### Copy Constructor
+## Copy and Move Semantics
+
+The compiler-generated special members use `ArrayBase<T>` semantics:
 
 ```cpp
 Vector(const Vector&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-### Move Constructor
-
-```cpp
-Vector(Vector&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-### Destructor
-
-```cpp
+Vector(Vector&&) = default;
+Vector& operator=(const Vector&) = default;
+Vector& operator=(Vector&&) = default;
 ~Vector() = default;
 ```
 
-Complexity
-
-- O(n)
-
----
-
-## Assignment Operators
-
-## Copy Assignment
-
-```cpp
-Vector& operator=(const Vector&) = default;
-```
-
-Complexity
-
-- O(n)
+Copying duplicates the element storage and metadata. Moving transfers their
+ownership. Copy operations are O(n), while moves are O(1), apart from
+destroying any state replaced by move assignment.
 
 ---
 
-## Move Assignment
+## Inherited Container Interface
+
+### Metadata
 
 ```cpp
-Vector& operator=(Vector&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-## Methods
-
-## size()
-
-```cpp
-[[nodiscard]] std::size_t size() const noexcept;
-```
-
-Returns total number of elements.
-
-Complexity
-
-- O(1)
-
----
-
-## rank()
-
-```cpp
-[[nodiscard]] std::size_t rank() const noexcept;
-```
-
-Returns the shape rank.
-
-Complexity
-
-- O(1)
-
----
-
-## empty()
-
-```cpp
+[[nodiscard]] size_type size() const noexcept;
 [[nodiscard]] bool empty() const noexcept;
+[[nodiscard]] size_type rank() const noexcept;
+[[nodiscard]] const core::Shape& shape() const noexcept;
+[[nodiscard]] const core::Strides& strides() const noexcept;
 ```
 
-Returns whether the vector contains no elements.
+All metadata queries are O(1).
 
-Complexity
-
-- O(1)
-
----
-
-## shape()
+### Element Access
 
 ```cpp
-const stratax::core::Shape& shape() const noexcept;
+reference operator[](size_type index) noexcept;
+const_reference operator[](size_type index) const noexcept;
+
+reference at(difference_type index);
+const_reference at(difference_type index) const;
+
+reference front();
+const_reference front() const;
+reference back();
+const_reference back() const;
+
+[[nodiscard]] pointer data() noexcept;
+[[nodiscard]] const_pointer data() const noexcept;
 ```
 
-Returns vector shape metadata.
+`operator[]` is unchecked and requires `index < size()`. `at()` checks its
+argument and accepts indices in `[-size(), size())`; negative values count from
+the end. It throws `Exceptions::IndexError` when the index is invalid.
 
-Complexity
+`front()` and `back()` also throw `Exceptions::IndexError` for an empty vector.
+All element-access operations are O(1).
 
-- O(1)
+`Vector` does not define `operator()`. Use `operator[]` for unchecked access or
+`at()` for checked access.
 
----
-
-## strides()
+### Iterators
 
 ```cpp
-const stratax::core::Strides& strides() const noexcept;
+iterator begin() noexcept;
+const_iterator begin() const noexcept;
+const_iterator cbegin() const noexcept;
+iterator end() noexcept;
+const_iterator end() const noexcept;
+const_iterator cend() const noexcept;
+
+reverse_iterator rbegin() noexcept;
+const_reverse_iterator rbegin() const noexcept;
+const_reverse_iterator crbegin() const noexcept;
+reverse_iterator rend() noexcept;
+const_reverse_iterator rend() const noexcept;
+const_reverse_iterator crend() const noexcept;
 ```
 
-Returns vector stride metadata.
+Each iterator lookup is O(1). Traversing the complete vector is O(size()).
 
-Complexity
-
-- O(1)
-
----
-
-## at()
+### Fill
 
 ```cpp
-T& at(std::ptrdiff_t index);
-const T& at(std::ptrdiff_t index) const;
+void fill(const_reference value);
 ```
 
-Returns an element with bounds checking. Negative indices are normalized from the end.
-
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
+Assigns `value` to every element in O(size()).
 
 ---
 
-## front()
-
-```cpp
-T& front();
-const T& front() const;
-```
-
-Returns first element.
-
-Preconditions
-
-- Vector must not be empty.
-
-Complexity
-
-- O(1)
-
----
-
-## back()
-
-```cpp
-T& back();
-const T& back() const;
-```
-
-Returns last element.
-
-Preconditions
-
-- Vector must not be empty.
-
-Complexity
-
-- O(1)
-
----
-
-## data()
-
-```cpp
-[[nodiscard]] T* data() noexcept;
-[[nodiscard]] const T* data() const noexcept;
-```
-
-Returns raw pointer to contiguous storage.
-
-Complexity
-
-- O(1)
-
----
-
-## Iterators
-
-```cpp
-[[nodiscard]] iterator begin() noexcept;
-[[nodiscard]] const_iterator begin() const noexcept;
-[[nodiscard]] const_iterator cbegin() const noexcept;
-[[nodiscard]] iterator end() noexcept;
-[[nodiscard]] const_iterator end() const noexcept;
-[[nodiscard]] const_iterator cend() const noexcept;
-[[nodiscard]] reverse_iterator rbegin() noexcept;
-[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-[[nodiscard]] reverse_iterator rend() noexcept;
-[[nodiscard]] const_reverse_iterator rend() const noexcept;
-[[nodiscard]] const_reverse_iterator crend() const noexcept;
-```
-
-Provides forward and reverse iteration over contiguous elements.
-
-Complexity
-
-- O(1)
-
----
-
-## fill()
-
-```cpp
-void fill(const T& value);
-```
-
-Assigns `value` to every element.
-
-Complexity
-
-- O(n)
-
----
-
-## swap()
+## Swap
 
 ```cpp
 void swap(Vector& other) noexcept;
+friend void swap(Vector& lhs, Vector& rhs) noexcept;
 ```
 
-Exchanges shape, strides, and storage with another vector.
-
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator()
+Both overloads exchange the buffer, shape, and strides in O(1). The non-member
+overload supports argument-dependent lookup:
 
 ```cpp
-T& operator()(std::size_t index) noexcept;
-const T& operator()(std::size_t index) const noexcept;
-```
-
-Unchecked flat indexing.
-
-Complexity
-
-- O(1)
-
----
-
-## operator[]
-
-```cpp
-T& operator[](std::size_t index) noexcept;
-const T& operator[](std::size_t index) const noexcept;
-```
-
-Unchecked flat indexing.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-T& at(std::ptrdiff_t index);
-const T& at(std::ptrdiff_t index) const;
+using std::swap;
+swap(lhs, rhs);
 ```
 
 ---
@@ -505,17 +285,14 @@ const T& at(std::ptrdiff_t index) const;
 | Operation | Complexity |
 | --------- | ----------: |
 | Default construction | O(1) |
-| Size/shape/fill/list construction | O(n) |
-| Copy construction | O(n) |
+| Size, fill, or list construction | O(n) |
+| Shape construction | O(shape.elements()) |
+| Copy construction or assignment | O(n) |
 | Move construction | O(1) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
-| Destruction | O(n) |
-| `size()` / `rank()` / `empty()` | O(1) |
-| `shape()` / `strides()` | O(1) |
-| `operator()` / `operator[]` / `at()` | O(1) |
-| `front()` / `back()` | O(1) |
-| Iteration | O(n) |
+| Metadata query | O(1) |
+| Element access | O(1) |
+| Iterator acquisition | O(1) |
+| Complete traversal | O(n) |
 | `fill()` | O(n) |
 | `swap()` | O(1) |
 
@@ -523,33 +300,40 @@ const T& at(std::ptrdiff_t index) const;
 
 ## Examples
 
-## Creating Vectors
+### Construction and Metadata
 
 ```cpp
-stratax::container::Vector<double> a;
-stratax::container::Vector<double> b(5);
-stratax::container::Vector<double> c{1.0, 2.0, 3.0};
+stratax::container::Vector<double> empty;
+stratax::container::Vector<double> zeros(4);
+stratax::container::Vector<double> filled(4, 2.5);
+stratax::container::Vector<double> values{1.0, 2.0, 3.0};
+
+empty.rank();   // 1
+empty.shape();  // Shape{0}
+values.size();  // 3
 ```
 
----
-
-## Accessing Elements
+### Checked and Unchecked Access
 
 ```cpp
-stratax::container::Vector<double> v{10.0, 20.0, 30.0};
+stratax::container::Vector<double> values{10.0, 20.0, 30.0};
 
-auto x = v[1];
-auto y = v.at(-1);
+values[1] = 25.0;  // unchecked
+values.at(1);      // 25.0
+values.at(-1);     // 30.0
 ```
 
----
-
-## Iteration
+### Iteration
 
 ```cpp
-for (const auto& value : v)
+for (double& value : values)
 {
-    std::cout << value << '\n';
+    value *= 2.0;
+}
+
+for (auto it = values.crbegin(); it != values.crend(); ++it)
+{
+    std::cout << *it << '\n';
 }
 ```
 
@@ -557,22 +341,15 @@ for (const auto& value : v)
 
 ## Design Notes
 
-`Vector<T>` keeps layout metadata (`Shape`, `Strides`) alongside contiguous data storage (`Buffer<T>`) so it can interoperate consistently with other Stratax containers.
-
-Unchecked accessors are provided for performance-critical paths, while `at()` offers safe validated indexing including negative index normalization.
-
----
-
-## Future Improvements
-
-- Add slicing/view utilities for non-owning vector spans
-- Add SIMD-specialized fill/copy paths where profitable
-- Add optional small-vector optimization (if benchmark-justified)
+Keeping storage and layout behavior in `ArrayBase<T>` gives `Vector`, `Matrix`,
+and `Tensor` consistent ownership, access, and iterator semantics. `Vector<T>`
+adds only the construction rules needed to preserve its rank-one abstraction.
 
 ---
 
 ## See Also
 
+- @ref arraybase
 - @ref buffer
 - @ref shape
 - @ref strides
