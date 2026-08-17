@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cstddef>
+#include <limits>
 #include <ostream>
 
 #include "Buffer.hpp"
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
 #include <stratax/indexing/Normalize.hpp>
 
 namespace stratax::core {
@@ -78,16 +78,12 @@ public:
 		buffer_[shape.rank() - 1] = 1;
 
 		for (std::size_t i = shape.rank() - 1; i > 0; --i) {
-			try
-			{
-				buffer_[i - 1] = validation::checked_multiply(
-					buffer_[i],
-					shape[i],
-					"Strides overflow for shape");
-			}
-			catch (const Exceptions::DimensionError&)
-			{
+			if (shape[i] != 0 &&
+				buffer_[i] > std::numeric_limits<std::size_t>::max() / shape[i]) {
 				buffer_[i - 1] = std::numeric_limits<std::size_t>::max();
+			}
+			else {
+				buffer_[i - 1] = buffer_[i] * shape[i];
 			}
 		}
 	}

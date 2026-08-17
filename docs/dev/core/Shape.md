@@ -2,7 +2,7 @@
 
 # Shape {#dev_shape}
 
-Version: v0.2.0
+Version: v0.3.1
 
 Status: Complete
 
@@ -12,29 +12,38 @@ Header: `include/stratax/core/Shape.hpp`
 
 ## Overview
 
-`Shape` stores array dimension lengths and provides rank/element-count metadata for Stratax containers.
+`Shape` stores the dimensions of a multidimensional array in
+outermost-to-innermost order. It reports the dimensional rank, computes the
+total element count with overflow checking, supports checked Python-style
+indexing, and exposes read-only contiguous iterators.
 
-It is a lightweight metadata object built on `Buffer<std::size_t>` and is used by higher-level types such as `Strides`, `Vector`, `Matrix`, and `Tensor`.
+Dimension storage is owned by a `Buffer<std::size_t>`. `Shape` contains only
+layout metadata; it does not own an array's numeric elements.
+
+```cpp
+const stratax::core::Shape shape{2, 3, 4};
+
+shape.rank();     // 3
+shape.elements(); // 24
+shape[0];         // 2: unchecked access
+shape.at(-1);     // 4: checked access from the end
+```
 
 ---
 
 ## Responsibilities
 
-The `Shape` class is responsible for:
+`Shape` is responsible for:
 
-- Storing dimension lengths
-- Reporting rank
-- Reporting whether a shape is empty
-- Computing total element count with overflow checking
-- Providing validated dimension access
-- Supporting comparison and iteration over dimensions
+- Owning dimension lengths in contiguous storage
+- Reporting rank and rank-zero state
+- Computing element counts without unsigned overflow
+- Providing checked and unchecked read-only dimension access
+- Supporting forward and reverse dimension iteration
+- Supporting value comparison, swapping, and tuple-style formatting
 
-The `Shape` class is **not** responsible for:
-
-- Owning numeric array element storage
-- Performing numerical algorithms
-- Multidimensional data access into tensors/matrices/vectors
-- Mathematical operations on data values
+It is not responsible for array element storage, stride calculation,
+multidimensional offset calculation, or numerical operations.
 
 ---
 
@@ -42,444 +51,310 @@ The `Shape` class is **not** responsible for:
 
 ```text
 Shape
-│
 └── dims_ : Buffer<std::size_t>
-    Stored dimensions in axis order
+    └── dimensions in outermost-to-innermost order
 ```
 
 Depends on:
 
-- Buffer
-- Validation helpers (`validation::checked_multiply`, `validation::require_index`, `validation::normalize_index`)
-- Exceptions (`Exceptions::DimensionError`, `Exceptions::IndexError`)
+- `Buffer<std::size_t>` for owned contiguous storage
+- `indexing::normalize_index` for checked signed indexing
+- `Exceptions::IndexError` and `Exceptions::DimensionError`
 
 Used by:
 
-- Strides
-- Vector
-- Matrix
-- Tensor
-
-Related classes:
-
-- Buffer
-- Strides
-
----
-
-## Internal Data
-
-| Member | Description |
-| ------- | ----------- |
-| `Buffer<std::size_t> dims_` | Contiguous storage for all dimension lengths |
+- `Strides`
+- `ArrayBase`
+- `Vector`, `Matrix`, and `Tensor`
+- Indexing, slicing, reshape, and creation algorithms
 
 ---
 
 ## Invariants
 
-The following conditions are always true:
-
-- `rank()` equals `dims_.size()`.
+- `rank()` equals the number of stored dimensions.
 - `empty()` is equivalent to `rank() == 0`.
-- Dimensions are stored in axis order from outermost to innermost.
-- `operator==` compares both rank and all dimension values.
-- `elements()` checks multiplication overflow and throws on overflow.
+- Dimensions are stored in outermost-to-innermost order.
+- Dimensions are exposed only through const references and const iterators.
+- Zero-valued dimensions are permitted.
+- Equal shapes have the same rank and identical dimensions in the same order.
+- A moved-from shape is empty because its underlying buffer transfers ownership.
 
 ---
 
-## Public Interface
-
-## Iterator Aliases
+## Public Types
 
 ```cpp
-using iterator = Buffer<std::size_t>::iterator;
 using const_iterator = Buffer<std::size_t>::const_iterator;
-using reverse_iterator = Buffer<std::size_t>::reverse_iterator;
-using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+using const_reverse_iterator =
+    Buffer<std::size_t>::const_reverse_iterator;
 ```
 
-`Shape` mirrors `Buffer<std::size_t>` iterator aliases for generic dimension iteration.
+Both aliases provide read-only random-access traversal. `Shape` intentionally
+does not expose mutable dimension iterators.
 
 ---
 
-## Constructors
+## Construction and Lifetime
 
-### Default Constructor
+### Default construction
 
 ```cpp
 Shape() noexcept;
 ```
 
-Constructs an empty rank-0 shape.
+Constructs an empty, rank-zero shape. Its element count is zero.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
-Throws
-
-- None
-
----
-
-### Variadic Integral Constructor
+### Initializer-list construction
 
 ```cpp
-template<Integral... Dims>
-requires (sizeof...(Dims) > 0)
-Shape(Dims... dims);
+Shape(std::initializer_list<std::size_t> dims);
 ```
 
-Constructs a shape from one or more integral dimensions.
+Copies dimensions in list order. An empty list constructs a rank-zero shape,
+and zero-valued dimensions are accepted.
 
-Complexity
+Complexity: O(dims.size()).
 
-- O(n)
+Throws `std::bad_alloc` if dimension storage cannot be allocated.
 
-Throws
-
-- `std::bad_alloc`
-
----
-
-### Initializer List + Tag Constructor
-
-```cpp
-Shape(std::initializer_list<std::size_t> list, allow_zero_t allow_zero);
-```
-
-Constructs a shape from explicit dimensions and documents zero-dimension intent.
-
-Complexity
-
-- O(n)
-
----
-
-### Buffer Copy Constructor
-
-```cpp
-Shape(const Buffer<std::size_t>& dims);
-```
-
-Constructs a shape by copying dimensions from a buffer.
-
-Complexity
-
-- O(n)
-
----
-
-### Buffer Copy + Tag Constructor
-
-```cpp
-Shape(const Buffer<std::size_t>& dims, allow_zero_t allow_zero);
-```
-
-Constructs a shape by copying dimensions from a buffer and documenting zero-dimension intent.
-
-Complexity
-
-- O(n)
-
----
-
-### Buffer Move Constructor
-
-```cpp
-Shape(Buffer<std::size_t>&& dims);
-```
-
-Constructs a shape by taking ownership of dimension storage.
-
-Complexity
-
-- O(1)
-
----
-
-### std::vector Constructor
+### Vector construction
 
 ```cpp
 Shape(const std::vector<std::size_t>& dims);
 ```
 
-Constructs a shape by copying dimensions from a standard vector.
+Copies dimensions from a vector while preserving their order. An empty vector
+constructs a rank-zero shape.
 
-Complexity
+Complexity: O(dims.size()).
 
-- O(n)
+Throws `std::bad_alloc` if dimension storage cannot be allocated.
 
-Throws
+### Copy and move construction
 
-- `std::bad_alloc`
+```cpp
+Shape(const Shape&) = default;
+Shape(Shape&&) noexcept = default;
+```
 
----
+Copy construction creates independent dimension storage in O(rank()) time.
+Move construction transfers storage in O(1) and leaves the source empty.
 
-### Destructor
+### Destruction
 
 ```cpp
 ~Shape() = default;
 ```
 
-Default destructor.
+Destroys the underlying dimension buffer.
 
-Complexity
-
-- O(n)
+Complexity: O(rank()).
 
 ---
 
-## Methods
-
-## elements()
+## Assignment
 
 ```cpp
-[[nodiscard]] std::size_t elements() const;
+Shape& operator=(const Shape&) = default;
+Shape& operator=(Shape&&) noexcept = default;
 ```
 
-Returns the product of all dimensions. Empty shape returns `0`.
+Copy assignment performs a deep copy and inherits `Buffer`'s strong exception
+guarantee. Its complexity is O(old rank + copied rank).
 
-Complexity
-
-- O(n)
-
-Throws
-
-- `Exceptions::DimensionError` on overflow
+Move assignment destroys the destination's previous dimension storage and
+then transfers ownership. Its complexity is O(old rank), with O(1) ownership
+transfer. The source becomes empty. Self-copy and self-move assignment leave
+the shape unchanged.
 
 ---
 
-## rank()
+## Metadata
+
+### rank
 
 ```cpp
-[[nodiscard]] std::size_t rank() const;
+[[nodiscard]] std::size_t rank() const noexcept;
 ```
 
-Returns the number of stored dimensions.
+Returns the number of dimensions.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
----
-
-## empty()
+### empty
 
 ```cpp
 [[nodiscard]] bool empty() const noexcept;
 ```
 
-Returns `true` if rank is zero.
+Returns `true` when no dimensions are stored. A shape containing a zero
+dimension is not empty because it still has nonzero rank.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
+### elements
+
+```cpp
+[[nodiscard]] std::size_t elements() const;
+```
+
+Returns the product of the dimensions. A rank-zero shape or a shape with a
+zero-valued dimension has zero elements. Each multiplication is checked before
+it is performed.
+
+Complexity: O(rank()).
+
+Throws `Exceptions::DimensionError` if a nonzero product cannot be represented
+by `std::size_t`.
+
+```cpp
+Shape{2, 3, 4}.elements(); // 24
+Shape{2, 0, 4}.elements(); // 0
+```
 
 ---
 
-## swap()
+## Dimension Access
+
+### Unchecked access
+
+```cpp
+[[nodiscard]] const std::size_t&
+operator[](std::size_t index) const noexcept;
+```
+
+Returns the dimension at a zero-based index without checking bounds. Behavior
+is undefined unless `index < rank()`.
+
+Complexity: O(1).
+
+### Checked signed access
+
+```cpp
+[[nodiscard]] const std::size_t& at(std::ptrdiff_t index) const;
+```
+
+Accepts indices in `[-rank(), rank())`. Non-negative indices count from the
+first dimension, while negative indices count backward from the last:
+
+```cpp
+const Shape shape{2, 3, 4};
+
+shape.at(0);  // 2
+shape.at(-1); // 4
+shape.at(-3); // 2
+```
+
+Complexity: O(1).
+
+Throws `Exceptions::IndexError` for an out-of-range index, including every
+index applied to an empty shape.
+
+---
+
+## Iteration
+
+```cpp
+const_iterator begin() const noexcept;
+const_iterator end() const noexcept;
+const_iterator cbegin() const noexcept;
+const_iterator cend() const noexcept;
+
+const_reverse_iterator rbegin() const noexcept;
+const_reverse_iterator rend() const noexcept;
+const_reverse_iterator crbegin() const noexcept;
+const_reverse_iterator crend() const noexcept;
+```
+
+Each accessor is O(1). Traversing every dimension is O(rank()). For an empty
+shape, each begin/end pair compares equal.
+
+```cpp
+for (std::size_t dimension : Shape{2, 3, 4}) {
+    // Visits 2, then 3, then 4.
+}
+```
+
+---
+
+## Comparison
+
+```cpp
+[[nodiscard]] bool operator==(const Shape& other) const noexcept;
+```
+
+Two shapes compare equal when their ranks and corresponding dimensions are
+equal. In C++20, `operator!=` is rewritten from `operator==`.
+
+Complexity: O(rank()) in the worst case; differing ranks return in O(1).
+
+---
+
+## Swap
 
 ```cpp
 void swap(Shape& other) noexcept;
 ```
 
-Exchanges dimension storage with another shape.
+Exchanges dimension storage without copying individual values. Iterators and
+references continue to refer to the same dimensions, which become owned by the
+other shape. Swapping with an empty shape and self-swap are supported.
 
-Complexity
-
-- O(1)
-
----
-
-## Iterators
-
-```cpp
-[[nodiscard]] iterator begin() noexcept;
-[[nodiscard]] const_iterator begin() const noexcept;
-[[nodiscard]] const_iterator cbegin() const noexcept;
-[[nodiscard]] iterator end() noexcept;
-[[nodiscard]] const_iterator end() const noexcept;
-[[nodiscard]] const_iterator cend() const noexcept;
-[[nodiscard]] reverse_iterator rbegin() noexcept;
-[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-[[nodiscard]] reverse_iterator rend() noexcept;
-[[nodiscard]] const_reverse_iterator rend() const noexcept;
-[[nodiscard]] const_reverse_iterator crend() const noexcept;
-```
-
-Provides forward and reverse iteration over stored dimensions.
-
-Complexity
-
-- O(1)
+Complexity: O(1).
 
 ---
 
-## Assignment Operators
-
-`Shape` uses compiler-generated copy and move assignment operators.
-
-## Copy Assignment
-
-```cpp
-Shape& operator=(const Shape&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-## Move Assignment
-
-```cpp
-Shape& operator=(Shape&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator()
-
-```cpp
-const std::size_t& operator()(std::size_t index) const;
-```
-
-Returns dimension at `index` with bounds validation.
-
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
-
----
-
-## operator[]
-
-```cpp
-const std::size_t& operator[](std::ptrdiff_t index) const;
-```
-
-Returns dimension at signed index. Negative indices count from the end.
-
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
-
----
-
-## operator== / operator!=
-
-```cpp
-[[nodiscard]] bool operator==(const Shape& other) const noexcept;
-[[nodiscard]] bool operator!=(const Shape& other) const noexcept;
-```
-
-Compares two shapes by rank and all dimensions.
-
-Complexity
-
-- O(n)
-
----
-
-## stream operator
+## Stream Output
 
 ```cpp
 std::ostream& operator<<(std::ostream& os, const Shape& shape);
 ```
 
-Writes shape in tuple-like form, for example `(2, 3, 4)` and `(5,)` for rank-1.
+Writes tuple-style output and returns `os`:
 
-Complexity
+```text
+Shape{2, 3, 4} -> (2, 3, 4)
+Shape{5}       -> (5,)
+Shape{}        -> ()
+```
 
-- O(n)
+Complexity: O(shape.rank()).
 
 ---
 
 ## Complexity Summary
 
 | Operation | Complexity |
-| --------- | ----------: |
+| --------- | ---------- |
 | Default construction | O(1) |
-| Variadic construction | O(n) |
-| Initializer-list + tag construction | O(n) |
-| Buffer copy construction | O(n) |
-| Buffer move construction | O(1) |
-| std::vector construction | O(n) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
+| List/vector construction | O(n) |
+| Copy construction | O(n) |
+| Move construction | O(1) |
+| Copy assignment | O(old rank + copied rank) |
+| Move assignment | O(old rank) |
 | Destruction | O(n) |
 | `elements()` | O(n) |
-| `rank()` | O(1) |
-| `empty()` | O(1) |
-| `operator()` | O(1) |
-| `operator[]` | O(1) |
-| `operator==` / `operator!=` | O(n) |
-| Iteration | O(n) |
+| `rank()`, `empty()`, and individual access | O(1) |
+| Iterator creation | O(1) |
+| Full traversal or comparison | O(n) |
 | `swap()` | O(1) |
-
----
-
-## Examples
-
-## Creating Shapes
-
-```cpp
-Shape a;
-Shape b(2, 3, 4);
-Shape c{std::vector<std::size_t>{1, 5, 7}};
-```
-
----
-
-## Accessing Dimensions
-
-```cpp
-Shape s(3, 224, 224);
-
-auto first = s(0);
-auto last = s[-1];
-```
-
----
-
-## Printing
-
-```cpp
-Shape s(3, 224, 224);
-std::cout << s << '\n'; // (3, 224, 224)
-```
+| Stream output | O(n) |
 
 ---
 
 ## Design Notes
 
-`Shape` stores only metadata and intentionally avoids owning numeric element data.
+`Shape` is deliberately immutable through its public access API. To represent
+different dimensions, construct or assign another shape. This protects the
+relationship between shape metadata and the strides and storage owned by
+higher-level containers.
 
-Dimension storage is contiguous through `Buffer<std::size_t>`, which keeps shape operations lightweight and iteration/cache friendly. Data containers (`Vector`, `Matrix`, `Tensor`) use `Shape` to define layout semantics.
-
----
-
-## Future Improvements
-
-- Add shape utility helpers (concat, slice, transpose-spec helpers)
-- Add optional constexpr-friendly construction for fixed-rank usage
+The class uses a dynamic buffer rather than a fixed-rank representation so one
+type can represent vectors, matrices, tensors, rank-zero shapes, and arbitrary
+higher-dimensional layouts.
 
 ---
 
@@ -487,6 +362,7 @@ Dimension storage is contiguous through `Buffer<std::size_t>`, which keeps shape
 
 - @ref buffer
 - @ref strides
+- @ref arraybase
 - @ref vector
 - @ref matrix
 - @ref tensor

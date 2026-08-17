@@ -2,7 +2,7 @@
 
 # Buffer {#dev_buffer}
 
-Version: v0.2.0
+Version: v0.3.1
 
 Status: Complete
 
@@ -12,492 +12,358 @@ Header: `include/stratax/core/Buffer.hpp`
 
 ## Overview
 
-`Buffer<T>` is a fixed-size contiguous storage container.
+`Buffer<T, Alignment>` is a fixed-size owner of aligned, contiguous element
+storage. It allocates raw storage, constructs every element, and destroys the
+elements before releasing the allocation. Its size cannot change after
+construction, although its elements remain mutable.
 
-It owns dynamically allocated memory, provides RAII semantics, and supplies iterator support for all higher-level Stratax containers. `Buffer<T>` serves as the foundation upon which `Shape`, `Strides`, `Vector`, `Matrix`, and `Tensor` are built.
+The default alignment is `config::default_alignment`. A custom alignment must
+be a power of two and at least `alignof(T)`.
+
+`Buffer` is the storage primitive used directly by `ArrayBase`, `Shape`, and
+`Strides`, and therefore indirectly by Stratax's array containers.
+
+```cpp
+stratax::core::Buffer<float, 64> samples{1.0F, 2.0F, 3.0F};
+
+samples[1] = 5.0F;
+std::fill(samples.begin(), samples.end(), 4.0F);
+
+auto copy = samples;   // Deep copy with an independent allocation.
+copy.front() = 9.0F;   // samples remains unchanged.
+```
 
 ---
 
 ## Responsibilities
 
-The `Buffer` class is responsible for:
+`Buffer` is responsible for:
 
-- Allocating contiguous memory
-- Managing memory ownership (RAII)
-- Providing iterator support
-- Providing element access
-- Copy and move semantics
-- Serving as the storage backend for Stratax containers
+- Allocating and releasing aligned contiguous storage
+- Managing element lifetime through RAII
+- Providing deep-copy and ownership-transferring move semantics
+- Providing mutable and const element access
+- Providing contiguous random-access iterators
+- Preserving a fixed element count between assignments
 
-The `Buffer` class is **not** responsible for:
-
-- Numerical algorithms
-- Shape validation
-- Bounds validation
-- Mathematical operations
-- Multidimensional indexing
+It is not responsible for resizing, multidimensional metadata, checked
+`operator[]` access, or numerical operations.
 
 ---
 
-## Relationships
-
-```text
-Buffer<T>
-│
-├── data_
-│      Pointer to contiguous storage
-│
-└── size_
-       Number of stored elements
-```
-
-Depends on:
-
-- C++ Standard Library
-- Memory utilities
-- Iterator facilities
-
-Used by:
-
-- Shape
-- Strides
-- Vector
-- Matrix
-- Tensor
-
-Related classes:
-
-- Shape
-- Strides
-
----
-
-## Internal Data
-
-| Member | Description |
-| ------- | ----------- |
-| `T* data_` | Pointer to contiguous memory owned by the buffer |
-| `std::size_t size_` | Number of stored elements |
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- `size()` is never negative.
-- `data()` is either `nullptr` or points to `size()` contiguous elements.
-- `Buffer` always owns the memory it manages.
-- Copy operations perform deep copies.
-- Copying duplicates storage.
-- Move operations transfer ownership.
-- Memory is released automatically when the buffer is destroyed.
-
----
-
-## Public Interface
-
-## Iterator Aliases
+## Template Parameters
 
 ```cpp
-using iterator = T*;
-using const_iterator = const T*;
-using reverse_iterator = std::reverse_iterator<iterator>;
+template<typename T, std::size_t Alignment = config::default_alignment>
+class Buffer;
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| `T` | Stored element type |
+| `Alignment` | Allocation alignment in bytes; a power of two no smaller than `alignof(T)` |
+
+Invalid alignment values fail the class's compile-time assertions.
+
+---
+
+## Invariants and Ownership
+
+- `data()` is `nullptr` exactly when the buffer is empty.
+- A non-empty buffer owns `size()` live, contiguous elements.
+- Every owned allocation uses `alignment()`-byte alignment.
+- Copy operations allocate independent storage and copy every element.
+- Move operations transfer the allocation and leave the source empty.
+- Destruction destroys all live elements before releasing storage.
+- The element count changes only through copy or move assignment.
+
+Pointers, references, and iterators remain valid until the owning buffer is
+assigned to, moved from, swapped, or destroyed. After `swap`, they still refer
+to the same elements, but those elements are owned by the other buffer.
+
+---
+
+## Public Types
+
+```cpp
+using value_type             = T;
+using size_type              = std::size_t;
+using difference_type        = std::ptrdiff_t;
+using reference              = T&;
+using const_reference        = const T&;
+using pointer                = T*;
+using const_pointer          = const T*;
+using iterator               = pointer;
+using const_iterator         = const_pointer;
+using reverse_iterator       = std::reverse_iterator<iterator>;
 using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 ```
 
-`Buffer<T>` exposes iterator aliases for STL-style generic code. Other storage-related types such as pointers, references, and sizes remain spelled out in the public API.
+The pointer-based iterator types are contiguous random-access iterators and
+can be passed directly to standard-library algorithms.
 
 ---
 
-## Constructors
+## Construction and Lifetime
 
-### Default Constructor
+### Default construction
 
 ```cpp
-Buffer();
+Buffer() noexcept;
 ```
 
-Constructs an empty buffer that owns no storage.
+Constructs an empty buffer with `size() == 0` and `data() == nullptr`.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
-Throws
-
-- None
-
----
-
-### Size Constructor
+### Size construction
 
 ```cpp
-Buffer(std::size_t size);
+explicit Buffer(size_type size);
 ```
 
-Constructs a buffer containing `size` default-initialized elements.
+Constructs `size` elements from `value_type{}`. For scalar types, this yields
+zero-initialized values. If element construction fails, constructed elements
+and the allocation are cleaned up before the exception is propagated.
 
-Complexity
+Complexity: O(size).
 
-- O(n)
+Throws:
 
-Throws
+- `std::bad_array_new_length` if `size > max_size()`
+- `std::bad_alloc` if allocation fails
+- Any exception thrown while constructing an element
 
-- `std::bad_alloc`
-
----
-
-### Fill Constructor
+### Fill construction
 
 ```cpp
-Buffer(std::size_t size, const T& value);
+Buffer(size_type size, const_reference value);
 ```
 
-Constructs a buffer containing `size` copies of `value`.
+Copy-constructs `size` elements from `value`, with cleanup if a copy fails.
 
-Complexity
+Complexity: O(size).
 
-- O(n)
+Throws the allocation exceptions above or an exception from `T`'s copy
+constructor.
 
-Throws
-
-- `std::bad_alloc`
-
----
-
-### Initializer List Constructor
+### Initializer-list construction
 
 ```cpp
-Buffer(std::initializer_list<T> list);
+Buffer(std::initializer_list<value_type> list);
 ```
 
-Constructs a buffer from an initializer list.
+Copy-constructs elements in list order.
 
-Complexity
+Complexity: O(list.size()).
 
-- O(n)
+Throws the allocation exceptions above or an exception from `T`'s copy
+constructor.
 
-Throws
-
-- `std::bad_alloc`
-
----
-
-### Copy Constructor
+### Copy construction
 
 ```cpp
 Buffer(const Buffer& other);
 ```
 
-Constructs a deep copy of another buffer.
+Creates an independent allocation containing copies of `other`'s elements.
+Partially constructed state is cleaned up if copying fails.
 
-Complexity
+Complexity: O(other.size()).
 
-- O(n)
-
----
-
-### Move Constructor
+### Move construction
 
 ```cpp
 Buffer(Buffer&& other) noexcept;
 ```
 
-Transfers ownership from another buffer.
+Transfers the allocation without moving individual elements. `other` becomes
+empty. Existing pointers and iterators into `other` continue to refer to the
+same elements, now owned by the destination.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
----
-
-### Destructor
+### Destruction
 
 ```cpp
 ~Buffer();
 ```
 
-Releases owned memory.
+Destroys every element and releases the aligned allocation.
 
-Complexity
-
-- O(n)
+Complexity: O(size()).
 
 ---
 
-## Assignment Operators
+## Assignment
 
-## Copy Assignment
+### Copy assignment
 
 ```cpp
 Buffer& operator=(const Buffer& other);
 ```
 
-Performs a deep copy.
+Uses copy-and-swap to provide the strong exception guarantee. If allocation or
+copying fails, the destination is unchanged. Successful assignment invalidates
+references, pointers, and iterators into the destination's old storage.
 
-Complexity
+Complexity: O(size() + other.size()).
 
-- O(n)
-
----
-
-## Move Assignment
+### Move assignment
 
 ```cpp
 Buffer& operator=(Buffer&& other) noexcept;
 ```
 
-Transfers ownership.
+Destroys the destination's current elements, releases its allocation, and then
+transfers ownership from `other`. The source becomes empty. Self-move
+assignment has no effect.
 
-Complexity
-
-- O(1)
-
----
-
-## Methods
-
-## front()
-
-```cpp
-T& front();
-```
-
-Returns the first element of the buffer.
-
-Preconditions
-
-- Buffer must not be empty.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-const T& front() const;
-```
+Complexity: O(size()) for destruction of the old elements; ownership transfer
+is O(1).
 
 ---
 
-## back()
+## Element Access
+
+### Unchecked access
 
 ```cpp
-T& back();
+reference operator[](size_type index) noexcept;
+const_reference operator[](size_type index) const noexcept;
 ```
 
-Returns the last element of the buffer.
+Returns the element at `index` without bounds checking. Behavior is undefined
+unless `index < size()`.
 
-Preconditions
+Complexity: O(1).
 
-- Buffer must not be empty.
-
-Complexity
-
-- O(1)
-
-See Also
+### Front and back
 
 ```cpp
-const T& back() const;
+reference front();
+const_reference front() const;
+reference back();
+const_reference back() const;
 ```
+
+Returns the first or final element. Each function throws
+`Exceptions::IndexError` when the buffer is empty.
+
+Complexity: O(1).
+
+### Data access
+
+```cpp
+[[nodiscard]] pointer data() noexcept;
+[[nodiscard]] const_pointer data() const noexcept;
+```
+
+Returns the first element's address, or `nullptr` for an empty buffer. For a
+non-empty buffer, the live element range is `[data(), data() + size())`.
+
+Complexity: O(1).
 
 ---
 
-## data()
+## Iteration
+
+`begin`, `end`, `cbegin`, and `cend` expose the contiguous forward range.
+`rbegin`, `rend`, `crbegin`, and `crend` expose the same elements in reverse
+order. Every iterator accessor is O(1).
+
+For an empty buffer:
 
 ```cpp
-[[nodiscard]] T* data() noexcept;
+buffer.begin()  == buffer.end();
+buffer.cbegin() == buffer.cend();
+buffer.rbegin() == buffer.rend();
 ```
 
-Returns a pointer to the first stored element.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-[[nodiscard]] const T* data() const noexcept;
-```
+Traversing the complete range is O(size()).
 
 ---
 
-## size()
+## Capacity and Allocation Metadata
 
 ```cpp
-[[nodiscard]] std::size_t size() const noexcept;
-```
-
-Returns the number of stored elements.
-
-Complexity
-
-- O(1)
-
----
-
-## empty()
-
-```cpp
+[[nodiscard]] static constexpr size_type alignment() noexcept;
+[[nodiscard]] static constexpr size_type max_size() noexcept;
+[[nodiscard]] size_type size() const noexcept;
 [[nodiscard]] bool empty() const noexcept;
 ```
 
-Returns `true` if the buffer contains no elements.
+- `alignment()` returns the requested allocation alignment in bytes.
+- `max_size()` returns the largest count whose byte size cannot overflow;
+  allocation of that many elements is not guaranteed to succeed.
+- `size()` returns the number of live elements.
+- `empty()` is equivalent to `size() == 0`.
 
-Complexity
-
-- O(1)
+Each operation is O(1).
 
 ---
 
-## fill()
+## Modifiers
+
+### fill
 
 ```cpp
-void fill(const T& value);
+void fill(const_reference value);
 ```
 
-Assigns every stored element the value `value`.
+Copy-assigns `value` to each element from first to last. If an assignment
+throws, earlier elements retain their new values and later elements retain
+their previous values.
 
-Preconditions
+Complexity: O(size()).
 
-- Buffer has been constructed.
-
-Postconditions
-
-- Every stored element equals `value`.
-
-Complexity
-
-- O(n)
-
----
-
-## swap()
+### swap
 
 ```cpp
 void swap(Buffer& other) noexcept;
 ```
 
-Exchanges the contents of two buffers.
+Exchanges the allocation and element count without moving or copying
+individual elements. Pointers, references, and iterators remain valid but now
+refer to elements owned by the other buffer.
 
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator[]
-
-```cpp
-T& operator[](std::size_t index) noexcept;
-```
-
-Returns a reference to an element.
-
-Bounds checking is **not** performed.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-const T& operator[](std::size_t index) const noexcept;
-```
+Complexity: O(1).
 
 ---
 
 ## Complexity Summary
 
 | Operation | Complexity |
-| --------- | ----------: |
+| --------- | ---------- |
 | Default construction | O(1) |
-| Size construction | O(n) |
-| Fill construction | O(n) |
-| Initializer list construction | O(n) |
+| Size/fill/list construction | O(n) |
 | Copy construction | O(n) |
 | Move construction | O(1) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
+| Copy assignment | O(old size + copied size) |
+| Move assignment | O(old size) |
 | Destruction | O(n) |
-| Element access | O(1) |
-| Iteration | O(n) |
-| fill() | O(n) |
-| swap() | O(1) |
-
----
-
-## Examples
-
-## Creating a Buffer
-
-```cpp
-Buffer<double> a(5);
-```
-
----
-
-## Initializer List
-
-```cpp
-Buffer<double> b{1.0, 2.0, 3.0};
-```
-
----
-
-## Filling
-
-```cpp
-Buffer<double> values(10);
-
-values.fill(3.14);
-```
-
----
-
-## Iteration
-
-```cpp
-for (const auto& value : values)
-{
-    std::cout << value << '\n';
-}
-```
+| Individual access or iterator creation | O(1) |
+| Full traversal | O(n) |
+| `fill()` | O(n) |
+| `swap()` | O(1) |
 
 ---
 
 ## Design Notes
 
-`Buffer<T>` stores data in a single contiguous memory block.
+The class deliberately has no capacity, resize, insertion, or erasure API.
+This keeps allocation ownership simple and makes it suitable as the stable
+storage layer beneath higher-level array metadata and containers.
 
-Higher-level containers such as `Matrix` and `Tensor` interpret this one-dimensional storage using `Shape` and `Strides`. This design improves cache locality, simplifies memory management, and allows algorithms to operate on a consistent underlying representation.
-
-Empty buffer iterators are valid sentinels: `begin() == end()` and reverse iterator pairs are also equal for an empty buffer.
-
-`Buffer<T>` intentionally contains no mathematical logic. Its sole responsibility is memory ownership and element storage.
-
----
-
-## Future Improvements
-
-- Custom allocators
-- `std::pmr` allocator support
-- Additional memory alignment strategies
-- SIMD-aware allocation
-- Optional uninitialized allocation optimizations
-- Small-buffer optimization (if ever justified)
+Aligned allocation uses C++ aligned `operator new` and the matching aligned
+`operator delete`. Element construction is separate from allocation so cleanup
+can be performed correctly when a constructor throws.
 
 ---
 
 ## See Also
 
+- @ref arraybase
 - @ref shape
 - @ref strides
 - @ref vector

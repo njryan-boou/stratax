@@ -1,112 +1,413 @@
 #include <gtest/gtest.h>
 
+#include <concepts>
+#include <limits>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 #include <stratax.h>
 
-TEST(Shape, construction_and_metadata)
-{
-	stratax::Shape shape{2, 3, 4};
+using namespace stratax::core;
 
-	EXPECT_EQ(shape.rank(), 3);
-	EXPECT_EQ(shape[0], 2);
-	EXPECT_EQ(shape[1], 3);
-	EXPECT_EQ(shape[2], 4);
-	EXPECT_FALSE(shape.empty());
-	EXPECT_EQ(shape.elements(), 24);
-	EXPECT_EQ(shape.at(-3), 2);
-	EXPECT_EQ(shape.at(-1), 4);
-	EXPECT_THROW(shape.at(-4), Exceptions::IndexError);
-	EXPECT_THROW(shape.at(3), Exceptions::IndexError);
+TEST(ShapeConstructor, DefaultConstructor)
+{
+    const Shape shape;
+
+    EXPECT_EQ(shape.rank(), 0);
+    EXPECT_EQ(shape.elements(), 0);
+    EXPECT_TRUE(shape.empty());
 }
 
-TEST(Shape, comparison_and_copy)
+TEST(ShapeConstructor, InitializerList)
 {
-	stratax::Shape a{2, 3};
-	stratax::Shape b{2, 3};
-	stratax::Shape c{3, 2};
-	stratax::Shape d{2, 3, 1};
+    const Shape shape{2, 3, 4};
 
-	EXPECT_TRUE(a == b);
-	EXPECT_FALSE(a == c);
-	EXPECT_FALSE(a == d);
-	EXPECT_FALSE(a != b);
-	EXPECT_TRUE(a != c);
-
-	const auto copy = a;
-	EXPECT_EQ(copy, a);
-	EXPECT_EQ(copy.rank(), a.rank());
-	EXPECT_EQ(copy.elements(), a.elements());
+    EXPECT_EQ(shape.rank(), 3);
+    EXPECT_EQ(shape[0], 2);
+    EXPECT_EQ(shape[1], 3);
+    EXPECT_EQ(shape[2], 4);
+    EXPECT_EQ(shape.elements(), 24);
+    EXPECT_FALSE(shape.empty());
 }
 
-TEST(Shape, iteration)
+TEST(ShapeConstructor, Vector)
 {
-	stratax::Shape shape{2, 3, 4};
+    const std::vector<std::size_t> dimensions{5, 6, 7};
+    const Shape shape(dimensions);
 
-	std::size_t index = 0;
-	for (auto it = shape.begin(); it != shape.end(); ++it)
-	{
-		EXPECT_EQ(*it, shape[index]);
-		++index;
-	}
-	EXPECT_EQ(index, shape.rank());
+    EXPECT_EQ(shape.rank(), dimensions.size());
 
-	const auto& const_shape = shape;
-	index = 0;
-	for (auto it = const_shape.cbegin(); it != const_shape.cend(); ++it)
-	{
-		EXPECT_EQ(*it, const_shape[index]);
-		++index;
-	}
-	EXPECT_EQ(index, const_shape.rank());
-
-	index = shape.rank();
-	for (auto it = shape.rbegin(); it != shape.rend(); ++it)
-	{
-		--index;
-		EXPECT_EQ(*it, shape[index]);
-	}
-	EXPECT_EQ(index, 0);
-
-	stratax::Shape empty;
-	EXPECT_TRUE(empty.empty());
-	EXPECT_EQ(empty.begin(), empty.end());
-	EXPECT_EQ(empty.cbegin(), empty.cend());
-	EXPECT_EQ(empty.rbegin(), empty.rend());
+    for (std::size_t i = 0; i < dimensions.size(); ++i) {
+        EXPECT_EQ(shape[i], dimensions[i]);
+    }
 }
 
-TEST(Shape, empty_shape)
+TEST(ShapeConstructor, EmptyVector)
 {
-	stratax::Shape empty;
-	EXPECT_TRUE(empty.empty());
-	EXPECT_EQ(empty.rank(), 0);
-	EXPECT_EQ(empty.elements(), 0);
-	EXPECT_EQ(empty.begin(), empty.end());
-	EXPECT_THROW(empty.at(0), Exceptions::IndexError);
+    const std::vector<std::size_t> dimensions;
+    const Shape shape(dimensions);
+
+    EXPECT_TRUE(shape.empty());
+    EXPECT_EQ(shape.rank(), 0);
+    EXPECT_EQ(shape.elements(), 0);
 }
 
-TEST(Shape, stream_output)
+TEST(ShapeConstructor, Copy)
 {
-	std::ostringstream os;
-	os << stratax::Shape{2, 3};
-	EXPECT_EQ(os.str(), "(2, 3)");
+    const Shape original{2, 3, 4};
+    const Shape copy(original);
 
-	std::ostringstream os2;
-	os2 << stratax::Shape{5};
-	EXPECT_EQ(os2.str(), "(5,)");
-
-	std::ostringstream os3;
-	os3 << stratax::Shape{};
-	EXPECT_EQ(os3.str(), "()");
+    EXPECT_EQ(copy, original);
+    EXPECT_EQ(copy.rank(), original.rank());
+    EXPECT_EQ(copy.elements(), original.elements());
 }
 
-TEST(Shape, swap)
+TEST(ShapeConstructor, Move)
 {
-	stratax::Shape a{2, 3};
-	stratax::Shape b{5, 7, 11};
+    Shape source{2, 3, 4};
+    Shape destination(std::move(source));
 
-	a.swap(b);
-	EXPECT_EQ(a, (stratax::Shape{5, 7, 11}));
-	EXPECT_EQ(b, (stratax::Shape{2, 3}));
+    EXPECT_EQ(destination, (Shape{2, 3, 4}));
+    EXPECT_TRUE(source.empty());
+    EXPECT_EQ(source.rank(), 0);
+}
+
+TEST(ShapeAssignment, CopyAssignment)
+{
+    const Shape source{2, 3, 4};
+    Shape destination{5, 6};
+
+    destination = source;
+
+    EXPECT_EQ(destination, source);
+    EXPECT_EQ(destination.rank(), 3);
+}
+
+TEST(ShapeAssignment, SelfCopyAssignment)
+{
+    Shape shape{2, 3, 4};
+
+    shape = shape;
+
+    EXPECT_EQ(shape, (Shape{2, 3, 4}));
+}
+
+TEST(ShapeAssignment, MoveAssignment)
+{
+    Shape source{2, 3, 4};
+    Shape destination{5, 6};
+
+    destination = std::move(source);
+
+    EXPECT_EQ(destination, (Shape{2, 3, 4}));
+    EXPECT_TRUE(source.empty());
+}
+
+TEST(ShapeAssignment, SelfMoveAssignment)
+{
+    Shape shape{2, 3, 4};
+
+    shape = std::move(shape);
+
+    EXPECT_EQ(shape, (Shape{2, 3, 4}));
+}
+
+TEST(ShapeMeta, Rank)
+{
+    const Shape empty_shape;
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(empty_shape.rank(), 0);
+    EXPECT_EQ(shape.rank(), 3);
+
+    static_assert(std::same_as<decltype(shape.rank()), std::size_t>);
+    static_assert(noexcept(shape.rank()));
+}
+
+TEST(ShapeMeta, Empty)
+{
+    const Shape empty_shape;
+    const Shape shape{2};
+
+    EXPECT_TRUE(empty_shape.empty());
+    EXPECT_FALSE(shape.empty());
+
+    static_assert(std::same_as<decltype(shape.empty()), bool>);
+    static_assert(noexcept(shape.empty()));
+}
+
+TEST(ShapeMeta, Elements)
+{
+    EXPECT_EQ(Shape({2, 3, 4}).elements(), 24);
+    EXPECT_EQ(Shape({1, 1, 1}).elements(), 1);
+    EXPECT_EQ(Shape({7}).elements(), 7);
+    EXPECT_EQ(Shape().elements(), 0);
+}
+
+TEST(ShapeMeta, ZeroDimensionHasZeroElements)
+{
+    EXPECT_EQ(Shape({0}).elements(), 0);
+    EXPECT_EQ(Shape({0, 3, 4}).elements(), 0);
+    EXPECT_EQ(Shape({2, 0, 4}).elements(), 0);
+    EXPECT_EQ(Shape({2, 3, 0}).elements(), 0);
+}
+
+TEST(ShapeMeta, ElementCountOverflow)
+{
+    const Shape shape{
+        std::numeric_limits<std::size_t>::max(),
+        2
+    };
+
+    EXPECT_THROW(static_cast<void>(shape.elements()), Exceptions::DimensionError);
+}
+
+TEST(ShapeAccess, Subscript)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(shape[0], 2);
+    EXPECT_EQ(shape[1], 3);
+    EXPECT_EQ(shape[2], 4);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>()[0]),
+            const std::size_t&
+        >
+    );
+    static_assert(noexcept(std::declval<const Shape&>()[0]));
+}
+
+TEST(ShapeAccess, AtPositiveIndices)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(shape.at(0), 2);
+    EXPECT_EQ(shape.at(1), 3);
+    EXPECT_EQ(shape.at(2), 4);
+}
+
+TEST(ShapeAccess, AtNegativeIndices)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(shape.at(-3), 2);
+    EXPECT_EQ(shape.at(-2), 3);
+    EXPECT_EQ(shape.at(-1), 4);
+}
+
+TEST(ShapeAccess, AtOutOfRange)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_THROW(static_cast<void>(shape.at(-4)), Exceptions::IndexError);
+    EXPECT_THROW(static_cast<void>(shape.at(3)), Exceptions::IndexError);
+}
+
+TEST(ShapeAccess, AtEmpty)
+{
+    const Shape shape;
+
+    EXPECT_THROW(static_cast<void>(shape.at(0)), Exceptions::IndexError);
+    EXPECT_THROW(static_cast<void>(shape.at(-1)), Exceptions::IndexError);
+}
+
+TEST(ShapeIterator, BeginEnd)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(*shape.begin(), 2);
+    EXPECT_EQ(shape.end() - shape.begin(), 3);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().begin()),
+            Shape::const_iterator
+        >
+    );
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().end()),
+            Shape::const_iterator
+        >
+    );
+}
+
+TEST(ShapeIterator, CBeginCEnd)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(*shape.cbegin(), 2);
+    EXPECT_EQ(shape.cend() - shape.cbegin(), 3);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().cbegin()),
+            Shape::const_iterator
+        >
+    );
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().cend()),
+            Shape::const_iterator
+        >
+    );
+}
+
+TEST(ShapeIterator, ForwardTraversal)
+{
+    const Shape shape{2, 3, 4};
+    const std::vector<std::size_t> expected{2, 3, 4};
+
+    std::size_t index = 0;
+    for (std::size_t dimension : shape) {
+        EXPECT_EQ(dimension, expected[index]);
+        ++index;
+    }
+
+    EXPECT_EQ(index, expected.size());
+}
+
+TEST(ShapeIterator, ReverseTraversal)
+{
+    const Shape shape{2, 3, 4};
+    const std::vector<std::size_t> expected{4, 3, 2};
+
+    std::size_t index = 0;
+    for (auto it = shape.rbegin(); it != shape.rend(); ++it) {
+        EXPECT_EQ(*it, expected[index]);
+        ++index;
+    }
+
+    EXPECT_EQ(index, expected.size());
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().rbegin()),
+            Shape::const_reverse_iterator
+        >
+    );
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().rend()),
+            Shape::const_reverse_iterator
+        >
+    );
+}
+
+TEST(ShapeIterator, ConstReverseTraversal)
+{
+    const Shape shape{2, 3, 4};
+
+    EXPECT_EQ(*shape.crbegin(), 4);
+    EXPECT_EQ(shape.crend() - shape.crbegin(), 3);
+
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().crbegin()),
+            Shape::const_reverse_iterator
+        >
+    );
+    static_assert(
+        std::same_as<
+            decltype(std::declval<const Shape&>().crend()),
+            Shape::const_reverse_iterator
+        >
+    );
+}
+
+TEST(ShapeIterator, Empty)
+{
+    const Shape shape;
+
+    EXPECT_EQ(shape.begin(), shape.end());
+    EXPECT_EQ(shape.cbegin(), shape.cend());
+    EXPECT_EQ(shape.rbegin(), shape.rend());
+    EXPECT_EQ(shape.crbegin(), shape.crend());
+}
+
+TEST(ShapeComparison, Equal)
+{
+    EXPECT_EQ(Shape({2, 3, 4}), Shape({2, 3, 4}));
+    EXPECT_EQ(Shape(), Shape());
+}
+
+TEST(ShapeComparison, DifferentDimensions)
+{
+    EXPECT_NE(Shape({2, 3}), Shape({3, 2}));
+}
+
+TEST(ShapeComparison, DifferentRanks)
+{
+    EXPECT_NE(Shape({2, 3}), Shape({2, 3, 1}));
+    EXPECT_NE(Shape(), Shape({1}));
+}
+
+TEST(ShapeModifier, Swap)
+{
+    Shape lhs{2, 3};
+    Shape rhs{5, 7, 11};
+
+    lhs.swap(rhs);
+
+    EXPECT_EQ(lhs, (Shape{5, 7, 11}));
+    EXPECT_EQ(rhs, (Shape{2, 3}));
+}
+
+TEST(ShapeModifier, SwapWithEmpty)
+{
+    Shape lhs{2, 3};
+    Shape rhs;
+
+    lhs.swap(rhs);
+
+    EXPECT_TRUE(lhs.empty());
+    EXPECT_EQ(rhs, (Shape{2, 3}));
+}
+
+TEST(ShapeModifier, SelfSwap)
+{
+    Shape shape{2, 3, 4};
+
+    shape.swap(shape);
+
+    EXPECT_EQ(shape, (Shape{2, 3, 4}));
+}
+
+TEST(ShapeStream, MultipleDimensions)
+{
+    std::ostringstream stream;
+
+    stream << Shape{2, 3, 4};
+
+    EXPECT_EQ(stream.str(), "(2, 3, 4)");
+}
+
+TEST(ShapeStream, SingleDimension)
+{
+    std::ostringstream stream;
+
+    stream << Shape{5};
+
+    EXPECT_EQ(stream.str(), "(5,)");
+}
+
+TEST(ShapeStream, Empty)
+{
+    std::ostringstream stream;
+
+    stream << Shape{};
+
+    EXPECT_EQ(stream.str(), "()");
+}
+
+TEST(ShapeStream, ReturnsOutputStream)
+{
+    std::ostringstream stream;
+
+    std::ostream& result = (stream << Shape{2, 3});
+
+    EXPECT_EQ(&result, &stream);
 }
