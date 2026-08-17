@@ -70,3 +70,24 @@ TEST(BufferConstructor, MoveConstructor)
     EXPECT_EQ(source.data(), nullptr);
     EXPECT_EQ(source.empty(), true);
 }
+
+TEST(BufferConstructor, CopyAssignmentConstructor)
+{
+    Buffer<int> source{1, 2, 3};
+    Buffer<int> destination{4, 5};
+
+    destination = source;
+
+    EXPECT_EQ(destination.size(), source.size());
+
+    EXPECT_NE(destination.data(), source.data());
+
+    for (std::size_t i = 0; i < source.size(); ++i) {
+        EXPECT_EQ(destination[i], source[i]);
+    }
+
+    destination[0] = 100;
+
+    EXPECT_EQ(destination[0], 100);
+    EXPECT_EQ(source[0], 1);
+}
