@@ -12,102 +12,86 @@ Header: `include/stratax/containers/Matrix.hpp`
 
 ## Overview
 
-`Matrix<T>` is Stratax's rank-2 owning array container for numeric types.
+`stratax::container::Matrix<T>` is a two-dimensional owning array for types
+that satisfy the `Numeric` concept. It derives from `core::ArrayBase<T>` and
+stores elements contiguously in row-major order.
 
-It stores values contiguously in row-major order and pairs storage with `Shape` and `Strides` metadata for consistent container behavior across the library.
+A normally constructed matrix always has rank two. Empty matrices retain that
+rank and may have shape `{0, 0}`, `{0, n}`, or `{n, 0}`.
+
+```cpp
+stratax::container::Matrix<double> matrix{
+    {1.0, 2.0, 3.0},
+    {4.0, 5.0, 6.0}
+};
+
+matrix(1, 2);     // 6.0; unchecked access
+matrix.at(-1, 0); // 4.0; checked access
+```
 
 ---
 
 ## Responsibilities
 
-The `Matrix` class is responsible for:
+`Matrix<T>` is responsible for:
 
-- Owning contiguous rank-2 element storage
-- Exposing row/column shape and stride metadata
-- Providing checked signed row/column indexing via `at(row, col)`
-- Providing unchecked flat and row/column element access
-- Providing iterator access over contiguous row-major storage
-- Supporting copy/move ownership semantics
+- Enforcing a rank-two shape at construction
+- Validating that nested initializer lists are rectangular
+- Exposing row and column counts
+- Providing unchecked `operator()(row, col)` access
+- Providing checked signed `at(row, col)` access
+- Retaining the flat owning-container API inherited from `ArrayBase<T>`
+- Supporting constant-time member and argument-dependent `swap`
 
-The `Matrix` class is **not** responsible for:
-
-- Rank-1 or rank-N container semantics
-- Flat checked single-index `at(index)` access
-- Broadcasting policy decisions
-- High-level numerical algorithms
-- Tensor reshaping outside matrix-specific APIs
+`Matrix<T>` does not directly implement broadcasting, reshaping, row/column
+views, or high-level numerical algorithms.
 
 ---
 
-## Relationships
+## Representation and Invariants
 
 ```text
 Matrix<T>
-│
-├── shape_   : core::Shape
-├── strides_ : core::Strides
-└── buffer_  : core::Buffer<T>
+└── core::ArrayBase<T>
+    ├── core::Buffer<T> buffer_
+    ├── core::Shape     shape_
+    └── core::Strides   strides_
 ```
 
-Depends on:
+For every normally constructed matrix:
 
-- Buffer
-- Shape
-- Strides
-- Validation helpers (`validation::checked_multiply`, `validation::require_index`, `validation::require_rank`)
-- Indexing helpers (`stratax::indexing::normalize_index`)
-- Exceptions (`Exceptions::IndexError`, `Exceptions::DimensionError`, `Exceptions::ShapeError`)
+- `rank() == 2`
+- `shape() == Shape{rows(), cols()}`
+- `size() == rows() * cols()`
+- The row-major strides are `{cols(), 1}` for nonzero column counts
+- `operator[](row * cols() + col)` addresses the same element as
+  `operator()(row, col)` for valid indices
+- Elements occupy one contiguous memory range
 
-Used by:
-
-- Tensor conversion and interop paths
-- Generic Stratax container utilities
-
-Related classes:
-
-- Shape
-- Strides
-- Buffer
-- Vector
-- Tensor
+Element-count and stride multiplication are checked during construction. A
+moved-from matrix remains destructible and assignable, but its previous
+contents and layout must not be relied upon.
 
 ---
 
-## Internal Data
+## Type Aliases
 
-| Member | Description |
-| ------- | ----------- |
-| `core::Shape shape_` | Matrix shape metadata (rows, cols) |
-| `core::Strides strides_` | Row-major stride metadata |
-| `core::Buffer<T> buffer_` | Contiguous row-major element storage |
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- `rank()` is 2 for constructed matrices.
-- `size()` equals `rows() * cols()` (with overflow guarded at construction).
-- `data()` points to row-major contiguous storage when non-empty.
-- `at(row, col)` validates bounds and supports negative indexing.
-- `operator[](flat)` is unchecked flat access.
-- `operator()(row, col)` is unchecked row/column access.
-
----
-
-## Public Interface
-
-## Iterator Aliases
+`Matrix<T>` republishes the complete container alias set from
+`core::ArrayBase<T>`:
 
 ```cpp
-using iterator = typename core::Buffer<T>::iterator;
-using const_iterator = typename core::Buffer<T>::const_iterator;
-using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
-using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+using value_type = typename core::ArrayBase<T>::value_type;
+using size_type = typename core::ArrayBase<T>::size_type;
+using difference_type = typename core::ArrayBase<T>::difference_type;
+using reference = typename core::ArrayBase<T>::reference;
+using const_reference = typename core::ArrayBase<T>::const_reference;
+using pointer = typename core::ArrayBase<T>::pointer;
+using const_pointer = typename core::ArrayBase<T>::const_pointer;
+using iterator = typename core::ArrayBase<T>::iterator;
+using const_iterator = typename core::ArrayBase<T>::const_iterator;
+using reverse_iterator = typename core::ArrayBase<T>::reverse_iterator;
+using const_reverse_iterator = typename core::ArrayBase<T>::const_reverse_iterator;
 ```
-
-`Matrix<T>` mirrors `Buffer<T>` iterator aliases for flat row-major traversal.
 
 ---
 
@@ -119,36 +103,26 @@ using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
 Matrix();
 ```
 
-Constructs an empty matrix with shape `(0, 0)`.
+Constructs an empty rank-two matrix with shape `{0, 0}`.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
-Throws
-
-- None
-
----
-
-### Rows/Cols Constructor
+### Dimensions Constructor
 
 ```cpp
-Matrix(std::size_t rows, std::size_t cols);
+Matrix(size_type rows, size_type cols);
 ```
 
-Constructs a matrix with default-initialized elements.
+Constructs a matrix containing `rows * cols` value-initialized elements. For
+arithmetic types, value initialization produces zero.
 
-Complexity
+Complexity: O(rows * cols).
 
-- O(n)
+Throws:
 
-Throws
-
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on size overflow
-
----
+- `Exceptions::DimensionError` if the element count or a stride overflows
+- `std::bad_alloc` if allocation fails
+- Any exception propagated from `value_type` construction
 
 ### Shape Constructor
 
@@ -156,329 +130,178 @@ Throws
 explicit Matrix(const core::Shape& shape);
 ```
 
-Constructs from a validated rank-2 shape.
+Constructs a value-initialized matrix from a rank-two shape. Shapes containing
+a zero dimension are valid.
 
-Complexity
+Complexity: O(shape.elements()).
 
-- O(n)
+Throws:
 
-Throws
-
-- `Exceptions::DimensionError` if shape rank is not 2
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on size overflow
-
----
+- `Exceptions::ShapeError` when `shape.rank() != 2`
+- `Exceptions::DimensionError` if the element count or a stride overflows
+- `std::bad_alloc` if allocation fails
+- Any exception propagated from `value_type` construction
 
 ### Fill Constructor
 
 ```cpp
-Matrix(std::size_t rows, std::size_t cols, const T& value);
+Matrix(size_type rows, size_type cols, const_reference value);
 ```
 
-Constructs and fills every element with `value`.
+Constructs a matrix containing `rows * cols` copies of `value`.
 
-Complexity
+Complexity: O(rows * cols).
 
-- O(n)
+It has the same overflow and allocation failure conditions as the dimensions
+constructor and may propagate exceptions from the `value_type` copy
+constructor.
 
-Throws
-
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on size overflow
-
----
-
-### Nested Initializer List Constructor
+### Nested Initializer-list Constructor
 
 ```cpp
-Matrix(std::initializer_list<std::initializer_list<T>> list);
+Matrix(std::initializer_list<std::initializer_list<value_type>> list);
 ```
 
-Constructs from nested row lists in row-major order.
+Copies rows into contiguous row-major storage. Every row must have the same
+length. An empty outer list creates shape `{0, 0}`; a non-empty collection of
+empty rows creates shape `{rows, 0}`.
 
-Complexity
+Complexity: O(rows * cols), with an additional O(rows) validation pass.
 
-- O(n)
+Throws:
 
-Throws
-
-- `Exceptions::ShapeError` if rows are not rectangular
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on size overflow
+- `Exceptions::ShapeError` if row lengths differ
+- `Exceptions::DimensionError` if the element count or a stride overflows
+- `std::bad_alloc` if allocation fails
+- Any exception propagated from `value_type` construction or assignment
 
 ---
 
-### Copy Constructor
+## Copy and Move Semantics
+
+The compiler-generated special members use `ArrayBase<T>` semantics:
 
 ```cpp
 Matrix(const Matrix&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-### Move Constructor
-
-```cpp
-Matrix(Matrix&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-### Destructor
-
-```cpp
+Matrix(Matrix&&) = default;
+Matrix& operator=(const Matrix&) = default;
+Matrix& operator=(Matrix&&) = default;
 ~Matrix() = default;
 ```
 
-Complexity
-
-- O(n)
+Copying duplicates element storage and metadata. Moving transfers their
+ownership. Copy operations are O(n), while move construction is O(1).
 
 ---
 
-## Assignment Operators
-
-## Copy Assignment
+## Matrix Metadata
 
 ```cpp
-Matrix& operator=(const Matrix&) = default;
+[[nodiscard]] size_type rows() const noexcept;
+[[nodiscard]] size_type cols() const noexcept;
 ```
 
-Complexity
+`rows()` returns `shape()[0]`, and `cols()` returns `shape()[1]`. Both
+operations are O(1).
 
-- O(n)
-
----
-
-## Move Assignment
+The inherited metadata interface is also available:
 
 ```cpp
-Matrix& operator=(Matrix&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-## Methods
-
-## size()
-
-```cpp
-[[nodiscard]] std::size_t size() const noexcept;
-```
-
-Returns total number of stored elements.
-
-Complexity
-
-- O(1)
-
----
-
-## empty()
-
-```cpp
+[[nodiscard]] size_type size() const noexcept;
 [[nodiscard]] bool empty() const noexcept;
+[[nodiscard]] size_type rank() const noexcept;
+[[nodiscard]] const core::Shape& shape() const noexcept;
+[[nodiscard]] const core::Strides& strides() const noexcept;
 ```
-
-Returns whether no elements are stored.
-
-Complexity
-
-- O(1)
 
 ---
 
-## rows() / cols()
+## Element Access
+
+### Unchecked Two-dimensional Access
 
 ```cpp
-[[nodiscard]] std::size_t rows() const noexcept;
-[[nodiscard]] std::size_t cols() const noexcept;
+reference operator()(size_type row, size_type col);
+const_reference operator()(size_type row, size_type col) const;
 ```
 
-Returns matrix dimensions.
+Computes the row-major offset `row * cols() + col` without checking either
+index.
 
-Complexity
+Preconditions:
 
-- O(1)
+- `row < rows()`
+- `col < cols()`
 
----
+Complexity: O(1).
 
-## shape() / strides() / rank()
+### Checked Two-dimensional Access
 
 ```cpp
-const stratax::core::Shape& shape() const noexcept;
-const stratax::core::Strides& strides() const noexcept;
-[[nodiscard]] std::size_t rank() const noexcept;
+reference at(difference_type row, difference_type col);
+const_reference at(difference_type row, difference_type col) const;
 ```
 
-Returns matrix metadata.
+Checks each component independently. Valid row indices are
+`[-rows(), rows())`, and valid column indices are `[-cols(), cols())`.
+Negative components count backward from the corresponding dimension.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
+Throws `Exceptions::IndexError` if either component is invalid.
 
----
-
-## at()
+### Inherited Flat Access
 
 ```cpp
-T& at(std::ptrdiff_t row, std::ptrdiff_t col);
-const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const;
+reference operator[](size_type index) noexcept;
+const_reference operator[](size_type index) const noexcept;
+
+reference at(difference_type index);
+const_reference at(difference_type index) const;
 ```
 
-Returns element with bounds checking and negative-index normalization.
+`operator[]` is unchecked. The inherited one-argument `at(index)` overload is
+explicitly retained with a using-declaration and supports negative flat
+indices.
 
-Complexity
+The inherited `front()`, `back()`, and `data()` accessors are also
+available. `front()` and `back()` throw `Exceptions::IndexError` when the
+matrix is empty.
 
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
+All individual element-access operations are O(1).
 
 ---
 
-## front() / back()
+## Iteration and Fill
+
+`begin()`, `end()`, their const variants, and all reverse iterator variants
+traverse the flat row-major sequence. Acquiring an iterator is O(1), and
+traversing all elements is O(size()).
 
 ```cpp
-T& front();
-const T& front() const;
-T& back();
-const T& back() const;
+for (auto& value : matrix)
+{
+    value *= 2;
+}
 ```
 
-Returns first/last flat element.
-
-Preconditions
-
-- Matrix must not be empty.
-
-Complexity
-
-- O(1)
+`fill(const_reference value)` assigns `value` to every element in O(size()).
 
 ---
 
-## data()
-
-```cpp
-[[nodiscard]] T* data() noexcept;
-[[nodiscard]] const T* data() const noexcept;
-```
-
-Returns pointer to contiguous row-major storage.
-
-Complexity
-
-- O(1)
-
----
-
-## Iterators
-
-```cpp
-[[nodiscard]] iterator begin() noexcept;
-[[nodiscard]] const_iterator begin() const noexcept;
-[[nodiscard]] const_iterator cbegin() const noexcept;
-[[nodiscard]] iterator end() noexcept;
-[[nodiscard]] const_iterator end() const noexcept;
-[[nodiscard]] const_iterator cend() const noexcept;
-[[nodiscard]] reverse_iterator rbegin() noexcept;
-[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-[[nodiscard]] reverse_iterator rend() noexcept;
-[[nodiscard]] const_reverse_iterator rend() const noexcept;
-[[nodiscard]] const_reverse_iterator crend() const noexcept;
-```
-
-Provides forward and reverse iteration over flat row-major storage.
-
-Complexity
-
-- O(1)
-
----
-
-## fill()
-
-```cpp
-void fill(const T& value);
-```
-
-Assigns `value` to every element.
-
-Complexity
-
-- O(n)
-
----
-
-## swap()
+## Swap
 
 ```cpp
 void swap(Matrix& other) noexcept;
+friend void swap(Matrix& lhs, Matrix& rhs) noexcept;
 ```
 
-Exchanges metadata and storage with another matrix.
-
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator()(row, col)
+Both overloads exchange the buffer, shape, and strides in O(1). The non-member
+overload supports argument-dependent lookup:
 
 ```cpp
-T& operator()(std::size_t row, std::size_t col);
-const T& operator()(std::size_t row, std::size_t col) const;
-```
-
-Returns element by row/column with bounds checking.
-
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if row or column is out of bounds
-
----
-
-## operator[]
-
-```cpp
-T& operator[](std::size_t index) noexcept;
-const T& operator[](std::size_t index) const noexcept;
-```
-
-Unchecked flat indexing in row-major order.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-T& at(std::ptrdiff_t row, std::ptrdiff_t col);
-const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const;
+using std::swap;
+swap(lhs, rhs);
 ```
 
 ---
@@ -488,17 +311,13 @@ const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const;
 | Operation | Complexity |
 | --------- | ----------: |
 | Default construction | O(1) |
-| Rows/cols/shape/fill/list construction | O(n) |
-| Copy construction | O(n) |
+| Dimension, fill, shape, or list construction | O(rows * cols) |
+| Copy construction or assignment | O(n) |
 | Move construction | O(1) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
-| Destruction | O(n) |
-| `size()` / `rows()` / `cols()` / `rank()` / `empty()` | O(1) |
-| `shape()` / `strides()` | O(1) |
-| `operator()` / `operator[]` / `at()` | O(1) |
-| `front()` / `back()` | O(1) |
-| Iteration | O(n) |
+| Metadata query | O(1) |
+| Flat or two-dimensional element access | O(1) |
+| Iterator acquisition | O(1) |
+| Complete traversal | O(n) |
 | `fill()` | O(n) |
 | `swap()` | O(1) |
 
@@ -506,57 +325,57 @@ const T& at(std::ptrdiff_t row, std::ptrdiff_t col) const;
 
 ## Examples
 
-## Creating Matrices
+### Construction
 
 ```cpp
-stratax::container::Matrix<double> a;
-stratax::container::Matrix<double> b(2, 3);
-stratax::container::Matrix<double> c(2, 2, 1.5);
-stratax::container::Matrix<double> d{{1.0, 2.0}, {3.0, 4.0}};
+stratax::container::Matrix<double> empty;
+stratax::container::Matrix<double> zeros(2, 3);
+stratax::container::Matrix<double> filled(2, 2, 1.5);
+stratax::container::Matrix<double> values{
+    {1.0, 2.0},
+    {3.0, 4.0}
+};
 ```
 
----
-
-## Accessing Elements
+### Checked and Unchecked Access
 
 ```cpp
-stratax::container::Matrix<double> m{{10.0, 20.0}, {30.0, 40.0}};
+stratax::container::Matrix<double> values{
+    {10.0, 20.0},
+    {30.0, 40.0}
+};
 
-auto x = m(1, 0);
-auto y = m.at(-1, -1);
+values(1, 0) = 35.0; // unchecked row/column access
+values.at(1, 0);     // 35.0
+values.at(-1, -1);   // 40.0
+values.at(-1);       // 40.0 through inherited flat access
 ```
 
----
-
-## Iteration
+### Row-major Traversal
 
 ```cpp
-for (const auto& value : m)
+for (const double value : values)
 {
     std::cout << value << '\n';
 }
 ```
 
+The loop visits `10.0`, `20.0`, `35.0`, then `40.0`.
+
 ---
 
 ## Design Notes
 
-`Matrix<T>` keeps shape/stride metadata explicit while storing values in one contiguous row-major `Buffer<T>`. This mirrors `Vector` and `Tensor` internals and simplifies shared indexing and conversion logic.
-
-Checked APIs (`operator()(row, col)`, `at`) coexist with unchecked flat access (`operator[]`) to balance safety and performance.
-
----
-
-## Future Improvements
-
-- Add row/column view APIs
-- Add slicing/submatrix view support
-- Add specialized SIMD kernels for common element-wise operations
+Keeping ownership and layout behavior in `ArrayBase<T>` gives `Vector`,
+`Matrix`, and `Tensor` consistent flat access and iterator semantics.
+`Matrix<T>` adds only rank-two validation, dimension queries, rectangular
+initializer handling, and two-dimensional indexing.
 
 ---
 
 ## See Also
 
+- @ref arraybase
 - @ref buffer
 - @ref shape
 - @ref strides
