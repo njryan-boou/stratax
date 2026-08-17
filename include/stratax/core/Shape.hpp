@@ -35,10 +35,18 @@ private:
 	Buffer<std::size_t> dims_;
 
 public:
+	/** @brief Type used to represent each dimension. */
+	using value_type = std::size_t;
+	/** @brief Unsigned type used for ranks and dimension indices. */
+	using size_type = std::size_t;
+	/** @brief Signed type used for checked indices and iterator distances. */
+	using difference_type = std::ptrdiff_t;
+	/** @brief Read-only reference to a dimension. */
+	using const_reference = const value_type&;
 	/** @brief Read-only contiguous iterator over dimensions. */
-	using const_iterator = Buffer<std::size_t>::const_iterator;
+	using const_iterator = Buffer<value_type>::const_iterator;
 	/** @brief Read-only iterator over dimensions in reverse order. */
-	using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+	using const_reverse_iterator = Buffer<value_type>::const_reverse_iterator;
 
 	/**
 	 * @brief Constructs an empty, rank-zero shape.
@@ -53,7 +61,7 @@ public:
 	 * @throws std::bad_alloc If dimension storage cannot be allocated.
 	 * @complexity O(dims.size()).
 	 */
-	Shape(std::initializer_list<std::size_t> dims)
+	Shape(std::initializer_list<value_type> dims)
 		: dims_(dims)
 	{}
 
@@ -64,7 +72,7 @@ public:
 	 * @throws std::bad_alloc If dimension storage cannot be allocated.
 	 * @complexity O(dims.size()).
 	 */
-	Shape(const std::vector<std::size_t>& dims)
+	Shape(const std::vector<value_type>& dims)
 		: dims_(dims.size())
 	{
 		std::copy(dims.begin(), dims.end(), dims_.begin());
@@ -80,14 +88,14 @@ public:
 	 * @throws Exceptions::DimensionError If the product exceeds `std::size_t`.
 	 * @complexity O(rank()).
 	 */
-	[[nodiscard]] std::size_t elements() const
+	[[nodiscard]] size_type elements() const
 	{
 		if (empty())
 		{
 			return 0;
 		}
-		std::size_t prod = 1;
-		for (std::size_t dim : dims_)
+		size_type prod = 1;
+		for (value_type dim : dims_)
 		{
 			if (dim == 0)
 			{
@@ -110,10 +118,7 @@ public:
 	 * @return Number of stored dimension values.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] std::size_t rank() const noexcept
-	{
-		return dims_.size();
-	}
+	[[nodiscard]] size_type rank() const noexcept {return dims_.size();}
 
 	/**
 	 * @brief Returns a dimension without bounds checking.
@@ -122,10 +127,7 @@ public:
 	 * @pre `index < rank()`; otherwise behavior is undefined.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] const std::size_t& operator[](std::size_t index) const noexcept
-	{
-		return dims_[index];
-	}
+	[[nodiscard]] const_reference operator[](size_type index) const noexcept {return dims_[index];}
 
 	/**
 	 * @brief Returns a dimension using checked, Python-style indexing.
@@ -138,20 +140,14 @@ public:
 	 * @throws Exceptions::IndexError If @p index is outside the valid range.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] const std::size_t& at(std::ptrdiff_t index) const
-	{
-		return dims_[stratax::indexing::normalize_index(index, rank())];
-	}
+	[[nodiscard]] const_reference at(difference_type index) const {return dims_[stratax::indexing::normalize_index(index, rank())];}
 
 	/**
 	 * @brief Reports whether the shape has rank zero.
 	 * @return `true` if no dimensions are stored; otherwise `false`.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] bool empty() const noexcept
-	{
-		return dims_.empty();
-	}
+	[[nodiscard]] bool empty() const noexcept {return dims_.empty();}
 
 	/**
 	 * @brief Compares two shapes dimension by dimension.
@@ -165,7 +161,7 @@ public:
 		{
 			return false;
 		}
-		for (std::size_t i = 0; i < rank(); ++i)
+		for (size_type i = 0; i < rank(); ++i)
 		{
 			if (dims_[i] != other.dims_[i])
 			{
@@ -217,7 +213,7 @@ inline std::ostream& operator<<(std::ostream& os, const Shape& shape)
 	os << "(";
 
 	bool first = true;
-	for (std::size_t dim : shape)
+	for (Shape::value_type dim : shape)
 	{
 		if (!first)
 			os << ", ";

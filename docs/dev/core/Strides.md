@@ -2,7 +2,7 @@
 
 # Strides {#dev_strides}
 
-Version: v0.2.0
+Version: v0.3.1
 
 Status: Complete
 
@@ -12,468 +12,347 @@ Header: `include/stratax/core/Strides.hpp`
 
 ## Overview
 
-`Strides` stores row-major stride metadata for a `Shape`.
+`Strides` owns row-major stride metadata for a `Shape`. A stride is the number
+of contiguous elements skipped when the index for one dimension increases by
+one.
 
-It maps logical multi-dimensional indices to flat storage offsets and is used as lightweight layout metadata by Stratax containers.
+For a non-empty row-major shape, the final stride is `1`, and each preceding
+stride is the product of the dimensions to its right:
+
+```cpp
+const stratax::core::Shape shape{2, 3, 4};
+const stratax::core::Strides strides(shape);
+
+// strides == (12, 4, 1)
+const std::size_t offset =
+    1 * strides[0] + 2 * strides[1] + 3 * strides[2]; // 23
+```
+
+Stride values are stored contiguously in `Buffer<std::size_t>`. Unlike
+`Shape`, `Strides` exposes mutable references, pointers, and iterators.
 
 ---
 
 ## Responsibilities
 
-The `Strides` class is responsible for:
+`Strides` is responsible for:
 
-- Computing row-major strides from a `Shape`
-- Storing stride values contiguously
-- Providing checked and unchecked stride access
-- Providing iteration over stride values
-- Supporting comparison and swap
+- Computing canonical row-major strides from a shape
+- Detecting stride multiplication overflow
+- Owning stride values in contiguous storage
+- Providing mutable and const element access
+- Providing checked Python-style indexing
+- Supporting forward and reverse iteration
+- Supporting value comparison, swapping, and tuple-style formatting
 
-The `Strides` class is **not** responsible for:
-
-- Owning array element data
-- Performing numerical algorithms
-- Shape validation beyond stride-index access
-- Multidimensional indexing logic itself
+It is not responsible for owning array elements, validating complete indices,
+calculating multidimensional offsets, or performing numerical operations.
 
 ---
 
 ## Relationships
 
 ```text
-Strides
-│
-└── buffer_ : Buffer<std::size_t>
-    Stored stride values
+Shape ──constructs──> Strides
+                       └── buffer_ : Buffer<std::size_t>
 ```
 
 Depends on:
 
-- Buffer
-- Shape
-- Validation helpers (`validation::checked_multiply`, `validation::require_index`)
-- Exceptions (`Exceptions::DimensionError`, `Exceptions::IndexError`)
+- `Shape` for source dimensions
+- `Buffer<std::size_t>` for owned contiguous storage
+- `indexing::normalize_index` for checked signed indexing
+- `Exceptions::DimensionError` and `Exceptions::IndexError`
 
-Used by:
-
-- Vector
-- Matrix
-- Tensor
-
-Related classes:
-
-- Shape
-- Buffer
-
----
-
-## Internal Data
-
-| Member | Description |
-| ------- | ----------- |
-| `Buffer<std::size_t> buffer_` | Contiguous storage of stride values |
+Used by `ArrayBase` and the indexing, slicing, reshape, and printing layers.
 
 ---
 
 ## Invariants
 
-The following conditions are always true:
+- `rank()` equals the number of stored stride values.
+- `empty()` is equivalent to `rank() == 0`.
+- An empty shape produces empty strides and `data() == nullptr`.
+- A non-empty canonical stride sequence ends in `1`.
+- Each earlier canonical stride is the representable product of dimensions to
+  its right.
+- Construction throws rather than allowing unsigned stride overflow.
+- Values may be changed after construction through mutable accessors.
+- Equal instances have identical ranks and stride values.
 
-- `rank()` equals `size()`.
-- Empty shape produces empty strides.
-- For non-empty row-major shapes, the last stride is `1`.
-- `at(index)` validates bounds and throws on invalid access.
-- `operator==` compares both rank and all stride values.
+Because values are mutable, changing them can make an instance no longer
+represent the canonical row-major layout of its original shape.
 
 ---
 
-## Public Interface
-
-## Iterator Aliases
+## Public Types
 
 ```cpp
-using iterator = Buffer<std::size_t>::const_iterator;
-using const_iterator = Buffer<std::size_t>::const_iterator;
-using reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
-using const_reverse_iterator = Buffer<std::size_t>::const_reverse_iterator;
+using value_type             = std::size_t;
+using size_type              = std::size_t;
+using difference_type        = std::ptrdiff_t;
+using reference              = value_type&;
+using const_reference        = const value_type&;
+using pointer                = value_type*;
+using const_pointer          = const value_type*;
+using iterator               = Buffer<value_type>::iterator;
+using const_iterator         = Buffer<value_type>::const_iterator;
+using reverse_iterator       = Buffer<value_type>::reverse_iterator;
+using const_reverse_iterator = Buffer<value_type>::const_reverse_iterator;
 ```
 
-`Strides` intentionally exposes const-backed iterator aliases because stride values are derived metadata.
+The iterator aliases provide contiguous random-access traversal.
 
 ---
 
-## Constructors
+## Construction and Lifetime
 
-### Default Constructor
+### Default construction
 
 ```cpp
 Strides() noexcept;
 ```
 
-Constructs an empty stride vector.
+Constructs an empty, rank-zero stride sequence with no allocation.
 
-Complexity
+Complexity: O(1).
 
-- O(1)
-
-Throws
-
-- None
-
----
-
-### Shape Constructor
+### Shape construction
 
 ```cpp
 explicit Strides(const Shape& shape);
 ```
 
-Constructs row-major strides for a shape.
+Computes row-major strides from right to left. An empty shape produces an empty
+sequence; a rank-one shape produces `(1,)`.
 
-Complexity
+Zero dimensions are supported. For example:
 
-- O(n)
+```text
+Shape{0, 3, 4} -> (12, 4, 1)
+Shape{2, 0, 4} -> (0, 4, 1)
+Shape{2, 3, 0} -> (0, 0, 1)
+```
 
-Throws
+Complexity: O(shape.rank()).
 
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on stride overflow
+Throws:
 
----
+- `std::bad_alloc` if stride storage cannot be allocated
+- `Exceptions::DimensionError` if a stride product exceeds `std::size_t`
 
-### Copy Constructor
+### Copy and move construction
 
 ```cpp
 Strides(const Strides&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-### Move Constructor
-
-```cpp
 Strides(Strides&&) noexcept = default;
 ```
 
-Complexity
+Copy construction creates independent storage in O(rank()) time. Move
+construction transfers the allocation in O(1), leaves the source empty, and
+does not move individual stride values.
 
-- O(1)
-
----
-
-### Destructor
+### Destruction
 
 ```cpp
 ~Strides() = default;
 ```
 
-Complexity
-
-- O(n)
+Destroys the underlying stride buffer in O(rank()) time.
 
 ---
 
-## Assignment Operators
-
-## Copy Assignment
+## Assignment
 
 ```cpp
 Strides& operator=(const Strides&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-## Move Assignment
-
-```cpp
 Strides& operator=(Strides&&) noexcept = default;
 ```
 
-Complexity
+Copy assignment performs a deep copy with the strong exception guarantee. Its
+complexity is O(old rank + copied rank).
 
-- O(1)
-
----
-
-## Methods
-
-## size()
-
-```cpp
-[[nodiscard]] std::size_t size() const noexcept;
-```
-
-Returns the number of stored stride values.
-
-Complexity
-
-- O(1)
+Move assignment destroys the destination's previous storage and transfers the
+source allocation. Its complexity is O(old rank), followed by O(1) ownership
+transfer. The source becomes empty. Self-copy and self-move assignment leave
+the object unchanged.
 
 ---
 
-## rank()
+## Metadata and Storage
+
+### rank and empty
 
 ```cpp
-[[nodiscard]] std::size_t rank() const noexcept;
-```
-
-Returns the represented dimensional rank.
-
-Complexity
-
-- O(1)
-
----
-
-## empty()
-
-```cpp
+[[nodiscard]] size_type rank() const noexcept;
 [[nodiscard]] bool empty() const noexcept;
 ```
 
-Returns `true` if no strides are stored.
+`rank()` returns the number of stride values. `empty()` is equivalent to
+`rank() == 0`. Both operations are O(1).
 
-Complexity
-
-- O(1)
-
----
-
-## at()
+### data
 
 ```cpp
-const std::size_t& at(std::size_t index) const;
+[[nodiscard]] pointer data() noexcept;
+[[nodiscard]] const_pointer data() const noexcept;
 ```
 
-Returns a stride value with bounds checking.
+Returns the first stride's address, or `nullptr` when empty. The non-const
+overload permits direct mutation. Pointers remain valid until the owning object
+is assigned to, moved from, swapped, or destroyed.
 
-Complexity
-
-- O(1)
-
-Throws
-
-- `Exceptions::IndexError` if out of bounds
+Complexity: O(1).
 
 ---
 
-## front()
+## Element Access
+
+### front and back
 
 ```cpp
-const std::size_t& front() const;
+[[nodiscard]] reference front();
+[[nodiscard]] const_reference front() const;
+[[nodiscard]] reference back();
+[[nodiscard]] const_reference back() const;
 ```
 
-Returns first stride.
+Returns the first or final stride. The mutable overloads permit modification.
+Each function throws `Exceptions::IndexError` when the sequence is empty.
 
-Preconditions
+Complexity: O(1).
 
-- Strides must not be empty.
-
-Complexity
-
-- O(1)
-
----
-
-## back()
+### Unchecked access
 
 ```cpp
-const std::size_t& back() const;
+[[nodiscard]] const_reference operator[](size_type index) const noexcept;
 ```
 
-Returns last stride.
+Returns a read-only reference without checking bounds. Behavior is undefined
+unless `index < rank()`.
 
-Preconditions
+Complexity: O(1).
 
-- Strides must not be empty.
-
-Complexity
-
-- O(1)
-
----
-
-## data()
+### Checked signed access
 
 ```cpp
-[[nodiscard]] const std::size_t* data() const noexcept;
+[[nodiscard]] const_reference at(difference_type index) const;
 ```
 
-Returns pointer to first stride value.
-
-Complexity
-
-- O(1)
-
----
-
-## begin()/end()/cbegin()/cend()
+Accepts indices in `[-rank(), rank())`. Negative indices count backward from
+the final stride:
 
 ```cpp
-[[nodiscard]] iterator begin() noexcept;
-[[nodiscard]] const_iterator begin() const noexcept;
-[[nodiscard]] const_iterator cbegin() const noexcept;
-[[nodiscard]] iterator end() noexcept;
-[[nodiscard]] const_iterator end() const noexcept;
-[[nodiscard]] const_iterator cend() const noexcept;
+const Strides strides(Shape{2, 3, 4});
+
+strides.at(0);  // 12
+strides.at(-1); // 1
+strides.at(-3); // 12
 ```
 
-Provides iteration over stride values.
+Throws `Exceptions::IndexError` when the index is outside the valid range,
+including every index applied to an empty sequence.
 
-Complexity
-
-- O(1)
+Complexity: O(1).
 
 ---
 
-## rbegin()/rend()/crbegin()/crend()
+## Iteration
 
 ```cpp
-[[nodiscard]] reverse_iterator rbegin() noexcept;
-[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-[[nodiscard]] reverse_iterator rend() noexcept;
-[[nodiscard]] const_reverse_iterator rend() const noexcept;
-[[nodiscard]] const_reverse_iterator crend() const noexcept;
+iterator begin() noexcept;
+iterator end() noexcept;
+const_iterator begin() const noexcept;
+const_iterator end() const noexcept;
+const_iterator cbegin() const noexcept;
+const_iterator cend() const noexcept;
+
+reverse_iterator rbegin() noexcept;
+reverse_iterator rend() noexcept;
+const_reverse_iterator rbegin() const noexcept;
+const_reverse_iterator rend() const noexcept;
+const_reverse_iterator crbegin() const noexcept;
+const_reverse_iterator crend() const noexcept;
 ```
 
-Provides reverse iteration over stride values.
-
-Complexity
-
-- O(1)
+Non-const iterators permit stride mutation. Each accessor is O(1), while full
+traversal is O(rank()). Every begin/end pair compares equal when empty.
 
 ---
 
-## swap()
+## Comparison
+
+```cpp
+[[nodiscard]] bool operator==(const Strides& other) const noexcept;
+```
+
+Two instances compare equal when their ranks and corresponding stride values
+are equal. In C++20, `operator!=` is rewritten from `operator==`.
+
+Complexity: O(rank()) in the worst case; differing ranks return in O(1).
+
+---
+
+## Swap
 
 ```cpp
 void swap(Strides& other) noexcept;
 ```
 
-Exchanges stride storage with another instance.
+Exchanges storage without copying individual values. Pointers, references, and
+iterators remain valid but now refer to values owned by the other object.
+Swapping with an empty instance and self-swap are supported.
 
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator()
-
-```cpp
-const std::size_t& operator()(std::size_t index) const;
-```
-
-Returns stride value without bounds checking.
-
-Complexity
-
-- O(1)
-
-See Also
-
-```cpp
-const std::size_t& at(std::size_t index) const;
-```
+Complexity: O(1).
 
 ---
 
-## operator== / operator!=
+## Stream Output
 
 ```cpp
-[[nodiscard]] bool operator==(const Strides& other) const noexcept;
-[[nodiscard]] bool operator!=(const Strides& other) const noexcept;
+std::ostream& operator<<(std::ostream& os, const Strides& strides);
 ```
 
-Compares stride vectors by rank and values.
+Writes tuple-style output and returns `os`:
 
-Complexity
-
-- O(n)
-
----
-
-## stream operator
-
-```cpp
-std::ostream& operator<<(std::ostream& os, const Strides& stride);
+```text
+Strides{Shape{2, 3, 4}} -> (12, 4, 1)
+Strides{Shape{5}}       -> (1,)
+Strides{}               -> ()
 ```
 
-Writes tuple-like stride representation, for example `(12, 4, 1)` and `(1,)` for rank-1.
-
-Complexity
-
-- O(n)
+Complexity: O(strides.rank()).
 
 ---
 
 ## Complexity Summary
 
 | Operation | Complexity |
-| --------- | ----------: |
+| --------- | ---------- |
 | Default construction | O(1) |
 | Shape construction | O(n) |
 | Copy construction | O(n) |
 | Move construction | O(1) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
+| Copy assignment | O(old rank + copied rank) |
+| Move assignment | O(old rank) |
 | Destruction | O(n) |
-| `size()` / `rank()` / `empty()` | O(1) |
-| `operator()` / `at()` | O(1) |
-| `front()` / `back()` | O(1) |
-| `operator==` / `operator!=` | O(n) |
-| Iteration | O(n) |
+| Metadata, individual access, or iterator creation | O(1) |
+| Full traversal or comparison | O(n) |
 | `swap()` | O(1) |
-
----
-
-## Examples
-
-## Building Strides From a Shape
-
-```cpp
-Shape shape(2, 3, 4);
-Strides strides(shape);
-
-std::cout << strides << '\n'; // (12, 4, 1)
-```
-
----
-
-## Accessing Strides
-
-```cpp
-Strides strides(Shape(2, 3, 4));
-
-auto first = strides(0);   // unchecked
-auto safe = strides.at(1); // checked
-```
+| Stream output | O(n) |
 
 ---
 
 ## Design Notes
 
-`Strides` stores only layout metadata and intentionally avoids array value ownership.
+`Strides` separates layout metadata from both shape metadata and array element
+storage. This lets indexing code consume a simple contiguous stride sequence
+without depending on a particular array container.
 
-By separating shape and stride metadata from value storage, Stratax keeps indexing and layout logic explicit and reusable across `Vector`, `Matrix`, and `Tensor`.
-
----
-
-## Future Improvements
-
-- Optional column-major stride construction helper
-- Utility helpers for broadcast-aware stride derivation
-- Additional constexpr-friendly constructors
+The class permits mutation because slicing and future layout transformations
+may need non-canonical stride values. Construction from `Shape`, however,
+always computes canonical row-major values or throws if they are not
+representable.
 
 ---
 
@@ -481,6 +360,7 @@ By separating shape and stride metadata from value storage, Stratax keeps indexi
 
 - @ref shape
 - @ref buffer
+- @ref arraybase
 - @ref vector
 - @ref matrix
 - @ref tensor
