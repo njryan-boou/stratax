@@ -4,7 +4,6 @@
 #include <complex>
 #include <type_traits>
 
-#include <stratax/core/Types.hpp>
 
 namespace stratax::core::concept_detail {
 

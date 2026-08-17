@@ -16,6 +16,10 @@ RECURSIVE              = YES
 
 MARKDOWN_SUPPORT       = YES
 
+# Project-specific documentation commands.
+# Usage: @complexity O(1)
+ALIASES               += complexity="\par Complexity^^"
+
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
 SEARCHENGINE           = YES
