@@ -12,98 +12,85 @@ Header: `include/stratax/containers/Tensor.hpp`
 
 ## Overview
 
-`Tensor<T>` is an N-dimensional array container for numeric types.
+`stratax::container::Tensor<T>` is an arbitrary-rank owning array for types
+that satisfy the `Numeric` concept. It derives from `core::ArrayBase<T>` and
+stores elements contiguously using canonical row-major strides.
 
-It stores values in contiguous row-major memory and pairs storage with `Shape` and `Strides` metadata for generic multi-dimensional indexing and container interoperability.
+The default tensor is empty with shape `{0}` and rank one. Constructing from
+an explicit `Shape{}` instead creates an empty rank-zero tensor.
+
+```cpp
+stratax::container::Tensor<double> tensor(
+    stratax::core::Shape{2, 3, 4},
+    0.0);
+
+tensor(1, 2, 3) = 7.0; // unchecked multidimensional access
+tensor.at(-1, -1, -1); // 7.0; checked negative indices
+tensor.at(-1);         // checked flat access inherited from ArrayBase
+```
 
 ---
 
 ## Responsibilities
 
-The `Tensor` class is responsible for:
+`Tensor<T>` is responsible for:
 
-- Owning contiguous N-dimensional element storage
-- Exposing shape and stride metadata
-- Providing unchecked flat access and checked signed multi-index access
-- Providing iterator access over contiguous storage
-- Supporting copy/move ownership semantics
+- Owning arbitrary-rank contiguous storage through `ArrayBase<T>`
+- Preserving explicit shape and row-major stride metadata
+- Providing unchecked variadic and vector-based multidimensional access
+- Providing checked signed variadic and vector-based multidimensional access
+- Retaining the inherited flat container interface
+- Supporting constant-time member and argument-dependent `swap`
 
-The `Tensor` class is **not** responsible for:
-
-- Broadcasting policy decisions
-- High-level numerical algorithms
-- Flat checked single-index `at(index)` access (provided by `Vector`)
-- Specialized rank-1/rank-2 APIs (handled by `Vector`/`Matrix`)
+`Tensor<T>` does not directly implement broadcasting, reshaping, slicing, or
+high-level numerical algorithms.
 
 ---
 
-## Relationships
+## Representation and Invariants
 
 ```text
 Tensor<T>
-│
-├── shape_   : core::Shape
-├── strides_ : core::Strides
-└── buffer_  : core::Buffer<T>
+└── core::ArrayBase<T>
+    ├── core::Buffer<T> buffer_
+    ├── core::Shape     shape_
+    └── core::Strides   strides_
 ```
 
-Depends on:
+For every normally constructed tensor:
 
-- Buffer
-- Shape
-- Strides
-- Indexing helpers (`stratax::indexing::offset`, `stratax::indexing::normalize_index`)
-- Exceptions (`Exceptions::IndexError`, `Exceptions::DimensionError`)
+- `size() == shape().elements()`
+- `rank() == shape().rank() == strides().rank()`
+- `strides()` describes the canonical row-major layout of `shape()`
+- Elements occupy one contiguous memory range
 
-Used by:
+Shapes of any rank are accepted, including rank zero and shapes containing zero
+dimensions. Element-count and stride multiplication are checked during
+construction.
 
-- Generic tensor algorithms
-- Conversion paths to/from vector/matrix representations
-
-Related classes:
-
-- Buffer
-- Shape
-- Strides
-- Vector
-- Matrix
+A moved-from tensor remains destructible and assignable, but its previous
+contents and layout must not be relied upon.
 
 ---
 
-## Internal Data
+## Type Aliases
 
-| Member | Description |
-| ------- | ----------- |
-| `core::Shape shape_` | N-dimensional shape metadata |
-| `core::Strides strides_` | Row-major stride metadata |
-| `core::Buffer<T> buffer_` | Contiguous element storage |
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- `size()` equals `buffer_.size()`.
-- `rank()` equals `shape().rank()`.
-- `strides()` is derived from `shape()` using row-major layout.
-- `data()` points to contiguous storage when non-empty.
-- Checked `at(...)` overloads validate signed multi-index bounds and support negative components.
-
----
-
-## Public Interface
-
-## Iterator Aliases
+`Tensor<T>` republishes the complete container alias set from
+`core::ArrayBase<T>`:
 
 ```cpp
-using iterator = typename core::Buffer<T>::iterator;
-using const_iterator = typename core::Buffer<T>::const_iterator;
-using reverse_iterator = typename core::Buffer<T>::reverse_iterator;
-using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
+using value_type = typename core::ArrayBase<T>::value_type;
+using size_type = typename core::ArrayBase<T>::size_type;
+using difference_type = typename core::ArrayBase<T>::difference_type;
+using reference = typename core::ArrayBase<T>::reference;
+using const_reference = typename core::ArrayBase<T>::const_reference;
+using pointer = typename core::ArrayBase<T>::pointer;
+using const_pointer = typename core::ArrayBase<T>::const_pointer;
+using iterator = typename core::ArrayBase<T>::iterator;
+using const_iterator = typename core::ArrayBase<T>::const_iterator;
+using reverse_iterator = typename core::ArrayBase<T>::reverse_iterator;
+using const_reverse_iterator = typename core::ArrayBase<T>::const_reverse_iterator;
 ```
-
-`Tensor<T>` mirrors `Buffer<T>` iterator aliases for flat contiguous-storage traversal.
 
 ---
 
@@ -112,20 +99,12 @@ using const_reverse_iterator = typename core::Buffer<T>::const_reverse_iterator;
 ### Default Constructor
 
 ```cpp
-Tensor() noexcept;
+Tensor();
 ```
 
-Constructs an empty rank-0 tensor.
+Constructs an empty rank-one tensor with shape `{0}`.
 
-Complexity
-
-- O(1)
-
-Throws
-
-- None
-
----
+Complexity: O(1).
 
 ### Shape Constructor
 
@@ -133,341 +112,193 @@ Throws
 explicit Tensor(const core::Shape& shape);
 ```
 
-Constructs tensor storage for `shape` with default-initialized elements.
+Constructs `shape.elements()` value-initialized elements. For arithmetic
+types, value initialization produces zero.
 
-Complexity
+Complexity: O(shape.elements() + shape.rank()).
 
-- O(n)
+Throws:
 
-Throws
+- `Exceptions::DimensionError` if the element count or a stride overflows
+- `std::bad_alloc` if allocation fails
+- Any exception propagated from `value_type` construction
 
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on element-count overflow
-
----
-
-### Shape + Fill Constructor
+### Shape and Fill Constructor
 
 ```cpp
-Tensor(const core::Shape& shape, const T& value);
+Tensor(const core::Shape& shape, const_reference value);
 ```
 
-Constructs tensor storage for `shape` and fills every element with `value`.
+Constructs `shape.elements()` copies of `value`.
 
-Complexity
+Complexity: O(shape.elements() + shape.rank()).
 
-- O(n)
-
-Throws
-
-- `std::bad_alloc`
-- `Exceptions::DimensionError` on element-count overflow
+It has the same overflow and allocation failure conditions as the shape
+constructor and may propagate exceptions from the `value_type` copy
+constructor.
 
 ---
 
-### Copy Constructor
+## Copy and Move Semantics
+
+The compiler-generated special members use `ArrayBase<T>` semantics:
 
 ```cpp
 Tensor(const Tensor&) = default;
-```
-
-Complexity
-
-- O(n)
-
----
-
-### Move Constructor
-
-```cpp
-Tensor(Tensor&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-### Destructor
-
-```cpp
+Tensor(Tensor&&) = default;
+Tensor& operator=(const Tensor&) = default;
+Tensor& operator=(Tensor&&) = default;
 ~Tensor() = default;
 ```
 
-Complexity
-
-- O(n)
-
----
-
-## Assignment Operators
-
-## Copy Assignment
-
-```cpp
-Tensor& operator=(const Tensor&) = default;
-```
-
-Complexity
-
-- O(n)
+Copying duplicates element storage and metadata. Moving transfers their
+ownership. Copy operations are O(n), while move construction is O(1).
 
 ---
 
-## Move Assignment
+## Unchecked Multidimensional Access
 
-```cpp
-Tensor& operator=(Tensor&&) noexcept = default;
-```
-
-Complexity
-
-- O(1)
-
----
-
-## Methods
-
-## size()
-
-```cpp
-[[nodiscard]] std::size_t size() const noexcept;
-```
-
-Returns number of stored elements.
-
-Complexity
-
-- O(1)
-
----
-
-## empty()
-
-```cpp
-[[nodiscard]] bool empty() const noexcept;
-```
-
-Returns whether tensor stores no elements.
-
-Complexity
-
-- O(1)
-
----
-
-## rank()
-
-```cpp
-[[nodiscard]] std::size_t rank() const noexcept;
-```
-
-Returns number of dimensions.
-
-Complexity
-
-- O(1)
-
----
-
-## shape() / strides()
-
-```cpp
-const core::Shape& shape() const noexcept;
-const core::Strides& strides() const noexcept;
-```
-
-Returns tensor metadata.
-
-Complexity
-
-- O(1)
-
----
-
-## at() multi-index
+### Variadic Indices
 
 ```cpp
 template<typename... Rest>
 requires ((std::is_integral_v<Rest>) && ...)
-T& at(std::ptrdiff_t first, std::ptrdiff_t second, Rest... rest);
+reference operator()(size_type first, Rest... rest);
 
 template<typename... Rest>
 requires ((std::is_integral_v<Rest>) && ...)
-const T& at(std::ptrdiff_t first, std::ptrdiff_t second, Rest... rest) const;
+const_reference operator()(size_type first, Rest... rest) const;
 ```
 
-Returns element by signed multi-index with rank and bounds validation.
+The supplied components are converted to `size_type` and combined with the
+row-major strides.
 
-Complexity
+Preconditions:
 
-- O(r), where r is rank
+- Exactly `rank()` components are supplied
+- Every component is non-negative
+- Every component is smaller than its corresponding dimension
 
-Throws
+No rank or bounds validation is performed. Violating these preconditions can
+produce an invalid offset or undefined behavior.
 
-- `Exceptions::IndexError` if rank mismatch or any component is out of bounds
+Complexity: O(rank()).
 
----
-
-## front() / back()
+### Vector-based Indices
 
 ```cpp
-T& front();
-const T& front() const;
-T& back();
-const T& back() const;
+reference operator()(const std::vector<size_type>& indices);
+const_reference operator()(const std::vector<size_type>& indices) const;
 ```
 
-Returns first/last flat element.
-
-Preconditions
-
-- Tensor must not be empty.
-
-Complexity
-
-- O(1)
-
----
-
-## data()
+This overload has the same preconditions and unchecked behavior as the
+variadic overload. `indices.size()` must equal `rank()`.
 
 ```cpp
-[[nodiscard]] T* data() noexcept;
-[[nodiscard]] const T* data() const noexcept;
+std::vector<std::size_t> indices{1, 2, 3};
+tensor(indices); // equivalent to tensor(1, 2, 3)
 ```
 
-Returns pointer to contiguous storage.
-
-Complexity
-
-- O(1)
+Complexity: O(rank()).
 
 ---
 
-## Iterators
+## Checked Multidimensional Access
+
+### Variadic Signed Indices
 
 ```cpp
-[[nodiscard]] iterator begin() noexcept;
-[[nodiscard]] const_iterator begin() const noexcept;
-[[nodiscard]] const_iterator cbegin() const noexcept;
-[[nodiscard]] iterator end() noexcept;
-[[nodiscard]] const_iterator end() const noexcept;
-[[nodiscard]] const_iterator cend() const noexcept;
-[[nodiscard]] reverse_iterator rbegin() noexcept;
-[[nodiscard]] const_reverse_iterator rbegin() const noexcept;
-[[nodiscard]] const_reverse_iterator crbegin() const noexcept;
-[[nodiscard]] reverse_iterator rend() noexcept;
-[[nodiscard]] const_reverse_iterator rend() const noexcept;
-[[nodiscard]] const_reverse_iterator crend() const noexcept;
+template<typename... Rest>
+requires ((std::is_integral_v<Rest>) && ...)
+reference at(difference_type first, Rest... rest);
+
+template<typename... Rest>
+requires ((std::is_integral_v<Rest>) && ...)
+const_reference at(difference_type first, Rest... rest) const;
 ```
 
-Provides forward and reverse iteration over flat contiguous storage.
-
-Complexity
-
-- O(1)
-
----
-
-## fill()
+Exactly one component per tensor dimension must be supplied. Each signed
+component is normalized independently, and negative values count backward from
+the end of the corresponding dimension.
 
 ```cpp
-void fill(const T& value);
+tensor.at(-1, -1, -1); // final element of a rank-three tensor
 ```
 
-Assigns `value` to every element.
+Complexity: O(rank()).
 
-Complexity
+Throws `Exceptions::IndexError` with:
 
-- O(n)
+- `"Tensor multi-index rank must match tensor rank."` for a rank mismatch
+- `"Tensor multi-index component is out of bounds."` for an invalid component
+
+### Vector-based Signed Indices
+
+```cpp
+reference at(const std::vector<difference_type>& raw_indices);
+const_reference at(const std::vector<difference_type>& raw_indices) const;
+```
+
+The vector overload performs the same rank validation, negative-index
+normalization, bounds checking, and error reporting as the variadic overload.
+
+```cpp
+std::vector<std::ptrdiff_t> indices{-1, 0, -2};
+tensor.at(indices);
+```
+
+Complexity: O(rank()).
 
 ---
 
-## swap()
+## Inherited Flat Interface
+
+Tensor explicitly retains the one-argument checked `ArrayBase<T>::at`
+overloads:
+
+```cpp
+reference operator[](size_type index) noexcept;
+const_reference operator[](size_type index) const noexcept;
+
+reference at(difference_type index);
+const_reference at(difference_type index) const;
+```
+
+`operator[]` is unchecked flat access. The one-argument `at(index)` checks a
+flat index in `[-size(), size())` and supports negative values. It throws
+`Exceptions::IndexError` when the flat index is invalid.
+
+The inherited interface also provides:
+
+- `size()`, `empty()`, `rank()`, `shape()`, and `strides()`
+- `data()`, `front()`, and `back()`
+- Forward, const, and reverse iterators
+- `fill()`
+
+`front()` and `back()` throw `Exceptions::IndexError` when the tensor is
+empty.
+
+Metadata queries, iterator acquisition, and individual flat element access are
+O(1). Traversal and `fill()` are O(size()).
+
+---
+
+## Swap
 
 ```cpp
 void swap(Tensor& other) noexcept;
+friend void swap(Tensor& lhs, Tensor& rhs) noexcept;
 ```
 
-Exchanges metadata and storage with another tensor.
-
-Complexity
-
-- O(1)
-
----
-
-## Operators
-
-## operator() multi-index
+Both overloads exchange the buffer, shape, and strides in O(1). The non-member
+overload supports argument-dependent lookup:
 
 ```cpp
-template<typename... Rest>
-T& operator()(std::size_t first, std::size_t second, Rest... rest);
-
-template<typename... Rest>
-const T& operator()(std::size_t first, std::size_t second, Rest... rest) const;
+using std::swap;
+swap(lhs, rhs);
 ```
 
-Returns element by multi-index. Validates rank/bounds through `offset(shape_, strides_, indices)`.
-
-Complexity
-
-- O(r), where r is rank
-
-Throws
-
-- `Exceptions::DimensionError` on rank mismatch
-- `Exceptions::IndexError` on out-of-bounds component/offset issues
-
----
-
-## operator() vector-based multi-index
-
-```cpp
-T& operator()(const std::vector<std::size_t>& indices);
-const T& operator()(const std::vector<std::size_t>& indices) const;
-```
-
-Returns element by multi-index from a vector of indices. Validates rank/bounds through `offset(shape_, strides_, indices)`.
-
-Usage
-
-```cpp
-Tensor<int> t(Shape{2, 3, 4});
-std::vector<std::size_t> idx{1, 2, 3};
-int value = t(idx);  // Same as t(1, 2, 3)
-```
-
-Complexity
-
-- O(r), where r is rank
-
-Throws
-
-- `Exceptions::DimensionError` on rank mismatch
-- `Exceptions::IndexError` on out-of-bounds component/offset issues
-
----
-
-## operator[]
-
-```cpp
-T& operator[](std::size_t index) noexcept;
-const T& operator[](std::size_t index) const noexcept;
-```
-
-Unchecked flat indexing.
-
-Complexity
-
-- O(1)
-
-See Also
-
-- Checked signed multi-index access: `at(first, second, ...)`
+Tensors of different ranks and shapes may be swapped.
 
 ---
 
@@ -476,18 +307,14 @@ See Also
 | Operation | Complexity |
 | --------- | ----------: |
 | Default construction | O(1) |
-| Shape/shape+fill construction | O(n) |
-| Copy construction | O(n) |
+| Shape or shape-and-fill construction | O(elements + rank) |
+| Copy construction or assignment | O(n) |
 | Move construction | O(1) |
-| Copy assignment | O(n) |
-| Move assignment | O(1) |
-| Destruction | O(n) |
-| `size()` / `rank()` / `empty()` | O(1) |
-| `shape()` / `strides()` | O(1) |
-| Flat indexing (`operator[]`) | O(1) |
-| Multi-index (`operator()`, `at`) | O(r) |
-| `front()` / `back()` | O(1) |
-| Iteration | O(n) |
+| Metadata query | O(1) |
+| Flat element access | O(1) |
+| Variadic or vector multidimensional access | O(rank) |
+| Iterator acquisition | O(1) |
+| Complete traversal | O(n) |
 | `fill()` | O(n) |
 | `swap()` | O(1) |
 
@@ -495,36 +322,37 @@ See Also
 
 ## Examples
 
-## Creating Tensors
+### Construction
 
 ```cpp
-core::Shape shape(2, 3, 4);
+const stratax::core::Shape shape{2, 3, 4};
 
-stratax::container::Tensor<double> a;
-stratax::container::Tensor<double> b(shape);
-stratax::container::Tensor<double> c(shape, 1.0);
+stratax::container::Tensor<double> empty;
+stratax::container::Tensor<double> zeros(shape);
+stratax::container::Tensor<double> filled(shape, 1.0);
+stratax::container::Tensor<double> rank_zero(
+    stratax::core::Shape{});
 ```
 
----
-
-## Accessing Elements
+### Checked and Unchecked Access
 
 ```cpp
-stratax::container::Tensor<double> t(core::Shape(2, 2, 2), 0.0);
+stratax::container::Tensor<double> tensor(
+    stratax::core::Shape{2, 2, 2},
+    0.0);
 
-t(1, 0, 1) = 5.0;
-auto a = t(1, 0, 1);
-auto b = t.at(-1, 0, -1);
+tensor(1, 0, 1) = 5.0; // unchecked
+tensor.at(1, 0, 1);    // 5.0
+tensor.at(-1, 0, -1);  // 5.0
+tensor.at(-1);         // checked access to the final flat element
 ```
 
----
-
-## Iteration
+### Iteration
 
 ```cpp
-for (const auto& value : t)
+for (double& value : tensor)
 {
-    std::cout << value << '\n';
+    value += 1.0;
 }
 ```
 
@@ -532,22 +360,18 @@ for (const auto& value : t)
 
 ## Design Notes
 
-`Tensor<T>` keeps shape/stride metadata explicit while storing values in one contiguous `Buffer<T>`. Multi-indexing is implemented via offset computation, which centralizes rank and stride logic.
+Keeping ownership and flat container behavior in `ArrayBase<T>` gives
+`Vector`, `Matrix`, and `Tensor` consistent storage and iterator semantics.
+`Tensor<T>` adds general row-major multi-index conversion for arbitrary ranks.
 
-Unchecked access is available for performance-critical code paths, while checked `at(...)` overloads provide safe, signed indexing.
-
----
-
-## Future Improvements
-
-- Add non-owning tensor view/slice types
-- Add reshape/view utilities preserving storage where valid
-- Add optimized kernels for common tensor operations
+Unchecked access deliberately avoids validation for performance-sensitive code.
+Use `at(...)` when indices are external, signed, or otherwise untrusted.
 
 ---
 
 ## See Also
 
+- @ref arraybase
 - @ref buffer
 - @ref shape
 - @ref strides
