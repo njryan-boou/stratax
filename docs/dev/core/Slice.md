@@ -12,9 +12,13 @@ Header: `include/stratax/core/Slice.hpp`
 
 ## Overview
 
-`stratax::core::Slice` represents a half-open strided one-dimensional index range.
+`stratax::core::Slice` represents a raw, half-open, strided one-dimensional
+index range.
 
-It stores signed `start`, `stop`, and non-zero `step` values and is used by slicing ops for vectors, matrices, and tensors.
+It stores signed `start`, `stop`, and nonzero `step` values unchanged. Positive
+steps select indices while they are less than `stop`; negative steps select
+indices while they are greater than `stop`. Container-specific normalization
+and clamping happen later in the slicing algorithms.
 
 ---
 
@@ -25,6 +29,7 @@ It stores signed `start`, `stop`, and non-zero `step` values and is used by slic
 - Storing half-open interval metadata (`[start, stop)`) with stride
 - Enforcing the non-zero-step invariant
 - Computing selected element count (`size()`) for positive and negative strides
+- Comparing raw slice descriptions
 
 `Slice` is **not** responsible for:
 
@@ -67,22 +72,37 @@ Used by:
 
 The following conditions are always true:
 
-- Interval semantics are half-open: `[start(), stop())`.
+- The stop bound is exclusive in the direction selected by `step()`.
 - `step()` is never zero.
 - `size()` returns `0` when interval direction and bounds select no indices.
 - `empty()` is equivalent to `size() == 0`.
+- Bounds remain raw until a slicing algorithm resolves them against an extent.
 
 ---
 
 ## Public Interface
 
+## Type Aliases
+
+```cpp
+using size_type = std::size_t;
+using difference_type = std::ptrdiff_t;
+```
+
+`difference_type` represents signed bounds and steps. `size_type` represents
+the number of indices selected by the raw range.
+
+---
+
 ## Constructor
 
 ```cpp
-Slice(std::ptrdiff_t start, std::ptrdiff_t stop, std::ptrdiff_t step = 1);
+Slice(difference_type start, difference_type stop, difference_type step = 1);
 ```
 
-Creates a strided half-open range.
+Creates a strided half-open range and stores all three arguments unchanged.
+Negative bounds are not interpreted relative to a container during
+construction.
 
 Throws
 
@@ -97,14 +117,24 @@ Complexity
 ## Accessors
 
 ```cpp
-[[nodiscard]] std::ptrdiff_t start() const noexcept;
-[[nodiscard]] std::ptrdiff_t stop() const noexcept;
-[[nodiscard]] std::ptrdiff_t step() const noexcept;
-[[nodiscard]] std::size_t size() const noexcept;
+[[nodiscard]] difference_type start() const noexcept;
+[[nodiscard]] difference_type stop() const noexcept;
+[[nodiscard]] difference_type step() const noexcept;
+[[nodiscard]] size_type size() const noexcept;
 [[nodiscard]] bool empty() const noexcept;
 ```
 
-Returns interval metadata and computed selection size.
+`start()`, `stop()`, and `step()` return the stored raw values. `size()` computes
+the number of generated indices without iterating or resolving the bounds
+against a container:
+
+- A positive-step range is empty when `start() >= stop()`.
+- A negative-step range is empty when `start() <= stop()`.
+- Otherwise, the directed distance is divided by the absolute step and rounded
+  upward.
+
+The intermediate signed distance and rounding arithmetic must be representable
+by `difference_type`.
 
 Complexity
 
@@ -117,10 +147,12 @@ Complexity
 
 ```cpp
 [[nodiscard]] bool operator==(const Slice& other) const noexcept;
-[[nodiscard]] bool operator!=(const Slice& other) const noexcept;
 ```
 
-Two slices are equal when `start`, `stop`, and `step` all match.
+Two slices are equal when their stored `start`, `stop`, and `step` values all
+match. Equality compares the raw representation, so two slices that happen to
+generate the same indices can still compare unequal. In C++20, `operator!=` is
+automatically rewritten from `operator==`.
 
 Complexity
 
@@ -156,9 +188,12 @@ if (!every_other.empty())
 
 ## Design Notes
 
-`Slice` keeps only local interval semantics; extent normalization and clamping happen in ops-level slicing helpers where container shape is available.
+`Slice` keeps only local interval semantics; extent normalization and clamping
+happen in indexing-level slicing helpers where the container shape is
+available.
 
-Using signed fields enables Python-like negative-index flows at higher layers without forcing unsigned conversion too early.
+Using signed fields enables Python-like negative-index flows at higher layers
+without forcing unsigned conversion too early.
 
 ---
 
@@ -166,9 +201,10 @@ Using signed fields enables Python-like negative-index flows at higher layers wi
 
 - Add convenience creators for common ranges (for example full-range helpers).
 - Consider optional utilities for composing/intersecting slices.
+- Make `size()` arithmetic safe across the full `std::ptrdiff_t` range.
 
 ---
 
 ## See Also
 
-- `include/stratax/indexing/Slicing.hpp`
+- @ref dev_ops_slice
