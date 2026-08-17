@@ -91,3 +91,33 @@ TEST(BufferConstructor, CopyAssignmentConstructor)
     EXPECT_EQ(destination[0], 100);
     EXPECT_EQ(source[0], 1);
 }
+
+TEST(BufferConstructor, SelfCopyAssignmentConstructor)
+{
+    Buffer<int> buffer{1, 2, 3};
+
+    buffer = buffer;
+
+    EXPECT_EQ(buffer.size(), 3);
+}
+
+TEST(BufferConstructor, MoveAssignmentConstructor)
+{
+    Buffer<int> source{1, 2, 3};
+    Buffer<int> destination{4, 5};
+
+    auto* source_data = source.data();
+
+    destination = std::move(source);
+
+    EXPECT_EQ(destination.data(), source_data);
+    EXPECT_EQ(destination.size(), 3);
+
+    EXPECT_EQ(destination[0], 1);
+    EXPECT_EQ(destination[1], 2);
+    EXPECT_EQ(destination[2], 3);
+
+    EXPECT_EQ(source.size(), 0);
+    EXPECT_EQ(source.data(), nullptr);
+    EXPECT_TRUE(source.empty());
+}
