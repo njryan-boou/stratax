@@ -5,15 +5,19 @@
 
 #include <stratax/exceptions/Exceptions.hpp>
 
+using size_type = std::size_t;
+using difference_type = std::ptrdiff_t;
+
 namespace stratax::indexing {
 
-inline std::size_t normalize_index(
-    std::ptrdiff_t index,
-    std::size_t size)
+inline size_type normalize_index(
+    difference_type index,
+    size_type size
+    )
 {
     if (index >= 0)
     {
-        const std::size_t normalized = static_cast<std::size_t>(index);
+        const size_type normalized = static_cast<size_type>(index);
 
         if (normalized >= size)
         {
@@ -24,8 +28,8 @@ inline std::size_t normalize_index(
         return normalized;
     }
 
-    const std::size_t magnitude =
-        static_cast<std::size_t>(-(index + 1)) + 1;
+    const size_type magnitude =
+        static_cast<size_type>(-(index + 1)) + 1;
 
     if (magnitude > size)
     {

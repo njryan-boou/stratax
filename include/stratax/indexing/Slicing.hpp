@@ -1,5 +1,8 @@
-// TODO: morre explicit error messages for tensor slice out of bounds
-
+// TODO: deduplicate Tensor slicing implementations.
+// TODO: make slice normalization arithmetic overflow-safe.
+// TODO: improve Tensor slice error messages.
+// TODO: support omitted slice bounds for NumPy-style slicing.
+// TODO: revisit signed strides when implementing views.
 #pragma once
 
 #include <stratax/containers/Matrix.hpp>
@@ -21,30 +24,57 @@
 
 namespace stratax::indexing {
 
+/** @brief Unsigned type used for extents, counts, and flat offsets. */
+using size_type = std::size_t;
+/** @brief Signed type used for normalized slice positions and steps. */
+using difference_type = std::ptrdiff_t;
+
 namespace detail
 {
 
+/**
+ * @brief Normalized slice metadata for one concrete dimension.
+ * @internal
+ */
 struct ResolvedSlice
 {
-	std::ptrdiff_t start;
-	std::ptrdiff_t step;
-	std::size_t size;
+	/** @brief First normalized source index. */
+	difference_type start;
+	/** @brief Signed increment between source indices. */
+	difference_type step;
+	/** @brief Number of selected indices. */
+	size_type size;
 };
 
+/**
+ * @brief Resolves raw slice bounds against a concrete dimension extent.
+ *
+ * Negative bounds are translated relative to @p extent, then bounds are
+ * clamped to the legal half-open range for the direction of the step. A stop
+ * value of `-1` remains the reverse-slice sentinel when the step is negative.
+ *
+ * @param slice Raw slice description to resolve.
+ * @param extent Size of the dimension being sliced.
+ * @param message Error text used when @p extent cannot be represented.
+ * @return Normalized start, original step, and selected index count.
+ * @throws Exceptions::IndexError If @p extent exceeds difference_type.
+ * @complexity O(1).
+ * @internal
+ */
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
-	std::size_t extent,
+	size_type extent,
 	const char* message)
 {
-	if (extent > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
+	if (extent > static_cast<size_type>(std::numeric_limits<difference_type>::max()))
 	{
 		throw Exceptions::IndexError(message);
 	}
 
-	const std::ptrdiff_t n = static_cast<std::ptrdiff_t>(extent);
-	std::ptrdiff_t start = slice.start();
-	std::ptrdiff_t stop = slice.stop();
-	const std::ptrdiff_t step = slice.step();
+	const difference_type n = static_cast<difference_type>(extent);
+	difference_type start = slice.start();
+	difference_type stop = slice.stop();
+	const difference_type step = slice.step();
 
 	if (step > 0)
 	{
@@ -57,16 +87,16 @@ inline ResolvedSlice normalize_slice(
 			stop += n;
 		}
 
-		start = std::clamp(start, std::ptrdiff_t{0}, n);
-		stop = std::clamp(stop, std::ptrdiff_t{0}, n);
+		start = std::clamp(start, difference_type{0}, n);
+		stop = std::clamp(stop, difference_type{0}, n);
 
 		if (start >= stop)
 		{
 			return ResolvedSlice{start, step, 0};
 		}
 
-		const std::ptrdiff_t distance = stop - start;
-		const std::size_t count = static_cast<std::size_t>((distance + step - 1) / step);
+		const difference_type distance = stop - start;
+		const size_type count = static_cast<size_type>((distance + step - 1) / step);
 		return ResolvedSlice{start, step, count};
 	}
 
@@ -79,47 +109,76 @@ inline ResolvedSlice normalize_slice(
 		stop += n;
 	}
 
-	start = std::clamp(start, std::ptrdiff_t{-1}, n - 1);
-	stop = std::clamp(stop, std::ptrdiff_t{-1}, n - 1);
+	start = std::clamp(start, difference_type{-1}, n - 1);
+	stop = std::clamp(stop, difference_type{-1}, n - 1);
 
 	if (start <= stop)
 	{
 		return ResolvedSlice{start, step, 0};
 	}
 
-	const std::ptrdiff_t stride = -step;
-	const std::ptrdiff_t distance = start - stop;
-	const std::size_t count = static_cast<std::size_t>((distance + stride - 1) / stride);
+	const difference_type stride = -step;
+	const difference_type distance = start - stop;
+	const size_type count = static_cast<size_type>((distance + stride - 1) / stride);
 	return ResolvedSlice{start, step, count};
 }
 
 } // namespace detail
 
+/**
+ * @brief Copies a strided selection from a vector.
+ *
+ * Bounds are normalized and clamped against `vec.size()`. The result owns an
+ * independent contiguous copy of the selected elements.
+ *
+ * @tparam T Numeric vector element type.
+ * @param vec Source vector.
+ * @param slice Slice applied to the vector extent.
+ * @return Rank-one vector containing the selected values in traversal order.
+ * @throws Exceptions::IndexError If `vec.size()` exceeds difference_type.
+ * @throws std::bad_alloc If result allocation fails.
+ * @complexity O(k), where `k` is the result size.
+ */
 template<typename T>
 stratax::container::Vector<T>
 slice(
-    const stratax::container::Vector<T>& vec,
-    const stratax::core::Slice& slice)
+	const stratax::container::Vector<T>& vec,
+	const stratax::core::Slice& slice)
 {
-    const auto resolved =
-        detail::normalize_slice(
-            slice,
-            vec.size(),
-            "Vector slice out of bounds.");
+	const auto resolved =
+		detail::normalize_slice(
+			slice,
+			vec.size(),
+			"Vector slice out of bounds.");
 
-    stratax::container::Vector<T> result(resolved.size);
+	stratax::container::Vector<T> result(resolved.size);
 
-    std::ptrdiff_t source = resolved.start;
+	difference_type source = resolved.start;
 
-    for (std::size_t i = 0; i < result.size(); ++i)
-    {
-        result[i] = vec[static_cast<std::size_t>(source)];
-        source += resolved.step;
-    }
+	for (size_type i = 0; i < result.size(); ++i)
+	{
+		result[i] = vec[static_cast<size_type>(source)];
+		source += resolved.step;
+	}
 
-    return result;
+	return result;
 }
 
+/**
+ * @brief Copies a rectangular strided selection from a matrix.
+ *
+ * Row and column slices are resolved independently. The result owns a
+ * row-major copy with shape `{resolved_rows, resolved_cols}`.
+ *
+ * @tparam T Numeric matrix element type.
+ * @param mat Source matrix.
+ * @param rows Slice applied to the row extent.
+ * @param cols Slice applied to the column extent.
+ * @return Matrix containing the selected rows and columns.
+ * @throws Exceptions::IndexError If either extent exceeds difference_type.
+ * @throws std::bad_alloc If result allocation fails.
+ * @complexity O(result.rows() * result.cols()).
+ */
 template<typename T>
 stratax::container::Matrix<T>
 slice(
@@ -139,15 +198,15 @@ slice(
 
 	stratax::container::Matrix<T> result(resolved_rows.size, resolved_cols.size);
 
-	std::ptrdiff_t source_row = resolved_rows.start;
-	for (std::size_t out_row = 0; out_row < result.rows(); ++out_row)
+	difference_type source_row = resolved_rows.start;
+	for (size_type out_row = 0; out_row < result.rows(); ++out_row)
 	{
-		std::ptrdiff_t source_col = resolved_cols.start;
-		for (std::size_t out_col = 0; out_col < result.cols(); ++out_col)
+		difference_type source_col = resolved_cols.start;
+		for (size_type out_col = 0; out_col < result.cols(); ++out_col)
 		{
 			result(out_row, out_col) = mat(
-				static_cast<std::size_t>(source_row),
-				static_cast<std::size_t>(source_col));
+				static_cast<size_type>(source_row),
+				static_cast<size_type>(source_col));
 			source_col += resolved_cols.step;
 		}
 		source_row += resolved_rows.step;
@@ -156,6 +215,24 @@ slice(
 	return result;
 }
 
+/**
+ * @brief Copies a variadic strided selection from a tensor.
+ *
+ * Exactly one Slice must be supplied per tensor dimension. Each slice is
+ * normalized independently, and the result owns a row-major copy whose shape
+ * contains the resolved selection sizes.
+ *
+ * @tparam T Numeric tensor element type.
+ * @tparam Slices Pack whose every type must be core::Slice.
+ * @param tensor Source tensor.
+ * @param slices One slice per dimension.
+ * @return Tensor containing the selected values.
+ * @throws Exceptions::IndexError If the slice count differs from tensor rank
+ *         or a dimension extent exceeds difference_type.
+ * @throws Exceptions::DimensionError If shape or offset arithmetic overflows.
+ * @throws std::bad_alloc If result or metadata allocation fails.
+ * @complexity O(result.size() * tensor.rank()).
+ */
 template<typename T, typename... Slices>
 stratax::container::Tensor<T>
 slice(
@@ -168,8 +245,8 @@ slice(
 		"All arguments must be Slice."
 	);
 
-	std::array<stratax::core::Slice, sizeof...(Slices)> ranges{ slices... };
-    
+	std::array<stratax::core::Slice, sizeof...(Slices)> ranges{slices...};
+
 	if (ranges.size() != tensor.rank())
 	{
 		throw Exceptions::IndexError(
@@ -177,8 +254,8 @@ slice(
 	}
 
 	std::array<stratax::indexing::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
-	std::array<std::size_t, sizeof...(Slices)> out_dims{};
-	for (std::size_t dim = 0; dim < ranges.size(); ++dim)
+	std::array<size_type, sizeof...(Slices)> out_dims{};
+	for (size_type dim = 0; dim < ranges.size(); ++dim)
 	{
 		resolved[dim] = detail::normalize_slice(
 			ranges[dim],
@@ -188,7 +265,7 @@ slice(
 	}
 
 	const auto result_shape = stratax::core::Shape(
-		std::vector<std::size_t>(out_dims.begin(), out_dims.end()));
+		std::vector<size_type>(out_dims.begin(), out_dims.end()));
 	stratax::container::Tensor<T> result(result_shape);
 	const stratax::core::Strides result_strides(result_shape);
 	const auto& tensor_strides = tensor.strides();
@@ -198,21 +275,21 @@ slice(
 		return result;
 	}
 
-	for (std::size_t flat = 0; flat < result.size(); ++flat)
+	for (size_type flat = 0; flat < result.size(); ++flat)
 	{
-		std::size_t remainder = flat;
-		std::size_t source_offset = 0;
+		size_type remainder = flat;
+		size_type source_offset = 0;
 
-		for (std::size_t dim = 0; dim < resolved.size(); ++dim)
+		for (size_type dim = 0; dim < resolved.size(); ++dim)
 		{
-			const std::size_t index = remainder / result_strides[dim];
+			const size_type index = remainder / result_strides[dim];
 			remainder %= result_strides[dim];
 
-			const std::ptrdiff_t source_index =
-				resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
-			const std::size_t term =
+			const difference_type source_index =
+				resolved[dim].start + static_cast<difference_type>(index) * resolved[dim].step;
+			const size_type term =
 				stratax::core::validation::checked_multiply(
-					static_cast<std::size_t>(source_index),
+					static_cast<size_type>(source_index),
 					tensor_strides[dim],
 					"Tensor slice offset overflow.");
 			source_offset =
@@ -228,6 +305,22 @@ slice(
 	return result;
 }
 
+/**
+ * @brief Copies a vector-specified strided selection from a tensor.
+ *
+ * This overload has the same selection and ownership semantics as the
+ * variadic overload, but accepts a runtime-sized vector of Slice objects.
+ *
+ * @tparam T Numeric tensor element type.
+ * @param tensor Source tensor.
+ * @param slices One slice per dimension.
+ * @return Tensor containing the selected values.
+ * @throws Exceptions::DimensionError If the slice count differs from tensor
+ *         rank or shape/offset arithmetic overflows.
+ * @throws Exceptions::IndexError If a dimension extent exceeds difference_type.
+ * @throws std::bad_alloc If result or metadata allocation fails.
+ * @complexity O(result.size() * tensor.rank()).
+ */
 template<typename T>
 stratax::container::Tensor<T>
 slice(
@@ -241,9 +334,9 @@ slice(
 		"Slice rank must match tensor rank.");
 
 	std::vector<detail::ResolvedSlice> resolved(slices.size());
-	std::vector<std::size_t> out_dims(slices.size());
-    
-	for (std::size_t dim = 0; dim < slices.size(); ++dim)
+	std::vector<size_type> out_dims(slices.size());
+
+	for (size_type dim = 0; dim < slices.size(); ++dim)
 	{
 		resolved[dim] = detail::normalize_slice(
 			slices[dim],
@@ -254,30 +347,30 @@ slice(
 
 	const auto result_shape = stratax::core::Shape(out_dims);
 	stratax::container::Tensor<T> result(result_shape);
-    
+
 	if (result.empty())
 	{
 		return result;
 	}
-    
+
 	const stratax::core::Strides result_strides(result_shape);
 	const auto& tensor_strides = tensor.strides();
 
-	for (std::size_t flat = 0; flat < result.size(); ++flat)
+	for (size_type flat = 0; flat < result.size(); ++flat)
 	{
-		std::size_t remainder = flat;
-		std::size_t source_offset = 0;
+		size_type remainder = flat;
+		size_type source_offset = 0;
 
-		for (std::size_t dim = 0; dim < resolved.size(); ++dim)
+		for (size_type dim = 0; dim < resolved.size(); ++dim)
 		{
-			const std::size_t index = remainder / result_strides[dim];
+			const size_type index = remainder / result_strides[dim];
 			remainder %= result_strides[dim];
 
-			const std::ptrdiff_t source_index =
-				resolved[dim].start + static_cast<std::ptrdiff_t>(index) * resolved[dim].step;
-			const std::size_t term =
+			const difference_type source_index =
+				resolved[dim].start + static_cast<difference_type>(index) * resolved[dim].step;
+			const size_type term =
 				stratax::core::validation::checked_multiply(
-					static_cast<std::size_t>(source_index),
+					static_cast<size_type>(source_index),
 					tensor_strides[dim],
 					"Tensor slice offset overflow.");
 			source_offset =

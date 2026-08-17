@@ -1,3 +1,4 @@
+// TODO: harden offset() against rank mismatch and arithmetic overflow.
 #pragma once
 
 #include <cstddef>
@@ -13,7 +14,8 @@ template<typename IndexContainer>
 std::size_t offset(
     const core::Shape& shape,
     const core::Strides& strides,
-    const IndexContainer& index)
+    const IndexContainer& index
+    )
 {
     std::size_t result = 0;
 
