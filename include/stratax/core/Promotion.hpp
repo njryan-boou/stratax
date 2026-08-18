@@ -1,7 +1,8 @@
 #pragma once
 
-#include <type_traits>
 #include <concepts>
+#include <cstddef>
+#include <type_traits>
 
 #include <stratax/core/DTypeTraits.hpp>
 
@@ -20,9 +21,14 @@ template<typename L, typename R>
 struct Promote;
 
 /**
- * @brief Preserves a dtype when both operands have the same type.
+ * @brief Preserves a dtype when both operands have the same supported dtype.
  */
 template<typename T>
+requires requires
+{
+	typename DTypeTraits<T>::type;
+	DTypeTraits<T>::kind;
+}
 struct Promote<T, T>
 {
 	using type = T;
@@ -66,8 +72,8 @@ struct Promote<L, R>
  * @brief Promotes mixed signed and unsigned integer dtypes.
  *
  * The smallest signed integer dtype capable of representing the complete
- * ranges of both input dtypes is selected. If no supported signed integer
- * dtype is wide enough, the result is float64.
+ * ranges of both operands is selected. If no supported signed integer dtype
+ * is sufficiently wide, the result is float64.
  */
 template<typename L, typename R>
 requires (
@@ -98,8 +104,8 @@ private:
 		DTypeTraits<unsigned_type>::bits;
 
 	/*
-	 * An N-bit unsigned integer needs N+1 bits in a signed representation
-	 * in order to preserve its complete non-negative range.
+	 * An N-bit unsigned integer requires N+1 bits in a signed
+	 * representation to preserve its complete range.
 	 */
 	static constexpr std::size_t required_bits =
 		signed_bits > unsigned_bits
@@ -126,14 +132,25 @@ public:
 	>;
 };
 
+/**
+ * @brief Promotes an integer dtype and a floating-point dtype.
+ *
+ * The floating dtype is preserved when it has sufficient significand
+ * precision for the integer dtype. float32 is promoted to float64 when
+ * additional precision is required.
+ */
 template<typename L, typename R>
 requires (
-	((DTypeTraits<L>::kind == DTypeKind::SignedInteger ||
-	  DTypeTraits<L>::kind == DTypeKind::UnsignedInteger) &&
-	 DTypeTraits<R>::kind == DTypeKind::Floating) ||
-	(DTypeTraits<L>::kind == DTypeKind::Floating &&
-	 (DTypeTraits<R>::kind == DTypeKind::SignedInteger ||
-	  DTypeTraits<R>::kind == DTypeKind::UnsignedInteger))
+	(
+		(DTypeTraits<L>::kind == DTypeKind::SignedInteger ||
+		 DTypeTraits<L>::kind == DTypeKind::UnsignedInteger) &&
+		DTypeTraits<R>::kind == DTypeKind::Floating
+	) ||
+	(
+		DTypeTraits<L>::kind == DTypeKind::Floating &&
+		(DTypeTraits<R>::kind == DTypeKind::SignedInteger ||
+		 DTypeTraits<R>::kind == DTypeKind::UnsignedInteger)
+	)
 )
 struct Promote<L, R>
 {
@@ -167,6 +184,97 @@ public:
 			floating_type
 		>
 	>;
+};
+
+/**
+ * @brief Promotes two floating-point dtypes to the dtype with greater
+ * numerical precision.
+ */
+template<typename L, typename R>
+requires (
+	DTypeTraits<L>::kind == DTypeKind::Floating &&
+	DTypeTraits<R>::kind == DTypeKind::Floating
+)
+struct Promote<L, R>
+{
+	using type = std::conditional_t<
+		(DTypeTraits<L>::digits >= DTypeTraits<R>::digits),
+		L,
+		R
+	>;
+};
+
+/**
+ * @brief Promotes two complex dtypes according to their real components.
+ */
+template<typename L, typename R>
+requires (
+	DTypeTraits<L>::kind == DTypeKind::Complex &&
+	DTypeTraits<R>::kind == DTypeKind::Complex
+)
+struct Promote<L, R>
+{
+private:
+	using left_component =
+		complex_component_t<L>;
+
+	using right_component =
+		complex_component_t<R>;
+
+	using promoted_component =
+		typename Promote<left_component, right_component>::type;
+
+public:
+	using type =
+		complex_from_real_t<promoted_component>;
+};
+
+/**
+ * @brief Promotes a real numeric dtype and a complex dtype.
+ *
+ * The real dtype is promoted against the real component of the complex
+ * dtype. The resulting real dtype is then mapped back to its corresponding
+ * complex dtype.
+ */
+template<typename L, typename R>
+requires (
+	(
+		(DTypeTraits<L>::kind == DTypeKind::SignedInteger ||
+		 DTypeTraits<L>::kind == DTypeKind::UnsignedInteger ||
+		 DTypeTraits<L>::kind == DTypeKind::Floating) &&
+		DTypeTraits<R>::kind == DTypeKind::Complex
+	) ||
+	(
+		DTypeTraits<L>::kind == DTypeKind::Complex &&
+		(DTypeTraits<R>::kind == DTypeKind::SignedInteger ||
+		 DTypeTraits<R>::kind == DTypeKind::UnsignedInteger ||
+		 DTypeTraits<R>::kind == DTypeKind::Floating)
+	)
+)
+struct Promote<L, R>
+{
+private:
+	using real_type = std::conditional_t<
+		DTypeTraits<L>::kind == DTypeKind::Complex,
+		R,
+		L
+	>;
+
+	using complex_type = std::conditional_t<
+		DTypeTraits<L>::kind == DTypeKind::Complex,
+		L,
+		R
+	>;
+
+	using component_type =
+		complex_component_t<complex_type>;
+
+	using promoted_component =
+		typename Promote<real_type, component_type>::type;
+
+public:
+	using type =
+		complex_from_real_t<promoted_component>;
 };
 
 /**
