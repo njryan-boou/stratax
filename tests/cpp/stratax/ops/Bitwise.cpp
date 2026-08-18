@@ -48,7 +48,7 @@ TEST(BitwiseArray, PerElementShifts)
 	EXPECT_EQ(std::vector<unsigned int>(left.begin(), left.end()),
 		(std::vector<unsigned int>{2U, 8U, 128U}));
 	EXPECT_EQ(std::vector<unsigned int>(right.begin(), right.end()),
-		(std::vector<unsigned int>{0U, 0U, 2U}));
+		(std::vector<unsigned int>{2U, 8U, 128U}));
 }
 
 TEST(BitwiseArray, PreservesMatrixAndTensorShapes)
@@ -98,26 +98,37 @@ TEST(BitwiseArray, ShapeErrorMessage)
 	}
 }
 
-TEST(BitwiseScalar, ArrayOnLeft)
+TEST(BitwiseScalar, RejectsNegativeShift)
 {
-	const Vector<unsigned int> source{4U, 8U, 15U};
+    const Vector<unsigned int> source{4U, 8U, 15U};
 
-	const auto anded = source & 7U;
-	const auto ored = source | 1U;
-	const auto xored = source ^ 3U;
-	const auto left = source << 1U;
-	const auto right = source >> 1U;
+    EXPECT_THROW(
+        source << -1,
+        Exceptions::StrataxError
+    );
 
-	EXPECT_EQ(std::vector<unsigned int>(anded.begin(), anded.end()),
-		(std::vector<unsigned int>{4U, 0U, 7U}));
-	EXPECT_EQ(std::vector<unsigned int>(ored.begin(), ored.end()),
-		(std::vector<unsigned int>{5U, 9U, 15U}));
-	EXPECT_EQ(std::vector<unsigned int>(xored.begin(), xored.end()),
-		(std::vector<unsigned int>{7U, 11U, 12U}));
-	EXPECT_EQ(std::vector<unsigned int>(left.begin(), left.end()),
-		(std::vector<unsigned int>{8U, 16U, 30U}));
-	EXPECT_EQ(std::vector<unsigned int>(right.begin(), right.end()),
-		(std::vector<unsigned int>{2U, 4U, 7U}));
+    EXPECT_THROW(
+        source >> -1,
+        Exceptions::StrataxError
+    );
+}
+
+TEST(BitwiseScalar, RejectsShiftEqualToBitWidth)
+{
+    const Vector<unsigned int> source{4U, 8U, 15U};
+
+    constexpr auto width =
+        std::numeric_limits<unsigned int>::digits;
+
+    EXPECT_THROW(
+        source << width,
+        Exceptions::StrataxError
+    );
+
+    EXPECT_THROW(
+        source >> width,
+        Exceptions::StrataxError
+    );
 }
 
 TEST(BitwiseScalar, ScalarOnLeftPreservesShiftOrder)

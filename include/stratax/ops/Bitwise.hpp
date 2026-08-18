@@ -12,6 +12,37 @@
 
 #include <functional>
 
+#include <limits>
+#include <type_traits>
+
+template<typename Left, typename Shift>
+requires Integral<Left> && Integral<Shift>
+void validate_shift(Shift shift)
+{
+    using PromotedLeft = decltype(+std::declval<Left>());
+
+    if constexpr (std::is_signed_v<Shift>)
+    {
+        if (shift < 0)
+        {
+            throw Exceptions::StrataxError(
+                "Shift count cannot be negative.");
+        }
+    }
+
+    using UnsignedShift = std::make_unsigned_t<Shift>;
+    const auto count = static_cast<UnsignedShift>(shift);
+
+    constexpr std::size_t width =
+        std::numeric_limits<std::make_unsigned_t<PromotedLeft>>::digits;
+
+    if (count >= width)
+    {
+        throw Exceptions::StrataxError(
+            "Shift count exceeds the bit width of the operand.");
+    }
+}
+
 /**
  * @brief Verifies that two integer arrays have exactly the same shape.
  *
@@ -174,7 +205,14 @@ template<Array A>
 requires Integral<typename A::value_type>
 A operator<<(const A& lhs, const A& rhs)
 {
-	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
+    return binary_bitwise_op(
+        lhs,
+        rhs,
+        [](auto left, auto right)
+        {
+            validate_shift<decltype(left)>(right);
+            return left << right;
+        });
 }
 
 /** @brief Applies element-wise right shift using per-element shift counts. */
@@ -182,7 +220,14 @@ template<Array A>
 requires Integral<typename A::value_type>
 A operator>>(const A& lhs, const A& rhs)
 {
-	return binary_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
+    return binary_bitwise_op(
+        lhs,
+        rhs,
+        [](auto left, auto right)
+        {
+            validate_shift<decltype(left)>(right);
+            return left << right;
+        });
 }
 
 // Array-scalar
@@ -216,7 +261,14 @@ template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A operator<<(const A& lhs, const Scalar& rhs)
 {
-	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left << right; });
+    return binary_scalar_bitwise_op(
+        lhs,
+        rhs,
+        [](auto left, auto right)
+        {
+            validate_shift<decltype(left)>(right);
+            return left << right;
+        });
 }
 
 /** @brief Right-shifts each array element by a scalar shift count. */
@@ -224,7 +276,14 @@ template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A operator>>(const A& lhs, const Scalar& rhs)
 {
-	return binary_scalar_bitwise_op(lhs, rhs, [](auto left, auto right) { return left >> right; });
+    return binary_scalar_bitwise_op(
+        lhs,
+        rhs,
+        [](auto left, auto right)
+        {
+            validate_shift<decltype(left)>(right);
+            return left << right;
+        });
 }
 
 // Scalar-array (reverse)
