@@ -10,7 +10,7 @@ void bind_creation(py::module_& m)
         "zeros",
         [](const stratax::core::Shape& shape)
         {
-            return creation::zeros<double>(shape);
+            return stratax::creation::zeros<double>(shape);
         },
         py::arg("shape"),
         "Create a tensor filled with zeros.");
@@ -19,7 +19,7 @@ void bind_creation(py::module_& m)
         "ones",
         [](const stratax::core::Shape& shape)
         {
-            return creation::ones<double>(shape);
+            return stratax::creation::ones<double>(shape);
         },
         py::arg("shape"),
         "Create a tensor filled with ones.");
@@ -28,7 +28,7 @@ void bind_creation(py::module_& m)
         "full",
         [](const stratax::core::Shape& shape, double value)
         {
-            return creation::full<double>(shape, value);
+            return stratax::creation::full<double>(shape, value);
         },
         py::arg("shape"),
         py::arg("value"),
@@ -38,7 +38,7 @@ void bind_creation(py::module_& m)
         "identity",
         [](std::size_t size)
         {
-            return creation::identity<double>(size);
+            return stratax::creation::identity<double>(size);
         },
         py::arg("size"),
         "Create a square identity tensor.");

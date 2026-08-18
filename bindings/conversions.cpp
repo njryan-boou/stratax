@@ -5,9 +5,9 @@
 namespace py = pybind11;
 
 #define STRATAX_BIND_CONVERSION(NAME, DOC) \
-    m.def(#NAME, [](const Vector& arr) { return NAME(arr); }, py::arg("arr"), DOC); \
-    m.def(#NAME, [](const Matrix& arr) { return NAME(arr); }, py::arg("arr"), DOC); \
-    m.def(#NAME, [](const Tensor& arr) { return NAME(arr); }, py::arg("arr"), DOC)
+    m.def(#NAME, [](const Vector& arr) { return stratax::conversion::NAME(arr); }, py::arg("arr"), DOC); \
+    m.def(#NAME, [](const Matrix& arr) { return stratax::conversion::NAME(arr); }, py::arg("arr"), DOC); \
+    m.def(#NAME, [](const Tensor& arr) { return stratax::conversion::NAME(arr); }, py::arg("arr"), DOC)
 
 void bind_conversions(py::module_& m)
 {

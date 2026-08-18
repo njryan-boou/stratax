@@ -20,8 +20,8 @@ TEST(IndexingNormalize, throws_for_out_of_range)
 
 TEST(IndexingOffset, computes_row_major_offset)
 {
-    const stratax::Shape shape{2, 3, 4};
-    const stratax::Strides strides(shape);
+    const stratax::core::Shape shape{2, 3, 4};
+    const stratax::core::Strides strides(shape);
 
     EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{0, 0, 0}), 0u);
     EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{1, 0, 0}), 12u);
@@ -31,8 +31,8 @@ TEST(IndexingOffset, computes_row_major_offset)
 
 TEST(IndexingOffset, handles_empty_shape)
 {
-    const stratax::Shape empty_shape{};
-    const stratax::Strides empty_strides(empty_shape);
+    const stratax::core::Shape empty_shape{};
+    const stratax::core::Strides empty_strides(empty_shape);
 
     EXPECT_EQ(stratax::indexing::offset(empty_shape, empty_strides, std::vector<std::size_t>{}), 0u);
 }

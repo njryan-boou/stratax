@@ -1,5 +1,10 @@
 // TODO: Validate shift counts to prevent invalid or undefined shifts.
 
+// TODO: Add broadcasting support for array-array bitwise operations.
+
+// TODO: Support mixed array/container and integral types once
+// result-container and dtype promotion rules are defined.
+
 #pragma once
 
 #include <stratax/concepts/Numeric.hpp>
@@ -7,7 +12,18 @@
 
 #include <functional>
 
-/** @brief Verifies that two arrays have the same shape before bitwise operations. */
+/**
+ * @brief Verifies that two integer arrays have exactly the same shape.
+ *
+ * Array-array bitwise operations do not broadcast. Equal element counts with
+ * different dimensions are therefore rejected.
+ *
+ * @tparam A Common integral-valued Stratax array type.
+ * @param lhs Left array whose shape is required.
+ * @param rhs Right array whose shape is checked.
+ * @throws Exceptions::ShapeError If `lhs.shape() != rhs.shape()`.
+ * @complexity O(lhs.rank()).
+ */
 template<Array A>
 requires Integral<typename A::value_type>
 void require_same_bitwise_shape(const A& lhs, const A& rhs)
@@ -18,7 +34,18 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
 			"Bitwise operations require arrays of the same shape.");
 	}
 }
-/** @brief Applies an element-wise bitwise operation to two integer arrays. */
+/**
+ * @brief Applies a callable element-wise to two same-shaped integer arrays.
+ * @tparam A Common integral-valued Stratax array and result type.
+ * @tparam Op Binary bitwise or shift callable.
+ * @param lhs Left array operand.
+ * @param rhs Right array operand.
+ * @param op Callable invoked in flat iterator order.
+ * @return Owning array with the same shape and converted operation results.
+ * @throws Exceptions::ShapeError If the operand shapes differ.
+ * @throws Any exception propagated by result allocation or @p op.
+ * @complexity O(lhs.size() + lhs.rank()).
+ */
 template<Array A, typename Op>
 requires Integral<typename A::value_type>
 A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
@@ -39,7 +66,18 @@ A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
 	return result;
 }
 
-/** @brief Applies an element-wise bitwise operation between an integer array and a scalar. */
+/**
+ * @brief Applies a callable to every integer array element and a right scalar.
+ * @tparam A Integral-valued Stratax array and result type.
+ * @tparam Scalar Integral scalar type.
+ * @tparam Op Binary bitwise or shift callable.
+ * @param lhs Array supplying every left argument.
+ * @param rhs Scalar supplied as every right argument.
+ * @param op Callable invoked in flat iterator order.
+ * @return Owning array with the same shape as @p lhs.
+ * @throws Any exception propagated by result allocation or @p op.
+ * @complexity O(lhs.size()).
+ */
 template<Array A, Integral Scalar, typename Op>
 requires Integral<typename A::value_type>
 A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
@@ -55,7 +93,18 @@ A binary_scalar_bitwise_op(const A& lhs, const Scalar& rhs, Op op)
 	return result;
 }
 
-/** @brief Applies an element-wise bitwise operation between a scalar and an integer array. */
+/**
+ * @brief Applies a callable to a left scalar and every integer array element.
+ * @tparam Scalar Integral scalar type.
+ * @tparam A Integral-valued Stratax array and result type.
+ * @tparam Op Binary bitwise or shift callable.
+ * @param lhs Scalar supplied as every left argument.
+ * @param rhs Array supplying every right argument.
+ * @param op Callable invoked in flat iterator order.
+ * @return Owning array with the same shape as @p rhs.
+ * @throws Any exception propagated by result allocation or @p op.
+ * @complexity O(rhs.size()).
+ */
 template<Integral Scalar, Array A, typename Op>
 requires Integral<typename A::value_type>
 A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
@@ -73,7 +122,12 @@ A binary_scalar_bitwise_op(const Scalar& lhs, const A& rhs, Op op)
 
 // Unary
 
-/** @brief Applies bitwise NOT to each element of an integer array. */
+/**
+ * @brief Applies bitwise NOT to each element of an integer array.
+ * @param value Source array.
+ * @return Owning array with the same shape containing `~value[i]`.
+ * @complexity O(value.size()).
+ */
 template<Array A>
 requires Integral<typename A::value_type>
 A operator~(const A& value)

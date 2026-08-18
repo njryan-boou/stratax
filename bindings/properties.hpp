@@ -11,12 +11,20 @@ template<typename Array>
 void bind_properties(py::class_<Array>& cls)
 {
     cls
-        .def_property_readonly("size", &Array::size)
-        .def_property_readonly("rank", &Array::rank)
-        .def_property_readonly("empty", &Array::empty)
+        .def_property_readonly("size", [](const Array& arr) {
+            return arr.size();
+        })
+        .def_property_readonly("rank", [](const Array& arr) {
+            return arr.rank();
+        })
+        .def_property_readonly("empty", [](const Array& arr) {
+            return arr.empty();
+        })
         .def_property_readonly(
             "shape",
-            &Array::shape,
+            [](const Array& arr) -> const auto& {
+                return arr.shape();
+            },
             py::return_value_policy::reference_internal)
         .def_property_readonly(
     "strides",
@@ -34,5 +42,7 @@ void bind_properties(py::class_<Array>& cls)
 
         return values;
     })
-        .def("fill", &Array::fill, py::arg("value"));
+        .def("fill", [](Array& arr, const typename Array::value_type& value) {
+            arr.fill(value);
+        }, py::arg("value"));
 }
