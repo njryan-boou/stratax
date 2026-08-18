@@ -10,8 +10,10 @@
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
 
-/** @brief Reshapes an array-like object into a tensor with the requested shape. */
+namespace stratax::manipulation {
+
 template<Array A>
+[[nodiscard]]
 stratax::container::Tensor<typename A::value_type>
 reshape(const A& arr, const stratax::core::Shape& shape)
 {
@@ -27,8 +29,8 @@ reshape(const A& arr, const stratax::core::Shape& shape)
 	return result;
 }
 
-/** @brief Flattens an array-like object into a vector. */
 template<Array A>
+[[nodiscard]]
 stratax::container::Vector<typename A::value_type> 
 flatten(const A& arr)
 {
@@ -36,4 +38,6 @@ flatten(const A& arr)
 	std::copy(arr.begin(), arr.end(), result.begin());
 
 	return result;
+}
+
 }

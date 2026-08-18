@@ -63,8 +63,8 @@ using StrataxError = errors::StrataxError;
 using TypeError = errors::TypeError;
 using ZeroDivisionError = errors::ZeroDivisionError;
 
-using ::flatten;
-using ::reshape;
+using stratax::manipulation::flatten;
+using stratax::manipulation::reshape;
 
 template<typename T>
 using value_type_t = T;
@@ -73,28 +73,28 @@ template<typename T>
 requires Numeric<T>
 container::Tensor<T> zeros(const core::Shape& shape)
 {
-	return ::creation::zeros<T>(shape);
+	return stratax::creation::zeros<T>(shape);
 }
 
 template<typename T>
 requires Numeric<T>
 container::Tensor<T> ones(const core::Shape& shape)
 {
-	return ::creation::ones<T>(shape);
+	return stratax::creation::ones<T>(shape);
 }
 
 template<typename T>
 requires Numeric<T>
 container::Tensor<T> full(const core::Shape& shape, const T& value)
 {
-	return ::creation::full<T>(shape, value);
+	return stratax::creation::full<T>(shape, value);
 }
 
 template<typename T>
 requires Numeric<T>
 container::Matrix<T> identity(std::size_t size)
 {
-	return ::creation::identity<T>(size);
+	return stratax::creation::identity<T>(size);
 }
 
 template<Array A>
@@ -103,13 +103,13 @@ auto sum(const A& arr)
 	return ::reduction::sum(arr);
 }
 
-namespace creation = ::creation;
+namespace creation = stratax::creation;
 namespace reductions = ::reduction;
 
 namespace transforms {
 
-using ::flatten;
-using ::reshape;
+using stratax::manipulation::flatten;
+using stratax::manipulation::reshape;
 
 }
 
