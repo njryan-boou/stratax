@@ -10,6 +10,8 @@
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/core/ArrayTraits.hpp>
+#include <stratax/core/Promotion.hpp>
 
 namespace stratax::core::broadcast_detail {
 
@@ -52,8 +54,8 @@ inline std::size_t dimension_from_right(
  */
 inline std::size_t flat_operand_index(
 	std::size_t result_index,
-	const Shape& result_shape,
-	const Shape& operand_shape)
+	const stratax::core::Shape& result_shape,
+	const stratax::core::Shape& operand_shape)
 {
 	std::size_t operand_index = 0;
 	std::size_t operand_stride = 1;
@@ -99,7 +101,8 @@ inline std::size_t flat_operand_index(
  */
 inline bool broadcastable(
 	const stratax::core::Shape& shape1,
-	const stratax::core::Shape& shape2)
+	const stratax::core::Shape& shape2
+)
 {
 	const std::size_t result_rank = std::max(shape1.rank(), shape2.rank());
 
@@ -182,23 +185,36 @@ inline stratax::core::Shape broadcasted_shape(
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
+requires std::same_as<
+	rebind_array_t<L, typename L::value_type>,
+	rebind_array_t<R, typename R::value_type>>
 auto broadcasted_op(const L& lhs, const R& rhs, Op op)
 {
+	using result_value_type =
+		stratax::core::promote_t<
+			typename L::value_type,
+			typename R::value_type>;
+
+	using result_type =
+		rebind_array_t<L, result_value_type>;
 
 	const auto result_shape =
-    	broadcasted_shape(lhs.shape(), rhs.shape());
-	L result(result_shape);
+		broadcasted_shape(lhs.shape(), rhs.shape());
+
+	result_type result(result_shape);
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{
 		const std::size_t lhs_index =
 			stratax::core::broadcast_detail::flat_operand_index(
 				i, result_shape, lhs.shape());
+
 		const std::size_t rhs_index =
 			stratax::core::broadcast_detail::flat_operand_index(
 				i, result_shape, rhs.shape());
 
-		result[i] = op(lhs[lhs_index], rhs[rhs_index]);
+		result[i] = static_cast<result_value_type>(
+			op(lhs[lhs_index], rhs[rhs_index]));
 	}
 
 	return result;
