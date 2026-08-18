@@ -8,6 +8,8 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
 #include <stratax/core/Types.hpp>
+#include <stratax/core/DTypeTraits.hpp>
+#include <stratax/core/Promotion.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/Slice.hpp>
 

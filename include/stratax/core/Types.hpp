@@ -4,11 +4,16 @@
 #include <cstdint>
 #include <complex>
 
-namespace stratax::core::dtype
+namespace stratax::core
 {
 
     using index_t = std::size_t;
     using ssize_t = std::ptrdiff_t;
+
+}
+
+namespace stratax::dtype
+{
 
     using bool_ = bool;
 
@@ -24,9 +29,9 @@ namespace stratax::core::dtype
 
     using float32 = float;
     using float64 = double;
-    using float128 = long double;
+    using longdouble = long double;
 
     using complex64  = std::complex<float>;
     using complex128 = std::complex<double>;
-    using complex256 = std::complex<long double>;
+    using clongdouble = std::complex<long double>;
 }

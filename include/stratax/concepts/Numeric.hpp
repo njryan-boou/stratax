@@ -22,8 +22,10 @@ concept SameAsAny =
 /**
  * @brief Identifies built-in character and code-unit types.
  *
- * Character-like integral types are intentionally excluded from Integral and
- * Numeric so textual data is not accepted as numerical array storage.
+ * Plain character and code-unit types are intentionally excluded from Integral
+ * and Numeric so textual data is not accepted as numerical array storage.
+ * `signed char` and `unsigned char` remain numeric because implementations
+ * commonly use them for `std::int8_t` and `std::uint8_t`.
  *
  * @tparam T Type to classify after removing cv/ref qualifiers.
  * @internal
@@ -33,8 +35,6 @@ concept CharacterLike =
 	SameAsAny<
 		T,
 		char,
-		signed char,
-		unsigned char,
 		wchar_t,
 		char8_t,
 		char16_t,
@@ -72,8 +72,9 @@ concept SupportedComplex =
  * @brief Identifies non-boolean, non-character integral scalar types.
  *
  * cv- and reference qualifiers are ignored. Standard signed and unsigned
- * integer types satisfy this concept, while `bool`, character types, floating
- * types, and complex types do not.
+ * integer types, including `signed char` and `unsigned char`, satisfy this
+ * concept. `bool`, plain character/code-unit types, floating types, and complex
+ * types do not.
  *
  * @tparam T Type to classify.
  */
