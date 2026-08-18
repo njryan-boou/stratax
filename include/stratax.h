@@ -115,7 +115,7 @@ using stratax::manipulation::reshape;
 
 namespace conversions {
 
-using ::to_matrix;
+using stratax::conversion::to_matrix;
 
 }
 
