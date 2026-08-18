@@ -198,7 +198,7 @@ requires (
 struct Promote<L, R>
 {
 	using type = std::conditional_t<
-		(DTypeTraits<L>::digits >= DTypeTraits<R>::digits),
+		(DTypeTraits<L>::rank >= DTypeTraits<R>::rank),
 		L,
 		R
 	>;

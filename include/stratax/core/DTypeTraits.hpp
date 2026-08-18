@@ -48,12 +48,27 @@ struct DTypeTraitsImpl;
 	}
 
 /**
+ * @brief Defines metadata for a ranked floating-point Stratax dtype.
+ */
+#define STRATAX_DEFINE_FLOAT_DTYPE_TRAITS(TYPE, RANK, NAME) \
+	template<> \
+	struct DTypeTraitsImpl<TYPE> \
+	{ \
+		using type = TYPE; \
+		static constexpr DTypeKind kind = DTypeKind::Floating; \
+		static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
+		static constexpr int digits = std::numeric_limits<type>::digits; \
+		static constexpr std::size_t rank = RANK; \
+		static constexpr std::string_view name = NAME; \
+	}
+
+/**
  * @brief Defines metadata for a complex Stratax dtype.
  *
  * Complex precision is defined by the precision of its underlying
  * floating-point component type.
  */
-#define STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(TYPE, COMPONENT, NAME) \
+#define STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(TYPE, COMPONENT, RANK, NAME) \
 	template<> \
 	struct DTypeTraitsImpl<TYPE> \
 	{ \
@@ -62,85 +77,32 @@ struct DTypeTraitsImpl;
 		static constexpr DTypeKind kind = DTypeKind::Complex; \
 		static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
 		static constexpr int digits = std::numeric_limits<component_type>::digits; \
+		static constexpr std::size_t rank = RANK; \
 		static constexpr std::string_view name = NAME; \
 	}
 
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::bool_,
-	Bool,
-	"bool");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::bool_, Bool, "bool");
 
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::int8,
-	SignedInteger,
-	"int8");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::int8, SignedInteger, "int8");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::int16, SignedInteger, "int16");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::int32, SignedInteger, "int32");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::int64, SignedInteger, "int64");
 
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::int16,
-	SignedInteger,
-	"int16");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::uint8, UnsignedInteger, "uint8");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::uint16, UnsignedInteger, "uint16");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::uint32, UnsignedInteger, "uint32");
+STRATAX_DEFINE_DTYPE_TRAITS(dtype::uint64, UnsignedInteger, "uint64");
 
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::int32,
-	SignedInteger,
-	"int32");
+STRATAX_DEFINE_FLOAT_DTYPE_TRAITS(dtype::float32, 0, "float32");
+STRATAX_DEFINE_FLOAT_DTYPE_TRAITS(dtype::float64, 1, "float64");
+STRATAX_DEFINE_FLOAT_DTYPE_TRAITS(dtype::longdouble, 2, "longdouble");
 
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::int64,
-	SignedInteger,
-	"int64");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::uint8,
-	UnsignedInteger,
-	"uint8");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::uint16,
-	UnsignedInteger,
-	"uint16");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::uint32,
-	UnsignedInteger,
-	"uint32");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::uint64,
-	UnsignedInteger,
-	"uint64");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::float32,
-	Floating,
-	"float32");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::float64,
-	Floating,
-	"float64");
-
-STRATAX_DEFINE_DTYPE_TRAITS(
-	dtype::longdouble,
-	Floating,
-	"longdouble");
-
-STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(
-	dtype::complex64,
-	dtype::float32,
-	"complex64");
-
-STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(
-	dtype::complex128,
-	dtype::float64,
-	"complex128");
-
-STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(
-	dtype::clongdouble,
-	dtype::longdouble,
-	"clongdouble");
+STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(dtype::complex64, dtype::float32, 0, "complex64");
+STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(dtype::complex128, dtype::float64, 1, "complex128");
+STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(dtype::clongdouble, dtype::longdouble, 2, "clongdouble");
 
 #undef STRATAX_DEFINE_DTYPE_TRAITS
+#undef STRATAX_DEFINE_FLOAT_DTYPE_TRAITS
 #undef STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS
 
 } // namespace dtype_detail
@@ -170,17 +132,9 @@ struct ComplexComponent;
 		using type = REAL; \
 	}
 
-STRATAX_DEFINE_COMPLEX_COMPONENT(
-	dtype::complex64,
-	dtype::float32);
-
-STRATAX_DEFINE_COMPLEX_COMPONENT(
-	dtype::complex128,
-	dtype::float64);
-
-STRATAX_DEFINE_COMPLEX_COMPONENT(
-	dtype::clongdouble,
-	dtype::longdouble);
+STRATAX_DEFINE_COMPLEX_COMPONENT(dtype::complex64, dtype::float32);
+STRATAX_DEFINE_COMPLEX_COMPONENT(dtype::complex128, dtype::float64);
+STRATAX_DEFINE_COMPLEX_COMPONENT(dtype::clongdouble, dtype::longdouble);
 
 #undef STRATAX_DEFINE_COMPLEX_COMPONENT
 
@@ -204,17 +158,9 @@ struct ComplexFromReal;
 		using type = COMPLEX; \
 	}
 
-STRATAX_DEFINE_COMPLEX_FROM_REAL(
-	dtype::float32,
-	dtype::complex64);
-
-STRATAX_DEFINE_COMPLEX_FROM_REAL(
-	dtype::float64,
-	dtype::complex128);
-
-STRATAX_DEFINE_COMPLEX_FROM_REAL(
-	dtype::longdouble,
-	dtype::clongdouble);
+STRATAX_DEFINE_COMPLEX_FROM_REAL(dtype::float32, dtype::complex64);
+STRATAX_DEFINE_COMPLEX_FROM_REAL(dtype::float64, dtype::complex128);
+STRATAX_DEFINE_COMPLEX_FROM_REAL(dtype::longdouble, dtype::clongdouble);
 
 #undef STRATAX_DEFINE_COMPLEX_FROM_REAL
 

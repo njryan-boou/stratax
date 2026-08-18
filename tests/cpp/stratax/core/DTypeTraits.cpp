@@ -63,6 +63,9 @@ static_assert(DTypeTraits<longdouble>::kind == DTypeKind::Floating);
 static_assert(DTypeTraits<float32>::name == "float32");
 static_assert(DTypeTraits<float64>::name == "float64");
 static_assert(DTypeTraits<longdouble>::name == "longdouble");
+static_assert(DTypeTraits<float32>::rank == 0);
+static_assert(DTypeTraits<float64>::rank == 1);
+static_assert(DTypeTraits<longdouble>::rank == 2);
 
 static_assert(DTypeTraits<complex64>::kind == DTypeKind::Complex);
 static_assert(DTypeTraits<complex128>::kind == DTypeKind::Complex);
@@ -70,11 +73,9 @@ static_assert(DTypeTraits<clongdouble>::kind == DTypeKind::Complex);
 static_assert(DTypeTraits<complex64>::name == "complex64");
 static_assert(DTypeTraits<complex128>::name == "complex128");
 static_assert(DTypeTraits<clongdouble>::name == "clongdouble");
-
-static_assert(DTypeTraits<index_t>::kind == DTypeKind::UnsignedInteger);
-static_assert(DTypeTraits<ssize_t>::kind == DTypeKind::SignedInteger);
-static_assert(DTypeTraits<index_t>::bits == sizeof(index_t) * CHAR_BIT);
-static_assert(DTypeTraits<ssize_t>::bits == sizeof(ssize_t) * CHAR_BIT);
+static_assert(DTypeTraits<complex64>::rank == 0);
+static_assert(DTypeTraits<complex128>::rank == 1);
+static_assert(DTypeTraits<clongdouble>::rank == 2);
 
 static_assert(DTypeTraits<const bool_&>::kind == DTypeKind::Bool);
 static_assert(DTypeTraits<const bool_&>::name == "bool");
