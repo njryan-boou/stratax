@@ -1,6 +1,4 @@
-// TODO: Add result-container and dtype promotion for broadcasted operations.
-// Mixed container types may require promotion to Tensor, and the result
-// value type should be derived from the operation rather than the left operand.
+// TODO: Define result-container promotion rules for mixed container kinds.
 #pragma once
 
 #include <algorithm>
@@ -125,9 +123,10 @@ inline bool broadcastable(
 /**
  * @brief Computes the common shape produced by broadcasting two shapes.
  *
- * Compatible dimensions are aligned from the right and the non-singleton
- * extent is selected for each result axis. The operation is symmetric: swapping
- * the arguments produces the same shape.
+ * Compatible dimensions are aligned from the right. For each result axis, a
+ * singleton extent yields to the other extent; otherwise the equal extent is
+ * retained. Consequently, zero broadcasts with one to produce zero. The
+ * operation is symmetric: swapping the arguments produces the same shape.
  *
  * @param shape1 First operand shape.
  * @param shape2 Second operand shape.
@@ -161,33 +160,34 @@ inline stratax::core::Shape broadcasted_shape(
 	return stratax::core::Shape{result};
 }
 
-// TODO: Define result-container promotion rules for mixed container types.
-// Same-type operations should preserve the container type;
-// mixed Vector/Matrix/Tensor operations may promote to Tensor.
 /**
  * @brief Applies a binary callable element-wise using array broadcasting.
  *
- * The result uses the left operand's container and value type. Each flat result
- * coordinate is mapped independently into both operands, collapsing broadcast
- * dimensions to coordinate zero. The returned container owns new storage.
- * Current callers must ensure the broadcasted shape is valid for `L`; mixed
- * container promotion and operation-result type deduction are not yet provided.
+ * Both operands must belong to the same container family. The result preserves
+ * that family, uses the dtype selected by `promote_t<L::value_type,
+ * R::value_type>`, has the common broadcasted shape, and owns independent
+ * storage. Each callable result is converted to the promoted dtype.
  *
- * @tparam L Left Stratax array type and result container type.
- * @tparam R Right Stratax array type.
- * @tparam Op Binary callable whose result is assignable to `L::value_type`.
+ * Each flat result coordinate is mapped independently into both operands.
+ * Coordinates along singleton dimensions collapse to zero, allowing an operand
+ * value to be reused across the expanded result axes. Mixed container families
+ * are intentionally rejected because container promotion is not yet defined.
+ *
+ * @tparam L Left Stratax array type and result container family.
+ * @tparam R Right Stratax array type from the same container family as `L`.
+ * @tparam Op Binary callable whose result is convertible to the promoted dtype.
  * @param lhs Left operand.
  * @param rhs Right operand.
  * @param op Callable invoked as `op(lhs_value, rhs_value)`.
- * @return Owning `L` with the broadcasted shape and computed values.
+ * @return Owning array with `L`'s container family, the promoted dtype, and the
+ *         common broadcasted shape.
  * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
- * @throws Any exception propagated by result construction or @p op.
+ * @throws std::bad_alloc If shape or result storage allocation fails.
+ * @throws Any exception propagated by result construction, conversion, or
+ *         @p op.
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
-requires std::same_as<
-	rebind_array_t<L, typename L::value_type>,
-	rebind_array_t<R, typename R::value_type>>
 auto broadcasted_op(const L& lhs, const R& rhs, Op op)
 {
 	using result_value_type =
@@ -196,7 +196,10 @@ auto broadcasted_op(const L& lhs, const R& rhs, Op op)
 			typename R::value_type>;
 
 	using result_type =
-		rebind_array_t<L, result_value_type>;
+		stratax::core::promote_array_t<
+			L,
+			R,
+			result_value_type>;
 
 	const auto result_shape =
 		broadcasted_shape(lhs.shape(), rhs.shape());
@@ -222,24 +225,43 @@ auto broadcasted_op(const L& lhs, const R& rhs, Op op)
 
 /**
  * @brief Applies a binary callable to every array element and a right scalar.
- * @tparam L Stratax array type and result container type.
+ *
+ * The result preserves `L`'s container family and shape, uses the dtype selected
+ * by `promote_t<L::value_type, S>`, and owns independent storage. Each callable
+ * result is converted to the promoted dtype.
+ *
+ * @tparam L Stratax array type and result container family.
  * @tparam S Numeric scalar type.
- * @tparam Op Binary callable whose result is assignable to `L::value_type`.
+ * @tparam Op Binary callable whose result is convertible to the promoted dtype.
  * @param lhs Array supplying each left argument.
  * @param rhs Scalar supplied as every right argument.
  * @param op Callable invoked as `op(lhs[i], rhs)`.
- * @return Owning `L` with the same shape as @p lhs and computed values.
- * @throws Any exception propagated by result construction or @p op.
+ * @return Owning array with `L`'s container family, the promoted dtype, and the
+ *         same shape as @p lhs.
+ * @throws std::bad_alloc If result storage allocation fails.
+ * @throws Any exception propagated by result construction, conversion, or
+ *         @p op.
  * @complexity O(lhs.size()).
  */
 template<Array L, Numeric S, typename Op>
-L broadcasted_op(const L& lhs, const S& rhs, Op op)
+auto broadcasted_op(const L& lhs, const S& rhs, Op op)
 {
-	L result(lhs.shape());
+	using result_value_type =
+		stratax::core::promote_t<
+			typename L::value_type,
+			S>;
+
+	using result_type =
+		stratax::core::rebind_array_t<
+			L,
+			result_value_type>;
+
+	result_type result(lhs.shape());
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{
-		result[i] = op(lhs[i], rhs);
+		result[i] = static_cast<result_value_type>(
+			op(lhs[i], rhs));
 	}
 
 	return result;
@@ -247,24 +269,44 @@ L broadcasted_op(const L& lhs, const S& rhs, Op op)
 
 /**
  * @brief Applies a binary callable to a left scalar and every array element.
+ *
+ * The result preserves `R`'s container family and shape, uses the dtype selected
+ * by `promote_t<S, R::value_type>`, and owns independent storage. Operand order
+ * is preserved when invoking @p op, which matters for non-commutative callables.
+ * Each callable result is converted to the promoted dtype.
+ *
  * @tparam S Numeric scalar type.
- * @tparam R Stratax array type and result container type.
- * @tparam Op Binary callable whose result is assignable to `R::value_type`.
+ * @tparam R Stratax array type and result container family.
+ * @tparam Op Binary callable whose result is convertible to the promoted dtype.
  * @param lhs Scalar supplied as every left argument.
  * @param rhs Array supplying each right argument.
  * @param op Callable invoked as `op(lhs, rhs[i])`.
- * @return Owning `R` with the same shape as @p rhs and computed values.
- * @throws Any exception propagated by result construction or @p op.
+ * @return Owning array with `R`'s container family, the promoted dtype, and the
+ *         same shape as @p rhs.
+ * @throws std::bad_alloc If result storage allocation fails.
+ * @throws Any exception propagated by result construction, conversion, or
+ *         @p op.
  * @complexity O(rhs.size()).
  */
 template<Numeric S, Array R, typename Op>
-R broadcasted_op(const S& lhs, const R& rhs, Op op)
+auto broadcasted_op(const S& lhs, const R& rhs, Op op)
 {
-	R result(rhs.shape());
+	using result_value_type =
+		stratax::core::promote_t<
+			S,
+			typename R::value_type>;
+
+	using result_type =
+		stratax::core::rebind_array_t<
+			R,
+			result_value_type>;
+
+	result_type result(rhs.shape());
 
 	for (std::size_t i = 0; i < result.size(); ++i)
 	{
-		result[i] = op(lhs, rhs[i]);
+		result[i] = static_cast<result_value_type>(
+			op(lhs, rhs[i]));
 	}
 
 	return result;

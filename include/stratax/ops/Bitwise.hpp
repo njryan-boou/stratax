@@ -9,6 +9,7 @@
 
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/ops/Broadcasting.hpp>
 
 #include <functional>
 
@@ -44,28 +45,6 @@ void validate_shift(Shift shift)
 }
 
 /**
- * @brief Verifies that two integer arrays have exactly the same shape.
- *
- * Array-array bitwise operations do not broadcast. Equal element counts with
- * different dimensions are therefore rejected.
- *
- * @tparam A Common integral-valued Stratax array type.
- * @param lhs Left array whose shape is required.
- * @param rhs Right array whose shape is checked.
- * @throws Exceptions::ShapeError If `lhs.shape() != rhs.shape()`.
- * @complexity O(lhs.rank()).
- */
-template<Array A>
-requires Integral<typename A::value_type>
-void require_same_bitwise_shape(const A& lhs, const A& rhs)
-{
-	if (rhs.shape() != lhs.shape())
-	{
-		throw Exceptions::ShapeError(
-			"Bitwise operations require arrays of the same shape.");
-	}
-}
-/**
  * @brief Applies a callable element-wise to two same-shaped integer arrays.
  * @tparam A Common integral-valued Stratax array and result type.
  * @tparam Op Binary bitwise or shift callable.
@@ -77,24 +56,17 @@ void require_same_bitwise_shape(const A& lhs, const A& rhs)
  * @throws Any exception propagated by result allocation or @p op.
  * @complexity O(lhs.size() + lhs.rank()).
  */
-template<Array A, typename Op>
-requires Integral<typename A::value_type>
-A binary_bitwise_op(const A& lhs, const A& rhs, Op op)
+template<Array L, Array R, typename Op>
+requires (
+	Integral<typename L::value_type> &&
+	Integral<typename R::value_type>
+)
+auto binary_bitwise_op(
+	const L& lhs,
+	const R& rhs,
+	Op op)
 {
-	require_same_bitwise_shape(lhs, rhs);
-
-	A result(lhs.shape());
-
-	auto out = result.begin();
-	auto it_lhs = lhs.begin();
-	auto it_rhs = rhs.begin();
-
-	for (; it_lhs != lhs.end(); ++it_lhs, ++it_rhs, ++out)
-	{
-		*out = static_cast<typename A::value_type>(op(*it_lhs, *it_rhs));
-	}
-
-	return result;
+	return broadcasted_op(lhs, rhs, op);
 }
 
 /**
@@ -176,26 +148,32 @@ A operator~(const A& value)
 
 // Array-array
 
-/** @brief Applies element-wise bitwise AND between two arrays. */
-template<Array A>
-requires Integral<typename A::value_type>
-A operator&(const A& lhs, const A& rhs)
+template<Array L, Array R>
+requires (
+	Integral<typename L::value_type> &&
+	Integral<typename R::value_type>
+)
+auto operator&(const L& lhs, const R& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_and<>{});
 }
 
-/** @brief Applies element-wise bitwise OR between two arrays. */
-template<Array A>
-requires Integral<typename A::value_type>
-A operator|(const A& lhs, const A& rhs)
+template<Array L, Array R>
+requires (
+	Integral<typename L::value_type> &&
+	Integral<typename R::value_type>
+)
+auto operator|(const L& lhs, const R& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_or<>{});
 }
 
-/** @brief Applies element-wise bitwise XOR between two arrays. */
-template<Array A>
-requires Integral<typename A::value_type>
-A operator^(const A& lhs, const A& rhs)
+template<Array L, Array R>
+requires (
+	Integral<typename L::value_type> &&
+	Integral<typename R::value_type>
+)
+auto operator^(const L& lhs, const R& rhs)
 {
 	return binary_bitwise_op(lhs, rhs, std::bit_xor<>{});
 }

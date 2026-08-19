@@ -72,29 +72,28 @@ TEST(BitwiseArray, ReturnsIndependentStorage)
 	EXPECT_EQ(lhs[0], 1);
 }
 
-TEST(BitwiseArray, RejectsShapeMismatchWithoutBroadcasting)
+TEST(BitwiseArray, BroadcastsCompatibleShapes)
 {
 	const Matrix<int> lhs(2, 1);
 	const Matrix<int> rhs(2, 3);
 
-	EXPECT_THROW(static_cast<void>(lhs & rhs), Exceptions::ShapeError);
-	EXPECT_THROW(static_cast<void>(lhs | rhs), Exceptions::ShapeError);
-	EXPECT_THROW(static_cast<void>(lhs ^ rhs), Exceptions::ShapeError);
-	EXPECT_THROW(static_cast<void>(lhs << rhs), Exceptions::ShapeError);
-	EXPECT_THROW(static_cast<void>(lhs >> rhs), Exceptions::ShapeError);
+	EXPECT_EQ((lhs & rhs).shape(), Shape({2, 3}));
+	EXPECT_EQ((lhs | rhs).shape(), Shape({2, 3}));
+	EXPECT_EQ((lhs ^ rhs).shape(), Shape({2, 3}));
+	EXPECT_EQ((lhs << rhs).shape(), Shape({2, 3}));
+	EXPECT_EQ((lhs >> rhs).shape(), Shape({2, 3}));
 }
 
-TEST(BitwiseArray, ShapeErrorMessage)
+TEST(BitwiseArray, RejectsIncompatibleShapes)
 {
-	const Vector<int> lhs{1};
-	const Vector<int> rhs{1, 2};
+	const Vector<int> lhs{1, 2};
+	const Vector<int> rhs{1, 2, 3};
 
 	try {
 		static_cast<void>(lhs & rhs);
-		FAIL() << "Expected Exceptions::ShapeError";
-	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(),
-			"Bitwise operations require arrays of the same shape.");
+		FAIL() << "Expected Exceptions::BroadcastError";
+	} catch (const Exceptions::BroadcastError& error) {
+		EXPECT_STREQ(error.what(), "Shapes are not broadcastable");
 	}
 }
 
@@ -183,7 +182,7 @@ TEST(BitwiseCompound, ShapeFailureLeavesLeftUnchanged)
 	const std::vector<int> original(lhs.begin(), lhs.end());
 	const Vector<int> rhs{1, 2};
 
-	EXPECT_THROW(lhs &= rhs, Exceptions::ShapeError);
+	EXPECT_THROW(lhs &= rhs, Exceptions::BroadcastError);
 	EXPECT_EQ(lhs.shape(), Shape({3}));
 	EXPECT_EQ(std::vector<int>(lhs.begin(), lhs.end()), original);
 }

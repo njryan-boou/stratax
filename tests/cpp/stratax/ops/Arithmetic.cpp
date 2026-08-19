@@ -9,6 +9,7 @@
 
 using namespace stratax::container;
 using namespace stratax::core;
+namespace dtype = stratax::dtype;
 
 TEST(ArrayArithmetic, VectorOperators)
 {
@@ -60,6 +61,62 @@ TEST(ArrayArithmetic, TensorBroadcasting)
 	EXPECT_EQ(result(0, 2, 1), 60);
 	EXPECT_EQ(result(1, 0, 0), 30);
 	EXPECT_EQ(result(1, 2, 1), 120);
+}
+
+TEST(ArrayArithmetic, VectorAndMatrixPromoteToTensor)
+{
+	const Vector<dtype::int16> lhs{1, 2, 3};
+	const Matrix<dtype::float32> rhs{{0.5F, 1.5F, 2.5F}};
+	const auto result = lhs + rhs;
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		Tensor<dtype::float32>>);
+	EXPECT_EQ(result.shape(), Shape({1, 3}));
+	EXPECT_FLOAT_EQ(result[0], 1.5F);
+	EXPECT_FLOAT_EQ(result[1], 3.5F);
+	EXPECT_FLOAT_EQ(result[2], 5.5F);
+}
+
+TEST(ArrayArithmetic, MatrixAndTensorPromoteContainerAndDtype)
+{
+	const Matrix<dtype::int32> lhs{{1}, {2}};
+	Tensor<dtype::float32> rhs(Shape{1, 3});
+	rhs[0] = 0.5F;
+	rhs[1] = 1.5F;
+	rhs[2] = 2.5F;
+
+	const auto result = lhs + rhs;
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		Tensor<dtype::float64>>);
+	EXPECT_EQ(result.shape(), Shape({2, 3}));
+	EXPECT_DOUBLE_EQ(result(0, 0), 1.5);
+	EXPECT_DOUBLE_EQ(result(0, 2), 3.5);
+	EXPECT_DOUBLE_EQ(result(1, 0), 2.5);
+	EXPECT_DOUBLE_EQ(result(1, 2), 4.5);
+}
+
+TEST(ArrayArithmetic, MixedContainerPromotionIsSymmetric)
+{
+	const Vector<dtype::int16> vector{1, 2, 3};
+	const Tensor<dtype::float32> tensor(Shape{1, 3}, 0.5F);
+
+	const auto vector_first = vector + tensor;
+	const auto tensor_first = tensor + vector;
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(vector_first)>,
+		Tensor<dtype::float32>>);
+	static_assert(std::same_as<
+		decltype(vector_first),
+		decltype(tensor_first)>);
+	EXPECT_EQ(vector_first.shape(), Shape({1, 3}));
+	EXPECT_EQ(tensor_first.shape(), Shape({1, 3}));
+	EXPECT_EQ(
+		std::vector<dtype::float32>(vector_first.begin(), vector_first.end()),
+		std::vector<dtype::float32>(tensor_first.begin(), tensor_first.end()));
 }
 
 TEST(ArrayArithmetic, DoesNotModifyOperands)
@@ -225,18 +282,6 @@ TEST(CompoundArrayArithmetic, AllOperatorsReturnLeftReference)
 	EXPECT_EQ(&(value /= rhs), &value);
 	EXPECT_EQ(std::vector<int>(value.begin(), value.end()),
 		(std::vector<int>{24, 36, 48}));
-}
-
-TEST(CompoundArrayArithmetic, CanAcquireBroadcastedShape)
-{
-	Matrix<int> lhs{{1}, {10}};
-	const Matrix<int> rhs{{1, 2, 3}};
-
-	lhs += rhs;
-
-	EXPECT_EQ(lhs.shape(), Shape({2, 3}));
-	EXPECT_EQ(std::vector<int>(lhs.begin(), lhs.end()),
-		(std::vector<int>{2, 3, 4, 11, 12, 13}));
 }
 
 TEST(CompoundScalarArithmetic, AllOperatorsReturnLeftReference)

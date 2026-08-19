@@ -11,6 +11,21 @@ namespace stratax::container {
 
 namespace detail {
 
+template<typename T>
+void print_value(std::ostream& os, const T& value)
+{
+	if constexpr (
+		std::same_as<std::remove_cvref_t<T>, dtype::int8> ||
+		std::same_as<std::remove_cvref_t<T>, dtype::uint8>)
+	{
+		os << static_cast<int>(value);
+	}
+	else
+	{
+		os << value;
+	}
+}
+
 /** @brief Recursively prints a tensor using nested bracket notation. */
 template<Array A>
 void print_recursive(
@@ -30,7 +45,9 @@ void print_recursive(
 	{
 		for (std::size_t i = 0; i < shape[dim]; ++i)
 		{
-			os << array[offset + i * strides[dim]];
+			print_value(
+	os,
+	array[offset + i * strides[dim]]);
 
 			if (i + 1 != shape[dim])
 				os << ", ";

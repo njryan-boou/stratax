@@ -1,0 +1,118 @@
+#include <concepts>
+
+#include <stratax.h>
+
+static_assert(std::same_as<
+	stratax::core::rebind_array_t<
+		stratax::container::Vector<int>,
+		double>,
+	stratax::container::Vector<double>>);
+
+static_assert(std::same_as<
+	stratax::core::rebind_array_t<
+		const stratax::container::Matrix<int>&,
+		double>,
+	stratax::container::Matrix<double>>);
+
+static_assert(std::same_as<
+	stratax::core::rebind_array_t<
+		volatile stratax::container::Tensor<int>&&,
+		const double&>,
+	stratax::container::Tensor<double>>);
+
+static_assert(stratax::core::SameArrayKindType<
+	stratax::container::Vector<int>,
+	stratax::container::Vector<double>>);
+
+static_assert(stratax::core::SameArrayKindType<
+	stratax::container::Matrix<int>,
+	stratax::container::Matrix<float>>);
+
+static_assert(stratax::core::SameArrayKindType<
+	stratax::container::Tensor<int>,
+	stratax::container::Tensor<double>>);
+
+static_assert(!stratax::core::SameArrayKindType<
+	stratax::container::Vector<int>,
+	stratax::container::Matrix<int>>);
+
+static_assert(stratax::core::SameArrayKindType<
+	const stratax::container::Tensor<int>&,
+	volatile stratax::container::Tensor<float>&&>);
+
+static_assert(!stratax::core::SameArrayKindType<
+	stratax::container::Matrix<int>,
+	stratax::container::Vector<int>>);
+
+static_assert(!stratax::core::SameArrayKindType<
+	stratax::container::Vector<int>,
+	stratax::container::Tensor<int>>);
+
+static_assert(!stratax::core::SameArrayKindType<
+	stratax::container::Matrix<int>,
+	stratax::container::Tensor<int>>);
+
+static_assert(!stratax::core::SameArrayKindType<int, int>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Vector<int>,
+		stratax::container::Vector<float>,
+		double>,
+	stratax::container::Vector<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Matrix<int>,
+		stratax::container::Matrix<float>,
+		double>,
+	stratax::container::Matrix<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Tensor<int>,
+		stratax::container::Tensor<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Vector<int>,
+		stratax::container::Matrix<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Matrix<int>,
+		stratax::container::Vector<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Vector<int>,
+		stratax::container::Tensor<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Tensor<int>,
+		stratax::container::Vector<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		stratax::container::Matrix<int>,
+		stratax::container::Tensor<float>,
+		double>,
+	stratax::container::Tensor<double>>);
+
+static_assert(std::same_as<
+	stratax::core::promote_array_t<
+		const stratax::container::Tensor<int>&,
+		volatile stratax::container::Matrix<float>&&,
+		const double&>,
+	stratax::container::Tensor<double>>);

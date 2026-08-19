@@ -9,6 +9,7 @@
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
+#include <stratax/core/DTypeTraits.hpp>
 
 namespace stratax::core {
 
@@ -60,6 +61,11 @@ public:
 	using reverse_iterator = typename Buffer<value_type>::reverse_iterator;
 	/** @brief Read-only reverse iterator type. */
 	using const_reverse_iterator = typename Buffer<value_type>::const_reverse_iterator;
+
+	[[nodiscard]] static constexpr std::string_view dtype() noexcept
+	{
+		return stratax::core::DTypeTraits<value_type>::name;
+	}
 
 	/** @brief Returns the number of stored elements. @complexity O(1). */
 	[[nodiscard]] size_type size() const noexcept {return buffer_.size();}

@@ -9,6 +9,7 @@
 
 using namespace stratax::container;
 using namespace stratax::core;
+namespace dtype = stratax::dtype;
 
 TEST(Broadcastable, EqualShapes)
 {
@@ -131,6 +132,36 @@ TEST(BroadcastedArrayOperation, MatchingVectors)
 		(std::vector<int>{11, 22, 33}));
 }
 
+TEST(BroadcastedArrayOperation, MixedContainersPromoteToTensor)
+{
+	const Vector<dtype::int16> lhs{1, 2, 3};
+	const Matrix<dtype::float32> rhs{{0.5F, 1.5F, 2.5F}};
+	const auto result = broadcasted_op(lhs, rhs,
+		[](auto left, auto right) { return left + right; });
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		Tensor<dtype::float32>>);
+	EXPECT_EQ(result.shape(), Shape({1, 3}));
+	EXPECT_FLOAT_EQ(result[0], 1.5F);
+	EXPECT_FLOAT_EQ(result[1], 3.5F);
+	EXPECT_FLOAT_EQ(result[2], 5.5F);
+}
+
+TEST(BroadcastedArrayOperation, PromotesOperandDtypes)
+{
+	const Vector<dtype::int32> lhs{1, 2};
+	const Vector<dtype::float32> rhs{0.5F, 1.5F};
+	const auto result = broadcasted_op(lhs, rhs,
+		[](auto left, auto right) { return left + right; });
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		Vector<dtype::float64>>);
+	EXPECT_DOUBLE_EQ(result[0], 1.5);
+	EXPECT_DOUBLE_EQ(result[1], 3.5);
+}
+
 TEST(BroadcastedArrayOperation, BroadcastsMatrixRow)
 {
 	const Matrix<int> lhs{{1, 2, 3}, {4, 5, 6}};
@@ -233,6 +264,26 @@ TEST(BroadcastedScalarOperation, PreservesArrayContainer)
 	static_assert(std::same_as<std::remove_cv_t<decltype(left)>, Matrix<double>>);
 	EXPECT_EQ(right.shape(), source.shape());
 	EXPECT_EQ(left.shape(), source.shape());
+}
+
+TEST(BroadcastedScalarOperation, PromotesDtypeInBothOperandOrders)
+{
+	const Vector<dtype::int32> source{1, 2};
+	const auto right = broadcasted_op(source, dtype::float32{0.5F},
+		[](auto value, auto scalar) { return value + scalar; });
+	const auto left = broadcasted_op(dtype::float32{0.5F}, source,
+		[](auto scalar, auto value) { return scalar + value; });
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(right)>,
+		Vector<dtype::float64>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(left)>,
+		Vector<dtype::float64>>);
+	EXPECT_DOUBLE_EQ(right[0], 1.5);
+	EXPECT_DOUBLE_EQ(right[1], 2.5);
+	EXPECT_DOUBLE_EQ(left[0], 1.5);
+	EXPECT_DOUBLE_EQ(left[1], 2.5);
 }
 
 TEST(BroadcastedOperation, EmptyResultDoesNotInvokeCallable)
