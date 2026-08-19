@@ -172,71 +172,79 @@ inline stratax::core::Shape broadcasted_shape(
 	return stratax::core::Shape{result};
 }
 
+namespace stratax::core {
+
+template<
+    DType Result,
+    Array L,
+    Array R,
+    typename Op>
+auto broadcasted_op(
+    const L& lhs,
+    const R& rhs,
+    Op op)
+{
+    using result_type =
+        promote_array_t<L, R, Result>;
+
+    const auto result_shape =
+        broadcasted_shape(lhs.shape(), rhs.shape());
+
+    result_type result(result_shape);
+
+    for (std::size_t i = 0; i < result.size(); ++i)
+    {
+        const auto lhs_index =
+            broadcast_detail::flat_operand_index(
+                i,
+                result_shape,
+                lhs.shape());
+
+        const auto rhs_index =
+            broadcast_detail::flat_operand_index(
+                i,
+                result_shape,
+                rhs.shape());
+
+        result[i] = static_cast<Result>(
+            op(lhs[lhs_index], rhs[rhs_index]));
+    }
+
+    return result;
+}
+
 /**
- * @brief Applies a binary callable element-wise using array broadcasting.
+ * @brief Applies a binary callable using the operands' promoted dtype.
  *
- * The result dtype is selected by `promote_t<L::value_type, R::value_type>`.
- * Matching container families are preserved, while mixed `Vector`, `Matrix`,
- * and `Tensor` families produce a `Tensor` according to `promote_array_t`.
- * The result has the common broadcasted shape and owns storage independent of
- * both operands. Each callable result is explicitly converted to the promoted
- * dtype before assignment.
+ * This overload preserves the inferred array-array API while forwarding to
+ * the explicit-result overload used by operations that require a custom
+ * result dtype.
  *
- * Each flat result coordinate is mapped independently into both operands.
- * Coordinates along singleton dimensions collapse to zero, allowing an operand
- * value to be reused across expanded result axes. When the broadcasted shape
- * has zero elements, the callable is never invoked.
- *
- * @tparam L Left Stratax array type.
- * @tparam R Right Stratax array type.
- * @tparam Op Binary callable invocable with the operand value types and whose
- *            result is convertible to the promoted dtype.
- * @param lhs Left operand.
- * @param rhs Right operand.
- * @param op Callable invoked as `op(lhs_value, rhs_value)`.
- * @return Owning promoted array with the promoted dtype and common broadcasted
- *         shape. Mixed container families return a Tensor.
+ * @return Owning promoted array with the common broadcasted shape.
  * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
- * @throws std::bad_alloc If shape or result storage allocation fails.
- * @throws Any exception propagated by result construction, conversion, or
- *         @p op.
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
- * @note The input arrays are not modified.
  */
 template<Array L, Array R, typename Op>
-auto broadcasted_op(const L& lhs, const R& rhs, Op op)
+requires (
+    Numeric<typename L::value_type> &&
+    Numeric<typename R::value_type>
+)
+auto broadcasted_op(
+    const L& lhs,
+    const R& rhs,
+    Op op)
 {
-	using result_value_type =
-		stratax::core::promote_t<
-			typename L::value_type,
-			typename R::value_type>;
+    using result_value_type =
+        promote_t<
+            typename L::value_type,
+            typename R::value_type>;
 
-	using result_type =
-		stratax::core::promote_array_t<
-			L,
-			R,
-			result_value_type>;
+    return broadcasted_op<result_value_type>(
+        lhs,
+        rhs,
+        op);
+}
 
-	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
-
-	result_type result(result_shape);
-
-	for (std::size_t i = 0; i < result.size(); ++i)
-	{
-		const std::size_t lhs_index =
-			stratax::core::broadcast_detail::flat_operand_index(
-				i, result_shape, lhs.shape());
-
-		const std::size_t rhs_index =
-			stratax::core::broadcast_detail::flat_operand_index(
-				i, result_shape, rhs.shape());
-
-		result[i] = static_cast<result_value_type>(
-			op(lhs[lhs_index], rhs[rhs_index]));
-	}
-
-	return result;
 }
 
 /**

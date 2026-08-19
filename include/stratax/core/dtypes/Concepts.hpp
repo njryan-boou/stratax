@@ -124,3 +124,8 @@ template<typename T>
 concept Ordered =
 	DType<T> &&
 	!stratax::core::concept_detail::SupportedComplex<T>;
+
+template<typename T>
+concept RealNumeric =
+    Integral<T> ||
+    std::floating_point<std::remove_cvref_t<T>>;

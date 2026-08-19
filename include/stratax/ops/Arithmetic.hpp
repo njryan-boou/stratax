@@ -52,7 +52,15 @@ auto binary_op(
 		return op(left, right);
 	};
 
-	return broadcasted_op(lhs, rhs, checked_op);
+	using result_value_type =
+		stratax::core::promote_t<
+			typename L::value_type,
+			typename R::value_type>;
+
+	return stratax::core::broadcasted_op<result_value_type>(
+		lhs,
+		rhs,
+		checked_op);
 }
 
 /**

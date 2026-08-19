@@ -30,6 +30,8 @@
 #include <stratax/ops/Arithmetic.hpp>
 #include <stratax/ops/Bitwise.hpp>
 #include <stratax/ops/Broadcasting.hpp>
+#include <stratax/ops/Math.hpp>
+
 #include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
 #include <stratax/indexing/Slicing.hpp>

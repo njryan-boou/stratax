@@ -345,7 +345,15 @@ auto binary_bitwise_op(
 	const R& rhs,
 	Op op)
 {
-	return broadcasted_op(lhs, rhs, op);
+	using result_value_type =
+		stratax::core::promote_t<
+			typename L::value_type,
+			typename R::value_type>;
+
+	return stratax::core::broadcasted_op<result_value_type>(
+		lhs,
+		rhs,
+		op);
 }
 
 /**
@@ -362,13 +370,26 @@ auto binary_bitwise_op(
  * @complexity O(lhs.size()).
  */
 template<Array A, Integral Scalar, typename Op>
-requires Integral<typename A::value_type>
 auto binary_scalar_bitwise_op(
-	const A& lhs,
-	const Scalar& rhs,
-	Op op)
+    const A& arr,
+    const Scalar& scalar,
+    Op op)
 {
-	return broadcasted_op(lhs, rhs, op);
+    using result_value_type =
+        promote_t<typename A::value_type, Scalar>;
+
+    using result_type =
+        rebind_array_t<A, result_value_type>;
+
+    result_type result(arr.shape());
+
+    for (std::size_t i = 0; i < arr.size(); ++i)
+    {
+        result[i] = static_cast<result_value_type>(
+            op(arr[i], scalar));
+    }
+
+    return result;
 }
 
 /**
@@ -385,13 +406,26 @@ auto binary_scalar_bitwise_op(
  * @complexity O(rhs.size()).
  */
 template<Integral Scalar, Array A, typename Op>
-requires Integral<typename A::value_type>
 auto binary_scalar_bitwise_op(
-	const Scalar& lhs,
-	const A& rhs,
-	Op op)
+    const Scalar& scalar,
+    const A& arr,
+    Op op)
 {
-	return broadcasted_op(lhs, rhs, op);
+    using result_value_type =
+        promote_t<Scalar, typename A::value_type>;
+
+    using result_type =
+        rebind_array_t<A, result_value_type>;
+
+    result_type result(arr.shape());
+
+    for (std::size_t i = 0; i < arr.size(); ++i)
+    {
+        result[i] = static_cast<result_value_type>(
+            op(scalar, arr[i]));
+    }
+
+    return result;
 }
 
 /**
