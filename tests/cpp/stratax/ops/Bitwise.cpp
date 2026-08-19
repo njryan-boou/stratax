@@ -48,7 +48,7 @@ TEST(BitwiseArray, PerElementShifts)
 	EXPECT_EQ(std::vector<unsigned int>(left.begin(), left.end()),
 		(std::vector<unsigned int>{2U, 8U, 128U}));
 	EXPECT_EQ(std::vector<unsigned int>(right.begin(), right.end()),
-		(std::vector<unsigned int>{2U, 8U, 128U}));
+		(std::vector<unsigned int>{0U, 0U, 2U}));
 }
 
 TEST(BitwiseArray, PreservesMatrixAndTensorShapes)
@@ -185,6 +185,16 @@ TEST(BitwiseCompound, ShapeFailureLeavesLeftUnchanged)
 	EXPECT_THROW(lhs &= rhs, Exceptions::BroadcastError);
 	EXPECT_EQ(lhs.shape(), Shape({3}));
 	EXPECT_EQ(std::vector<int>(lhs.begin(), lhs.end()), original);
+}
+
+TEST(BitwiseCompound, InvalidShiftLeavesLeftUnchanged)
+{
+	Vector<unsigned int> lhs{1U, 2U, 3U};
+	const Vector<int> counts{1, 2, -1};
+	const std::vector<unsigned int> original(lhs.begin(), lhs.end());
+
+	EXPECT_THROW(lhs <<= counts, Exceptions::StrataxError);
+	EXPECT_EQ(std::vector<unsigned int>(lhs.begin(), lhs.end()), original);
 }
 
 TEST(BitwiseEmpty, OperationsPreserveEmptyShape)
