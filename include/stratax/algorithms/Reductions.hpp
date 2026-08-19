@@ -13,6 +13,7 @@
 #include <stratax/core/Slice.hpp>
 #include <stratax/indexing/Slicing.hpp>
 #include <stratax/algorithms/Conversion.hpp>
+#include <stratax/core/ReductionTraits.hpp>
 
 #include <numeric>
 #include <algorithm>
@@ -21,6 +22,8 @@
 #include <utility>
 
 namespace reduction {
+
+namespace detail {
 
 /**
  * @brief Advances a multidimensional index in row-major order.
@@ -31,18 +34,23 @@ namespace reduction {
  * @complexity O(shape.rank()) in the worst case.
  * @internal
  */
-inline bool advance(const stratax::core::Shape& shape, std::vector<std::size_t>& indices)
+inline bool advance(
+	const stratax::core::Shape& shape,
+	std::vector<std::size_t>& indices)
 {
-	// Start from the rightmost dimension
-	for (int d = shape.rank() - 1; d >= 0; --d) {
-		indices[d]++;
-		if (indices[d] < shape[d]) {
-			return true;  // Successfully advanced, more indices exist
+	for (std::size_t d = shape.rank(); d-- > 0;)
+	{
+		++indices[d];
+
+		if (indices[d] < shape[d])
+		{
+			return true;
 		}
-		indices[d] = 0;  // Reset and carry over to next dimension
+
+		indices[d] = 0;
 	}
-    
-	return false;  // All dimensions wrapped around, no more indices
+
+	return false;
 }
 
 /**
@@ -126,6 +134,8 @@ using axis_reduce_value_t =
 	decltype(std::declval<Func>()(
 		std::declval<const stratax::container::Tensor<typename A::value_type>&>()));
 
+} // namespace detail
+
 /**
  * @brief Applies a scalar reduction callback independently along one axis.
  *
@@ -135,6 +145,7 @@ using axis_reduce_value_t =
  * Because rank-zero tensors cannot store a scalar in the current container
  * model, reducing a rank-one array without `keepdims` returns shape `{1}`.
  * Empty output domains return immediately without invoking @p func.
+ * The callback result type determines the returned tensor's value type.
  *
  * @tparam A Source Vector, Matrix, or Tensor satisfying Array.
  * @tparam Func Callable that reduces a const Tensor slice to one scalar.
@@ -142,19 +153,21 @@ using axis_reduce_value_t =
  * @param axis Axis in `[-array.rank(), array.rank() - 1]`.
  * @param func Scalar reduction applied to every axis slice.
  * @param keepdims Whether the reduced dimension remains with extent one.
- * @return Owning tensor containing one callback result per output position.
+ * @return Owning `Tensor` containing one callback result per output position.
+ *         Its value type is the result of invoking @p func on a const tensor
+ *         slice of `A::value_type`.
  * @throws Exceptions::AxisError If @p axis is outside the valid range.
  * @throws Any exception propagated by conversion, slicing, allocation, or @p func.
+ * @note @p func is not invoked when the result shape has zero elements.
  * @complexity O(array.size() * array.rank()) with the current slice-based implementation.
- * @internal
  */
 template<Array A, typename Func>
-stratax::container::Tensor<axis_reduce_value_t<A, Func>>
+stratax::container::Tensor<detail::axis_reduce_value_t<A, Func>>
 axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 {
-	using ResultType = axis_reduce_value_t<A, Func>;
+	using ResultType = detail::axis_reduce_value_t<A, Func>;
 
-	int Axis = normalize_axis(array, axis);
+	int Axis = detail::normalize_axis(array, axis);
     
 	if (Axis < 0 || Axis >= static_cast<int>(array.rank()))
 	{
@@ -166,7 +179,8 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 
 	const stratax::core::Shape input_shape = arr.shape();
 
-	std::vector<std::size_t> result_dims = result_shape(array, Axis, keepdims);
+	std::vector<std::size_t> result_dims =
+		detail::result_shape(array, Axis, keepdims);
 
 	// A zero-dimensional tensor cannot store values in the current API.
 	// Represent scalar reductions as a single-element tensor.
@@ -212,7 +226,7 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
 		ResultType value = func(s);
 		result(output_index) = value;
 	}
-		while (reduction::advance(result.shape(), output_index));
+		while (detail::advance(result.shape(), output_index));
 
 	return result;
 }
@@ -223,35 +237,43 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
  * @brief Returns the sum of all elements in flat iterator order.
  * @tparam A Stratax array type satisfying Array.
  * @param arr Array to reduce.
- * @return Element sum, or `A::value_type{0}` when @p arr is empty.
+ * @return Element sum in `reduction_sum_t<A::value_type>`, or that type's
+ *         additive identity when @p arr is empty.
  * @complexity O(arr.size()).
  */
 template<Array A>
-typename A::value_type sum(const A& arr)
+requires Numeric<typename A::value_type>
+auto sum(const A& arr)
 {
-	return std::accumulate(
-		arr.begin(),
-		arr.end(),
-		typename A::value_type(0)
-	);
+    using result_type =
+        reduction_sum_t<typename A::value_type>;
+
+    return std::accumulate(
+        arr.begin(),
+        arr.end(),
+        result_type{0});
 }
 
 /**
  * @brief Returns the product of all elements in flat iterator order.
  * @tparam A Stratax array type satisfying Array.
  * @param arr Array to reduce.
- * @return Element product, or `A::value_type{1}` when @p arr is empty.
+ * @return Element product in `reduction_prod_t<A::value_type>`, or that type's
+ *         multiplicative identity when @p arr is empty.
  * @complexity O(arr.size()).
  */
 template<Array A>
-typename A::value_type prod(const A& arr)
+requires Numeric<typename A::value_type>
+auto prod(const A& arr)
 {
+	using result_type =
+		reduction_prod_t<typename A::value_type>;
+
 	return std::accumulate(
 		arr.begin(),
 		arr.end(),
-		typename A::value_type(1),
-		std::multiplies<typename A::value_type>()
-	);
+		result_type{1},
+		std::multiplies<result_type>{});
 }
 
 /**
@@ -263,7 +285,8 @@ typename A::value_type prod(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
-typename A::value_type max(const A& arr)
+requires Ordered<typename A::value_type>
+auto max(const A& arr)
 {
 	if (arr.empty())
 	{
@@ -288,7 +311,8 @@ typename A::value_type max(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
-typename A::value_type min(const A& arr)
+requires Ordered<typename A::value_type>
+auto min(const A& arr)
 {
 	if (arr.empty())
 	{
@@ -313,7 +337,8 @@ typename A::value_type min(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
-std::size_t argmax(const A& arr)
+requires Ordered<typename A::value_type>
+auto argmax(const A& arr)
 {
 	if (arr.empty())
 	{
@@ -338,7 +363,8 @@ std::size_t argmax(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
-std::size_t argmin(const A& arr)
+requires Ordered<typename A::value_type>
+auto argmin(const A& arr)
 {
 	if (arr.empty())
 	{
@@ -363,6 +389,10 @@ std::size_t argmin(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
 double mean(const A& arr)
 {
 	if (arr.empty())
@@ -383,6 +413,10 @@ double mean(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
 double var(const A& arr)
 {
 	if (arr.empty())
@@ -416,6 +450,10 @@ double var(const A& arr)
  * @complexity O(arr.size()).
  */
 template<Array A>
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
 double std(const A& arr)
 {
 	auto vars = var(arr);
@@ -427,56 +465,90 @@ double std(const A& arr)
 
 /**
  * @brief Sums values along an axis and removes that dimension.
+ * @tparam A Numeric Stratax array type.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
- * @return Tensor shaped as @p arr without @p axis; empty slices produce zero.
+ * @return `Tensor<reduction_sum_t<A::value_type>>` shaped as @p arr without
+ *         @p axis; empty slices produce the selected type's additive identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> sum(const A& arr, int axis)
+requires Numeric<typename A::value_type>
+auto sum(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::sum(s); });
+    return axis_reduce(
+        arr,
+        axis,
+        [](const auto& s) {
+            return reduction::sum(s);
+        });
 }
 
 /**
  * @brief Sums values along an axis with optional dimension retention.
+ * @tparam A Numeric Stratax array type.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
  * @param keepdims Retains the reduced axis with extent one when true.
- * @return Tensor of per-slice sums; empty slices produce zero.
+ * @return `Tensor<reduction_sum_t<A::value_type>>` of per-slice sums; empty
+ *         slices produce the selected type's additive identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> sum(const A& arr, int axis, bool keepdims)
+requires Numeric<typename A::value_type>
+auto sum(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::sum(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) {
+			return reduction::sum(s);
+		},
+		keepdims);
 }
 
 /**
  * @brief Multiplies values along an axis and removes that dimension.
+ * @tparam A Numeric Stratax array type.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
- * @return Tensor of per-slice products; empty slices produce one.
+ * @return `Tensor<reduction_prod_t<A::value_type>>` of per-slice products;
+ *         empty slices produce the selected type's multiplicative identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis)
+requires Numeric<typename A::value_type>
+auto prod(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::prod(s); });
+    return axis_reduce(
+        arr,
+        axis,
+        [](const auto& s) {
+            return reduction::prod(s);
+        });
 }
 
 /**
  * @brief Multiplies values along an axis with optional dimension retention.
+ * @tparam A Numeric Stratax array type.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
  * @param keepdims Retains the reduced axis with extent one when true.
- * @return Tensor of per-slice products; empty slices produce one.
+ * @return `Tensor<reduction_prod_t<A::value_type>>` of per-slice products;
+ *         empty slices produce the selected type's multiplicative identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis, bool keepdims)
+requires Numeric<typename A::value_type>
+auto prod(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::prod(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) {
+			return reduction::prod(s);
+		},
+		keepdims);
 }
 
 /**
@@ -488,9 +560,11 @@ stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis, 
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis)
+requires Ordered<typename A::value_type>
+auto max(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::max(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::max(s); });
 }
 
 /**
@@ -503,9 +577,14 @@ stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis, bool keepdims)
+requires Ordered<typename A::value_type>
+auto max(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::max(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::max(s); },
+		keepdims);
 }
 
 /**
@@ -517,9 +596,11 @@ stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis, b
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis)
+requires Ordered<typename A::value_type>
+auto min(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::min(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::min(s); });
 }
 
 /**
@@ -532,9 +613,14 @@ stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis, bool keepdims)
+requires Ordered<typename A::value_type>
+auto min(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::min(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::min(s); },
+		keepdims);
 }
 
 /**
@@ -546,9 +632,11 @@ stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis, b
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis)
+requires Ordered<typename A::value_type>
+auto argmax(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmax(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::argmax(s); });
 }
 
 /**
@@ -561,9 +649,14 @@ stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis, bool keepdims)
+requires Ordered<typename A::value_type>
+auto argmax(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmax(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::argmax(s); },
+		keepdims);
 }
 
 /**
@@ -575,9 +668,11 @@ stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis, bool keep
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis)
+requires Ordered<typename A::value_type>
+auto argmin(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmin(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::argmin(s); });
 }
 
 /**
@@ -590,9 +685,14 @@ stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis, bool keepdims)
+requires Ordered<typename A::value_type>
+auto argmin(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::argmin(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::argmin(s); },
+		keepdims);
 }
 
 /**
@@ -605,9 +705,18 @@ stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis, bool keep
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> mean(const A& arr, int axis, bool keepdims)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+mean(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::mean(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::mean(s); },
+		keepdims);
 }
 
 /**
@@ -619,9 +728,15 @@ stratax::container::Tensor<double> mean(const A& arr, int axis, bool keepdims)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> mean(const A& arr, int axis)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+mean(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::mean(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::mean(s); });
 }
 
 /**
@@ -634,9 +749,18 @@ stratax::container::Tensor<double> mean(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> var(const A& arr, int axis, bool keepdims)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+var(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::var(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::var(s); },
+		keepdims);
 }
 
 /**
@@ -648,9 +772,15 @@ stratax::container::Tensor<double> var(const A& arr, int axis, bool keepdims)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> var(const A& arr, int axis)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+var(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::var(s); });
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::var(s); });
 }
 
 /**
@@ -663,9 +793,18 @@ stratax::container::Tensor<double> var(const A& arr, int axis)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> std(const A& arr, int axis, bool keepdims)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+std(const A& arr, int axis, bool keepdims)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::std(s); }, keepdims);
+	return axis_reduce(
+		arr,
+		axis,
+		[](const auto& s) { return reduction::std(s); },
+		keepdims);
 }
 
 /**
@@ -677,10 +816,15 @@ stratax::container::Tensor<double> std(const A& arr, int axis, bool keepdims)
  * @complexity O(arr.size() * arr.rank()).
  */
 template<Array A>
-stratax::container::Tensor<double> std(const A& arr, int axis)
+requires (
+	Numeric<typename A::value_type> &&
+	Ordered<typename A::value_type>
+)
+stratax::container::Tensor<double>
+std(const A& arr, int axis)
 {
-	return axis_reduce(arr, axis, [](const auto& s) { return reduction::std(s); });
-} // namespace reduction
-
-
+	return axis_reduce(
+		arr, axis, [](const auto& s) { return reduction::std(s); });
 }
+
+} // namespace reduction

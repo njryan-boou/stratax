@@ -1,11 +1,12 @@
 #pragma once
 
 #include <stratax/core/ArrayBase.hpp>
-#include <stratax/core/dtypes/ArrayTraits.hpp>
+#include <stratax/core/ArrayTraits.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/Config.hpp>
 #include <stratax/core/Iterator.hpp>
+#include <stratax/core/ReductionTraits.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>

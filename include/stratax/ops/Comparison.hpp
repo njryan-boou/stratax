@@ -3,7 +3,7 @@
 #include <functional>
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/core/dtypes/ArrayTraits.hpp>
+#include <stratax/core/ArrayTraits.hpp>
 #include <stratax/core/dtypes/Types.hpp>
 #include <stratax/ops/Broadcasting.hpp>
 

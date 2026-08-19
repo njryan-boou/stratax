@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
+#include <concepts>
+#include <complex>
+#include <type_traits>
 #include <vector>
 
 #include <stratax.h>
@@ -8,12 +11,125 @@
 using namespace stratax::container;
 using namespace stratax::core;
 
+template<>
+struct ReductionTraits<short>
+{
+	using sum_type = long long;
+	using prod_type = unsigned long long;
+};
+
+static_assert(std::same_as<reduction_sum_t<const int&>, int>);
+static_assert(std::same_as<reduction_prod_t<volatile double>, double>);
+
+template<typename A>
+concept SupportsMean = requires(const A& value)
+{
+	reduction::mean(value);
+};
+
+static_assert(!SupportsMean<Vector<std::complex<double>>>);
+
 TEST(GlobalReduction, SumAndProduct)
 {
 	const Vector<int> source{1, 2, 3, 4};
 
 	EXPECT_EQ(reduction::sum(source), 10);
 	EXPECT_EQ(reduction::prod(source), 24);
+}
+
+TEST(GlobalReduction, UsesReductionTraitResultTypes)
+{
+	const Vector<short> source{1, 2, 3, 4};
+	const auto sum = reduction::sum(source);
+	const auto product = reduction::prod(source);
+	const auto axis_sum = reduction::sum(source, 0, true);
+	const auto axis_product = reduction::prod(source, 0, true);
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(sum)>,
+		reduction_sum_t<short>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(product)>,
+		reduction_prod_t<short>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(axis_sum)>,
+		Tensor<reduction_sum_t<short>>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(axis_product)>,
+		Tensor<reduction_prod_t<short>>>);
+	EXPECT_EQ(sum, 10);
+	EXPECT_EQ(product, 24);
+	EXPECT_EQ(axis_sum[0], 10);
+	EXPECT_EQ(axis_product[0], 24);
+}
+
+TEST(GlobalReduction, SumAndProductSupportComplexValues)
+{
+	using complex_type = std::complex<double>;
+	const Vector<complex_type> source{{1.0, 2.0}, {3.0, -1.0}};
+
+	EXPECT_EQ(reduction::sum(source), complex_type(4.0, 1.0));
+	EXPECT_EQ(reduction::prod(source), complex_type(5.0, 5.0));
+}
+
+TEST(AxisReduce, InvokesCustomCallbackForEachAxisSlice)
+{
+	const Matrix<int> source{{1, 2, 3}, {4, 5, 6}};
+	std::size_t calls = 0;
+
+	const auto result = reduction::axis_reduce(
+		source,
+		1,
+		[&calls](const auto& slice)
+		{
+			++calls;
+			return static_cast<long long>(reduction::sum(slice));
+		});
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		Tensor<long long>>);
+	EXPECT_EQ(result.shape(), Shape({2}));
+	EXPECT_EQ(calls, 2U);
+	EXPECT_EQ(result[0], 6);
+	EXPECT_EQ(result[1], 15);
+}
+
+TEST(AxisReduce, SupportsNegativeAxisAndKeepdims)
+{
+	const Matrix<int> source{{1, 4}, {2, 8}};
+
+	const auto result = reduction::axis_reduce(
+		source,
+		-1,
+		[](const auto& slice)
+		{
+			return reduction::max(slice) - reduction::min(slice);
+		},
+		true);
+
+	EXPECT_EQ(result.shape(), Shape({2, 1}));
+	EXPECT_EQ(result[0], 3);
+	EXPECT_EQ(result[1], 6);
+}
+
+TEST(AxisReduce, DoesNotInvokeCallbackForEmptyOutputDomain)
+{
+	const Tensor<int> source(Shape{2, 0, 3});
+	std::size_t calls = 0;
+
+	const auto result = reduction::axis_reduce(
+		source,
+		0,
+		[&calls](const auto&)
+		{
+			++calls;
+			return 0;
+		});
+
+	EXPECT_TRUE(result.empty());
+	EXPECT_EQ(result.shape(), Shape({0, 3}));
+	EXPECT_EQ(calls, 0U);
 }
 
 TEST(GlobalReduction, Extrema)

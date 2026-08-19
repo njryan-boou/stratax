@@ -63,7 +63,7 @@ Public named functions and operators
 Depends on:
 
 - `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/dtypes/ArrayTraits.hpp`
+- `include/stratax/core/ArrayTraits.hpp`
 - `include/stratax/core/dtypes/Types.hpp`
 - `include/stratax/ops/Broadcasting.hpp`
 
@@ -272,4 +272,4 @@ Complex dtypes support `equal`, `not_equal`, `==`, and `!=`. They do not satisfy
 - `include/stratax/ops/Broadcasting.hpp`
 - `include/stratax/ops/Arithmetic.hpp`
 - `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/dtypes/ArrayTraits.hpp`
+- `include/stratax/core/ArrayTraits.hpp`
