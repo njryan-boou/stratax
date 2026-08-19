@@ -14,6 +14,7 @@ from stratax import (  # noqa: E402
     Shape,
     Tensor,
     TypeError as StrataxTypeError,
+    Vector,
     full,
     identity,
     ones,
@@ -28,11 +29,11 @@ class TestCreationInterfaceTests:
 
         assert isinstance(z, Tensor)
         assert z.shape == Shape([2, 2])
-        assert z.tolist() == [0.0, 0.0, 0.0, 0.0]
+        assert z.tolist() == [[0.0, 0.0], [0.0, 0.0]]
 
         assert isinstance(o, Tensor)
         assert o.shape == Shape([2, 2])
-        assert o.tolist() == [1.0, 1.0, 1.0, 1.0]
+        assert o.tolist() == [[1.0, 1.0], [1.0, 1.0]]
 
     def test_full_accepts_shape(self) -> None:
         a = full(Shape([1, 3]), 2.5)
@@ -40,11 +41,47 @@ class TestCreationInterfaceTests:
 
         assert isinstance(a, Tensor)
         assert a.shape == Shape([1, 3])
-        assert a.tolist() == [2.5, 2.5, 2.5]
+        assert a.tolist() == [[2.5, 2.5, 2.5]]
 
         assert isinstance(b, Tensor)
         assert b.shape == Shape([2])
         assert b.tolist() == [7.0, 7.0]
+
+    def test_zeros_and_ones_accept_vector_size(self) -> None:
+        z = zeros(3)
+        o = ones(4)
+
+        assert isinstance(z, Vector)
+        assert z.shape == Shape([3])
+        assert z.tolist() == [0.0, 0.0, 0.0]
+
+        assert isinstance(o, Vector)
+        assert o.shape == Shape([4])
+        assert o.tolist() == [1.0, 1.0, 1.0, 1.0]
+
+    def test_zeros_and_ones_accept_matrix_dimensions(self) -> None:
+        z = zeros(2, 3)
+        o = ones(2, 2)
+
+        assert isinstance(z, Matrix)
+        assert z.shape == Shape([2, 3])
+        assert z.tolist() == [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+
+        assert isinstance(o, Matrix)
+        assert o.shape == Shape([2, 2])
+        assert o.tolist() == [[1.0, 1.0], [1.0, 1.0]]
+
+    def test_full_accepts_vector_and_matrix_dimensions(self) -> None:
+        vector = full(3, 2.5)
+        matrix = full(2, 3, -1.5)
+
+        assert isinstance(vector, Vector)
+        assert vector.shape == Shape([3])
+        assert vector.tolist() == [2.5, 2.5, 2.5]
+
+        assert isinstance(matrix, Matrix)
+        assert matrix.shape == Shape([2, 3])
+        assert matrix.tolist() == [[-1.5, -1.5, -1.5], [-1.5, -1.5, -1.5]]
 
     def test_identity_creates_square_matrix(self) -> None:
         eye = identity(3)

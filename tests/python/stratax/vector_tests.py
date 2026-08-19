@@ -9,7 +9,19 @@ ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (cand
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Shape, ShapeError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import (
+    Shape,
+    ShapeError,
+    Tensor,
+    Vector,
+    ZeroDivisionError as StrataxZeroDivisionError,
+    equal,
+    greater,
+    greater_equal,
+    less,
+    less_equal,
+    not_equal,
+)
 
 
 class TestVectorInterfaceTests:
@@ -116,11 +128,11 @@ class TestVectorInterfaceTests:
 
         assert isinstance(reshaped, Tensor)
         assert reshaped.shape == Shape([2, 2])
-        assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
+        assert reshaped.tolist() == [[1.0, 2.0], [3.0, 4.0]]
 
         assert isinstance(reshaped_dims, Tensor)
         assert reshaped_dims.shape == Shape([1, 4])
-        assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
+        assert reshaped_dims.tolist() == [[1.0, 2.0, 3.0, 4.0]]
 
         assert isinstance(flattened, Vector)
         assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
@@ -138,12 +150,58 @@ class TestVectorInterfaceTests:
         assert repr(Vector([1.0, 2.0, 3.0])) == "[1, 2, 3]"
 
     def test_equality_and_inequality(self) -> None:
-        assert Vector([1.0, 2.0, 3.0]) == Vector([1.0, 2.0, 3.0])
-        assert Vector([1.0, 2.0, 3.0]) != Vector([1.0, 9.0, 3.0])
-        assert Vector([1.0, 2.0, 3.0]) != Vector([1.0, 2.0])
+        lhs = Vector([1.0, 2.0, 3.0])
+
+        assert (lhs == Vector([1.0, 9.0, 3.0])).tolist() == [True, False, True]
+        assert (lhs != Vector([1.0, 9.0, 3.0])).tolist() == [False, True, False]
+        assert lhs.equal(2).tolist() == [False, True, False]
+        assert lhs.not_equal(2).tolist() == [True, False, True]
 
         with pytest.raises(TypeError):
-            _ = Vector([1.0, 2.0, 3.0]) != [1.0, 2.0, 3.0]
+            _ = lhs != [1.0, 2.0, 3.0]
+
+    def test_ordered_comparisons(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+
+        assert (vector < 2).tolist() == [True, False, False]
+        assert (vector <= 2).tolist() == [True, True, False]
+        assert (vector > 2).tolist() == [False, False, True]
+        assert (vector >= 2).tolist() == [False, True, True]
+        assert (2 < vector).tolist() == [False, False, True]
+        assert (2 <= vector).tolist() == [False, True, True]
+        assert (2 > vector).tolist() == [True, False, False]
+        assert (2 >= vector).tolist() == [True, True, False]
+        assert vector.less(2).tolist() == [True, False, False]
+        assert vector.less_equal(2).tolist() == [True, True, False]
+        assert vector.greater(2).tolist() == [False, False, True]
+        assert vector.greater_equal(2).tolist() == [False, True, True]
+
+    def test_module_level_comparison_functions(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+
+        assert equal(vector, 2).tolist() == [False, True, False]
+        assert not_equal(2, vector).tolist() == [True, False, True]
+        assert less(vector, 2).tolist() == [True, False, False]
+        assert less_equal(2, vector).tolist() == [False, True, True]
+        assert greater(vector, 2).tolist() == [False, False, True]
+        assert greater_equal(2, vector).tolist() == [True, True, False]
+
+    def test_boolean_comparison_result_has_readable_representation(self) -> None:
+        result = Vector([1.0, 2.0, 3.0]) < 2
+
+        assert repr(result) == "[true, false, false]"
+        assert str(result) == "[true, false, false]"
+
+    def test_module_level_comparison_supports_mixed_containers(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+        tensor = Tensor([1, 3])
+        for index, value in enumerate([2.0, 2.0, 2.0]):
+            tensor[index] = value
+
+        result = less(vector, tensor)
+
+        assert result.shape == Shape([1, 3])
+        assert result.tolist() == [[True, False, False]]
 
     def test_array_arithmetic(self) -> None:
         lhs = Vector([8.0, 12.0, 20.0])
@@ -265,4 +323,3 @@ class TestVectorInterfaceTests:
         assert vector[-1] == 2.0
         vector[-1] = 9.0
         assert vector.tolist() == [1.0, 9.0]
-

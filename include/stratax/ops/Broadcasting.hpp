@@ -1,4 +1,3 @@
-// TODO: Define result-container promotion rules for mixed container kinds.
 #pragma once
 
 #include <algorithm>
@@ -18,6 +17,7 @@ namespace stratax::core::broadcast_detail {
  *
  * Missing leading dimensions are treated as singleton dimensions, which is
  * equivalent to left-padding a lower-rank shape with ones for broadcasting.
+ * This helper does not allocate and does not validate @p offset.
  *
  * @param shape Shape to query.
  * @param offset Zero-based distance from the final dimension.
@@ -37,16 +37,22 @@ inline std::size_t dimension_from_right(
 /**
  * @brief Maps a flat result index to the corresponding operand index.
  *
- * Coordinates are decoded from @p result_shape in row-major order. Coordinates
- * on singleton operand dimensions collapse to zero, while missing leading
- * operand dimensions are ignored.
+ * The result index is decoded into row-major coordinates from the final axis
+ * toward the first. Coordinates on singleton operand dimensions collapse to
+ * zero, causing the corresponding value to be reused. Leading result axes that
+ * do not exist in the lower-rank operand are ignored as if the operand had
+ * leading singleton dimensions.
  *
  * @param result_index Flat row-major index in the broadcasted result.
  * @param result_shape Shape of the broadcasted result.
  * @param operand_shape Broadcast-compatible shape of one operand.
  * @return Flat row-major index of the operand value used at @p result_index.
- * @pre @p result_index is in range, every result dimension is nonzero, and
- *      @p operand_shape is broadcast-compatible with @p result_shape.
+ * @pre `result_index < result_shape.elements()`.
+ * @pre Every dimension of @p result_shape is nonzero. Empty broadcast results
+ *      never call this helper.
+ * @pre @p operand_shape is broadcast-compatible with @p result_shape and does
+ *      not have greater rank than @p result_shape.
+ * @note No bounds or compatibility checks are performed.
  * @complexity O(result_shape.rank()).
  * @internal
  */
@@ -92,6 +98,9 @@ inline std::size_t flat_operand_index(
  * behave as though they were one. A zero dimension therefore broadcasts with
  * zero or one, but not with a different non-singleton extent.
  *
+ * Rank-zero shapes contain no conflicting axes and are therefore compatible
+ * with every shape under these rules.
+ *
  * @param shape1 First candidate shape.
  * @param shape2 Second candidate shape.
  * @return `true` when the shapes can be broadcast together; otherwise `false`.
@@ -127,6 +136,7 @@ inline bool broadcastable(
  * singleton extent yields to the other extent; otherwise the equal extent is
  * retained. Consequently, zero broadcasts with one to produce zero. The
  * operation is symmetric: swapping the arguments produces the same shape.
+ * If both arguments have rank zero, the returned shape also has rank zero.
  *
  * @param shape1 First operand shape.
  * @param shape2 Second operand shape.
@@ -163,29 +173,33 @@ inline stratax::core::Shape broadcasted_shape(
 /**
  * @brief Applies a binary callable element-wise using array broadcasting.
  *
- * Both operands must belong to the same container family. The result preserves
- * that family, uses the dtype selected by `promote_t<L::value_type,
- * R::value_type>`, has the common broadcasted shape, and owns independent
- * storage. Each callable result is converted to the promoted dtype.
+ * The result dtype is selected by `promote_t<L::value_type, R::value_type>`.
+ * Matching container families are preserved, while mixed `Vector`, `Matrix`,
+ * and `Tensor` families produce a `Tensor` according to `promote_array_t`.
+ * The result has the common broadcasted shape and owns storage independent of
+ * both operands. Each callable result is explicitly converted to the promoted
+ * dtype before assignment.
  *
  * Each flat result coordinate is mapped independently into both operands.
  * Coordinates along singleton dimensions collapse to zero, allowing an operand
- * value to be reused across the expanded result axes. Mixed container families
- * are intentionally rejected because container promotion is not yet defined.
+ * value to be reused across expanded result axes. When the broadcasted shape
+ * has zero elements, the callable is never invoked.
  *
- * @tparam L Left Stratax array type and result container family.
- * @tparam R Right Stratax array type from the same container family as `L`.
- * @tparam Op Binary callable whose result is convertible to the promoted dtype.
+ * @tparam L Left Stratax array type.
+ * @tparam R Right Stratax array type.
+ * @tparam Op Binary callable invocable with the operand value types and whose
+ *            result is convertible to the promoted dtype.
  * @param lhs Left operand.
  * @param rhs Right operand.
  * @param op Callable invoked as `op(lhs_value, rhs_value)`.
- * @return Owning array with `L`'s container family, the promoted dtype, and the
- *         common broadcasted shape.
+ * @return Owning promoted array with the promoted dtype and common broadcasted
+ *         shape. Mixed container families return a Tensor.
  * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
  * @throws std::bad_alloc If shape or result storage allocation fails.
  * @throws Any exception propagated by result construction, conversion, or
  *         @p op.
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @note The input arrays are not modified.
  */
 template<Array L, Array R, typename Op>
 auto broadcasted_op(const L& lhs, const R& rhs, Op op)
@@ -229,10 +243,12 @@ auto broadcasted_op(const L& lhs, const R& rhs, Op op)
  * The result preserves `L`'s container family and shape, uses the dtype selected
  * by `promote_t<L::value_type, S>`, and owns independent storage. Each callable
  * result is converted to the promoted dtype.
+ * If @p lhs is empty, the callable is never invoked.
  *
  * @tparam L Stratax array type and result container family.
- * @tparam S Numeric scalar type.
- * @tparam Op Binary callable whose result is convertible to the promoted dtype.
+ * @tparam S Numeric scalar type participating in dtype promotion.
+ * @tparam Op Binary callable invocable with `L::value_type` and `S` and whose
+ *            result is convertible to the promoted dtype.
  * @param lhs Array supplying each left argument.
  * @param rhs Scalar supplied as every right argument.
  * @param op Callable invoked as `op(lhs[i], rhs)`.
@@ -242,6 +258,8 @@ auto broadcasted_op(const L& lhs, const R& rhs, Op op)
  * @throws Any exception propagated by result construction, conversion, or
  *         @p op.
  * @complexity O(lhs.size()).
+ * @note No shape broadcasting or index projection is required for a scalar.
+ * @note @p lhs is not modified.
  */
 template<Array L, Numeric S, typename Op>
 auto broadcasted_op(const L& lhs, const S& rhs, Op op)
@@ -274,10 +292,12 @@ auto broadcasted_op(const L& lhs, const S& rhs, Op op)
  * by `promote_t<S, R::value_type>`, and owns independent storage. Operand order
  * is preserved when invoking @p op, which matters for non-commutative callables.
  * Each callable result is converted to the promoted dtype.
+ * If @p rhs is empty, the callable is never invoked.
  *
- * @tparam S Numeric scalar type.
+ * @tparam S Numeric scalar type participating in dtype promotion.
  * @tparam R Stratax array type and result container family.
- * @tparam Op Binary callable whose result is convertible to the promoted dtype.
+ * @tparam Op Binary callable invocable with `S` and `R::value_type` and whose
+ *            result is convertible to the promoted dtype.
  * @param lhs Scalar supplied as every left argument.
  * @param rhs Array supplying each right argument.
  * @param op Callable invoked as `op(lhs, rhs[i])`.
@@ -287,6 +307,8 @@ auto broadcasted_op(const L& lhs, const S& rhs, Op op)
  * @throws Any exception propagated by result construction, conversion, or
  *         @p op.
  * @complexity O(rhs.size()).
+ * @note No shape broadcasting or index projection is required for a scalar.
+ * @note @p rhs is not modified.
  */
 template<Numeric S, Array R, typename Op>
 auto broadcasted_op(const S& lhs, const R& rhs, Op op)

@@ -66,6 +66,10 @@ flattening, and conversions return independent containers.
 | Strides | `.strides` | `.strides` | `.strides` |
 | Fill | `.fill(value)` | `.fill(value)` | `.fill(value)` |
 | Convert to lists | `.tolist()` | `.tolist()` | `.tolist()` |
+
+`Tensor.tolist()` returns nested Python lists matching the tensor shape rather
+than flattening values into storage order. Boolean tensor masks follow the same
+rule.
 | Reshape | `.reshape(shape)` | `.reshape(shape)` | `.reshape(shape)` |
 | Flatten | `.flatten()` | `.flatten()` | `.flatten()` |
 
@@ -103,23 +107,29 @@ Containers support element-wise arithmetic with matching containers or scalars:
 | Multiplication | `a * b`, `a *= b` |
 | Division | `a / b`, `a /= b` |
 | Unary | `+a`, `-a` |
-| Comparison | `a == b`, `a != b` |
+| Comparison | `a == b`, `a != b`, `a < b`, `a <= b`, `a > b`, `a >= b` |
 
 Container-to-container arithmetic uses NumPy-style trailing-dimension
 broadcasting. Corresponding dimensions must be equal or one of them must be
-`1`; incompatible shapes raise `BroadcastError`. Comparisons remain
-shape-sensitive.
+`1`; incompatible shapes raise `BroadcastError`. Comparisons are element-wise,
+support broadcasting and scalars, and return `BoolVector`, `BoolMatrix`, or
+`BoolTensor`.
+
+Each comparison is also available as a module-level named function:
+`equal`, `not_equal`, `less`, `less_equal`, `greater`, and `greater_equal`.
+These functions accept arrays or scalars in either operand order.
 
 ## Creation Helpers
 
 | Function | Description |
 | ---------- | ------------- |
-| `zeros(shape)` | Tensor filled with `0.0`. |
-| `ones(shape)` | Tensor filled with `1.0`. |
-| `full(shape, value)` | Tensor filled with `value`. |
-| `identity(size)` | Rank-2 identity tensor with shape `[size, size]`. |
+| `zeros(shape)` / `zeros(size)` / `zeros(rows, cols)` | Zero-filled Tensor, Vector, or Matrix. |
+| `ones(shape)` / `ones(size)` / `ones(rows, cols)` | One-filled Tensor, Vector, or Matrix. |
+| `full(shape, value)` / `full(size, value)` / `full(rows, cols, value)` | Constant-filled Tensor, Vector, or Matrix. |
+| `identity(size)` | Identity Matrix with shape `[size, size]`. |
 
-`shape` must be a `Shape`.
+Passing a `Shape` creates a `Tensor`, one integer size creates a `Vector`, and
+two integer dimensions create a `Matrix`.
 
 ## Conversion Helpers
 

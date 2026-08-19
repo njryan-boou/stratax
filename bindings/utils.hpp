@@ -133,4 +133,45 @@ inline stratax::core::Slice cast_slice(
         static_cast<std::ptrdiff_t>(step));
 }
 
+template<typename Tensor>
+py::object tensor_to_list_recursive(
+    const Tensor& tensor,
+    std::size_t dimension,
+    std::size_t offset)
+{
+    py::list values;
+    const auto& shape = tensor.shape();
+
+    for (std::size_t i = 0; i < shape[dimension]; ++i)
+    {
+        const std::size_t index =
+            offset + i * tensor.strides()[dimension];
+
+        if (dimension + 1 == shape.rank())
+        {
+            values.append(tensor[index]);
+        }
+        else
+        {
+            values.append(tensor_to_list_recursive(
+                tensor,
+                dimension + 1,
+                index));
+        }
+    }
+
+    return std::move(values);
+}
+
+template<typename Tensor>
+py::list tensor_to_list(const Tensor& tensor)
+{
+    if (tensor.rank() == 0)
+    {
+        return py::list();
+    }
+
+    return tensor_to_list_recursive(tensor, 0, 0).template cast<py::list>();
+}
+
 }

@@ -44,6 +44,7 @@ pybind11_add_module(
 
     bindings/module.cpp
     bindings/shape.cpp
+    bindings/boolean_arrays.cpp
     bindings/vector.cpp
     bindings/matrix.cpp
     bindings/tensor.cpp

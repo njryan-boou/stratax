@@ -31,6 +31,10 @@
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 auto binary_op(
 	const L& lhs,
 	const R& rhs,
@@ -71,7 +75,7 @@ auto binary_op(
  * @complexity O(lhs.size()).
  */
 template<Array A, Numeric Scalar, typename Op>
-A binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_divisor = false)
+auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_divisor = false)
 {
 	if (check_zero_divisor && rhs == Scalar{})
 	{
@@ -100,7 +104,7 @@ A binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_divis
  * @complexity O(rhs.size()).
  */
 template<Numeric Scalar, Array A, typename Op>
-A binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_divisor = false)
+auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_divisor = false)
 {
 	auto checked_op = [&](const auto& left, const auto& right)
 	{
@@ -138,6 +142,10 @@ A binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_divis
  * @complexity O(n * r), where `n` is `lhs.size()` and `r` is its rank.
  */
 template<Array L, Array R, typename Op>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 L& compound_op(
 	L& lhs,
 	const R& rhs,
@@ -218,6 +226,10 @@ A& compound_scalar_op(
 
 /** @brief Adds two broadcast-compatible arrays. @return Owning broadcasted sum. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 auto operator+(const L& lhs, const R& rhs)
 {
 	return binary_op(lhs, rhs, std::plus<>{});
@@ -225,6 +237,10 @@ auto operator+(const L& lhs, const R& rhs)
 
 /** @brief Subtracts two broadcast-compatible arrays. @return Owning `lhs - rhs` result. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 auto operator-(const L& lhs, const R& rhs)
 {
 	return binary_op(lhs, rhs, std::minus<>{});
@@ -232,6 +248,10 @@ auto operator-(const L& lhs, const R& rhs)
 
 /** @brief Multiplies two broadcast-compatible arrays element-wise. @return Owning broadcasted product. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 auto operator*(const L& lhs, const R& rhs)
 {
 	return binary_op(lhs, rhs, std::multiplies<>{});
@@ -239,6 +259,10 @@ auto operator*(const L& lhs, const R& rhs)
 
 /** @brief Divides two broadcast-compatible arrays element-wise. @return Owning broadcasted quotient. @throws Exceptions::BroadcastError If shapes are incompatible. @throws Exceptions::ZeroDivisionError If a used divisor element is zero. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 auto operator/(const L& lhs, const R& rhs)
 {
 	return binary_op(lhs, rhs, std::divides<>{}, true);
@@ -246,13 +270,15 @@ auto operator/(const L& lhs, const R& rhs)
 
 /** @brief Adds a scalar to every array element. @return Owning result with the array shape. @complexity O(lhs.size()). */
 template<Array A, Numeric Scalar>
-A operator+(const A& lhs, const Scalar& rhs)
+requires Numeric<typename A::value_type>
+auto operator+(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_op(lhs, rhs, std::plus<>{});
 }
 
 /** @brief Subtracts a scalar from every array element. @return Owning result with the array shape. @complexity O(lhs.size()). */
 template<Array A, Numeric Scalar>
+requires Numeric<typename A::value_type>
 auto operator-(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_op(lhs, rhs, std::minus<>{});
@@ -260,6 +286,7 @@ auto operator-(const A& lhs, const Scalar& rhs)
 
 /** @brief Multiplies every array element by a scalar. @return Owning result with the array shape. @complexity O(lhs.size()). */
 template<Array A, Numeric Scalar>
+requires Numeric<typename A::value_type>
 auto operator*(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_op(lhs, rhs, std::multiplies<>{});
@@ -267,6 +294,7 @@ auto operator*(const A& lhs, const Scalar& rhs)
 
 /** @brief Divides every array element by a scalar. @return Owning result with the array shape. @throws Exceptions::ZeroDivisionError If @p rhs is zero. @complexity O(lhs.size()). */
 template<Array A, Numeric Scalar>
+requires Numeric<typename A::value_type>
 auto operator/(const A& lhs, const Scalar& rhs)
 {
 	return binary_scalar_op(lhs, rhs, std::divides<>{}, true);
@@ -274,6 +302,7 @@ auto operator/(const A& lhs, const Scalar& rhs)
 
 /** @brief Adds a scalar to every array element. @return Owning result with the array shape. @complexity O(rhs.size()). */
 template<Numeric Scalar, Array A>
+requires Numeric<typename A::value_type>
 auto operator+(const Scalar& lhs, const A& rhs)
 {
 	return rhs + lhs;
@@ -288,6 +317,7 @@ auto operator-(const Scalar& lhs, const A& rhs)
 
 /** @brief Multiplies every array element by a scalar. @return Owning result with the array shape. @complexity O(rhs.size()). */
 template<Numeric Scalar, Array A>
+requires Numeric<typename A::value_type>
 auto operator*(const Scalar& lhs, const A& rhs)
 {
 	return rhs * lhs;
@@ -295,6 +325,7 @@ auto operator*(const Scalar& lhs, const A& rhs)
 
 /** @brief Divides a scalar by every array element. @return Owning `lhs / rhs[i]` result. @throws Exceptions::ZeroDivisionError If any divisor element is zero. @complexity O(rhs.size()). */
 template<Numeric Scalar, Array A>
+requires Numeric<typename A::value_type>
 auto operator/(const Scalar& lhs, const A& rhs)
 {
 	return binary_scalar_op(lhs, rhs, std::divides<>{}, true);
@@ -302,6 +333,10 @@ auto operator/(const Scalar& lhs, const A& rhs)
 
 /** @brief Adds a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 L& operator+=(L& lhs, const R& rhs)
 {
 	return compound_op(lhs, rhs, std::plus<>{});
@@ -309,6 +344,10 @@ L& operator+=(L& lhs, const R& rhs)
 
 /** @brief Subtracts a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 L& operator-=(L& lhs, const R& rhs)
 {
 	return compound_op(lhs, rhs, std::minus<>{});
@@ -316,6 +355,10 @@ L& operator-=(L& lhs, const R& rhs)
 
 /** @brief Multiplies by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 L& operator*=(L& lhs, const R& rhs)
 {
 	return compound_op(lhs, rhs, std::multiplies<>{});
@@ -323,6 +366,10 @@ L& operator*=(L& lhs, const R& rhs)
 
 /** @brief Divides by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @throws Exceptions::ZeroDivisionError If a used divisor is zero. @complexity O(n * r). */
 template<Array L, Array R>
+requires (
+	Numeric<typename L::value_type> &&
+	Numeric<typename R::value_type>
+)
 L& operator/=(L& lhs, const R& rhs)
 {
 	return compound_op(lhs, rhs, std::divides<>{}, true);
@@ -330,6 +377,7 @@ L& operator/=(L& lhs, const R& rhs)
 
 /** @brief Adds a scalar to every element in place. @return Reference to @p lhs. @complexity O(lhs.size()). */
 template<Array A, Numeric S>
+requires Numeric<typename A::value_type>
 A& operator+=(A& lhs, const S& rhs)
 {
 	return compound_scalar_op(lhs, rhs, std::plus<>{});
@@ -337,6 +385,7 @@ A& operator+=(A& lhs, const S& rhs)
 
 /** @brief Subtracts a scalar from every element in place. @return Reference to @p lhs. @complexity O(lhs.size()). */
 template<Array A, Numeric S>
+requires Numeric<typename A::value_type>
 A& operator-=(A& lhs, const S& rhs)
 {
 	return compound_scalar_op(lhs, rhs, std::minus<>{});
@@ -344,6 +393,7 @@ A& operator-=(A& lhs, const S& rhs)
 
 /** @brief Multiplies every element by a scalar in place. @return Reference to @p lhs. @complexity O(lhs.size()). */
 template<Array A, Numeric S>
+requires Numeric<typename A::value_type>
 A& operator*=(A& lhs, const S& rhs)
 {
 	return compound_scalar_op(lhs, rhs, std::multiplies<>{});
@@ -351,20 +401,21 @@ A& operator*=(A& lhs, const S& rhs)
 
 /** @brief Divides every element by a scalar in place. @return Reference to @p lhs. @throws Exceptions::ZeroDivisionError If @p rhs is zero, including for an empty array. @complexity O(lhs.size()). */
 template<Array A, Numeric S>
+requires Numeric<typename A::value_type>
 A& operator/=(A& lhs, const S& rhs)
 {
 	return compound_scalar_op(lhs, rhs, std::divides<>{}, true);
 }
 
-/** @brief Returns an owning element-wise negated copy of @p arr. @complexity O(arr.size()). */
 template<Array A>
+requires Numeric<typename A::value_type>
 A operator-(const A& arr)
 {
 	return arr * typename A::value_type{-1};
 }
 
-/** @brief Returns an owning unchanged copy of @p arr. @complexity O(arr.size()). */
 template<Array A>
+requires Numeric<typename A::value_type>
 A operator+(const A& arr)
 {
 	return arr;

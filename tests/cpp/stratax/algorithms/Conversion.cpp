@@ -270,6 +270,48 @@ TEST(Astype, ComplexPrecisionConversion)
 	EXPECT_EQ(result[1], Destination(3.25, 4.5));
 }
 
+TEST(Astype, NumericValuesToBoolean)
+{
+	const Vector<int> source{0, 1, -2, 0};
+	const auto result = astype<stratax::dtype::bool_>(source);
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>, Vector<stratax::dtype::bool_>>);
+	EXPECT_EQ(result.shape(), source.shape());
+	EXPECT_FALSE(result[0]);
+	EXPECT_TRUE(result[1]);
+	EXPECT_TRUE(result[2]);
+	EXPECT_FALSE(result[3]);
+}
+
+TEST(Astype, BooleanValuesToNumeric)
+{
+	Matrix<stratax::dtype::bool_> source(2, 2);
+	source(0, 0) = false;
+	source(0, 1) = true;
+	source(1, 0) = true;
+	source(1, 1) = false;
+
+	const auto result = astype<double>(source);
+
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>, Matrix<double>>);
+	EXPECT_EQ(result.shape(), source.shape());
+	EXPECT_EQ(std::vector<double>(result.begin(), result.end()),
+		(std::vector<double>{0.0, 1.0, 1.0, 0.0}));
+}
+
+TEST(Astype, BooleanSameTypeStillCopies)
+{
+	Tensor<stratax::dtype::bool_> source(Shape{2, 2}, true);
+	auto result = astype<stratax::dtype::bool_>(source);
+
+	EXPECT_EQ(result.shape(), source.shape());
+	EXPECT_NE(result.data(), source.data());
+	result[0] = false;
+	EXPECT_TRUE(source[0]);
+}
+
 TEST(Astype, SameTypeStillCopies)
 {
 	Matrix<int> source{{1, 2}, {3, 4}};

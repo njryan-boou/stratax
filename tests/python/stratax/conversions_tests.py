@@ -36,7 +36,7 @@ class TestConversionsInterfaceTests:
 
         assert isinstance(as_tensor_from_matrix, Tensor)
         assert as_tensor_from_matrix.shape == Shape([2, 2])
-        assert as_tensor_from_matrix.tolist() == [1.0, 2.0, 3.0, 4.0]
+        assert as_tensor_from_matrix.tolist() == [[1.0, 2.0], [3.0, 4.0]]
 
     def test_to_vector_from_rank_one_tensor(self) -> None:
         tensor = Tensor([3])

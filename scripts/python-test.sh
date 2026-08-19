@@ -26,9 +26,20 @@ if ! "$PYTHON" -c "import pytest" 2>/dev/null; then
     exit 1
 fi
 
-# Build Stratax first unless the caller has already done so.
+# Build the Python extension first unless the caller has already done so.
 if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
-    SUPPRESS_PAUSE=1 "$SCRIPT_DIR/build.sh"
+    echo "==> Configuring Stratax"
+    cmake \
+        -S "$ROOT" \
+        -B "$ROOT/build" \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DSTRATAX_BUILD_PYTHON_BINDINGS=ON \
+        -DPython_EXECUTABLE="$PYTHON"
+
+    echo "==> Building Stratax"
+    cmake --build "$ROOT/build" --parallel
+    echo "✓ Build passed"
 else
     echo "==> Skipping build (SKIP_BUILD=1)"
 fi
@@ -37,7 +48,12 @@ echo
 echo "==> Running Python tests"
 
 cd "$ROOT"
-"$PYTHON" -m pytest
+
+# Avoid installed editable-import hooks taking precedence over the workspace
+# package. With site initialization disabled, both paths are explicit and the
+# freshly built extension copied into python/stratax is always tested.
+SITE_PACKAGES="$("$PYTHON" -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')"
+PYTHONPATH="$ROOT/python:$SITE_PACKAGES" "$PYTHON" -S -m pytest
 
 echo
 echo "================================"

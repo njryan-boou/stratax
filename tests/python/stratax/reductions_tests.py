@@ -46,10 +46,10 @@ class TestReductionsApi:
     def test_axis_reductions_support_keepdims(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
-        assert _core.sum(matrix, 0, True).tolist() == [5.0, 7.0, 9.0]
-        assert _core.sum(matrix, 1, True).tolist() == [6.0, 15.0]
-        assert _core.mean(matrix, 0, True).tolist() == [2.5, 3.5, 4.5]
-        assert _core.mean(matrix, 1, True).tolist() == [2.0, 5.0]
+        assert _core.sum(matrix, 0, True).tolist() == [[5.0, 7.0, 9.0]]
+        assert _core.sum(matrix, 1, True).tolist() == [[6.0], [15.0]]
+        assert _core.mean(matrix, 0, True).tolist() == [[2.5, 3.5, 4.5]]
+        assert _core.mean(matrix, 1, True).tolist() == [[2.0], [5.0]]
 
     def test_negative_axis_matches_positive_axis(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
@@ -67,7 +67,7 @@ class TestReductionsApi:
 
         assert isinstance(result, Tensor)
         assert result.shape == tensor.shape.__class__([2, 1, 2])
-        assert result.tolist() == [4.0, 6.0, 12.0, 14.0]
+        assert result.tolist() == [[[4.0, 6.0]], [[12.0, 14.0]]]
 
     def test_tensor_negative_axis_matches_last_axis(self) -> None:
         tensor = Tensor([2, 2, 2])

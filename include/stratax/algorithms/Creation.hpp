@@ -19,7 +19,7 @@ namespace stratax::creation {
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(shape.elements() + shape.rank()).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Tensor<T> zeros(const stratax::core::Shape& shape)
 {
@@ -34,7 +34,7 @@ stratax::container::Tensor<T> zeros(const stratax::core::Shape& shape)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(size).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Vector<T> zeros(std::size_t size)
 {
@@ -51,7 +51,7 @@ stratax::container::Vector<T> zeros(std::size_t size)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(rows * cols).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Matrix<T> zeros(std::size_t rows, std::size_t cols)
 {
@@ -67,7 +67,7 @@ stratax::container::Matrix<T> zeros(std::size_t rows, std::size_t cols)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(shape.elements() + shape.rank()).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Tensor<T> ones(const stratax::core::Shape& shape)
 {
@@ -82,7 +82,7 @@ stratax::container::Tensor<T> ones(const stratax::core::Shape& shape)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(size).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Vector<T> ones(std::size_t size)
 {
@@ -99,7 +99,7 @@ stratax::container::Vector<T> ones(std::size_t size)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(rows * cols).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Matrix<T> ones(std::size_t rows, std::size_t cols)
 {
@@ -116,7 +116,7 @@ stratax::container::Matrix<T> ones(std::size_t rows, std::size_t cols)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(shape.elements() + shape.rank()).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Tensor<T> full(const stratax::core::Shape& shape, const T& value)
 {
@@ -132,7 +132,7 @@ stratax::container::Tensor<T> full(const stratax::core::Shape& shape, const T& v
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(size).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Vector<T> full(std::size_t size, const T& value)
 {
@@ -150,7 +150,7 @@ stratax::container::Vector<T> full(std::size_t size, const T& value)
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(rows * cols).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Matrix<T> full(std::size_t rows, std::size_t cols, const T& value)
 {
@@ -170,7 +170,7 @@ stratax::container::Matrix<T> full(std::size_t rows, std::size_t cols, const T& 
  * @throws std::bad_alloc If result allocation fails.
  * @complexity O(size * size).
  */
-template<Numeric T>
+template<DType T>
 [[nodiscard]]
 stratax::container::Matrix<T> identity(std::size_t size)
 {

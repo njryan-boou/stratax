@@ -34,13 +34,13 @@ class TestTensorInterfaceTests:
         assert not tensor.empty
         assert tensor.shape == Shape([2, 3])
         assert tensor.strides == [3, 1]
-        assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        assert tensor.tolist() == [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
 
     def test_shape_value_constructor_fills_values(self) -> None:
         tensor = Tensor(Shape([2, 2]), 3.5)
 
         assert tensor.size == 4
-        assert tensor.tolist() == [3.5, 3.5, 3.5, 3.5]
+        assert tensor.tolist() == [[3.5, 3.5], [3.5, 3.5]]
 
     def test_iterable_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor([2, 2, 2])
@@ -49,12 +49,21 @@ class TestTensorInterfaceTests:
         assert tensor.rank == 3
         assert tensor.shape == Shape([2, 2, 2])
         assert tensor.strides == [4, 2, 1]
+        assert tensor.tolist() == [
+            [[0.0, 0.0], [0.0, 0.0]],
+            [[0.0, 0.0], [0.0, 0.0]],
+        ]
+
+    def test_tolist_preserves_zero_sized_dimensions(self) -> None:
+        tensor = Tensor([2, 0, 3])
+
+        assert tensor.tolist() == [[], []]
 
     def test_iterable_shape_value_constructor_fills_values(self) -> None:
         tensor = Tensor([2, 3], 6.0)
 
         assert tensor.shape == Shape([2, 3])
-        assert tensor.tolist() == [6.0, 6.0, 6.0, 6.0, 6.0, 6.0]
+        assert tensor.tolist() == [[6.0, 6.0, 6.0], [6.0, 6.0, 6.0]]
 
     def test_generator_shape_constructor_builds_tensor(self) -> None:
         tensor = Tensor(dim for dim in (2, 1, 3))
@@ -70,8 +79,8 @@ class TestTensorInterfaceTests:
         assert copied is not original
         assert copied.tolist() == original.tolist()
         copied[0] = 9.0
-        assert original.tolist() == [1.5, 1.5, 1.5, 1.5]
-        assert copied.tolist() == [9.0, 1.5, 1.5, 1.5]
+        assert original.tolist() == [[1.5, 1.5], [1.5, 1.5]]
+        assert copied.tolist() == [[9.0, 1.5], [1.5, 1.5]]
 
     def test_flat_indexing_reads_and_writes_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
@@ -79,7 +88,7 @@ class TestTensorInterfaceTests:
         assert tensor[2] == 1.0
         tensor[2] = 8.0
         assert tensor[2] == 8.0
-        assert tensor.tolist() == [1.0, 1.0, 8.0, 1.0]
+        assert tensor.tolist() == [[1.0, 1.0], [8.0, 1.0]]
 
     def test_tuple_indexing_reads_and_writes_values(self) -> None:
         tensor = Tensor([2, 3], 0.0)
@@ -87,7 +96,7 @@ class TestTensorInterfaceTests:
         tensor[1, 2] = 7.0
 
         assert tensor[1, 2] == 7.0
-        assert tensor.tolist() == [0.0, 0.0, 0.0, 0.0, 0.0, 7.0]
+        assert tensor.tolist() == [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0]]
 
     def test_slice_indexing_returns_tensor(self) -> None:
         tensor = Tensor([5])
@@ -109,7 +118,7 @@ class TestTensorInterfaceTests:
 
         assert isinstance(sliced, Tensor)
         assert sliced.shape == Shape([2, 2])
-        assert sliced.tolist() == [2.0, 3.0, 5.0, 6.0]
+        assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
 
     def test_integer_and_slice_tuple_indexing_returns_tensor(self) -> None:
         tensor = Tensor([2, 3])
@@ -120,7 +129,7 @@ class TestTensorInterfaceTests:
 
         assert isinstance(sliced, Tensor)
         assert sliced.shape == Shape([1, 2])
-        assert sliced.tolist() == [5.0, 6.0]
+        assert sliced.tolist() == [[5.0, 6.0]]
 
     def test_rank_mismatch_top_level_slice_raises_index_error(self) -> None:
         tensor = Tensor([2, 2], 1.0)
@@ -159,14 +168,14 @@ class TestTensorInterfaceTests:
 
         assert isinstance(sliced, Tensor)
         assert sliced.shape == Shape([2, 2])
-        assert sliced.tolist() == [6.0, 4.0, 3.0, 1.0]
+        assert sliced.tolist() == [[6.0, 4.0], [3.0, 1.0]]
 
     def test_fill_updates_all_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
 
         tensor.fill(4.0)
 
-        assert tensor.tolist() == [4.0, 4.0, 4.0, 4.0]
+        assert tensor.tolist() == [[4.0, 4.0], [4.0, 4.0]]
 
     def test_reshape_accepts_shape_and_iterable(self) -> None:
         tensor = Tensor([2, 3])
@@ -178,11 +187,11 @@ class TestTensorInterfaceTests:
 
         assert isinstance(reshaped_with_shape, Tensor)
         assert reshaped_with_shape.shape == Shape([3, 2])
-        assert reshaped_with_shape.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        assert reshaped_with_shape.tolist() == [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
 
         assert isinstance(reshaped_with_iterable, Tensor)
         assert reshaped_with_iterable.shape == Shape([1, 6])
-        assert reshaped_with_iterable.tolist() == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        assert reshaped_with_iterable.tolist() == [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]]
 
     def test_flatten_returns_vector(self) -> None:
         tensor = Tensor([2, 2])
@@ -200,7 +209,7 @@ class TestTensorInterfaceTests:
         flattened = tensor.flatten()
         flattened[0] = 9.0
 
-        assert tensor.tolist() == [1.0, 1.0, 1.0, 1.0]
+        assert tensor.tolist() == [[1.0, 1.0], [1.0, 1.0]]
         assert flattened.tolist() == [9.0, 1.0, 1.0, 1.0]
 
     def test_repr_returns_tensor_text(self) -> None:
@@ -213,12 +222,15 @@ class TestTensorInterfaceTests:
         assert repr(tensor) == "[\n    [1, 2],\n    [3, 4]\n]"
 
     def test_equality_and_inequality(self) -> None:
-        assert Tensor([2, 2], 1.0) == Tensor([2, 2], 1.0)
-        assert Tensor([2, 2], 1.0) != Tensor([2, 2], 2.0)
-        assert Tensor([2, 2], 1.0) != Tensor([4], 1.0)
+        lhs = Tensor([2, 2], 1.0)
+
+        assert (lhs == Tensor([2, 2], 1.0)).tolist() == [[True, True], [True, True]]
+        assert (lhs != Tensor([2, 2], 2.0)).tolist() == [[True, True], [True, True]]
 
         with pytest.raises(TypeError):
-            _ = Tensor([2, 2], 1.0) != [1.0, 1.0, 1.0, 1.0]
+            _ = lhs != [1.0, 1.0, 1.0, 1.0]
+
+        assert repr(lhs == 1) == "[\n    [true, true],\n    [true, true]\n]"
 
     def test_iteration_yields_flat_values_in_storage_order(self) -> None:
         tensor = Tensor([2, 2])
@@ -237,10 +249,10 @@ class TestTensorInterfaceTests:
         for index, value in enumerate([2.0, 3.0, 5.0, 6.0]):
             rhs[index] = value
 
-        assert (lhs + rhs).tolist() == [10.0, 15.0, 25.0, 36.0]
-        assert (lhs - rhs).tolist() == [6.0, 9.0, 15.0, 24.0]
-        assert (lhs * rhs).tolist() == [16.0, 36.0, 100.0, 180.0]
-        assert (lhs / rhs).tolist() == [4.0, 4.0, 4.0, 5.0]
+        assert (lhs + rhs).tolist() == [[10.0, 15.0], [25.0, 36.0]]
+        assert (lhs - rhs).tolist() == [[6.0, 9.0], [15.0, 24.0]]
+        assert (lhs * rhs).tolist() == [[16.0, 36.0], [100.0, 180.0]]
+        assert (lhs / rhs).tolist() == [[4.0, 4.0], [4.0, 5.0]]
 
         with pytest.raises(StrataxZeroDivisionError):
             _ = lhs / Tensor([2, 2], 0.0)
@@ -248,31 +260,31 @@ class TestTensorInterfaceTests:
     def test_scalar_reverse_in_place_and_unary_arithmetic(self) -> None:
         tensor = Tensor([2, 2], 2.0)
 
-        assert (tensor + 3).tolist() == [5.0, 5.0, 5.0, 5.0]
-        assert (tensor - 1).tolist() == [1.0, 1.0, 1.0, 1.0]
-        assert (tensor * 4).tolist() == [8.0, 8.0, 8.0, 8.0]
-        assert (tensor / 2).tolist() == [1.0, 1.0, 1.0, 1.0]
+        assert (tensor + 3).tolist() == [[5.0, 5.0], [5.0, 5.0]]
+        assert (tensor - 1).tolist() == [[1.0, 1.0], [1.0, 1.0]]
+        assert (tensor * 4).tolist() == [[8.0, 8.0], [8.0, 8.0]]
+        assert (tensor / 2).tolist() == [[1.0, 1.0], [1.0, 1.0]]
         with pytest.raises(StrataxZeroDivisionError):
             _ = tensor / 0
 
-        assert (3 + tensor).tolist() == [5.0, 5.0, 5.0, 5.0]
-        assert (10 - tensor).tolist() == [8.0, 8.0, 8.0, 8.0]
-        assert (4 * tensor).tolist() == [8.0, 8.0, 8.0, 8.0]
-        assert (8 / tensor).tolist() == [4.0, 4.0, 4.0, 4.0]
-        assert (+tensor).tolist() == [2.0, 2.0, 2.0, 2.0]
-        assert (-tensor).tolist() == [-2.0, -2.0, -2.0, -2.0]
+        assert (3 + tensor).tolist() == [[5.0, 5.0], [5.0, 5.0]]
+        assert (10 - tensor).tolist() == [[8.0, 8.0], [8.0, 8.0]]
+        assert (4 * tensor).tolist() == [[8.0, 8.0], [8.0, 8.0]]
+        assert (8 / tensor).tolist() == [[4.0, 4.0], [4.0, 4.0]]
+        assert (+tensor).tolist() == [[2.0, 2.0], [2.0, 2.0]]
+        assert (-tensor).tolist() == [[-2.0, -2.0], [-2.0, -2.0]]
 
         tensor += 1
-        assert tensor.tolist() == [3.0, 3.0, 3.0, 3.0]
+        assert tensor.tolist() == [[3.0, 3.0], [3.0, 3.0]]
 
         tensor -= Tensor([2, 2], 1.0)
-        assert tensor.tolist() == [2.0, 2.0, 2.0, 2.0]
+        assert tensor.tolist() == [[2.0, 2.0], [2.0, 2.0]]
 
         tensor *= 4
-        assert tensor.tolist() == [8.0, 8.0, 8.0, 8.0]
+        assert tensor.tolist() == [[8.0, 8.0], [8.0, 8.0]]
 
         tensor /= Tensor([2, 2], 2.0)
-        assert tensor.tolist() == [4.0, 4.0, 4.0, 4.0]
+        assert tensor.tolist() == [[4.0, 4.0], [4.0, 4.0]]
 
     def test_invalid_constructor_argument_raises_type_error(self) -> None:
         with pytest.raises(StrataxTypeError):
@@ -337,7 +349,7 @@ class TestTensorInterfaceTests:
 
         assert tensor[-1] == 0.0
         tensor[-1] = 7.0
-        assert tensor.tolist() == [0.0, 0.0, 0.0, 7.0]
+        assert tensor.tolist() == [[0.0, 0.0], [0.0, 7.0]]
 
     def test_index_overflow_raises_overflow_error(self) -> None:
         tensor = Tensor([2, 2])

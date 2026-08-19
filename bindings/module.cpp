@@ -2,6 +2,8 @@
 
 #include <stratax/exceptions/Exceptions.hpp>
 
+#include "comparison.hpp"
+
 namespace py = pybind11;
 
 namespace
@@ -31,6 +33,7 @@ void bind_exceptions(py::module_& m)
 } // anonymous namespace
 
 void bind_shape(py::module_&);
+void bind_boolean_arrays(py::module_&);
 void bind_vector(py::module_&);
 void bind_matrix(py::module_&);
 void bind_tensor(py::module_&);
@@ -47,9 +50,11 @@ PYBIND11_MODULE(_core, m)
 
     bind_exceptions(m);
     bind_shape(m);
+    bind_boolean_arrays(m);
     bind_vector(m);
     bind_matrix(m);
     bind_tensor(m);
+    bind_comparison_functions(m);
     bind_conversions(m);
     bind_creation(m);
     bind_reductions(m);

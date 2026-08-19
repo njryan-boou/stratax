@@ -127,7 +127,7 @@ void bind_vector_properties(py::class_<Vector>& cls)
 void bind_vector_indexing(py::class_<Vector>& cls)
 {
     cls
-        .def("__len__", &Vector::size)
+        .def("__len__", [](const Vector& vector) { return vector.size(); })
         .def("__getitem__", [](const Vector& vector, py::object index) -> py::object {
             if (py::isinstance<py::slice>(index))
             {

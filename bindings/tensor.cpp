@@ -141,10 +141,7 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
 
     cls
         .def("tolist", [](const Tensor& tensor) {
-            std::vector<double> values;
-            values.reserve(tensor.size());
-            std::copy(tensor.begin(), tensor.end(), std::back_inserter(values));
-            return values;
+            return binding_utils::tensor_to_list(tensor);
         })
         .def("__iter__", [](const Tensor& tensor) {
             return py::make_iterator(tensor.begin(), tensor.end());
@@ -159,7 +156,7 @@ void bind_tensor_properties(py::class_<Tensor>& cls)
 void bind_tensor_indexing(py::class_<Tensor>& cls)
 {
     cls
-        .def("__len__", &Tensor::size)
+        .def("__len__", [](const Tensor& tensor) { return tensor.size(); })
         .def("__getitem__", [](const Tensor& tensor, py::object index) -> py::object {
             if (py::isinstance<py::slice>(index))
             {

@@ -144,11 +144,11 @@ class TestMatrixInterfaceTests:
 
         assert isinstance(reshaped, Tensor)
         assert reshaped.shape == Shape([1, 4])
-        assert reshaped.tolist() == [1.0, 2.0, 3.0, 4.0]
+        assert reshaped.tolist() == [[1.0, 2.0, 3.0, 4.0]]
 
         assert isinstance(reshaped_dims, Tensor)
         assert reshaped_dims.shape == Shape([4, 1])
-        assert reshaped_dims.tolist() == [1.0, 2.0, 3.0, 4.0]
+        assert reshaped_dims.tolist() == [[1.0], [2.0], [3.0], [4.0]]
 
         assert isinstance(flattened, Vector)
         assert flattened.tolist() == [1.0, 2.0, 3.0, 4.0]
@@ -166,12 +166,15 @@ class TestMatrixInterfaceTests:
         assert repr(Matrix([[1.0, 2.0], [3.0, 4.0]])) == "[\n    [1, 2]\n    [3, 4]\n]"
 
     def test_equality_and_inequality(self) -> None:
-        assert Matrix([[1.0, 2.0], [3.0, 4.0]]) == Matrix([[1.0, 2.0], [3.0, 4.0]])
-        assert Matrix([[1.0, 2.0], [3.0, 4.0]]) != Matrix([[1.0, 2.0], [3.0, 9.0]])
-        assert Matrix([[1.0, 2.0], [3.0, 4.0]]) != Matrix([[1.0, 2.0, 3.0]])
+        lhs = Matrix([[1.0, 2.0], [3.0, 4.0]])
+
+        assert (lhs == Matrix([[1.0, 9.0], [3.0, 8.0]])).tolist() == [[True, False], [True, False]]
+        assert (lhs != 2).tolist() == [[True, False], [True, True]]
 
         with pytest.raises(TypeError):
-            _ = Matrix([[1.0, 2.0], [3.0, 4.0]]) != [[1.0, 2.0], [3.0, 4.0]]
+            _ = lhs != [[1.0, 2.0], [3.0, 4.0]]
+
+        assert repr(lhs < 3) == "[\n    [true, true]\n    [false, false]\n]"
 
     def test_array_arithmetic(self) -> None:
         lhs = Matrix([[8.0, 12.0], [20.0, 30.0]])
@@ -305,4 +308,3 @@ class TestMatrixInterfaceTests:
 
         with pytest.raises(OverflowError):
             _ = matrix[sys.maxsize + 1, 0]
-

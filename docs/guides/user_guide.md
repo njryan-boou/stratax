@@ -84,10 +84,11 @@ auto eye = stratax::identity<double>(3);
 ```
 
 ```python
-from stratax import Shape, identity, ones, zeros
+from stratax import Shape, full, identity, ones, zeros
 
 zeros_tensor = zeros(Shape([2, 3]))
-ones_tensor = ones(Shape([2, 3]))
+ones_vector = ones(4)
+full_matrix = full(2, 3, 7.0)
 eye = identity(3)
 ```
 
