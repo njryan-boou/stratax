@@ -27,14 +27,15 @@ dtype. `abs()` returns the real component dtype for complex input.
 | Category | Functions |
 | -------- | --------- |
 | Roots | `sqrt`, `cbrt` |
-| Exponentials | `exp`, `exp2` |
-| Logarithms | `log`, `log2`, `log10` |
+| Exponentials | `exp`, `exp2`, `expm1` |
+| Logarithms | `log`, `log2`, `log10`, `log1p`, `logb` |
 | Trigonometric | `sin`, `cos`, `tan` |
 | Inverse trigonometric | `asin`, `acos`, `atan` |
 | Hyperbolic | `sinh`, `cosh`, `tanh` |
 | Inverse hyperbolic | `asinh`, `acosh`, `atanh` |
 | Magnitude | `abs` |
-| Rounding | `floor`, `ceil`, `trunc`, `round` |
+| Special | `erf`, `erfc`, `tgamma`, `lgamma` |
+| Rounding | `floor`, `ceil`, `trunc`, `round`, `nearbyint`, `rint` |
 
 Every unary operation returns independent storage with the input shape and
 container type. Rounding functions require real numeric elements. Other unary
@@ -56,6 +57,8 @@ remainder(lhs, rhs);
 copysign(lhs, rhs);
 fmax(lhs, rhs);
 fmin(lhs, rhs);
+fdim(lhs, rhs);
+nextafter(lhs, rhs);
 ```
 
 Both operands are arrays. Their shapes are broadcast to a common result shape,
@@ -96,4 +99,3 @@ const auto result = stratax::core::pow(values, powers);
 - @ref broadcasting "Broadcasting"
 - @ref arithmetic "Arithmetic"
 - @ref concepts "DType Concepts"
-

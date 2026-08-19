@@ -110,9 +110,9 @@ Unary Functions</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Roots  </td><td class="markdownTableBodyNone"><span class="tt">sqrt</span>, <span class="tt">cbrt</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Exponentials  </td><td class="markdownTableBodyNone"><span class="tt">exp</span>, <span class="tt">exp2</span>  </td></tr>
+<td class="markdownTableBodyNone">Exponentials  </td><td class="markdownTableBodyNone"><span class="tt">exp</span>, <span class="tt">exp2</span>, <span class="tt">expm1</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Logarithms  </td><td class="markdownTableBodyNone"><span class="tt">log</span>, <span class="tt">log2</span>, <span class="tt">log10</span>  </td></tr>
+<td class="markdownTableBodyNone">Logarithms  </td><td class="markdownTableBodyNone"><span class="tt">log</span>, <span class="tt">log2</span>, <span class="tt">log10</span>, <span class="tt">log1p</span>, <span class="tt">logb</span>  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Trigonometric  </td><td class="markdownTableBodyNone"><span class="tt">sin</span>, <span class="tt">cos</span>, <span class="tt">tan</span>  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -124,7 +124,9 @@ Unary Functions</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Magnitude  </td><td class="markdownTableBodyNone"><span class="tt">abs</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Rounding  </td><td class="markdownTableBodyNone"><span class="tt">floor</span>, <span class="tt">ceil</span>, <span class="tt">trunc</span>, <span class="tt">round</span>  </td></tr>
+<td class="markdownTableBodyNone">Special  </td><td class="markdownTableBodyNone"><span class="tt">erf</span>, <span class="tt">erfc</span>, <span class="tt">tgamma</span>, <span class="tt">lgamma</span>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Rounding  </td><td class="markdownTableBodyNone"><span class="tt">floor</span>, <span class="tt">ceil</span>, <span class="tt">trunc</span>, <span class="tt">round</span>, <span class="tt">nearbyint</span>, <span class="tt">rint</span>  </td></tr>
 </table>
 <p>Every unary operation returns independent storage with the input shape and container type. Rounding functions require real numeric elements. Other unary functions accept numeric elements, including complex values where supported by the corresponding standard-library operation.</p>
 <p>Complexity: O(n), where <span class="tt">n</span> is the input element count.</p>
@@ -139,6 +141,8 @@ Binary Functions</h2>
 <div class="line">copysign(lhs, rhs);</div>
 <div class="line">fmax(lhs, rhs);</div>
 <div class="line">fmin(lhs, rhs);</div>
+<div class="line">fdim(lhs, rhs);</div>
+<div class="line">nextafter(lhs, rhs);</div>
 </div><!-- fragment --><p>Both operands are arrays. Their shapes are broadcast to a common result shape, and their dtypes and container types are promoted. Integral-only operands produce <span class="tt">dtype::float64</span> results.</p>
 <p>Throws <span class="tt"><a class="el" href="classExceptions_1_1BroadcastError.html">Exceptions::BroadcastError</a></span> when the operand shapes are incompatible.</p>
 <p>Complexity: O(nr), where <span class="tt">n</span> is result size and <span class="tt">r</span> is result rank.</p>

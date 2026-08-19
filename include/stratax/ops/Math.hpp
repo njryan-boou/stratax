@@ -166,6 +166,18 @@ auto exp2(const A& arr)
         });
 }
 
+/** @brief Computes e raised to each element minus one. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto expm1(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::expm1(value);
+        });
+}
+
 /** @brief Computes the element-wise natural logarithm. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -199,6 +211,30 @@ auto log10(const A& arr)
         arr, [](const auto& value)
         {
             return std::log10(value);
+        });
+}
+
+/** @brief Computes the natural logarithm of one plus each element. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto log1p(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::log1p(value);
+        });
+}
+
+/** @brief Extracts the unbiased floating-point exponent of each element. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto logb(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::logb(value);
         });
 }
 
@@ -346,6 +382,54 @@ auto atanh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise error function. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto erf(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::erf(value);
+        });
+}
+
+/** @brief Computes the element-wise complementary error function. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto erfc(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::erfc(value);
+        });
+}
+
+/** @brief Computes the element-wise gamma function. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto tgamma(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::tgamma(value);
+        });
+}
+
+/** @brief Computes the logarithm of the absolute gamma function element-wise. @return Shape-preserving owning array. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto lgamma(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::lgamma(value);
+        });
+}
+
 /**
  * @brief Computes the absolute value or complex magnitude of each element.
  * @return Shape-preserving array; complex input returns its component dtype.
@@ -424,6 +508,36 @@ auto round(const A& arr)
         [](const auto& value)
         {
             return std::round(value);
+        });
+}
+
+/** @brief Rounds each element using the current rounding mode without raising inexact. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto nearbyint(const A& arr)
+{
+    using result_value_type = typename A::value_type;
+
+    return math_detail::unary_op<A, result_value_type>(
+        arr,
+        [](const auto& value)
+        {
+            return std::nearbyint(value);
+        });
+}
+
+/** @brief Rounds each element using the current floating-point rounding mode. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
+template<Array A>
+requires RealNumeric<typename A::value_type>
+auto rint(const A& arr)
+{
+    using result_value_type = typename A::value_type;
+
+    return math_detail::unary_op<A, result_value_type>(
+        arr,
+        [](const auto& value)
+        {
+            return std::rint(value);
         });
 }
 
@@ -578,6 +692,50 @@ auto fmin(const L& lhs, const R& rhs)
         [](const auto& a, const auto& b)
         {
             return std::fmin(a, b);
+        });
+}
+
+/** @brief Computes the positive difference of each broadcasted element pair. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
+template<Array L, Array R>
+requires (
+    RealNumeric<typename L::value_type> &&
+    RealNumeric<typename R::value_type>
+)
+auto fdim(const L& lhs, const R& rhs)
+{
+    using result_type =
+        math_detail::pow_result_t<
+            typename L::value_type,
+            typename R::value_type>;
+
+    return broadcasted_op<result_type>(
+        lhs,
+        rhs,
+        [](const auto& a, const auto& b)
+        {
+            return std::fdim(a, b);
+        });
+}
+
+/** @brief Finds the next representable value from each left element toward its broadcasted right element. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
+template<Array L, Array R>
+requires (
+    RealNumeric<typename L::value_type> &&
+    RealNumeric<typename R::value_type>
+)
+auto nextafter(const L& lhs, const R& rhs)
+{
+    using result_type =
+        math_detail::pow_result_t<
+            typename L::value_type,
+            typename R::value_type>;
+
+    return broadcasted_op<result_type>(
+        lhs,
+        rhs,
+        [](const auto& a, const auto& b)
+        {
+            return std::nextafter(a, b);
         });
 }
 

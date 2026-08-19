@@ -10,6 +10,24 @@ using namespace stratax::container;
 using namespace stratax::core;
 using stratax::indexing::slice;
 
+namespace {
+
+template<typename T>
+std::vector<T> view_values(const ArrayView<T>& view)
+{
+	std::vector<T> values;
+	values.reserve(view.size());
+
+	for (std::size_t i = 0; i < view.size(); ++i)
+	{
+		values.push_back(view(i));
+	}
+
+	return values;
+}
+
+} // namespace
+
 TEST(SlicingTypes, Aliases)
 {
 	static_assert(std::same_as<stratax::indexing::size_type, std::size_t>);
@@ -18,95 +36,101 @@ TEST(SlicingTypes, Aliases)
 
 TEST(VectorSlicing, FullRange)
 {
-	const Vector<int> source{0, 1, 2, 3, 4};
+	Vector<int> source{0, 1, 2, 3, 4};
 	const auto result = slice(source, Slice{0, 5});
 
-	static_assert(std::same_as<std::remove_cv_t<decltype(result)>, Vector<int>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<int>>);
 	EXPECT_EQ(result.shape(), Shape({5}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{0, 1, 2, 3, 4}));
+	EXPECT_EQ(result.strides(), Shape({1}));
+	EXPECT_EQ(result.data(), source.data());
+	EXPECT_EQ(view_values(result), (std::vector<int>{0, 1, 2, 3, 4}));
 }
 
 TEST(VectorSlicing, PositiveStep)
 {
-	const Vector<int> source{0, 1, 2, 3, 4, 5, 6, 7};
+	Vector<int> source{0, 1, 2, 3, 4, 5, 6, 7};
 	const auto result = slice(source, Slice{1, 8, 3});
 
 	EXPECT_EQ(result.shape(), Shape({3}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{1, 4, 7}));
+	EXPECT_EQ(result.strides(), Shape({3}));
+	EXPECT_EQ(result.data(), source.data() + 1);
+	EXPECT_EQ(view_values(result), (std::vector<int>{1, 4, 7}));
 }
 
 TEST(VectorSlicing, NegativeBounds)
 {
-	const Vector<int> source{0, 1, 2, 3, 4, 5};
+	Vector<int> source{0, 1, 2, 3, 4, 5};
 	const auto result = slice(source, Slice{-5, -1, 2});
 
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{1, 3}));
+	EXPECT_EQ(result.data(), source.data() + 1);
+	EXPECT_EQ(result.strides(), Shape({2}));
+	EXPECT_EQ(view_values(result), (std::vector<int>{1, 3}));
 }
 
 TEST(VectorSlicing, ReverseFullRange)
 {
-	const Vector<int> source{0, 1, 2, 3, 4};
-	const auto result = slice(source, Slice{-1, -1, -1});
+	Vector<int> source{0, 1, 2, 3, 4};
 
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{4, 3, 2, 1, 0}));
+	EXPECT_THROW(
+		static_cast<void>(slice(source, Slice{-1, -1, -1})),
+		Exceptions::IndexError);
 }
 
 TEST(VectorSlicing, ReverseNegativeBounds)
 {
-	const Vector<int> source{0, 1, 2, 3, 4, 5};
-	const auto result = slice(source, Slice{-1, -5, -2});
+	Vector<int> source{0, 1, 2, 3, 4, 5};
 
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{5, 3}));
+	EXPECT_THROW(
+		static_cast<void>(slice(source, Slice{-1, -5, -2})),
+		Exceptions::IndexError);
 }
 
 TEST(VectorSlicing, ClampsBounds)
 {
-	const Vector<int> source{0, 1, 2, 3, 4};
+	Vector<int> source{0, 1, 2, 3, 4};
 	const auto forward = slice(source, Slice{-100, 100});
-	const auto reverse = slice(source, Slice{100, -100, -1});
 
-	EXPECT_EQ(std::vector<int>(forward.begin(), forward.end()),
-		(std::vector<int>{0, 1, 2, 3, 4}));
-	EXPECT_EQ(std::vector<int>(reverse.begin(), reverse.end()),
-		(std::vector<int>{4, 3, 2, 1, 0}));
+	EXPECT_EQ(view_values(forward), (std::vector<int>{0, 1, 2, 3, 4}));
+	EXPECT_THROW(
+		static_cast<void>(slice(source, Slice{100, -100, -1})),
+		Exceptions::IndexError);
 }
 
 TEST(VectorSlicing, EmptyRanges)
 {
-	const Vector<int> source{0, 1, 2, 3, 4};
+	Vector<int> source{0, 1, 2, 3, 4};
 	const auto forward = slice(source, Slice{4, 1, 1});
-	const auto reverse = slice(source, Slice{1, 4, -1});
 
-	EXPECT_TRUE(forward.empty());
-	EXPECT_TRUE(reverse.empty());
+	EXPECT_EQ(forward.size(), 0);
 	EXPECT_EQ(forward.shape(), Shape({0}));
-	EXPECT_EQ(reverse.shape(), Shape({0}));
+	EXPECT_THROW(
+		static_cast<void>(slice(source, Slice{1, 4, -1})),
+		Exceptions::IndexError);
 }
 
 TEST(VectorSlicing, EmptySource)
 {
-	const Vector<int> source;
+	Vector<int> source;
 	const auto forward = slice(source, Slice{0, 10});
-	const auto reverse = slice(source, Slice{-1, -1, -1});
 
-	EXPECT_TRUE(forward.empty());
-	EXPECT_TRUE(reverse.empty());
+	EXPECT_EQ(forward.size(), 0);
+	EXPECT_EQ(forward.shape(), Shape({0}));
+	EXPECT_THROW(
+		static_cast<void>(slice(source, Slice{-1, -1, -1})),
+		Exceptions::IndexError);
 }
 
-TEST(VectorSlicing, ReturnsIndependentStorage)
+TEST(VectorSlicing, SharesSourceStorage)
 {
 	Vector<int> source{0, 1, 2, 3, 4};
 	auto result = slice(source, Slice{1, 4});
 
-	result[0] = 99;
+	result(0) = 99;
 
-	EXPECT_EQ(source[1], 1);
-	EXPECT_NE(result.data(), source.data() + 1);
+	EXPECT_EQ(source[1], 99);
+	EXPECT_EQ(result.data(), source.data() + 1);
 }
 
 TEST(MatrixSlicing, FullRange)

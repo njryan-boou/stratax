@@ -49,6 +49,38 @@ TEST(UnaryMath, RootsExponentialsAndLogarithms)
     expect_near(log10(values), std::vector<double>{0.0, std::log10(4.0), std::log10(8.0)});
 }
 
+TEST(UnaryMath, AccurateSmallExponentialsAndLogarithms)
+{
+    const Vector<double> values{-0.25, 0.0, 0.25};
+    const Vector<double> positive_values{0.5, 1.0, 4.0};
+
+    expect_near(expm1(values), std::vector<double>{std::expm1(-0.25), 0.0, std::expm1(0.25)});
+    expect_near(log1p(values), std::vector<double>{std::log1p(-0.25), 0.0, std::log1p(0.25)});
+    expect_near(logb(positive_values), std::vector<double>{-1.0, 0.0, 2.0});
+}
+
+TEST(SpecialMath, ErrorAndGammaFunctions)
+{
+    const Vector<double> error_values{-0.5, 0.0, 0.5};
+    const Vector<double> gamma_values{1.0, 2.0, 3.5};
+
+    expect_near(erf(error_values), std::vector<double>{std::erf(-0.5), 0.0, std::erf(0.5)});
+    expect_near(erfc(error_values), std::vector<double>{std::erfc(-0.5), 1.0, std::erfc(0.5)});
+    expect_near(tgamma(gamma_values), std::vector<double>{1.0, 1.0, std::tgamma(3.5)});
+    expect_near(lgamma(gamma_values), std::vector<double>{0.0, 0.0, std::lgamma(3.5)});
+}
+
+TEST(SpecialMath, PromotesIntegralInput)
+{
+    const Vector<stratax::dtype::int32> values{0, 1, 2};
+    const auto result = expm1(values);
+
+    static_assert(std::same_as<
+        typename decltype(result)::value_type,
+        stratax::dtype::float64>);
+    expect_near(result, std::vector<double>{0.0, std::expm1(1.0), std::expm1(2.0)});
+}
+
 TEST(TrigonometricMath, DirectFunctions)
 {
     const Vector<double> values{-0.5, 0.0, 0.5};
@@ -92,6 +124,8 @@ TEST(RoundingMath, AppliesEveryRoundingMode)
     expect_near(ceil(values), std::vector<double>{-1.0, -1.0, 2.0, 2.0});
     expect_near(trunc(values), std::vector<double>{-1.0, -1.0, 1.0, 1.0});
     expect_near(round(values), std::vector<double>{-2.0, -1.0, 1.0, 2.0});
+    expect_near(nearbyint(values), std::vector<double>{-2.0, -1.0, 1.0, 2.0});
+    expect_near(rint(values), std::vector<double>{-2.0, -1.0, 1.0, 2.0});
 }
 
 TEST(BinaryMath, AppliesEveryBinaryFunction)
@@ -107,6 +141,18 @@ TEST(BinaryMath, AppliesEveryBinaryFunction)
     expect_near(copysign(lhs, rhs), std::vector<double>{5.5, 5.5, -2.0});
     expect_near(fmax(lhs, rhs), std::vector<double>{5.5, 2.0, 2.0});
     expect_near(fmin(lhs, rhs), std::vector<double>{2.0, -5.5, -3.0});
+    expect_near(fdim(lhs, rhs), std::vector<double>{3.5, 0.0, 5.0});
+}
+
+TEST(BinaryMath, FindsNextRepresentableValues)
+{
+    const Vector<double> from{0.0, 1.0, -1.0};
+    const Vector<double> toward{1.0, 2.0, -2.0};
+    const auto result = nextafter(from, toward);
+
+    EXPECT_EQ(result[0], std::nextafter(0.0, 1.0));
+    EXPECT_EQ(result[1], std::nextafter(1.0, 2.0));
+    EXPECT_EQ(result[2], std::nextafter(-1.0, -2.0));
 }
 
 TEST(BinaryMath, BroadcastsAndPromotesDtypes)

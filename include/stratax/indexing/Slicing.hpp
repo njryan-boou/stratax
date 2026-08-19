@@ -12,6 +12,7 @@
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
 #include <stratax/core/validation/Validation.hpp>
+#include <stratax/core/ArrayView.hpp>
 
 #include <array>
 #include <algorithm>
@@ -31,35 +32,13 @@ using difference_type = std::ptrdiff_t;
 namespace detail
 {
 
-/**
- * @brief Normalized slice metadata for one concrete dimension.
- * @internal
- */
 struct ResolvedSlice
 {
-	/** @brief First normalized source index. */
 	difference_type start;
-	/** @brief Signed increment between source indices. */
 	difference_type step;
-	/** @brief Number of selected indices. */
 	size_type size;
 };
 
-/**
- * @brief Resolves raw slice bounds against a concrete dimension extent.
- *
- * Negative bounds are translated relative to @p extent, then bounds are
- * clamped to the legal half-open range for the direction of the step. A stop
- * value of `-1` remains the reverse-slice sentinel when the step is negative.
- *
- * @param slice Raw slice description to resolve.
- * @param extent Size of the dimension being sliced.
- * @param message Error text used when @p extent cannot be represented.
- * @return Normalized start, original step, and selected index count.
- * @throws Exceptions::IndexError If @p extent exceeds difference_type.
- * @complexity O(1).
- * @internal
- */
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
 	size_type extent,
@@ -124,60 +103,41 @@ inline ResolvedSlice normalize_slice(
 
 } // namespace detail
 
-/**
- * @brief Copies a strided selection from a vector.
- *
- * Bounds are normalized and clamped against `vec.size()`. The result owns an
- * independent contiguous copy of the selected elements.
- *
- * @tparam T Numeric vector element type.
- * @param vec Source vector.
- * @param slice Slice applied to the vector extent.
- * @return Rank-one vector containing the selected values in traversal order.
- * @throws Exceptions::IndexError If `vec.size()` exceeds difference_type.
- * @throws std::bad_alloc If result allocation fails.
- * @complexity O(k), where `k` is the result size.
- */
 template<typename T>
-stratax::container::Vector<T>
+stratax::core::ArrayView<T>
 slice(
-	const stratax::container::Vector<T>& vec,
-	const stratax::core::Slice& slice)
+    stratax::container::Vector<T>& vec,
+    const stratax::core::Slice& slice)
 {
-	const auto resolved =
-		detail::normalize_slice(
-			slice,
-			vec.size(),
-			"Vector slice out of bounds.");
+    const auto resolved =
+        detail::normalize_slice(
+            slice,
+            vec.size(),
+            "Vector slice out of bounds.");
 
-	stratax::container::Vector<T> result(resolved.size);
+    if (resolved.step < 0)
+    {
+        throw Exceptions::IndexError(
+            "Negative-step views are not supported yet.");
+    }
 
-	difference_type source = resolved.start;
+    const auto offset =
+        static_cast<size_type>(resolved.start);
 
-	for (size_type i = 0; i < result.size(); ++i)
-	{
-		result[i] = vec[static_cast<size_type>(source)];
-		source += resolved.step;
-	}
+    const stratax::core::Shape shape{
+        resolved.size
+    };
 
-	return result;
+    const stratax::core::Shape strides{
+        static_cast<size_type>(resolved.step)
+    };
+
+    return stratax::core::ArrayView<T>(
+        vec.data() + offset,
+        shape,
+        strides);
 }
 
-/**
- * @brief Copies a rectangular strided selection from a matrix.
- *
- * Row and column slices are resolved independently. The result owns a
- * row-major copy with shape `{resolved_rows, resolved_cols}`.
- *
- * @tparam T Numeric matrix element type.
- * @param mat Source matrix.
- * @param rows Slice applied to the row extent.
- * @param cols Slice applied to the column extent.
- * @return Matrix containing the selected rows and columns.
- * @throws Exceptions::IndexError If either extent exceeds difference_type.
- * @throws std::bad_alloc If result allocation fails.
- * @complexity O(result.rows() * result.cols()).
- */
 template<typename T>
 stratax::container::Matrix<T>
 slice(
@@ -214,24 +174,6 @@ slice(
 	return result;
 }
 
-/**
- * @brief Copies a variadic strided selection from a tensor.
- *
- * Exactly one Slice must be supplied per tensor dimension. Each slice is
- * normalized independently, and the result owns a row-major copy whose shape
- * contains the resolved selection sizes.
- *
- * @tparam T Numeric tensor element type.
- * @tparam Slices Pack whose every type must be core::Slice.
- * @param tensor Source tensor.
- * @param slices One slice per dimension.
- * @return Tensor containing the selected values.
- * @throws Exceptions::IndexError If the slice count differs from tensor rank
- *         or a dimension extent exceeds difference_type.
- * @throws Exceptions::DimensionError If shape or offset arithmetic overflows.
- * @throws std::bad_alloc If result or metadata allocation fails.
- * @complexity O(result.size() * tensor.rank()).
- */
 template<typename T, typename... Slices>
 stratax::container::Tensor<T>
 slice(
@@ -304,22 +246,6 @@ slice(
 	return result;
 }
 
-/**
- * @brief Copies a vector-specified strided selection from a tensor.
- *
- * This overload has the same selection and ownership semantics as the
- * variadic overload, but accepts a runtime-sized vector of Slice objects.
- *
- * @tparam T Numeric tensor element type.
- * @param tensor Source tensor.
- * @param slices One slice per dimension.
- * @return Tensor containing the selected values.
- * @throws Exceptions::DimensionError If the slice count differs from tensor
- *         rank or shape/offset arithmetic overflows.
- * @throws Exceptions::IndexError If a dimension extent exceeds difference_type.
- * @throws std::bad_alloc If result or metadata allocation fails.
- * @complexity O(result.size() * tensor.rank()).
- */
 template<typename T>
 stratax::container::Tensor<T>
 slice(
