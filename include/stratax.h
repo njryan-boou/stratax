@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stratax/core/ArrayBase.hpp>
-#include <stratax/core/ArrayTraits.hpp>
+#include <stratax/core/DTypes/ArrayTraits.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/core/Config.hpp>
@@ -9,9 +9,9 @@
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
-#include <stratax/core/Types.hpp>
-#include <stratax/core/DTypeTraits.hpp>
-#include <stratax/core/Promotion.hpp>
+#include <stratax/core/DTypes/Types.hpp>
+#include <stratax/core/DTypes/DTypeTraits.hpp>
+#include <stratax/core/DTypes/Promotion.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/Slice.hpp>
 

@@ -6,7 +6,7 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/core/Types.hpp`
+Header: `include/stratax/core/DTypes/Types.hpp`
 
 ---
 
@@ -37,8 +37,10 @@ The types module is not responsible for:
 ## Relationships
 
 ```text
-stratax::core::dtype
-├── index aliases (index_t, ssize_t)
+stratax::core
+└── index aliases (index_t, ssize_t)
+
+stratax::dtype
 ├── boolean/integer aliases
 ├── floating aliases
 └── complex aliases
@@ -70,7 +72,8 @@ The following conditions are always true:
 Namespace:
 
 ```cpp
-namespace stratax::core::dtype { ... }
+namespace stratax::core { ... }
+namespace stratax::dtype { ... }
 ```
 
 ### Index aliases

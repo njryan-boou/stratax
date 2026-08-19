@@ -85,7 +85,7 @@ concept Integral =
 	!stratax::core::concept_detail::CharacterLike<T>;
 
 /**
- * @brief Identifies scalar types supported by Stratax containers and ops.
+ * @brief Identifies non-boolean scalar types supported by numerical operations.
  *
  * Numeric accepts Integral types, built-in floating-point types, and
  * `std::complex<float>`, `std::complex<double>`, or
@@ -99,21 +99,35 @@ concept Numeric =
 	std::floating_point<std::remove_cvref_t<T>> ||
 	stratax::core::concept_detail::SupportedComplex<T>;
 
+/**
+ * @brief Identifies element types supported by Stratax array containers.
+ *
+ * DType includes every Numeric type and additionally accepts `bool`. Character
+ * and code-unit types remain excluded. cv- and reference qualifiers are
+ * ignored.
+ *
+ * @tparam T Type to classify.
+ */
+template<typename T>
+concept DType =
+	Numeric<T> ||
+	stratax::core::concept_detail::BoolLike<T>;
+
 namespace stratax::container {
 
-/** @brief Forward declaration of the rank-one numeric array container. */
+/** @brief Forward declaration of the rank-one dtype array container. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Vector;
 
-/** @brief Forward declaration of the rank-two numeric array container. */
+/** @brief Forward declaration of the rank-two dtype array container. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Matrix;
 
-/** @brief Forward declaration of the arbitrary-rank numeric array container. */
+/** @brief Forward declaration of the arbitrary-rank dtype array container. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Tensor;
 
 } // namespace stratax::container
@@ -122,26 +136,26 @@ class Tensor;
  * @brief Trait identifying supported Stratax owning array specializations.
  *
  * The primary template is false. Specializations for Vector, Matrix, and
- * Tensor are true when their element type satisfies Numeric.
+ * Tensor are true when their element type satisfies DType.
  *
  * @tparam T Type to inspect. Use Array when cv/ref normalization is desired.
  */
 template<typename T>
 struct is_array : std::false_type {};
 
-/** @brief Marks numeric Vector specializations as Stratax arrays. */
+/** @brief Marks dtype-compatible Vector specializations as Stratax arrays. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 struct is_array<stratax::container::Vector<T>> : std::true_type {};
 
-/** @brief Marks numeric Matrix specializations as Stratax arrays. */
+/** @brief Marks dtype-compatible Matrix specializations as Stratax arrays. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 struct is_array<stratax::container::Matrix<T>> : std::true_type {};
 
-/** @brief Marks numeric Tensor specializations as Stratax arrays. */
+/** @brief Marks dtype-compatible Tensor specializations as Stratax arrays. */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 struct is_array<stratax::container::Tensor<T>> : std::true_type {};
 
 /**

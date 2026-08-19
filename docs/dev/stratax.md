@@ -46,7 +46,10 @@ The umbrella header is not responsible for:
 - `include/stratax/exceptions/Exceptions.hpp`
 - `include/stratax/core/Shape.hpp`
 - `include/stratax/core/Strides.hpp`
-- `include/stratax/core/Types.hpp`
+- `include/stratax/core/DTypes/ArrayTraits.hpp`
+- `include/stratax/core/DTypes/DTypeTraits.hpp`
+- `include/stratax/core/DTypes/Promotion.hpp`
+- `include/stratax/core/DTypes/Types.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 - `include/stratax/core/Slice.hpp`
 

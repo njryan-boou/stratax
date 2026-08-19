@@ -8,8 +8,8 @@
 #include <stratax/concepts/Numeric.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/ArrayTraits.hpp>
-#include <stratax/core/Promotion.hpp>
+#include <stratax/core/DTypes/ArrayTraits.hpp>
+#include <stratax/core/DTypes/Promotion.hpp>
 
 namespace stratax::core::broadcast_detail {
 

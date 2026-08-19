@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <type_traits>
 
-#include <stratax/core/DTypeTraits.hpp>
+#include <stratax/core/DTypes/DTypeTraits.hpp>
 
 namespace stratax::core {
 

@@ -9,7 +9,7 @@
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
-#include <stratax/core/DTypeTraits.hpp>
+#include <stratax/core/DTypes/DTypeTraits.hpp>
 
 namespace stratax::core {
 

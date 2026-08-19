@@ -22,7 +22,7 @@ namespace stratax::container {
  * with signed, Python-style indices. The flat container interface is inherited
  * from core::ArrayBase.
  *
- * @tparam T Numeric element type satisfying the Numeric concept.
+ * @tparam T Element type satisfying the DType concept.
  *
  * @par Invariants
  * - `size() == shape().elements()`.
@@ -45,7 +45,7 @@ namespace stratax::container {
  * @see core::Strides
  */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Tensor : public core::ArrayBase<T>
 {
 public:

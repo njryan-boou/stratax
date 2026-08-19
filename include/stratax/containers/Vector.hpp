@@ -19,7 +19,7 @@ namespace stratax::container {
  * layout whose sole stride is one. The class inherits flat checked and
  * unchecked access, iteration, metadata access, and modifiers from ArrayBase.
  *
- * @tparam T Numeric element type satisfying the Numeric concept.
+ * @tparam T Element type satisfying the DType concept.
  *
  * @par Invariants
  * - `rank() == 1`, including for an empty vector.
@@ -39,7 +39,7 @@ namespace stratax::container {
  * @see core::Shape
  */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Vector : public core::ArrayBase<T>
 {
 public:

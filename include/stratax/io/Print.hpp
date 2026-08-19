@@ -14,9 +14,15 @@ namespace detail {
 template<typename T>
 void print_value(std::ostream& os, const T& value)
 {
-	if constexpr (
-		std::same_as<std::remove_cvref_t<T>, dtype::int8> ||
-		std::same_as<std::remove_cvref_t<T>, dtype::uint8>)
+	using type = std::remove_cvref_t<T>;
+
+	if constexpr (std::same_as<type, dtype::bool_>)
+	{
+		os << (value ? "true" : "false");
+	}
+	else if constexpr (
+		std::same_as<type, dtype::int8> ||
+		std::same_as<type, dtype::uint8>)
 	{
 		os << static_cast<int>(value);
 	}

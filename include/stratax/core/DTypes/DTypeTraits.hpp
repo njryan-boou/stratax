@@ -6,7 +6,7 @@
 #include <string_view>
 #include <type_traits>
 
-#include <stratax/core/Types.hpp>
+#include <stratax/core/DTypes/Types.hpp>
 
 namespace stratax::core {
 

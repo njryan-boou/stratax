@@ -14,15 +14,15 @@ from stratax import Vector
 
 
 class TestTensorInterfaceTests:
-    def test_default_tensor_is_empty_rank_zero_tensor(self) -> None:
+    def test_default_tensor_is_empty_rank_one_tensor(self) -> None:
         tensor = Tensor()
 
         assert tensor.size == 0
-        assert tensor.rank == 0
+        assert tensor.rank == 1
         assert tensor.empty
         assert len(tensor) == 0
-        assert tensor.shape == Shape()
-        assert tensor.strides == []
+        assert tensor.shape == Shape([0])
+        assert tensor.strides == [1]
         assert tensor.tolist() == []
         assert list(tensor) == []
 
@@ -350,4 +350,3 @@ class TestTensorInterfaceTests:
 
         with pytest.raises(StrataxIndexError):
             _ = tensor[0, 0, 0]
-

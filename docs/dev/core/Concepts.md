@@ -1,6 +1,6 @@
 @page concepts Concepts
 
-# Numeric and Array Concepts {#dev_concepts}
+# Numeric, DType, and Array Concepts {#dev_concepts}
 
 Version: v0.2.0
 
@@ -19,6 +19,7 @@ containers and operations:
   types.
 - `Numeric<T>` accepts supported integral, floating-point, and complex
   scalars.
+- `DType<T>` accepts every `Numeric` type plus `bool` for array storage.
 - `is_array<T>` identifies exact owning Stratax container specializations.
 - `Array<T>` applies cv/ref normalization before using `is_array`.
 
@@ -34,6 +35,9 @@ concept Integral;
 
 template<typename T>
 concept Numeric;
+
+template<typename T>
+concept DType;
 
 template<typename T>
 struct is_array;
@@ -126,8 +130,8 @@ concept Numeric =
     stratax::core::concept_detail::SupportedComplex<T>;
 ```
 
-`Numeric` is the scalar constraint used by `Vector<T>`, `Matrix<T>`, and
-`Tensor<T>`.
+`Numeric` is the scalar constraint used by numerical algorithms and operators.
+Array containers use the broader `DType` concept described below.
 
 | Category | Accepted types |
 | -------- | -------------- |
@@ -152,21 +156,51 @@ promotion, precision, overflow, or runtime validation policy.
 
 ---
 
+## DType
+
+```cpp
+template<typename T>
+concept DType =
+    Numeric<T> ||
+    stratax::core::concept_detail::BoolLike<T>;
+```
+
+`DType` defines the element types accepted by `Vector<T>`, `Matrix<T>`, and
+`Tensor<T>`. It extends `Numeric` with `bool`, allowing logical arrays without
+classifying booleans as integers or enabling them for arithmetic-only APIs.
+Like the other concepts, it ignores cv/ref qualifiers.
+
+| Category | `DType` |
+| -------- | :-----: |
+| Types satisfying `Numeric` | Yes |
+| `bool` | Yes |
+| Character and code-unit types | No |
+| Strings, pointers, and arbitrary classes | No |
+
+```cpp
+static_assert(DType<bool>);
+static_assert(DType<const bool&>);
+static_assert(DType<double>);
+static_assert(!DType<char>);
+```
+
+---
+
 ## Container Forward Declarations
 
 ```cpp
 namespace stratax::container {
 
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Vector;
 
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Matrix;
 
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Tensor;
 
 }
@@ -190,7 +224,7 @@ The trait is specialized to derive from `std::true_type` for:
 - `stratax::container::Matrix<T>`
 - `stratax::container::Tensor<T>`
 
-where `T` satisfies `Numeric`.
+where `T` satisfies `DType`.
 
 `is_array` checks its argument exactly and does not remove qualifiers:
 
@@ -257,6 +291,7 @@ performing runtime checks.
 | --------- | -----------------: |
 | `Integral<T>` evaluation | O(0) |
 | `Numeric<T>` evaluation | O(0) |
+| `DType<T>` evaluation | O(0) |
 | `is_array<T>` evaluation | O(0) |
 | `Array<T>` evaluation | O(0) |
 
@@ -266,9 +301,11 @@ All results are compile-time constants.
 
 ## Design Notes
 
-Character and boolean exclusions prevent accidental use of textual or logical
-data in numerical APIs. The explicit complex whitelist keeps supported complex
-representations aligned with standard floating-point precision types.
+Character exclusions prevent accidental use of textual data as array storage.
+Boolean values are accepted through `DType` for logical arrays but remain
+excluded from `Numeric`, `Integral`, and arithmetic-only APIs. The explicit
+complex whitelist keeps supported representations aligned with standard
+floating-point precision types.
 
 `Array` deliberately recognizes only Stratax owning containers. This gives
 operators and algorithms a precise boundary and avoids accepting unrelated

@@ -2,7 +2,7 @@
 
 #include <concepts>
 
-#include <stratax/core/Types.hpp>
+#include <stratax/core/DTypes/Types.hpp>
 
 static_assert(std::same_as<stratax::core::index_t, std::size_t>);
 static_assert(std::same_as<stratax::core::ssize_t, std::ptrdiff_t>);

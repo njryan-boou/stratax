@@ -10,6 +10,7 @@ ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (cand
 sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import (  # noqa: E402
+    Matrix,
     Shape,
     Tensor,
     TypeError as StrataxTypeError,
@@ -45,15 +46,15 @@ class TestCreationInterfaceTests:
         assert b.shape == Shape([2])
         assert b.tolist() == [7.0, 7.0]
 
-    def test_identity_creates_square_tensor(self) -> None:
+    def test_identity_creates_square_matrix(self) -> None:
         eye = identity(3)
 
-        assert isinstance(eye, Tensor)
+        assert isinstance(eye, Matrix)
         assert eye.shape == Shape([3, 3])
         assert eye.tolist() == [
-            1.0, 0.0, 0.0,
-            0.0, 1.0, 0.0,
-            0.0, 0.0, 1.0,
+            [1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0],
         ]
 
     def test_creation_functions_validate_input_types(self) -> None:

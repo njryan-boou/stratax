@@ -19,7 +19,7 @@ namespace stratax::container {
  * order. It adds row and column metadata queries plus two-dimensional checked
  * and unchecked access while retaining the base class's flat container API.
  *
- * @tparam T Numeric element type satisfying the Numeric concept.
+ * @tparam T Element type satisfying the DType concept.
  *
  * @par Invariants
  * - `rank() == 2`, including when either dimension is zero.
@@ -42,7 +42,7 @@ namespace stratax::container {
  * @see core::Shape
  */
 template<typename T>
-requires Numeric<T>
+requires DType<T>
 class Matrix : public core::ArrayBase<T>
 {
 public:

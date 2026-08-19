@@ -3,7 +3,7 @@
 #include <limits>
 #include <type_traits>
 
-#include <stratax/core/DTypeTraits.hpp>
+#include <stratax/core/DTypes/DTypeTraits.hpp>
 
 using stratax::core::DTypeKind;
 using stratax::core::DTypeTraits;
