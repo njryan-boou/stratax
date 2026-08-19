@@ -47,7 +47,7 @@ reduction::* functions
 
 Depends on:
 
-- `include/stratax/concepts/Numeric.hpp` (Array concept)
+- `include/stratax/core/dtypes/Concepts.hpp` (Array concept)
 - `include/stratax/containers/Tensor.hpp`
 - `include/stratax/indexing/Slicing.hpp`
 - `<numeric>`, `<algorithm>`, `<cmath>`

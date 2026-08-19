@@ -147,9 +147,19 @@ TEST(BitwiseScalar, CommutativeScalarFormsMatch)
 {
 	const Vector<int> source{1, 2, 3};
 
-	EXPECT_TRUE((3 & source) == (source & 3));
-	EXPECT_TRUE((3 | source) == (source | 3));
-	EXPECT_TRUE((3 ^ source) == (source ^ 3));
+	const auto left_and = 3 & source;
+	const auto right_and = source & 3;
+	const auto left_or = 3 | source;
+	const auto right_or = source | 3;
+	const auto left_xor = 3 ^ source;
+	const auto right_xor = source ^ 3;
+
+	EXPECT_EQ(std::vector<int>(left_and.begin(), left_and.end()),
+		std::vector<int>(right_and.begin(), right_and.end()));
+	EXPECT_EQ(std::vector<int>(left_or.begin(), left_or.end()),
+		std::vector<int>(right_or.begin(), right_or.end()));
+	EXPECT_EQ(std::vector<int>(left_xor.begin(), left_xor.end()),
+		std::vector<int>(right_xor.begin(), right_xor.end()));
 }
 
 TEST(BitwiseCompoundArray, AllOperatorsReturnLeftReference)

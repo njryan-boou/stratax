@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <initializer_list>
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>

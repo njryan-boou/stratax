@@ -52,7 +52,7 @@ broadcasted_op(...)
 
 Depends on:
 
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/core/Shape.hpp`
 - `include/stratax/exceptions/Exceptions.hpp`
 

@@ -47,7 +47,7 @@ Bitwise operators
 
 Depends on:
 
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/core/validation/Validation.hpp`
 
 Used by:
@@ -284,6 +284,6 @@ Compound assignments delegate to non-compound operators to centralize shape vali
 
 ## See Also
 
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/ops/Arithmetic.hpp`
 - `include/stratax/ops/Comparison.hpp`

@@ -51,7 +51,7 @@ Arithmetic operators
 
 Depends on:
 
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/ops/Broadcasting.hpp`
 - `include/stratax/exceptions/Exceptions.hpp`
 
@@ -210,5 +210,5 @@ subtraction and division.
 ## See Also
 
 - @ref broadcasting "Broadcasting"
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/ops/Comparison.hpp`

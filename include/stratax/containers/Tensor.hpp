@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <vector>
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Shape.hpp>
 

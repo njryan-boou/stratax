@@ -4,7 +4,7 @@
 #include <limits>
 #include <type_traits>
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core::validation {

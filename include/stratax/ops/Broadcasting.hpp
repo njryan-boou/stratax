@@ -5,11 +5,11 @@
 #include <cstddef>
 #include <vector>
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/DTypes/ArrayTraits.hpp>
-#include <stratax/core/DTypes/Promotion.hpp>
+#include <stratax/core/dtypes/ArrayTraits.hpp>
+#include <stratax/core/dtypes/Promotion.hpp>
 
 namespace stratax::core::broadcast_detail {
 

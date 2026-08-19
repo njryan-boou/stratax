@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>

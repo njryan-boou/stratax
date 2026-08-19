@@ -1,17 +1,17 @@
 #pragma once
 
 #include <stratax/core/ArrayBase.hpp>
-#include <stratax/core/DTypes/ArrayTraits.hpp>
+#include <stratax/core/dtypes/ArrayTraits.hpp>
 #include <stratax/core/Buffer.hpp>
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/Config.hpp>
 #include <stratax/core/Iterator.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Strides.hpp>
-#include <stratax/core/DTypes/Types.hpp>
-#include <stratax/core/DTypes/DTypeTraits.hpp>
-#include <stratax/core/DTypes/Promotion.hpp>
+#include <stratax/core/dtypes/Types.hpp>
+#include <stratax/core/dtypes/DTypeTraits.hpp>
+#include <stratax/core/dtypes/Promotion.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/Slice.hpp>
 

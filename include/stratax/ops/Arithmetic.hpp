@@ -1,7 +1,7 @@
 // TODO: Define result-container promotion rules for mixed container kinds.
 #pragma once
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/ops/Broadcasting.hpp>
 

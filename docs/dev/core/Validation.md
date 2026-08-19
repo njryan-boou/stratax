@@ -48,7 +48,7 @@ Validation.hpp
 Depends on:
 
 - `include/stratax/exceptions/Exceptions.hpp`
-- `include/stratax/concepts/Numeric.hpp` (type/category checks)
+- `include/stratax/core/dtypes/Concepts.hpp` (type/category checks)
 
 Used by:
 

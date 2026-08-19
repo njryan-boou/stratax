@@ -47,7 +47,7 @@ creation::identity
 
 Depends on:
 
-- `include/stratax/concepts/Numeric.hpp`
+- `include/stratax/core/dtypes/Concepts.hpp`
 - `include/stratax/containers/Tensor.hpp`
 - `include/stratax/core/Shape.hpp`
 

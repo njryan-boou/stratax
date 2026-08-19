@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stratax/concepts/Numeric.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/ops/Broadcasting.hpp>
 
