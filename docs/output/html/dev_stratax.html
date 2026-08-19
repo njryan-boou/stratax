@@ -91,18 +91,18 @@ $(function(){initNavTree('dev_stratax.html','',''); });
   <div class="headertitle"><div class="title">stratax.h </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md719"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md731"></a>
 stratax.h</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
 <p>Header: include/stratax.h</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md721"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md733"></a>
 Overview</h2>
 <p><span class="tt">stratax.h</span> is the umbrella include for the C++ API surface.</p>
 <p>Including this header pulls in core metadata/types, containers, algorithms, operations, and I/O helpers so downstream code can use Stratax without manually including each component header.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md723"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md735"></a>
 Responsibilities</h2>
 <p>The umbrella header is responsible for:</p>
 <ul>
@@ -118,9 +118,9 @@ Responsibilities</h2>
 <li>Build or link configuration</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md725"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md737"></a>
 Aggregated Components</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md726"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md738"></a>
 Core Foundations</h3>
 <ul>
 <li><span class="tt"><a class="el" href="ArrayBase_8hpp_source.html">include/stratax/core/ArrayBase.hpp</a></span></li>
@@ -136,14 +136,14 @@ Core Foundations</h3>
 <li><span class="tt"><a class="el" href="Validation_8hpp_source.html">include/stratax/core/validation/Validation.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Slice_8hpp_source.html">include/stratax/core/Slice.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md727"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md739"></a>
 Containers</h3>
 <ul>
 <li><span class="tt"><a class="el" href="Matrix_8hpp_source.html">include/stratax/containers/Matrix.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Tensor_8hpp_source.html">include/stratax/containers/Tensor.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Vector_8hpp_source.html">include/stratax/containers/Vector.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md728"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md740"></a>
 Algorithms</h3>
 <ul>
 <li><span class="tt"><a class="el" href="Creation_8hpp_source.html">include/stratax/algorithms/Creation.hpp</a></span></li>
@@ -151,7 +151,7 @@ Algorithms</h3>
 <li><span class="tt"><a class="el" href="Reshape_8hpp_source.html">include/stratax/algorithms/Reshape.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Reductions_8hpp_source.html">include/stratax/algorithms/Reductions.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md729"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md741"></a>
 Ops</h3>
 <ul>
 <li><span class="tt"><a class="el" href="Comparison_8hpp_source.html">include/stratax/ops/Comparison.hpp</a></span></li>
@@ -160,13 +160,13 @@ Ops</h3>
 <li><span class="tt"><a class="el" href="Indexing_8hpp_source.html">include/stratax/indexing/Indexing.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Slicing_8hpp_source.html">include/stratax/indexing/Slicing.hpp</a></span></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md730"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md742"></a>
 I/O</h3>
 <ul>
 <li><span class="tt"><a class="el" href="Print_8hpp_source.html">include/stratax/io/Print.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md732"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md744"></a>
 Usage</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stratax.h&gt;</span></div>
 <div class="line"> </div>
@@ -177,18 +177,18 @@ Usage</h2>
 <div class="line">    (void)t;</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md734"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md746"></a>
 Design Notes</h2>
 <p>This header intentionally acts as a convenience aggregator. Component-level headers should still be preferred in translation units that need tighter include boundaries or reduced compile-time impact.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md736"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md748"></a>
 Future Improvements</h2>
 <ul>
 <li>Add policy guidance on when to prefer umbrella vs component includes</li>
 <li>Keep include ordering aligned with logical module groupings as APIs expand</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md738"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md750"></a>
 See Also</h2>
 <ul>
 <li><span class="tt">docs/dev/README.md</span></li>

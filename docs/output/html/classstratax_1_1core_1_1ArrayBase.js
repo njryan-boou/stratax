@@ -30,7 +30,6 @@ var classstratax_1_1core_1_1ArrayBase =
     [ "end", "classstratax_1_1core_1_1ArrayBase.html#a0faf277862fc20ada2a3a356bad08565", null ],
     [ "end", "classstratax_1_1core_1_1ArrayBase.html#aeef3203f24688eea06a60287866eaf09", null ],
     [ "fill", "classstratax_1_1core_1_1ArrayBase.html#a65ae64f3d0eb93fb64e7a48dedc4987b", null ],
-    [ "flat_offset", "classstratax_1_1core_1_1ArrayBase.html#a064ca70e3b889f17c64b70a5a84d3d2a", null ],
     [ "front", "classstratax_1_1core_1_1ArrayBase.html#ac2dfa3448b1d48e4a3f8ea5d00addbed", null ],
     [ "front", "classstratax_1_1core_1_1ArrayBase.html#aec96b3b17e1e4625be04b5a01ce65457", null ],
     [ "normalized_flat_offset", "classstratax_1_1core_1_1ArrayBase.html#a89ba93a8d581496676cb7b080bf04d28", null ],

@@ -28,7 +28,6 @@ public:
         : ArrayBase<T>(shape, std::move(buffer))
     {}
 
-    using ArrayBase<T>::flat_offset;
     using ArrayBase<T>::normalized_flat_offset;
 
     void swap(TestArray& other) noexcept
@@ -571,20 +570,4 @@ TEST(ArrayBaseIndexing, NormalizedFlatOffsetCustomMessages)
     } catch (const Exceptions::IndexError& error) {
         EXPECT_STREQ(error.what(), "custom component message");
     }
-}
-
-TEST(ArrayBaseIndexing, FlatOffset)
-{
-    const TestArray<int> array(Shape{2, 3, 4});
-    const std::array<std::size_t, 3> indices{1, 2, 3};
-
-    EXPECT_EQ(array.flat_offset(indices), 23);
-}
-
-TEST(ArrayBaseIndexing, FlatOffsetVector)
-{
-    const TestArray<int> array(Shape{2, 3, 4});
-    const std::vector<std::size_t> indices{1, 2, 3};
-
-    EXPECT_EQ(array.flat_offset(indices), 23);
 }

@@ -97,12 +97,12 @@ Indexing</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Indexing_8hpp_source.html">include/stratax/indexing/Indexing.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md556"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md555"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Indexing_8hpp_source.html">Indexing.hpp</a></span> provides core indexing helpers used by multidimensional containers.</p>
 <p>The <span class="tt">stratax::indexing::offset(...)</span> helper maps normalized indices to a row-major storage position using precomputed stride metadata. The <span class="tt">stratax::indexing::normalize_index(...)</span> helper resolves signed indexing into validated non-negative positions.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md558"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md557"></a>
 Responsibilities</h2>
 <p>The indexing module is responsible for:</p>
 <ul>
@@ -116,7 +116,7 @@ Responsibilities</h2>
 <li>Materializing slices/views</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md560"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md559"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">stratax::indexing::offset(strides, indices)</div>
 <div class="line">└── sum(indices[i] * strides[i])</div>
@@ -134,7 +134,7 @@ Relationships</h2>
 <li>Any row-major operation requiring flat addressing</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md562"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md561"></a>
 Invariants</h2>
 <p>Callers of <span class="tt">offset(...)</span> must maintain these preconditions:</p>
 <ul>
@@ -143,9 +143,9 @@ Invariants</h2>
 <li>Every multiplication and the final sum fit in <span class="tt">std::size_t</span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md564"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md563"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md565"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md564"></a>
 stratax::indexing::offset(...)</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
 <div class="line">std::size_t offset(</div>
@@ -163,7 +163,7 @@ stratax::indexing::offset(...)</h2>
 <li>O(r), where <span class="tt">r</span> is rank</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md567"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md566"></a>
 stratax::indexing::normalize_index(...)</h2>
 <div class="fragment"><div class="line">std::size_t normalize_index(std::ptrdiff_t index, std::size_t size);</div>
 </div><!-- fragment --><p>Normalizes signed indices where negative values count from the end.</p>
@@ -176,7 +176,7 @@ stratax::indexing::normalize_index(...)</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md569"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md568"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -187,7 +187,7 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone">Total <span class="tt">offset(...)</span>  </td><td class="markdownTableBodyRight">O(r)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md571"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md570"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a> shape{2, 3, 4};</div>
 <div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a> strides = shape.<a class="code hl_function" href="classstratax_1_1core_1_1Shape.html#a9c993ffa4b81d57a3cad03ae88371fc5">strides</a>();</div>
@@ -200,19 +200,19 @@ Examples</h2>
 <div class="line"><span class="comment">// i0 == 3</span></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Shape_html_a9c993ffa4b81d57a3cad03ae88371fc5"><div class="ttname"><a href="classstratax_1_1core_1_1Shape.html#a9c993ffa4b81d57a3cad03ae88371fc5">stratax::core::Shape::strides</a></div><div class="ttdeci">Shape strides() const</div><div class="ttdoc">Computes canonical row-major strides for this shape.</div><div class="ttdef"><b>Definition</b> <a href="Shape_8hpp_source.html#l00139">Shape.hpp:139</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md573"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md572"></a>
 Design Notes</h2>
 <p><span class="tt">offset(...)</span> is intentionally unchecked because its array-container callers already own synchronized shape and stride metadata. Checked signed indexing is handled separately before offset calculation.</p>
 <p>The API is generic over index containers to avoid forcing a project-specific index type.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md575"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md574"></a>
 Future Improvements</h2>
 <ul>
 <li>Add overloads for fixed-size index packs where rank is compile-time known.</li>
 <li>Add an optional checked overload for external callers.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md577"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md576"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="Tensor_8hpp_source.html">include/stratax/containers/Tensor.hpp</a></span></li>

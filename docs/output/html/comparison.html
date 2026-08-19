@@ -97,7 +97,7 @@ Comparison</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Comparison_8hpp_source.html">include/stratax/ops/Comparison.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md527"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md526"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Comparison_8hpp_source.html">Comparison.hpp</a></span> provides element-wise equality and ordering comparisons for Stratax arrays. Every comparison returns a newly allocated array whose dtype is <span class="tt">stratax::dtype::bool_</span>; it does not reduce the result to one Boolean value.</p>
 <p>The API supports all operand arrangements:</p>
@@ -108,7 +108,7 @@ Overview</h2>
 </ul>
 <p>Array-array comparisons follow Stratax broadcasting rules and may mix <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> operands. Array-scalar comparisons preserve the array operand's container type and shape.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md528"></a>
 Responsibilities</h2>
 <p>The comparison module is responsible for:</p>
 <ul>
@@ -127,7 +127,7 @@ Responsibilities</h2>
 <li>Ordering complex values</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md530"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Public named functions and operators</div>
 <div class="line">|-- comparison_detail::comparison_op(...)</div>
@@ -144,7 +144,7 @@ Relationships</h2>
 <li><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md533"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md532"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -158,9 +158,9 @@ Invariants</h2>
 <li>Ordering operations require both participating dtypes to satisfy <span class="tt"><a class="el" href="conceptOrdered.html">Ordered</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md535"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md534"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md536"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md535"></a>
 Named array-array comparisons</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt; <span class="keyword">auto</span> equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt; <span class="keyword">auto</span> not_equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
@@ -195,7 +195,7 @@ stratax::dtype::bool_&gt;</span>. Its shape is the common broadcasted shape.</p>
 <ul>
 <li>O(nr), where <span class="tt">n</span> is the result element count and <span class="tt">r</span> is the result rank</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md537"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md536"></a>
 Named array-scalar comparisons</h3>
 <p>Equality and inequality accept any <span class="tt"><a class="el" href="conceptDType.html">DType</a></span> scalar:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, DType Scalar&gt; <span class="keyword">auto</span> equal(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
@@ -214,7 +214,7 @@ stratax::dtype::bool_&gt;</span>. No broadcasting is needed because the scalar i
 <ul>
 <li>O(n), where <span class="tt">n</span> is the array element count</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md538"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md537"></a>
 Operators</h3>
 <p>All named comparisons have equivalent operator syntax for array-array, array-scalar, and scalar-array operands:</p>
 <div class="fragment"><div class="line">lhs == rhs;</div>
@@ -225,7 +225,7 @@ Operators</h3>
 <div class="line">lhs &gt;= rhs;</div>
 </div><!-- fragment --><p>The operators return the same Boolean array type as their corresponding named function. In particular, <span class="tt">lhs == rhs</span> is an element-wise operation and cannot be used directly as a single Boolean condition.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md540"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md539"></a>
 Internal Helpers</h2>
 <p>Implementation helpers live in <span class="tt">stratax::core::comparison_detail</span>:</p>
 <ul>
@@ -235,7 +235,7 @@ Internal Helpers</h2>
 </ul>
 <p>These helpers are implementation details and are not part of the public API.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md542"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md541"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -251,9 +251,9 @@ Complexity Summary</h2>
 </table>
 <p>For broadcasted operations, <span class="tt">n</span> is the result size and <span class="tt">r</span> is the result rank. For scalar operations, <span class="tt">n</span> is the array size.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md544"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md543"></a>
 Examples</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md545"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md544"></a>
 Array-array broadcasting</h3>
 <div class="fragment"><div class="line"><span class="keyword">const</span> Matrix&lt;int&gt; column{{1}, {3}};</div>
 <div class="line"><span class="keyword">const</span> Matrix&lt;int&gt; row{{2, 3, 4}};</div>
@@ -261,7 +261,7 @@ Array-array broadcasting</h3>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = column &lt; row;</div>
 <div class="line"><span class="comment">// shape: (2, 3)</span></div>
 <div class="line"><span class="comment">// values: {{true, true, true}, {false, false, true}}</span></div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md546"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md545"></a>
 Scalar comparisons</h3>
 <div class="fragment"><div class="line"><span class="keyword">const</span> Vector&lt;int&gt; values{1, 2, 3};</div>
 <div class="line"> </div>
@@ -270,7 +270,7 @@ Scalar comparisons</h3>
 <div class="line"> </div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> two_is_greater = 2 &gt; values;</div>
 <div class="line"><span class="comment">// {true, false, false}</span></div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md547"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md546"></a>
 Mixed containers and dtypes</h3>
 <div class="fragment"><div class="line"><span class="keyword">const</span> Vector&lt;stratax::dtype::int16&gt; vector{1, 2, 3};</div>
 <div class="line"><span class="keyword">const</span> Matrix&lt;stratax::dtype::float32&gt; matrix{{1.0F}, {2.5F}};</div>
@@ -278,25 +278,25 @@ Mixed containers and dtypes</h3>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = vector &lt; matrix;</div>
 <div class="line"><span class="comment">// Result type: Tensor&lt;stratax::dtype::bool_&gt;</span></div>
 <div class="line"><span class="comment">// Result shape: (2, 3)</span></div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md548"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md547"></a>
 Whole-result checks</h3>
 <p>Because comparisons return arrays, callers that need one Boolean value should explicitly reduce or inspect the mask rather than treating it as a <span class="tt">bool</span>:</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = lhs == rhs;</div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> first_elements_match = mask[0];</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md550"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md549"></a>
 Design Notes</h2>
 <p>Equality remains exact for floating-point and complex values. Approximate comparison should be exposed as a separate, explicit algorithm so tolerance selection is visible at the call site.</p>
 <p>Complex dtypes support <span class="tt">equal</span>, <span class="tt">not_equal</span>, <span class="tt">==</span>, and <span class="tt">!=</span>. They do not satisfy <span class="tt"><a class="el" href="conceptOrdered.html">Ordered</a></span>, so <span class="tt">&lt;</span>, <span class="tt">&lt;=</span>, <span class="tt">&gt;</span>, and <span class="tt">&gt;=</span> are rejected at compile time.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md552"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md551"></a>
 Future Improvements</h2>
 <ul>
 <li>Add explicit tolerance-based floating-point comparison algorithms</li>
 <li>Add public <span class="tt">all</span> and <span class="tt">any</span> Boolean reductions for whole-mask queries</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md554"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md553"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></li>

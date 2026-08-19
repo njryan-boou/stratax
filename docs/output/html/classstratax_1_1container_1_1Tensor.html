@@ -268,6 +268,7 @@ Friends</h2></td></tr>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classstratax_1_1core_1_1ArrayBase"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_classstratax_1_1core_1_1ArrayBase')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase&lt; T &gt;</a></td></tr>
 <tr class="memitem:ac16ab61b6d2c0dbcc1d6d602892f8b0b inherit pub_static_methods_classstratax_1_1core_1_1ArrayBase" id="r_ac16ab61b6d2c0dbcc1d6d602892f8b0b"><td class="memItemLeft" align="right" valign="top">static constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#ac16ab61b6d2c0dbcc1d6d602892f8b0b">dtype</a> () noexcept</td></tr>
+<tr class="memdesc:ac16ab61b6d2c0dbcc1d6d602892f8b0b inherit pub_static_methods_classstratax_1_1core_1_1ArrayBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the canonical name of the stored element dtype.  <br /></td></tr>
 <tr class="inherit_header pro_methods_classstratax_1_1core_1_1ArrayBase"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classstratax_1_1core_1_1ArrayBase')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase&lt; T &gt;</a></td></tr>
 <tr class="memitem:a31a29c09b07d59cb4613de222c5f7d7a inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a31a29c09b07d59cb4613de222c5f7d7a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a31a29c09b07d59cb4613de222c5f7d7a">ArrayBase</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;<a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a4b5be5dc6488844eb77055e42fc92685">shape</a>)</td></tr>
 <tr class="memdesc:a31a29c09b07d59cb4613de222c5f7d7a inherit pro_methods_classstratax_1_1core_1_1ArrayBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs value-initialized storage for <code class="param">shape</code>.  <br /></td></tr>
@@ -278,9 +279,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a89ba93a8d581496676cb7b080bf04d28 inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a89ba93a8d581496676cb7b080bf04d28"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
 <tr class="memitem:a89ba93a8d581496676cb7b080bf04d28 inherit pro_methods_classstratax_1_1core_1_1ArrayBase template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a89ba93a8d581496676cb7b080bf04d28">normalized_flat_offset</a> (const IndexContainer &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index <a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6">rank</a> must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
 <tr class="memdesc:a89ba93a8d581496676cb7b080bf04d28 inherit pro_methods_classstratax_1_1core_1_1ArrayBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts checked signed multidimensional indices to a flat offset.  <br /></td></tr>
-<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a inherit pro_methods_classstratax_1_1core_1_1ArrayBase" id="r_a064ca70e3b889f17c64b70a5a84d3d2a"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
-<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a inherit pro_methods_classstratax_1_1core_1_1ArrayBase template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a064ca70e3b889f17c64b70a5a84d3d2a">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
-<tr class="memdesc:a064ca70e3b889f17c64b70a5a84d3d2a inherit pro_methods_classstratax_1_1core_1_1ArrayBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes an unchecked row-major offset from normalized indices.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -307,15 +305,15 @@ class stratax::container::Tensor&lt; T &gt;</div><p>Arbitrary-rank owning array 
 <div class="line">tensor(1, 2, 3) = 7.0; <span class="comment">// unchecked multidimensional access</span></div>
 <div class="line">tensor.<a class="code hl_function" href="#a0335ca283d862b0ba67b82a24e89cb45">at</a>(-1, -1, -1); <span class="comment">// 7.0; checked negative indices</span></div>
 <div class="line">tensor.at(-1);         <span class="comment">// checked flat access inherited from ArrayBase</span></div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Arbitrary-rank owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00048">Tensor.hpp:49</a></div></div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html_a0335ca283d862b0ba67b82a24e89cb45"><div class="ttname"><a href="#a0335ca283d862b0ba67b82a24e89cb45">stratax::container::Tensor::at</a></div><div class="ttdeci">reference at(difference_type first, Rest... rest)</div><div class="ttdoc">Returns an element using checked variadic indices.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00192">Tensor.hpp:192</a></div></div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Arbitrary-rank owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00049">Tensor.hpp:50</a></div></div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html_a0335ca283d862b0ba67b82a24e89cb45"><div class="ttname"><a href="#a0335ca283d862b0ba67b82a24e89cb45">stratax::container::Tensor::at</a></div><div class="ttdeci">reference at(difference_type first, Rest... rest)</div><div class="ttdoc">Returns an element using checked variadic indices.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00191">Tensor.hpp:191</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores the dimensions of a multidimensional array.</div><div class="ttdef"><b>Definition</b> <a href="Shape_8hpp_source.html#l00032">Shape.hpp:33</a></div></div>
 </div><!-- fragment --></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classstratax_1_1core_1_1ArrayBase.html" title="Shared owning storage and layout base for Stratax array containers.">core::ArrayBase</a> </dd>
 <dd>
 <a class="el" href="classstratax_1_1core_1_1Shape.html" title="Stores the dimensions of a multidimensional array.">core::Shape</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00048">48</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00049">49</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="ae2d8ece1ac5b0b73a75b94ec86139ddd" name="ae2d8ece1ac5b0b73a75b94ec86139ddd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2d8ece1ac5b0b73a75b94ec86139ddd">&#9670;&#160;</a></span>const_iterator</h2>
@@ -333,7 +331,7 @@ template&lt;typename T&gt; </div>
 
 <p>Read-only contiguous random-access iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00068">68</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00069">69</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +351,7 @@ template&lt;typename T&gt; </div>
 
 <p>Read-only element pointer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00064">64</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00065">65</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -373,7 +371,7 @@ template&lt;typename T&gt; </div>
 
 <p>Read-only element reference type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00060">60</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00061">61</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -393,7 +391,7 @@ template&lt;typename T&gt; </div>
 
 <p>Read-only reverse iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00072">72</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00073">73</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +411,7 @@ template&lt;typename T&gt; </div>
 
 <p>Signed type used for checked indices and iterator distances. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00056">56</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00057">57</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -433,7 +431,7 @@ template&lt;typename T&gt; </div>
 
 <p>Mutable contiguous random-access iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00066">66</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00067">67</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -453,7 +451,7 @@ template&lt;typename T&gt; </div>
 
 <p>Mutable element pointer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00062">62</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00063">63</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -473,7 +471,7 @@ template&lt;typename T&gt; </div>
 
 <p>Mutable element reference type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00058">58</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00059">59</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -493,7 +491,7 @@ template&lt;typename T&gt; </div>
 
 <p>Mutable reverse iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00070">70</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00071">71</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -513,7 +511,7 @@ template&lt;typename T&gt; </div>
 
 <p>Unsigned type used for element counts and normalized indices. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00054">54</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00055">55</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -533,7 +531,7 @@ template&lt;typename T&gt; </div>
 
 <p>Stored element type inherited from ArrayBase. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00052">52</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00053">53</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -566,7 +564,7 @@ template&lt;typename T&gt; </div>
 <p>Constructs an empty rank-one tensor with shape <span class="tt">{0}</span>. </p>
 <dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00088">88</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00087">87</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -612,7 +610,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(shape.elements() + shape.rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00098">98</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00097">97</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -663,7 +661,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(shape.elements() + shape.rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00111">111</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00110">110</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -708,7 +706,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00240">240</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00239">239</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -752,7 +750,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00255">255</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00254">254</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -811,7 +809,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00192">192</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00191">191</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -870,7 +868,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00220">220</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00219">219</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -909,7 +907,7 @@ template&lt;typename T&gt; </div>
 <dl class="section pre"><dt>Precondition</dt><dd><span class="tt">indices.size() == <a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> and every component is within its corresponding dimension. </dd></dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00166">166</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00165">165</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -948,7 +946,7 @@ template&lt;typename T&gt; </div>
 <dl class="section pre"><dt>Precondition</dt><dd><span class="tt">indices.size() == <a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> and every component is within its corresponding dimension. </dd></dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00175">175</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00174">174</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1001,7 +999,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 <dl class="section pre"><dt>Precondition</dt><dd>Exactly <span class="tt"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> components are supplied and every component is non-negative and within its corresponding dimension. </dd></dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00127">127</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00126">126</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1054,7 +1052,7 @@ requires ((std::is_integral_v&lt;Rest&gt;) &amp;&amp; ...)</div>
 <dl class="section pre"><dt>Precondition</dt><dd>Exactly <span class="tt"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> components are supplied and every component is non-negative and within its corresponding dimension. </dd></dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00149">149</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00148">148</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1092,7 +1090,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00268">268</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00267">267</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>
@@ -1136,7 +1134,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00276">276</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tensor_8hpp_source.html#l00275">275</a> of file <a class="el" href="Tensor_8hpp_source.html">Tensor.hpp</a>.</p>
 
 </div>
 </div>

@@ -206,6 +206,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac16ab61b6d2c0dbcc1d6d602892f8b0b" id="r_ac16ab61b6d2c0dbcc1d6d602892f8b0b"><td class="memItemLeft" align="right" valign="top">static constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac16ab61b6d2c0dbcc1d6d602892f8b0b">dtype</a> () noexcept</td></tr>
+<tr class="memdesc:ac16ab61b6d2c0dbcc1d6d602892f8b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the canonical name of the stored element dtype.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -218,9 +219,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a89ba93a8d581496676cb7b080bf04d28" id="r_a89ba93a8d581496676cb7b080bf04d28"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
 <tr class="memitem:a89ba93a8d581496676cb7b080bf04d28 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89ba93a8d581496676cb7b080bf04d28">normalized_flat_offset</a> (const IndexContainer &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index <a class="el" href="#a900562149be7a10feb7d5a00273f4af6">rank</a> must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
 <tr class="memdesc:a89ba93a8d581496676cb7b080bf04d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts checked signed multidimensional indices to a flat offset.  <br /></td></tr>
-<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a" id="r_a064ca70e3b889f17c64b70a5a84d3d2a"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
-<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a064ca70e3b889f17c64b70a5a84d3d2a">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
-<tr class="memdesc:a064ca70e3b889f17c64b70a5a84d3d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes an unchecked row-major offset from normalized indices.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt;<br />
@@ -243,7 +241,7 @@ class stratax::core::ArrayBase&lt; T &gt;</div><p>Shared owning storage and layo
 <dd>
 <a class="el" href="classstratax_1_1core_1_1Shape.html" title="Stores the dimensions of a multidimensional array.">Shape</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00038">38</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00037">37</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="acab182ac88c5a5c1f7e1d740f38b8a5e" name="acab182ac88c5a5c1f7e1d740f38b8a5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acab182ac88c5a5c1f7e1d740f38b8a5e">&#9670;&#160;</a></span>const_iterator</h2>
@@ -261,7 +259,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Read-only contiguous random-access iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00058">58</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00057">57</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -281,7 +279,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Read-only element pointer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00054">54</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00053">53</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +299,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Read-only element reference type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00050">50</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00049">49</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -321,7 +319,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Read-only reverse iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00062">62</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00061">61</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -341,7 +339,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Signed type used for checked indices and iterator distances. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00046">46</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00045">45</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -361,7 +359,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Mutable contiguous random-access iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00056">56</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00055">55</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +379,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Mutable element pointer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00052">52</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00051">51</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -401,7 +399,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Mutable element reference type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00048">48</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00047">47</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -421,7 +419,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Mutable reverse iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00060">60</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00059">59</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -441,7 +439,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Unsigned type used for element counts and indices. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00044">44</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00043">43</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -461,7 +459,7 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 
 <p>Stored element type. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00042">42</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00041">41</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1063,6 +1061,9 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns the canonical name of the stored element dtype. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00064">64</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
@@ -1204,54 +1205,6 @@ template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <dl class="section user"><dt>Complexity</dt><dd>O(size()). </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00158">158</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a064ca70e3b889f17c64b70a5a84d3d2a" name="a064ca70e3b889f17c64b70a5a84d3d2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a064ca70e3b889f17c64b70a5a84d3d2a">&#9670;&#160;</a></span>flat_offset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
-<div class="memtemplate">
-template&lt;typename IndexContainer&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::flat_offset </td>
-          <td>(</td>
-          <td class="paramtype">const IndexContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Computes an unchecked row-major offset from normalized indices. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">IndexContainer</td><td>Iterable container of non-negative indices. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">indices</td><td>One already-normalized index per logical dimension. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Row-major flat element offset. </dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">indices.size() == <a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> and every component is within its corresponding dimension. Violating these requirements may produce an invalid offset or undefined behavior. </dd></dl>
-<dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00305">305</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>

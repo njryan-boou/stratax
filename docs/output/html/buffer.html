@@ -97,7 +97,7 @@ Buffer</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Buffer_8hpp_source.html">include/stratax/core/Buffer.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md284"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md283"></a>
 Overview</h2>
 <p><span class="tt">Buffer&lt;T, Alignment&gt;</span> is a fixed-size owner of aligned, contiguous element storage. It allocates raw storage, constructs every element, and destroys the elements before releasing the allocation. Its size cannot change after construction, although its elements remain mutable.</p>
 <p>The default alignment is <span class="tt">config::default_alignment</span>. A custom alignment must be a power of two and at least <span class="tt">alignof(T)</span>.</p>
@@ -114,7 +114,7 @@ Overview</h2>
 <div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html_a998d2357e401a207220f6352fc47992d"><div class="ttname"><a href="classstratax_1_1core_1_1Buffer.html#a998d2357e401a207220f6352fc47992d">stratax::core::Buffer::begin</a></div><div class="ttdeci">iterator begin() noexcept</div><div class="ttdoc">Returns a mutable iterator to the first element.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00422">Buffer.hpp:422</a></div></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html_aed54f15ea2bdc1a4459fcb274ce150b1"><div class="ttname"><a href="classstratax_1_1core_1_1Buffer.html#aed54f15ea2bdc1a4459fcb274ce150b1">stratax::core::Buffer::end</a></div><div class="ttdeci">iterator end() noexcept</div><div class="ttdoc">Returns a mutable iterator one past the final element.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00440">Buffer.hpp:440</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md286"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md285"></a>
 Responsibilities</h2>
 <p><span class="tt">Buffer</span> is responsible for:</p>
 <ul>
@@ -127,7 +127,7 @@ Responsibilities</h2>
 </ul>
 <p>It is not responsible for resizing, multidimensional metadata, checked <span class="tt">operator[]</span> access, or numerical operations.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md288"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md287"></a>
 Template Parameters</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, std::<span class="keywordtype">size_t</span> Alignment = config::default_alignment&gt;</div>
 <div class="line"><span class="keyword">class </span>Buffer;</div>
@@ -141,7 +141,7 @@ Template Parameters</h2>
 </table>
 <p>Invalid alignment values fail the class's compile-time assertions.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md290"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md289"></a>
 Invariants and Ownership</h2>
 <ul>
 <li><span class="tt">data()</span> is <span class="tt">nullptr</span> exactly when the buffer is empty.</li>
@@ -154,7 +154,7 @@ Invariants and Ownership</h2>
 </ul>
 <p>Pointers, references, and iterators remain valid until the owning buffer is assigned to, moved from, swapped, or destroyed. After <span class="tt">swap</span>, they still refer to the same elements, but those elements are owned by the other buffer.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md292"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md291"></a>
 Public Types</h2>
 <div class="fragment"><div class="line"><span class="keyword">using </span>value_type             = T;</div>
 <div class="line"><span class="keyword">using </span>size_type              = std::size_t;</div>
@@ -169,14 +169,14 @@ Public Types</h2>
 <div class="line"><span class="keyword">using </span>const_reverse_iterator = std::reverse_iterator&lt;const_iterator&gt;;</div>
 </div><!-- fragment --><p>The pointer-based iterator types are contiguous random-access iterators and can be passed directly to standard-library algorithms.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md293"></a>
 Construction and Lifetime</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md295"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md294"></a>
 Default construction</h3>
 <div class="fragment"><div class="line">Buffer() noexcept;</div>
 </div><!-- fragment --><p>Constructs an empty buffer with <span class="tt">size() == 0</span> and <span class="tt">data() == nullptr</span>.</p>
 <p>Complexity: O(1).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md295"></a>
 Size construction</h3>
 <div class="fragment"><div class="line"><span class="keyword">explicit</span> Buffer(size_type size);</div>
 </div><!-- fragment --><p>Constructs <span class="tt">size</span> elements from <span class="tt">value_type{}</span>. For scalar types, this yields zero-initialized values. If element construction fails, constructed elements and the allocation are cleaned up before the exception is propagated.</p>
@@ -187,56 +187,56 @@ Size construction</h3>
 <li><span class="tt">std::bad_alloc</span> if allocation fails</li>
 <li>Any exception thrown while constructing an element</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md296"></a>
 Fill construction</h3>
 <div class="fragment"><div class="line">Buffer(size_type size, const_reference value);</div>
 </div><!-- fragment --><p>Copy-constructs <span class="tt">size</span> elements from <span class="tt">value</span>, with cleanup if a copy fails.</p>
 <p>Complexity: O(size).</p>
 <p>Throws the allocation exceptions above or an exception from <span class="tt">T</span>'s copy constructor.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md297"></a>
 Initializer-list construction</h3>
 <div class="fragment"><div class="line">Buffer(std::initializer_list&lt;value_type&gt; list);</div>
 </div><!-- fragment --><p>Copy-constructs elements in list order.</p>
 <p>Complexity: O(list.size()).</p>
 <p>Throws the allocation exceptions above or an exception from <span class="tt">T</span>'s copy constructor.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md299"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md298"></a>
 Copy construction</h3>
 <div class="fragment"><div class="line">Buffer(<span class="keyword">const</span> Buffer&amp; other);</div>
 </div><!-- fragment --><p>Creates an independent allocation containing copies of <span class="tt">other</span>'s elements. Partially constructed state is cleaned up if copying fails.</p>
 <p>Complexity: O(other.size()).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md299"></a>
 Move construction</h3>
 <div class="fragment"><div class="line">Buffer(Buffer&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Transfers the allocation without moving individual elements. <span class="tt">other</span> becomes empty. Existing pointers and iterators into <span class="tt">other</span> continue to refer to the same elements, now owned by the destination.</p>
 <p>Complexity: O(1).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md301"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md300"></a>
 Destruction</h3>
 <div class="fragment"><div class="line">~Buffer();</div>
 </div><!-- fragment --><p>Destroys every element and releases the aligned allocation.</p>
 <p>Complexity: O(size()).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md303"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md302"></a>
 Assignment</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md303"></a>
 Copy assignment</h3>
 <div class="fragment"><div class="line">Buffer&amp; operator=(<span class="keyword">const</span> Buffer&amp; other);</div>
 </div><!-- fragment --><p>Uses copy-and-swap to provide the strong exception guarantee. If allocation or copying fails, the destination is unchanged. Successful assignment invalidates references, pointers, and iterators into the destination's old storage.</p>
 <p>Complexity: O(size() + other.size()).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md305"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md304"></a>
 Move assignment</h3>
 <div class="fragment"><div class="line">Buffer&amp; operator=(Buffer&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Destroys the destination's current elements, releases its allocation, and then transfers ownership from <span class="tt">other</span>. The source becomes empty. Self-move assignment has no effect.</p>
 <p>Complexity: O(size()) for destruction of the old elements; ownership transfer is O(1).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md307"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md306"></a>
 Element Access</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md307"></a>
 Unchecked access</h3>
 <div class="fragment"><div class="line">reference operator[](size_type index) <span class="keyword">noexcept</span>;</div>
 <div class="line">const_reference operator[](size_type index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Returns the element at <span class="tt">index</span> without bounds checking. Behavior is undefined unless <span class="tt">index &lt; size()</span>.</p>
 <p>Complexity: O(1).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md309"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md308"></a>
 Front and back</h3>
 <div class="fragment"><div class="line">reference front();</div>
 <div class="line">const_reference front() <span class="keyword">const</span>;</div>
@@ -244,14 +244,14 @@ Front and back</h3>
 <div class="line">const_reference back() <span class="keyword">const</span>;</div>
 </div><!-- fragment --><p>Returns the first or final element. Each function throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> when the buffer is empty.</p>
 <p>Complexity: O(1).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md310"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md309"></a>
 Data access</h3>
 <div class="fragment"><div class="line">[[nodiscard]] pointer data() noexcept;</div>
 <div class="line">[[nodiscard]] const_pointer data() const noexcept;</div>
 </div><!-- fragment --><p>Returns the first element's address, or <span class="tt">nullptr</span> for an empty buffer. For a non-empty buffer, the live element range is <span class="tt">[data(), data() + size())</span>.</p>
 <p>Complexity: O(1).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md312"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md311"></a>
 Iteration</h2>
 <p><span class="tt">begin</span>, <span class="tt">end</span>, <span class="tt">cbegin</span>, and <span class="tt">cend</span> expose the contiguous forward range. <span class="tt">rbegin</span>, <span class="tt">rend</span>, <span class="tt">crbegin</span>, and <span class="tt">crend</span> expose the same elements in reverse order. Every iterator accessor is O(1).</p>
 <p>For an empty buffer:</p>
@@ -260,7 +260,7 @@ Iteration</h2>
 <div class="line">buffer.rbegin() == buffer.rend();</div>
 </div><!-- fragment --><p>Traversing the complete range is O(size()).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md314"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md313"></a>
 Capacity and Allocation Metadata</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> size_type alignment() noexcept;</div>
 <div class="line">[[nodiscard]] static constexpr size_type max_size() noexcept;</div>
@@ -274,20 +274,20 @@ Capacity and Allocation Metadata</h2>
 </ul>
 <p>Each operation is O(1).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md316"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md315"></a>
 Modifiers</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md317"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md316"></a>
 fill</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(const_reference value);</div>
 </div><!-- fragment --><p>Copy-assigns <span class="tt">value</span> to each element from first to last. If an assignment throws, earlier elements retain their new values and later elements retain their previous values.</p>
 <p>Complexity: O(size()).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md318"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md317"></a>
 swap</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Buffer&amp; other) <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Exchanges the allocation and element count without moving or copying individual elements. Pointers, references, and iterators remain valid but now refer to elements owned by the other buffer.</p>
 <p>Complexity: O(1).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md320"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md319"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -316,12 +316,12 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyNone">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md322"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md321"></a>
 Design Notes</h2>
 <p>The class deliberately has no capacity, resize, insertion, or erasure API. This keeps allocation ownership simple and makes it suitable as the stable storage layer beneath higher-level array metadata and containers.</p>
 <p>Aligned allocation uses C++ aligned <span class="tt">operator new</span> and the matching aligned <span class="tt">operator delete</span>. Element construction is separate from allocation so cleanup can be performed correctly when a constructor throws.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md324"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md323"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="arraybase.html">ArrayBase</a></li>

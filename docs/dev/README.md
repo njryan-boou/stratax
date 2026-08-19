@@ -51,9 +51,11 @@ This index links the Stratax developer documentation organized by subsystem.
 ## Core Ops
 
 - @ref arithmetic "Arithmetic"
+- @ref bitwise "Bitwise"
 - @ref broadcasting "Broadcasting"
 - @ref comparison "Comparison"
 - @ref indexing "Indexing"
+- @ref math "Math"
 - @ref ops_slice "Slice Ops"
 
 ---

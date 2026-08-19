@@ -15,5 +15,6 @@ var concepts =
     [ "DType", "conceptDType.html", null ],
     [ "Integral", "conceptIntegral.html", null ],
     [ "Numeric", "conceptNumeric.html", null ],
-    [ "Ordered", "conceptOrdered.html", null ]
+    [ "Ordered", "conceptOrdered.html", null ],
+    [ "RealNumeric", "conceptRealNumeric.html", null ]
 ];

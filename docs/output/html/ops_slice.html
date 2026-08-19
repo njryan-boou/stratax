@@ -97,7 +97,7 @@ Slice Operations</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Slicing_8hpp_source.html">include/stratax/indexing/Slicing.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md579"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md590"></a>
 Overview</h2>
 <p>The slicing API copies strided selections from <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> containers into new owning containers. It resolves raw <span class="tt"><a class="el" href="classstratax_1_1core_1_1Slice.html" title="Describes a signed, strided half-open index range.">stratax::core::Slice</a></span> bounds against concrete dimension extents, supports positive and negative steps, clamps bounds, and preserves traversal order.</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> stratax::Vector&lt;int&gt; source{0, 1, 2, 3, 4, 5};</div>
@@ -108,7 +108,7 @@ Overview</h2>
 <div class="line"><span class="comment">// result contains {1, 3, 5}.</span></div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Slice_html"><div class="ttname"><a href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a></div><div class="ttdoc">Describes a signed, strided half-open index range.</div><div class="ttdef"><b>Definition</b> <a href="Slice_8hpp_source.html#l00030">Slice.hpp:31</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md581"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md592"></a>
 Responsibilities</h2>
 <p>The slicing module is responsible for:</p>
 <ul>
@@ -121,13 +121,13 @@ Responsibilities</h2>
 </ul>
 <p>It does not provide non-owning views, omitted-bound syntax, broadcasting, or advanced gather indexing.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md583"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md594"></a>
 Type Aliases</h2>
 <div class="fragment"><div class="line"><span class="keyword">using </span>size_type = std::size_t;</div>
 <div class="line"><span class="keyword">using </span>difference_type = std::ptrdiff_t;</div>
 </div><!-- fragment --><p><span class="tt">size_type</span> represents extents, output counts, and flat offsets. <span class="tt">difference_type</span> represents normalized signed positions and steps.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md585"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md596"></a>
 Slice Normalization</h2>
 <p>The internal <span class="tt">detail::normalize_slice</span> helper converts one raw Slice into:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>ResolvedSlice</div>
@@ -147,7 +147,7 @@ Slice Normalization</h2>
 </ul>
 <p>For example, <span class="tt">Slice{-1, -1, -1}</span> selects a complete dimension in reverse order.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md587"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md598"></a>
 Vector Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;T&gt;</a> slice(</div>
@@ -166,7 +166,7 @@ Vector Slicing</h2>
 </ul>
 <p>Complexity: O(k), where <span class="tt">k</span> is the result size.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md589"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md600"></a>
 Matrix Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix&lt;T&gt;</a> slice(</div>
@@ -191,13 +191,13 @@ Matrix Slicing</h2>
 </ul>
 <p>Complexity: O(result.rows() * result.cols()).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md591"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md602"></a>
 Variadic Tensor Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Slices&gt;</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> slice(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a>&amp; tensor,</div>
 <div class="line">    Slices... slices);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Arbitrary-rank owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00048">Tensor.hpp:49</a></div></div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Arbitrary-rank owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00049">Tensor.hpp:50</a></div></div>
 </div><!-- fragment --><p>Every variadic argument must be exactly <span class="tt">core::Slice</span>, enforced with a compile-time assertion. Exactly one Slice must be supplied per tensor dimension.</p>
 <p>Each dimension is normalized independently. Its selected count becomes the corresponding output dimension, and selected values are copied into the result in row-major order.</p>
 <div class="fragment"><div class="line">Tensor&lt;int&gt; tensor(Shape{2, 3, 4});</div>
@@ -220,7 +220,7 @@ Variadic Tensor Slicing</h2>
 <p>Complexity: O(result.size() * tensor.rank()).</p>
 <p>An empty selected dimension returns an empty Tensor with the fully resolved shape. A rank-zero Tensor can be sliced by supplying no Slice arguments.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md593"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md604"></a>
 Vector-based Tensor Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> slice(</div>
@@ -245,12 +245,12 @@ Vector-based Tensor Slicing</h2>
 <p>Complexity: O(result.size() * tensor.rank()).</p>
 <p>For equivalent ranges, this overload produces the same shape and values as the variadic overload.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md595"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md606"></a>
 Ownership and Empty Results</h2>
 <p>Every overload returns an independent owning container. Modifying a result does not modify the source, and result storage does not alias source storage.</p>
 <p>Out-of-range bounds are normally clamped rather than rejected. Directionally empty ranges and zero-sized source dimensions produce correctly shaped empty containers without entering the element-copy loops.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md597"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md608"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -266,12 +266,12 @@ Complexity Summary</h2>
 </table>
 <p>All overloads allocate storage proportional to the number of selected elements, plus output shape/stride metadata.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md599"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md610"></a>
 Design Notes</h2>
 <p>Slicing currently materializes owning copies. This keeps lifetime and mutation semantics straightforward but makes even contiguous selections O(n).</p>
 <p>The two Tensor overloads intentionally expose different rank-error types in the current implementation: the variadic overload throws <span class="tt">IndexError</span>, while the vector-based overload uses <span class="tt">require_rank</span> and throws <span class="tt">DimensionError</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md601"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md612"></a>
 Future Improvements</h2>
 <ul>
 <li>Deduplicate the two Tensor copy implementations</li>
@@ -281,7 +281,7 @@ Future Improvements</h2>
 <li>Add non-owning strided views</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md603"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md614"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="slice.html">Slice</a></li>

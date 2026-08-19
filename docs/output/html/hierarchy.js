@@ -1,5 +1,7 @@
 var hierarchy =
 [
+    [ "stratax::core::math_detail::AbsResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1AbsResult.html", null ],
+    [ "stratax::core::math_detail::AbsResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1AbsResult_3_01T_01_4.html", null ],
     [ "stratax::core::ArrayBase&lt; T &gt;", "classstratax_1_1core_1_1ArrayBase.html", [
       [ "stratax::container::Matrix< To >", "classstratax_1_1container_1_1Matrix.html", null ],
       [ "stratax::container::Tensor< To >", "classstratax_1_1container_1_1Tensor.html", null ],
@@ -8,6 +10,7 @@ var hierarchy =
       [ "stratax::container::Tensor< T >", "classstratax_1_1container_1_1Tensor.html", null ],
       [ "stratax::container::Vector< T >", "classstratax_1_1container_1_1Vector.html", null ]
     ] ],
+    [ "stratax::core::ArrayView&lt; T &gt;", "classstratax_1_1core_1_1ArrayView.html", null ],
     [ "stratax::core::Buffer&lt; T, Alignment &gt;", "classstratax_1_1core_1_1Buffer.html", null ],
     [ "stratax::core::ComplexComponent&lt; T &gt;", "structstratax_1_1core_1_1ComplexComponent.html", null ],
     [ "stratax::core::ComplexFromReal&lt; T &gt;", "structstratax_1_1core_1_1ComplexFromReal.html", null ],
@@ -21,6 +24,9 @@ var hierarchy =
       [ "is_array< stratax::container::Vector< T > >", "structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html", null ],
       [ "is_array< T >", "structis__array.html", null ]
     ] ],
+    [ "stratax::core::math_detail::MathResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1MathResult.html", null ],
+    [ "stratax::core::math_detail::MathResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1MathResult_3_01T_01_4.html", null ],
+    [ "stratax::core::math_detail::PowResult&lt; L, R &gt;", "structstratax_1_1core_1_1math__detail_1_1PowResult.html", null ],
     [ "stratax::core::Promote&lt; L, R &gt;", "structstratax_1_1core_1_1Promote.html", null ],
     [ "stratax::core::Promote&lt; L, R &gt;", "structstratax_1_1core_1_1Promote_3_01L_00_01R_01_4.html", null ],
     [ "stratax::core::Promote&lt; T, T &gt;", "structstratax_1_1core_1_1Promote_3_01T_00_01T_01_4.html", null ],

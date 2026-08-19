@@ -21,6 +21,13 @@ var annotated_dup =
         [ "dtype_detail", null, [
           [ "DTypeTraitsImpl", "structstratax_1_1core_1_1dtype__detail_1_1DTypeTraitsImpl.html", null ]
         ] ],
+        [ "math_detail", null, [
+          [ "MathResult", "structstratax_1_1core_1_1math__detail_1_1MathResult.html", "structstratax_1_1core_1_1math__detail_1_1MathResult" ],
+          [ "MathResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1MathResult_3_01T_01_4.html", "structstratax_1_1core_1_1math__detail_1_1MathResult_3_01T_01_4" ],
+          [ "PowResult", "structstratax_1_1core_1_1math__detail_1_1PowResult.html", "structstratax_1_1core_1_1math__detail_1_1PowResult" ],
+          [ "AbsResult", "structstratax_1_1core_1_1math__detail_1_1AbsResult.html", "structstratax_1_1core_1_1math__detail_1_1AbsResult" ],
+          [ "AbsResult&lt; T &gt;", "structstratax_1_1core_1_1math__detail_1_1AbsResult_3_01T_01_4.html", "structstratax_1_1core_1_1math__detail_1_1AbsResult_3_01T_01_4" ]
+        ] ],
         [ "ArrayBase", "classstratax_1_1core_1_1ArrayBase.html", "classstratax_1_1core_1_1ArrayBase" ],
         [ "RebindArray", "structstratax_1_1core_1_1RebindArray.html", null ],
         [ "RebindArray&lt; container::Vector&lt; From &gt;, To &gt;", "structstratax_1_1core_1_1RebindArray_3_01container_1_1Vector_3_01From_01_4_00_01To_01_4.html", null ],
@@ -36,6 +43,7 @@ var annotated_dup =
         [ "PromoteArray&lt; container::Tensor&lt; LValue &gt;, container::Vector&lt; RValue &gt;, T &gt;", "structstratax_1_1core_1_1PromoteArray_3_01container_1_1Tensor_3_01LValue_01_4_00_01container_1_1e6562f0125c4593f7ac35b0c1e0218d8.html", null ],
         [ "PromoteArray&lt; container::Matrix&lt; LValue &gt;, container::Tensor&lt; RValue &gt;, T &gt;", "structstratax_1_1core_1_1PromoteArray_3_01container_1_1Matrix_3_01LValue_01_4_00_01container_1_168b7003ec4dc722ce869f8209d0f16c9.html", null ],
         [ "PromoteArray&lt; container::Tensor&lt; LValue &gt;, container::Matrix&lt; RValue &gt;, T &gt;", "structstratax_1_1core_1_1PromoteArray_3_01container_1_1Tensor_3_01LValue_01_4_00_01container_1_120bea2fe2177cc500ab35e766ac50108.html", null ],
+        [ "ArrayView", "classstratax_1_1core_1_1ArrayView.html", null ],
         [ "Buffer", "classstratax_1_1core_1_1Buffer.html", "classstratax_1_1core_1_1Buffer" ],
         [ "DTypeTraits", "structstratax_1_1core_1_1DTypeTraits.html", null ],
         [ "ComplexComponent", "structstratax_1_1core_1_1ComplexComponent.html", null ],

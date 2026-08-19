@@ -19,7 +19,8 @@ statistics modules are currently reserved API areas.
 - Reshape, flatten, slicing, and container conversion helpers
 - Tensor creation helpers such as `zeros`, `ones`, `full`, and `identity`
 - Axis reductions with optional `keepdims` and negative-axis support in the Python API
-- Stream printing for vectors, matrices, tensors, shapes, and strides
+- Element-wise roots, exponentials, logarithms, trigonometry, rounding, and binary math
+- Stream printing for vectors, matrices, tensors, and shapes
 - Python bindings for `Shape`, `Vector`, `Matrix`, and `Tensor`
 - Python free functions for conversions and tensor creation helpers
 - Doxygen API documentation

@@ -6,6 +6,7 @@
 #include <stratax.h>
 
 using namespace stratax::core;
+using namespace stratax::container;
 
 TEST(ArrayViewConstructor, PreservesMetadata)
 {
@@ -82,4 +83,58 @@ TEST(ArrayViewOwnership, ReferencesExternalStorage)
 	values[0] = 10;
 
 	EXPECT_EQ(view.data()[0], 10);
+}
+
+TEST(ArrayViewIndexing, UsesStoredStrides)
+{
+	int values[]{1, 2, 3, 4, 5, 6};
+	const ArrayView<int> view(values, Shape{3, 2}, Shape{1, 3});
+
+	EXPECT_EQ(view(0, 0), 1);
+	EXPECT_EQ(view(0, 1), 4);
+	EXPECT_EQ(view(1, 0), 2);
+	EXPECT_EQ(view(2, 1), 6);
+}
+
+TEST(ArrayViewIndexing, ProvidesMutableAccess)
+{
+	int values[]{1, 2, 3, 4, 5, 6};
+	ArrayView<int> view(values, Shape{3, 2}, Shape{1, 3});
+
+	view(1, 1) = 40;
+
+	EXPECT_EQ(values[4], 40);
+}
+
+TEST(ArrayViewIndexing, ProvidesConstAccess)
+{
+	int values[]{1, 2, 3, 4};
+	const ArrayView<int> view(values, Shape{2, 2}, Shape{2, 1});
+
+	static_assert(std::same_as<decltype(view(0, 0)), const int&>);
+	EXPECT_EQ(view(1, 0), 3);
+}
+
+TEST(ArrayView, ShiftedView)
+{
+    Matrix<int> matrix{
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    ArrayView<int> view{
+        matrix.data() + 1,
+        Shape{2, 2},
+        Shape{3, 1}
+    };
+
+    EXPECT_EQ(view(0, 0), 2);
+    EXPECT_EQ(view(0, 1), 3);
+    EXPECT_EQ(view(1, 0), 5);
+    EXPECT_EQ(view(1, 1), 6);
+
+    view(1, 0) = 50;
+
+    EXPECT_EQ(matrix(1, 1), 50);
 }

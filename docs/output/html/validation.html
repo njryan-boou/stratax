@@ -97,12 +97,12 @@ Validation</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Validation_8hpp_source.html">include/stratax/core/validation/Validation.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Validation_8hpp_source.html">Validation.hpp</a></span> is the aggregation entry point for Stratax runtime validation helpers.</p>
 <p>It re-exports shape, dimension, index, and type checks implemented in dedicated headers under <span class="tt">include/stratax/core/validation/</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
 Responsibilities</h2>
 <p>The validation module is responsible for:</p>
 <ul>
@@ -118,7 +118,7 @@ Responsibilities</h2>
 <li>Error logging/transport layers</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md692"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Validation.hpp</div>
 <div class="line">├── DimensionValidation.hpp</div>
@@ -137,7 +137,7 @@ Relationships</h2>
 <li>Algorithms and bindings</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md694"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -153,16 +153,16 @@ Invariants</h2>
 <li><span class="tt">require_rank(object, ...)</span> returns the original reference on success.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md696"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md685"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md697"></a>
 Aggregation Header</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stratax/core/validation/Validation.hpp&gt;</span></div>
 </div><!-- fragment --><p>This file is intentionally an umbrella include with no additional function definitions.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md687"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md699"></a>
 Re-exported Helpers</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md700"></a>
 Dimension helpers</h3>
 <div class="fragment"><div class="line">std::size_t nonnegative_size(std::ptrdiff_t value, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line"><span class="keywordtype">void</span> require_rank(std::size_t actual, std::size_t expected, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
@@ -172,13 +172,13 @@ Dimension helpers</h3>
 <div class="line"> </div>
 <div class="line">std::size_t checked_multiply(std::size_t lhs, std::size_t rhs, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line">std::size_t checked_add(std::size_t lhs, std::size_t rhs, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md689"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md701"></a>
 Index helpers</h3>
 <div class="fragment"><div class="line">std::size_t nonnegative_index(std::ptrdiff_t value, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line">std::size_t normalize_index(std::ptrdiff_t value, std::size_t size, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line"><span class="keywordtype">void</span> require_index(std::size_t index, std::size_t size, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line"><span class="keywordtype">void</span> require_at_most(std::size_t value, std::size_t upper, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md690"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md702"></a>
 Shape helpers</h3>
 <div class="fragment"><div class="line">std::size_t nonnegative_shape_dimension(std::ptrdiff_t value, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line">std::size_t positive_shape_dimension(std::ptrdiff_t value, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
@@ -191,7 +191,7 @@ Shape helpers</h3>
 <div class="line"><span class="keywordtype">void</span> require_same_shape(<span class="keyword">const</span> Lhs&amp; lhs, <span class="keyword">const</span> Rhs&amp; rhs, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> require_equal_size(std::size_t lhs, std::size_t rhs, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md691"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md703"></a>
 Type helpers</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Actual, <span class="keyword">typename</span> Expected&gt;</div>
 <div class="line"><span class="keywordtype">void</span> require_type(<span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
@@ -202,7 +202,7 @@ Type helpers</h3>
 <div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Lhs, <span class="keyword">typename</span> Rhs&gt;</div>
 <div class="line"><span class="keywordtype">void</span> require_same_value_type(<span class="keyword">const</span> Lhs&amp; lhs, <span class="keyword">const</span> Rhs&amp; rhs, <span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md693"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md705"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -218,7 +218,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">r</span> is rank (number of dimensions).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md695"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md707"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> i = stratax::core::validation::normalize_index(</div>
 <div class="line">    user_index,</div>
@@ -230,18 +230,18 @@ Examples</h2>
 <div class="line">    rhs,</div>
 <div class="line">    <span class="stringliteral">&quot;Operands must have the same shape.&quot;</span>);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md697"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md709"></a>
 Design Notes</h2>
 <p>Validation helpers are header-only and allocation-free so callers can compose checks without introducing runtime infrastructure dependencies.</p>
 <p>Centralizing these checks keeps error category behavior consistent across containers, ops, and algorithms.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md699"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md711"></a>
 Future Improvements</h2>
 <ul>
 <li>Add optional diagnostic helpers that build richer messages in debug builds.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md701"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md713"></a>
 See Also</h2>
 <ul>
 <li><span class="tt"><a class="el" href="DimensionValidation_8hpp_source.html">include/stratax/core/validation/DimensionValidation.hpp</a></span></li>

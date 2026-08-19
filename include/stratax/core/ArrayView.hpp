@@ -1,8 +1,11 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
+#include <type_traits>
 
 #include <stratax/core/Shape.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::core {
 
@@ -58,6 +61,30 @@ public:
     {
         return data_;
     }
+
+	template<typename... Rest>
+	requires ((std::is_integral_v<Rest>) && ...)
+	reference operator()(size_type first, Rest... rest)
+	{
+		const std::array<size_type, sizeof...(Rest) + 1> indices{
+			first,
+			static_cast<size_type>(rest)...
+		};
+
+		return data_[indexing::offset(strides_, indices)];
+	}
+
+	template<typename... Rest>
+	requires ((std::is_integral_v<Rest>) && ...)
+	const_reference operator()(size_type first, Rest... rest) const
+	{
+		const std::array<size_type, sizeof...(Rest) + 1> indices{
+			first,
+			static_cast<size_type>(rest)...
+		};
+
+		return data_[indexing::offset(strides_, indices)];
+	}
 
 private:
     pointer data_;

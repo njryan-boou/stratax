@@ -10,6 +10,7 @@
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Shape.hpp>
+#include <stratax/indexing/Indexing.hpp>
 
 namespace stratax::container {
 
@@ -72,8 +73,6 @@ public:
 	using const_reverse_iterator = typename core::ArrayBase<T>::const_reverse_iterator;
 
 protected:
-	/** @brief Exposes ArrayBase's unchecked multidimensional offset helper. */
-	using core::ArrayBase<T>::flat_offset;
 	/** @brief Exposes ArrayBase's checked multidimensional offset helper. */
 	using core::ArrayBase<T>::normalized_flat_offset;
 
@@ -131,7 +130,7 @@ public:
 			static_cast<size_type>(rest)...
 		};
 
-		return (*this)[flat_offset(indices)];
+		return (*this)[indexing::offset(this->strides(), indices)];
 	}
 
 	/**
@@ -153,7 +152,7 @@ public:
 			static_cast<size_type>(rest)...
 		};
 
-		return (*this)[flat_offset(indices)];
+		return (*this)[indexing::offset(this->strides(), indices)];
 	}
 
 	/**
@@ -163,7 +162,7 @@ public:
 	 *      corresponding dimension.
 	 * @complexity O(rank()).
 	 */
-	reference operator()(const std::vector<size_type>& indices) {return (*this)[flat_offset(indices)];}
+	reference operator()(const std::vector<size_type>& indices) {return (*this)[indexing::offset(this->strides(), indices)];}
 
 	/**
 	 * @brief Returns an element using unchecked vector-based indices.
@@ -172,7 +171,7 @@ public:
 	 *      corresponding dimension.
 	 * @complexity O(rank()).
 	 */
-	const_reference operator()(const std::vector<size_type>& indices) const {return (*this)[flat_offset(indices)];}
+	const_reference operator()(const std::vector<size_type>& indices) const {return (*this)[indexing::offset(this->strides(), indices)];}
 
 	/**
 	 * @brief Returns an element using checked variadic indices.

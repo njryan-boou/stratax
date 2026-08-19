@@ -284,22 +284,6 @@ that message replaces the lower-level normalization message.
 
 Complexity: O(rank()).
 
-### flat_offset
-
-```cpp
-template<typename IndexContainer>
-size_type flat_offset(const IndexContainer& indices) const;
-```
-
-Computes an unchecked row-major offset. The container must be iterable and
-must contain exactly `rank()` already-normalized, in-range indices.
-
-Violating the rank requirement may advance past the stride range and cause
-undefined behavior. Out-of-range components can produce an invalid flat
-offset.
-
-Complexity: O(rank()).
-
 ---
 
 ## Copy and Move Semantics
@@ -325,7 +309,7 @@ Concrete containers inherit these operations unless they define their own.
 | `swap()` | O(1) |
 | Shape-based construction | O(elements + rank) |
 | Buffer-adopting construction | O(rank) |
-| Checked/unchecked multidimensional offset | O(rank) |
+| Checked multidimensional offset | O(rank) |
 | Copy construction | O(size + rank) |
 | Move construction | O(1) |
 
@@ -337,9 +321,9 @@ Keeping the common flat interface in one base class gives all owning arrays the
 same storage and iterator semantics. Container-specific classes stay small and
 focus on shape restrictions and multidimensional access.
 
-The checked and unchecked offset helpers are intentionally separate. Public
-`at()` implementations use normalized checking, while `operator()` paths can
-use `flat_offset()` when their contract already requires valid indices.
+Public `at()` implementations use `normalized_flat_offset()` for checked,
+Python-style multidimensional indexing. Unchecked container indexing calls
+`stratax::indexing::offset()` directly with the container's stride metadata.
 
 ---
 

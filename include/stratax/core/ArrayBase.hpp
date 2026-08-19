@@ -6,7 +6,6 @@
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
 #include <stratax/core/dtypes/Concepts.hpp>
@@ -61,6 +60,7 @@ public:
 	/** @brief Read-only reverse iterator type. */
 	using const_reverse_iterator = typename Buffer<value_type>::const_reverse_iterator;
 
+	/** @brief Returns the canonical name of the stored element dtype. @complexity O(1). */
 	[[nodiscard]] static constexpr std::string_view dtype() noexcept
 	{
 		return stratax::core::DTypeTraits<value_type>::name;
@@ -288,23 +288,6 @@ protected:
 		}
 
 		return offset;
-	}
-
-	/**
-	 * @brief Computes an unchecked row-major offset from normalized indices.
-	 *
-	 * @tparam IndexContainer Iterable container of non-negative indices.
-	 * @param indices One already-normalized index per logical dimension.
-	 * @return Row-major flat element offset.
-	 * @pre `indices.size() == rank()` and every component is within its
-	 *      corresponding dimension. Violating these requirements may produce an
-	 *      invalid offset or undefined behavior.
-	 * @complexity O(rank()).
-	 */
-	template<typename IndexContainer>
-	size_type flat_offset(const IndexContainer& indices) const
-	{
-		return indexing::offset(strides_, indices);
 	}
 
 private:

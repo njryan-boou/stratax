@@ -195,6 +195,21 @@ dimension is not empty because it still has nonzero rank.
 
 Complexity: O(1).
 
+### strides
+
+```cpp
+[[nodiscard]] Shape strides() const;
+```
+
+Computes canonical row-major strides and returns them as another `Shape`. The
+last stride is one, and every earlier stride is the product of dimensions to
+its right. A rank-zero shape produces a rank-zero stride shape.
+
+Throws `Exceptions::DimensionError` when a stride product cannot be represented
+by `std::size_t`, and `std::bad_alloc` if result storage cannot be allocated.
+
+Complexity: O(rank()).
+
 ### elements
 
 ```cpp
@@ -337,6 +352,7 @@ Complexity: O(shape.rank()).
 | Move assignment | O(old rank) |
 | Destruction | O(n) |
 | `elements()` | O(n) |
+| `strides()` | O(n) |
 | `rank()`, `empty()`, and individual access | O(1) |
 | Iterator creation | O(1) |
 | Full traversal or comparison | O(n) |

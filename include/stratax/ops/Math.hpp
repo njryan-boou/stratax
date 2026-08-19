@@ -11,8 +11,12 @@
 
 namespace stratax::core::math_detail {
 
-// implementation machinery
-
+/**
+ * @brief Applies a unary callable to every element of an array.
+ * @return Owning array with the input container and requested result dtype.
+ * @invariant The result preserves the input shape and element order.
+ * @internal
+ */
 template<Array A, DType Result, typename Op>
 auto unary_op(const A& arr, Op op)
 {
@@ -29,15 +33,19 @@ auto unary_op(const A& arr, Op op)
     return result;
 }
 
+/** @brief Maps a non-integral input dtype to the same result dtype. @internal */
 template<typename T>
 struct MathResult
 {
+	/** @brief Result dtype for a standard unary math operation. */
     using type = std::remove_cvref_t<T>;
 };
 
+/** @brief Maps every supported integral dtype to float64. @internal */
 template<Integral T>
 struct MathResult<T>
 {
+	/** @brief Floating-point result dtype used for integral input. */
     using type = dtype::float64;
 };
 
@@ -45,6 +53,12 @@ template<typename T>
 using math_result_t =
     typename MathResult<std::remove_cvref_t<T>>::type;
 
+/**
+ * @brief Applies a unary math callable using the standard result dtype.
+ * @return Owning array with the input container, shape, and inferred dtype.
+ * @invariant Integral input is promoted to float64; other dtypes are preserved.
+ * @internal
+ */
 template<Array A, typename Op>
 auto standard_math_op(const A& arr, Op op)
 {
@@ -54,14 +68,17 @@ auto standard_math_op(const A& arr, Op op)
     return unary_op<A, result_value_type>(arr, op);
 }
 
+/** @brief Determines the common result dtype for a binary math operation. @internal */
 template<typename L, typename R>
 struct PowResult
 {
+	/** @brief Dtype obtained from the ordinary Stratax promotion rules. */
     using promoted_type =
         promote_t<
             std::remove_cvref_t<L>,
             std::remove_cvref_t<R>>;
 
+	/** @brief Promoted dtype, with integral-only results changed to float64. */
     using type = std::conditional_t<
         Integral<promoted_type>,
         dtype::float64,
@@ -72,12 +89,15 @@ template<typename L, typename R>
 using pow_result_t =
     typename PowResult<L, R>::type;
 
+/** @brief Preserves the dtype of a real absolute-value operation. @internal */
 template<typename T>
 struct AbsResult
 {
+	/** @brief Absolute-value result dtype. */
     using type = std::remove_cvref_t<T>;
 };
 
+/** @brief Maps a complex dtype to its real component dtype. @internal */
 template<typename T>
 requires (
     DTypeTraits<std::remove_cvref_t<T>>::kind ==
@@ -85,6 +105,7 @@ requires (
 )
 struct AbsResult<T>
 {
+	/** @brief Real magnitude dtype corresponding to the complex input. */
     using type =
         complex_component_t<std::remove_cvref_t<T>>;
 };
@@ -97,6 +118,7 @@ using abs_result_t =
 
 namespace stratax::core {
 
+/** @brief Computes the element-wise principal square root. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto sqrt(const A& arr)
@@ -108,6 +130,7 @@ auto sqrt(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise real cube root. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto cbrt(const A& arr)
@@ -119,6 +142,7 @@ auto cbrt(const A& arr)
         });
 }
 
+/** @brief Computes e raised to each element. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto exp(const A& arr)
@@ -130,6 +154,7 @@ auto exp(const A& arr)
         });
 }
 
+/** @brief Computes 2 raised to each element. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto exp2(const A& arr)
@@ -141,6 +166,7 @@ auto exp2(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise natural logarithm. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto log(const A& arr)
@@ -152,6 +178,7 @@ auto log(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise base-2 logarithm. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto log2(const A& arr)
@@ -163,6 +190,7 @@ auto log2(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise base-10 logarithm. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto log10(const A& arr)
@@ -174,6 +202,7 @@ auto log10(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise sine in radians. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto sin(const A& arr)
@@ -185,6 +214,7 @@ auto sin(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise cosine in radians. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto cos(const A& arr)
@@ -196,6 +226,7 @@ auto cos(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise tangent in radians. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto tan(const A& arr)
@@ -207,6 +238,7 @@ auto tan(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse sine. @return Shape-preserving owning array in radians. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto asin(const A& arr)
@@ -218,6 +250,7 @@ auto asin(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse cosine. @return Shape-preserving owning array in radians. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto acos(const A& arr)
@@ -229,6 +262,7 @@ auto acos(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse tangent. @return Shape-preserving owning array in radians. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto atan(const A& arr)
@@ -240,6 +274,7 @@ auto atan(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise hyperbolic sine. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto sinh(const A& arr)
@@ -251,6 +286,7 @@ auto sinh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise hyperbolic cosine. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto cosh(const A& arr)
@@ -262,6 +298,7 @@ auto cosh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise hyperbolic tangent. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto tanh(const A& arr)
@@ -273,6 +310,7 @@ auto tanh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse hyperbolic sine. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto asinh(const A& arr)
@@ -284,6 +322,7 @@ auto asinh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse hyperbolic cosine. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto acosh(const A& arr)
@@ -295,6 +334,7 @@ auto acosh(const A& arr)
         });
 }
 
+/** @brief Computes the element-wise inverse hyperbolic tangent. @return Shape-preserving owning array. @complexity O(arr.size()). */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto atanh(const A& arr)
@@ -306,6 +346,11 @@ auto atanh(const A& arr)
         });
 }
 
+/**
+ * @brief Computes the absolute value or complex magnitude of each element.
+ * @return Shape-preserving array; complex input returns its component dtype.
+ * @complexity O(arr.size()).
+ */
 template<Array A>
 requires Numeric<typename A::value_type>
 auto abs(const A& arr)
@@ -322,6 +367,7 @@ auto abs(const A& arr)
         });
 }
 
+/** @brief Rounds each element downward. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
 template<Array A>
 requires RealNumeric<typename A::value_type>
 auto floor(const A& arr)
@@ -336,6 +382,7 @@ auto floor(const A& arr)
         });
 }
 
+/** @brief Rounds each element upward. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
 template<Array A>
 requires RealNumeric<typename A::value_type>
 auto ceil(const A& arr)
@@ -350,6 +397,7 @@ auto ceil(const A& arr)
         });
 }
 
+/** @brief Rounds each element toward zero. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
 template<Array A>
 requires RealNumeric<typename A::value_type>
 auto trunc(const A& arr)
@@ -364,6 +412,7 @@ auto trunc(const A& arr)
         });
 }
 
+/** @brief Rounds each element to the nearest integer value. @return Shape-preserving array with the input dtype. @complexity O(arr.size()). */
 template<Array A>
 requires RealNumeric<typename A::value_type>
 auto round(const A& arr)
@@ -378,6 +427,12 @@ auto round(const A& arr)
         });
 }
 
+/**
+ * @brief Raises each broadcasted left element to its corresponding right power.
+ * @return Promoted owning array with the common broadcasted shape.
+ * @throws Exceptions::BroadcastError If the shapes are incompatible.
+ * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ */
 template<Array L, Array R>
 auto pow(const L& lhs, const R& rhs)
 {
@@ -395,6 +450,12 @@ auto pow(const L& lhs, const R& rhs)
         });
 }
 
+/**
+ * @brief Computes the two-argument arctangent of each broadcasted element pair.
+ * @return Promoted owning array with the common broadcasted shape.
+ * @throws Exceptions::BroadcastError If the shapes are incompatible.
+ * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ */
 template<Array L, Array R>
 auto atan2(const L& lhs, const R& rhs)
 {
@@ -412,6 +473,7 @@ auto atan2(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Computes element-wise hypotenuses after broadcasting. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto hypot(const L& lhs, const R& rhs)
 {
@@ -429,6 +491,7 @@ auto hypot(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Computes element-wise floating-point remainders after broadcasting. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto fmod(const L& lhs, const R& rhs)
 {
@@ -446,6 +509,7 @@ auto fmod(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Computes element-wise IEEE remainders after broadcasting. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto remainder(const L& lhs, const R& rhs)
 {
@@ -463,6 +527,7 @@ auto remainder(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Copies each broadcasted right sign onto the corresponding left magnitude. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto copysign(const L& lhs, const R& rhs)
 {
@@ -480,6 +545,7 @@ auto copysign(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Selects the element-wise floating-point maximum after broadcasting. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto fmax(const L& lhs, const R& rhs)
 {
@@ -497,6 +563,7 @@ auto fmax(const L& lhs, const R& rhs)
         });
 }
 
+/** @brief Selects the element-wise floating-point minimum after broadcasting. @return Promoted array with the broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
 template<Array L, Array R>
 auto fmin(const L& lhs, const R& rhs)
 {

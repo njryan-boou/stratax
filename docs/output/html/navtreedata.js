@@ -25,15 +25,15 @@
 var NAVTREE =
 [
   [ "Stratax", "index.html", [
-    [ "Features", "index.html#autotoc_md857", null ],
-    [ "Quick Links", "index.html#autotoc_md858", null ],
-    [ "Core Components", "index.html#autotoc_md859", [
-      [ "Data Structures", "index.html#autotoc_md860", null ],
-      [ "Operations", "index.html#autotoc_md861", null ],
-      [ "Validation", "index.html#autotoc_md862", null ]
+    [ "Features", "index.html#autotoc_md869", null ],
+    [ "Quick Links", "index.html#autotoc_md870", null ],
+    [ "Core Components", "index.html#autotoc_md871", [
+      [ "Data Structures", "index.html#autotoc_md872", null ],
+      [ "Operations", "index.html#autotoc_md873", null ],
+      [ "Validation", "index.html#autotoc_md874", null ]
     ] ],
-    [ "Documentation Structure", "index.html#autotoc_md863", null ],
-    [ "Links", "index.html#autotoc_md864", null ],
+    [ "Documentation Structure", "index.html#autotoc_md875", null ],
+    [ "Links", "index.html#autotoc_md876", null ],
     [ "\"_core Extension Module\"", "dev_module.html", [
       [ "_core Extension Module", "dev_module.html#autotoc_md2", [
         [ "Overview", "dev_module.html#autotoc_md4", null ],
@@ -259,379 +259,389 @@ var NAVTREE =
           [ "Adopted storage", "arraybase.html#autotoc_md270", null ]
         ] ],
         [ "Protected Indexing Helpers", "arraybase.html#autotoc_md272", [
-          [ "normalized_flat_offset", "arraybase.html#autotoc_md273", null ],
-          [ "flat_offset", "arraybase.html#autotoc_md274", null ]
+          [ "normalized_flat_offset", "arraybase.html#autotoc_md273", null ]
         ] ],
-        [ "Copy and Move Semantics", "arraybase.html#autotoc_md276", null ],
-        [ "Complexity Summary", "arraybase.html#autotoc_md278", null ],
-        [ "Design Notes", "arraybase.html#autotoc_md280", null ],
-        [ "See Also", "arraybase.html#autotoc_md282", null ]
+        [ "Copy and Move Semantics", "arraybase.html#autotoc_md275", null ],
+        [ "Complexity Summary", "arraybase.html#autotoc_md277", null ],
+        [ "Design Notes", "arraybase.html#autotoc_md279", null ],
+        [ "See Also", "arraybase.html#autotoc_md281", null ]
       ] ]
     ] ],
     [ "Buffer", "buffer.html", [
       [ "Buffer", "buffer.html#dev_buffer", [
-        [ "Overview", "buffer.html#autotoc_md284", null ],
-        [ "Responsibilities", "buffer.html#autotoc_md286", null ],
-        [ "Template Parameters", "buffer.html#autotoc_md288", null ],
-        [ "Invariants and Ownership", "buffer.html#autotoc_md290", null ],
-        [ "Public Types", "buffer.html#autotoc_md292", null ],
-        [ "Construction and Lifetime", "buffer.html#autotoc_md294", [
-          [ "Default construction", "buffer.html#autotoc_md295", null ],
-          [ "Size construction", "buffer.html#autotoc_md296", null ],
-          [ "Fill construction", "buffer.html#autotoc_md297", null ],
-          [ "Initializer-list construction", "buffer.html#autotoc_md298", null ],
-          [ "Copy construction", "buffer.html#autotoc_md299", null ],
-          [ "Move construction", "buffer.html#autotoc_md300", null ],
-          [ "Destruction", "buffer.html#autotoc_md301", null ]
+        [ "Overview", "buffer.html#autotoc_md283", null ],
+        [ "Responsibilities", "buffer.html#autotoc_md285", null ],
+        [ "Template Parameters", "buffer.html#autotoc_md287", null ],
+        [ "Invariants and Ownership", "buffer.html#autotoc_md289", null ],
+        [ "Public Types", "buffer.html#autotoc_md291", null ],
+        [ "Construction and Lifetime", "buffer.html#autotoc_md293", [
+          [ "Default construction", "buffer.html#autotoc_md294", null ],
+          [ "Size construction", "buffer.html#autotoc_md295", null ],
+          [ "Fill construction", "buffer.html#autotoc_md296", null ],
+          [ "Initializer-list construction", "buffer.html#autotoc_md297", null ],
+          [ "Copy construction", "buffer.html#autotoc_md298", null ],
+          [ "Move construction", "buffer.html#autotoc_md299", null ],
+          [ "Destruction", "buffer.html#autotoc_md300", null ]
         ] ],
-        [ "Assignment", "buffer.html#autotoc_md303", [
-          [ "Copy assignment", "buffer.html#autotoc_md304", null ],
-          [ "Move assignment", "buffer.html#autotoc_md305", null ]
+        [ "Assignment", "buffer.html#autotoc_md302", [
+          [ "Copy assignment", "buffer.html#autotoc_md303", null ],
+          [ "Move assignment", "buffer.html#autotoc_md304", null ]
         ] ],
-        [ "Element Access", "buffer.html#autotoc_md307", [
-          [ "Unchecked access", "buffer.html#autotoc_md308", null ],
-          [ "Front and back", "buffer.html#autotoc_md309", null ],
-          [ "Data access", "buffer.html#autotoc_md310", null ]
+        [ "Element Access", "buffer.html#autotoc_md306", [
+          [ "Unchecked access", "buffer.html#autotoc_md307", null ],
+          [ "Front and back", "buffer.html#autotoc_md308", null ],
+          [ "Data access", "buffer.html#autotoc_md309", null ]
         ] ],
-        [ "Iteration", "buffer.html#autotoc_md312", null ],
-        [ "Capacity and Allocation Metadata", "buffer.html#autotoc_md314", null ],
-        [ "Modifiers", "buffer.html#autotoc_md316", [
-          [ "fill", "buffer.html#autotoc_md317", null ],
-          [ "swap", "buffer.html#autotoc_md318", null ]
+        [ "Iteration", "buffer.html#autotoc_md311", null ],
+        [ "Capacity and Allocation Metadata", "buffer.html#autotoc_md313", null ],
+        [ "Modifiers", "buffer.html#autotoc_md315", [
+          [ "fill", "buffer.html#autotoc_md316", null ],
+          [ "swap", "buffer.html#autotoc_md317", null ]
         ] ],
-        [ "Complexity Summary", "buffer.html#autotoc_md320", null ],
-        [ "Design Notes", "buffer.html#autotoc_md322", null ],
-        [ "See Also", "buffer.html#autotoc_md324", null ]
+        [ "Complexity Summary", "buffer.html#autotoc_md319", null ],
+        [ "Design Notes", "buffer.html#autotoc_md321", null ],
+        [ "See Also", "buffer.html#autotoc_md323", null ]
       ] ]
     ] ],
     [ "Config", "dev_config.html", [
-      [ "Config", "dev_config.html#autotoc_md325", [
-        [ "Overview", "dev_config.html#autotoc_md327", null ],
-        [ "Related", "dev_config.html#autotoc_md329", null ]
+      [ "Config", "dev_config.html#autotoc_md324", [
+        [ "Overview", "dev_config.html#autotoc_md326", null ],
+        [ "Related", "dev_config.html#autotoc_md328", null ]
       ] ]
     ] ],
     [ "Concepts", "concepts.html", [
       [ "Numeric, DType, and Array Concepts", "concepts.html#dev_concepts", [
-        [ "Overview", "concepts.html#autotoc_md331", null ],
-        [ "Public Interface", "concepts.html#autotoc_md333", null ],
-        [ "Internal Classification Concepts", "concepts.html#autotoc_md335", null ],
-        [ "Integral", "concepts.html#autotoc_md337", null ],
-        [ "Numeric", "concepts.html#autotoc_md339", null ],
-        [ "DType", "concepts.html#autotoc_md341", null ],
-        [ "Container Forward Declarations", "concepts.html#autotoc_md343", null ],
-        [ "is_array Trait", "concepts.html#autotoc_md345", null ],
-        [ "Array", "concepts.html#autotoc_md347", null ],
-        [ "Usage", "concepts.html#autotoc_md349", null ],
-        [ "Complexity", "concepts.html#autotoc_md351", null ],
-        [ "Design Notes", "concepts.html#autotoc_md353", null ],
-        [ "Future Improvements", "concepts.html#autotoc_md355", null ],
-        [ "See Also", "concepts.html#autotoc_md357", null ]
+        [ "Overview", "concepts.html#autotoc_md330", null ],
+        [ "Public Interface", "concepts.html#autotoc_md332", null ],
+        [ "Internal Classification Concepts", "concepts.html#autotoc_md334", null ],
+        [ "Integral", "concepts.html#autotoc_md336", null ],
+        [ "Numeric", "concepts.html#autotoc_md338", null ],
+        [ "DType", "concepts.html#autotoc_md340", null ],
+        [ "Container Forward Declarations", "concepts.html#autotoc_md342", null ],
+        [ "is_array Trait", "concepts.html#autotoc_md344", null ],
+        [ "Array", "concepts.html#autotoc_md346", null ],
+        [ "Usage", "concepts.html#autotoc_md348", null ],
+        [ "Complexity", "concepts.html#autotoc_md350", null ],
+        [ "Design Notes", "concepts.html#autotoc_md352", null ],
+        [ "Future Improvements", "concepts.html#autotoc_md354", null ],
+        [ "See Also", "concepts.html#autotoc_md356", null ]
       ] ]
     ] ],
     [ "Types", "types.html", [
       [ "Types", "types.html#dev_types", [
-        [ "Overview", "types.html#autotoc_md359", null ],
-        [ "Responsibilities", "types.html#autotoc_md361", null ],
-        [ "Relationships", "types.html#autotoc_md363", null ],
-        [ "Invariants", "types.html#autotoc_md365", null ],
-        [ "Public Interface", "types.html#autotoc_md367", [
-          [ "Index aliases", "types.html#autotoc_md368", null ],
-          [ "Boolean alias", "types.html#autotoc_md369", null ],
-          [ "Integer aliases", "types.html#autotoc_md370", null ],
-          [ "Floating aliases", "types.html#autotoc_md371", null ],
-          [ "Complex aliases", "types.html#autotoc_md372", null ]
+        [ "Overview", "types.html#autotoc_md358", null ],
+        [ "Responsibilities", "types.html#autotoc_md360", null ],
+        [ "Relationships", "types.html#autotoc_md362", null ],
+        [ "Invariants", "types.html#autotoc_md364", null ],
+        [ "Public Interface", "types.html#autotoc_md366", [
+          [ "Index aliases", "types.html#autotoc_md367", null ],
+          [ "Boolean alias", "types.html#autotoc_md368", null ],
+          [ "Integer aliases", "types.html#autotoc_md369", null ],
+          [ "Floating aliases", "types.html#autotoc_md370", null ],
+          [ "Complex aliases", "types.html#autotoc_md371", null ]
         ] ],
-        [ "Complexity Summary", "types.html#autotoc_md374", null ],
-        [ "Examples", "types.html#autotoc_md376", null ],
-        [ "Design Notes", "types.html#autotoc_md378", null ],
-        [ "Future Improvements", "types.html#autotoc_md380", null ],
-        [ "See Also", "types.html#autotoc_md382", null ]
+        [ "Complexity Summary", "types.html#autotoc_md373", null ],
+        [ "Examples", "types.html#autotoc_md375", null ],
+        [ "Design Notes", "types.html#autotoc_md377", null ],
+        [ "Future Improvements", "types.html#autotoc_md379", null ],
+        [ "See Also", "types.html#autotoc_md381", null ]
       ] ]
     ] ],
     [ "Exceptions", "exceptions.html", [
       [ "Exceptions", "exceptions.html#dev_exceptions", [
-        [ "Overview", "exceptions.html#autotoc_md384", null ],
-        [ "Responsibilities", "exceptions.html#autotoc_md386", null ],
-        [ "Relationships", "exceptions.html#autotoc_md388", null ],
-        [ "Invariants", "exceptions.html#autotoc_md390", null ],
-        [ "Public Interface", "exceptions.html#autotoc_md392", null ],
-        [ "Namespace", "exceptions.html#autotoc_md393", null ],
-        [ "Base Class", "exceptions.html#autotoc_md395", [
-          [ "StrataxError", "exceptions.html#autotoc_md396", null ]
+        [ "Overview", "exceptions.html#autotoc_md383", null ],
+        [ "Responsibilities", "exceptions.html#autotoc_md385", null ],
+        [ "Relationships", "exceptions.html#autotoc_md387", null ],
+        [ "Invariants", "exceptions.html#autotoc_md389", null ],
+        [ "Public Interface", "exceptions.html#autotoc_md391", null ],
+        [ "Namespace", "exceptions.html#autotoc_md392", null ],
+        [ "Base Class", "exceptions.html#autotoc_md394", [
+          [ "StrataxError", "exceptions.html#autotoc_md395", null ]
         ] ],
-        [ "Derived Classes", "exceptions.html#autotoc_md398", [
-          [ "ShapeError", "exceptions.html#autotoc_md399", null ],
-          [ "DimensionError", "exceptions.html#autotoc_md401", null ],
-          [ "IndexError", "exceptions.html#autotoc_md403", null ],
-          [ "TypeError", "exceptions.html#autotoc_md405", null ],
-          [ "BroadcastError", "exceptions.html#autotoc_md407", null ],
-          [ "ZeroDivisionError", "exceptions.html#autotoc_md409", null ]
+        [ "Derived Classes", "exceptions.html#autotoc_md397", [
+          [ "ShapeError", "exceptions.html#autotoc_md398", null ],
+          [ "DimensionError", "exceptions.html#autotoc_md400", null ],
+          [ "IndexError", "exceptions.html#autotoc_md402", null ],
+          [ "TypeError", "exceptions.html#autotoc_md404", null ],
+          [ "BroadcastError", "exceptions.html#autotoc_md406", null ],
+          [ "ZeroDivisionError", "exceptions.html#autotoc_md408", null ]
         ] ],
-        [ "Usage Guidelines", "exceptions.html#autotoc_md411", null ],
-        [ "Complexity Summary", "exceptions.html#autotoc_md413", null ],
-        [ "Examples", "exceptions.html#autotoc_md415", null ],
-        [ "Throwing Specific Errors", "exceptions.html#autotoc_md416", null ],
-        [ "Catching by Base Type", "exceptions.html#autotoc_md418", null ],
-        [ "Design Notes", "exceptions.html#autotoc_md420", null ],
-        [ "Future Improvements", "exceptions.html#autotoc_md422", null ],
-        [ "See Also", "exceptions.html#autotoc_md424", null ]
+        [ "Usage Guidelines", "exceptions.html#autotoc_md410", null ],
+        [ "Complexity Summary", "exceptions.html#autotoc_md412", null ],
+        [ "Examples", "exceptions.html#autotoc_md414", null ],
+        [ "Throwing Specific Errors", "exceptions.html#autotoc_md415", null ],
+        [ "Catching by Base Type", "exceptions.html#autotoc_md417", null ],
+        [ "Design Notes", "exceptions.html#autotoc_md419", null ],
+        [ "Future Improvements", "exceptions.html#autotoc_md421", null ],
+        [ "See Also", "exceptions.html#autotoc_md423", null ]
       ] ]
     ] ],
     [ "Print", "print.html", [
       [ "Print", "print.html#dev_print", [
-        [ "Overview", "print.html#autotoc_md426", null ],
-        [ "Responsibilities", "print.html#autotoc_md428", null ],
-        [ "Relationships", "print.html#autotoc_md430", null ],
-        [ "Invariants", "print.html#autotoc_md432", null ],
-        [ "Public Interface", "print.html#autotoc_md434", [
-          [ "Vector stream output", "print.html#autotoc_md435", null ],
-          [ "Matrix stream output", "print.html#autotoc_md436", null ],
-          [ "Tensor stream output", "print.html#autotoc_md437", null ]
+        [ "Overview", "print.html#autotoc_md425", null ],
+        [ "Responsibilities", "print.html#autotoc_md427", null ],
+        [ "Relationships", "print.html#autotoc_md429", null ],
+        [ "Invariants", "print.html#autotoc_md431", null ],
+        [ "Public Interface", "print.html#autotoc_md433", [
+          [ "Vector stream output", "print.html#autotoc_md434", null ],
+          [ "Matrix stream output", "print.html#autotoc_md435", null ],
+          [ "Tensor stream output", "print.html#autotoc_md436", null ]
         ] ],
-        [ "Complexity Summary", "print.html#autotoc_md439", null ],
-        [ "Examples", "print.html#autotoc_md441", null ],
-        [ "Design Notes", "print.html#autotoc_md443", null ],
-        [ "Future Improvements", "print.html#autotoc_md445", null ],
-        [ "See Also", "print.html#autotoc_md447", null ]
+        [ "Complexity Summary", "print.html#autotoc_md438", null ],
+        [ "Examples", "print.html#autotoc_md440", null ],
+        [ "Design Notes", "print.html#autotoc_md442", null ],
+        [ "Future Improvements", "print.html#autotoc_md444", null ],
+        [ "See Also", "print.html#autotoc_md446", null ]
       ] ]
     ] ],
     [ "Arithmetic", "arithmetic.html", [
       [ "Arithmetic", "arithmetic.html#dev_arithmetic", [
-        [ "Overview", "arithmetic.html#autotoc_md449", null ],
-        [ "Responsibilities", "arithmetic.html#autotoc_md451", null ],
-        [ "Relationships", "arithmetic.html#autotoc_md453", null ],
-        [ "Invariants", "arithmetic.html#autotoc_md455", null ],
-        [ "Public Interface", "arithmetic.html#autotoc_md457", [
-          [ "Array-array operators", "arithmetic.html#autotoc_md458", null ],
-          [ "Array-scalar operators", "arithmetic.html#autotoc_md459", null ],
-          [ "Scalar-array operators", "arithmetic.html#autotoc_md460", null ],
-          [ "Compound assignment operators", "arithmetic.html#autotoc_md461", null ],
-          [ "Unary operators", "arithmetic.html#autotoc_md462", null ]
+        [ "Overview", "arithmetic.html#autotoc_md448", null ],
+        [ "Responsibilities", "arithmetic.html#autotoc_md450", null ],
+        [ "Relationships", "arithmetic.html#autotoc_md452", null ],
+        [ "Invariants", "arithmetic.html#autotoc_md454", null ],
+        [ "Public Interface", "arithmetic.html#autotoc_md456", [
+          [ "Array-array operators", "arithmetic.html#autotoc_md457", null ],
+          [ "Array-scalar operators", "arithmetic.html#autotoc_md458", null ],
+          [ "Scalar-array operators", "arithmetic.html#autotoc_md459", null ],
+          [ "Compound assignment operators", "arithmetic.html#autotoc_md460", null ],
+          [ "Unary operators", "arithmetic.html#autotoc_md461", null ]
         ] ],
-        [ "Complexity Summary", "arithmetic.html#autotoc_md464", null ],
-        [ "Examples", "arithmetic.html#autotoc_md466", null ],
-        [ "Design Notes", "arithmetic.html#autotoc_md468", null ],
-        [ "Future Improvements", "arithmetic.html#autotoc_md470", null ],
-        [ "See Also", "arithmetic.html#autotoc_md472", null ]
+        [ "Complexity Summary", "arithmetic.html#autotoc_md463", null ],
+        [ "Examples", "arithmetic.html#autotoc_md465", null ],
+        [ "Design Notes", "arithmetic.html#autotoc_md467", null ],
+        [ "Future Improvements", "arithmetic.html#autotoc_md469", null ],
+        [ "See Also", "arithmetic.html#autotoc_md471", null ]
       ] ]
     ] ],
     [ "Bitwise", "bitwise.html", [
       [ "Bitwise", "bitwise.html#dev_bitwise", [
-        [ "Overview", "bitwise.html#autotoc_md474", null ],
-        [ "Responsibilities", "bitwise.html#autotoc_md476", null ],
-        [ "Relationships", "bitwise.html#autotoc_md478", null ],
-        [ "Invariants", "bitwise.html#autotoc_md480", null ],
-        [ "Public Interface", "bitwise.html#autotoc_md482", [
-          [ "Shape guard", "bitwise.html#autotoc_md483", null ],
-          [ "Unary operator", "bitwise.html#autotoc_md484", null ],
-          [ "Array-array operators", "bitwise.html#autotoc_md485", null ],
-          [ "Array-scalar operators", "bitwise.html#autotoc_md486", null ],
-          [ "Scalar-array operators", "bitwise.html#autotoc_md487", null ],
-          [ "Compound assignment operators", "bitwise.html#autotoc_md488", null ]
+        [ "Overview", "bitwise.html#autotoc_md473", null ],
+        [ "Responsibilities", "bitwise.html#autotoc_md475", null ],
+        [ "Relationships", "bitwise.html#autotoc_md477", null ],
+        [ "Invariants", "bitwise.html#autotoc_md479", null ],
+        [ "Public Interface", "bitwise.html#autotoc_md481", [
+          [ "Shape guard", "bitwise.html#autotoc_md482", null ],
+          [ "Unary operator", "bitwise.html#autotoc_md483", null ],
+          [ "Array-array operators", "bitwise.html#autotoc_md484", null ],
+          [ "Array-scalar operators", "bitwise.html#autotoc_md485", null ],
+          [ "Scalar-array operators", "bitwise.html#autotoc_md486", null ],
+          [ "Compound assignment operators", "bitwise.html#autotoc_md487", null ]
         ] ],
-        [ "Complexity Summary", "bitwise.html#autotoc_md490", null ],
-        [ "Examples", "bitwise.html#autotoc_md492", null ],
-        [ "Design Notes", "bitwise.html#autotoc_md494", null ],
-        [ "Future Improvements", "bitwise.html#autotoc_md496", null ],
-        [ "See Also", "bitwise.html#autotoc_md498", null ]
+        [ "Complexity Summary", "bitwise.html#autotoc_md489", null ],
+        [ "Examples", "bitwise.html#autotoc_md491", null ],
+        [ "Design Notes", "bitwise.html#autotoc_md493", null ],
+        [ "Future Improvements", "bitwise.html#autotoc_md495", null ],
+        [ "See Also", "bitwise.html#autotoc_md497", null ]
       ] ]
     ] ],
     [ "Broadcasting", "broadcasting.html", [
       [ "Broadcasting", "broadcasting.html#dev_broadcasting", [
-        [ "Overview", "broadcasting.html#autotoc_md500", null ],
-        [ "Responsibilities", "broadcasting.html#autotoc_md502", null ],
-        [ "Relationships", "broadcasting.html#autotoc_md504", null ],
-        [ "Broadcasting Rules", "broadcasting.html#autotoc_md506", null ],
-        [ "Invariants", "broadcasting.html#autotoc_md508", null ],
-        [ "Public Interface", "broadcasting.html#autotoc_md510", [
-          [ "Shape validation", "broadcasting.html#autotoc_md511", null ],
-          [ "Result shape", "broadcasting.html#autotoc_md512", null ],
-          [ "Array-array operation", "broadcasting.html#autotoc_md513", null ],
-          [ "Array-scalar operation", "broadcasting.html#autotoc_md514", null ],
-          [ "Scalar-array operation", "broadcasting.html#autotoc_md515", null ]
+        [ "Overview", "broadcasting.html#autotoc_md499", null ],
+        [ "Responsibilities", "broadcasting.html#autotoc_md501", null ],
+        [ "Relationships", "broadcasting.html#autotoc_md503", null ],
+        [ "Broadcasting Rules", "broadcasting.html#autotoc_md505", null ],
+        [ "Invariants", "broadcasting.html#autotoc_md507", null ],
+        [ "Public Interface", "broadcasting.html#autotoc_md509", [
+          [ "Shape validation", "broadcasting.html#autotoc_md510", null ],
+          [ "Result shape", "broadcasting.html#autotoc_md511", null ],
+          [ "Array-array operation", "broadcasting.html#autotoc_md512", null ],
+          [ "Array-scalar operation", "broadcasting.html#autotoc_md513", null ],
+          [ "Scalar-array operation", "broadcasting.html#autotoc_md514", null ]
         ] ],
-        [ "Complexity Summary", "broadcasting.html#autotoc_md517", null ],
-        [ "Examples", "broadcasting.html#autotoc_md519", null ],
-        [ "Design Notes", "broadcasting.html#autotoc_md521", null ],
-        [ "Future Improvements", "broadcasting.html#autotoc_md523", null ],
-        [ "See Also", "broadcasting.html#autotoc_md525", null ]
+        [ "Complexity Summary", "broadcasting.html#autotoc_md516", null ],
+        [ "Examples", "broadcasting.html#autotoc_md518", null ],
+        [ "Design Notes", "broadcasting.html#autotoc_md520", null ],
+        [ "Future Improvements", "broadcasting.html#autotoc_md522", null ],
+        [ "See Also", "broadcasting.html#autotoc_md524", null ]
       ] ]
     ] ],
     [ "Comparison", "comparison.html", [
       [ "Comparison", "comparison.html#dev_comparison", [
-        [ "Overview", "comparison.html#autotoc_md527", null ],
-        [ "Responsibilities", "comparison.html#autotoc_md529", null ],
-        [ "Relationships", "comparison.html#autotoc_md531", null ],
-        [ "Invariants", "comparison.html#autotoc_md533", null ],
-        [ "Public Interface", "comparison.html#autotoc_md535", [
-          [ "Named array-array comparisons", "comparison.html#autotoc_md536", null ],
-          [ "Named array-scalar comparisons", "comparison.html#autotoc_md537", null ],
-          [ "Operators", "comparison.html#autotoc_md538", null ]
+        [ "Overview", "comparison.html#autotoc_md526", null ],
+        [ "Responsibilities", "comparison.html#autotoc_md528", null ],
+        [ "Relationships", "comparison.html#autotoc_md530", null ],
+        [ "Invariants", "comparison.html#autotoc_md532", null ],
+        [ "Public Interface", "comparison.html#autotoc_md534", [
+          [ "Named array-array comparisons", "comparison.html#autotoc_md535", null ],
+          [ "Named array-scalar comparisons", "comparison.html#autotoc_md536", null ],
+          [ "Operators", "comparison.html#autotoc_md537", null ]
         ] ],
-        [ "Internal Helpers", "comparison.html#autotoc_md540", null ],
-        [ "Complexity Summary", "comparison.html#autotoc_md542", null ],
-        [ "Examples", "comparison.html#autotoc_md544", [
-          [ "Array-array broadcasting", "comparison.html#autotoc_md545", null ],
-          [ "Scalar comparisons", "comparison.html#autotoc_md546", null ],
-          [ "Mixed containers and dtypes", "comparison.html#autotoc_md547", null ],
-          [ "Whole-result checks", "comparison.html#autotoc_md548", null ]
+        [ "Internal Helpers", "comparison.html#autotoc_md539", null ],
+        [ "Complexity Summary", "comparison.html#autotoc_md541", null ],
+        [ "Examples", "comparison.html#autotoc_md543", [
+          [ "Array-array broadcasting", "comparison.html#autotoc_md544", null ],
+          [ "Scalar comparisons", "comparison.html#autotoc_md545", null ],
+          [ "Mixed containers and dtypes", "comparison.html#autotoc_md546", null ],
+          [ "Whole-result checks", "comparison.html#autotoc_md547", null ]
         ] ],
-        [ "Design Notes", "comparison.html#autotoc_md550", null ],
-        [ "Future Improvements", "comparison.html#autotoc_md552", null ],
-        [ "See Also", "comparison.html#autotoc_md554", null ]
+        [ "Design Notes", "comparison.html#autotoc_md549", null ],
+        [ "Future Improvements", "comparison.html#autotoc_md551", null ],
+        [ "See Also", "comparison.html#autotoc_md553", null ]
       ] ]
     ] ],
     [ "Indexing", "indexing.html", [
       [ "Indexing", "indexing.html#dev_indexing", [
-        [ "Overview", "indexing.html#autotoc_md556", null ],
-        [ "Responsibilities", "indexing.html#autotoc_md558", null ],
-        [ "Relationships", "indexing.html#autotoc_md560", null ],
-        [ "Invariants", "indexing.html#autotoc_md562", null ],
-        [ "Public Interface", "indexing.html#autotoc_md564", null ],
-        [ "stratax::indexing::offset(...)", "indexing.html#autotoc_md565", null ],
-        [ "stratax::indexing::normalize_index(...)", "indexing.html#autotoc_md567", null ],
-        [ "Complexity Summary", "indexing.html#autotoc_md569", null ],
-        [ "Examples", "indexing.html#autotoc_md571", null ],
-        [ "Design Notes", "indexing.html#autotoc_md573", null ],
-        [ "Future Improvements", "indexing.html#autotoc_md575", null ],
-        [ "See Also", "indexing.html#autotoc_md577", null ]
+        [ "Overview", "indexing.html#autotoc_md555", null ],
+        [ "Responsibilities", "indexing.html#autotoc_md557", null ],
+        [ "Relationships", "indexing.html#autotoc_md559", null ],
+        [ "Invariants", "indexing.html#autotoc_md561", null ],
+        [ "Public Interface", "indexing.html#autotoc_md563", null ],
+        [ "stratax::indexing::offset(...)", "indexing.html#autotoc_md564", null ],
+        [ "stratax::indexing::normalize_index(...)", "indexing.html#autotoc_md566", null ],
+        [ "Complexity Summary", "indexing.html#autotoc_md568", null ],
+        [ "Examples", "indexing.html#autotoc_md570", null ],
+        [ "Design Notes", "indexing.html#autotoc_md572", null ],
+        [ "Future Improvements", "indexing.html#autotoc_md574", null ],
+        [ "See Also", "indexing.html#autotoc_md576", null ]
+      ] ]
+    ] ],
+    [ "Math", "math.html", [
+      [ "Math", "math.html#dev_math", [
+        [ "Overview", "math.html#autotoc_md578", null ],
+        [ "Unary Functions", "math.html#autotoc_md580", null ],
+        [ "Binary Functions", "math.html#autotoc_md582", null ],
+        [ "Example", "math.html#autotoc_md584", null ],
+        [ "Invariants", "math.html#autotoc_md586", null ],
+        [ "See Also", "math.html#autotoc_md588", null ]
       ] ]
     ] ],
     [ "Slice Ops", "ops_slice.html", [
       [ "Slice Operations", "ops_slice.html#dev_ops_slice", [
-        [ "Overview", "ops_slice.html#autotoc_md579", null ],
-        [ "Responsibilities", "ops_slice.html#autotoc_md581", null ],
-        [ "Type Aliases", "ops_slice.html#autotoc_md583", null ],
-        [ "Slice Normalization", "ops_slice.html#autotoc_md585", null ],
-        [ "Vector Slicing", "ops_slice.html#autotoc_md587", null ],
-        [ "Matrix Slicing", "ops_slice.html#autotoc_md589", null ],
-        [ "Variadic Tensor Slicing", "ops_slice.html#autotoc_md591", null ],
-        [ "Vector-based Tensor Slicing", "ops_slice.html#autotoc_md593", null ],
-        [ "Ownership and Empty Results", "ops_slice.html#autotoc_md595", null ],
-        [ "Complexity Summary", "ops_slice.html#autotoc_md597", null ],
-        [ "Design Notes", "ops_slice.html#autotoc_md599", null ],
-        [ "Future Improvements", "ops_slice.html#autotoc_md601", null ],
-        [ "See Also", "ops_slice.html#autotoc_md603", null ]
+        [ "Overview", "ops_slice.html#autotoc_md590", null ],
+        [ "Responsibilities", "ops_slice.html#autotoc_md592", null ],
+        [ "Type Aliases", "ops_slice.html#autotoc_md594", null ],
+        [ "Slice Normalization", "ops_slice.html#autotoc_md596", null ],
+        [ "Vector Slicing", "ops_slice.html#autotoc_md598", null ],
+        [ "Matrix Slicing", "ops_slice.html#autotoc_md600", null ],
+        [ "Variadic Tensor Slicing", "ops_slice.html#autotoc_md602", null ],
+        [ "Vector-based Tensor Slicing", "ops_slice.html#autotoc_md604", null ],
+        [ "Ownership and Empty Results", "ops_slice.html#autotoc_md606", null ],
+        [ "Complexity Summary", "ops_slice.html#autotoc_md608", null ],
+        [ "Design Notes", "ops_slice.html#autotoc_md610", null ],
+        [ "Future Improvements", "ops_slice.html#autotoc_md612", null ],
+        [ "See Also", "ops_slice.html#autotoc_md614", null ]
       ] ]
     ] ],
     [ "Shape", "shape.html", [
       [ "Shape", "shape.html#dev_shape", [
-        [ "Overview", "shape.html#autotoc_md605", null ],
-        [ "Responsibilities", "shape.html#autotoc_md607", null ],
-        [ "Relationships", "shape.html#autotoc_md609", null ],
-        [ "Invariants", "shape.html#autotoc_md611", null ],
-        [ "Public Types", "shape.html#autotoc_md613", null ],
-        [ "Construction and Lifetime", "shape.html#autotoc_md615", [
-          [ "Default construction", "shape.html#autotoc_md616", null ],
-          [ "Initializer-list construction", "shape.html#autotoc_md617", null ],
-          [ "Vector construction", "shape.html#autotoc_md618", null ],
-          [ "Copy and move construction", "shape.html#autotoc_md619", null ],
-          [ "Destruction", "shape.html#autotoc_md620", null ]
+        [ "Overview", "shape.html#autotoc_md616", null ],
+        [ "Responsibilities", "shape.html#autotoc_md618", null ],
+        [ "Relationships", "shape.html#autotoc_md620", null ],
+        [ "Invariants", "shape.html#autotoc_md622", null ],
+        [ "Public Types", "shape.html#autotoc_md624", null ],
+        [ "Construction and Lifetime", "shape.html#autotoc_md626", [
+          [ "Default construction", "shape.html#autotoc_md627", null ],
+          [ "Initializer-list construction", "shape.html#autotoc_md628", null ],
+          [ "Vector construction", "shape.html#autotoc_md629", null ],
+          [ "Copy and move construction", "shape.html#autotoc_md630", null ],
+          [ "Destruction", "shape.html#autotoc_md631", null ]
         ] ],
-        [ "Assignment", "shape.html#autotoc_md622", null ],
-        [ "Metadata", "shape.html#autotoc_md624", [
-          [ "rank", "shape.html#autotoc_md625", null ],
-          [ "empty", "shape.html#autotoc_md626", null ],
-          [ "elements", "shape.html#autotoc_md627", null ]
+        [ "Assignment", "shape.html#autotoc_md633", null ],
+        [ "Metadata", "shape.html#autotoc_md635", [
+          [ "rank", "shape.html#autotoc_md636", null ],
+          [ "empty", "shape.html#autotoc_md637", null ],
+          [ "strides", "shape.html#autotoc_md638", null ],
+          [ "elements", "shape.html#autotoc_md639", null ]
         ] ],
-        [ "Dimension Access", "shape.html#autotoc_md629", [
-          [ "Unchecked access", "shape.html#autotoc_md630", null ],
-          [ "Checked signed access", "shape.html#autotoc_md631", null ]
+        [ "Dimension Access", "shape.html#autotoc_md641", [
+          [ "Unchecked access", "shape.html#autotoc_md642", null ],
+          [ "Checked signed access", "shape.html#autotoc_md643", null ]
         ] ],
-        [ "Iteration", "shape.html#autotoc_md633", null ],
-        [ "Comparison", "shape.html#autotoc_md635", null ],
-        [ "Swap", "shape.html#autotoc_md637", null ],
-        [ "Stream Output", "shape.html#autotoc_md639", null ],
-        [ "Complexity Summary", "shape.html#autotoc_md641", null ],
-        [ "Design Notes", "shape.html#autotoc_md643", null ],
-        [ "See Also", "shape.html#autotoc_md645", null ]
+        [ "Iteration", "shape.html#autotoc_md645", null ],
+        [ "Comparison", "shape.html#autotoc_md647", null ],
+        [ "Swap", "shape.html#autotoc_md649", null ],
+        [ "Stream Output", "shape.html#autotoc_md651", null ],
+        [ "Complexity Summary", "shape.html#autotoc_md653", null ],
+        [ "Design Notes", "shape.html#autotoc_md655", null ],
+        [ "See Also", "shape.html#autotoc_md657", null ]
       ] ]
     ] ],
     [ "Slice", "slice.html", [
       [ "Slice", "slice.html#dev_slice", [
-        [ "Overview", "slice.html#autotoc_md647", null ],
-        [ "Responsibilities", "slice.html#autotoc_md649", null ],
-        [ "Relationships", "slice.html#autotoc_md651", null ],
-        [ "Internal Data", "slice.html#autotoc_md653", null ],
-        [ "Invariants", "slice.html#autotoc_md655", null ],
-        [ "Public Interface", "slice.html#autotoc_md657", null ],
-        [ "Type Aliases", "slice.html#autotoc_md658", null ],
-        [ "Constructor", "slice.html#autotoc_md660", null ],
-        [ "Accessors", "slice.html#autotoc_md662", null ],
-        [ "Comparisons", "slice.html#autotoc_md664", null ],
-        [ "Complexity Summary", "slice.html#autotoc_md666", null ],
-        [ "Examples", "slice.html#autotoc_md668", null ],
-        [ "Design Notes", "slice.html#autotoc_md670", null ],
-        [ "Future Improvements", "slice.html#autotoc_md672", null ],
-        [ "See Also", "slice.html#autotoc_md674", null ]
+        [ "Overview", "slice.html#autotoc_md659", null ],
+        [ "Responsibilities", "slice.html#autotoc_md661", null ],
+        [ "Relationships", "slice.html#autotoc_md663", null ],
+        [ "Internal Data", "slice.html#autotoc_md665", null ],
+        [ "Invariants", "slice.html#autotoc_md667", null ],
+        [ "Public Interface", "slice.html#autotoc_md669", null ],
+        [ "Type Aliases", "slice.html#autotoc_md670", null ],
+        [ "Constructor", "slice.html#autotoc_md672", null ],
+        [ "Accessors", "slice.html#autotoc_md674", null ],
+        [ "Comparisons", "slice.html#autotoc_md676", null ],
+        [ "Complexity Summary", "slice.html#autotoc_md678", null ],
+        [ "Examples", "slice.html#autotoc_md680", null ],
+        [ "Design Notes", "slice.html#autotoc_md682", null ],
+        [ "Future Improvements", "slice.html#autotoc_md684", null ],
+        [ "See Also", "slice.html#autotoc_md686", null ]
       ] ]
     ] ],
     [ "Validation", "validation.html", [
       [ "Validation", "validation.html#dev_validation", [
-        [ "Overview", "validation.html#autotoc_md676", null ],
-        [ "Responsibilities", "validation.html#autotoc_md678", null ],
-        [ "Relationships", "validation.html#autotoc_md680", null ],
-        [ "Invariants", "validation.html#autotoc_md682", null ],
-        [ "Public Interface", "validation.html#autotoc_md684", null ],
-        [ "Aggregation Header", "validation.html#autotoc_md685", null ],
-        [ "Re-exported Helpers", "validation.html#autotoc_md687", [
-          [ "Dimension helpers", "validation.html#autotoc_md688", null ],
-          [ "Index helpers", "validation.html#autotoc_md689", null ],
-          [ "Shape helpers", "validation.html#autotoc_md690", null ],
-          [ "Type helpers", "validation.html#autotoc_md691", null ]
+        [ "Overview", "validation.html#autotoc_md688", null ],
+        [ "Responsibilities", "validation.html#autotoc_md690", null ],
+        [ "Relationships", "validation.html#autotoc_md692", null ],
+        [ "Invariants", "validation.html#autotoc_md694", null ],
+        [ "Public Interface", "validation.html#autotoc_md696", null ],
+        [ "Aggregation Header", "validation.html#autotoc_md697", null ],
+        [ "Re-exported Helpers", "validation.html#autotoc_md699", [
+          [ "Dimension helpers", "validation.html#autotoc_md700", null ],
+          [ "Index helpers", "validation.html#autotoc_md701", null ],
+          [ "Shape helpers", "validation.html#autotoc_md702", null ],
+          [ "Type helpers", "validation.html#autotoc_md703", null ]
         ] ],
-        [ "Complexity Summary", "validation.html#autotoc_md693", null ],
-        [ "Examples", "validation.html#autotoc_md695", null ],
-        [ "Design Notes", "validation.html#autotoc_md697", null ],
-        [ "Future Improvements", "validation.html#autotoc_md699", null ],
-        [ "See Also", "validation.html#autotoc_md701", null ]
+        [ "Complexity Summary", "validation.html#autotoc_md705", null ],
+        [ "Examples", "validation.html#autotoc_md707", null ],
+        [ "Design Notes", "validation.html#autotoc_md709", null ],
+        [ "Future Improvements", "validation.html#autotoc_md711", null ],
+        [ "See Also", "validation.html#autotoc_md713", null ]
       ] ]
     ] ],
     [ "Developer Docs Index", "dev_index.html", [
-      [ "Developer Docs Index", "dev_index.html#autotoc_md702", [
-        [ "Entry Point", "dev_index.html#autotoc_md704", null ],
-        [ "Core", "dev_index.html#autotoc_md706", null ],
-        [ "Core", "dev_index.html#autotoc_md708", null ],
-        [ "Containers", "dev_index.html#autotoc_md710", null ],
-        [ "Core Algorithms", "dev_index.html#autotoc_md712", null ],
-        [ "Core Ops", "dev_index.html#autotoc_md714", null ],
-        [ "Core I/O", "dev_index.html#autotoc_md716", null ],
-        [ "Bindings", "dev_index.html#autotoc_md718", null ]
+      [ "Developer Docs Index", "dev_index.html#autotoc_md714", [
+        [ "Entry Point", "dev_index.html#autotoc_md716", null ],
+        [ "Core", "dev_index.html#autotoc_md718", null ],
+        [ "Core", "dev_index.html#autotoc_md720", null ],
+        [ "Containers", "dev_index.html#autotoc_md722", null ],
+        [ "Core Algorithms", "dev_index.html#autotoc_md724", null ],
+        [ "Core Ops", "dev_index.html#autotoc_md726", null ],
+        [ "Core I/O", "dev_index.html#autotoc_md728", null ],
+        [ "Bindings", "dev_index.html#autotoc_md730", null ]
       ] ]
     ] ],
     [ "stratax.h", "dev_stratax.html", [
-      [ "stratax.h", "dev_stratax.html#autotoc_md719", [
-        [ "Overview", "dev_stratax.html#autotoc_md721", null ],
-        [ "Responsibilities", "dev_stratax.html#autotoc_md723", null ],
-        [ "Aggregated Components", "dev_stratax.html#autotoc_md725", [
-          [ "Core Foundations", "dev_stratax.html#autotoc_md726", null ],
-          [ "Containers", "dev_stratax.html#autotoc_md727", null ],
-          [ "Algorithms", "dev_stratax.html#autotoc_md728", null ],
-          [ "Ops", "dev_stratax.html#autotoc_md729", null ],
-          [ "I/O", "dev_stratax.html#autotoc_md730", null ]
+      [ "stratax.h", "dev_stratax.html#autotoc_md731", [
+        [ "Overview", "dev_stratax.html#autotoc_md733", null ],
+        [ "Responsibilities", "dev_stratax.html#autotoc_md735", null ],
+        [ "Aggregated Components", "dev_stratax.html#autotoc_md737", [
+          [ "Core Foundations", "dev_stratax.html#autotoc_md738", null ],
+          [ "Containers", "dev_stratax.html#autotoc_md739", null ],
+          [ "Algorithms", "dev_stratax.html#autotoc_md740", null ],
+          [ "Ops", "dev_stratax.html#autotoc_md741", null ],
+          [ "I/O", "dev_stratax.html#autotoc_md742", null ]
         ] ],
-        [ "Usage", "dev_stratax.html#autotoc_md732", null ],
-        [ "Design Notes", "dev_stratax.html#autotoc_md734", null ],
-        [ "Future Improvements", "dev_stratax.html#autotoc_md736", null ],
-        [ "See Also", "dev_stratax.html#autotoc_md738", null ]
+        [ "Usage", "dev_stratax.html#autotoc_md744", null ],
+        [ "Design Notes", "dev_stratax.html#autotoc_md746", null ],
+        [ "Future Improvements", "dev_stratax.html#autotoc_md748", null ],
+        [ "See Also", "dev_stratax.html#autotoc_md750", null ]
       ] ]
     ] ],
     [ "Getting Started", "getting_started.html", "getting_started" ],
     [ "Releasing", "releasing.html", [
-      [ "Releasing", "releasing.html#autotoc_md815", [
-        [ "Version Updates", "releasing.html#autotoc_md816", null ],
-        [ "Pre-Release Checks", "releasing.html#autotoc_md817", null ],
-        [ "Documentation", "releasing.html#autotoc_md818", null ],
-        [ "Packaging", "releasing.html#autotoc_md819", null ],
-        [ "Publish", "releasing.html#autotoc_md820", null ]
+      [ "Releasing", "releasing.html#autotoc_md827", [
+        [ "Version Updates", "releasing.html#autotoc_md828", null ],
+        [ "Pre-Release Checks", "releasing.html#autotoc_md829", null ],
+        [ "Documentation", "releasing.html#autotoc_md830", null ],
+        [ "Packaging", "releasing.html#autotoc_md831", null ],
+        [ "Publish", "releasing.html#autotoc_md832", null ]
       ] ]
     ] ],
     [ "Documentation Index", "docs_index.html", [
-      [ "Documentation Index", "docs_index.html#autotoc_md866", [
-        [ "Start Here", "docs_index.html#autotoc_md868", null ],
-        [ "Guides", "docs_index.html#autotoc_md870", null ],
-        [ "Developer References", "docs_index.html#autotoc_md872", null ],
-        [ "Generated Output", "docs_index.html#autotoc_md874", null ]
+      [ "Documentation Index", "docs_index.html#autotoc_md878", [
+        [ "Start Here", "docs_index.html#autotoc_md880", null ],
+        [ "Guides", "docs_index.html#autotoc_md882", null ],
+        [ "Developer References", "docs_index.html#autotoc_md884", null ],
+        [ "Generated Output", "docs_index.html#autotoc_md886", null ]
       ] ]
     ] ],
     [ "Concepts", "concepts.html", "concepts" ],
@@ -656,9 +666,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Arithmetic_8hpp_source.html",
-"classstratax_1_1container_1_1Vector.html#afb87f6ee68adc613f5347b218a572166",
-"dev_stratax.html#autotoc_md723",
-"shape.html#autotoc_md615"
+"classstratax_1_1container_1_1Vector.html#afac542f8ff6ea0a4a35b304d7e7ca960",
+"dev_stratax.html#autotoc_md731",
+"roadmap.html#autotoc_md850"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

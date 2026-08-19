@@ -263,15 +263,8 @@ normalized_flat_offset</h3>
 </div><!-- fragment --><p>Converts one signed index per dimension into a row-major flat offset. Negative components count backward within their corresponding dimensions.</p>
 <p>The index container must provide <span class="tt">size()</span> and indexed access. A rank mismatch throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> using <span class="tt">rank_mismatch_message</span>. An invalid component also throws <span class="tt">IndexError</span>; when <span class="tt">component_oob_message</span> is non-null, that message replaces the lower-level normalization message.</p>
 <p>Complexity: O(rank()).</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md274"></a>
-flat_offset</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
-<div class="line">size_type flat_offset(<span class="keyword">const</span> IndexContainer&amp; indices) <span class="keyword">const</span>;</div>
-</div><!-- fragment --><p>Computes an unchecked row-major offset. The container must be iterable and must contain exactly <span class="tt">rank()</span> already-normalized, in-range indices.</p>
-<p>Violating the rank requirement may advance past the stride range and cause undefined behavior. Out-of-range components can produce an invalid flat offset.</p>
-<p>Complexity: O(rank()).</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md276"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md275"></a>
 Copy and Move Semantics</h2>
 <p><span class="tt">ArrayBase</span> uses compiler-generated copy and move operations:</p>
 <ul>
@@ -281,7 +274,7 @@ Copy and Move Semantics</h2>
 </ul>
 <p>Concrete containers inherit these operations unless they define their own.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md278"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md277"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -297,19 +290,19 @@ Complexity Summary</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Buffer-adopting construction  </td><td class="markdownTableBodyNone">O(rank)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Checked/unchecked multidimensional offset  </td><td class="markdownTableBodyNone">O(rank)  </td></tr>
+<td class="markdownTableBodyNone">Checked multidimensional offset  </td><td class="markdownTableBodyNone">O(rank)  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Copy construction  </td><td class="markdownTableBodyNone">O(size + rank)  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Move construction  </td><td class="markdownTableBodyNone">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md280"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md279"></a>
 Design Notes</h2>
 <p>Keeping the common flat interface in one base class gives all owning arrays the same storage and iterator semantics. Container-specific classes stay small and focus on shape restrictions and multidimensional access.</p>
-<p>The checked and unchecked offset helpers are intentionally separate. Public <span class="tt">at()</span> implementations use normalized checking, while <span class="tt">operator()</span> paths can use <span class="tt">flat_offset()</span> when their contract already requires valid indices.</p>
+<p>Public <span class="tt">at()</span> implementations use <span class="tt">normalized_flat_offset()</span> for checked, Python-style multidimensional indexing. Unchecked container indexing calls <span class="tt">stratax::indexing::offset()</span> directly with the container's stride metadata.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md282"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md281"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="buffer.html">Buffer</a></li>

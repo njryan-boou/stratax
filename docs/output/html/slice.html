@@ -97,12 +97,12 @@ Slice</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Slice_8hpp_source.html">include/stratax/core/Slice.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md647"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md659"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="classstratax_1_1core_1_1Slice.html" title="Describes a signed, strided half-open index range.">stratax::core::Slice</a></span> represents a raw, half-open, strided one-dimensional index range.</p>
 <p>It stores signed <span class="tt">start</span>, <span class="tt">stop</span>, and nonzero <span class="tt">step</span> values unchanged. Positive steps select indices while they are less than <span class="tt">stop</span>; negative steps select indices while they are greater than <span class="tt">stop</span>. Container-specific normalization and clamping happen later in the slicing algorithms.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md649"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md661"></a>
 Responsibilities</h2>
 <p><span class="tt">Slice</span> is responsible for:</p>
 <ul>
@@ -118,7 +118,7 @@ Responsibilities</h2>
 <li>Multidimensional slicing policy</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md651"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md663"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">stratax::core::Slice</div>
 <div class="line">├── start_ : std::ptrdiff_t</div>
@@ -133,7 +133,7 @@ Relationships</h2>
 <li><span class="tt"><a class="el" href="Slicing_8hpp_source.html">include/stratax/indexing/Slicing.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md653"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md665"></a>
 Internal Data</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -146,7 +146,7 @@ Internal Data</h2>
 <td class="markdownTableBodyNone"><span class="tt">step_</span>  </td><td class="markdownTableBodyNone">Non-zero stride  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md655"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md667"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -157,15 +157,15 @@ Invariants</h2>
 <li>Bounds remain raw until a slicing algorithm resolves them against an extent.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md657"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md669"></a>
 Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md658"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md670"></a>
 Type Aliases</h2>
 <div class="fragment"><div class="line"><span class="keyword">using </span>size_type = std::size_t;</div>
 <div class="line"><span class="keyword">using </span>difference_type = std::ptrdiff_t;</div>
 </div><!-- fragment --><p><span class="tt">difference_type</span> represents signed bounds and steps. <span class="tt">size_type</span> represents the number of indices selected by the raw range.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md660"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md672"></a>
 Constructor</h2>
 <div class="fragment"><div class="line">Slice(difference_type start, difference_type stop, difference_type step = 1);</div>
 </div><!-- fragment --><p>Creates a strided half-open range and stores all three arguments unchanged. Negative bounds are not interpreted relative to a container during construction.</p>
@@ -178,7 +178,7 @@ Constructor</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md662"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
 Accessors</h2>
 <div class="fragment"><div class="line">[[nodiscard]] difference_type start() const noexcept;</div>
 <div class="line">[[nodiscard]] difference_type stop() const noexcept;</div>
@@ -198,7 +198,7 @@ Accessors</h2>
 <li><span class="tt">size()</span>: O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md664"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
 Comparisons</h2>
 <div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> Slice&amp; other) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
 </div><!-- fragment --><p>Two slices are equal when their stored <span class="tt">start</span>, <span class="tt">stop</span>, and <span class="tt">step</span> values all match. Equality compares the raw representation, so two slices that happen to generate the same indices can still compare unequal. In C++20, <span class="tt">operator!=</span> is automatically rewritten from <span class="tt">operator==</span>.</p>
@@ -207,7 +207,7 @@ Comparisons</h2>
 <li>O(1)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md666"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -222,7 +222,7 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone"><span class="tt">operator==</span> / <span class="tt">operator!=</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md668"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a> every_other(0, 10, 2);  <span class="comment">// 0,2,4,6,8</span></div>
 <div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a> reverse(8, -1, -2);     <span class="comment">// 8,6,4,2,0</span></div>
@@ -234,12 +234,12 @@ Examples</h2>
 <div class="line">}</div>
 <div class="ttc" id="aclassstratax_1_1core_1_1Slice_html"><div class="ttname"><a href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a></div><div class="ttdoc">Describes a signed, strided half-open index range.</div><div class="ttdef"><b>Definition</b> <a href="Slice_8hpp_source.html#l00030">Slice.hpp:31</a></div></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md670"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
 Design Notes</h2>
 <p><span class="tt">Slice</span> keeps only local interval semantics; extent normalization and clamping happen in indexing-level slicing helpers where the container shape is available.</p>
 <p>Using signed fields enables Python-like negative-index flows at higher layers without forcing unsigned conversion too early.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md672"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
 Future Improvements</h2>
 <ul>
 <li>Add convenience creators for common ranges (for example full-range helpers).</li>
@@ -247,7 +247,7 @@ Future Improvements</h2>
 <li>Make <span class="tt">size()</span> arithmetic safe across the full <span class="tt">std::ptrdiff_t</span> range.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md686"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="ops_slice.html#dev_ops_slice">Slice Operations</a> </li>
