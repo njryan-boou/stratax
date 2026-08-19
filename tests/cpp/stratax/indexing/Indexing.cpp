@@ -21,18 +21,18 @@ TEST(IndexingNormalize, throws_for_out_of_range)
 TEST(IndexingOffset, computes_row_major_offset)
 {
     const stratax::core::Shape shape{2, 3, 4};
-    const stratax::core::Strides strides(shape);
+    const stratax::core::Shape strides = shape.strides();
 
-    EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{0, 0, 0}), 0u);
-    EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{1, 0, 0}), 12u);
-    EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{1, 2, 3}), 23u);
-    EXPECT_EQ(stratax::indexing::offset(shape, strides, std::vector<std::size_t>{0, 2, 3}), 11u);
+    EXPECT_EQ(stratax::indexing::offset(strides, std::vector<std::size_t>{0, 0, 0}), 0u);
+    EXPECT_EQ(stratax::indexing::offset(strides, std::vector<std::size_t>{1, 0, 0}), 12u);
+    EXPECT_EQ(stratax::indexing::offset(strides, std::vector<std::size_t>{1, 2, 3}), 23u);
+    EXPECT_EQ(stratax::indexing::offset(strides, std::vector<std::size_t>{0, 2, 3}), 11u);
 }
 
 TEST(IndexingOffset, handles_empty_shape)
 {
     const stratax::core::Shape empty_shape{};
-    const stratax::core::Strides empty_strides(empty_shape);
+    const stratax::core::Shape empty_strides = empty_shape.strides();
 
-    EXPECT_EQ(stratax::indexing::offset(empty_shape, empty_strides, std::vector<std::size_t>{}), 0u);
+    EXPECT_EQ(stratax::indexing::offset(empty_strides, std::vector<std::size_t>{}), 0u);
 }

@@ -22,7 +22,7 @@ class TestTensorInterfaceTests:
         assert tensor.empty
         assert len(tensor) == 0
         assert tensor.shape == Shape([0])
-        assert tensor.strides == [1]
+        assert tensor.strides == Shape([1])
         assert tensor.tolist() == []
         assert list(tensor) == []
 
@@ -33,7 +33,7 @@ class TestTensorInterfaceTests:
         assert tensor.rank == 2
         assert not tensor.empty
         assert tensor.shape == Shape([2, 3])
-        assert tensor.strides == [3, 1]
+        assert tensor.strides == Shape([3, 1])
         assert tensor.tolist() == [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
 
     def test_shape_value_constructor_fills_values(self) -> None:
@@ -48,7 +48,7 @@ class TestTensorInterfaceTests:
         assert tensor.size == 8
         assert tensor.rank == 3
         assert tensor.shape == Shape([2, 2, 2])
-        assert tensor.strides == [4, 2, 1]
+        assert tensor.strides == Shape([4, 2, 1])
         assert tensor.tolist() == [
             [[0.0, 0.0], [0.0, 0.0]],
             [[0.0, 0.0], [0.0, 0.0]],
@@ -70,7 +70,7 @@ class TestTensorInterfaceTests:
 
         assert tensor.size == 6
         assert tensor.shape == Shape([2, 1, 3])
-        assert tensor.strides == [3, 3, 1]
+        assert tensor.strides == Shape([3, 3, 1])
 
     def test_copy_constructor_preserves_values(self) -> None:
         original = Tensor([2, 2], 1.5)

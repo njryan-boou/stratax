@@ -97,12 +97,12 @@ Arithmetic</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Arithmetic_8hpp_source.html">include/stratax/ops/Arithmetic.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md543"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md449"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Arithmetic_8hpp_source.html">Arithmetic.hpp</a></span> defines generic element-wise arithmetic for Stratax array-like containers.</p>
-<p>It provides array-array, array-scalar, scalar-array, compound assignment, and unary operators for types satisfying the <span class="tt"><a class="el" href="conceptArray.html">Array</a></span> and <span class="tt"><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> concepts. Array-array operations use the broadcasting rules defined by <span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">Broadcasting.hpp</a></span>.</p>
+<p>It provides array-array, array-scalar, scalar-array, compound assignment, and unary operators for types satisfying the <span class="tt"><a class="el" href="conceptArray.html" title="Identifies supported Stratax owning array types.">Array</a></span> and <span class="tt"><a class="el" href="conceptNumeric.html">Numeric</a></span> concepts. Array-array operations use the broadcasting rules defined by <span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">Broadcasting.hpp</a></span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md545"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md451"></a>
 Responsibilities</h2>
 <p>The arithmetic module is responsible for:</p>
 <ul>
@@ -118,7 +118,7 @@ Responsibilities</h2>
 <li>SIMD or parallel execution policy</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md547"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md453"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Arithmetic operators</div>
 <div class="line">|-- Array and Numeric concept constraints</div>
@@ -127,7 +127,7 @@ Relationships</h2>
 <div class="line">`-- Exceptions::ZeroDivisionError for division checks</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Exceptions_8hpp_source.html">include/stratax/exceptions/Exceptions.hpp</a></span></li>
 </ul>
@@ -136,21 +136,21 @@ Relationships</h2>
 <li>User-facing vector, matrix, and tensor arithmetic expressions</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md549"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md455"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
 <li>Array-array operators require broadcast-compatible shapes.</li>
 <li>Array-array result shape is the common broadcasted shape.</li>
-<li><a class="el" href="conceptScalar.html" title="Alias for any scalar type accepted by Stratax numeric containers.">Scalar</a> operations preserve the array operand shape.</li>
+<li>Scalar operations preserve the array operand shape.</li>
 <li>Non-compound operators do not mutate inputs.</li>
 <li>Compound operators delegate to non-compound operators and assignment.</li>
-<li>Division by zero raises <span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span>.</li>
+<li>Division by zero raises <span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html">Exceptions::ZeroDivisionError</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md551"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md457"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md552"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md458"></a>
 Array-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
@@ -158,65 +158,64 @@ Array-array operators</h3>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator/(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1BroadcastError.html" title="Signals that an operation cannot be completed with the current broadcast rules.">Exceptions::BroadcastError</a></span> when the shapes are incompatible</li>
-<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span> for division when a broadcasted divisor is zero</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1BroadcastError.html">Exceptions::BroadcastError</a></span> when the shapes are incompatible</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html">Exceptions::ZeroDivisionError</a></span> for division when a broadcasted divisor is zero</li>
 </ul>
 <p>Complexity</p>
 <ul>
 <li>O(nr), where <span class="tt">n</span> is the result element count and <span class="tt">r</span> is result rank</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md553"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md459"></a>
 Array-scalar operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator*(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator/(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="ttc" id="aconceptScalar_html"><div class="ttname"><a href="conceptScalar.html">Scalar</a></div><div class="ttdoc">Alias for any scalar type accepted by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00103">Numeric.hpp:103</a></div></div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator+(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator-(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator*(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A operator/(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span> for division by a zero scalar</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html">Exceptions::ZeroDivisionError</a></span> for division by a zero scalar</li>
 </ul>
 <p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md554"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md460"></a>
 Scalar-array operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator+(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator-(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator*(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator/(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator+(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator-(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator*(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Numeric Scalar, Array A&gt; A operator/(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html" title="Signals a division by zero.">Exceptions::ZeroDivisionError</a></span> for division when any array divisor is zero</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ZeroDivisionError.html">Exceptions::ZeroDivisionError</a></span> for division when any array divisor is zero</li>
 </ul>
 <p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md555"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md461"></a>
 Compound assignment operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator*=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A&amp; operator/=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator*=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator/=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator+=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator-=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator*=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, Numeric Scalar&gt; A&amp; operator/=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 </div><!-- fragment --><p>Array-array compound operations assign the complete broadcasted result back to the left operand. The left operand may therefore acquire the broadcasted shape.</p>
 <p>Throws</p>
 <ul>
 <li>The same exceptions as the corresponding non-compound operator</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md556"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md462"></a>
 Unary operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator-(<span class="keyword">const</span> A&amp; arr);</div>
 <div class="line"><span class="keyword">template</span>&lt;Array A&gt; A operator+(<span class="keyword">const</span> A&amp; arr);</div>
 </div><!-- fragment --><p>Unary minus negates each value. Unary plus returns a copy.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md558"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md464"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -230,13 +229,13 @@ Complexity Summary</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Array-array compound assignment  </td><td class="markdownTableBodyRight">O(nr)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><a class="el" href="conceptScalar.html" title="Alias for any scalar type accepted by Stratax numeric containers.">Scalar</a> compound assignment  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<td class="markdownTableBodyNone">Scalar compound assignment  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Unary plus/minus  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 </table>
 <p><span class="tt">n</span> is result element count and <span class="tt">r</span> is result rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md560"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md466"></a>
 Examples</h2>
 <div class="fragment"><div class="line">stratax::Matrix&lt;int&gt; column{{1}, {2}};</div>
 <div class="line">stratax::Matrix&lt;int&gt; row{{10, 20, 30}};</div>
@@ -247,12 +246,12 @@ Examples</h2>
 <div class="line"> </div>
 <div class="line">column += row; <span class="comment">// column now has shape (2, 3)</span></div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md562"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md468"></a>
 Design Notes</h2>
 <p>Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.</p>
-<p><a class="el" href="conceptScalar.html" title="Alias for any scalar type accepted by Stratax numeric containers.">Scalar</a> operand order is preserved for noncommutative operations such as subtraction and division.</p>
+<p>Scalar operand order is preserved for noncommutative operations such as subtraction and division.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md564"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md470"></a>
 Future Improvements</h2>
 <ul>
 <li>Explicit type-promotion policy controls</li>
@@ -260,11 +259,11 @@ Future Improvements</h2>
 <li>Optional parallel backends</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md566"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md472"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="broadcasting.html">Broadcasting</a></li>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Comparison_8hpp_source.html">include/stratax/ops/Comparison.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->

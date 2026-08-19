@@ -20,7 +20,7 @@ together:
 ArrayBase<T>
 ├── buffer_  : Buffer<T>  — contiguous element storage
 ├── shape_   : Shape      — logical dimensions
-└── strides_ : Strides    — row-major layout metadata
+└── strides_ : Shape      — row-major layout metadata
 ```
 
 The class supplies the common one-dimensional container interface and
@@ -96,7 +96,7 @@ The pointer-based iterator types provide contiguous random-access traversal.
 [[nodiscard]] bool empty() const noexcept;
 [[nodiscard]] size_type rank() const noexcept;
 [[nodiscard]] const Shape& shape() const noexcept;
-[[nodiscard]] const Strides& strides() const noexcept;
+[[nodiscard]] const Shape& strides() const noexcept;
 ```
 
 - `size()` returns the number of stored elements.
@@ -347,7 +347,6 @@ use `flat_offset()` when their contract already requires valid indices.
 
 - @ref buffer
 - @ref shape
-- @ref strides
 - @ref vector
 - @ref matrix
 - @ref tensor

@@ -20,7 +20,7 @@ TEST(TensorConstructor, DefaultConstructor)
 	EXPECT_EQ(tensor.size(), 0);
 	EXPECT_EQ(tensor.rank(), 1);
 	EXPECT_EQ(tensor.shape(), Shape({0}));
-	EXPECT_EQ(tensor.strides(), Strides(Shape{0}));
+	EXPECT_EQ(tensor.strides(), Shape({1}));
 }
 
 TEST(TensorConstructor, RankZeroShape)
@@ -40,7 +40,7 @@ TEST(TensorConstructor, RankOneShape)
 	EXPECT_EQ(tensor.size(), 4);
 	EXPECT_EQ(tensor.rank(), 1);
 	EXPECT_EQ(tensor.shape(), Shape({4}));
-	EXPECT_EQ(tensor.strides(), Strides(Shape{4}));
+	EXPECT_EQ(tensor.strides(), Shape({1}));
 }
 
 TEST(TensorConstructor, MultidimensionalShape)
@@ -50,7 +50,7 @@ TEST(TensorConstructor, MultidimensionalShape)
 	EXPECT_EQ(tensor.size(), 24);
 	EXPECT_EQ(tensor.rank(), 3);
 	EXPECT_EQ(tensor.shape(), Shape({2, 3, 4}));
-	EXPECT_EQ(tensor.strides(), Strides(Shape{2, 3, 4}));
+	EXPECT_EQ(tensor.strides(), Shape({12, 4, 1}));
 
 	for (const int value : tensor) {
 		EXPECT_EQ(value, 0);
@@ -64,7 +64,7 @@ TEST(TensorConstructor, ZeroDimension)
 	EXPECT_TRUE(tensor.empty());
 	EXPECT_EQ(tensor.rank(), 3);
 	EXPECT_EQ(tensor.shape(), Shape({2, 0, 4}));
-	EXPECT_EQ(tensor.strides(), Strides(Shape{2, 0, 4}));
+	EXPECT_EQ(tensor.strides(), Shape({0, 4, 1}));
 }
 
 TEST(TensorConstructor, FillValue)

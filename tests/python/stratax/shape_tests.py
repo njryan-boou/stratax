@@ -66,6 +66,11 @@ class TestShapeInterfaceTests:
         assert not shape.empty
         assert list(shape) == [2, 0, 4]
 
+    def test_strides_returns_row_major_shape(self) -> None:
+        assert Shape([2, 3, 4]).strides == Shape([12, 4, 1])
+        assert Shape([2, 0, 4]).strides == Shape([0, 4, 1])
+        assert Shape().strides == Shape()
+
     def test_copy_constructor_preserves_value(self) -> None:
         original = Shape([2, 3])
         copied = Shape(original)
@@ -126,4 +131,3 @@ class TestShapeInterfaceTests:
         shape = Shape([2, 3])
 
         assert shape[-1] == 3
-

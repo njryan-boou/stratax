@@ -43,6 +43,6 @@ var classstratax_1_1core_1_1ArrayBase =
     [ "rend", "classstratax_1_1core_1_1ArrayBase.html#a09b09e96e7d2c4e2340dab4317b5b5a4", null ],
     [ "shape", "classstratax_1_1core_1_1ArrayBase.html#a4b5be5dc6488844eb77055e42fc92685", null ],
     [ "size", "classstratax_1_1core_1_1ArrayBase.html#a4c1d70a1f8f5ad99fd0133633e7e4c73", null ],
-    [ "strides", "classstratax_1_1core_1_1ArrayBase.html#ae4dda29cdd494cbdef0086700271376a", null ],
+    [ "strides", "classstratax_1_1core_1_1ArrayBase.html#afa6ea2a60394fe58b1eaf3bc2a409a7f", null ],
     [ "swap", "classstratax_1_1core_1_1ArrayBase.html#afb2492322a2286fde91600766f4abd34", null ]
 ];

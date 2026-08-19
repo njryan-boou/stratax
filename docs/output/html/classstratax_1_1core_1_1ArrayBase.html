@@ -91,312 +91,447 @@ $(function(){initNavTree('classstratax_1_1core_1_1ArrayBase.html','','classstrat
   <div class="headertitle"><div class="title">stratax::core::ArrayBase&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Shared owning storage and layout base for Stratax array containers.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for stratax::core::ArrayBase&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classstratax_1_1core_1_1ArrayBase__inherit__graph.png" border="0" usemap="#astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map" id="astratax_1_1core_1_1ArrayBase_3_01T_01_4_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,152,222,180"/>
+<area shape="rect" title="Shared owning storage and layout base for Stratax array containers." alt="" coords="5,187,222,215"/>
 <area shape="rect" href="classstratax_1_1container_1_1Matrix.html" title=" " alt="" coords="270,5,406,50"/>
-<area shape="poly" title=" " alt="" coords="145,141,268,60,293,49,289,52,271,65,149,145"/>
+<area shape="poly" title=" " alt="" coords="137,174,194,119,268,60,291,49,287,52,271,65,198,123,141,178"/>
 <area shape="rect" href="classstratax_1_1container_1_1Tensor.html" title=" " alt="" coords="270,75,406,119"/>
-<area shape="poly" title=" " alt="" coords="174,145,271,116,267,120,177,150"/>
+<area shape="poly" title=" " alt="" coords="158,178,289,118,286,122,161,182"/>
 <area shape="rect" href="classstratax_1_1container_1_1Vector.html" title=" " alt="" coords="270,144,406,189"/>
-<area shape="poly" title=" " alt="" coords="236,164,272,165,267,167,238,169"/>
-<area shape="rect" href="classstratax_1_1container_1_1Matrix.html" title="Stores a rank&#45;2 Stratax array in row&#45;major order." alt="" coords="270,213,406,258"/>
-<area shape="poly" title=" " alt="" coords="175,183,272,214,267,216,175,188"/>
-<area shape="rect" href="classstratax_1_1container_1_1Vector.html" title="Stores a rank&#45;1 Stratax array in contiguous memory." alt="" coords="270,283,406,327"/>
-<area shape="poly" title=" " alt="" coords="148,187,271,268,293,282,288,282,268,273,146,192"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for stratax::core::ArrayBase&lt; T &gt;:</div>
-<div class="dyncontent">
-<div class="center"><img src="classstratax_1_1core_1_1ArrayBase__coll__graph.png" border="0" usemap="#astratax_1_1core_1_1ArrayBase_3_01T_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
-<map name="astratax_1_1core_1_1ArrayBase_3_01T_01_4_coll__map" id="astratax_1_1core_1_1ArrayBase_3_01T_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="62,224,278,251"/>
-<area shape="rect" href="classstratax_1_1core_1_1Shape.html" title="Stores dimension lengths for an array shape." alt="" coords="5,123,157,151"/>
-<area shape="poly" title=" " alt="" coords="104,160,161,222,156,224,101,164"/>
-<area shape="rect" href="structstratax_1_1core_1_1Shape_1_1allow__zero__t.html" title="Tag type documenting that zero&#45;valued dimensions are intentional." alt="" coords="5,5,157,50"/>
-<area shape="poly" title=" " alt="" coords="82,63,84,123,78,122,80,68"/>
-<area shape="rect" href="classstratax_1_1core_1_1Strides.html" title="Stores strides for a shape in contiguous memory." alt="" coords="180,123,336,151"/>
-<area shape="poly" title=" " alt="" coords="239,162,184,225,180,221,234,163"/>
+<area shape="poly" title=" " alt="" coords="221,182,271,176,267,178,223,187"/>
+<area shape="rect" href="classstratax_1_1container_1_1Matrix.html" title="Two&#45;dimensional owning array of numeric values." alt="" coords="270,213,406,258"/>
+<area shape="poly" title=" " alt="" coords="221,215,272,224,267,226,222,220"/>
+<area shape="rect" href="classstratax_1_1container_1_1Tensor.html" title="Arbitrary&#45;rank owning array of numeric values." alt="" coords="270,283,406,327"/>
+<area shape="poly" title=" " alt="" coords="160,219,290,281,285,283,159,225"/>
+<area shape="rect" href="classstratax_1_1container_1_1Vector.html" title="One&#45;dimensional owning array of numeric values." alt="" coords="270,352,406,397"/>
+<area shape="poly" title=" " alt="" coords="139,223,198,279,271,337,291,352,286,351,268,342,194,283,138,228"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a918575ed768831015dadb91cc889896b" id="r_a918575ed768831015dadb91cc889896b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a918575ed768831015dadb91cc889896b">value_type</a> = T</td></tr>
-<tr class="memitem:a13e7bf0514907767ec216b258c86a63e" id="r_a13e7bf0514907767ec216b258c86a63e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13e7bf0514907767ec216b258c86a63e">iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::iterator</td></tr>
-<tr class="memitem:afb52ca9e00e90098d80274ba29995ae9" id="r_afb52ca9e00e90098d80274ba29995ae9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb52ca9e00e90098d80274ba29995ae9">const_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::const_iterator</td></tr>
-<tr class="memitem:ac5524e92e72395d44c87d07e2fd444c2" id="r_ac5524e92e72395d44c87d07e2fd444c2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5524e92e72395d44c87d07e2fd444c2">reverse_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::reverse_iterator</td></tr>
-<tr class="memitem:a6727455505a582d822e91c4026d2b4dd" id="r_a6727455505a582d822e91c4026d2b4dd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6727455505a582d822e91c4026d2b4dd">const_reverse_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::const_reverse_iterator</td></tr>
+<tr class="memitem:a0bc80bbf2d7106d9cbb9e97dca4397bf" id="r_a0bc80bbf2d7106d9cbb9e97dca4397bf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::value_type</td></tr>
+<tr class="memdesc:a0bc80bbf2d7106d9cbb9e97dca4397bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stored element type.  <br /></td></tr>
+<tr class="memitem:afe82ce5cc30086c8df9b95705c61f51b" id="r_afe82ce5cc30086c8df9b95705c61f51b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::size_type</td></tr>
+<tr class="memdesc:afe82ce5cc30086c8df9b95705c61f51b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned type used for element counts and indices.  <br /></td></tr>
+<tr class="memitem:ab5ac167ebfa28af7e502d7adedf9a1b5" id="r_ab5ac167ebfa28af7e502d7adedf9a1b5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5ac167ebfa28af7e502d7adedf9a1b5">difference_type</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::difference_type</td></tr>
+<tr class="memdesc:ab5ac167ebfa28af7e502d7adedf9a1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed type used for checked indices and iterator distances.  <br /></td></tr>
+<tr class="memitem:ad6136928e48cf38fc52bac15b2a1a158" id="r_ad6136928e48cf38fc52bac15b2a1a158"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::reference</td></tr>
+<tr class="memdesc:ad6136928e48cf38fc52bac15b2a1a158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable element reference type.  <br /></td></tr>
+<tr class="memitem:a2c9b5bc84163cc0832d39c321d92821d" id="r_a2c9b5bc84163cc0832d39c321d92821d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_reference</td></tr>
+<tr class="memdesc:a2c9b5bc84163cc0832d39c321d92821d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only element reference type.  <br /></td></tr>
+<tr class="memitem:a22c5d4a0165c25582cc50d9aa2cf656a" id="r_a22c5d4a0165c25582cc50d9aa2cf656a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22c5d4a0165c25582cc50d9aa2cf656a">pointer</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::pointer</td></tr>
+<tr class="memdesc:a22c5d4a0165c25582cc50d9aa2cf656a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable element pointer type.  <br /></td></tr>
+<tr class="memitem:a8d8ed1d760048c3cfe7fbafbe3dcb010" id="r_a8d8ed1d760048c3cfe7fbafbe3dcb010"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d8ed1d760048c3cfe7fbafbe3dcb010">const_pointer</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_pointer</td></tr>
+<tr class="memdesc:a8d8ed1d760048c3cfe7fbafbe3dcb010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only element pointer type.  <br /></td></tr>
+<tr class="memitem:ab7fbf451cdbf2d78aa6b820c38058e61" id="r_ab7fbf451cdbf2d78aa6b820c38058e61"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7fbf451cdbf2d78aa6b820c38058e61">iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::iterator</td></tr>
+<tr class="memdesc:ab7fbf451cdbf2d78aa6b820c38058e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable contiguous random-access iterator type.  <br /></td></tr>
+<tr class="memitem:acab182ac88c5a5c1f7e1d740f38b8a5e" id="r_acab182ac88c5a5c1f7e1d740f38b8a5e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_iterator</td></tr>
+<tr class="memdesc:acab182ac88c5a5c1f7e1d740f38b8a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only contiguous random-access iterator type.  <br /></td></tr>
+<tr class="memitem:a5d33f1a39c89f84a778cdbf8093bfeaf" id="r_a5d33f1a39c89f84a778cdbf8093bfeaf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d33f1a39c89f84a778cdbf8093bfeaf">reverse_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::reverse_iterator</td></tr>
+<tr class="memdesc:a5d33f1a39c89f84a778cdbf8093bfeaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable reverse iterator type.  <br /></td></tr>
+<tr class="memitem:a6a82247a1b34b3a69699fc319357c1e5" id="r_a6a82247a1b34b3a69699fc319357c1e5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a> = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_reverse_iterator</td></tr>
+<tr class="memdesc:a6a82247a1b34b3a69699fc319357c1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reverse iterator type.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adb2999fa3abf108cd918c127a8a32073" id="r_adb2999fa3abf108cd918c127a8a32073"><td class="memItemLeft" align="right" valign="top"><a id="adb2999fa3abf108cd918c127a8a32073" name="adb2999fa3abf108cd918c127a8a32073"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ArrayBase</b> (const ArrayBase &amp;)=default</td></tr>
-<tr class="memitem:a2870994910f84b1bc9a3584c9eb11ac3" id="r_a2870994910f84b1bc9a3584c9eb11ac3"><td class="memItemLeft" align="right" valign="top"><a id="a2870994910f84b1bc9a3584c9eb11ac3" name="a2870994910f84b1bc9a3584c9eb11ac3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ArrayBase</b> (ArrayBase &amp;&amp;) noexcept=default</td></tr>
-<tr class="memitem:ac17712f4e34245d4e97ada517888cc93" id="r_ac17712f4e34245d4e97ada517888cc93"><td class="memItemLeft" align="right" valign="top"><a id="ac17712f4e34245d4e97ada517888cc93" name="ac17712f4e34245d4e97ada517888cc93"></a>
-ArrayBase &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const ArrayBase &amp;)=default</td></tr>
-<tr class="memitem:aa72f057fe40d4ef1a93467a20abcde28" id="r_aa72f057fe40d4ef1a93467a20abcde28"><td class="memItemLeft" align="right" valign="top"><a id="aa72f057fe40d4ef1a93467a20abcde28" name="aa72f057fe40d4ef1a93467a20abcde28"></a>
-ArrayBase &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (ArrayBase &amp;&amp;) noexcept=default</td></tr>
-<tr class="memitem:aa90242b604d88bcc3c38c4d96a411409" id="r_aa90242b604d88bcc3c38c4d96a411409"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa90242b604d88bcc3c38c4d96a411409">size</a> () const noexcept</td></tr>
+<tr class="memitem:a4c1d70a1f8f5ad99fd0133633e7e4c73" id="r_a4c1d70a1f8f5ad99fd0133633e7e4c73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73">size</a> () const noexcept</td></tr>
+<tr class="memdesc:a4c1d70a1f8f5ad99fd0133633e7e4c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of stored elements.  <br /></td></tr>
 <tr class="memitem:a6184977e3ae895296deef1c2cc459d33" id="r_a6184977e3ae895296deef1c2cc459d33"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6184977e3ae895296deef1c2cc459d33">empty</a> () const noexcept</td></tr>
-<tr class="memitem:a659244ab9c7114382d50a3403be9cbfc" id="r_a659244ab9c7114382d50a3403be9cbfc"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a659244ab9c7114382d50a3403be9cbfc">rank</a> () const noexcept</td></tr>
+<tr class="memdesc:a6184977e3ae895296deef1c2cc459d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports whether no elements are stored.  <br /></td></tr>
+<tr class="memitem:a900562149be7a10feb7d5a00273f4af6" id="r_a900562149be7a10feb7d5a00273f4af6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a900562149be7a10feb7d5a00273f4af6">rank</a> () const noexcept</td></tr>
+<tr class="memdesc:a900562149be7a10feb7d5a00273f4af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of logical dimensions.  <br /></td></tr>
 <tr class="memitem:a4b5be5dc6488844eb77055e42fc92685" id="r_a4b5be5dc6488844eb77055e42fc92685"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b5be5dc6488844eb77055e42fc92685">shape</a> () const noexcept</td></tr>
-<tr class="memitem:ae4dda29cdd494cbdef0086700271376a" id="r_ae4dda29cdd494cbdef0086700271376a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classstratax_1_1core_1_1Strides.html">Strides</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4dda29cdd494cbdef0086700271376a">strides</a> () const noexcept</td></tr>
-<tr class="memitem:ab0be49df52d3aae0bb7e7d1fef238dd8" id="r_ab0be49df52d3aae0bb7e7d1fef238dd8"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0be49df52d3aae0bb7e7d1fef238dd8">data</a> () noexcept</td></tr>
-<tr class="memitem:a00a117ecf79bc423990550c7fb16951c" id="r_a00a117ecf79bc423990550c7fb16951c"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00a117ecf79bc423990550c7fb16951c">data</a> () const noexcept</td></tr>
-<tr class="memitem:a18b1e574026a5329c312ee290d751b2b" id="r_a18b1e574026a5329c312ee290d751b2b"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18b1e574026a5329c312ee290d751b2b">front</a> ()</td></tr>
-<tr class="memitem:aa8cfdd3d45ac8f51c6fc8a4ef61f63fd" id="r_aa8cfdd3d45ac8f51c6fc8a4ef61f63fd"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8cfdd3d45ac8f51c6fc8a4ef61f63fd">front</a> () const</td></tr>
-<tr class="memitem:a4c5e4c0149174a01d3d78c6406c5637a" id="r_a4c5e4c0149174a01d3d78c6406c5637a"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c5e4c0149174a01d3d78c6406c5637a">back</a> ()</td></tr>
-<tr class="memitem:a3277313275d1b072efaed8886058d40b" id="r_a3277313275d1b072efaed8886058d40b"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3277313275d1b072efaed8886058d40b">back</a> () const</td></tr>
-<tr class="memitem:a0d22344fcb1e6d12edaf7817192d0ef5" id="r_a0d22344fcb1e6d12edaf7817192d0ef5"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d22344fcb1e6d12edaf7817192d0ef5">operator[]</a> (std::size_t index) noexcept</td></tr>
-<tr class="memitem:ae3f9a11e9d4fc0d7b6f00080ab5fd880" id="r_ae3f9a11e9d4fc0d7b6f00080ab5fd880"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3f9a11e9d4fc0d7b6f00080ab5fd880">operator[]</a> (std::size_t index) const noexcept</td></tr>
-<tr class="memitem:a9eaec247991a0866ffbcfa6f27e8e09d" id="r_a9eaec247991a0866ffbcfa6f27e8e09d"><td class="memItemLeft" align="right" valign="top">iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eaec247991a0866ffbcfa6f27e8e09d">begin</a> () noexcept</td></tr>
-<tr class="memitem:a1ae3d49af295e65a4e0eefbd41b82791" id="r_a1ae3d49af295e65a4e0eefbd41b82791"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ae3d49af295e65a4e0eefbd41b82791">begin</a> () const noexcept</td></tr>
-<tr class="memitem:a65434747181a16c861349b9dc079863e" id="r_a65434747181a16c861349b9dc079863e"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65434747181a16c861349b9dc079863e">cbegin</a> () const noexcept</td></tr>
-<tr class="memitem:aeef3203f24688eea06a60287866eaf09" id="r_aeef3203f24688eea06a60287866eaf09"><td class="memItemLeft" align="right" valign="top">iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeef3203f24688eea06a60287866eaf09">end</a> () noexcept</td></tr>
-<tr class="memitem:a0faf277862fc20ada2a3a356bad08565" id="r_a0faf277862fc20ada2a3a356bad08565"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0faf277862fc20ada2a3a356bad08565">end</a> () const noexcept</td></tr>
-<tr class="memitem:a84be8e2b9f4004948b0e352836c2510c" id="r_a84be8e2b9f4004948b0e352836c2510c"><td class="memItemLeft" align="right" valign="top">const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84be8e2b9f4004948b0e352836c2510c">cend</a> () const noexcept</td></tr>
-<tr class="memitem:af56f60074dfd3ef70a984ec884931bb3" id="r_af56f60074dfd3ef70a984ec884931bb3"><td class="memItemLeft" align="right" valign="top">reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af56f60074dfd3ef70a984ec884931bb3">rbegin</a> () noexcept</td></tr>
-<tr class="memitem:abdf625d9f869a1f7684c00d7760f1f7a" id="r_abdf625d9f869a1f7684c00d7760f1f7a"><td class="memItemLeft" align="right" valign="top">const_reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdf625d9f869a1f7684c00d7760f1f7a">rbegin</a> () const noexcept</td></tr>
-<tr class="memitem:a0f7a220073e6a2b7721e8a18fc5be6d6" id="r_a0f7a220073e6a2b7721e8a18fc5be6d6"><td class="memItemLeft" align="right" valign="top">const_reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f7a220073e6a2b7721e8a18fc5be6d6">crbegin</a> () const noexcept</td></tr>
-<tr class="memitem:a09b09e96e7d2c4e2340dab4317b5b5a4" id="r_a09b09e96e7d2c4e2340dab4317b5b5a4"><td class="memItemLeft" align="right" valign="top">reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09b09e96e7d2c4e2340dab4317b5b5a4">rend</a> () noexcept</td></tr>
-<tr class="memitem:af955ce9a308c040a1182d25672682aa8" id="r_af955ce9a308c040a1182d25672682aa8"><td class="memItemLeft" align="right" valign="top">const_reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af955ce9a308c040a1182d25672682aa8">rend</a> () const noexcept</td></tr>
-<tr class="memitem:ae008e52970ef3c3adf18258f7a37099b" id="r_ae008e52970ef3c3adf18258f7a37099b"><td class="memItemLeft" align="right" valign="top">const_reverse_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae008e52970ef3c3adf18258f7a37099b">crend</a> () const noexcept</td></tr>
-<tr class="memitem:ad9ae1f37f51fc40d5f1a9a7836911e00" id="r_ad9ae1f37f51fc40d5f1a9a7836911e00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9ae1f37f51fc40d5f1a9a7836911e00">fill</a> (const T &amp;value)</td></tr>
-<tr class="memitem:afb2492322a2286fde91600766f4abd34" id="r_afb2492322a2286fde91600766f4abd34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb2492322a2286fde91600766f4abd34">swap</a> (ArrayBase &amp;other) noexcept</td></tr>
+<tr class="memdesc:a4b5be5dc6488844eb77055e42fc92685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the logical shape metadata.  <br /></td></tr>
+<tr class="memitem:afa6ea2a60394fe58b1eaf3bc2a409a7f" id="r_afa6ea2a60394fe58b1eaf3bc2a409a7f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa6ea2a60394fe58b1eaf3bc2a409a7f">strides</a> () const noexcept</td></tr>
+<tr class="memdesc:afa6ea2a60394fe58b1eaf3bc2a409a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the row-major stride metadata.  <br /></td></tr>
+<tr class="memitem:a85c885ade0a75f49114e346fe3573f9c" id="r_a85c885ade0a75f49114e346fe3573f9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a22c5d4a0165c25582cc50d9aa2cf656a">pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85c885ade0a75f49114e346fe3573f9c">data</a> () noexcept</td></tr>
+<tr class="memdesc:a85c885ade0a75f49114e346fe3573f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to contiguous mutable element storage.  <br /></td></tr>
+<tr class="memitem:a6f963d54d082aefa0f2bd9b0d73fed8a" id="r_a6f963d54d082aefa0f2bd9b0d73fed8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a8d8ed1d760048c3cfe7fbafbe3dcb010">const_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f963d54d082aefa0f2bd9b0d73fed8a">data</a> () const noexcept</td></tr>
+<tr class="memdesc:a6f963d54d082aefa0f2bd9b0d73fed8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to contiguous read-only element storage.  <br /></td></tr>
+<tr class="memitem:ac2dfa3448b1d48e4a3f8ea5d00addbed" id="r_ac2dfa3448b1d48e4a3f8ea5d00addbed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2dfa3448b1d48e4a3f8ea5d00addbed">front</a> ()</td></tr>
+<tr class="memdesc:ac2dfa3448b1d48e4a3f8ea5d00addbed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element.  <br /></td></tr>
+<tr class="memitem:aec96b3b17e1e4625be04b5a01ce65457" id="r_aec96b3b17e1e4625be04b5a01ce65457"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec96b3b17e1e4625be04b5a01ce65457">front</a> () const</td></tr>
+<tr class="memdesc:aec96b3b17e1e4625be04b5a01ce65457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element.  <br /></td></tr>
+<tr class="memitem:a02cc4ae0522bf548cd7f0a6c698a6c23" id="r_a02cc4ae0522bf548cd7f0a6c698a6c23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02cc4ae0522bf548cd7f0a6c698a6c23">back</a> ()</td></tr>
+<tr class="memdesc:a02cc4ae0522bf548cd7f0a6c698a6c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the final element.  <br /></td></tr>
+<tr class="memitem:af64063468a02b2cb6774a5df64392a84" id="r_af64063468a02b2cb6774a5df64392a84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af64063468a02b2cb6774a5df64392a84">back</a> () const</td></tr>
+<tr class="memdesc:af64063468a02b2cb6774a5df64392a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the final element.  <br /></td></tr>
+<tr class="memitem:a36bac5be5c7285fd692f87a02d79f6f2" id="r_a36bac5be5c7285fd692f87a02d79f6f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36bac5be5c7285fd692f87a02d79f6f2">operator[]</a> (<a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> index) noexcept</td></tr>
+<tr class="memdesc:a36bac5be5c7285fd692f87a02d79f6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element without bounds checking.  <br /></td></tr>
+<tr class="memitem:a975e76941fe6935d50b9357e91a2f51c" id="r_a975e76941fe6935d50b9357e91a2f51c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a975e76941fe6935d50b9357e91a2f51c">operator[]</a> (<a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> index) const noexcept</td></tr>
+<tr class="memdesc:a975e76941fe6935d50b9357e91a2f51c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element without bounds checking.  <br /></td></tr>
+<tr class="memitem:ac8b481b27d640b1d494ba9db078d3464" id="r_ac8b481b27d640b1d494ba9db078d3464"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8b481b27d640b1d494ba9db078d3464">at</a> (<a class="el" href="#ab5ac167ebfa28af7e502d7adedf9a1b5">difference_type</a> index)</td></tr>
+<tr class="memdesc:ac8b481b27d640b1d494ba9db078d3464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element using checked, Python-style flat indexing.  <br /></td></tr>
+<tr class="memitem:af9f426c194fe96c0d4114698fbc27f06" id="r_af9f426c194fe96c0d4114698fbc27f06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9f426c194fe96c0d4114698fbc27f06">at</a> (<a class="el" href="#ab5ac167ebfa28af7e502d7adedf9a1b5">difference_type</a> index) const</td></tr>
+<tr class="memdesc:af9f426c194fe96c0d4114698fbc27f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an element using checked, Python-style flat indexing.  <br /></td></tr>
+<tr class="memitem:a9eaec247991a0866ffbcfa6f27e8e09d" id="r_a9eaec247991a0866ffbcfa6f27e8e09d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab7fbf451cdbf2d78aa6b820c38058e61">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eaec247991a0866ffbcfa6f27e8e09d">begin</a> () noexcept</td></tr>
+<tr class="memdesc:a9eaec247991a0866ffbcfa6f27e8e09d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable iterator to the first element.  <br /></td></tr>
+<tr class="memitem:a1ae3d49af295e65a4e0eefbd41b82791" id="r_a1ae3d49af295e65a4e0eefbd41b82791"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ae3d49af295e65a4e0eefbd41b82791">begin</a> () const noexcept</td></tr>
+<tr class="memdesc:a1ae3d49af295e65a4e0eefbd41b82791"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first element.  <br /></td></tr>
+<tr class="memitem:a65434747181a16c861349b9dc079863e" id="r_a65434747181a16c861349b9dc079863e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65434747181a16c861349b9dc079863e">cbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a65434747181a16c861349b9dc079863e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first element.  <br /></td></tr>
+<tr class="memitem:aeef3203f24688eea06a60287866eaf09" id="r_aeef3203f24688eea06a60287866eaf09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab7fbf451cdbf2d78aa6b820c38058e61">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeef3203f24688eea06a60287866eaf09">end</a> () noexcept</td></tr>
+<tr class="memdesc:aeef3203f24688eea06a60287866eaf09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable iterator past the final element.  <br /></td></tr>
+<tr class="memitem:a0faf277862fc20ada2a3a356bad08565" id="r_a0faf277862fc20ada2a3a356bad08565"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0faf277862fc20ada2a3a356bad08565">end</a> () const noexcept</td></tr>
+<tr class="memdesc:a0faf277862fc20ada2a3a356bad08565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator past the final element.  <br /></td></tr>
+<tr class="memitem:a84be8e2b9f4004948b0e352836c2510c" id="r_a84be8e2b9f4004948b0e352836c2510c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84be8e2b9f4004948b0e352836c2510c">cend</a> () const noexcept</td></tr>
+<tr class="memdesc:a84be8e2b9f4004948b0e352836c2510c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator past the final element.  <br /></td></tr>
+<tr class="memitem:af56f60074dfd3ef70a984ec884931bb3" id="r_af56f60074dfd3ef70a984ec884931bb3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5d33f1a39c89f84a778cdbf8093bfeaf">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af56f60074dfd3ef70a984ec884931bb3">rbegin</a> () noexcept</td></tr>
+<tr class="memdesc:af56f60074dfd3ef70a984ec884931bb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable reverse iterator to the final element.  <br /></td></tr>
+<tr class="memitem:abdf625d9f869a1f7684c00d7760f1f7a" id="r_abdf625d9f869a1f7684c00d7760f1f7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdf625d9f869a1f7684c00d7760f1f7a">rbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:abdf625d9f869a1f7684c00d7760f1f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the final element.  <br /></td></tr>
+<tr class="memitem:a0f7a220073e6a2b7721e8a18fc5be6d6" id="r_a0f7a220073e6a2b7721e8a18fc5be6d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f7a220073e6a2b7721e8a18fc5be6d6">crbegin</a> () const noexcept</td></tr>
+<tr class="memdesc:a0f7a220073e6a2b7721e8a18fc5be6d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the final element.  <br /></td></tr>
+<tr class="memitem:a09b09e96e7d2c4e2340dab4317b5b5a4" id="r_a09b09e96e7d2c4e2340dab4317b5b5a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5d33f1a39c89f84a778cdbf8093bfeaf">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09b09e96e7d2c4e2340dab4317b5b5a4">rend</a> () noexcept</td></tr>
+<tr class="memdesc:a09b09e96e7d2c4e2340dab4317b5b5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end mutable reverse iterator.  <br /></td></tr>
+<tr class="memitem:af955ce9a308c040a1182d25672682aa8" id="r_af955ce9a308c040a1182d25672682aa8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af955ce9a308c040a1182d25672682aa8">rend</a> () const noexcept</td></tr>
+<tr class="memdesc:af955ce9a308c040a1182d25672682aa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end const reverse iterator.  <br /></td></tr>
+<tr class="memitem:ae008e52970ef3c3adf18258f7a37099b" id="r_ae008e52970ef3c3adf18258f7a37099b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae008e52970ef3c3adf18258f7a37099b">crend</a> () const noexcept</td></tr>
+<tr class="memdesc:ae008e52970ef3c3adf18258f7a37099b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end const reverse iterator.  <br /></td></tr>
+<tr class="memitem:a65ae64f3d0eb93fb64e7a48dedc4987b" id="r_a65ae64f3d0eb93fb64e7a48dedc4987b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65ae64f3d0eb93fb64e7a48dedc4987b">fill</a> (<a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> value)</td></tr>
+<tr class="memdesc:a65ae64f3d0eb93fb64e7a48dedc4987b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <code class="param">value</code> to every stored element.  <br /></td></tr>
+<tr class="memitem:afb2492322a2286fde91600766f4abd34" id="r_afb2492322a2286fde91600766f4abd34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb2492322a2286fde91600766f4abd34">swap</a> (<a class="el" href="#a31a29c09b07d59cb4613de222c5f7d7a">ArrayBase</a> &amp;other) noexcept</td></tr>
+<tr class="memdesc:afb2492322a2286fde91600766f4abd34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges storage and layout metadata with <code class="param">other</code>.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac16ab61b6d2c0dbcc1d6d602892f8b0b" id="r_ac16ab61b6d2c0dbcc1d6d602892f8b0b"><td class="memItemLeft" align="right" valign="top">static constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac16ab61b6d2c0dbcc1d6d602892f8b0b">dtype</a> () noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0ff73d04dfb5d38227c6a6ff946e7f79" id="r_a0ff73d04dfb5d38227c6a6ff946e7f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ff73d04dfb5d38227c6a6ff946e7f79">set_shape_and_strides</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;shape)</td></tr>
-<tr class="memitem:ae6f34bbfa5272e21e9f2a9cd58757a1f" id="r_ae6f34bbfa5272e21e9f2a9cd58757a1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6f34bbfa5272e21e9f2a9cd58757a1f">allocate_from_shape</a> ()</td></tr>
-<tr class="memitem:a44f7e634feae23e51d64c04c5c86e526" id="r_a44f7e634feae23e51d64c04c5c86e526"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44f7e634feae23e51d64c04c5c86e526">allocate_from_shape</a> (const T &amp;value)</td></tr>
-<tr class="memitem:a883cad3cc1fc42e042d0af166f28d871" id="r_a883cad3cc1fc42e042d0af166f28d871"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883cad3cc1fc42e042d0af166f28d871">allocate_with_size</a> (std::size_t size)</td></tr>
-<tr class="memitem:a60cc391ba8e99e28466cf5dbe5885c9a" id="r_a60cc391ba8e99e28466cf5dbe5885c9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60cc391ba8e99e28466cf5dbe5885c9a">allocate_with_size</a> (std::size_t size, const T &amp;value)</td></tr>
-<tr class="memitem:a107b911eb1749df416d05deef12a43f8" id="r_a107b911eb1749df416d05deef12a43f8"><td class="memTemplParams" colspan="2">template&lt;std::size_t N&gt; </td></tr>
-<tr class="memitem:a107b911eb1749df416d05deef12a43f8 template"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::size_t, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a107b911eb1749df416d05deef12a43f8">normalize_multi_indices</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;) const</td></tr>
-<tr class="memitem:af96fbc8074e85e2f2388a402c61c17da" id="r_af96fbc8074e85e2f2388a402c61c17da"><td class="memTemplParams" colspan="2">template&lt;std::size_t N&gt; </td></tr>
-<tr class="memitem:af96fbc8074e85e2f2388a402c61c17da template"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af96fbc8074e85e2f2388a402c61c17da">normalized_flat_offset</a> (const std::array&lt; std::ptrdiff_t, N &gt; &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index rank must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
-<tr class="memitem:ad0c470e17dda753029bf43ef36d02523" id="r_ad0c470e17dda753029bf43ef36d02523"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
-<tr class="memitem:ad0c470e17dda753029bf43ef36d02523 template"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0c470e17dda753029bf43ef36d02523">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
-<tr class="memitem:ace6e4c108be35bff3a2a615870c7a02f" id="r_ace6e4c108be35bff3a2a615870c7a02f"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace6e4c108be35bff3a2a615870c7a02f">normalize_flat_index</a> (std::ptrdiff_t index) const</td></tr>
-<tr class="memitem:a3eda7b4e74780fd8880821c2881d385c" id="r_a3eda7b4e74780fd8880821c2881d385c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eda7b4e74780fd8880821c2881d385c">normalize_axis_index</a> (std::ptrdiff_t index, std::size_t extent) const</td></tr>
-<tr class="memitem:ae4888f79bda43ef2db4c9132b22c0c1b" id="r_ae4888f79bda43ef2db4c9132b22c0c1b"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4888f79bda43ef2db4c9132b22c0c1b">checked_flat_ref</a> (std::ptrdiff_t index)</td></tr>
-<tr class="memitem:a4d22585b705bbac6af94e9ed207f3f40" id="r_a4d22585b705bbac6af94e9ed207f3f40"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d22585b705bbac6af94e9ed207f3f40">checked_flat_ref</a> (std::ptrdiff_t index) const</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a3f4769f7e335384479faf2b5aaa62b4d" id="r_a3f4769f7e335384479faf2b5aaa62b4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f4769f7e335384479faf2b5aaa62b4d">buffer_</a></td></tr>
-<tr class="memitem:a3fa77277e58522acfd65358fb72c497f" id="r_a3fa77277e58522acfd65358fb72c497f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fa77277e58522acfd65358fb72c497f">shape_</a></td></tr>
-<tr class="memitem:a2834a2b961d427f6cd32cf627220b60c" id="r_a2834a2b961d427f6cd32cf627220b60c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstratax_1_1core_1_1Strides.html">Strides</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2834a2b961d427f6cd32cf627220b60c">strides_</a></td></tr>
+<tr class="memitem:a31a29c09b07d59cb4613de222c5f7d7a" id="r_a31a29c09b07d59cb4613de222c5f7d7a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31a29c09b07d59cb4613de222c5f7d7a">ArrayBase</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;<a class="el" href="#a4b5be5dc6488844eb77055e42fc92685">shape</a>)</td></tr>
+<tr class="memdesc:a31a29c09b07d59cb4613de222c5f7d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs value-initialized storage for <code class="param">shape</code>.  <br /></td></tr>
+<tr class="memitem:a059f48a7a6b4fa34cd3df8226edf4385" id="r_a059f48a7a6b4fa34cd3df8226edf4385"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a059f48a7a6b4fa34cd3df8226edf4385">ArrayBase</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;<a class="el" href="#a4b5be5dc6488844eb77055e42fc92685">shape</a>, <a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> value)</td></tr>
+<tr class="memdesc:a059f48a7a6b4fa34cd3df8226edf4385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs storage filled with <code class="param">value</code> for <code class="param">shape</code>.  <br /></td></tr>
+<tr class="memitem:a24317abcd14f755926a92a1ab4948a33" id="r_a24317abcd14f755926a92a1ab4948a33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24317abcd14f755926a92a1ab4948a33">ArrayBase</a> (const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;<a class="el" href="#a4b5be5dc6488844eb77055e42fc92685">shape</a>, <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; <a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a> &gt; &amp;&amp;buffer)</td></tr>
+<tr class="memdesc:a24317abcd14f755926a92a1ab4948a33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adopts an existing buffer for <code class="param">shape</code>.  <br /></td></tr>
+<tr class="memitem:a89ba93a8d581496676cb7b080bf04d28" id="r_a89ba93a8d581496676cb7b080bf04d28"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
+<tr class="memitem:a89ba93a8d581496676cb7b080bf04d28 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89ba93a8d581496676cb7b080bf04d28">normalized_flat_offset</a> (const IndexContainer &amp;raw_indices, const char *rank_mismatch_message=&quot;Multi-index <a class="el" href="#a900562149be7a10feb7d5a00273f4af6">rank</a> must match array rank.&quot;, const char *component_oob_message=nullptr) const</td></tr>
+<tr class="memdesc:a89ba93a8d581496676cb7b080bf04d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts checked signed multidimensional indices to a flat offset.  <br /></td></tr>
+<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a" id="r_a064ca70e3b889f17c64b70a5a84d3d2a"><td class="memTemplParams" colspan="2">template&lt;typename IndexContainer&gt; </td></tr>
+<tr class="memitem:a064ca70e3b889f17c64b70a5a84d3d2a template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a064ca70e3b889f17c64b70a5a84d3d2a">flat_offset</a> (const IndexContainer &amp;indices) const</td></tr>
+<tr class="memdesc:a064ca70e3b889f17c64b70a5a84d3d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes an unchecked row-major offset from normalized indices.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt;<br />
-class stratax::core::ArrayBase&lt; T &gt;</div>
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00015">15</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="afb52ca9e00e90098d80274ba29995ae9" name="afb52ca9e00e90098d80274ba29995ae9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb52ca9e00e90098d80274ba29995ae9">&#9670;&#160;</a></span>const_iterator</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::const_iterator</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00036">36</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a6727455505a582d822e91c4026d2b4dd" name="a6727455505a582d822e91c4026d2b4dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6727455505a582d822e91c4026d2b4dd">&#9670;&#160;</a></span>const_reverse_iterator</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_reverse_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::const_reverse_iterator</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt;<br />
+class stratax::core::ArrayBase&lt; T &gt;</div><p>Shared owning storage and layout base for Stratax array containers. </p>
+<p><a class="el" href="classstratax_1_1core_1_1ArrayBase.html" title="Shared owning storage and layout base for Stratax array containers.">ArrayBase</a> keeps an element <a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> synchronized with <a class="el" href="classstratax_1_1core_1_1Shape.html" title="Stores the dimensions of a multidimensional array.">Shape</a> metadata and its derived row-major stride <a class="el" href="classstratax_1_1core_1_1Shape.html" title="Stores the dimensions of a multidimensional array.">Shape</a>. It supplies the common one-dimensional container interface used by Vector, Matrix, and Tensor; derived classes provide rank constraints and multidimensional indexing APIs.</p>
+<p>The class is not directly constructible by users because its constructors are protected.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of each stored array element.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Invariants</dt><dd><ul>
+<li><span class="tt"><a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a> == <a class="el" href="#a4b5be5dc6488844eb77055e42fc92685" title="Returns the logical shape metadata.">shape()</a>.elements()</span>.</li>
+<li><span class="tt"><a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a> == <a class="el" href="#a4b5be5dc6488844eb77055e42fc92685" title="Returns the logical shape metadata.">shape()</a>.<a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a> == <a class="el" href="#afa6ea2a60394fe58b1eaf3bc2a409a7f" title="Returns the row-major stride metadata.">strides()</a>.<a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span>.</li>
+<li><span class="tt"><a class="el" href="#afa6ea2a60394fe58b1eaf3bc2a409a7f" title="Returns the row-major stride metadata.">strides()</a></span> represents the row-major layout of <span class="tt"><a class="el" href="#a4b5be5dc6488844eb77055e42fc92685" title="Returns the logical shape metadata.">shape()</a></span>.</li>
+</ul>
+</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> </dd>
+<dd>
+<a class="el" href="classstratax_1_1core_1_1Shape.html" title="Stores the dimensions of a multidimensional array.">Shape</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00038">38</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a13e7bf0514907767ec216b258c86a63e" name="a13e7bf0514907767ec216b258c86a63e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13e7bf0514907767ec216b258c86a63e">&#9670;&#160;</a></span>iterator</h2>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="acab182ac88c5a5c1f7e1d740f38b8a5e" name="acab182ac88c5a5c1f7e1d740f38b8a5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acab182ac88c5a5c1f7e1d740f38b8a5e">&#9670;&#160;</a></span>const_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::iterator</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00035">35</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Read-only contiguous random-access iterator type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00058">58</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac5524e92e72395d44c87d07e2fd444c2" name="ac5524e92e72395d44c87d07e2fd444c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5524e92e72395d44c87d07e2fd444c2">&#9670;&#160;</a></span>reverse_iterator</h2>
+<a id="a8d8ed1d760048c3cfe7fbafbe3dcb010" name="a8d8ed1d760048c3cfe7fbafbe3dcb010"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d8ed1d760048c3cfe7fbafbe3dcb010">&#9670;&#160;</a></span>const_pointer</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::reverse_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::reverse_iterator</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_pointer = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_pointer</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00037">37</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Read-only element pointer type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00054">54</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a918575ed768831015dadb91cc889896b" name="a918575ed768831015dadb91cc889896b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a918575ed768831015dadb91cc889896b">&#9670;&#160;</a></span>value_type</h2>
+<a id="a2c9b5bc84163cc0832d39c321d92821d" name="a2c9b5bc84163cc0832d39c321d92821d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9b5bc84163cc0832d39c321d92821d">&#9670;&#160;</a></span>const_reference</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::value_type = T</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_reference = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_reference</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00034">34</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Read-only element reference type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00050">50</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="ae6f34bbfa5272e21e9f2a9cd58757a1f" name="ae6f34bbfa5272e21e9f2a9cd58757a1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6f34bbfa5272e21e9f2a9cd58757a1f">&#9670;&#160;</a></span>allocate_from_shape() <span class="overload">[1/2]</span></h2>
+<a id="a6a82247a1b34b3a69699fc319357c1e5" name="a6a82247a1b34b3a69699fc319357c1e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a82247a1b34b3a69699fc319357c1e5">&#9670;&#160;</a></span>const_reverse_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::const_reverse_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::const_reverse_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read-only reverse iterator type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00062">62</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab5ac167ebfa28af7e502d7adedf9a1b5" name="ab5ac167ebfa28af7e502d7adedf9a1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5ac167ebfa28af7e502d7adedf9a1b5">&#9670;&#160;</a></span>difference_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::difference_type = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::difference_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Signed type used for checked indices and iterator distances. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00046">46</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab7fbf451cdbf2d78aa6b820c38058e61" name="ab7fbf451cdbf2d78aa6b820c38058e61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7fbf451cdbf2d78aa6b820c38058e61">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable contiguous random-access iterator type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00056">56</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a22c5d4a0165c25582cc50d9aa2cf656a" name="a22c5d4a0165c25582cc50d9aa2cf656a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22c5d4a0165c25582cc50d9aa2cf656a">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::pointer = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::pointer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable element pointer type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00052">52</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad6136928e48cf38fc52bac15b2a1a158" name="ad6136928e48cf38fc52bac15b2a1a158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6136928e48cf38fc52bac15b2a1a158">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::reference = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::reference</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable element reference type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00048">48</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5d33f1a39c89f84a778cdbf8093bfeaf" name="a5d33f1a39c89f84a778cdbf8093bfeaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d33f1a39c89f84a778cdbf8093bfeaf">&#9670;&#160;</a></span>reverse_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::reverse_iterator = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::reverse_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable reverse iterator type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00060">60</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afe82ce5cc30086c8df9b95705c61f51b" name="afe82ce5cc30086c8df9b95705c61f51b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe82ce5cc30086c8df9b95705c61f51b">&#9670;&#160;</a></span>size_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::size_type = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;<a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a>&gt;::size_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unsigned type used for element counts and indices. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00044">44</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0bc80bbf2d7106d9cbb9e97dca4397bf" name="a0bc80bbf2d7106d9cbb9e97dca4397bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::value_type = typename <a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt;::value_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stored element type. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00042">42</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a31a29c09b07d59cb4613de222c5f7d7a" name="a31a29c09b07d59cb4613de222c5f7d7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31a29c09b07d59cb4613de222c5f7d7a">&#9670;&#160;</a></span>ArrayBase() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_from_shape </td>
+          <td class="memname"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::ArrayBase </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shape</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00194">194</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Constructs value-initialized storage for <code class="param">shape</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>Logical shape of the resulting array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></td><td>If the element count or a stride cannot be represented by <a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b" title="Unsigned type used for element counts and indices.">size_type</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If element or metadata allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown while constructing a <a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf" title="Stored element type.">value_type</a> element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(shape.elements() + shape.rank()). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00186">186</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a44f7e634feae23e51d64c04c5c86e526" name="a44f7e634feae23e51d64c04c5c86e526"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44f7e634feae23e51d64c04c5c86e526">&#9670;&#160;</a></span>allocate_from_shape() <span class="overload">[2/2]</span></h2>
+<a id="a059f48a7a6b4fa34cd3df8226edf4385" name="a059f48a7a6b4fa34cd3df8226edf4385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a059f48a7a6b4fa34cd3df8226edf4385">&#9670;&#160;</a></span>ArrayBase() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_from_shape </td>
+          <td class="memname"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::ArrayBase </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00199">199</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a883cad3cc1fc42e042d0af166f28d871" name="a883cad3cc1fc42e042d0af166f28d871"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a883cad3cc1fc42e042d0af166f28d871">&#9670;&#160;</a></span>allocate_with_size() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_with_size </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00204">204</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a60cc391ba8e99e28466cf5dbe5885c9a" name="a60cc391ba8e99e28466cf5dbe5885c9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60cc391ba8e99e28466cf5dbe5885c9a">&#9670;&#160;</a></span>allocate_with_size() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::allocate_with_size </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shape</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -406,23 +541,182 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00209">209</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Constructs storage filled with <code class="param">value</code> for <code class="param">shape</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>Logical shape of the resulting array. </td></tr>
+    <tr><td class="paramname">value</td><td>Value copied into every element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></td><td>If the element count or a stride cannot be represented by <a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b" title="Unsigned type used for element counts and indices.">size_type</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If element or metadata allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown by <a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf" title="Stored element type.">value_type</a>'s copy constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(shape.elements() + shape.rank()). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00202">202</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a4c5e4c0149174a01d3d78c6406c5637a" name="a4c5e4c0149174a01d3d78c6406c5637a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c5e4c0149174a01d3d78c6406c5637a">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
+<a id="a24317abcd14f755926a92a1ab4948a33" name="a24317abcd14f755926a92a1ab4948a33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24317abcd14f755926a92a1ab4948a33">&#9670;&#160;</a></span>ArrayBase() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::back </td>
+          <td class="memname"><a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::ArrayBase </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shape</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt; <a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf">value_type</a> &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adopts an existing buffer for <code class="param">shape</code>. </p>
+<p>Ownership of <code class="param">buffer</code> is transferred before its element count is validated. If validation fails, the adopted storage is released while unwinding construction.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shape</td><td>Logical shape associated with the storage. </td></tr>
+    <tr><td class="paramname">buffer</td><td>Element storage to adopt. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1ShapeError.html">Exceptions::ShapeError</a></td><td>If <span class="tt">buffer.size() != shape.elements()</span>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></td><td>If the element count or a stride cannot be represented by <a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b" title="Unsigned type used for element counts and indices.">size_type</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If metadata allocation fails. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(shape.rank()) plus O(1) buffer ownership transfer. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00223">223</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ac8b481b27d640b1d494ba9db078d3464" name="ac8b481b27d640b1d494ba9db078d3464"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8b481b27d640b1d494ba9db078d3464">&#9670;&#160;</a></span>at() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab5ac167ebfa28af7e502d7adedf9a1b5">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an element using checked, Python-style flat indexing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Index in the range <span class="tt">[-<a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a>, <a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a>)</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If <code class="param">index</code> is outside the valid range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00118">118</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af9f426c194fe96c0d4114698fbc27f06" name="af9f426c194fe96c0d4114698fbc27f06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9f426c194fe96c0d4114698fbc27f06">&#9670;&#160;</a></span>at() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab5ac167ebfa28af7e502d7adedf9a1b5">difference_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an element using checked, Python-style flat indexing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Index in the range <span class="tt">[-<a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a>, <a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a>)</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If <code class="param">index</code> is outside the valid range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00125">125</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a02cc4ae0522bf548cd7f0a6c698a6c23" name="a02cc4ae0522bf548cd7f0a6c698a6c23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02cc4ae0522bf548cd7f0a6c698a6c23">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::back </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -435,23 +729,32 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00089">89</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the final element. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00103">103</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3277313275d1b072efaed8886058d40b" name="a3277313275d1b072efaed8886058d40b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3277313275d1b072efaed8886058d40b">&#9670;&#160;</a></span>back() <span class="overload">[2/2]</span></h2>
+<a id="af64063468a02b2cb6774a5df64392a84" name="af64063468a02b2cb6774a5df64392a84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af64063468a02b2cb6774a5df64392a84">&#9670;&#160;</a></span>back() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::back </td>
+          <td class="memname"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::back </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -464,7 +767,16 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00096">96</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the final element. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00105">105</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -474,13 +786,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::begin </td>
+          <td class="memname"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -493,7 +805,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00118">118</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a const iterator to the first element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00130">130</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -503,13 +818,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::begin </td>
+          <td class="memname"><a class="el" href="#ab7fbf451cdbf2d78aa6b820c38058e61">iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -522,7 +837,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00113">113</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a mutable iterator to the first element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00128">128</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -532,13 +850,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::cbegin </td>
+          <td class="memname"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::cbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -551,7 +869,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00123">123</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a const iterator to the first element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00132">132</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -561,13 +882,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::cend </td>
+          <td class="memname"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::cend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -580,65 +901,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns a const iterator past the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00138">138</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ae4888f79bda43ef2db4c9132b22c0c1b" name="ae4888f79bda43ef2db4c9132b22c0c1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4888f79bda43ef2db4c9132b22c0c1b">&#9670;&#160;</a></span>checked_flat_ref() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::checked_flat_ref </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00275">275</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a4d22585b705bbac6af94e9ed207f3f40" name="a4d22585b705bbac6af94e9ed207f3f40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d22585b705bbac6af94e9ed207f3f40">&#9670;&#160;</a></span>checked_flat_ref() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::checked_flat_ref </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00280">280</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -648,13 +914,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::crbegin </td>
+          <td class="memname"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::crbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -667,7 +933,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00153">153</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a const reverse iterator to the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00144">144</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -677,13 +946,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::crend </td>
+          <td class="memname"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::crend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -696,23 +965,26 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00168">168</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the past-the-end const reverse iterator. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00150">150</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a00a117ecf79bc423990550c7fb16951c" name="a00a117ecf79bc423990550c7fb16951c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00a117ecf79bc423990550c7fb16951c">&#9670;&#160;</a></span>data() <span class="overload">[1/2]</span></h2>
+<a id="a6f963d54d082aefa0f2bd9b0d73fed8a" name="a6f963d54d082aefa0f2bd9b0d73fed8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f963d54d082aefa0f2bd9b0d73fed8a">&#9670;&#160;</a></span>data() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T * <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::data </td>
+          <td class="memname"><a class="el" href="#a8d8ed1d760048c3cfe7fbafbe3dcb010">const_pointer</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -720,28 +992,32 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00070">70</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a pointer to contiguous read-only element storage. </p>
+<dl class="section return"><dt>Returns</dt><dd>First element address, or <span class="tt">nullptr</span> when empty. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00095">95</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab0be49df52d3aae0bb7e7d1fef238dd8" name="ab0be49df52d3aae0bb7e7d1fef238dd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0be49df52d3aae0bb7e7d1fef238dd8">&#9670;&#160;</a></span>data() <span class="overload">[2/2]</span></h2>
+<a id="a85c885ade0a75f49114e346fe3573f9c" name="a85c885ade0a75f49114e346fe3573f9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85c885ade0a75f49114e346fe3573f9c">&#9670;&#160;</a></span>data() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T * <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::data </td>
+          <td class="memname"><a class="el" href="#a22c5d4a0165c25582cc50d9aa2cf656a">pointer</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -749,12 +1025,45 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00065">65</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a pointer to contiguous mutable element storage. </p>
+<dl class="section return"><dt>Returns</dt><dd>First element address, or <span class="tt">nullptr</span> when empty. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00089">89</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac16ab61b6d2c0dbcc1d6d602892f8b0b" name="ac16ab61b6d2c0dbcc1d6d602892f8b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac16ab61b6d2c0dbcc1d6d602892f8b0b">&#9670;&#160;</a></span>dtype()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::dtype </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00064">64</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -764,7 +1073,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -778,12 +1087,15 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00045">45</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Reports whether no elements are stored. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00073">73</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -793,13 +1105,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::end </td>
+          <td class="memname"><a class="el" href="#acab182ac88c5a5c1f7e1d740f38b8a5e">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -812,7 +1124,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00133">133</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a const iterator past the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00136">136</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -822,13 +1137,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::end </td>
+          <td class="memname"><a class="el" href="#ab7fbf451cdbf2d78aa6b820c38058e61">iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -841,17 +1156,20 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00128">128</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a mutable iterator past the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00134">134</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad9ae1f37f51fc40d5f1a9a7836911e00" name="ad9ae1f37f51fc40d5f1a9a7836911e00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9ae1f37f51fc40d5f1a9a7836911e00">&#9670;&#160;</a></span>fill()</h2>
+<a id="a65ae64f3d0eb93fb64e7a48dedc4987b" name="a65ae64f3d0eb93fb64e7a48dedc4987b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65ae64f3d0eb93fb64e7a48dedc4987b">&#9670;&#160;</a></span>fill()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -859,7 +1177,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::fill </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -870,17 +1188,32 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00173">173</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Assigns <code class="param">value</code> to every stored element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Value copied into each element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Any</td><td>exception thrown by <a class="el" href="#a0bc80bbf2d7106d9cbb9e97dca4397bf" title="Stored element type.">value_type</a>'s copy-assignment operator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(size()). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00158">158</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad0c470e17dda753029bf43ef36d02523" name="ad0c470e17dda753029bf43ef36d02523"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0c470e17dda753029bf43ef36d02523">&#9670;&#160;</a></span>flat_offset()</h2>
+<a id="a064ca70e3b889f17c64b70a5a84d3d2a" name="a064ca70e3b889f17c64b70a5a84d3d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a064ca70e3b889f17c64b70a5a84d3d2a">&#9670;&#160;</a></span>flat_offset()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <div class="memtemplate">
 template&lt;typename IndexContainer&gt; </div>
 <table class="mlabels">
@@ -888,7 +1221,7 @@ template&lt;typename IndexContainer&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::flat_offset </td>
+          <td class="memname"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::flat_offset </td>
           <td>(</td>
           <td class="paramtype">const IndexContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span></td><td>)</td>
           <td> const</td>
@@ -901,23 +1234,40 @@ template&lt;typename IndexContainer&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00260">260</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Computes an unchecked row-major offset from normalized indices. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IndexContainer</td><td>Iterable container of non-negative indices. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">indices</td><td>One already-normalized index per logical dimension. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Row-major flat element offset. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">indices.size() == <a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a></span> and every component is within its corresponding dimension. Violating these requirements may produce an invalid offset or undefined behavior. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00305">305</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a18b1e574026a5329c312ee290d751b2b" name="a18b1e574026a5329c312ee290d751b2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b1e574026a5329c312ee290d751b2b">&#9670;&#160;</a></span>front() <span class="overload">[1/2]</span></h2>
+<a id="ac2dfa3448b1d48e4a3f8ea5d00addbed" name="ac2dfa3448b1d48e4a3f8ea5d00addbed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2dfa3448b1d48e4a3f8ea5d00addbed">&#9670;&#160;</a></span>front() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::front </td>
+          <td class="memname"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::front </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -930,23 +1280,32 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00075">75</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the first element. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00098">98</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa8cfdd3d45ac8f51c6fc8a4ef61f63fd" name="aa8cfdd3d45ac8f51c6fc8a4ef61f63fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8cfdd3d45ac8f51c6fc8a4ef61f63fd">&#9670;&#160;</a></span>front() <span class="overload">[2/2]</span></h2>
+<a id="aec96b3b17e1e4625be04b5a01ce65457" name="aec96b3b17e1e4625be04b5a01ce65457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec96b3b17e1e4625be04b5a01ce65457">&#9670;&#160;</a></span>front() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::front </td>
+          <td class="memname"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::front </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -959,129 +1318,41 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00082">82</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the first element. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00100">100</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3eda7b4e74780fd8880821c2881d385c" name="a3eda7b4e74780fd8880821c2881d385c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3eda7b4e74780fd8880821c2881d385c">&#9670;&#160;</a></span>normalize_axis_index()</h2>
+<a id="a89ba93a8d581496676cb7b080bf04d28" name="a89ba93a8d581496676cb7b080bf04d28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ba93a8d581496676cb7b080bf04d28">&#9670;&#160;</a></span>normalized_flat_offset()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
+<div class="memtemplate">
+template&lt;typename IndexContainer&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_axis_index </td>
+          <td class="memname"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalized_flat_offset </td>
           <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+          <td class="paramtype">const IndexContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>raw_indices</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>extent</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00270">270</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ace6e4c108be35bff3a2a615870c7a02f" name="ace6e4c108be35bff3a2a615870c7a02f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace6e4c108be35bff3a2a615870c7a02f">&#9670;&#160;</a></span>normalize_flat_index()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_flat_index </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00265">265</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a107b911eb1749df416d05deef12a43f8" name="a107b911eb1749df416d05deef12a43f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a107b911eb1749df416d05deef12a43f8">&#9670;&#160;</a></span>normalize_multi_indices()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<div class="memtemplate">
-template&lt;std::size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt; std::size_t, N &gt; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalize_multi_indices </td>
-          <td>(</td>
-          <td class="paramtype">const std::array&lt; std::ptrdiff_t, N &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>raw_indices</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>rank_mismatch_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Multi-index&#160;rank&#160;must&#160;match&#160;array&#160;rank.&quot;</span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00215">215</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="af96fbc8074e85e2f2388a402c61c17da" name="af96fbc8074e85e2f2388a402c61c17da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af96fbc8074e85e2f2388a402c61c17da">&#9670;&#160;</a></span>normalized_flat_offset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<div class="memtemplate">
-template&lt;std::size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::normalized_flat_offset </td>
-          <td>(</td>
-          <td class="paramtype">const std::array&lt; std::ptrdiff_t, N &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>raw_indices</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>rank_mismatch_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Multi-index&#160;rank&#160;must&#160;match&#160;array&#160;rank.&quot;</span>, </td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>rank_mismatch_message</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Multi-index&#160;<a class="el" href="#a900562149be7a10feb7d5a00273f4af6">rank</a>&#160;must&#160;match&#160;array&#160;rank.&quot;</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1096,25 +1367,50 @@ template&lt;std::size_t N&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00234">234</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Converts checked signed multidimensional indices to a flat offset. </p>
+<p>Each component is normalized independently against its corresponding dimension. Negative components count backward from the end. A custom component message replaces IndexError messages produced during component normalization; when it is null, the original exception is propagated.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IndexContainer</td><td>Sized, indexable container of signed indices. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raw_indices</td><td>One index per logical dimension. </td></tr>
+    <tr><td class="paramname">rank_mismatch_message</td><td>Message used when the index count differs from <a class="el" href="#a900562149be7a10feb7d5a00273f4af6" title="Returns the number of logical dimensions.">rank()</a>. </td></tr>
+    <tr><td class="paramname">component_oob_message</td><td>Optional replacement message for an invalid component. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Row-major flat element offset. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If the rank differs or a component is out of bounds. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(rank()). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00255">255</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ae3f9a11e9d4fc0d7b6f00080ab5fd880" name="ae3f9a11e9d4fc0d7b6f00080ab5fd880"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3f9a11e9d4fc0d7b6f00080ab5fd880">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+<a id="a975e76941fe6935d50b9357e91a2f51c" name="a975e76941fe6935d50b9357e91a2f51c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a975e76941fe6935d50b9357e91a2f51c">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="#a2c9b5bc84163cc0832d39c321d92821d">const_reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1125,25 +1421,29 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00108">108</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns an element without bounds checking. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">index &lt; <a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a></span>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00110">110</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a0d22344fcb1e6d12edaf7817192d0ef5" name="a0d22344fcb1e6d12edaf7817192d0ef5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d22344fcb1e6d12edaf7817192d0ef5">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+<a id="a36bac5be5c7285fd692f87a02d79f6f2" name="a36bac5be5c7285fd692f87a02d79f6f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36bac5be5c7285fd692f87a02d79f6f2">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="#ad6136928e48cf38fc52bac15b2a1a158">reference</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1154,23 +1454,27 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00103">103</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns an element without bounds checking. </p>
+<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">index &lt; <a class="el" href="#a4c1d70a1f8f5ad99fd0133633e7e4c73" title="Returns the number of stored elements.">size()</a></span>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00108">108</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a659244ab9c7114382d50a3403be9cbfc" name="a659244ab9c7114382d50a3403be9cbfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a659244ab9c7114382d50a3403be9cbfc">&#9670;&#160;</a></span>rank()</h2>
+<a id="a900562149be7a10feb7d5a00273f4af6" name="a900562149be7a10feb7d5a00273f4af6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a900562149be7a10feb7d5a00273f4af6">&#9670;&#160;</a></span>rank()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rank </td>
+          <td class="memname"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rank </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1178,12 +1482,15 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00050">50</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the number of logical dimensions. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00076">76</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1193,13 +1500,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rbegin </td>
+          <td class="memname"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1212,7 +1519,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00148">148</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a const reverse iterator to the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00142">142</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1222,13 +1532,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rbegin </td>
+          <td class="memname"><a class="el" href="#a5d33f1a39c89f84a778cdbf8093bfeaf">reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1241,7 +1551,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00143">143</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns a mutable reverse iterator to the final element. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00140">140</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1251,13 +1564,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const_reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rend </td>
+          <td class="memname"><a class="el" href="#a6a82247a1b34b3a69699fc319357c1e5">const_reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1270,7 +1583,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00163">163</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the past-the-end const reverse iterator. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00148">148</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1280,13 +1596,13 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">reverse_iterator <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rend </td>
+          <td class="memname"><a class="el" href="#a5d33f1a39c89f84a778cdbf8093bfeaf">reverse_iterator</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::rend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1299,36 +1615,10 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00158">158</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the past-the-end mutable reverse iterator. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-</div>
-</div>
-<a id="a0ff73d04dfb5d38227c6a6ff946e7f79" name="a0ff73d04dfb5d38227c6a6ff946e7f79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ff73d04dfb5d38227c6a6ff946e7f79">&#9670;&#160;</a></span>set_shape_and_strides()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::set_shape_and_strides </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shape</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00188">188</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00146">146</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1338,7 +1628,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1352,28 +1642,31 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00055">55</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the logical shape metadata. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00079">79</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa90242b604d88bcc3c38c4d96a411409" name="aa90242b604d88bcc3c38c4d96a411409"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa90242b604d88bcc3c38c4d96a411409">&#9670;&#160;</a></span>size()</h2>
+<a id="a4c1d70a1f8f5ad99fd0133633e7e4c73" name="a4c1d70a1f8f5ad99fd0133633e7e4c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1d70a1f8f5ad99fd0133633e7e4c73">&#9670;&#160;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::size </td>
+          <td class="memname"><a class="el" href="#afe82ce5cc30086c8df9b95705c61f51b">size_type</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::size </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1381,28 +1674,31 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00040">40</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the number of stored elements. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00070">70</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ae4dda29cdd494cbdef0086700271376a" name="ae4dda29cdd494cbdef0086700271376a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4dda29cdd494cbdef0086700271376a">&#9670;&#160;</a></span>strides()</h2>
+<a id="afa6ea2a60394fe58b1eaf3bc2a409a7f" name="afa6ea2a60394fe58b1eaf3bc2a409a7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa6ea2a60394fe58b1eaf3bc2a409a7f">&#9670;&#160;</a></span>strides()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classstratax_1_1core_1_1Strides.html">Strides</a> &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::strides </td>
+          <td class="memname">const <a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> &amp; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::strides </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1410,12 +1706,15 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00060">60</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Returns the row-major stride metadata. </p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00082">82</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>
@@ -1425,7 +1724,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
+template&lt;<a class="el" href="conceptDType.html">DType</a> T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1433,7 +1732,7 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::swap </td>
           <td>(</td>
-          <td class="paramtype">ArrayBase&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a31a29c09b07d59cb4613de222c5f7d7a">ArrayBase</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1444,86 +1743,17 @@ template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00178">178</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p>Exchanges storage and layout metadata with <code class="param">other</code>. </p>
+<p>Pointers, references, and iterators remain valid but refer to elements now owned by the other object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1ArrayBase.html" title="Shared owning storage and layout base for Stratax array containers.">ArrayBase</a> whose state is exchanged with this object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a3f4769f7e335384479faf2b5aaa62b4d" name="a3f4769f7e335384479faf2b5aaa62b4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f4769f7e335384479faf2b5aaa62b4d">&#9670;&#160;</a></span>buffer_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1core_1_1Buffer.html">Buffer</a>&lt;T&gt; <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::buffer_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00285">285</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a3fa77277e58522acfd65358fb72c497f" name="a3fa77277e58522acfd65358fb72c497f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fa77277e58522acfd65358fb72c497f">&#9670;&#160;</a></span>shape_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1core_1_1Shape.html">Shape</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::shape_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00286">286</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a2834a2b961d427f6cd32cf627220b60c" name="a2834a2b961d427f6cd32cf627220b60c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2834a2b961d427f6cd32cf627220b60c">&#9670;&#160;</a></span>strides_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="conceptNumeric.html">Numeric</a> T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1core_1_1Strides.html">Strides</a> <a class="el" href="classstratax_1_1core_1_1ArrayBase.html">stratax::core::ArrayBase</a>&lt; T &gt;::strides_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00287">287</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArrayBase_8hpp_source.html#l00169">169</a> of file <a class="el" href="ArrayBase_8hpp_source.html">ArrayBase.hpp</a>.</p>
 
 </div>
 </div>

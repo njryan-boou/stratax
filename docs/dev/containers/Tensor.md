@@ -54,7 +54,7 @@ Tensor<T>
 └── core::ArrayBase<T>
     ├── core::Buffer<T> buffer_
     ├── core::Shape     shape_
-    └── core::Strides   strides_
+    └── core::Shape     strides_
 ```
 
 For every normally constructed tensor:
@@ -374,6 +374,5 @@ Use `at(...)` when indices are external, signed, or otherwise untrusted.
 - @ref arraybase
 - @ref buffer
 - @ref shape
-- @ref strides
 - @ref vector
 - @ref matrix

@@ -55,7 +55,7 @@ Matrix<T>
 └── core::ArrayBase<T>
     ├── core::Buffer<T> buffer_
     ├── core::Shape     shape_
-    └── core::Strides   strides_
+    └── core::Shape     strides_
 ```
 
 For every normally constructed matrix:
@@ -211,7 +211,7 @@ The inherited metadata interface is also available:
 [[nodiscard]] bool empty() const noexcept;
 [[nodiscard]] size_type rank() const noexcept;
 [[nodiscard]] const core::Shape& shape() const noexcept;
-[[nodiscard]] const core::Strides& strides() const noexcept;
+[[nodiscard]] const core::Shape& strides() const noexcept;
 ```
 
 ---
@@ -378,6 +378,5 @@ initializer handling, and two-dimensional indexing.
 - @ref arraybase
 - @ref buffer
 - @ref shape
-- @ref strides
 - @ref vector
 - @ref tensor

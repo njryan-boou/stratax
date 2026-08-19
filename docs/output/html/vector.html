@@ -97,369 +97,178 @@ Vector</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Vector_8hpp_source.html">include/stratax/containers/Vector.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md179"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md106"></a>
 Overview</h2>
-<p><span class="tt">Vector&lt;T&gt;</span> is Stratax's rank-1 owning array container for numeric types.</p>
-<p>It stores values in contiguous memory and pairs that storage with <span class="tt">Shape</span> and <span class="tt">Strides</span> metadata to participate in the common container model used across Stratax arrays.</p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md181"></a>
+<p><span class="tt"><a class="el" href="classstratax_1_1container_1_1Vector.html" title="One-dimensional owning array of numeric values.">stratax::container::Vector</a>&lt;T&gt;</span> is a one-dimensional owning array for types that satisfy the <span class="tt"><a class="el" href="conceptNumeric.html">Numeric</a></span> concept. It derives from <span class="tt">core::ArrayBase&lt;T&gt;</span> and uses the base class's contiguous <span class="tt">Buffer</span> and <span class="tt">Shape</span> metadata. Strides are stored as a second <span class="tt">Shape</span> containing canonical row-major stride values.</p>
+<p>A normally constructed vector always has rank one. This includes an empty vector, whose shape is <span class="tt">{0}</span> and whose size is zero.</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> values{1.0, 2.0, 3.0};</div>
+<div class="line"> </div>
+<div class="line">values[0] = 4.0; <span class="comment">// unchecked access</span></div>
+<div class="line">values.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#ac8b481b27d640b1d494ba9db078d3464">at</a>(-1);   <span class="comment">// 3.0; negative indices count from the end</span></div>
+<div class="line">values.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#a65ae64f3d0eb93fb64e7a48dedc4987b">fill</a>(2.0);</div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector</a></div><div class="ttdoc">One-dimensional owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Vector_8hpp_source.html#l00043">Vector.hpp:44</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1ArrayBase_html_a65ae64f3d0eb93fb64e7a48dedc4987b"><div class="ttname"><a href="classstratax_1_1core_1_1ArrayBase.html#a65ae64f3d0eb93fb64e7a48dedc4987b">stratax::core::ArrayBase::fill</a></div><div class="ttdeci">void fill(const_reference value)</div><div class="ttdoc">Assigns value to every stored element.</div><div class="ttdef"><b>Definition</b> <a href="ArrayBase_8hpp_source.html#l00158">ArrayBase.hpp:158</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1ArrayBase_html_ac8b481b27d640b1d494ba9db078d3464"><div class="ttname"><a href="classstratax_1_1core_1_1ArrayBase.html#ac8b481b27d640b1d494ba9db078d3464">stratax::core::ArrayBase::at</a></div><div class="ttdeci">reference at(difference_type index)</div><div class="ttdoc">Returns an element using checked, Python-style flat indexing.</div><div class="ttdef"><b>Definition</b> <a href="ArrayBase_8hpp_source.html#l00118">ArrayBase.hpp:118</a></div></div>
+</div><!-- fragment --><hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md108"></a>
 Responsibilities</h2>
-<p>The <span class="tt">Vector</span> class is responsible for:</p>
+<p><span class="tt">Vector&lt;T&gt;</span> is responsible for:</p>
 <ul>
-<li>Owning contiguous rank-1 element storage</li>
-<li>Exposing shape and stride metadata</li>
-<li>Providing checked and unchecked element access</li>
-<li>Providing flat checked signed indexing via <span class="tt">at(index)</span></li>
-<li>Providing iterator access over contiguous storage</li>
-<li>Supporting copy/move ownership semantics</li>
+<li>Enforcing a rank-one shape at construction</li>
+<li>Providing convenient size, fill-value, shape, and initializer-list constructors</li>
+<li>Exposing the common owning-array interface inherited from <span class="tt">ArrayBase&lt;T&gt;</span></li>
+<li>Supporting constant-time member and argument-dependent <span class="tt">swap</span></li>
 </ul>
-<p>The <span class="tt">Vector</span> class is <b>not</b> responsible for:</p>
+<p>The inherited <span class="tt">ArrayBase&lt;T&gt;</span> interface provides:</p>
 <ul>
-<li>Rank-2 or rank-N multidimensional storage semantics</li>
-<li>Broadcasting logic</li>
-<li>High-level numerical algorithms</li>
-<li>Shape transformation outside the rank-1 contract</li>
+<li>Contiguous storage ownership</li>
+<li>Shape and stride metadata</li>
+<li>Checked signed flat indexing through <span class="tt">at(index)</span></li>
+<li>Unchecked flat indexing through <span class="tt">operator[]</span></li>
+<li>Forward and reverse iteration</li>
+<li><span class="tt">front()</span>, <span class="tt">back()</span>, <span class="tt">data()</span>, and <span class="tt">fill()</span></li>
+<li>Copy and move value semantics</li>
 </ul>
+<p><span class="tt">Vector&lt;T&gt;</span> does not provide multidimensional indexing, broadcasting, or rank-changing operations directly. Those operations belong to other containers or algorithms.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md183"></a>
-Relationships</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md110"></a>
+Representation and Invariants</h2>
 <div class="fragment"><div class="line">Vector&lt;T&gt;</div>
-<div class="line">│</div>
-<div class="line">├── shape_   : core::Shape</div>
-<div class="line">├── strides_ : core::Strides</div>
-<div class="line">└── buffer_  : core::Buffer&lt;T&gt;</div>
-</div><!-- fragment --><p>Depends on:</p>
+<div class="line">└── core::ArrayBase&lt;T&gt;</div>
+<div class="line">    ├── core::Buffer&lt;T&gt; buffer_</div>
+<div class="line">    ├── core::Shape     shape_</div>
+<div class="line">    └── core::Shape     strides_</div>
+</div><!-- fragment --><p>For every normally constructed vector:</p>
 <ul>
-<li>Buffer</li>
-<li>Shape</li>
-<li>Strides</li>
-<li>Validation helpers (<span class="tt">validation::require_rank</span>)</li>
-<li>Indexing helpers (<span class="tt">stratax::indexing::normalize_index</span>)</li>
-<li>Exceptions (<span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span>, <span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span>)</li>
+<li><span class="tt">rank() == 1</span></li>
+<li><span class="tt">shape() == Shape{size()}</span></li>
+<li><span class="tt">strides() == Shape{1}</span></li>
+<li><span class="tt">size() == shape().elements()</span></li>
+<li>Elements occupy one contiguous memory range</li>
 </ul>
-<p>Used by:</p>
-<ul>
-<li>Matrix/Tensor conversion paths</li>
-<li>Generic Stratax container utilities</li>
-</ul>
-<p>Related classes:</p>
-<ul>
-<li>Shape</li>
-<li>Strides</li>
-<li>Buffer</li>
-<li>Matrix</li>
-<li>Tensor</li>
-</ul>
+<p>As with other movable containers, a moved-from vector remains destructible and assignable, but its previous contents and layout must not be relied upon.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md185"></a>
-Internal Data</h2>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Member  </th><th class="markdownTableHeadNone">Description  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">core::Shape shape_</span>  </td><td class="markdownTableBodyNone">Shape metadata (typically rank 1, rank 0 for default state)  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">core::Strides strides_</span>  </td><td class="markdownTableBodyNone">Stride metadata for the vector layout  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">core::Buffer&lt;T&gt; buffer_</span>  </td><td class="markdownTableBodyNone">Contiguous element storage  </td></tr>
-</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md112"></a>
+Type Aliases</h2>
+<p><span class="tt">Vector&lt;T&gt;</span> republishes the complete container alias set from <span class="tt">core::ArrayBase&lt;T&gt;</span>:</p>
+<div class="fragment"><div class="line"><span class="keyword">using </span>value_type = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::value_type;</div>
+<div class="line"><span class="keyword">using </span>size_type = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::size_type;</div>
+<div class="line"><span class="keyword">using </span>difference_type = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::difference_type;</div>
+<div class="line"><span class="keyword">using </span>reference = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::reference;</div>
+<div class="line"><span class="keyword">using </span>const_reference = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::const_reference;</div>
+<div class="line"><span class="keyword">using </span>pointer = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::pointer;</div>
+<div class="line"><span class="keyword">using </span>const_pointer = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::const_pointer;</div>
+<div class="line"><span class="keyword">using </span>iterator = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::iterator;</div>
+<div class="line"><span class="keyword">using </span>const_iterator = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::const_iterator;</div>
+<div class="line"><span class="keyword">using </span>reverse_iterator = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::reverse_iterator;</div>
+<div class="line"><span class="keyword">using </span>const_reverse_iterator = <span class="keyword">typename</span> core::ArrayBase&lt;T&gt;::const_reverse_iterator;</div>
+</div><!-- fragment --><p>These aliases allow generic contiguous-container code to use <span class="tt">Vector&lt;T&gt;</span> without depending directly on <span class="tt">Buffer&lt;T&gt;</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md187"></a>
-Invariants</h2>
-<p>The following conditions are always true:</p>
-<ul>
-<li><span class="tt">size()</span> equals <span class="tt">shape().elements()</span>.</li>
-<li>For constructed rank-1 vectors, <span class="tt">rank() == 1</span> and <span class="tt">strides().rank() == 1</span>.</li>
-<li><span class="tt">data()</span> is contiguous and compatible with pointer iteration.</li>
-<li><span class="tt">at(index)</span> performs bounds validation and supports negative indexing.</li>
-<li><span class="tt">operator[]</span> and <span class="tt">operator()</span> are unchecked.</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md189"></a>
-Public Interface</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md190"></a>
-Iterator Aliases</h2>
-<div class="fragment"><div class="line"><span class="keyword">using </span>iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::iterator;</div>
-<div class="line"><span class="keyword">using </span>const_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::const_iterator;</div>
-<div class="line"><span class="keyword">using </span>reverse_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::reverse_iterator;</div>
-<div class="line"><span class="keyword">using </span>const_reverse_iterator = <span class="keyword">typename</span> core::Buffer&lt;T&gt;::const_reverse_iterator;</div>
-</div><!-- fragment --><p><span class="tt">Vector&lt;T&gt;</span> mirrors <span class="tt">Buffer&lt;T&gt;</span> iterator aliases for generic contiguous-storage traversal.</p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md192"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md114"></a>
 Constructors</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md193"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md115"></a>
 Default Constructor</h3>
-<div class="fragment"><div class="line">Vector() noexcept;</div>
-</div><!-- fragment --><p>Constructs an empty default vector state (rank 0).</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<p>Throws</p>
-<ul>
-<li>None</li>
-</ul>
-<hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md195"></a>
+<div class="fragment"><div class="line">Vector();</div>
+</div><!-- fragment --><p>Constructs an empty rank-one vector with shape <span class="tt">{0}</span> and strides <span class="tt">{1}</span>.</p>
+<p>Complexity: O(1).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md116"></a>
 Size Constructor</h3>
-<div class="fragment"><div class="line"><span class="keyword">explicit</span> Vector(std::size_t size);</div>
-</div><!-- fragment --><p>Constructs a rank-1 vector of <span class="tt">size</span> default-initialized elements.</p>
-<p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt">std::bad_alloc</span></li>
-</ul>
-<hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md197"></a>
+<div class="fragment"><div class="line"><span class="keyword">explicit</span> Vector(size_type size);</div>
+</div><!-- fragment --><p>Constructs a rank-one vector with <span class="tt">size</span> value-initialized elements. For arithmetic types, value initialization produces zero.</p>
+<p>Complexity: O(size).</p>
+<p>May throw <span class="tt">std::bad_alloc</span> or an exception from <span class="tt">value_type</span> construction.</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md117"></a>
 Shape Constructor</h3>
 <div class="fragment"><div class="line"><span class="keyword">explicit</span> Vector(<span class="keyword">const</span> core::Shape&amp; shape);</div>
-</div><!-- fragment --><p>Constructs from a validated rank-1 shape.</p>
-<p>Complexity</p>
+</div><!-- fragment --><p>Constructs a value-initialized vector from <span class="tt">shape</span>. The shape must have exactly one dimension; both <span class="tt">Shape{0}</span> and nonzero rank-one shapes are valid.</p>
+<p>Complexity: O(shape.elements()).</p>
+<p>Throws:</p>
 <ul>
-<li>O(n)</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html">Exceptions::ShapeError</a></span> when <span class="tt">shape.rank() != 1</span></li>
+<li><span class="tt">std::bad_alloc</span> when allocation fails</li>
+<li>Any exception propagated from <span class="tt">value_type</span> construction</li>
 </ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> if <span class="tt">shape</span> is not rank 1</li>
-<li><span class="tt">std::bad_alloc</span></li>
-</ul>
-<hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md199"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md118"></a>
 Fill Constructor</h3>
-<div class="fragment"><div class="line">Vector(std::size_t size, <span class="keyword">const</span> T&amp; value);</div>
-</div><!-- fragment --><p>Constructs a rank-1 vector of <span class="tt">size</span> elements, all initialized to <span class="tt">value</span>.</p>
-<p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt">std::bad_alloc</span></li>
-</ul>
+<div class="fragment"><div class="line">Vector(size_type size, const_reference value);</div>
+</div><!-- fragment --><p>Constructs a rank-one vector containing <span class="tt">size</span> copies of <span class="tt">value</span>.</p>
+<p>Complexity: O(size).</p>
+<p>May throw <span class="tt">std::bad_alloc</span> or an exception from the <span class="tt">value_type</span> copy constructor.</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md119"></a>
+Initializer-list Constructor</h3>
+<div class="fragment"><div class="line">Vector(std::initializer_list&lt;value_type&gt; list);</div>
+</div><!-- fragment --><p>Copies the list elements into contiguous storage in their original order. An empty list produces a rank-one vector with shape <span class="tt">{0}</span>.</p>
+<p>Complexity: O(list.size()).</p>
+<p>May throw <span class="tt">std::bad_alloc</span> or an exception from the <span class="tt">value_type</span> copy constructor.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md201"></a>
-Initializer List Constructor</h3>
-<div class="fragment"><div class="line">Vector(std::initializer_list&lt;T&gt; list);</div>
-</div><!-- fragment --><p>Constructs a rank-1 vector from initializer-list values.</p>
-<p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt">std::bad_alloc</span></li>
-</ul>
-<hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md203"></a>
-Copy Constructor</h3>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md121"></a>
+Copy and Move Semantics</h2>
+<p>The compiler-generated special members use <span class="tt">ArrayBase&lt;T&gt;</span> semantics:</p>
 <div class="fragment"><div class="line">Vector(<span class="keyword">const</span> Vector&amp;) = <span class="keywordflow">default</span>;</div>
-</div><!-- fragment --><p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
+<div class="line">Vector(Vector&amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line">Vector&amp; operator=(<span class="keyword">const</span> Vector&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line">Vector&amp; operator=(Vector&amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line">~Vector() = <span class="keywordflow">default</span>;</div>
+</div><!-- fragment --><p>Copying duplicates the element storage and metadata. Moving transfers their ownership. Copy operations are O(n), while moves are O(1), apart from destroying any state replaced by move assignment.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md205"></a>
-Move Constructor</h3>
-<div class="fragment"><div class="line">Vector(Vector&amp;&amp;) noexcept = default;</div>
-</div><!-- fragment --><p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md123"></a>
+Inherited Container Interface</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md124"></a>
+Metadata</h3>
+<div class="fragment"><div class="line">[[nodiscard]] size_type size() const noexcept;</div>
+<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
+<div class="line">[[nodiscard]] size_type rank() const noexcept;</div>
+<div class="line">[[nodiscard]] const core::Shape&amp; shape() const noexcept;</div>
+<div class="line">[[nodiscard]] const core::Shape&amp; strides() const noexcept;</div>
+</div><!-- fragment --><p>All metadata queries are O(1).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md125"></a>
+Element Access</h3>
+<div class="fragment"><div class="line">reference operator[](size_type index) <span class="keyword">noexcept</span>;</div>
+<div class="line">const_reference operator[](size_type index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"> </div>
+<div class="line">reference at(difference_type index);</div>
+<div class="line">const_reference at(difference_type index) <span class="keyword">const</span>;</div>
+<div class="line"> </div>
+<div class="line">reference front();</div>
+<div class="line">const_reference front() <span class="keyword">const</span>;</div>
+<div class="line">reference back();</div>
+<div class="line">const_reference back() <span class="keyword">const</span>;</div>
+<div class="line"> </div>
+<div class="line">[[nodiscard]] pointer data() noexcept;</div>
+<div class="line">[[nodiscard]] const_pointer data() const noexcept;</div>
+</div><!-- fragment --><p><span class="tt">operator[]</span> is unchecked and requires <span class="tt">index &lt; size()</span>. <span class="tt">at()</span> checks its argument and accepts indices in <span class="tt">[-size(), size())</span>; negative values count from the end. It throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> when the index is invalid.</p>
+<p><span class="tt">front()</span> and <span class="tt">back()</span> also throw <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> for an empty vector. All element-access operations are O(1).</p>
+<p><span class="tt">Vector</span> does not define <span class="tt">operator()</span>. Use <span class="tt">operator[]</span> for unchecked access or <span class="tt">at()</span> for checked access.</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md126"></a>
+Iterators</h3>
+<div class="fragment"><div class="line">iterator begin() noexcept;</div>
+<div class="line">const_iterator begin() const noexcept;</div>
+<div class="line">const_iterator cbegin() const noexcept;</div>
+<div class="line">iterator end() noexcept;</div>
+<div class="line">const_iterator end() const noexcept;</div>
+<div class="line">const_iterator cend() const noexcept;</div>
+<div class="line"> </div>
+<div class="line">reverse_iterator rbegin() noexcept;</div>
+<div class="line">const_reverse_iterator rbegin() const noexcept;</div>
+<div class="line">const_reverse_iterator crbegin() const noexcept;</div>
+<div class="line">reverse_iterator rend() noexcept;</div>
+<div class="line">const_reverse_iterator rend() const noexcept;</div>
+<div class="line">const_reverse_iterator crend() const noexcept;</div>
+</div><!-- fragment --><p>Each iterator lookup is O(1). Traversing the complete vector is O(size()).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md127"></a>
+Fill</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(const_reference value);</div>
+</div><!-- fragment --><p>Assigns <span class="tt">value</span> to every element in O(size()).</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md207"></a>
-Destructor</h3>
-<div class="fragment"><div class="line">~Vector() = <span class="keywordflow">default</span>;</div>
-</div><!-- fragment --><p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md209"></a>
-Assignment Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md210"></a>
-Copy Assignment</h2>
-<div class="fragment"><div class="line">Vector&amp; operator=(<span class="keyword">const</span> Vector&amp;) = <span class="keywordflow">default</span>;</div>
-</div><!-- fragment --><p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md212"></a>
-Move Assignment</h2>
-<div class="fragment"><div class="line">Vector&amp; operator=(Vector&amp;&amp;) noexcept = default;</div>
-</div><!-- fragment --><p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md214"></a>
-Methods</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md215"></a>
-size()</h2>
-<div class="fragment"><div class="line">[[nodiscard]] std::size_t size() const noexcept;</div>
-</div><!-- fragment --><p>Returns total number of elements.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md217"></a>
-rank()</h2>
-<div class="fragment"><div class="line">[[nodiscard]] std::size_t rank() const noexcept;</div>
-</div><!-- fragment --><p>Returns the shape rank.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md219"></a>
-empty()</h2>
-<div class="fragment"><div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
-</div><!-- fragment --><p>Returns whether the vector contains no elements.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md221"></a>
-shape()</h2>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a>&amp; shape() const noexcept;</div>
-<div class="ttc" id="aclassstratax_1_1core_1_1Shape_html"><div class="ttname"><a href="classstratax_1_1core_1_1Shape.html">stratax::core::Shape</a></div><div class="ttdoc">Stores dimension lengths for an array shape.</div><div class="ttdef"><b>Definition</b> <a href="Shape_8hpp_source.html#l00014">Shape.hpp:15</a></div></div>
-</div><!-- fragment --><p>Returns vector shape metadata.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md223"></a>
-strides()</h2>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Strides.html">stratax::core::Strides</a>&amp; strides() const noexcept;</div>
-<div class="ttc" id="aclassstratax_1_1core_1_1Strides_html"><div class="ttname"><a href="classstratax_1_1core_1_1Strides.html">stratax::core::Strides</a></div><div class="ttdoc">Stores strides for a shape in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="Strides_8hpp_source.html#l00017">Strides.hpp:18</a></div></div>
-</div><!-- fragment --><p>Returns vector stride metadata.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md225"></a>
-at()</h2>
-<div class="fragment"><div class="line">T&amp; at(std::ptrdiff_t index);</div>
-<div class="line"><span class="keyword">const</span> T&amp; at(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
-</div><!-- fragment --><p>Returns an element with bounds checking. Negative indices are normalized from the end.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if out of bounds</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md227"></a>
-front()</h2>
-<div class="fragment"><div class="line">T&amp; front();</div>
-<div class="line"><span class="keyword">const</span> T&amp; front() <span class="keyword">const</span>;</div>
-</div><!-- fragment --><p>Returns first element.</p>
-<p>Preconditions</p>
-<ul>
-<li>Vector must not be empty.</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md229"></a>
-back()</h2>
-<div class="fragment"><div class="line">T&amp; back();</div>
-<div class="line"><span class="keyword">const</span> T&amp; back() <span class="keyword">const</span>;</div>
-</div><!-- fragment --><p>Returns last element.</p>
-<p>Preconditions</p>
-<ul>
-<li>Vector must not be empty.</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
-data()</h2>
-<div class="fragment"><div class="line">[[nodiscard]] T* data() noexcept;</div>
-<div class="line">[[nodiscard]] const T* data() const noexcept;</div>
-</div><!-- fragment --><p>Returns raw pointer to contiguous storage.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md233"></a>
-Iterators</h2>
-<div class="fragment"><div class="line">[[nodiscard]] iterator begin() noexcept;</div>
-<div class="line">[[nodiscard]] const_iterator begin() const noexcept;</div>
-<div class="line">[[nodiscard]] const_iterator cbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] iterator end() noexcept;</div>
-<div class="line">[[nodiscard]] const_iterator end() const noexcept;</div>
-<div class="line">[[nodiscard]] const_iterator cend() const noexcept;</div>
-<div class="line">[[nodiscard]] reverse_iterator rbegin() noexcept;</div>
-<div class="line">[[nodiscard]] const_reverse_iterator rbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] const_reverse_iterator crbegin() const noexcept;</div>
-<div class="line">[[nodiscard]] reverse_iterator rend() noexcept;</div>
-<div class="line">[[nodiscard]] const_reverse_iterator rend() const noexcept;</div>
-<div class="line">[[nodiscard]] const_reverse_iterator crend() const noexcept;</div>
-</div><!-- fragment --><p>Provides forward and reverse iteration over contiguous elements.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
-fill()</h2>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(<span class="keyword">const</span> T&amp; value);</div>
-</div><!-- fragment --><p>Assigns <span class="tt">value</span> to every element.</p>
-<p>Complexity</p>
-<ul>
-<li>O(n)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md237"></a>
-swap()</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md129"></a>
+Swap</h2>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(Vector&amp; other) <span class="keyword">noexcept</span>;</div>
-</div><!-- fragment --><p>Exchanges shape, strides, and storage with another vector.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md239"></a>
-Operators</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md240"></a>
-operator()</h2>
-<div class="fragment"><div class="line">T&amp; operator()(std::size_t index) <span class="keyword">noexcept</span>;</div>
-<div class="line"><span class="keyword">const</span> T&amp; operator()(std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
-</div><!-- fragment --><p>Unchecked flat indexing.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md242"></a>
-operator[]</h2>
-<div class="fragment"><div class="line">T&amp; operator[](std::size_t index) <span class="keyword">noexcept</span>;</div>
-<div class="line"><span class="keyword">const</span> T&amp; operator[](std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
-</div><!-- fragment --><p>Unchecked flat indexing.</p>
-<p>Complexity</p>
-<ul>
-<li>O(1)</li>
-</ul>
-<p>See Also</p>
-<div class="fragment"><div class="line">T&amp; at(std::ptrdiff_t index);</div>
-<div class="line"><span class="keyword">const</span> T&amp; at(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
+<div class="line"><span class="keyword">friend</span> <span class="keywordtype">void</span> swap(Vector&amp; lhs, Vector&amp; rhs) <span class="keyword">noexcept</span>;</div>
+</div><!-- fragment --><p>Both overloads exchange the buffer, shape, and strides in O(1). The non-member overload supports argument-dependent lookup:</p>
+<div class="fragment"><div class="line"><span class="keyword">using </span>std::swap;</div>
+<div class="line">swap(lhs, rhs);</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md244"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md131"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -467,76 +276,71 @@ Complexity Summary</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Default construction  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Size/shape/fill/list construction  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<td class="markdownTableBodyNone">Size, fill, or list construction  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Copy construction  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<td class="markdownTableBodyNone">Shape construction  </td><td class="markdownTableBodyRight">O(shape.elements())  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Copy construction or assignment  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Move construction  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Copy assignment  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Move assignment  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
+<td class="markdownTableBodyNone">Metadata query  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Destruction  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<td class="markdownTableBodyNone">Element access  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">size()</span> / <span class="tt">rank()</span> / <span class="tt">empty()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
+<td class="markdownTableBodyNone">Iterator acquisition  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">shape()</span> / <span class="tt">strides()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
+<td class="markdownTableBodyNone">Complete traversal  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">operator()</span> / <span class="tt">operator[]</span> / <span class="tt">at()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">front()</span> / <span class="tt">back()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Iteration  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
-<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">fill()</span>  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md246"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md133"></a>
 Examples</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md247"></a>
-Creating Vectors</h2>
-<div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> a;</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> b(5);</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> c{1.0, 2.0, 3.0};</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector</a></div><div class="ttdoc">Stores a rank-1 Stratax array in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="Vector_8hpp_source.html#l00021">Vector.hpp:22</a></div></div>
-</div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md249"></a>
-Accessing Elements</h2>
-<div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> v{10.0, 20.0, 30.0};</div>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md134"></a>
+Construction and Metadata</h3>
+<div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> empty;</div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> zeros(4);</div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> filled(4, 2.5);</div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> values{1.0, 2.0, 3.0};</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">auto</span> x = v[1];</div>
-<div class="line"><span class="keyword">auto</span> y = v.<a class="code hl_function" href="classstratax_1_1container_1_1Vector.html#a3f378c1479cbe449f25bc654e04ef9b3">at</a>(-1);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Vector_html_a3f378c1479cbe449f25bc654e04ef9b3"><div class="ttname"><a href="classstratax_1_1container_1_1Vector.html#a3f378c1479cbe449f25bc654e04ef9b3">stratax::container::Vector::at</a></div><div class="ttdeci">T &amp; at(std::ptrdiff_t index)</div><div class="ttdoc">Returns a flat element with bounds checking.</div><div class="ttdef"><b>Definition</b> <a href="Vector_8hpp_source.html#l00088">Vector.hpp:88</a></div></div>
-</div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md251"></a>
-Iteration</h2>
-<div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; value : v)</div>
+<div class="line">empty.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6">rank</a>();   <span class="comment">// 1</span></div>
+<div class="line">empty.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#a4b5be5dc6488844eb77055e42fc92685">shape</a>();  <span class="comment">// Shape{0}</span></div>
+<div class="line">values.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#a4c1d70a1f8f5ad99fd0133633e7e4c73">size</a>();  <span class="comment">// 3</span></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1ArrayBase_html_a4b5be5dc6488844eb77055e42fc92685"><div class="ttname"><a href="classstratax_1_1core_1_1ArrayBase.html#a4b5be5dc6488844eb77055e42fc92685">stratax::core::ArrayBase::shape</a></div><div class="ttdeci">const Shape &amp; shape() const noexcept</div><div class="ttdoc">Returns the logical shape metadata.</div><div class="ttdef"><b>Definition</b> <a href="ArrayBase_8hpp_source.html#l00079">ArrayBase.hpp:79</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1ArrayBase_html_a4c1d70a1f8f5ad99fd0133633e7e4c73"><div class="ttname"><a href="classstratax_1_1core_1_1ArrayBase.html#a4c1d70a1f8f5ad99fd0133633e7e4c73">stratax::core::ArrayBase::size</a></div><div class="ttdeci">size_type size() const noexcept</div><div class="ttdoc">Returns the number of stored elements.</div><div class="ttdef"><b>Definition</b> <a href="ArrayBase_8hpp_source.html#l00070">ArrayBase.hpp:70</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1ArrayBase_html_a900562149be7a10feb7d5a00273f4af6"><div class="ttname"><a href="classstratax_1_1core_1_1ArrayBase.html#a900562149be7a10feb7d5a00273f4af6">stratax::core::ArrayBase::rank</a></div><div class="ttdeci">size_type rank() const noexcept</div><div class="ttdoc">Returns the number of logical dimensions.</div><div class="ttdef"><b>Definition</b> <a href="ArrayBase_8hpp_source.html#l00076">ArrayBase.hpp:76</a></div></div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md135"></a>
+Checked and Unchecked Access</h3>
+<div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;double&gt;</a> values{10.0, 20.0, 30.0};</div>
+<div class="line"> </div>
+<div class="line">values[1] = 25.0;  <span class="comment">// unchecked</span></div>
+<div class="line">values.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#ac8b481b27d640b1d494ba9db078d3464">at</a>(1);      <span class="comment">// 25.0</span></div>
+<div class="line">values.<a class="code hl_function" href="classstratax_1_1core_1_1ArrayBase.html#ac8b481b27d640b1d494ba9db078d3464">at</a>(-1);     <span class="comment">// 30.0</span></div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md136"></a>
+Iteration</h3>
+<div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">double</span>&amp; value : values)</div>
 <div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    value *= 2.0;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span> it = values.crbegin(); it != values.crend(); ++it)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; *it &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md253"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md138"></a>
 Design Notes</h2>
-<p><span class="tt">Vector&lt;T&gt;</span> keeps layout metadata (<span class="tt">Shape</span>, <span class="tt">Strides</span>) alongside contiguous data storage (<span class="tt">Buffer&lt;T&gt;</span>) so it can interoperate consistently with other Stratax containers.</p>
-<p>Unchecked accessors are provided for performance-critical paths, while <span class="tt">at()</span> offers safe validated indexing including negative index normalization.</p>
+<p>Keeping storage and layout behavior in <span class="tt">ArrayBase&lt;T&gt;</span> gives <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> consistent ownership, access, and iterator semantics. <span class="tt">Vector&lt;T&gt;</span> adds only the construction rules needed to preserve its rank-one abstraction.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md255"></a>
-Future Improvements</h2>
-<ul>
-<li>Add slicing/view utilities for non-owning vector spans</li>
-<li>Add SIMD-specialized fill/copy paths where profitable</li>
-<li>Add optional small-vector optimization (if benchmark-justified)</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md257"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md140"></a>
 See Also</h2>
 <ul>
+<li><a class="el" href="arraybase.html">ArrayBase</a></li>
 <li><a class="el" href="buffer.html">Buffer</a></li>
 <li><a class="el" href="shape.html">Shape</a></li>
-<li><a class="el" href="strides.html">Strides</a></li>
 <li><a class="el" href="matrix.html">Matrix</a></li>
 <li><a class="el" href="tensor.html">Tensor</a> </li>
 </ul>

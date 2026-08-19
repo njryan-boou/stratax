@@ -11,7 +11,6 @@
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
-#include <stratax/core/Strides.hpp>
 #include <stratax/core/validation/Validation.hpp>
 
 #include <array>
@@ -267,7 +266,7 @@ slice(
 	const auto result_shape = stratax::core::Shape(
 		std::vector<size_type>(out_dims.begin(), out_dims.end()));
 	stratax::container::Tensor<T> result(result_shape);
-	const stratax::core::Strides result_strides(result_shape);
+	const stratax::core::Shape result_strides = result_shape.strides();
 	const auto& tensor_strides = tensor.strides();
 
 	if (result.empty())
@@ -353,7 +352,7 @@ slice(
 		return result;
 	}
 
-	const stratax::core::Strides result_strides(result_shape);
+	const stratax::core::Shape result_strides = result_shape.strides();
 	const auto& tensor_strides = tensor.strides();
 
 	for (size_type flat = 0; flat < result.size(); ++flat)

@@ -5,7 +5,6 @@
 
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/Strides.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
@@ -18,7 +17,7 @@ namespace stratax::core {
  * @brief Shared owning storage and layout base for Stratax array containers.
  *
  * ArrayBase keeps an element Buffer synchronized with Shape metadata and its
- * derived row-major Strides. It supplies the common one-dimensional container
+ * derived row-major stride Shape. It supplies the common one-dimensional container
  * interface used by Vector, Matrix, and Tensor; derived classes provide rank
  * constraints and multidimensional indexing APIs.
  *
@@ -34,7 +33,6 @@ namespace stratax::core {
  *
  * @see Buffer
  * @see Shape
- * @see Strides
  */
 template<DType T>
 class ArrayBase
@@ -81,7 +79,7 @@ public:
 	[[nodiscard]] const Shape& shape() const noexcept {return shape_;}
 
 	/** @brief Returns the row-major stride metadata. @complexity O(1). */
-	[[nodiscard]] const Strides& strides() const noexcept {return strides_;}
+	[[nodiscard]] const Shape& strides() const noexcept {return strides_;}
 
 	/**
 	 * @brief Returns a pointer to contiguous mutable element storage.
@@ -188,7 +186,7 @@ protected:
 	explicit ArrayBase(const Shape& shape)
 		: buffer_(shape.elements()),
 		  shape_(shape),
-		  strides_(shape)
+		  strides_(shape.strides())
 	{}
 
 	/**
@@ -204,7 +202,7 @@ protected:
 	ArrayBase(const Shape& shape, const_reference value)
 		: buffer_(shape.elements(), value),
 		  shape_(shape),
-		  strides_(shape)
+		  strides_(shape.strides())
 	{}
 
 	/**
@@ -225,7 +223,7 @@ protected:
 	ArrayBase(const Shape& shape, Buffer<value_type>&& buffer)
 		: buffer_(std::move(buffer)),
 		  shape_(shape),
-		  strides_(shape)
+		  strides_(shape.strides())
 	{
 		if (buffer_.size() != shape_.elements())
 		{
@@ -306,13 +304,13 @@ protected:
 	template<typename IndexContainer>
 	size_type flat_offset(const IndexContainer& indices) const
 	{
-		return indexing::offset(shape_, strides_, indices);
+		return indexing::offset(strides_, indices);
 	}
 
 private:
 	Buffer<value_type> buffer_;
 	Shape shape_;
-	Strides strides_;
+	Shape strides_;
 };
 
 }

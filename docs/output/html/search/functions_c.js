@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['_7ebuffer_0',['~Buffer',['../classstratax_1_1core_1_1Buffer.html#a33f5ee56207f45cf8b75cace368808b4',1,'stratax::core::Buffer']]],
-  ['_7eshape_1',['~Shape',['../classstratax_1_1core_1_1Shape.html#a00a2c19e9b295bf9b03870240f70b1ba',1,'stratax::core::Shape']]],
-  ['_7estrides_2',['~Strides',['../classstratax_1_1core_1_1Strides.html#a18420b20cbae82312b2c2c9e4483e312',1,'stratax::core::Strides']]]
+  ['vector_0',['Vector',['../classstratax_1_1container_1_1Vector.html#afac542f8ff6ea0a4a35b304d7e7ca960',1,'stratax::container::Vector::Vector(size_type size)'],['../classstratax_1_1container_1_1Vector.html#a946aa41b6dd98e65ed882a6c93c81eb6',1,'stratax::container::Vector::Vector(const core::Shape &amp;shape)'],['../classstratax_1_1container_1_1Vector.html#afb87f6ee68adc613f5347b218a572166',1,'stratax::container::Vector::Vector(size_type size, const_reference value)'],['../classstratax_1_1container_1_1Vector.html#a9a3ad521618cc3d0f122cb6cd40ee3da',1,'stratax::container::Vector::Vector(std::initializer_list&lt; value_type &gt; list)'],['../classstratax_1_1container_1_1Vector.html#af261a594553d71c68054ac234bb8e0e7',1,'stratax::container::Vector::Vector()']]]
 ];

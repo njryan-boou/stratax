@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['zerodivisionerror_0',['ZeroDivisionError',['../classExceptions_1_1ZeroDivisionError.html',1,'Exceptions']]]
+  ['vector_0',['Vector',['../classstratax_1_1container_1_1Vector.html',1,'stratax::container']]],
+  ['vector_3c_20to_20_3e_1',['Vector&lt; To &gt;',['../classstratax_1_1container_1_1Vector.html',1,'stratax::container']]]
 ];

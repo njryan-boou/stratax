@@ -91,30 +91,17 @@ $(function(){initNavTree('conceptDType.html','',''); });
   <div class="headertitle"><div class="title">DType Concept Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Identifies element types supported by Stratax array containers.  
-<a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptDType.html">DType</a> = </div>
 <div class="line">    <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a> ||</div>
 <div class="line">    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike&lt;T&gt;</a></div>
-<div class="ttc" id="aconceptDType_html"><div class="ttname"><a href="conceptDType.html">DType</a></div><div class="ttdoc">Identifies element types supported by Stratax array containers.</div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00112">Concepts.hpp:112</a></div></div>
-<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdoc">Identifies non-boolean scalar types supported by numerical operations.</div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00097">Concepts.hpp:97</a></div></div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdoc">Identifies bool after removing cv/ref qualifiers.</div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00049">Concepts.hpp:49</a></div></div>
+<div class="ttc" id="aconceptDType_html"><div class="ttname"><a href="conceptDType.html">DType</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00061">Concepts.hpp:61</a></div></div>
+<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00055">Concepts.hpp:55</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00016">Concepts.hpp:16</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Identifies element types supported by Stratax array containers. </p>
-<p><a class="el" href="conceptDType.html" title="Identifies element types supported by Stratax array containers.">DType</a> includes every <a class="el" href="conceptNumeric.html" title="Identifies non-boolean scalar types supported by numerical operations.">Numeric</a> type and additionally accepts <span class="tt">bool</span>. Character and code-unit types remain excluded. cv- and reference qualifiers are ignored.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type to classify. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00112">112</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00061">61</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

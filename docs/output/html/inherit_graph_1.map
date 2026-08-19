@@ -1,19 +1,15 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" title=" " alt="" coords="5,161,144,189"/>
-<area shape="rect" id="Node000001" href="$classExceptions_1_1StrataxError.html" title="Base class for Stratax&#45;specific runtime errors." alt="" coords="192,161,370,189"/>
-<area shape="poly" id="edge8_Node000000_Node000001" title=" " alt="" coords="158,173,193,174,189,176,160,178"/>
-<area shape="rect" id="Node000002" href="$classExceptions_1_1AxisError.html" title="Signals axis is out of range." alt="" coords="439,5,598,33"/>
-<area shape="poly" id="edge9_Node000001_Node000002" title=" " alt="" coords="301,147,350,94,382,67,417,43,448,32,444,35,419,48,385,71,354,98,305,151"/>
-<area shape="rect" id="Node000003" href="$classExceptions_1_1BroadcastError.html" title="Signals that an operation cannot be completed with the current broadcast rules." alt="" coords="420,57,617,85"/>
-<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="315,150,362,122,417,95,456,84,452,87,419,100,365,127,318,155"/>
-<area shape="rect" id="Node000004" href="$classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure." alt="" coords="418,109,619,137"/>
-<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="362,155,454,137,449,139,363,160"/>
-<area shape="rect" id="Node000005" href="$classExceptions_1_1IndexError.html" title="Signals an invalid index access." alt="" coords="435,161,602,189"/>
-<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="385,173,437,174,432,176,386,178"/>
-<area shape="rect" id="Node000006" href="$classExceptions_1_1ShapeError.html" title="Signals an invalid or incompatible shape." alt="" coords="433,213,604,241"/>
-<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="363,190,454,212,449,213,363,196"/>
-<area shape="rect" id="Node000007" href="$classExceptions_1_1TypeError.html" title="Signals an invalid or unsupported type." alt="" coords="438,265,599,293"/>
-<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="317,195,365,224,419,250,457,265,451,265,417,255,362,228,316,200"/>
-<area shape="rect" id="Node000008" href="$classExceptions_1_1ZeroDivisionError.html" title="Signals a division by zero." alt="" coords="427,317,610,362"/>
-<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="304,198,354,251,386,278,419,302,444,317,438,316,417,307,382,282,351,255,302,203"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,143,123,171"/>
+<area shape="rect" id="Node000001" href="$structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4.html" title="Marks dtype&#45;compatible Matrix specializations as Stratax arrays." alt="" coords="171,5,356,50"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="104,133,121,120,135,105,144,90,153,75,169,60,192,49,188,52,172,64,157,79,148,93,139,108,124,124,108,137"/>
+<area shape="rect" id="Node000003" href="$structis__array_3_01stratax_1_1container_1_1Tensor_3_01T_01_4_01_4.html" title="Marks dtype&#45;compatible Tensor specializations as Stratax arrays." alt="" coords="171,75,356,119"/>
+<area shape="poly" id="edge2_Node000000_Node000003" title=" " alt="" coords="126,136,189,118,185,121,128,141"/>
+<area shape="rect" id="Node000004" href="$structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html" title="Marks dtype&#45;compatible Vector specializations as Stratax arrays." alt="" coords="171,144,356,189"/>
+<area shape="poly" id="edge3_Node000000_Node000004" title=" " alt="" coords="138,158,173,161,168,163,139,163"/>
+<area shape="rect" id="Node000005" href="$structis__array.html" title="Trait identifying supported Stratax owning array specializations." alt="" coords="208,212,319,240"/>
+<area shape="poly" id="edge4_Node000000_Node000005" title=" " alt="" coords="111,175,172,198,210,212,204,212,170,204,110,180"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,83,120,111"/>
+<area shape="poly" id="edge5_Node000002_Node000001" title=" " alt="" coords="119,75,199,49,195,53,122,80"/>
+<area shape="poly" id="edge6_Node000002_Node000003" title=" " alt="" coords="134,94,173,96,168,98,136,100"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="120,114,199,142,195,145,120,119"/>
 </map>

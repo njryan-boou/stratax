@@ -63,7 +63,7 @@ flattening, and conversions return independent containers.
 | Rank | `.rank` | `.rank` | `.rank` |
 | Empty check | `.empty` | `.empty` | `.empty` |
 | Shape | `.shape` | `.shape` | `.shape` |
-| Strides | `.strides` | `.strides` | `.strides` |
+| Row-major strides | `.strides` | `.strides` | `.strides` |
 | Fill | `.fill(value)` | `.fill(value)` | `.fill(value)` |
 | Convert to lists | `.tolist()` | `.tolist()` | `.tolist()` |
 

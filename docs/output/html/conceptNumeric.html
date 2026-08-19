@@ -91,23 +91,19 @@ $(function(){initNavTree('conceptNumeric.html','',''); });
   <div class="headertitle"><div class="title">Numeric Concept Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Matches all scalar types supported by Stratax numeric containers.  
-<a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptNumeric.html">Numeric</a> = </div>
-<div class="line">    <a class="code hl_concept" href="conceptArithmetic.html">Arithmetic&lt;T&gt;</a> ||</div>
-<div class="line">    <a class="code hl_concept" href="conceptComplex.html">Complex&lt;T&gt;</a></div>
-<div class="ttc" id="aconceptArithmetic_html"><div class="ttname"><a href="conceptArithmetic.html">Arithmetic</a></div><div class="ttdoc">Matches arithmetic scalar types.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00081">Numeric.hpp:81</a></div></div>
-<div class="ttc" id="aconceptComplex_html"><div class="ttname"><a href="conceptComplex.html">Complex</a></div><div class="ttdoc">Matches supported complex scalar types.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00092">Numeric.hpp:92</a></div></div>
-<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdoc">Matches all scalar types supported by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00097">Numeric.hpp:97</a></div></div>
+<div class="line">    <a class="code hl_concept" href="conceptIntegral.html">Integral&lt;T&gt;</a> ||</div>
+<div class="line">    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">stratax::core::concept_detail::SupportedFloating&lt;T&gt;</a> ||</div>
+<div class="line">    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex&lt;T&gt;</a></div>
+<div class="ttc" id="aconceptIntegral_html"><div class="ttname"><a href="conceptIntegral.html">Integral</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00051">Concepts.hpp:51</a></div></div>
+<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00055">Concepts.hpp:55</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00041">Concepts.hpp:41</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">stratax::core::concept_detail::SupportedFloating</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00033">Concepts.hpp:33</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Matches all scalar types supported by Stratax numeric containers. </p>
-
-<p class="definition">Definition at line <a class="el" href="Numeric_8hpp_source.html#l00097">97</a> of file <a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a>.</p>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00055">55</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

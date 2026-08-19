@@ -95,14 +95,14 @@ $(function(){initNavTree('types.html','',''); });
 Types</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
-<p>Header: <span class="tt"><a class="el" href="Types_8hpp_source.html">include/stratax/core/Types.hpp</a></span></p>
+<p>Header: <span class="tt"><a class="el" href="Types_8hpp_source.html">include/stratax/core/dtypes/Types.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md857"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md359"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Types_8hpp_source.html">Types.hpp</a></span> provides canonical scalar and index aliases used across Stratax core APIs.</p>
 <p>These aliases map directly to standard C++ types and <span class="tt">std::complex</span> specializations.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md859"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md361"></a>
 Responsibilities</h2>
 <p>The types module is responsible for:</p>
 <ul>
@@ -114,13 +114,15 @@ Responsibilities</h2>
 <ul>
 <li>Runtime dtype dispatch or metadata</li>
 <li>Type acceptance rules for algorithms or containers</li>
-<li><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a> promotion policy</li>
+<li><a class="el" href="conceptNumeric.html">Numeric</a> promotion policy</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md861"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md363"></a>
 Relationships</h2>
-<div class="fragment"><div class="line">stratax::core::dtype</div>
-<div class="line">├── index aliases (index_t, ssize_t)</div>
+<div class="fragment"><div class="line">stratax::core</div>
+<div class="line">└── index aliases (index_t, ssize_t)</div>
+<div class="line"> </div>
+<div class="line">stratax::dtype</div>
 <div class="line">├── boolean/integer aliases</div>
 <div class="line">├── floating aliases</div>
 <div class="line">└── complex aliases</div>
@@ -130,11 +132,11 @@ Relationships</h2>
 </ul>
 <p>Used by:</p>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
 <li>Container templates and algorithm signatures</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md863"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md365"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -143,18 +145,19 @@ Invariants</h2>
 <li>Alias stability is expected across core APIs unless versioned changes are introduced.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md865"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md367"></a>
 Public Interface</h2>
 <p>Namespace:</p>
-<div class="fragment"><div class="line"><span class="keyword">namespace </span>stratax::core::dtype { ... }</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md866"></a>
+<div class="fragment"><div class="line"><span class="keyword">namespace </span>stratax::core { ... }</div>
+<div class="line"><span class="keyword">namespace </span>stratax::dtype { ... }</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md368"></a>
 Index aliases</h3>
 <div class="fragment"><div class="line"><span class="keyword">using </span>index_t = std::size_t;</div>
 <div class="line"><span class="keyword">using </span>ssize_t = std::ptrdiff_t;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md867"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md369"></a>
 Boolean alias</h3>
 <div class="fragment"><div class="line"><span class="keyword">using </span>bool_ = bool;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md868"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md370"></a>
 Integer aliases</h3>
 <div class="fragment"><div class="line"><span class="keyword">using </span>int8  = std::int8_t;</div>
 <div class="line"><span class="keyword">using </span>int16 = std::int16_t;</div>
@@ -165,18 +168,18 @@ Integer aliases</h3>
 <div class="line"><span class="keyword">using </span>uint16 = std::uint16_t;</div>
 <div class="line"><span class="keyword">using </span>uint32 = std::uint32_t;</div>
 <div class="line"><span class="keyword">using </span>uint64 = std::uint64_t;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md869"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md371"></a>
 Floating aliases</h3>
 <div class="fragment"><div class="line"><span class="keyword">using </span>float32  = float;</div>
 <div class="line"><span class="keyword">using </span>float64  = double;</div>
 <div class="line"><span class="keyword">using </span>float128 = <span class="keywordtype">long</span> double;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md870"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md372"></a>
 Complex aliases</h3>
 <div class="fragment"><div class="line"><span class="keyword">using </span>complex64  = std::complex&lt;float&gt;;</div>
 <div class="line"><span class="keyword">using </span>complex128 = std::complex&lt;double&gt;;</div>
 <div class="line"><span class="keyword">using </span>complex256 = std::complex&lt;long double&gt;;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md872"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md374"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -187,7 +190,7 @@ Complexity Summary</h2>
 <td class="markdownTableBodyNone">Runtime overhead introduced by aliases  </td><td class="markdownTableBodyRight">O(0)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md874"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md376"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">using </span>stratax::core::dtype::float64;</div>
 <div class="line"><span class="keyword">using </span>stratax::core::dtype::index_t;</div>
@@ -195,12 +198,12 @@ Examples</h2>
 <div class="line">float64 value = 3.14159;</div>
 <div class="line">index_t n = 128;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md876"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md378"></a>
 Design Notes</h2>
 <p>Aliases keep public APIs readable and consistent across C++ and bindings-facing layers.</p>
-<p>Eligibility for concepts like <span class="tt"><a class="el" href="conceptNumeric.html" title="Matches all scalar types supported by Stratax numeric containers.">Numeric</a></span> is determined in <span class="tt">Concepts.hpp</span>, not in this file.</p>
+<p>Eligibility for concepts like <span class="tt"><a class="el" href="conceptNumeric.html">Numeric</a></span> is determined in <span class="tt"><a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a></span>, not in this file.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md878"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md380"></a>
 Future Improvements</h2>
 <ul>
 <li>Add explicit dtype traits and canonical name helpers</li>
@@ -208,10 +211,10 @@ Future Improvements</h2>
 <li>Revisit <span class="tt">float128</span> portability guarantees across compilers/platforms</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md880"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md382"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

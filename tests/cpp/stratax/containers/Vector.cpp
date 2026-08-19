@@ -19,7 +19,7 @@ TEST(VectorConstructor, DefaultConstructor)
 	EXPECT_EQ(vector.size(), 0);
 	EXPECT_EQ(vector.rank(), 1);
 	EXPECT_EQ(vector.shape(), Shape({0}));
-	EXPECT_EQ(vector.strides(), Strides({1}));
+	EXPECT_EQ(vector.strides(), Shape({1}));
 }
 
 TEST(VectorConstructor, Size)
@@ -29,7 +29,7 @@ TEST(VectorConstructor, Size)
 	EXPECT_EQ(vector.size(), 4);
 	EXPECT_EQ(vector.rank(), 1);
 	EXPECT_EQ(vector.shape(), Shape({4}));
-	EXPECT_EQ(vector.strides(), Strides({1}));
+	EXPECT_EQ(vector.strides(), Shape({1}));
 
 	for (const int value : vector) {
 		EXPECT_EQ(value, 0);
@@ -51,7 +51,7 @@ TEST(VectorConstructor, Shape)
 
 	EXPECT_EQ(vector.size(), 5);
 	EXPECT_EQ(vector.shape(), Shape({5}));
-	EXPECT_EQ(vector.strides(), Strides({1}));
+	EXPECT_EQ(vector.strides(), Shape({1}));
 }
 
 TEST(VectorConstructor, RejectsRankZeroShape)

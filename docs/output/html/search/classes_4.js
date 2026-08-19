@@ -4,6 +4,5 @@ var searchData=
   ['is_5farray_1',['is_array',['../structis__array.html',1,'']]],
   ['is_5farray_3c_20stratax_3a_3acontainer_3a_3amatrix_3c_20t_20_3e_20_3e_2',['is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;',['../structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4.html',1,'']]],
   ['is_5farray_3c_20stratax_3a_3acontainer_3a_3atensor_3c_20t_20_3e_20_3e_3',['is_array&lt; stratax::container::Tensor&lt; T &gt; &gt;',['../structis__array_3_01stratax_1_1container_1_1Tensor_3_01T_01_4_01_4.html',1,'']]],
-  ['is_5farray_3c_20stratax_3a_3acontainer_3a_3avector_3c_20t_20_3e_20_3e_4',['is_array&lt; stratax::container::Vector&lt; T &gt; &gt;',['../structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html',1,'']]],
-  ['iterator_5',['iterator',['../classstratax_1_1core_1_1Buffer.html',1,'stratax::core']]]
+  ['is_5farray_3c_20stratax_3a_3acontainer_3a_3avector_3c_20t_20_3e_20_3e_4',['is_array&lt; stratax::container::Vector&lt; T &gt; &gt;',['../structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html',1,'']]]
 ];

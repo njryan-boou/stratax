@@ -179,7 +179,7 @@ or planned areas.
 
 ### Implemented
 
-- Core storage and metadata: `Buffer`, `Shape`, `Strides`, `Slice`
+- Core storage and metadata: `Buffer`, `Shape`, `Slice`
 - Containers: `Vector`, `Matrix`, `Tensor`
 - Operations: broadcasted arithmetic, comparison, indexing, negative indexing, reshape, slicing
 - Container helpers: creation and conversions

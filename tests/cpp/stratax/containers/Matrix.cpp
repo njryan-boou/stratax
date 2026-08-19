@@ -33,7 +33,7 @@ TEST(MatrixConstructor, Dimensions)
 	EXPECT_EQ(matrix.rows(), 2);
 	EXPECT_EQ(matrix.cols(), 3);
 	EXPECT_EQ(matrix.shape(), Shape({2, 3}));
-	EXPECT_EQ(matrix.strides(), Strides(Shape{2, 3}));
+	EXPECT_EQ(matrix.strides(), Shape({3, 1}));
 
 	for (const int value : matrix) {
 		EXPECT_EQ(value, 0);
@@ -67,7 +67,7 @@ TEST(MatrixConstructor, Shape)
 	EXPECT_EQ(matrix.size(), 12);
 	EXPECT_EQ(matrix.rows(), 3);
 	EXPECT_EQ(matrix.cols(), 4);
-	EXPECT_EQ(matrix.strides(), Strides(Shape{3, 4}));
+	EXPECT_EQ(matrix.strides(), Shape({4, 1}));
 }
 
 TEST(MatrixConstructor, RejectsRankZeroShape)
@@ -118,7 +118,7 @@ TEST(MatrixConstructor, InitializerList)
 	const Matrix<int> matrix{{1, 2, 3}, {4, 5, 6}};
 
 	EXPECT_EQ(matrix.shape(), Shape({2, 3}));
-	EXPECT_EQ(matrix.strides(), Strides(Shape{2, 3}));
+	EXPECT_EQ(matrix.strides(), Shape({3, 1}));
 	EXPECT_EQ(std::vector<int>(matrix.begin(), matrix.end()),
 		(std::vector<int>{1, 2, 3, 4, 5, 6}));
 }

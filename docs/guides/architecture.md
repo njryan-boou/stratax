@@ -24,7 +24,8 @@ Describes how the library is organized so implementation work stays consistent a
 
 - Containers own contiguous storage.
 - `Shape` describes logical dimensions.
-- `Strides` maps multidimensional indexes to flat offsets.
+- `Shape::strides()` produces row-major metadata used to map multidimensional
+  indexes to flat offsets.
 - Algorithms are implemented as free functions where possible.
 
 ### Extension Areas

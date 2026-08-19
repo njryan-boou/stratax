@@ -21,7 +21,7 @@ The default alignment is `config::default_alignment`. A custom alignment must
 be a power of two and at least `alignof(T)`.
 
 `Buffer` is the storage primitive used directly by `ArrayBase`, `Shape`, and
-`Strides`, and therefore indirectly by Stratax's array containers.
+`Shape`, and therefore indirectly by Stratax's array containers.
 
 ```cpp
 stratax::core::Buffer<float, 64> samples{1.0F, 2.0F, 3.0F};
@@ -365,7 +365,6 @@ can be performed correctly when a constructor throws.
 
 - @ref arraybase
 - @ref shape
-- @ref strides
 - @ref vector
 - @ref matrix
 - @ref tensor

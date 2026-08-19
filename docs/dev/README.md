@@ -28,7 +28,6 @@ This index links the Stratax developer documentation organized by subsystem.
 
 - @ref buffer "Buffer"
 - @ref shape "Shape"
-- @ref strides "Strides"
 
 ---
 

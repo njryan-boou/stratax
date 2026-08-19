@@ -63,7 +63,7 @@ Depends on:
 
 Used by:
 
-- `Strides`
+- Canonical row-major stride calculation
 - `ArrayBase`
 - `Vector`, `Matrix`, and `Tensor`
 - Indexing, slicing, reshape, and creation algorithms
@@ -361,7 +361,6 @@ higher-dimensional layouts.
 ## See Also
 
 - @ref buffer
-- @ref strides
 - @ref arraybase
 - @ref vector
 - @ref matrix

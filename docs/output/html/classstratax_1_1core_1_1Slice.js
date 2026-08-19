@@ -1,11 +1,12 @@
 var classstratax_1_1core_1_1Slice =
 [
-    [ "Slice", "classstratax_1_1core_1_1Slice.html#a88338340ec77183a20f7caba8da5c6cc", null ],
+    [ "difference_type", "classstratax_1_1core_1_1Slice.html#afce508ede33d6d98ba602c68151635fa", null ],
+    [ "size_type", "classstratax_1_1core_1_1Slice.html#a71c8b55480049cfe149d492320c85835", null ],
+    [ "Slice", "classstratax_1_1core_1_1Slice.html#a74a3412d29bfb62f83f1fa0d1d45c401", null ],
     [ "empty", "classstratax_1_1core_1_1Slice.html#a9848ec4154d3973ff1ad22cefb49485b", null ],
-    [ "operator!=", "classstratax_1_1core_1_1Slice.html#a9906cd313773c85a80b7431b76708625", null ],
     [ "operator==", "classstratax_1_1core_1_1Slice.html#a3269cbabe672260cb49dc74b8ea0eebb", null ],
-    [ "size", "classstratax_1_1core_1_1Slice.html#a5fd4d3a2974043d9e276736b7d4974a7", null ],
-    [ "start", "classstratax_1_1core_1_1Slice.html#a0662aa3520cf39877f79657dbafc714e", null ],
-    [ "step", "classstratax_1_1core_1_1Slice.html#abb039ba0d4475023d9c0ed48bea6fc64", null ],
-    [ "stop", "classstratax_1_1core_1_1Slice.html#af9528c98b01bf451b425ebe3a84a3407", null ]
+    [ "size", "classstratax_1_1core_1_1Slice.html#a11dfeba3dd1b36b445fef42614018482", null ],
+    [ "start", "classstratax_1_1core_1_1Slice.html#a1fd5a2fdd68251a97bdfa3a9db6eba43", null ],
+    [ "step", "classstratax_1_1core_1_1Slice.html#a9884a5ad1fb7bc9b1ada1f9425f6c56c", null ],
+    [ "stop", "classstratax_1_1core_1_1Slice.html#a425a9b1361e0b75548db7e0f6a3da2d3", null ]
 ];

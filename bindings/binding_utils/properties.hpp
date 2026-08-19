@@ -28,22 +28,12 @@ void bind_properties(py::class_<Array>& cls)
                 return arr.shape();
             },
             py::return_value_policy::reference_internal)
-        .def_property_readonly(
-    "strides",
-    [](const Array& arr)
-    {
-        const auto& strides = arr.strides();
-
-        std::vector<std::size_t> values;
-        values.reserve(strides.rank());
-
-        for (std::size_t i = 0; i < strides.rank(); ++i)
-        {
-            values.push_back(strides[i]);
-        }
-
-        return values;
-    })
+		.def_property_readonly(
+			"strides",
+			[](const Array& arr) -> const auto& {
+				return arr.strides();
+			},
+            py::return_value_policy::reference_internal)
         .def("fill", [](Array& arr, const typename Array::value_type& value) {
             arr.fill(value);
         }, py::arg("value"));

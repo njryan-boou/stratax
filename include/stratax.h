@@ -9,7 +9,6 @@
 #include <stratax/core/ReductionTraits.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/Strides.hpp>
 #include <stratax/core/dtypes/Types.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
 #include <stratax/core/dtypes/Promotion.hpp>

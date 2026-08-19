@@ -97,102 +97,114 @@ $(function(){initNavTree('Concepts_8hpp_source.html','',''); });
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;complex&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>stratax::core::concept_detail {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Candidates&gt;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">   19</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a> =</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    (std::same_as&lt;std::remove_cvref_t&lt;T&gt;, Candidates&gt; || ...);</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1CharacterLike.html">   34</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1CharacterLike.html">CharacterLike</a> =</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a>&lt;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        T,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        char,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        wchar_t,</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        char8_t,</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        char16_t,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordtype">char32_t</span>&gt;;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">   49</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">BoolLike</a> =</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    std::same_as&lt;std::remove_cvref_t&lt;T&gt;, <span class="keywordtype">bool</span>&gt;;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">   62</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">SupportedComplex</a> =</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a>&lt;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        T,</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        std::complex&lt;float&gt;,</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        std::complex&lt;double&gt;,</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        std::complex&lt;long double&gt;&gt;;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>} <span class="comment">// namespace stratax::core::concept_detail</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="conceptIntegral.html">   82</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptIntegral.html">Integral</a> =</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    std::integral&lt;std::remove_cvref_t&lt;T&gt;&gt; &amp;&amp;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    !<a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike&lt;T&gt;</a> &amp;&amp;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    !<a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1CharacterLike.html">stratax::core::concept_detail::CharacterLike&lt;T&gt;</a>;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;stratax/core/dtypes/Types.hpp&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>stratax::core::concept_detail {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Candidates&gt;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">   12</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a> =</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    (std::same_as&lt;std::remove_cvref_t&lt;T&gt;, Candidates&gt; || ...);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">   16</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">BoolLike</a> =</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::same_as&lt;std::remove_cvref_t&lt;T&gt;, stratax::dtype::bool_&gt;;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedIntegral.html">   20</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedIntegral.html">SupportedIntegral</a> =</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a>&lt;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        T,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        stratax::dtype::int8,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        stratax::dtype::int16,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        stratax::dtype::int32,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        stratax::dtype::int64,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        stratax::dtype::uint8,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        stratax::dtype::uint16,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        stratax::dtype::uint32,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        stratax::dtype::uint64&gt;;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">   33</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">SupportedFloating</a> =</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a>&lt;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        T,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        stratax::dtype::float32,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        stratax::dtype::float64,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        stratax::dtype::longdouble&gt;;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">   41</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">SupportedComplex</a> =</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">SameAsAny</a>&lt;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        T,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        stratax::dtype::complex64,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        stratax::dtype::complex128,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        stratax::dtype::clongdouble&gt;;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="conceptIntegral.html">   51</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptIntegral.html">Integral</a> =</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedIntegral.html">stratax::core::concept_detail::SupportedIntegral&lt;T&gt;</a>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="conceptNumeric.html">   55</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptNumeric.html">Numeric</a> =</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_concept" href="conceptIntegral.html">Integral&lt;T&gt;</a> ||</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">stratax::core::concept_detail::SupportedFloating&lt;T&gt;</a> ||</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex&lt;T&gt;</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="conceptDType.html">   61</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptDType.html">DType</a> =</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a> ||</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike&lt;T&gt;</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">namespace </span>stratax::container {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">class </span>Vector;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">class </span>Matrix;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keyword">class </span>Tensor;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>} <span class="comment">// namespace stratax::container</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="structis__array.html">   93</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a> : std::false_type {};</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span></div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="conceptNumeric.html">   97</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptNumeric.html">Numeric</a> =</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <a class="code hl_concept" href="conceptIntegral.html">Integral&lt;T&gt;</a> ||</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    std::floating_point&lt;std::remove_cvref_t&lt;T&gt;&gt; ||</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex&lt;T&gt;</a>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="conceptDType.html">  112</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptDType.html">DType</a> =</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <a class="code hl_concept" href="conceptNumeric.html">Numeric&lt;T&gt;</a> ||</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike&lt;T&gt;</a>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keyword">namespace </span>stratax::container {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html">   98</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Vector&lt;T&gt;&gt; : std::true_type {};</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4.html">  103</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Matrix&lt;T&gt;&gt; : std::true_type {};</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Tensor_3_01T_01_4_01_4.html">  108</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Tensor&lt;T&gt;&gt; : std::true_type {};</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span></div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keyword">class </span>Vector;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">class </span>Matrix;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="keyword">class </span>Tensor;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>} <span class="comment">// namespace stratax::container</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="structis__array.html">  144</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a> : std::false_type {};</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Vector_3_01T_01_4_01_4.html">  149</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Vector&lt;T&gt;&gt; : std::true_type {};</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4.html">  154</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Matrix&lt;T&gt;&gt; : std::true_type {};</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="keyword">requires</span> <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="structis__array_3_01stratax_1_1container_1_1Tensor_3_01T_01_4_01_4.html">  159</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__array.html">is_array</a>&lt;stratax::container::Tensor&lt;T&gt;&gt; : std::true_type {};</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="conceptArray.html">  171</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptArray.html">Array</a> =</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_struct" href="structis__array.html">is_array&lt;std::remove_cvref_t&lt;T&gt;</a>&gt;::value;</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="conceptOrdered.html">  175</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptOrdered.html">Ordered</a> =</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a> &amp;&amp;</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    !<a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex&lt;T&gt;</a>;</div>
-<div class="ttc" id="aconceptArray_html"><div class="ttname"><a href="conceptArray.html">Array</a></div><div class="ttdoc">Identifies supported Stratax owning array types.</div><div class="ttdef"><b>Definition</b> <a href="#l00171">Concepts.hpp:171</a></div></div>
-<div class="ttc" id="aconceptDType_html"><div class="ttname"><a href="conceptDType.html">DType</a></div><div class="ttdoc">Identifies element types supported by Stratax array containers.</div><div class="ttdef"><b>Definition</b> <a href="#l00112">Concepts.hpp:112</a></div></div>
-<div class="ttc" id="aconceptIntegral_html"><div class="ttname"><a href="conceptIntegral.html">Integral</a></div><div class="ttdoc">Identifies non-boolean, non-character integral scalar types.</div><div class="ttdef"><b>Definition</b> <a href="#l00082">Concepts.hpp:82</a></div></div>
-<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdoc">Identifies non-boolean scalar types supported by numerical operations.</div><div class="ttdef"><b>Definition</b> <a href="#l00097">Concepts.hpp:97</a></div></div>
-<div class="ttc" id="aconceptOrdered_html"><div class="ttname"><a href="conceptOrdered.html">Ordered</a></div><div class="ttdef"><b>Definition</b> <a href="#l00175">Concepts.hpp:175</a></div></div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdoc">Identifies bool after removing cv/ref qualifiers.</div><div class="ttdef"><b>Definition</b> <a href="#l00049">Concepts.hpp:49</a></div></div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1CharacterLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1CharacterLike.html">stratax::core::concept_detail::CharacterLike</a></div><div class="ttdoc">Identifies built-in character and code-unit types.</div><div class="ttdef"><b>Definition</b> <a href="#l00034">Concepts.hpp:34</a></div></div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SameAsAny_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">stratax::core::concept_detail::SameAsAny</a></div><div class="ttdoc">Tests whether a type matches any type in a candidate list.</div><div class="ttdef"><b>Definition</b> <a href="#l00019">Concepts.hpp:19</a></div></div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex</a></div><div class="ttdoc">Identifies supported standard complex specializations.</div><div class="ttdef"><b>Definition</b> <a href="#l00062">Concepts.hpp:62</a></div></div>
-<div class="ttc" id="astructis__array_html"><div class="ttname"><a href="structis__array.html">is_array</a></div><div class="ttdoc">Trait identifying supported Stratax owning array specializations.</div><div class="ttdef"><b>Definition</b> <a href="#l00144">Concepts.hpp:144</a></div></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="conceptArray.html">  120</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptArray.html">Array</a> =</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <a class="code hl_struct" href="structis__array.html">is_array&lt;std::remove_cvref_t&lt;T&gt;</a>&gt;::value;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="conceptOrdered.html">  124</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptOrdered.html">Ordered</a> =</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <a class="code hl_concept" href="conceptDType.html">DType&lt;T&gt;</a> &amp;&amp;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    !<a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex&lt;T&gt;</a>;</div>
+<div class="ttc" id="aconceptArray_html"><div class="ttname"><a href="conceptArray.html">Array</a></div><div class="ttdoc">Identifies supported Stratax owning array types.</div><div class="ttdef"><b>Definition</b> <a href="#l00120">Concepts.hpp:120</a></div></div>
+<div class="ttc" id="aconceptDType_html"><div class="ttname"><a href="conceptDType.html">DType</a></div><div class="ttdef"><b>Definition</b> <a href="#l00061">Concepts.hpp:61</a></div></div>
+<div class="ttc" id="aconceptIntegral_html"><div class="ttname"><a href="conceptIntegral.html">Integral</a></div><div class="ttdef"><b>Definition</b> <a href="#l00051">Concepts.hpp:51</a></div></div>
+<div class="ttc" id="aconceptNumeric_html"><div class="ttname"><a href="conceptNumeric.html">Numeric</a></div><div class="ttdef"><b>Definition</b> <a href="#l00055">Concepts.hpp:55</a></div></div>
+<div class="ttc" id="aconceptOrdered_html"><div class="ttname"><a href="conceptOrdered.html">Ordered</a></div><div class="ttdef"><b>Definition</b> <a href="#l00124">Concepts.hpp:124</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdef"><b>Definition</b> <a href="#l00016">Concepts.hpp:16</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SameAsAny_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SameAsAny.html">stratax::core::concept_detail::SameAsAny</a></div><div class="ttdef"><b>Definition</b> <a href="#l00012">Concepts.hpp:12</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedComplex.html">stratax::core::concept_detail::SupportedComplex</a></div><div class="ttdef"><b>Definition</b> <a href="#l00041">Concepts.hpp:41</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedFloating.html">stratax::core::concept_detail::SupportedFloating</a></div><div class="ttdef"><b>Definition</b> <a href="#l00033">Concepts.hpp:33</a></div></div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1SupportedIntegral_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1SupportedIntegral.html">stratax::core::concept_detail::SupportedIntegral</a></div><div class="ttdef"><b>Definition</b> <a href="#l00020">Concepts.hpp:20</a></div></div>
+<div class="ttc" id="astructis__array_html"><div class="ttname"><a href="structis__array.html">is_array</a></div><div class="ttdoc">Trait identifying supported Stratax owning array specializations.</div><div class="ttdef"><b>Definition</b> <a href="#l00093">Concepts.hpp:93</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

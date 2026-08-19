@@ -1,7 +1,6 @@
 var dir_d81e4652eb261ab36273d7eb7356393d =
 [
     [ "algorithms", "dir_e2a0160a3053dc478528db491401f6d0.html", "dir_e2a0160a3053dc478528db491401f6d0" ],
-    [ "concepts", "dir_038f51ef228aa00e33d75b88d9ccc524.html", "dir_038f51ef228aa00e33d75b88d9ccc524" ],
     [ "containers", "dir_4dc4647a8575faa8c6083e550692641f.html", "dir_4dc4647a8575faa8c6083e550692641f" ],
     [ "core", "dir_dc51df17c4a34e29a69d782eec26d6c5.html", "dir_dc51df17c4a34e29a69d782eec26d6c5" ],
     [ "detail", "dir_3db998c1dbae004fbb297176032f9160.html", null ],

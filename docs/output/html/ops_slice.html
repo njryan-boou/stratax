@@ -92,193 +92,202 @@ $(function(){initNavTree('ops_slice.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1 class="doxsection"><a class="anchor" id="dev_ops_slice"></a>
-Slice Ops</h1>
+Slice Operations</h1>
 <p>Version: v0.2.0</p>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Slicing_8hpp_source.html">include/stratax/indexing/Slicing.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md666"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md579"></a>
 Overview</h2>
-<p><span class="tt">ops/Slice.hpp</span> implements slicing for vector, matrix, and tensor containers using <span class="tt"><a class="el" href="classstratax_1_1core_1_1Slice.html" title="Represents a half-open strided range of indices.">stratax::core::Slice</a></span> ranges.</p>
-<p>All overloads return owning containers that copy selected elements from the source.</p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md668"></a>
+<p>The slicing API copies strided selections from <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> containers into new owning containers. It resolves raw <span class="tt"><a class="el" href="classstratax_1_1core_1_1Slice.html" title="Describes a signed, strided half-open index range.">stratax::core::Slice</a></span> bounds against concrete dimension extents, supports positive and negative steps, clamps bounds, and preserves traversal order.</p>
+<div class="fragment"><div class="line"><span class="keyword">const</span> stratax::Vector&lt;int&gt; source{0, 1, 2, 3, 4, 5};</div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> result = stratax::indexing::slice(</div>
+<div class="line">    source,</div>
+<div class="line">    <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>{1, 6, 2});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// result contains {1, 3, 5}.</span></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1Slice_html"><div class="ttname"><a href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a></div><div class="ttdoc">Describes a signed, strided half-open index range.</div><div class="ttdef"><b>Definition</b> <a href="Slice_8hpp_source.html#l00030">Slice.hpp:31</a></div></div>
+</div><!-- fragment --><hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md581"></a>
 Responsibilities</h2>
-<p>The slice ops module is responsible for:</p>
+<p>The slicing module is responsible for:</p>
 <ul>
-<li>Normalizing signed slice ranges against container extents</li>
-<li>Applying strided selection for 1D, 2D, and ND containers</li>
-<li>Building result shapes and copying selected elements</li>
+<li>Resolving signed raw bounds against each source dimension</li>
+<li>Translating negative bounds relative to the dimension extent</li>
+<li>Clamping bounds for positive and negative traversal</li>
+<li>Computing output shapes</li>
+<li>Copying selected values in row-major result order</li>
+<li>Checking Tensor result-offset arithmetic</li>
 </ul>
-<p>The slice ops module is not responsible for:</p>
-<ul>
-<li>Returning non-owning views</li>
-<li>Defining <span class="tt">Slice</span> semantics itself</li>
-<li>Broadcasting or advanced gather indexing</li>
-</ul>
+<p>It does not provide non-owning views, omitted-bound syntax, broadcasting, or advanced gather indexing.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md670"></a>
-Relationships</h2>
-<div class="fragment"><div class="line">slice(...) overloads</div>
-<div class="line">├── detail::normalize_slice(...)</div>
-<div class="line">├── core::Slice metadata</div>
-<div class="line">├── validation::require_rank(...) for tensor rank check</div>
-<div class="line">└── validation::checked_* for tensor offset arithmetic</div>
-</div><!-- fragment --><p>Depends on:</p>
-<ul>
-<li><span class="tt"><a class="el" href="Slice_8hpp_source.html">include/stratax/core/Slice.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Vector_8hpp_source.html">include/stratax/containers/Vector.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Matrix_8hpp_source.html">include/stratax/containers/Matrix.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Tensor_8hpp_source.html">include/stratax/containers/Tensor.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
-</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md583"></a>
+Type Aliases</h2>
+<div class="fragment"><div class="line"><span class="keyword">using </span>size_type = std::size_t;</div>
+<div class="line"><span class="keyword">using </span>difference_type = std::ptrdiff_t;</div>
+</div><!-- fragment --><p><span class="tt">size_type</span> represents extents, output counts, and flat offsets. <span class="tt">difference_type</span> represents normalized signed positions and steps.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md672"></a>
-Invariants</h2>
-<p>The following conditions are always true:</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md585"></a>
+Slice Normalization</h2>
+<p>The internal <span class="tt">detail::normalize_slice</span> helper converts one raw Slice into:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>ResolvedSlice</div>
+<div class="line">{</div>
+<div class="line">    difference_type start;</div>
+<div class="line">    difference_type step;</div>
+<div class="line">    size_type size;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>Normalization is O(1):</p>
 <ul>
-<li>Output containers are owning copies.</li>
-<li>Slice normalization is half-open and step-aware for both step directions.</li>
-<li>Out-of-range start/stop values are clamped, not rejected.</li>
-<li>Tensor slicing requires slice count equal to tensor rank.</li>
-<li>Empty output shapes return early without element copy loops.</li>
+<li>An extent larger than <span class="tt">difference_type::max()</span> is rejected.</li>
+<li>Negative bounds are translated relative to the extent.</li>
+<li>Positive-step bounds are clamped to <span class="tt">[0, extent]</span>.</li>
+<li>Negative-step bounds are clamped to <span class="tt">[-1, extent - 1]</span>.</li>
+<li>For a negative step, a stop value of <span class="tt">-1</span> remains the reverse-range sentinel instead of being translated.</li>
+<li>Directionally empty ranges resolve to size zero.</li>
 </ul>
+<p>For example, <span class="tt">Slice{-1, -1, -1}</span> selects a complete dimension in reverse order.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md674"></a>
-Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md675"></a>
-Vector slicing</h3>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md587"></a>
+Vector Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;T&gt;</a></div>
-<div class="line">slice(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;T&gt;</a>&amp; vec, <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>&amp; slice);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector</a></div><div class="ttdoc">Stores a rank-1 Stratax array in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="Vector_8hpp_source.html#l00021">Vector.hpp:22</a></div></div>
-<div class="ttc" id="aclassstratax_1_1core_1_1Slice_html"><div class="ttname"><a href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a></div><div class="ttdoc">Represents a half-open strided range of indices.</div><div class="ttdef"><b>Definition</b> <a href="Slice_8hpp_source.html#l00010">Slice.hpp:11</a></div></div>
-</div><!-- fragment --><p>Behavior</p>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;T&gt;</a> slice(</div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector&lt;T&gt;</a>&amp; vec,</div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>&amp; slice);</div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Vector_html"><div class="ttname"><a href="classstratax_1_1container_1_1Vector.html">stratax::container::Vector</a></div><div class="ttdoc">One-dimensional owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Vector_8hpp_source.html#l00043">Vector.hpp:44</a></div></div>
+</div><!-- fragment --><p>The slice is resolved against <span class="tt">vec.size()</span>. Selected values are copied into a new rank-one Vector in traversal order.</p>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Vector&lt;int&gt; values{0, 1, 2, 3, 4};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> odds = slice(values, Slice{1, 5, 2});       <span class="comment">// {1, 3}</span></div>
+<div class="line"><span class="keyword">auto</span> reversed = slice(values, Slice{-1, -1, -1}); <span class="comment">// {4, 3, 2, 1, 0}</span></div>
+</div><!-- fragment --><p>Throws:</p>
 <ul>
-<li>Normalizes and clamps range against <span class="tt">vec.size()</span></li>
-<li>Copies selected elements into a new vector</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Vector slice out of bounds.")</span> if the source extent cannot be represented by <span class="tt">difference_type</span></li>
+<li><span class="tt">std::bad_alloc</span> if result allocation fails</li>
 </ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if <span class="tt">vec.size()</span> exceeds <span class="tt">std::ptrdiff_t</span> representable range</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(k), where <span class="tt">k</span> is output size</li>
-</ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md676"></a>
-Matrix slicing</h3>
+<p>Complexity: O(k), where <span class="tt">k</span> is the result size.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md589"></a>
+Matrix Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix&lt;T&gt;</a></div>
-<div class="line">slice(</div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix&lt;T&gt;</a> slice(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix&lt;T&gt;</a>&amp; mat,</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>&amp; rows,</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>&amp; cols);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Matrix_html"><div class="ttname"><a href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix</a></div><div class="ttdoc">Stores a rank-2 Stratax array in row-major order.</div><div class="ttdef"><b>Definition</b> <a href="Matrix_8hpp_source.html#l00022">Matrix.hpp:23</a></div></div>
-</div><!-- fragment --><p>Behavior</p>
+<div class="ttc" id="aclassstratax_1_1container_1_1Matrix_html"><div class="ttname"><a href="classstratax_1_1container_1_1Matrix.html">stratax::container::Matrix</a></div><div class="ttdoc">Two-dimensional owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Matrix_8hpp_source.html#l00046">Matrix.hpp:47</a></div></div>
+</div><!-- fragment --><p>Row and column ranges are resolved independently. The returned Matrix has shape <span class="tt">{resolved_rows.size, resolved_cols.size}</span> and owns a row-major copy of the selected rectangle.</p>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Matrix&lt;int&gt; matrix{</div>
+<div class="line">    { 0,  1,  2,  3},</div>
+<div class="line">    { 4,  5,  6,  7},</div>
+<div class="line">    { 8,  9, 10, 11}</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> result = slice(matrix, Slice{0, 3, 2}, Slice{1, 4, 2});</div>
+<div class="line"><span class="comment">// Shape{2, 2}, values {1, 3, 9, 11}.</span></div>
+</div><!-- fragment --><p>Throws:</p>
 <ul>
-<li>Normalizes/clamps row and column slices independently</li>
-<li>Copies rectangular strided region into a new matrix</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Matrix row slice out of bounds.")</span> if the row extent cannot be represented</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Matrix column slice out of bounds.")</span> if the column extent cannot be represented</li>
+<li><span class="tt">std::bad_alloc</span> if result allocation fails</li>
 </ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> if row/column extent exceeds <span class="tt">std::ptrdiff_t</span> range</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(r_out * c_out)</li>
-</ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md677"></a>
-Tensor slicing</h3>
+<p>Complexity: O(result.rows() * result.cols()).</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md591"></a>
+Variadic Tensor Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Slices&gt;</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a></div>
-<div class="line">slice(<span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a>&amp; tensor, Slices... slices);</div>
-<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Stores an N-dimensional Stratax array in contiguous memory.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00024">Tensor.hpp:25</a></div></div>
-</div><!-- fragment --><p>Behavior</p>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> slice(</div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a>&amp; tensor,</div>
+<div class="line">    Slices... slices);</div>
+<div class="ttc" id="aclassstratax_1_1container_1_1Tensor_html"><div class="ttname"><a href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor</a></div><div class="ttdoc">Arbitrary-rank owning array of numeric values.</div><div class="ttdef"><b>Definition</b> <a href="Tensor_8hpp_source.html#l00048">Tensor.hpp:49</a></div></div>
+</div><!-- fragment --><p>Every variadic argument must be exactly <span class="tt">core::Slice</span>, enforced with a compile-time assertion. Exactly one Slice must be supplied per tensor dimension.</p>
+<p>Each dimension is normalized independently. Its selected count becomes the corresponding output dimension, and selected values are copied into the result in row-major order.</p>
+<div class="fragment"><div class="line">Tensor&lt;int&gt; tensor(Shape{2, 3, 4});</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> result = slice(</div>
+<div class="line">    tensor,</div>
+<div class="line">    Slice{0, 2},</div>
+<div class="line">    Slice{0, 3, 2},</div>
+<div class="line">    Slice{1, 4, 2});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// result.shape() == Shape{2, 2, 2}</span></div>
+</div><!-- fragment --><p>Throws:</p>
 <ul>
-<li>Requires all variadic arguments to be <span class="tt"><a class="el" href="classstratax_1_1core_1_1Slice.html" title="Represents a half-open strided range of indices.">stratax::core::Slice</a></span></li>
-<li>Requires number of slices to match tensor rank</li>
-<li>Computes output shape from resolved slice sizes</li>
-<li>Copies result in flat order using source/result strides</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Tensor slice rank must match tensor rank.")</span> if the number of Slice arguments differs from <span class="tt">tensor.rank()</span></li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Tensor slice out of bounds.")</span> if a dimension extent cannot be represented by <span class="tt">difference_type</span></li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a>("Tensor slice offset overflow.")</span> if checked source-offset arithmetic overflows</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></span> if output shape or stride arithmetic overflows</li>
+<li>Any allocation or element-copy exception propagated while constructing the owning result</li>
 </ul>
-<p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on rank mismatch</li>
-<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> when an extent exceeds <span class="tt">std::ptrdiff_t</span> range</li>
-<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on offset overflow from checked arithmetic</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(n_out * rank)</li>
-</ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md678"></a>
-Tensor slicing (vector-based)</h3>
+<p>Complexity: O(result.size() * tensor.rank()).</p>
+<p>An empty selected dimension returns an empty Tensor with the fully resolved shape. A rank-zero Tensor can be sliced by supplying no Slice arguments.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md593"></a>
+Vector-based Tensor Slicing</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a></div>
-<div class="line">slice(</div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a> slice(</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classstratax_1_1container_1_1Tensor.html">stratax::container::Tensor&lt;T&gt;</a>&amp; tensor,</div>
 <div class="line">    <span class="keyword">const</span> std::vector&lt;stratax::core::Slice&gt;&amp; slices);</div>
-</div><!-- fragment --><p>Behavior</p>
+</div><!-- fragment --><p>This overload performs the same normalization and copy operation but accepts a runtime-sized vector of Slice objects.</p>
+<div class="fragment"><div class="line"><span class="keyword">const</span> std::vector&lt;Slice&gt; ranges{</div>
+<div class="line">    Slice{0, 2},</div>
+<div class="line">    Slice{0, 3, 2},</div>
+<div class="line">    Slice{1, 4, 2}</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> result = slice(tensor, ranges);</div>
+</div><!-- fragment --><p>Throws:</p>
 <ul>
-<li>Accepts slices as a vector instead of variadic arguments</li>
-<li>Requires vector size to match tensor rank</li>
-<li>Computes output shape from resolved slice sizes</li>
-<li>Copies result in flat order using source/result strides</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a>("Slice rank must match tensor rank.")</span> if <span class="tt">slices.size() != tensor.rank()</span></li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a>("Tensor slice out of bounds.")</span> if a dimension extent cannot be represented by <span class="tt">difference_type</span></li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a>("Tensor slice offset overflow.")</span> if checked source-offset arithmetic overflows</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></span> if output shape or stride arithmetic overflows</li>
+<li>Any allocation or element-copy exception propagated while constructing the owning result</li>
 </ul>
-<p>Usage</p>
-<div class="fragment"><div class="line">Tensor&lt;int&gt; t(Shape{2, 3, 4});</div>
-<div class="line">std::vector&lt;Slice&gt; slices{Slice{0, 2}, Slice{1, 3}, Slice{0, 4}};</div>
-<div class="line"><span class="keyword">auto</span> result = slice(t, slices);</div>
-</div><!-- fragment --><p>Throws</p>
-<ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on rank mismatch</li>
-<li><span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> when an extent exceeds <span class="tt">std::ptrdiff_t</span> range</li>
-<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html" title="Signals an invalid dimension count or dimension arithmetic failure.">Exceptions::DimensionError</a></span> on offset overflow from checked arithmetic</li>
-</ul>
-<p>Complexity</p>
-<ul>
-<li>O(n_out * rank)</li>
-</ul>
+<p>Complexity: O(result.size() * tensor.rank()).</p>
+<p>For equivalent ranges, this overload produces the same shape and values as the variadic overload.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md680"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md595"></a>
+Ownership and Empty Results</h2>
+<p>Every overload returns an independent owning container. Modifying a result does not modify the source, and result storage does not alias source storage.</p>
+<p>Out-of-range bounds are normally clamped rather than rejected. Directionally empty ranges and zero-sized source dimensions produce correctly shaped empty containers without entering the element-copy loops.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md597"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadRight">Complexity  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">normalize_slice</span>  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
+<td class="markdownTableBodyNone">Normalize one Slice  </td><td class="markdownTableBodyRight">O(1)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Vector <span class="tt">slice</span>  </td><td class="markdownTableBodyRight">O(k)  </td></tr>
+<td class="markdownTableBodyNone">Vector slicing  </td><td class="markdownTableBodyRight">O(result.size())  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Matrix <span class="tt">slice</span>  </td><td class="markdownTableBodyRight">O(r_out * c_out)  </td></tr>
+<td class="markdownTableBodyNone">Matrix slicing  </td><td class="markdownTableBodyRight">O(result.rows() * result.cols())  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Tensor <span class="tt">slice</span>  </td><td class="markdownTableBodyRight">O(n_out * rank)  </td></tr>
+<td class="markdownTableBodyNone">Tensor slicing  </td><td class="markdownTableBodyRight">O(result.size() * tensor.rank())  </td></tr>
 </table>
+<p>All overloads allocate storage proportional to the number of selected elements, plus output shape/stride metadata.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md682"></a>
-Examples</h2>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> v2 = slice(v, <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(0, 10, 2));</div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> m2 = slice(m, <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(1, -1, 1), <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(0, 5, 2));</div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> t2 = slice(t, <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(0, 2), <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(0, 3), <a class="code hl_class" href="classstratax_1_1core_1_1Slice.html">stratax::core::Slice</a>(0, 4));</div>
-</div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md684"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md599"></a>
 Design Notes</h2>
-<p>Normalization is permissive by design: start/stop values are clamped to legal bounds, which keeps slicing behavior predictable and pythonic.</p>
-<p>Tensor slicing currently copies into new storage rather than producing a view to preserve ownership simplicity.</p>
+<p>Slicing currently materializes owning copies. This keeps lifetime and mutation semantics straightforward but makes even contiguous selections O(n).</p>
+<p>The two Tensor overloads intentionally expose different rank-error types in the current implementation: the variadic overload throws <span class="tt">IndexError</span>, while the vector-based overload uses <span class="tt">require_rank</span> and throws <span class="tt">DimensionError</span>.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md686"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md601"></a>
 Future Improvements</h2>
 <ul>
-<li>Add non-owning slice/view support</li>
-<li>Add richer slice composition helpers</li>
-<li>Evaluate vectorized copy kernels for dense slices</li>
+<li>Deduplicate the two Tensor copy implementations</li>
+<li>Make normalization arithmetic safe across the full signed range</li>
+<li>Harmonize Tensor rank-error types and messages</li>
+<li>Support omitted bounds and full-range shorthand</li>
+<li>Add non-owning strided views</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md688"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md603"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="Slice_8hpp_source.html">include/stratax/core/Slice.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Tensor_8hpp_source.html">include/stratax/containers/Tensor.hpp</a></span> </li>
+<li><a class="el" href="slice.html">Slice</a></li>
+<li><a class="el" href="vector.html">Vector</a></li>
+<li><a class="el" href="matrix.html">Matrix</a></li>
+<li><a class="el" href="tensor.html">Tensor</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

@@ -33,7 +33,7 @@ class TestVectorInterfaceTests:
         assert vector.empty
         assert len(vector) == 0
         assert list(vector.shape) == [0]
-        assert vector.strides == [1]
+        assert vector.strides == Shape([1])
         assert vector.tolist() == []
         assert list(vector) == []
 
@@ -44,7 +44,7 @@ class TestVectorInterfaceTests:
         assert vector.rank == 1
         assert not vector.empty
         assert vector.shape == Shape([3])
-        assert vector.strides == [1]
+        assert vector.strides == Shape([1])
         assert len(vector) == 3
         assert vector.tolist() == [0.0, 0.0, 0.0]
 

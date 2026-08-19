@@ -1,9 +1,0 @@
-<map id="stratax::core::ArrayBase&lt; T &gt;" name="stratax::core::ArrayBase&lt; T &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="62,224,278,251"/>
-<area shape="rect" id="Node000002" href="$classstratax_1_1core_1_1Shape.html" title="Stores dimension lengths for an array shape." alt="" coords="5,123,157,151"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,160,161,222,156,224,101,164"/>
-<area shape="rect" id="Node000003" href="$structstratax_1_1core_1_1Shape_1_1allow__zero__t.html" title="Tag type documenting that zero&#45;valued dimensions are intentional." alt="" coords="5,5,157,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,63,84,123,78,122,80,68"/>
-<area shape="rect" id="Node000004" href="$classstratax_1_1core_1_1Strides.html" title="Stores strides for a shape in contiguous memory." alt="" coords="180,123,336,151"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="239,162,184,225,180,221,234,163"/>
-</map>

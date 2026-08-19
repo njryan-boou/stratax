@@ -78,6 +78,7 @@ void bind_shape(py::module_& m)
             }
         })
         .def_property_readonly("empty", &Shape::empty)
+		.def_property_readonly("strides", &Shape::strides)
         .def("__len__", &Shape::rank)
         .def("__getitem__", [](const Shape& shape, py::handle index)
 {

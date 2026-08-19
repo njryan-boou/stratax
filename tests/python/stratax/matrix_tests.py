@@ -23,7 +23,7 @@ class TestMatrixInterfaceTests:
         assert matrix.cols == 0
         assert len(matrix) == 0
         assert list(matrix.shape) == [0, 0]
-        assert matrix.strides == [0, 1]
+        assert matrix.strides == Shape([0, 1])
         assert matrix.tolist() == []
         assert list(matrix) == []
 
@@ -37,7 +37,7 @@ class TestMatrixInterfaceTests:
         assert matrix.cols == 3
         assert len(matrix) == 2
         assert matrix.shape == Shape([2, 3])
-        assert matrix.strides == [3, 1]
+        assert matrix.strides == Shape([3, 1])
         assert matrix.tolist() == [
             [0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0],

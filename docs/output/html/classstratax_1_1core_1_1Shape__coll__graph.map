@@ -1,5 +1,0 @@
-<map id="stratax::core::Shape" name="stratax::core::Shape">
-<area shape="rect" id="Node000001" title="Stores dimension lengths for an array shape." alt="" coords="5,123,157,151"/>
-<area shape="rect" id="Node000002" href="$structstratax_1_1core_1_1Shape_1_1allow__zero__t.html" title="Tag type documenting that zero&#45;valued dimensions are intentional." alt="" coords="5,5,157,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,64,84,123,78,122,79,67"/>
-</map>

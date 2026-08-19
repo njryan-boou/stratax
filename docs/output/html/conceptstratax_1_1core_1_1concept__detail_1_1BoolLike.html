@@ -94,11 +94,11 @@ $(function(){initNavTree('conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a> = </div>
-<div class="line">    std::same_as&lt;clean_t&lt;T&gt;, <span class="keywordtype">bool</span>&gt;</div>
-<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00032">Numeric.hpp:32</a></div></div>
+<div class="line">    std::same_as&lt;std::remove_cvref_t&lt;T&gt;, stratax::dtype::bool_&gt;</div>
+<div class="ttc" id="aconceptstratax_1_1core_1_1concept__detail_1_1BoolLike_html"><div class="ttname"><a href="conceptstratax_1_1core_1_1concept__detail_1_1BoolLike.html">stratax::core::concept_detail::BoolLike</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00016">Concepts.hpp:16</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Numeric_8hpp_source.html#l00032">32</a> of file <a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00016">16</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

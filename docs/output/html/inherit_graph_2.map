@@ -1,5 +1,21 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classstratax_1_1core_1_1ArrayBase.html" title=" " alt="" coords="5,5,184,50"/>
-<area shape="rect" id="Node000001" href="$classstratax_1_1container_1_1Tensor.html" title="Stores an N&#45;dimensional Stratax array in contiguous memory." alt="" coords="232,5,368,50"/>
-<area shape="poly" id="edge16_Node000000_Node000001" title=" " alt="" coords="199,25,234,27,229,28,200,30"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,188,144,216"/>
+<area shape="rect" id="Node000001" href="$classExceptions_1_1StrataxError.html" title=" " alt="" coords="192,188,370,216"/>
+<area shape="poly" id="edge8_Node000000_Node000001" title=" " alt="" coords="158,199,193,201,189,203,160,204"/>
+<area shape="rect" id="Node000002" href="$classExceptions_1_1AxisError.html" title=" " alt="" coords="439,5,598,33"/>
+<area shape="poly" id="edge9_Node000001_Node000002" title=" " alt="" coords="296,173,345,108,378,73,417,44,446,32,441,35,419,48,382,77,349,111,300,177"/>
+<area shape="rect" id="Node000003" href="$classExceptions_1_1BroadcastError.html" title=" " alt="" coords="420,57,617,85"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="306,175,355,134,417,95,452,84,447,87,419,100,358,139,309,179"/>
+<area shape="rect" id="Node000004" href="$classExceptions_1_1DimensionError.html" title=" " alt="" coords="418,109,619,137"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="330,179,417,147,462,136,457,139,419,152,332,184"/>
+<area shape="rect" id="Node000005" href="$classExceptions_1_1IndexError.html" title=" " alt="" coords="435,161,602,189"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="385,188,437,184,432,185,386,193"/>
+<area shape="rect" id="Node000006" href="$classExceptions_1_1OverflowError.html" title=" " alt="" coords="424,213,613,241"/>
+<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="385,210,426,216,421,218,386,216"/>
+<area shape="rect" id="Node000007" href="$classExceptions_1_1ShapeError.html" title=" " alt="" coords="433,265,604,293"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="332,219,419,250,462,265,457,265,417,255,332,225"/>
+<area shape="rect" id="Node000008" href="$classExceptions_1_1TypeError.html" title=" " alt="" coords="438,317,599,345"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="309,224,359,264,419,302,452,317,447,317,417,307,356,269,308,229"/>
+<area shape="rect" id="Node000009" href="$classExceptions_1_1ZeroDivisionError.html" title=" " alt="" coords="427,369,610,414"/>
+<area shape="poly" id="edge16_Node000001_Node000009" title=" " alt="" coords="300,226,350,291,383,325,419,354,442,369,436,368,417,359,379,329,346,294,298,231"/>
 </map>

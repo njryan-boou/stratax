@@ -70,6 +70,11 @@ class Shape:
         """Return a tuple-style shape representation."""
         ...
 
+    @property
+    def strides(self) -> Shape:
+        """Return canonical row-major strides as a shape object."""
+        ...
+
 
 class BoolVector:
     """Rank-1 Boolean array returned by vector comparisons."""
@@ -78,7 +83,7 @@ class BoolVector:
     rank: int
     empty: bool
     shape: Shape
-    strides: list[int]
+    strides: Shape
 
     def fill(self, value: bool) -> None: ...
     def tolist(self) -> list[bool]: ...
@@ -94,7 +99,7 @@ class BoolMatrix:
     rank: int
     empty: bool
     shape: Shape
-    strides: list[int]
+    strides: Shape
 
     def fill(self, value: bool) -> None: ...
     def tolist(self) -> list[list[bool]]: ...
@@ -110,7 +115,7 @@ class BoolTensor:
     rank: int
     empty: bool
     shape: Shape
-    strides: list[int]
+    strides: Shape
 
     def fill(self, value: bool) -> None: ...
     def tolist(self) -> list[bool | list]: ...
@@ -158,7 +163,7 @@ class Vector:
         ...
 
     @property
-    def strides(self) -> list[int]:
+    def strides(self) -> Shape:
         """Return row-major stride metadata."""
         ...
 
@@ -328,7 +333,7 @@ class Matrix:
         ...
 
     @property
-    def strides(self) -> list[int]:
+    def strides(self) -> Shape:
         """Return row-major stride metadata."""
         ...
 
@@ -493,7 +498,7 @@ class Tensor:
         ...
 
     @property
-    def strides(self) -> list[int]:
+    def strides(self) -> Shape:
         """Return row-major stride metadata."""
         ...
 

@@ -17,10 +17,10 @@ namespace stratax::container {
  * @brief Arbitrary-rank owning array of numeric values.
  *
  * Tensor combines contiguous element storage with a logical Shape and its
- * canonical row-major Strides. It supports unchecked multidimensional access
- * with already-normalized unsigned indices and checked multidimensional access
- * with signed, Python-style indices. The flat container interface is inherited
- * from core::ArrayBase.
+ * canonical row-major stride metadata. It supports unchecked multidimensional
+ * access with already-normalized unsigned indices and checked multidimensional
+ * access with signed, Python-style indices. The flat container interface is
+ * inherited from core::ArrayBase.
  *
  * @tparam T Element type satisfying the DType concept.
  *
@@ -42,7 +42,6 @@ namespace stratax::container {
  *
  * @see core::ArrayBase
  * @see core::Shape
- * @see core::Strides
  */
 template<typename T>
 requires DType<T>

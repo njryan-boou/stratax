@@ -91,15 +91,28 @@ $(function(){initNavTree('conceptArray.html','',''); });
   <div class="headertitle"><div class="title">Array Concept Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Identifies supported Stratax owning array types.  
+<a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptArray.html">Array</a> = </div>
-<div class="line">    <a class="code hl_struct" href="structis__array.html">is_array&lt;stratax::core::concept_detail::clean_t&lt;T&gt;</a>&gt;::value</div>
-<div class="ttc" id="aconceptArray_html"><div class="ttname"><a href="conceptArray.html">Array</a></div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00139">Numeric.hpp:139</a></div></div>
-<div class="ttc" id="astructis__array_html"><div class="ttname"><a href="structis__array.html">is_array</a></div><div class="ttdoc">Type trait that reports whether a type is a Stratax array.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00124">Numeric.hpp:124</a></div></div>
+<div class="line">    <a class="code hl_struct" href="structis__array.html">is_array&lt;std::remove_cvref_t&lt;T&gt;</a>&gt;::value</div>
+<div class="ttc" id="aconceptArray_html"><div class="ttname"><a href="conceptArray.html">Array</a></div><div class="ttdoc">Identifies supported Stratax owning array types.</div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00120">Concepts.hpp:120</a></div></div>
+<div class="ttc" id="astructis__array_html"><div class="ttname"><a href="structis__array.html">is_array</a></div><div class="ttdoc">Trait identifying supported Stratax owning array specializations.</div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00093">Concepts.hpp:93</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Numeric_8hpp_source.html#l00139">139</a> of file <a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a>.</p>
+<div class="textblock"><p>Identifies supported Stratax owning array types. </p>
+<p><a class="el" href="conceptArray.html" title="Identifies supported Stratax owning array types.">Array</a> accepts Vector, Matrix, and Tensor specializations and ignores cv- and reference qualifiers. It is intentionally nominal rather than structural; unrelated types with a similar interface do not satisfy it.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type to classify. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00120">120</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

@@ -97,125 +97,212 @@ Comparison</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Comparison_8hpp_source.html">include/stratax/ops/Comparison.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md621"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md527"></a>
 Overview</h2>
-<p><span class="tt"><a class="el" href="Comparison_8hpp_source.html">Comparison.hpp</a></span> defines exact equality and inequality operators for Stratax array-like containers.</p>
-<p>Comparison is shape-aware and value-based: arrays are equal only when shape and all flat element values match.</p>
+<p><span class="tt"><a class="el" href="Comparison_8hpp_source.html">Comparison.hpp</a></span> provides element-wise equality and ordering comparisons for Stratax arrays. Every comparison returns a newly allocated array whose dtype is <span class="tt">stratax::dtype::bool_</span>; it does not reduce the result to one Boolean value.</p>
+<p>The API supports all operand arrangements:</p>
+<ul>
+<li><a class="el" href="conceptArray.html" title="Identifies supported Stratax owning array types.">Array</a> compared with array</li>
+<li><a class="el" href="conceptArray.html" title="Identifies supported Stratax owning array types.">Array</a> compared with scalar</li>
+<li>Scalar compared with array</li>
+</ul>
+<p>Array-array comparisons follow Stratax broadcasting rules and may mix <span class="tt">Vector</span>, <span class="tt">Matrix</span>, and <span class="tt">Tensor</span> operands. Array-scalar comparisons preserve the array operand's container type and shape.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md623"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md529"></a>
 Responsibilities</h2>
 <p>The comparison module is responsible for:</p>
 <ul>
-<li>Fast shape gate before element comparison</li>
-<li>Exact element-wise equality in flat iteration order</li>
-<li>Defining inequality as the logical negation of equality</li>
+<li>Applying exact element-wise equality and inequality</li>
+<li>Applying element-wise ordering comparisons to ordered dtypes</li>
+<li>Broadcasting compatible array-array operands</li>
+<li>Preserving operand order in scalar-array comparisons</li>
+<li>Returning owning Boolean arrays without modifying either operand</li>
+<li>Promoting mixed array container types to the appropriate result container</li>
 </ul>
 <p>The comparison module is not responsible for:</p>
 <ul>
-<li>Approximate floating-point comparison</li>
-<li>Broadcasting or implicit shape alignment</li>
-<li>Ordering comparisons (<span class="tt">&lt;</span>, <span class="tt">&lt;=</span>, <span class="tt">&gt;</span>, <span class="tt">&gt;=</span>)</li>
+<li>Reducing a Boolean array to a single <span class="tt">bool</span></li>
+<li>Approximate or tolerance-based floating-point equality</li>
+<li>Comparing incompatible array shapes</li>
+<li>Ordering complex values</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md625"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md531"></a>
 Relationships</h2>
-<div class="fragment"><div class="line">operator==</div>
-<div class="line">├── validation::same_shape(lhs, rhs)</div>
-<div class="line">└── element-wise iterator comparison</div>
-<div class="line"> </div>
-<div class="line">operator!=</div>
-<div class="line">└── !(lhs == rhs)</div>
+<div class="fragment"><div class="line">Public named functions and operators</div>
+<div class="line">|-- comparison_detail::comparison_op(...)</div>
+<div class="line">|   |-- broadcasted_shape(...)</div>
+<div class="line">|   `-- broadcast_detail::flat_operand_index(...)</div>
+<div class="line">|-- comparison_detail::comparison_scalar_op(...)</div>
+<div class="line">|-- core::promote_array_t&lt;..., dtype::bool_&gt;</div>
+<div class="line">`-- core::rebind_array_t&lt;..., dtype::bool_&gt;</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
-</ul>
-<p>Used by:</p>
-<ul>
-<li>Equality checks in tests and API call sites</li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="ArrayTraits_8hpp_source.html">include/stratax/core/ArrayTraits.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Types_8hpp_source.html">include/stratax/core/dtypes/Types.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md627"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md533"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
-<li>Comparisons do not mutate operands.</li>
-<li>Shape mismatch produces <span class="tt">false</span> from <span class="tt">operator==</span>.</li>
-<li><span class="tt">operator!=</span> is exactly <span class="tt">!(operator==)</span>.</li>
-<li>Equality uses exact value comparison (<span class="tt">==</span>) per element.</li>
+<li>Every public comparison returns an owning Boolean array.</li>
+<li>Array-array results use the common broadcasted shape.</li>
+<li>Mixed array container types use <span class="tt">promote_array_t</span> to select the result container.</li>
+<li>Array-scalar results preserve the array operand's shape and container type.</li>
+<li>Scalar-array operations preserve left-to-right operand order.</li>
+<li>Comparisons do not mutate their operands.</li>
+<li>Equality is exact and uses the underlying dtype's <span class="tt">==</span> operation.</li>
+<li>Ordering operations require both participating dtypes to satisfy <span class="tt"><a class="el" href="conceptOrdered.html">Ordered</a></span>.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md629"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md535"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md630"></a>
-Equality</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-</div><!-- fragment --><p>Behavior</p>
-<ul>
-<li>Returns <span class="tt">false</span> immediately on shape mismatch</li>
-<li>Otherwise compares all elements in flat iteration order</li>
-</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md536"></a>
+Named array-array comparisons</h3>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt; <span class="keyword">auto</span> equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt; <span class="keyword">auto</span> not_equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt;</div>
+<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename L::value_type&gt;</a> &amp;&amp;</div>
+<div class="line">         <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename R::value_type&gt;</a></div>
+<div class="line"><span class="keyword">auto</span> less(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt;</div>
+<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename L::value_type&gt;</a> &amp;&amp;</div>
+<div class="line">         <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename R::value_type&gt;</a></div>
+<div class="line"><span class="keyword">auto</span> less_equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt;</div>
+<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename L::value_type&gt;</a> &amp;&amp;</div>
+<div class="line">         <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename R::value_type&gt;</a></div>
+<div class="line"><span class="keyword">auto</span> greater(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;Array L, Array R&gt;</div>
+<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename L::value_type&gt;</a> &amp;&amp;</div>
+<div class="line">         <a class="code hl_concept" href="conceptOrdered.html">Ordered&lt;typename R::value_type&gt;</a></div>
+<div class="line"><span class="keyword">auto</span> greater_equal(<span class="keyword">const</span> L&amp; lhs, <span class="keyword">const</span> R&amp; rhs);</div>
+<div class="ttc" id="aconceptOrdered_html"><div class="ttname"><a href="conceptOrdered.html">Ordered</a></div><div class="ttdef"><b>Definition</b> <a href="Concepts_8hpp_source.html#l00124">Concepts.hpp:124</a></div></div>
+</div><!-- fragment --><p>The result container is <span class="tt">stratax::core::promote_array_t&lt;L, R,
+stratax::dtype::bool_&gt;</span>. Its shape is the common broadcasted shape.</p>
 <p>Throws</p>
 <ul>
-<li>None expected from module logic for shape mismatch paths</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1BroadcastError.html">Exceptions::BroadcastError</a></span> when the operand shapes are incompatible</li>
 </ul>
 <p>Complexity</p>
 <ul>
-<li>Best case O(1) (early mismatch)</li>
-<li>Worst case O(r + n)</li>
+<li>O(nr), where <span class="tt">n</span> is the result element count and <span class="tt">r</span> is the result rank</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md631"></a>
-Inequality</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-</div><!-- fragment --><p>Behavior</p>
-<ul>
-<li>Delegates to <span class="tt">operator==</span> and negates the result</li>
-</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md537"></a>
+Named array-scalar comparisons</h3>
+<p>Equality and inequality accept any <span class="tt"><a class="el" href="conceptDType.html">DType</a></span> scalar:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, DType Scalar&gt; <span class="keyword">auto</span> equal(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;DType Scalar, Array A&gt; <span class="keyword">auto</span> equal(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;Array A, DType Scalar&gt; <span class="keyword">auto</span> not_equal(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
+<div class="line"><span class="keyword">template</span>&lt;DType Scalar, Array A&gt; <span class="keyword">auto</span> not_equal(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+</div><!-- fragment --><p>Ordering overloads use the same operand arrangements but require the scalar and array value type to satisfy <span class="tt"><a class="el" href="conceptOrdered.html">Ordered</a></span>:</p>
+<div class="fragment"><div class="line">less(array, scalar);          less(scalar, array);</div>
+<div class="line">less_equal(array, scalar);    less_equal(scalar, array);</div>
+<div class="line">greater(array, scalar);       greater(scalar, array);</div>
+<div class="line">greater_equal(array, scalar); greater_equal(scalar, array);</div>
+</div><!-- fragment --><p>The result type is <span class="tt">stratax::core::rebind_array_t&lt;A,
+stratax::dtype::bool_&gt;</span>. No broadcasting is needed because the scalar is applied to every array element.</p>
 <p>Complexity</p>
 <ul>
-<li>Same as <span class="tt">operator==</span></li>
+<li>O(n), where <span class="tt">n</span> is the array element count</li>
 </ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md538"></a>
+Operators</h3>
+<p>All named comparisons have equivalent operator syntax for array-array, array-scalar, and scalar-array operands:</p>
+<div class="fragment"><div class="line">lhs == rhs;</div>
+<div class="line">lhs != rhs;</div>
+<div class="line">lhs &lt; rhs;</div>
+<div class="line">lhs &lt;= rhs;</div>
+<div class="line">lhs &gt; rhs;</div>
+<div class="line">lhs &gt;= rhs;</div>
+</div><!-- fragment --><p>The operators return the same Boolean array type as their corresponding named function. In particular, <span class="tt">lhs == rhs</span> is an element-wise operation and cannot be used directly as a single Boolean condition.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md633"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md540"></a>
+Internal Helpers</h2>
+<p>Implementation helpers live in <span class="tt">stratax::core::comparison_detail</span>:</p>
+<ul>
+<li><span class="tt">comparison_op</span> performs broadcasted array-array traversal.</li>
+<li><span class="tt">comparison_scalar_op</span> implements both scalar operand orders.</li>
+<li><span class="tt">array_equal</span> performs internal whole-array shape and value equality.</li>
+</ul>
+<p>These helpers are implementation details and are not part of the public API.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md542"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadRight">Complexity  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Shape check  </td><td class="markdownTableBodyRight">O(r)  </td></tr>
+<td class="markdownTableBodyNone">Array-array comparison  </td><td class="markdownTableBodyRight">O(nr)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Equality value scan  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
+<td class="markdownTableBodyNone">Array-scalar comparison  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">operator==</span> total  </td><td class="markdownTableBodyRight">O(r + n), early exit possible  </td></tr>
+<td class="markdownTableBodyNone">Scalar-array comparison  </td><td class="markdownTableBodyRight">O(n)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">operator!=</span> total  </td><td class="markdownTableBodyRight">O(r + n), early exit possible  </td></tr>
+<td class="markdownTableBodyNone">Internal whole-array equality  </td><td class="markdownTableBodyRight">O(r + n) worst case  </td></tr>
 </table>
-<p><span class="tt">r</span> is rank and <span class="tt">n</span> is element count.</p>
+<p>For broadcasted operations, <span class="tt">n</span> is the result size and <span class="tt">r</span> is the result rank. For scalar operations, <span class="tt">n</span> is the array size.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md635"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md544"></a>
 Examples</h2>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> equal = (a == b);</div>
-<div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> different = (a != b);</div>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md545"></a>
+Array-array broadcasting</h3>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Matrix&lt;int&gt; column{{1}, {3}};</div>
+<div class="line"><span class="keyword">const</span> Matrix&lt;int&gt; row{{2, 3, 4}};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = column &lt; row;</div>
+<div class="line"><span class="comment">// shape: (2, 3)</span></div>
+<div class="line"><span class="comment">// values: {{true, true, true}, {false, false, true}}</span></div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md546"></a>
+Scalar comparisons</h3>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Vector&lt;int&gt; values{1, 2, 3};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> at_least_two = values &gt;= 2;</div>
+<div class="line"><span class="comment">// {false, true, true}</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> two_is_greater = 2 &gt; values;</div>
+<div class="line"><span class="comment">// {true, false, false}</span></div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md547"></a>
+Mixed containers and dtypes</h3>
+<div class="fragment"><div class="line"><span class="keyword">const</span> Vector&lt;stratax::dtype::int16&gt; vector{1, 2, 3};</div>
+<div class="line"><span class="keyword">const</span> Matrix&lt;stratax::dtype::float32&gt; matrix{{1.0F}, {2.5F}};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = vector &lt; matrix;</div>
+<div class="line"><span class="comment">// Result type: Tensor&lt;stratax::dtype::bool_&gt;</span></div>
+<div class="line"><span class="comment">// Result shape: (2, 3)</span></div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md548"></a>
+Whole-result checks</h3>
+<p>Because comparisons return arrays, callers that need one Boolean value should explicitly reduce or inspect the mask rather than treating it as a <span class="tt">bool</span>:</p>
+<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> mask = lhs == rhs;</div>
+<div class="line"><span class="keyword">const</span> <span class="keywordtype">bool</span> first_elements_match = mask[0];</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md637"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md550"></a>
 Design Notes</h2>
-<p>Keeping comparison exact and minimal avoids surprising semantics at the core layer.</p>
-<p>Approximate comparisons for floating-point values should be introduced as separate explicit utilities rather than overloading <span class="tt">operator==</span> behavior.</p>
+<p>Equality remains exact for floating-point and complex values. Approximate comparison should be exposed as a separate, explicit algorithm so tolerance selection is visible at the call site.</p>
+<p>Complex dtypes support <span class="tt">equal</span>, <span class="tt">not_equal</span>, <span class="tt">==</span>, and <span class="tt">!=</span>. They do not satisfy <span class="tt"><a class="el" href="conceptOrdered.html">Ordered</a></span>, so <span class="tt">&lt;</span>, <span class="tt">&lt;=</span>, <span class="tt">&gt;</span>, and <span class="tt">&gt;=</span> are rejected at compile time.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md639"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md552"></a>
 Future Improvements</h2>
 <ul>
-<li>Add tolerance-based comparison helpers for floating-point arrays</li>
-<li>Add element-wise boolean comparison utilities</li>
+<li>Add explicit tolerance-based floating-point comparison algorithms</li>
+<li>Add public <span class="tt">all</span> and <span class="tt">any</span> Boolean reductions for whole-mask queries</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md641"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md554"></a>
 See Also</h2>
 <ul>
+<li><span class="tt"><a class="el" href="Broadcasting_8hpp_source.html">include/stratax/ops/Broadcasting.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Arithmetic_8hpp_source.html">include/stratax/ops/Arithmetic.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="ShapeValidation_8hpp_source.html">include/stratax/core/validation/ShapeValidation.hpp</a></span> </li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="ArrayTraits_8hpp_source.html">include/stratax/core/ArrayTraits.hpp</a></span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

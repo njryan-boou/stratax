@@ -14,7 +14,10 @@ Header: `include/stratax/indexing/Indexing.hpp`
 
 `Indexing.hpp` provides core indexing helpers used by multidimensional containers.
 
-The `stratax::indexing::offset(...)` helper maps a rank-matched index container to a row-major storage position using shape and stride metadata. The `stratax::indexing::normalize_index(...)` helper resolves signed indexing into validated non-negative positions.
+The `stratax::indexing::offset(...)` helper maps normalized indices to a
+row-major storage position using precomputed stride metadata. The
+`stratax::indexing::normalize_index(...)` helper resolves signed indexing into
+validated non-negative positions.
 
 ---
 
@@ -22,9 +25,8 @@ The `stratax::indexing::offset(...)` helper maps a rank-matched index container 
 
 The indexing module is responsible for:
 
-- Validating rank agreement among shape, strides, and index inputs
-- Validating each index component against the corresponding dimension
-- Computing flat offsets safely with overflow checks
+- Computing unchecked flat offsets from stride metadata and normalized indices
+- Normalizing checked signed indices against a dimension extent
 
 The indexing module is **not** responsible for:
 
@@ -37,11 +39,8 @@ The indexing module is **not** responsible for:
 ## Relationships
 
 ```text
-stratax::indexing::offset(shape, strides, index)
-├── require_rank(...)
-├── checked_multiply(...)
-├── checked_add(...)
-└── Exceptions::IndexError translation
+stratax::indexing::offset(strides, indices)
+└── sum(indices[i] * strides[i])
 
 stratax::indexing::normalize_index(index, size)
 └── signed-to-valid-index normalization
@@ -50,9 +49,7 @@ stratax::indexing::normalize_index(index, size)
 Depends on:
 
 - `include/stratax/core/Shape.hpp`
-- `include/stratax/core/Strides.hpp`
-- `include/stratax/core/validation/Validation.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
+- `include/stratax/indexing/Normalize.hpp`
 
 Used by:
 
@@ -63,12 +60,11 @@ Used by:
 
 ## Invariants
 
-The following conditions are always true:
+Callers of `offset(...)` must maintain these preconditions:
 
-- `shape.rank() == strides.rank() == index.size()`.
-- Valid index components satisfy `index[i] < shape[i]`.
-- Returned value is a flat row-major offset.
-- Overflow in multiplication/addition is translated to `Exceptions::IndexError`.
+- `strides.rank() == indices.size()`.
+- Each index is valid for the logical shape that produced the strides.
+- Every multiplication and the final sum fit in `std::size_t`.
 
 ---
 
@@ -79,23 +75,16 @@ The following conditions are always true:
 ```cpp
 template<typename IndexContainer>
 std::size_t offset(
-    const stratax::core::Shape& shape,
-    const stratax::core::Strides& strides,
-    const IndexContainer& index);
+    const stratax::core::Shape& strides,
+    const IndexContainer& indices);
 ```
 
-Computes `sum(index[i] * strides[i])` after validation.
+Computes `sum(indices[i] * strides[i])` without validation.
 
 Requirements on `IndexContainer`:
 
-- `size()` returning rank-compatible count
-- `begin()` / `end()` iterators over index components
-
-Throws
-
-- `Exceptions::DimensionError` on rank mismatch
-- `Exceptions::IndexError` for out-of-bounds component
-- `Exceptions::IndexError` for offset arithmetic overflow
+- `begin()` / `end()` iterators over normalized index components
+- Exactly one index per stride
 
 Complexity
 
@@ -125,8 +114,7 @@ Complexity
 
 | Operation | Complexity |
 | --------- | ----------: |
-| Rank validation | O(1) |
-| Component validation + offset accumulation | O(r) |
+| Offset accumulation | O(r) |
 | Total `offset(...)` | O(r) |
 
 ---
@@ -134,11 +122,11 @@ Complexity
 ## Examples
 
 ```cpp
-const stratax::core::Shape shape(2, 3, 4);
-const stratax::core::Strides strides(shape);
+const stratax::core::Shape shape{2, 3, 4};
+const stratax::core::Shape strides = shape.strides();
 const std::array<std::size_t, 3> index{1, 0, 2};
 
-const std::size_t flat = stratax::indexing::offset(shape, strides, index);
+const std::size_t flat = stratax::indexing::offset(strides, index);
 // row-major offset for [1,0,2]
 
 const std::size_t i0 = stratax::indexing::normalize_index(-1, 4);
@@ -149,7 +137,9 @@ const std::size_t i0 = stratax::indexing::normalize_index(-1, 4);
 
 ## Design Notes
 
-This helper intentionally keeps behavior strict and explicit: rank mismatch remains `DimensionError`, while per-component bounds and overflow are surfaced as `IndexError` for callers operating in indexing contexts.
+`offset(...)` is intentionally unchecked because its array-container callers
+already own synchronized shape and stride metadata. Checked signed indexing is
+handled separately before offset calculation.
 
 The API is generic over index containers to avoid forcing a project-specific index type.
 
@@ -158,7 +148,7 @@ The API is generic over index containers to avoid forcing a project-specific ind
 ## Future Improvements
 
 - Add overloads for fixed-size index packs where rank is compile-time known.
-- Add optional debug diagnostics exposing failing dimension indices.
+- Add an optional checked overload for external callers.
 
 ---
 

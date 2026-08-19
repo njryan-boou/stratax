@@ -46,7 +46,7 @@ TEST(ArrayBaseConstructor, Shape)
     EXPECT_EQ(array.size(), 6);
     EXPECT_EQ(array.rank(), 2);
     EXPECT_EQ(array.shape(), (Shape{2, 3}));
-    EXPECT_EQ(array.strides(), (Strides{Shape{2, 3}}));
+    EXPECT_EQ(array.strides(), (Shape{3, 1}));
     EXPECT_FALSE(array.empty());
 
     for (int value : array) {
@@ -74,7 +74,7 @@ TEST(ArrayBaseConstructor, ZeroDimension)
     EXPECT_EQ(array.rank(), 3);
     EXPECT_TRUE(array.empty());
     EXPECT_EQ(array.shape(), (Shape{2, 0, 4}));
-    EXPECT_EQ(array.strides(), (Strides{Shape{2, 0, 4}}));
+    EXPECT_EQ(array.strides(), (Shape{0, 4, 1}));
 }
 
 TEST(ArrayBaseConstructor, FillValue)
@@ -96,7 +96,7 @@ TEST(ArrayBaseConstructor, AdoptBuffer)
 
     EXPECT_EQ(array.data(), original_data);
     EXPECT_EQ(array.shape(), (Shape{2, 3}));
-    EXPECT_EQ(array.strides(), (Strides{Shape{2, 3}}));
+    EXPECT_EQ(array.strides(), (Shape{3, 1}));
     EXPECT_TRUE(buffer.empty());
 }
 
@@ -140,7 +140,7 @@ TEST(ArrayBaseConstructor, Move)
 
     EXPECT_EQ(destination.data(), original_data);
     EXPECT_EQ(destination.shape(), (Shape{2, 3}));
-    EXPECT_EQ(destination.strides(), (Strides{Shape{2, 3}}));
+    EXPECT_EQ(destination.strides(), (Shape{3, 1}));
     EXPECT_TRUE(source.empty());
     EXPECT_EQ(source.rank(), 0);
     EXPECT_TRUE(source.shape().empty());
@@ -182,7 +182,7 @@ TEST(ArrayBaseAssignment, MoveAssignment)
 
     EXPECT_EQ(destination.data(), source_data);
     EXPECT_EQ(destination.shape(), (Shape{2, 3}));
-    EXPECT_EQ(destination.strides(), (Strides{Shape{2, 3}}));
+    EXPECT_EQ(destination.strides(), (Shape{3, 1}));
     EXPECT_TRUE(source.empty());
     EXPECT_EQ(source.rank(), 0);
 }
@@ -249,13 +249,13 @@ TEST(ArrayBaseMeta, ShapeAndStrides)
     const TestArray<int> array(Shape{2, 3, 4});
 
     EXPECT_EQ(array.shape(), (Shape{2, 3, 4}));
-    EXPECT_EQ(array.strides(), (Strides{Shape{2, 3, 4}}));
+    EXPECT_EQ(array.strides(), (Shape{12, 4, 1}));
 
     static_assert(
         std::same_as<decltype(array.shape()), const Shape&>
     );
     static_assert(
-        std::same_as<decltype(array.strides()), const Strides&>
+        std::same_as<decltype(array.strides()), const Shape&>
     );
 }
 
@@ -476,8 +476,8 @@ TEST(ArrayBaseModifier, Swap)
     EXPECT_EQ(rhs.data(), lhs_data);
     EXPECT_EQ(lhs.shape(), (Shape{4}));
     EXPECT_EQ(rhs.shape(), (Shape{2, 3}));
-    EXPECT_EQ(lhs.strides(), (Strides{Shape{4}}));
-    EXPECT_EQ(rhs.strides(), (Strides{Shape{2, 3}}));
+    EXPECT_EQ(lhs.strides(), (Shape{1}));
+    EXPECT_EQ(rhs.strides(), (Shape{3, 1}));
     EXPECT_EQ(lhs.front(), 2);
     EXPECT_EQ(rhs.front(), 1);
 }

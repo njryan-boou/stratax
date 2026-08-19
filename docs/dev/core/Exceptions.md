@@ -53,7 +53,7 @@ Depends on:
 
 Used by:
 
-- Container classes (`Buffer`, `Shape`, `Strides`, `Vector`, `Matrix`, `Tensor`)
+- Container classes (`Buffer`, `Shape`, `Vector`, `Matrix`, `Tensor`)
 - Validation helpers (`validation/*`)
 - Operation helpers (`ops/*`, `algorithms/*`)
 

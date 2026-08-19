@@ -20,7 +20,7 @@ TEST(Reshape, VectorToMatrixShapedTensor)
 
 	static_assert(std::same_as<std::remove_cv_t<decltype(result)>, Tensor<int>>);
 	EXPECT_EQ(result.shape(), Shape({2, 3}));
-	EXPECT_EQ(result.strides(), Strides(Shape{2, 3}));
+	EXPECT_EQ(result.strides(), Shape({3, 1}));
 	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
 		(std::vector<int>{0, 1, 2, 3, 4, 5}));
 }

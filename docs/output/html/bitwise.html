@@ -97,12 +97,12 @@ Bitwise</h1>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="Bitwise_8hpp_source.html">include/stratax/ops/Bitwise.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md568"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md474"></a>
 Overview</h2>
 <p><span class="tt"><a class="el" href="Bitwise_8hpp_source.html">Bitwise.hpp</a></span> defines generic element-wise bitwise operations for Stratax array-like containers whose value type is integer.</p>
 <p>It provides unary, array-array, array-scalar, scalar-array (reverse), and compound assignment bitwise operators.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md570"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md476"></a>
 Responsibilities</h2>
 <p>The bitwise module is responsible for:</p>
 <ul>
@@ -118,7 +118,7 @@ Responsibilities</h2>
 <li>Validating shift-count ranges beyond core language/operator behavior</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md572"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md478"></a>
 Relationships</h2>
 <div class="fragment"><div class="line">Bitwise operators</div>
 <div class="line">├── Array concept constraints</div>
@@ -127,15 +127,15 @@ Relationships</h2>
 <div class="line">└── in-place operators forwarding to non-compound operators</div>
 </div><!-- fragment --><p>Depends on:</p>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
-<li><span class="tt"><a class="el" href="Validation_8hpp.html" title="Shared runtime validation helpers.">include/stratax/core/validation/Validation.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Validation_8hpp_source.html">include/stratax/core/validation/Validation.hpp</a></span></li>
 </ul>
 <p>Used by:</p>
 <ul>
 <li>User-facing vector/matrix/tensor integer bitwise expressions</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md574"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md480"></a>
 Invariants</h2>
 <p>The following conditions are always true:</p>
 <ul>
@@ -146,142 +146,140 @@ Invariants</h2>
 <li>Bitwise operators are available only for integer-valued arrays/scalars.</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md576"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md482"></a>
 Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md577"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md483"></a>
 Shape guard</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line"><span class="keywordtype">void</span> require_same_bitwise_shape(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
-<div class="ttc" id="aconceptInteger_html"><div class="ttname"><a href="conceptInteger.html">Integer</a></div><div class="ttdoc">Alias for Stratax-supported integer types.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00054">Numeric.hpp:54</a></div></div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html" title="Signals an invalid or incompatible shape.">Exceptions::ShapeError</a></span> on shape mismatch</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html">Exceptions::ShapeError</a></span> on shape mismatch</li>
 </ul>
 <p>Complexity</p>
 <ul>
 <li>O(r)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md578"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md484"></a>
 Unary operator</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator~(<span class="keyword">const</span> A&amp; value);</div>
 </div><!-- fragment --><p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md579"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md485"></a>
 Array-array operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator&amp;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator|(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator^(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator&lt;&lt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A operator&gt;&gt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
-<li><span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html" title="Signals an invalid or incompatible shape.">Exceptions::ShapeError</a></span> on shape mismatch</li>
+<li><span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html">Exceptions::ShapeError</a></span> on shape mismatch</li>
 </ul>
 <p>Complexity</p>
 <ul>
 <li>O(n), plus O(r) shape check</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md580"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md486"></a>
 Array-scalar operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&amp;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&amp;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator|(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator|(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator^(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator^(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&lt;&lt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&lt;&lt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&gt;&gt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
-<div class="ttc" id="aconceptScalar_html"><div class="ttname"><a href="conceptScalar.html">Scalar</a></div><div class="ttdoc">Alias for any scalar type accepted by Stratax numeric containers.</div><div class="ttdef"><b>Definition</b> <a href="Numeric_8hpp_source.html#l00103">Numeric.hpp:103</a></div></div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&gt;&gt;(<span class="keyword">const</span> A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 </div><!-- fragment --><p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md581"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md487"></a>
 Scalar-array operators</h3>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&amp;(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&amp;(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator|(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator|(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator^(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator^(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&lt;&lt;(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&lt;&lt;(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Integer Scalar, Array A&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A operator&gt;&gt;(<span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A operator&gt;&gt;(<span class="keyword">const</span> Scalar&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 </div><!-- fragment --><p>Complexity</p>
 <ul>
 <li>O(n)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md582"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md488"></a>
 Compound assignment operators</h3>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A&amp; operator&amp;=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A&amp; operator|=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A&amp; operator^=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A&amp; operator&lt;&lt;=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
+<div class="line"><span class="keyword">template</span>&lt;Array A&gt; <span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
 <div class="line">A&amp; operator&gt;&gt;=(A&amp; lhs, <span class="keyword">const</span> A&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A&amp; operator&amp;=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A&amp; operator&amp;=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A&amp; operator|=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A&amp; operator|=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A&amp; operator^=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A&amp; operator^=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A&amp; operator&lt;&lt;=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A&amp; operator&lt;&lt;=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;Array A, Integer Scalar&gt;</div>
-<div class="line"><span class="keyword">requires</span> <a class="code hl_concept" href="conceptInteger.html">Integer&lt;typename A::value_type&gt;</a></div>
-<div class="line">A&amp; operator&gt;&gt;=(A&amp; lhs, <span class="keyword">const</span> <a class="code hl_concept" href="conceptScalar.html">Scalar</a>&amp; rhs);</div>
+<div class="line"><span class="keyword">requires</span> Integer&lt;typename A::value_type&gt;</div>
+<div class="line">A&amp; operator&gt;&gt;=(A&amp; lhs, <span class="keyword">const</span> Scalar&amp; rhs);</div>
 </div><!-- fragment --><p>Throws</p>
 <ul>
 <li>Same categories as corresponding non-compound operator</li>
@@ -291,7 +289,7 @@ Compound assignment operators</h3>
 <li>O(n), plus O(r) shape check for array-array forms</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md584"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md490"></a>
 Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -311,7 +309,7 @@ Complexity Summary</h2>
 </table>
 <p><span class="tt">n</span> is element count and <span class="tt">r</span> is rank.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md586"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md492"></a>
 Examples</h2>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> a_and_b = a &amp; b;</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span> with_mask = a &amp; 0x0F;</div>
@@ -324,14 +322,14 @@ Examples</h2>
 <div class="line">a |= 0x80;</div>
 <div class="line">a &lt;&lt;= 1;</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md588"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md494"></a>
 Design Notes</h2>
 <p>Bitwise operators are constrained to integer-valued arrays to keep semantics explicit and avoid accidental use with floating-point or complex container types.</p>
 <p>Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.</p>
 <p>The AND, OR, XOR, and NOT operators use standard function objects where available; shift operators use local callables because the standard library does not provide equivalent shift function objects.</p>
 <p>Compound assignments delegate to non-compound operators to centralize shape validation and operation behavior.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md590"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md496"></a>
 Future Improvements</h2>
 <ul>
 <li>Explicit policies for shift-count validation and diagnostics</li>
@@ -339,10 +337,10 @@ Future Improvements</h2>
 <li>SIMD kernels for common integer element types</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md592"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md498"></a>
 See Also</h2>
 <ul>
-<li><span class="tt"><a class="el" href="Numeric_8hpp_source.html">include/stratax/concepts/Numeric.hpp</a></span></li>
+<li><span class="tt"><a class="el" href="Concepts_8hpp_source.html">include/stratax/core/dtypes/Concepts.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Arithmetic_8hpp_source.html">include/stratax/ops/Arithmetic.hpp</a></span></li>
 <li><span class="tt"><a class="el" href="Comparison_8hpp_source.html">include/stratax/ops/Comparison.hpp</a></span> </li>
 </ul>

@@ -91,12 +91,17 @@ $(function(){initNavTree('structis__array_3_01stratax_1_1container_1_1Matrix_3_0
   <div class="headertitle"><div class="title">is_array&lt; stratax::container::Matrix&lt; T &gt; &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Marks dtype-compatible Matrix specializations as Stratax arrays.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4__inherit__graph.png" border="0" usemap="#ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_inherit__map" id="ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_inherit__map">
-<area shape="rect" title=" " alt="" coords="41,81,226,126"/>
+<area shape="rect" title="Marks dtype&#45;compatible Matrix specializations as Stratax arrays." alt="" coords="41,81,226,126"/>
 <area shape="rect" title=" " alt="" coords="5,5,123,33"/>
 <area shape="poly" title=" " alt="" coords="86,43,118,80,112,81,84,48"/>
 <area shape="rect" title=" " alt="" coords="147,5,258,33"/>
@@ -108,7 +113,7 @@ Collaboration diagram for is_array&lt; stratax::container::Matrix&lt; T &gt; &gt
 <div class="dyncontent">
 <div class="center"><img src="structis__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4__coll__graph.png" border="0" usemap="#ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
 <map name="ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_coll__map" id="ais__array_3_01stratax_1_1container_1_1Matrix_3_01T_01_4_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="41,81,226,126"/>
+<area shape="rect" title="Marks dtype&#45;compatible Matrix specializations as Stratax arrays." alt="" coords="41,81,226,126"/>
 <area shape="rect" title=" " alt="" coords="5,5,123,33"/>
 <area shape="poly" title=" " alt="" coords="86,43,118,80,112,81,84,48"/>
 <area shape="rect" title=" " alt="" coords="147,5,258,33"/>
@@ -117,11 +122,12 @@ Collaboration diagram for is_array&lt; stratax::container::Matrix&lt; T &gt; &gt
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-requires <a class="el" href="conceptNumeric.html">Numeric</a>&lt;T&gt;<br />
-struct is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;</div>
-<p class="definition">Definition at line <a class="el" href="Numeric_8hpp_source.html#l00132">132</a> of file <a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a>.</p>
+requires <a class="el" href="conceptDType.html">DType</a>&lt;T&gt;<br />
+struct is_array&lt; stratax::container::Matrix&lt; T &gt; &gt;</div><p>Marks dtype-compatible Matrix specializations as Stratax arrays. </p>
+
+<p class="definition">Definition at line <a class="el" href="Concepts_8hpp_source.html#l00103">103</a> of file <a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a>.</p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/stratax/concepts/<a class="el" href="Numeric_8hpp_source.html">Numeric.hpp</a></li>
+<li>include/stratax/core/dtypes/<a class="el" href="Concepts_8hpp_source.html">Concepts.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

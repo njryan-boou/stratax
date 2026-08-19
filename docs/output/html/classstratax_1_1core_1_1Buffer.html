@@ -92,121 +92,142 @@ $(function(){initNavTree('classstratax_1_1core_1_1Buffer.html','','classstratax_
 </div><!--header-->
 <div class="contents">
 
-<p>Owns contiguous dynamically allocated storage for Stratax arrays.  
+<p>Fixed-size owner of aligned, contiguous element storage.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Collaboration diagram for stratax::core::Buffer&lt; T, Alignment &gt;:</div>
-<div class="dyncontent">
-<div class="center"><img src="classstratax_1_1core_1_1Buffer__coll__graph.png" border="0" usemap="#astratax_1_1core_1_1Buffer_3_01T_00_01Alignment_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
-<map name="astratax_1_1core_1_1Buffer_3_01T_00_01Alignment_01_4_coll__map" id="astratax_1_1core_1_1Buffer_3_01T_00_01Alignment_01_4_coll__map">
-<area shape="rect" title="Owns contiguous dynamically allocated storage for Stratax arrays." alt="" coords="47,123,198,168"/>
-<area shape="rect" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html" title="Tag type selecting allocated storage without element initialization." alt="" coords="5,5,240,50"/>
-<area shape="poly" title=" " alt="" coords="124,64,125,123,120,122,121,68"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:uninitialized_5Ft" id="r_uninitialized_5Ft"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html">uninitialized_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag type selecting allocated storage without element initialization.  <a href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html#details">More...</a><br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ad1cb1ccbb80c7409158110fdcb7eff2e" id="r_ad1cb1ccbb80c7409158110fdcb7eff2e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a> = T*</td></tr>
-<tr class="memdesc:ad1cb1ccbb80c7409158110fdcb7eff2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable iterator over contiguous buffer elements.  <br /></td></tr>
-<tr class="memitem:a1f0f54e54567a74fceaddc14c0ba5c28" id="r_a1f0f54e54567a74fceaddc14c0ba5c28"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a> = const T*</td></tr>
-<tr class="memdesc:a1f0f54e54567a74fceaddc14c0ba5c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const iterator over contiguous buffer elements.  <br /></td></tr>
-<tr class="memitem:a11498a4d3467a3ee47e0e3888a11d3bd" id="r_a11498a4d3467a3ee47e0e3888a11d3bd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11498a4d3467a3ee47e0e3888a11d3bd">reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a>&gt;</td></tr>
-<tr class="memdesc:a11498a4d3467a3ee47e0e3888a11d3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable reverse iterator over contiguous buffer elements.  <br /></td></tr>
-<tr class="memitem:adb8127794ab7134fa06193a4acf0e76b" id="r_adb8127794ab7134fa06193a4acf0e76b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&gt;</td></tr>
-<tr class="memdesc:adb8127794ab7134fa06193a4acf0e76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const reverse iterator over contiguous buffer elements.  <br /></td></tr>
+<tr class="memitem:aff090d7c8c532d8a60304ed1af32a119" id="r_aff090d7c8c532d8a60304ed1af32a119"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119">value_type</a> = T</td></tr>
+<tr class="memdesc:aff090d7c8c532d8a60304ed1af32a119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of each stored element.  <br /></td></tr>
+<tr class="memitem:a6ea4d827e60d9ba3467afa0794d92b98" id="r_a6ea4d827e60d9ba3467afa0794d92b98"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> = std::size_t</td></tr>
+<tr class="memdesc:a6ea4d827e60d9ba3467afa0794d92b98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned type used for element counts and indices.  <br /></td></tr>
+<tr class="memitem:a47092a31222ae42f34570cf257bb89b2" id="r_a47092a31222ae42f34570cf257bb89b2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47092a31222ae42f34570cf257bb89b2">difference_type</a> = std::ptrdiff_t</td></tr>
+<tr class="memdesc:a47092a31222ae42f34570cf257bb89b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed type used for distances between iterators.  <br /></td></tr>
+<tr class="memitem:a2b99888a74c5e77268aca744a7e93de2" id="r_a2b99888a74c5e77268aca744a7e93de2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a> = T&amp;</td></tr>
+<tr class="memdesc:a2b99888a74c5e77268aca744a7e93de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable element reference type.  <br /></td></tr>
+<tr class="memitem:ae9983b211f71f07880ccd755514651a2" id="r_ae9983b211f71f07880ccd755514651a2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> = const T&amp;</td></tr>
+<tr class="memdesc:ae9983b211f71f07880ccd755514651a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only element reference type.  <br /></td></tr>
+<tr class="memitem:a412dba02fc31ea84fddcdc34be7d741e" id="r_a412dba02fc31ea84fddcdc34be7d741e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a412dba02fc31ea84fddcdc34be7d741e">pointer</a> = T*</td></tr>
+<tr class="memdesc:a412dba02fc31ea84fddcdc34be7d741e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable pointer to an element.  <br /></td></tr>
+<tr class="memitem:ab82aae861718eb8aca7914ecd5f68c0d" id="r_ab82aae861718eb8aca7914ecd5f68c0d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab82aae861718eb8aca7914ecd5f68c0d">const_pointer</a> = const T*</td></tr>
+<tr class="memdesc:ab82aae861718eb8aca7914ecd5f68c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only pointer to an element.  <br /></td></tr>
+<tr class="memitem:a5b020ace987f33de7fb0ef7f641de0a9" id="r_a5b020ace987f33de7fb0ef7f641de0a9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a> = <a class="el" href="#a412dba02fc31ea84fddcdc34be7d741e">pointer</a></td></tr>
+<tr class="memdesc:a5b020ace987f33de7fb0ef7f641de0a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable contiguous random-access iterator type.  <br /></td></tr>
+<tr class="memitem:a01bb5679528f0163cdb96e916189f6f7" id="r_a01bb5679528f0163cdb96e916189f6f7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a> = <a class="el" href="#ab82aae861718eb8aca7914ecd5f68c0d">const_pointer</a></td></tr>
+<tr class="memdesc:a01bb5679528f0163cdb96e916189f6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only contiguous random-access iterator type.  <br /></td></tr>
+<tr class="memitem:a11498a4d3467a3ee47e0e3888a11d3bd" id="r_a11498a4d3467a3ee47e0e3888a11d3bd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11498a4d3467a3ee47e0e3888a11d3bd">reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a>&gt;</td></tr>
+<tr class="memdesc:a11498a4d3467a3ee47e0e3888a11d3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable iterator that traverses elements in reverse order.  <br /></td></tr>
+<tr class="memitem:adb8127794ab7134fa06193a4acf0e76b" id="r_adb8127794ab7134fa06193a4acf0e76b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a> = std::reverse_iterator&lt;<a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&gt;</td></tr>
+<tr class="memdesc:adb8127794ab7134fa06193a4acf0e76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only iterator that traverses elements in reverse order.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acdd6a15d718d19e37d1518f6896f3fa0" id="r_acdd6a15d718d19e37d1518f6896f3fa0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> () noexcept</td></tr>
-<tr class="memdesc:acdd6a15d718d19e37d1518f6896f3fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty buffer.  <br /></td></tr>
-<tr class="memitem:a395e1777fe041d0227f04cb43e6e5295" id="r_a395e1777fe041d0227f04cb43e6e5295"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a395e1777fe041d0227f04cb43e6e5295">Buffer</a> (std::size_t <a class="el" href="#a065f7ceea8268d74931562b8d383c3c4">size</a>)</td></tr>
-<tr class="memdesc:a395e1777fe041d0227f04cb43e6e5295"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a buffer with default-initialized elements.  <br /></td></tr>
-<tr class="memitem:aadb35a9980dfe5211ebf5bd272f1bb80" id="r_aadb35a9980dfe5211ebf5bd272f1bb80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb35a9980dfe5211ebf5bd272f1bb80">Buffer</a> (std::size_t <a class="el" href="#a065f7ceea8268d74931562b8d383c3c4">size</a>, <a class="el" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html">uninitialized_t</a> <a class="el" href="#a514a45648c22a84d324b40c9de945fea">uninitialized</a>)</td></tr>
-<tr class="memdesc:aadb35a9980dfe5211ebf5bd272f1bb80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a buffer with allocated but uninitialized storage.  <br /></td></tr>
-<tr class="memitem:a3e465abd84f55919971c004e5e9ad0db" id="r_a3e465abd84f55919971c004e5e9ad0db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e465abd84f55919971c004e5e9ad0db">Buffer</a> (std::size_t <a class="el" href="#a065f7ceea8268d74931562b8d383c3c4">size</a>, const T &amp;value)</td></tr>
-<tr class="memdesc:a3e465abd84f55919971c004e5e9ad0db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a buffer and fills every element with a value.  <br /></td></tr>
-<tr class="memitem:a2e9331e3fbbe0caeef7198e2887ad456" id="r_a2e9331e3fbbe0caeef7198e2887ad456"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e9331e3fbbe0caeef7198e2887ad456">Buffer</a> (std::initializer_list&lt; T &gt; list)</td></tr>
-<tr class="memdesc:a2e9331e3fbbe0caeef7198e2887ad456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a buffer from an initializer list.  <br /></td></tr>
+<tr class="memdesc:acdd6a15d718d19e37d1518f6896f3fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty buffer that owns no allocation.  <br /></td></tr>
+<tr class="memitem:a22e9103c36782852baafd0c058d29515" id="r_a22e9103c36782852baafd0c058d29515"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22e9103c36782852baafd0c058d29515">Buffer</a> (<a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e">size</a>)</td></tr>
+<tr class="memdesc:a22e9103c36782852baafd0c058d29515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a buffer with value-initialized elements.  <br /></td></tr>
+<tr class="memitem:a128199ffc088ad62e02f6949209ec816" id="r_a128199ffc088ad62e02f6949209ec816"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a128199ffc088ad62e02f6949209ec816">Buffer</a> (<a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e">size</a>, <a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> value)</td></tr>
+<tr class="memdesc:a128199ffc088ad62e02f6949209ec816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a buffer with all elements initialized to <code class="param">value</code>.  <br /></td></tr>
+<tr class="memitem:a6045c5337b08eb4dc77aa46b207f450d" id="r_a6045c5337b08eb4dc77aa46b207f450d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6045c5337b08eb4dc77aa46b207f450d">Buffer</a> (std::initializer_list&lt; <a class="el" href="#aff090d7c8c532d8a60304ed1af32a119">value_type</a> &gt; list)</td></tr>
+<tr class="memdesc:a6045c5337b08eb4dc77aa46b207f450d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a buffer from an initializer list.  <br /></td></tr>
 <tr class="memitem:a22a90d117fd14f42e72457147b4f5721" id="r_a22a90d117fd14f42e72457147b4f5721"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22a90d117fd14f42e72457147b4f5721">Buffer</a> (const Buffer &amp;other)</td></tr>
-<tr class="memdesc:a22a90d117fd14f42e72457147b4f5721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a copy of another buffer.  <br /></td></tr>
+<tr class="memdesc:a22a90d117fd14f42e72457147b4f5721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-constructs a buffer with independent storage.  <br /></td></tr>
 <tr class="memitem:ab60d7aad0fc822cc59fa0b04bb17f0ef" id="r_ab60d7aad0fc822cc59fa0b04bb17f0ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab60d7aad0fc822cc59fa0b04bb17f0ef">Buffer</a> (Buffer &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:ab60d7aad0fc822cc59fa0b04bb17f0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers ownership from another buffer.  <br /></td></tr>
+<tr class="memdesc:ab60d7aad0fc822cc59fa0b04bb17f0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-constructs a buffer by transferring ownership.  <br /></td></tr>
 <tr class="memitem:ade4f28ccfde1fa58781331664e8e4336" id="r_ade4f28ccfde1fa58781331664e8e4336"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade4f28ccfde1fa58781331664e8e4336">operator=</a> (const <a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> &amp;other)</td></tr>
-<tr class="memdesc:ade4f28ccfde1fa58781331664e8e4336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this buffer with a copy of another buffer.  <br /></td></tr>
+<tr class="memdesc:ade4f28ccfde1fa58781331664e8e4336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assigns from another buffer.  <br /></td></tr>
 <tr class="memitem:a13eb90b5c83035d80d772baa208d1882" id="r_a13eb90b5c83035d80d772baa208d1882"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13eb90b5c83035d80d772baa208d1882">operator=</a> (<a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:a13eb90b5c83035d80d772baa208d1882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces this buffer by taking ownership from another buffer.  <br /></td></tr>
+<tr class="memdesc:a13eb90b5c83035d80d772baa208d1882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assigns from another buffer.  <br /></td></tr>
 <tr class="memitem:a33f5ee56207f45cf8b75cace368808b4" id="r_a33f5ee56207f45cf8b75cace368808b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33f5ee56207f45cf8b75cace368808b4">~Buffer</a> ()</td></tr>
-<tr class="memdesc:a33f5ee56207f45cf8b75cace368808b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the owned storage and destroys constructed elements.  <br /></td></tr>
-<tr class="memitem:affc7cebd8a11a1e83b44499f3c9c65b4" id="r_affc7cebd8a11a1e83b44499f3c9c65b4"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affc7cebd8a11a1e83b44499f3c9c65b4">operator[]</a> (std::size_t index) noexcept</td></tr>
-<tr class="memdesc:affc7cebd8a11a1e83b44499f3c9c65b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable element reference without bounds checking.  <br /></td></tr>
-<tr class="memitem:a0f81e0a23a35c8da597aeb4cc90ad385" id="r_a0f81e0a23a35c8da597aeb4cc90ad385"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f81e0a23a35c8da597aeb4cc90ad385">operator[]</a> (std::size_t index) const noexcept</td></tr>
-<tr class="memdesc:a0f81e0a23a35c8da597aeb4cc90ad385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const element reference without bounds checking.  <br /></td></tr>
-<tr class="memitem:afa128349412ea65d1965c0efed488c00" id="r_afa128349412ea65d1965c0efed488c00"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa128349412ea65d1965c0efed488c00">front</a> ()</td></tr>
-<tr class="memdesc:afa128349412ea65d1965c0efed488c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element.  <br /></td></tr>
-<tr class="memitem:a5bfcc23dc7a630a7acf439f58cf191b5" id="r_a5bfcc23dc7a630a7acf439f58cf191b5"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bfcc23dc7a630a7acf439f58cf191b5">front</a> () const</td></tr>
-<tr class="memdesc:a5bfcc23dc7a630a7acf439f58cf191b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element as a const reference.  <br /></td></tr>
-<tr class="memitem:a479ab28c24e597710dacdf6174971e55" id="r_a479ab28c24e597710dacdf6174971e55"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a479ab28c24e597710dacdf6174971e55">back</a> ()</td></tr>
-<tr class="memdesc:a479ab28c24e597710dacdf6174971e55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element.  <br /></td></tr>
-<tr class="memitem:a4643c8225e3cc6d72fc42cacbf8f6bf3" id="r_a4643c8225e3cc6d72fc42cacbf8f6bf3"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4643c8225e3cc6d72fc42cacbf8f6bf3">back</a> () const</td></tr>
-<tr class="memdesc:a4643c8225e3cc6d72fc42cacbf8f6bf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element as a const reference.  <br /></td></tr>
-<tr class="memitem:ad0412fce131d92564a66c161d6963326" id="r_ad0412fce131d92564a66c161d6963326"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0412fce131d92564a66c161d6963326">data</a> () noexcept</td></tr>
-<tr class="memdesc:ad0412fce131d92564a66c161d6963326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the raw data pointer.  <br /></td></tr>
-<tr class="memitem:a12e1db089ed486d1b0ef8e1958265875" id="r_a12e1db089ed486d1b0ef8e1958265875"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12e1db089ed486d1b0ef8e1958265875">data</a> () const noexcept</td></tr>
-<tr class="memdesc:a12e1db089ed486d1b0ef8e1958265875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the raw data pointer as a const pointer.  <br /></td></tr>
-<tr class="memitem:a998d2357e401a207220f6352fc47992d" id="r_a998d2357e401a207220f6352fc47992d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a998d2357e401a207220f6352fc47992d">begin</a> () noexcept</td></tr>
-<tr class="memdesc:a998d2357e401a207220f6352fc47992d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first element.  <br /></td></tr>
-<tr class="memitem:acd38150f9cda83dd7082fa17a872c219" id="r_acd38150f9cda83dd7082fa17a872c219"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd38150f9cda83dd7082fa17a872c219">begin</a> () const noexcept</td></tr>
+<tr class="memdesc:a33f5ee56207f45cf8b75cace368808b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the buffer and releases owned storage.  <br /></td></tr>
+<tr class="memitem:a5f7f4ac74791d35b35295ebd6559ac3c" id="r_a5f7f4ac74791d35b35295ebd6559ac3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f7f4ac74791d35b35295ebd6559ac3c">operator[]</a> (<a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> index) noexcept</td></tr>
+<tr class="memdesc:a5f7f4ac74791d35b35295ebd6559ac3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an unchecked reference to an element.  <br /></td></tr>
+<tr class="memitem:af67ca4afa9ac665905f007576f2738c9" id="r_af67ca4afa9ac665905f007576f2738c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af67ca4afa9ac665905f007576f2738c9">operator[]</a> (<a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> index) const noexcept</td></tr>
+<tr class="memdesc:af67ca4afa9ac665905f007576f2738c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an unchecked const reference to an element.  <br /></td></tr>
+<tr class="memitem:a556d3aa3302220d6740b3d641ae5854b" id="r_a556d3aa3302220d6740b3d641ae5854b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a556d3aa3302220d6740b3d641ae5854b">front</a> ()</td></tr>
+<tr class="memdesc:a556d3aa3302220d6740b3d641ae5854b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the first element.  <br /></td></tr>
+<tr class="memitem:a8d98cea22ac361850e7d2162e2d594ed" id="r_a8d98cea22ac361850e7d2162e2d594ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d98cea22ac361850e7d2162e2d594ed">front</a> () const</td></tr>
+<tr class="memdesc:a8d98cea22ac361850e7d2162e2d594ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the first element.  <br /></td></tr>
+<tr class="memitem:acd015b7db500375376cd482ffac27358" id="r_acd015b7db500375376cd482ffac27358"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd015b7db500375376cd482ffac27358">back</a> ()</td></tr>
+<tr class="memdesc:acd015b7db500375376cd482ffac27358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the last element.  <br /></td></tr>
+<tr class="memitem:aaf6891bfef16e3576cd0dab149273f73" id="r_aaf6891bfef16e3576cd0dab149273f73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf6891bfef16e3576cd0dab149273f73">back</a> () const</td></tr>
+<tr class="memdesc:aaf6891bfef16e3576cd0dab149273f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the last element.  <br /></td></tr>
+<tr class="memitem:a850c65dfbce43b53933b4a5ca734caf0" id="r_a850c65dfbce43b53933b4a5ca734caf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a412dba02fc31ea84fddcdc34be7d741e">pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0">data</a> () noexcept</td></tr>
+<tr class="memdesc:a850c65dfbce43b53933b4a5ca734caf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the underlying contiguous storage.  <br /></td></tr>
+<tr class="memitem:a165681bb1d50edd70dce1ffb56b00b46" id="r_a165681bb1d50edd70dce1ffb56b00b46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab82aae861718eb8aca7914ecd5f68c0d">const_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a165681bb1d50edd70dce1ffb56b00b46">data</a> () const noexcept</td></tr>
+<tr class="memdesc:a165681bb1d50edd70dce1ffb56b00b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const pointer to the underlying contiguous storage.  <br /></td></tr>
+<tr class="memitem:a998d2357e401a207220f6352fc47992d" id="r_a998d2357e401a207220f6352fc47992d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a998d2357e401a207220f6352fc47992d">begin</a> () noexcept</td></tr>
+<tr class="memdesc:a998d2357e401a207220f6352fc47992d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable iterator to the first element.  <br /></td></tr>
+<tr class="memitem:acd38150f9cda83dd7082fa17a872c219" id="r_acd38150f9cda83dd7082fa17a872c219"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd38150f9cda83dd7082fa17a872c219">begin</a> () const noexcept</td></tr>
 <tr class="memdesc:acd38150f9cda83dd7082fa17a872c219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first element.  <br /></td></tr>
-<tr class="memitem:a9f002c6359935662e450f5e747b5baab" id="r_a9f002c6359935662e450f5e747b5baab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f002c6359935662e450f5e747b5baab">cbegin</a> () const noexcept</td></tr>
+<tr class="memitem:a9f002c6359935662e450f5e747b5baab" id="r_a9f002c6359935662e450f5e747b5baab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f002c6359935662e450f5e747b5baab">cbegin</a> () const noexcept</td></tr>
 <tr class="memdesc:a9f002c6359935662e450f5e747b5baab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator to the first element.  <br /></td></tr>
-<tr class="memitem:aed54f15ea2bdc1a4459fcb274ce150b1" id="r_aed54f15ea2bdc1a4459fcb274ce150b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1">end</a> () noexcept</td></tr>
-<tr class="memdesc:aed54f15ea2bdc1a4459fcb274ce150b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator one past the last element.  <br /></td></tr>
-<tr class="memitem:aa3e5b50706e390df7fa32f31c233449b" id="r_aa3e5b50706e390df7fa32f31c233449b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3e5b50706e390df7fa32f31c233449b">end</a> () const noexcept</td></tr>
-<tr class="memdesc:aa3e5b50706e390df7fa32f31c233449b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last element.  <br /></td></tr>
-<tr class="memitem:a59709ffe8cd578ddb5fc6aaf96b16a2e" id="r_a59709ffe8cd578ddb5fc6aaf96b16a2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59709ffe8cd578ddb5fc6aaf96b16a2e">cend</a> () const noexcept</td></tr>
-<tr class="memdesc:a59709ffe8cd578ddb5fc6aaf96b16a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the last element.  <br /></td></tr>
+<tr class="memitem:aed54f15ea2bdc1a4459fcb274ce150b1" id="r_aed54f15ea2bdc1a4459fcb274ce150b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1">end</a> () noexcept</td></tr>
+<tr class="memdesc:aed54f15ea2bdc1a4459fcb274ce150b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable iterator one past the final element.  <br /></td></tr>
+<tr class="memitem:aa3e5b50706e390df7fa32f31c233449b" id="r_aa3e5b50706e390df7fa32f31c233449b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3e5b50706e390df7fa32f31c233449b">end</a> () const noexcept</td></tr>
+<tr class="memdesc:aa3e5b50706e390df7fa32f31c233449b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the final element.  <br /></td></tr>
+<tr class="memitem:a59709ffe8cd578ddb5fc6aaf96b16a2e" id="r_a59709ffe8cd578ddb5fc6aaf96b16a2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59709ffe8cd578ddb5fc6aaf96b16a2e">cend</a> () const noexcept</td></tr>
+<tr class="memdesc:a59709ffe8cd578ddb5fc6aaf96b16a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const iterator one past the final element.  <br /></td></tr>
 <tr class="memitem:a730268b5b51a09950af5c701329987bd" id="r_a730268b5b51a09950af5c701329987bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a11498a4d3467a3ee47e0e3888a11d3bd">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a730268b5b51a09950af5c701329987bd">rbegin</a> () noexcept</td></tr>
-<tr class="memdesc:a730268b5b51a09950af5c701329987bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator to the last element.  <br /></td></tr>
+<tr class="memdesc:a730268b5b51a09950af5c701329987bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable reverse iterator to the final element.  <br /></td></tr>
 <tr class="memitem:a3ec928a271fcc5a39c079d574c9bab76" id="r_a3ec928a271fcc5a39c079d574c9bab76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ec928a271fcc5a39c079d574c9bab76">rbegin</a> () const noexcept</td></tr>
-<tr class="memdesc:a3ec928a271fcc5a39c079d574c9bab76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last element.  <br /></td></tr>
+<tr class="memdesc:a3ec928a271fcc5a39c079d574c9bab76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the final element.  <br /></td></tr>
 <tr class="memitem:a6093ce7491ef5def28c0b40d8512f312" id="r_a6093ce7491ef5def28c0b40d8512f312"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6093ce7491ef5def28c0b40d8512f312">crbegin</a> () const noexcept</td></tr>
-<tr class="memdesc:a6093ce7491ef5def28c0b40d8512f312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the last element.  <br /></td></tr>
+<tr class="memdesc:a6093ce7491ef5def28c0b40d8512f312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator to the final element.  <br /></td></tr>
 <tr class="memitem:a1734e0344ecb86e012f9728d19725321" id="r_a1734e0344ecb86e012f9728d19725321"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a11498a4d3467a3ee47e0e3888a11d3bd">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1734e0344ecb86e012f9728d19725321">rend</a> () noexcept</td></tr>
-<tr class="memdesc:a1734e0344ecb86e012f9728d19725321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reverse iterator before the first element.  <br /></td></tr>
+<tr class="memdesc:a1734e0344ecb86e012f9728d19725321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end iterator for mutable reverse traversal.  <br /></td></tr>
 <tr class="memitem:aedd13939fb2d7dbead4589f9e75e59ae" id="r_aedd13939fb2d7dbead4589f9e75e59ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedd13939fb2d7dbead4589f9e75e59ae">rend</a> () const noexcept</td></tr>
-<tr class="memdesc:aedd13939fb2d7dbead4589f9e75e59ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first element.  <br /></td></tr>
+<tr class="memdesc:aedd13939fb2d7dbead4589f9e75e59ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end iterator for const reverse traversal.  <br /></td></tr>
 <tr class="memitem:a45a1845c990c530d37033a1dcf0880a8" id="r_a45a1845c990c530d37033a1dcf0880a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adb8127794ab7134fa06193a4acf0e76b">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45a1845c990c530d37033a1dcf0880a8">crend</a> () const noexcept</td></tr>
-<tr class="memdesc:a45a1845c990c530d37033a1dcf0880a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reverse iterator before the first element.  <br /></td></tr>
-<tr class="memitem:a065f7ceea8268d74931562b8d383c3c4" id="r_a065f7ceea8268d74931562b8d383c3c4"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a065f7ceea8268d74931562b8d383c3c4">size</a> () const noexcept</td></tr>
-<tr class="memdesc:a065f7ceea8268d74931562b8d383c3c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of stored elements.  <br /></td></tr>
+<tr class="memdesc:a45a1845c990c530d37033a1dcf0880a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the past-the-end iterator for const reverse traversal.  <br /></td></tr>
+<tr class="memitem:a312f49e05b5e54ffb752f172b85b7c8e" id="r_a312f49e05b5e54ffb752f172b85b7c8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e">size</a> () const noexcept</td></tr>
+<tr class="memdesc:a312f49e05b5e54ffb752f172b85b7c8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of stored elements.  <br /></td></tr>
 <tr class="memitem:a5bc7bb76da16b97b1fc8e46cd459f1aa" id="r_a5bc7bb76da16b97b1fc8e46cd459f1aa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bc7bb76da16b97b1fc8e46cd459f1aa">empty</a> () const noexcept</td></tr>
-<tr class="memdesc:a5bc7bb76da16b97b1fc8e46cd459f1aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the buffer contains no elements.  <br /></td></tr>
-<tr class="memitem:a2a5989622da047944997c3263fcab011" id="r_a2a5989622da047944997c3263fcab011"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a5989622da047944997c3263fcab011">fill</a> (const T &amp;value)</td></tr>
-<tr class="memdesc:a2a5989622da047944997c3263fcab011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills every element with the same value.  <br /></td></tr>
+<tr class="memdesc:a5bc7bb76da16b97b1fc8e46cd459f1aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the buffer has no elements.  <br /></td></tr>
+<tr class="memitem:a7feab72769fc726a07d98344b2975753" id="r_a7feab72769fc726a07d98344b2975753"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7feab72769fc726a07d98344b2975753">fill</a> (<a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> value)</td></tr>
+<tr class="memdesc:a7feab72769fc726a07d98344b2975753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a value to every element in the buffer.  <br /></td></tr>
 <tr class="memitem:a193a235549ad3c529f0cae6ebb2d811d" id="r_a193a235549ad3c529f0cae6ebb2d811d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a193a235549ad3c529f0cae6ebb2d811d">swap</a> (<a class="el" href="#acdd6a15d718d19e37d1518f6896f3fa0">Buffer</a> &amp;other) noexcept</td></tr>
-<tr class="memdesc:a193a235549ad3c529f0cae6ebb2d811d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the contents of two buffers.  <br /></td></tr>
+<tr class="memdesc:a193a235549ad3c529f0cae6ebb2d811d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps storage and size with another buffer.  <br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a514a45648c22a84d324b40c9de945fea" id="r_a514a45648c22a84d324b40c9de945fea"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html">uninitialized_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a514a45648c22a84d324b40c9de945fea">uninitialized</a> {}</td></tr>
-<tr class="memdesc:a514a45648c22a84d324b40c9de945fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag value selecting allocated storage without element initialization.  <br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a3a9089a38eb5436e0a2c7c3b1f881b7b" id="r_a3a9089a38eb5436e0a2c7c3b1f881b7b"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a9089a38eb5436e0a2c7c3b1f881b7b">alignment</a> () noexcept</td></tr>
+<tr class="memdesc:a3a9089a38eb5436e0a2c7c3b1f881b7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alignment, in bytes, used for buffer allocations.  <br /></td></tr>
+<tr class="memitem:a43efe519d27041c8694bffca44dbd656" id="r_a43efe519d27041c8694bffca44dbd656"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43efe519d27041c8694bffca44dbd656">max_size</a> () noexcept</td></tr>
+<tr class="memdesc:a43efe519d27041c8694bffca44dbd656"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the largest element count that cannot overflow in bytes.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, std::size_t Alignment = config::default_alignment&gt;<br />
-class stratax::core::Buffer&lt; T, Alignment &gt;</div><p>Owns contiguous dynamically allocated storage for Stratax arrays. </p>
+class stratax::core::Buffer&lt; T, Alignment &gt;</div><p>Fixed-size owner of aligned, contiguous element storage. </p>
+<p><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> allocates storage with the requested alignment and manages the lifetime of every element in that storage. Its size cannot change after construction, although its elements remain mutable. Elements occupy one contiguous allocation, so pointers and random-access iterators can be used with standard-library algorithms.</p>
+<p>Copy operations create an independent allocation and copy the elements. Move operations transfer the allocation in constant time and leave the source empty. Destruction releases every element followed by the aligned allocation, giving the class exclusive RAII ownership of its storage.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Element type stored in the buffer. </td></tr>
+    <tr><td class="paramname">Alignment</td><td>Allocation alignment in bytes. It must be a power of two and at least <span class="tt">alignof(T)</span>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code hl_class" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer&lt;float, 64&gt;</a> samples{1.0F, 2.0F, 3.0F};</div>
+<div class="line"> </div>
+<div class="line">samples[1] = 5.0F;</div>
+<div class="line">std::fill(samples.<a class="code hl_function" href="#a998d2357e401a207220f6352fc47992d">begin</a>(), samples.<a class="code hl_function" href="#aed54f15ea2bdc1a4459fcb274ce150b1">end</a>(), 4.0F);</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_class" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer&lt;float, 64&gt;</a> copy = samples; <span class="comment">// Deep copy.</span></div>
+<div class="line">copy.<a class="code hl_function" href="#a556d3aa3302220d6740b3d641ae5854b">front</a>() = 9.0F;                             <span class="comment">// samples is unchanged.</span></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html"><div class="ttname"><a href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a></div><div class="ttdoc">Fixed-size owner of aligned, contiguous element storage.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00050">Buffer.hpp:51</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html_a556d3aa3302220d6740b3d641ae5854b"><div class="ttname"><a href="#a556d3aa3302220d6740b3d641ae5854b">stratax::core::Buffer::front</a></div><div class="ttdeci">reference front()</div><div class="ttdoc">Returns a reference to the first element.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00334">Buffer.hpp:334</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html_a998d2357e401a207220f6352fc47992d"><div class="ttname"><a href="#a998d2357e401a207220f6352fc47992d">stratax::core::Buffer::begin</a></div><div class="ttdeci">iterator begin() noexcept</div><div class="ttdoc">Returns a mutable iterator to the first element.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00422">Buffer.hpp:422</a></div></div>
+<div class="ttc" id="aclassstratax_1_1core_1_1Buffer_html_aed54f15ea2bdc1a4459fcb274ce150b1"><div class="ttname"><a href="#aed54f15ea2bdc1a4459fcb274ce150b1">stratax::core::Buffer::end</a></div><div class="ttdeci">iterator end() noexcept</div><div class="ttdoc">Returns a mutable iterator one past the final element.</div><div class="ttdef"><b>Definition</b> <a href="Buffer_8hpp_source.html#l00440">Buffer.hpp:440</a></div></div>
+</div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The class does not provide resizing or capacity management. Create or assign another <a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> when a different element count is required. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00021">21</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00050">50</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="a1f0f54e54567a74fceaddc14c0ba5c28" name="a1f0f54e54567a74fceaddc14c0ba5c28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f0f54e54567a74fceaddc14c0ba5c28">&#9670;&#160;</a></span>const_iterator</h2>
+<a id="a01bb5679528f0163cdb96e916189f6f7" name="a01bb5679528f0163cdb96e916189f6f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01bb5679528f0163cdb96e916189f6f7">&#9670;&#160;</a></span>const_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,14 +235,54 @@ class stratax::core::Buffer&lt; T, Alignment &gt;</div><p>Owns contiguous dynami
 template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_iterator = const T*</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_iterator = <a class="el" href="#ab82aae861718eb8aca7914ecd5f68c0d">const_pointer</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Const iterator over contiguous buffer elements. </p>
+<p>Read-only contiguous random-access iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00033">33</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00074">74</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab82aae861718eb8aca7914ecd5f68c0d" name="ab82aae861718eb8aca7914ecd5f68c0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab82aae861718eb8aca7914ecd5f68c0d">&#9670;&#160;</a></span>const_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_pointer = const T*</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read-only pointer to an element. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00070">70</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae9983b211f71f07880ccd755514651a2" name="ae9983b211f71f07880ccd755514651a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9983b211f71f07880ccd755514651a2">&#9670;&#160;</a></span>const_reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_reference = const T&amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read-only element reference type. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00066">66</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -234,19 +295,19 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::const_reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Const reverse iterator over contiguous buffer elements. </p>
+<p>Read-only iterator that traverses elements in reverse order. </p>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00039">39</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00078">78</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad1cb1ccbb80c7409158110fdcb7eff2e" name="ad1cb1ccbb80c7409158110fdcb7eff2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1cb1ccbb80c7409158110fdcb7eff2e">&#9670;&#160;</a></span>iterator</h2>
+<a id="a47092a31222ae42f34570cf257bb89b2" name="a47092a31222ae42f34570cf257bb89b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47092a31222ae42f34570cf257bb89b2">&#9670;&#160;</a></span>difference_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,14 +315,74 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::iterator = T*</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::difference_type = std::ptrdiff_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Mutable iterator over contiguous buffer elements. </p>
+<p>Signed type used for distances between iterators. </p>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00030">30</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00062">62</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5b020ace987f33de7fb0ef7f641de0a9" name="a5b020ace987f33de7fb0ef7f641de0a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b020ace987f33de7fb0ef7f641de0a9">&#9670;&#160;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::iterator = <a class="el" href="#a412dba02fc31ea84fddcdc34be7d741e">pointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable contiguous random-access iterator type. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00072">72</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a412dba02fc31ea84fddcdc34be7d741e" name="a412dba02fc31ea84fddcdc34be7d741e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a412dba02fc31ea84fddcdc34be7d741e">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::pointer = T*</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable pointer to an element. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00068">68</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2b99888a74c5e77268aca744a7e93de2" name="a2b99888a74c5e77268aca744a7e93de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b99888a74c5e77268aca744a7e93de2">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::reference = T&amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable element reference type. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00064">64</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -274,20 +395,60 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::reverse_iterator = std::reverse_iterator&lt;<a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Mutable reverse iterator over contiguous buffer elements. </p>
+<p>Mutable iterator that traverses elements in reverse order. </p>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00036">36</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00076">76</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6ea4d827e60d9ba3467afa0794d92b98" name="a6ea4d827e60d9ba3467afa0794d92b98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ea4d827e60d9ba3467afa0794d92b98">&#9670;&#160;</a></span>size_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::size_type = std::size_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unsigned type used for element counts and indices. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00060">60</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aff090d7c8c532d8a60304ed1af32a119" name="aff090d7c8c532d8a60304ed1af32a119"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff090d7c8c532d8a60304ed1af32a119">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::value_type = T</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Type of each stored element. </p>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00058">58</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acdd6a15d718d19e37d1518f6896f3fa0" name="acdd6a15d718d19e37d1518f6896f3fa0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdd6a15d718d19e37d1518f6896f3fa0">&#9670;&#160;</a></span>Buffer() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd6a15d718d19e37d1518f6896f3fa0">&#9670;&#160;</a></span>Buffer() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,14 +472,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Creates an empty buffer. </p>
+<p>Constructs an empty buffer that owns no allocation. </p>
+<p><span class="tt"><a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a></span> is zero, <span class="tt"><a class="el" href="#a5bc7bb76da16b97b1fc8e46cd459f1aa" title="Returns whether the buffer has no elements.">empty()</a></span> is true, and <span class="tt"><a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a></span> is <span class="tt">nullptr</span>.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00042">42</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00114">114</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a395e1777fe041d0227f04cb43e6e5295" name="a395e1777fe041d0227f04cb43e6e5295"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a395e1777fe041d0227f04cb43e6e5295">&#9670;&#160;</a></span>Buffer() <span class="overload">[2/7]</span></h2>
+<a id="a22e9103c36782852baafd0c058d29515" name="a22e9103c36782852baafd0c058d29515"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e9103c36782852baafd0c058d29515">&#9670;&#160;</a></span>Buffer() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,7 +494,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
         <tr>
           <td class="memname"><a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::Buffer </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a></td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -342,14 +505,30 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Creates a buffer with default-initialized elements. </p>
+<p>Constructs a buffer with value-initialized elements. </p>
+<p>Each element is initialized from <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a>{}</span>. If element construction fails, already-constructed elements and the allocation are cleaned up.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>Number of elements to construct. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_array_new_length</td><td>If <code class="param">size</code> exceeds <a class="el" href="#a43efe519d27041c8694bffca44dbd656" title="Returns the largest element count that cannot overflow in bytes.">max_size()</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If storage allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown while constructing an element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(size). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00045">45</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00129">129</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aadb35a9980dfe5211ebf5bd272f1bb80" name="aadb35a9980dfe5211ebf5bd272f1bb80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb35a9980dfe5211ebf5bd272f1bb80">&#9670;&#160;</a></span>Buffer() <span class="overload">[3/7]</span></h2>
+<a id="a128199ffc088ad62e02f6949209ec816" name="a128199ffc088ad62e02f6949209ec816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128199ffc088ad62e02f6949209ec816">&#9670;&#160;</a></span>Buffer() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,12 +541,12 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
         <tr>
           <td class="memname"><a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::Buffer </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a></td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html">uninitialized_t</a></td>          <td class="paramname"><span class="paramname"><em>uninitialized</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -377,14 +556,31 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Creates a buffer with allocated but uninitialized storage. </p>
+<p>Constructs a buffer with all elements initialized to <code class="param">value</code>. </p>
+<p>If an element copy fails, already-constructed elements and the allocation are cleaned up.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>Number of elements to construct. </td></tr>
+    <tr><td class="paramname">value</td><td>Value copied into each element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_array_new_length</td><td>If <code class="param">size</code> exceeds <a class="el" href="#a43efe519d27041c8694bffca44dbd656" title="Returns the largest element count that cannot overflow in bytes.">max_size()</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If storage allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown by <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a></span>'s copy constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(size). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00051">51</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00148">148</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3e465abd84f55919971c004e5e9ad0db" name="a3e465abd84f55919971c004e5e9ad0db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e465abd84f55919971c004e5e9ad0db">&#9670;&#160;</a></span>Buffer() <span class="overload">[4/7]</span></h2>
+<a id="a6045c5337b08eb4dc77aa46b207f450d" name="a6045c5337b08eb4dc77aa46b207f450d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6045c5337b08eb4dc77aa46b207f450d">&#9670;&#160;</a></span>Buffer() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -397,42 +593,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
         <tr>
           <td class="memname"><a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::Buffer </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a buffer and fills every element with a value. </p>
-
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00061">61</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a2e9331e3fbbe0caeef7198e2887ad456" name="a2e9331e3fbbe0caeef7198e2887ad456"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e9331e3fbbe0caeef7198e2887ad456">&#9670;&#160;</a></span>Buffer() <span class="overload">[5/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::Buffer </td>
-          <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>list</em></span></td><td>)</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="#aff090d7c8c532d8a60304ed1af32a119">value_type</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>list</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -443,14 +604,30 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Creates a buffer from an initializer list. </p>
+<p>Constructs a buffer from an initializer list. </p>
+<p>Elements are copy-constructed in list order. If an element copy fails, already-constructed elements and the allocation are cleaned up.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list</td><td>Source elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_array_new_length</td><td>If list size exceeds <a class="el" href="#a43efe519d27041c8694bffca44dbd656" title="Returns the largest element count that cannot overflow in bytes.">max_size()</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If storage allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown by <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a></span>'s copy constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(list.size()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00067">67</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00167">167</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a22a90d117fd14f42e72457147b4f5721" name="a22a90d117fd14f42e72457147b4f5721"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22a90d117fd14f42e72457147b4f5721">&#9670;&#160;</a></span>Buffer() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a22a90d117fd14f42e72457147b4f5721">&#9670;&#160;</a></span>Buffer() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -474,14 +651,30 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Creates a copy of another buffer. </p>
+<p>Copy-constructs a buffer with independent storage. </p>
+<p>If copying an element fails, all elements already constructed in the new allocation are destroyed and the exception is propagated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> to copy from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_array_new_length</td><td>If <span class="tt">other.size()</span> exceeds <a class="el" href="#a43efe519d27041c8694bffca44dbd656" title="Returns the largest element count that cannot overflow in bytes.">max_size()</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If storage allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown by <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a></span>'s copy constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(other.size()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00084">84</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00196">196</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
 <a id="ab60d7aad0fc822cc59fa0b04bb17f0ef" name="ab60d7aad0fc822cc59fa0b04bb17f0ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab60d7aad0fc822cc59fa0b04bb17f0ef">&#9670;&#160;</a></span>Buffer() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab60d7aad0fc822cc59fa0b04bb17f0ef">&#9670;&#160;</a></span>Buffer() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -505,9 +698,17 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Transfers ownership from another buffer. </p>
+<p>Move-constructs a buffer by transferring ownership. </p>
+<p>After construction, <code class="param">other</code> is empty and owns no allocation. Existing pointers and iterators into <code class="param">other</code> remain valid and now refer to elements owned by the newly constructed buffer. Element move constructors are not invoked.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> to move from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00108">108</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00224">224</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -536,15 +737,17 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Releases the owned storage and destroys constructed elements. </p>
+<p>Destroys the buffer and releases owned storage. </p>
+<p>Each live element is destroyed before the allocation is released.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(size()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00145">145</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00298">298</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a479ab28c24e597710dacdf6174971e55" name="a479ab28c24e597710dacdf6174971e55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a479ab28c24e597710dacdf6174971e55">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
+<a id="a3a9089a38eb5436e0a2c7c3b1f881b7b" name="a3a9089a38eb5436e0a2c7c3b1f881b7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a9089a38eb5436e0a2c7c3b1f881b7b">&#9670;&#160;</a></span>alignment()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -555,7 +758,41 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::back </td>
+          <td class="memname">constexpr <a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::alignment </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the alignment, in bytes, used for buffer allocations. </p>
+<p>This is a compile-time property of the <a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> specialization.</p>
+<dl class="section return"><dt>Returns</dt><dd>Requested alignment of the underlying allocation, in bytes. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00088">88</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="acd015b7db500375376cd482ffac27358" name="acd015b7db500375376cd482ffac27358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd015b7db500375376cd482ffac27358">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::back </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -568,14 +805,22 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the last element. </p>
+<p>Returns a reference to the last element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the last element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If the buffer is empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00184">184</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00366">366</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a4643c8225e3cc6d72fc42cacbf8f6bf3" name="a4643c8225e3cc6d72fc42cacbf8f6bf3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4643c8225e3cc6d72fc42cacbf8f6bf3">&#9670;&#160;</a></span>back() <span class="overload">[2/2]</span></h2>
+<a id="aaf6891bfef16e3576cd0dab149273f73" name="aaf6891bfef16e3576cd0dab149273f73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf6891bfef16e3576cd0dab149273f73">&#9670;&#160;</a></span>back() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -586,7 +831,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::back </td>
+          <td class="memname"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::back </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -599,9 +844,17 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the last element as a const reference. </p>
+<p>Returns a const reference to the last element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the last element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If the buffer is empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00194">194</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00382">382</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -617,7 +870,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::begin </td>
+          <td class="memname"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -625,14 +878,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Returns a const iterator to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a></span>, which equals <a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1" title="Returns a mutable iterator one past the final element.">end()</a> when the buffer is empty. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00222">222</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00428">428</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -648,7 +903,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::begin </td>
+          <td class="memname"><a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -656,14 +911,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns an iterator to the first element. </p>
+<p>Returns a mutable iterator to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a></span>, which equals <a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1" title="Returns a mutable iterator one past the final element.">end()</a> when the buffer is empty. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00216">216</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00422">422</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -679,7 +936,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::cbegin </td>
+          <td class="memname"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::cbegin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -687,14 +944,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Returns a const iterator to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a></span>, which equals <a class="el" href="#a59709ffe8cd578ddb5fc6aaf96b16a2e" title="Returns a const iterator one past the final element.">cend()</a> when the buffer is empty. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00228">228</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00434">434</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -710,7 +969,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::cend </td>
+          <td class="memname"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::cend </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -718,14 +977,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const iterator one past the last element. </p>
+<p>Returns a const iterator one past the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Past-the-end iterator for the const element range. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00246">246</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00452">452</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -749,14 +1010,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const reverse iterator to the last element. </p>
+<p>Returns a const reverse iterator to the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator constructed from <a class="el" href="#a59709ffe8cd578ddb5fc6aaf96b16a2e" title="Returns a const iterator one past the final element.">cend()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00264">264</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00470">470</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -780,19 +1043,21 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const reverse iterator before the first element. </p>
+<p>Returns the past-the-end iterator for const reverse traversal. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator constructed from <a class="el" href="#a9f002c6359935662e450f5e747b5baab" title="Returns a const iterator to the first element.">cbegin()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00282">282</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00488">488</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a12e1db089ed486d1b0ef8e1958265875" name="a12e1db089ed486d1b0ef8e1958265875"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12e1db089ed486d1b0ef8e1958265875">&#9670;&#160;</a></span>data() <span class="overload">[1/2]</span></h2>
+<a id="a165681bb1d50edd70dce1ffb56b00b46" name="a165681bb1d50edd70dce1ffb56b00b46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165681bb1d50edd70dce1ffb56b00b46">&#9670;&#160;</a></span>data() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -803,7 +1068,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T * <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::data </td>
+          <td class="memname"><a class="el" href="#ab82aae861718eb8aca7914ecd5f68c0d">const_pointer</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -816,14 +1081,17 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the raw data pointer as a const pointer. </p>
+<p>Returns a const pointer to the underlying contiguous storage. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const pointer to storage, or nullptr when empty.</dd></dl>
+<p>Elements occupy the range <span class="tt">[<a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a>, <a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a> + <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a>)</span> when non-empty. The pointer remains valid until this buffer is assigned to, moved from, swapped, or destroyed.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00210">210</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00415">415</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad0412fce131d92564a66c161d6963326" name="ad0412fce131d92564a66c161d6963326"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0412fce131d92564a66c161d6963326">&#9670;&#160;</a></span>data() <span class="overload">[2/2]</span></h2>
+<a id="a850c65dfbce43b53933b4a5ca734caf0" name="a850c65dfbce43b53933b4a5ca734caf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850c65dfbce43b53933b4a5ca734caf0">&#9670;&#160;</a></span>data() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -834,7 +1102,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T * <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::data </td>
+          <td class="memname"><a class="el" href="#a412dba02fc31ea84fddcdc34be7d741e">pointer</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -847,9 +1115,12 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the raw data pointer. </p>
+<p>Returns a pointer to the underlying contiguous storage. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to storage, or nullptr when empty.</dd></dl>
+<p>Elements occupy the range <span class="tt">[<a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a>, <a class="el" href="#a850c65dfbce43b53933b4a5ca734caf0" title="Returns a pointer to the underlying contiguous storage.">data()</a> + <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a>)</span> when non-empty. The pointer remains valid until this buffer is assigned to, moved from, swapped, or destroyed.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00204">204</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00402">402</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -878,9 +1149,11 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns whether the buffer contains no elements. </p>
+<p>Returns whether the buffer has no elements. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> if <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a> is zero; otherwise <span class="tt">false</span>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00294">294</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00507">507</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -896,7 +1169,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a1f0f54e54567a74fceaddc14c0ba5c28">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::end </td>
+          <td class="memname"><a class="el" href="#a01bb5679528f0163cdb96e916189f6f7">const_iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -904,14 +1177,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const iterator one past the last element. </p>
+<p>Returns a const iterator one past the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Past-the-end iterator for the const element range. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00240">240</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00446">446</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -927,7 +1202,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#ad1cb1ccbb80c7409158110fdcb7eff2e">iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::end </td>
+          <td class="memname"><a class="el" href="#a5b020ace987f33de7fb0ef7f641de0a9">iterator</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -935,19 +1210,21 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns an iterator one past the last element. </p>
+<p>Returns a mutable iterator one past the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Past-the-end iterator for the mutable element range. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00234">234</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00440">440</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a2a5989622da047944997c3263fcab011" name="a2a5989622da047944997c3263fcab011"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a5989622da047944997c3263fcab011">&#9670;&#160;</a></span>fill()</h2>
+<a id="a7feab72769fc726a07d98344b2975753" name="a7feab72769fc726a07d98344b2975753"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7feab72769fc726a07d98344b2975753">&#9670;&#160;</a></span>fill()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -960,7 +1237,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
         <tr>
           <td class="memname">void <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::fill </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -971,14 +1248,28 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Fills every element with the same value. </p>
+<p>Assigns a value to every element in the buffer. </p>
+<p>Assignment proceeds from the first element to the last. If an assignment throws, earlier elements retain their new values while the remaining elements keep their previous values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Value copied into each element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Any</td><td>exception thrown by <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a></span>'s copy-assignment operator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(size()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00300">300</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00520">520</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="afa128349412ea65d1965c0efed488c00" name="afa128349412ea65d1965c0efed488c00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa128349412ea65d1965c0efed488c00">&#9670;&#160;</a></span>front() <span class="overload">[1/2]</span></h2>
+<a id="a556d3aa3302220d6740b3d641ae5854b" name="a556d3aa3302220d6740b3d641ae5854b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556d3aa3302220d6740b3d641ae5854b">&#9670;&#160;</a></span>front() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -989,7 +1280,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::front </td>
+          <td class="memname"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::front </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1002,14 +1293,22 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the first element. </p>
+<p>Returns a reference to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the first element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If the buffer is empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00164">164</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00334">334</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a5bfcc23dc7a630a7acf439f58cf191b5" name="a5bfcc23dc7a630a7acf439f58cf191b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bfcc23dc7a630a7acf439f58cf191b5">&#9670;&#160;</a></span>front() <span class="overload">[2/2]</span></h2>
+<a id="a8d98cea22ac361850e7d2162e2d594ed" name="a8d98cea22ac361850e7d2162e2d594ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d98cea22ac361850e7d2162e2d594ed">&#9670;&#160;</a></span>front() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1020,7 +1319,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::front </td>
+          <td class="memname"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::front </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1033,9 +1332,51 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns the first element as a const reference. </p>
+<p>Returns a const reference to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the first element. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></td><td>If the buffer is empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00174">174</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00350">350</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a43efe519d27041c8694bffca44dbd656" name="a43efe519d27041c8694bffca44dbd656"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43efe519d27041c8694bffca44dbd656">&#9670;&#160;</a></span>max_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::max_size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the largest element count that cannot overflow in bytes. </p>
+<p>This is an arithmetic limit rather than a promise that an allocation of that size will succeed.</p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">std::numeric_limits&lt;<a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98" title="Unsigned type used for element counts and indices.">size_type</a>&gt;::max() / sizeof(value_type)</span>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00102">102</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1064,9 +1405,18 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Replaces this buffer by taking ownership from another buffer. </p>
+<p>Move-assigns from another buffer. </p>
+<p>Existing elements are destroyed before ownership is transferred. After assignment, <code class="param">other</code> is empty and owns no allocation. Pointers and iterators into <code class="param">other</code> remain valid and now refer to elements owned by this buffer; those into this buffer's former storage are invalidated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> to move from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this buffer. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(size()) to destroy the previous elements; ownership transfer is O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00127">127</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00270">270</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1095,14 +1445,31 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Replaces this buffer with a copy of another buffer. </p>
+<p>Copy-assigns from another buffer. </p>
+<p>This operation provides the strong exception guarantee: if allocation or element copying fails, this buffer is unchanged. On success, previous pointers, references, and iterators into this buffer are invalidated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> to copy from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this buffer. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_array_new_length</td><td>If <span class="tt">other.size()</span> exceeds <a class="el" href="#a43efe519d27041c8694bffca44dbd656" title="Returns the largest element count that cannot overflow in bytes.">max_size()</a>. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>If storage allocation fails. </td></tr>
+    <tr><td class="paramname">Any</td><td>exception thrown by <span class="tt"><a class="el" href="#aff090d7c8c532d8a60304ed1af32a119" title="Type of each stored element.">value_type</a></span>'s copy constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(<a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a> + other.size()). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00116">116</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00245">245</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a0f81e0a23a35c8da597aeb4cc90ad385" name="a0f81e0a23a35c8da597aeb4cc90ad385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f81e0a23a35c8da597aeb4cc90ad385">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+<a id="af67ca4afa9ac665905f007576f2738c9" name="af67ca4afa9ac665905f007576f2738c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af67ca4afa9ac665905f007576f2738c9">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1113,9 +1480,9 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="#ae9983b211f71f07880ccd755514651a2">const_reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1126,14 +1493,23 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const element reference without bounds checking. </p>
+<p>Returns an unchecked const reference to an element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Element position. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Const reference to the element at <code class="param">index</code>. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">index &lt; <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a></span>; otherwise behavior is undefined. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00158">158</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00325">325</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="affc7cebd8a11a1e83b44499f3c9c65b4" name="affc7cebd8a11a1e83b44499f3c9c65b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affc7cebd8a11a1e83b44499f3c9c65b4">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+<a id="a5f7f4ac74791d35b35295ebd6559ac3c" name="a5f7f4ac74791d35b35295ebd6559ac3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7f4ac74791d35b35295ebd6559ac3c">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1144,9 +1520,9 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="#a2b99888a74c5e77268aca744a7e93de2">reference</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1157,9 +1533,18 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Returns a mutable element reference without bounds checking. </p>
+<p>Returns an unchecked reference to an element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Element position. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the element at <code class="param">index</code>. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><span class="tt">index &lt; <a class="el" href="#a312f49e05b5e54ffb752f172b85b7c8e" title="Returns the number of stored elements.">size()</a></span>; otherwise behavior is undefined. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00152">152</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00315">315</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1183,14 +1568,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const reverse iterator to the last element. </p>
+<p>Returns a const reverse iterator to the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator constructed from <a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1" title="Returns a mutable iterator one past the final element.">end()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00258">258</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00464">464</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1214,14 +1601,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a reverse iterator to the last element. </p>
+<p>Returns a mutable reverse iterator to the final element. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reverse iterator constructed from <a class="el" href="#aed54f15ea2bdc1a4459fcb274ce150b1" title="Returns a mutable iterator one past the final element.">end()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00252">252</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00458">458</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1245,14 +1634,16 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a const reverse iterator before the first element. </p>
+<p>Returns the past-the-end iterator for const reverse traversal. </p>
+<dl class="section return"><dt>Returns</dt><dd>Const reverse iterator constructed from <a class="el" href="#a998d2357e401a207220f6352fc47992d" title="Returns a mutable iterator to the first element.">begin()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00276">276</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00482">482</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1276,19 +1667,21 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a reverse iterator before the first element. </p>
+<p>Returns the past-the-end iterator for mutable reverse traversal. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reverse iterator constructed from <a class="el" href="#a998d2357e401a207220f6352fc47992d" title="Returns a mutable iterator to the first element.">begin()</a>. </dd></dl>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00270">270</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00476">476</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a065f7ceea8268d74931562b8d383c3c4" name="a065f7ceea8268d74931562b8d383c3c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a065f7ceea8268d74931562b8d383c3c4">&#9670;&#160;</a></span>size()</h2>
+<a id="a312f49e05b5e54ffb752f172b85b7c8e" name="a312f49e05b5e54ffb752f172b85b7c8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a312f49e05b5e54ffb752f172b85b7c8e">&#9670;&#160;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1299,7 +1692,7 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::size </td>
+          <td class="memname"><a class="el" href="#a6ea4d827e60d9ba3467afa0794d92b98">size_type</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::size </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1313,8 +1706,11 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </div><div class="memdoc">
 
 <p>Returns the number of stored elements. </p>
+<dl class="section return"><dt>Returns</dt><dd>Element count.</dd></dl>
+<p>The count is fixed between construction and assignment.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00288">288</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00499">499</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1343,38 +1739,17 @@ template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </
 </table>
 </div><div class="memdoc">
 
-<p>Swaps the contents of two buffers. </p>
+<p>Swaps storage and size with another buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><a class="el" href="classstratax_1_1core_1_1Buffer.html" title="Fixed-size owner of aligned, contiguous element storage.">Buffer</a> to swap with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This operation does not move, copy, or swap individual elements. Iterators and pointers continue to refer to the same elements, now owned by the other buffer. References are likewise unaffected.</p>
+<dl class="section user"><dt>Complexity</dt><dd>O(1). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00306">306</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
-
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a514a45648c22a84d324b40c9de945fea" name="a514a45648c22a84d324b40c9de945fea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a514a45648c22a84d324b40c9de945fea">&#9670;&#160;</a></span>uninitialized</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, std::size_t Alignment = config::default_alignment&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structstratax_1_1core_1_1Buffer_1_1uninitialized__t.html">uninitialized_t</a> <a class="el" href="classstratax_1_1core_1_1Buffer.html">stratax::core::Buffer</a>&lt; T, Alignment &gt;::uninitialized {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Tag value selecting allocated storage without element initialization. </p>
-
-<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00027">27</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Buffer_8hpp_source.html#l00536">536</a> of file <a class="el" href="Buffer_8hpp_source.html">Buffer.hpp</a>.</p>
 
 </div>
 </div>

@@ -93,167 +93,230 @@ $(function(){initNavTree('arraybase.html','',''); });
 <div class="contents">
 <div class="textblock"><h1 class="doxsection"><a class="anchor" id="dev_arraybase"></a>
 ArrayBase</h1>
-<p>Version: v0.2.0</p>
+<p>Version: v0.3.1</p>
 <p>Status: Complete</p>
 <p>Header: <span class="tt"><a class="el" href="ArrayBase_8hpp_source.html">include/stratax/core/ArrayBase.hpp</a></span></p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md362"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md245"></a>
 Overview</h2>
-<p><span class="tt">ArrayBase&lt;T&gt;</span> is the shared base class for Stratax owning containers.</p>
-<p>It centralizes contiguous storage ownership and common container surface area for <span class="tt">Vector&lt;T&gt;</span>, <span class="tt">Matrix&lt;T&gt;</span>, and <span class="tt">Tensor&lt;T&gt;</span>.</p>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md364"></a>
-Responsibilities</h2>
-<p>The <span class="tt">ArrayBase</span> class is responsible for:</p>
-<ul>
-<li>Storing shared members: <span class="tt">buffer_</span>, <span class="tt">shape_</span>, and <span class="tt">strides_</span></li>
-<li>Providing common metadata access (<span class="tt">size</span>, <span class="tt">empty</span>, <span class="tt">rank</span>, <span class="tt">shape</span>, <span class="tt">strides</span>)</li>
-<li>Providing shared contiguous access (<span class="tt">data</span>, <span class="tt">operator[]</span>)</li>
-<li>Providing shared iterator and reverse-iterator APIs</li>
-<li>Providing shared modifiers (<span class="tt">fill</span>, <span class="tt">swap</span>)</li>
-<li>Providing shared protected helpers for shape/stride setup, storage allocation, index normalization, and offset computation</li>
-</ul>
-<p>The <span class="tt">ArrayBase</span> class is <b>not</b> responsible for:</p>
-<ul>
-<li>Container-specific constructors and rank contracts</li>
-<li>Public multidimensional indexing entry points</li>
-<li>Container-specific checked-index error policy text/messages</li>
-<li>Numerical algorithms or broadcasting behavior</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md366"></a>
-Relationships</h2>
+<p><span class="tt">ArrayBase&lt;T&gt;</span> is the shared owning base for Stratax's <span class="tt">Vector&lt;T&gt;</span>, <span class="tt">Matrix&lt;T&gt;</span>, and <span class="tt">Tensor&lt;T&gt;</span> containers. It keeps three pieces of state together:</p>
 <div class="fragment"><div class="line">ArrayBase&lt;T&gt;</div>
-<div class="line">│</div>
-<div class="line">├── shape_   : core::Shape</div>
-<div class="line">├── strides_ : core::Strides</div>
-<div class="line">└── buffer_  : core::Buffer&lt;T&gt;</div>
-<div class="line"> </div>
-<div class="line">Derived by:</div>
-<div class="line">  - Vector&lt;T&gt;</div>
-<div class="line">  - Matrix&lt;T&gt;</div>
-<div class="line">  - Tensor&lt;T&gt;</div>
-</div><!-- fragment --><p>Depends on:</p>
-<ul>
-<li>Buffer</li>
-<li>Shape</li>
-<li>Strides</li>
-<li>Exceptions (<span class="tt"><a class="el" href="classExceptions_1_1IndexError.html" title="Signals an invalid index access.">Exceptions::IndexError</a></span> for empty front/back access)</li>
-</ul>
-<p>Used by:</p>
-<ul>
-<li><span class="tt">Vector&lt;T&gt;</span></li>
-<li><span class="tt">Matrix&lt;T&gt;</span></li>
-<li><span class="tt">Tensor&lt;T&gt;</span></li>
-</ul>
-<p>Related classes:</p>
-<ul>
-<li>Buffer</li>
-<li>Shape</li>
-<li>Strides</li>
-</ul>
+<div class="line">├── buffer_  : Buffer&lt;T&gt;  — contiguous element storage</div>
+<div class="line">├── shape_   : Shape      — logical dimensions</div>
+<div class="line">└── strides_ : Shape      — row-major layout metadata</div>
+</div><!-- fragment --><p>The class supplies the common one-dimensional container interface and protected offset helpers. Derived containers remain responsible for rank constraints, constructors, and public multidimensional indexing APIs.</p>
+<p><span class="tt">ArrayBase</span> cannot be constructed directly by users because its constructors are protected.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md368"></a>
-Internal Data</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md247"></a>
+Responsibilities</h2>
+<p><span class="tt">ArrayBase</span> is responsible for:</p>
+<ul>
+<li>Owning contiguous element storage</li>
+<li>Keeping storage, shape, and stride metadata synchronized</li>
+<li>Providing common metadata and flat element access</li>
+<li>Providing mutable and const contiguous iterators</li>
+<li>Providing shared <span class="tt">fill()</span> and <span class="tt">swap()</span> operations</li>
+<li>Constructing storage from a shape or adopting an existing buffer</li>
+<li>Normalizing checked multidimensional indices for derived containers</li>
+<li>Computing unchecked flat offsets for already-normalized indices</li>
+</ul>
+<p>It is not responsible for validating container-specific rank requirements, defining multidimensional public APIs, numerical operations, broadcasting, or formatting.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md249"></a>
+Invariants</h2>
+<p>For every successfully constructed object:</p>
+<ul>
+<li><span class="tt">size() == shape().elements()</span></li>
+<li><span class="tt">rank() == shape().rank()</span></li>
+<li><span class="tt">rank() == strides().rank()</span></li>
+<li><span class="tt">strides()</span> represents the row-major layout of <span class="tt">shape()</span></li>
+<li>Non-empty elements occupy <span class="tt">[data(), data() + size())</span></li>
+<li>Shape and stride metadata are exposed read-only through the public API</li>
+</ul>
+<p><span class="tt">swap()</span> exchanges all three state members together, preserving these relationships.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md251"></a>
+Public Types</h2>
+<p>The aliases mirror <span class="tt">Buffer&lt;T&gt;</span>:</p>
+<div class="fragment"><div class="line"><span class="keyword">using </span>value_type             = Buffer&lt;T&gt;::value_type;</div>
+<div class="line"><span class="keyword">using </span>size_type              = Buffer&lt;value_type&gt;::size_type;</div>
+<div class="line"><span class="keyword">using </span>difference_type        = Buffer&lt;value_type&gt;::difference_type;</div>
+<div class="line"><span class="keyword">using </span>reference              = Buffer&lt;value_type&gt;::reference;</div>
+<div class="line"><span class="keyword">using </span>const_reference        = Buffer&lt;value_type&gt;::const_reference;</div>
+<div class="line"><span class="keyword">using </span>pointer                = Buffer&lt;value_type&gt;::pointer;</div>
+<div class="line"><span class="keyword">using </span>const_pointer          = Buffer&lt;value_type&gt;::const_pointer;</div>
+<div class="line"><span class="keyword">using </span>iterator               = Buffer&lt;value_type&gt;::iterator;</div>
+<div class="line"><span class="keyword">using </span>const_iterator         = Buffer&lt;value_type&gt;::const_iterator;</div>
+<div class="line"><span class="keyword">using </span>reverse_iterator       = Buffer&lt;value_type&gt;::reverse_iterator;</div>
+<div class="line"><span class="keyword">using </span>const_reverse_iterator = Buffer&lt;value_type&gt;::const_reverse_iterator;</div>
+</div><!-- fragment --><p>The pointer-based iterator types provide contiguous random-access traversal.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md253"></a>
+Metadata</h2>
+<div class="fragment"><div class="line">[[nodiscard]] size_type size() const noexcept;</div>
+<div class="line">[[nodiscard]] <span class="keywordtype">bool</span> empty() const noexcept;</div>
+<div class="line">[[nodiscard]] size_type rank() const noexcept;</div>
+<div class="line">[[nodiscard]] const Shape&amp; shape() const noexcept;</div>
+<div class="line">[[nodiscard]] const Shape&amp; strides() const noexcept;</div>
+</div><!-- fragment --><ul>
+<li><span class="tt">size()</span> returns the number of stored elements.</li>
+<li><span class="tt">empty()</span> is equivalent to <span class="tt">size() == 0</span>.</li>
+<li><span class="tt">rank()</span> returns the number of logical dimensions.</li>
+<li><span class="tt">shape()</span> and <span class="tt">strides()</span> return read-only metadata references.</li>
+</ul>
+<p>Each operation is O(1).</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md255"></a>
+Element Storage and Access</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md256"></a>
+data</h3>
+<div class="fragment"><div class="line">[[nodiscard]] pointer data() noexcept;</div>
+<div class="line">[[nodiscard]] const_pointer data() const noexcept;</div>
+</div><!-- fragment --><p>Returns the first element's address, or <span class="tt">nullptr</span> when empty. Pointers remain valid until the object is assigned to, moved from, swapped, or destroyed.</p>
+<p>Complexity: O(1).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md257"></a>
+front and back</h3>
+<div class="fragment"><div class="line">reference front();</div>
+<div class="line">const_reference front() <span class="keyword">const</span>;</div>
+<div class="line">reference back();</div>
+<div class="line">const_reference back() <span class="keyword">const</span>;</div>
+</div><!-- fragment --><p>Returns the first or final flat element. Each operation throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> when storage is empty.</p>
+<p>Complexity: O(1).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md258"></a>
+Unchecked flat access</h3>
+<div class="fragment"><div class="line">reference operator[](size_type index) <span class="keyword">noexcept</span>;</div>
+<div class="line">const_reference operator[](size_type index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+</div><!-- fragment --><p>Returns a flat element without bounds checking. Behavior is undefined unless <span class="tt">index &lt; size()</span>.</p>
+<p>Complexity: O(1).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md259"></a>
+Checked flat access</h3>
+<div class="fragment"><div class="line">reference at(difference_type index);</div>
+<div class="line">const_reference at(difference_type index) <span class="keyword">const</span>;</div>
+</div><!-- fragment --><p>Accepts indices in <span class="tt">[-size(), size())</span>. Negative indices count backward from the final flat element. An out-of-range index, including any index into empty storage, throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span>.</p>
+<p>Complexity: O(1).</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md261"></a>
+Iteration</h2>
+<div class="fragment"><div class="line">iterator begin() noexcept;</div>
+<div class="line">iterator end() noexcept;</div>
+<div class="line">const_iterator begin() const noexcept;</div>
+<div class="line">const_iterator end() const noexcept;</div>
+<div class="line">const_iterator cbegin() const noexcept;</div>
+<div class="line">const_iterator cend() const noexcept;</div>
+<div class="line"> </div>
+<div class="line">reverse_iterator rbegin() noexcept;</div>
+<div class="line">reverse_iterator rend() noexcept;</div>
+<div class="line">const_reverse_iterator rbegin() const noexcept;</div>
+<div class="line">const_reverse_iterator rend() const noexcept;</div>
+<div class="line">const_reverse_iterator crbegin() const noexcept;</div>
+<div class="line">const_reverse_iterator crend() const noexcept;</div>
+</div><!-- fragment --><p>Each accessor is O(1). Traversing the full element range is O(size()). Begin and end pairs compare equal when storage is empty.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md263"></a>
+Modifiers</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md264"></a>
+fill</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(const_reference value);</div>
+</div><!-- fragment --><p>Copy-assigns <span class="tt">value</span> to every element from first to last. If assignment throws, earlier elements retain their new values and later elements retain their old values.</p>
+<p>Complexity: O(size()).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md265"></a>
+swap</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> swap(ArrayBase&amp; other) <span class="keyword">noexcept</span>;</div>
+</div><!-- fragment --><p>Exchanges the buffer, shape, and strides in constant time. Pointers, references, and iterators remain valid but refer to elements owned by the other object after the exchange.</p>
+<p>Complexity: O(1).</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md267"></a>
+Protected Construction</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md268"></a>
+Value-initialized storage</h3>
+<div class="fragment"><div class="line"><span class="keyword">explicit</span> ArrayBase(<span class="keyword">const</span> Shape&amp; shape);</div>
+</div><!-- fragment --><p>Allocates <span class="tt">shape.elements()</span> elements initialized from <span class="tt">value_type{}</span>, copies the shape, and computes its row-major strides.</p>
+<p>Complexity: O(shape.elements() + shape.rank()).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md269"></a>
+Filled storage</h3>
+<div class="fragment"><div class="line">ArrayBase(<span class="keyword">const</span> Shape&amp; shape, const_reference value);</div>
+</div><!-- fragment --><p>Allocates <span class="tt">shape.elements()</span> copies of <span class="tt">value</span>, copies the shape, and computes its row-major strides.</p>
+<p>Complexity: O(shape.elements() + shape.rank()).</p>
+<p>Both allocating constructors may throw:</p>
+<ul>
+<li><span class="tt"><a class="el" href="classExceptions_1_1DimensionError.html">Exceptions::DimensionError</a></span> for an unrepresentable element count or stride</li>
+<li><span class="tt">std::bad_alloc</span> if storage or metadata allocation fails</li>
+<li>An exception from element construction</li>
+</ul>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md270"></a>
+Adopted storage</h3>
+<div class="fragment"><div class="line">ArrayBase(<span class="keyword">const</span> Shape&amp; shape, Buffer&lt;value_type&gt;&amp;&amp; buffer);</div>
+</div><!-- fragment --><p>Transfers ownership of <span class="tt">buffer</span>, copies the shape, computes strides, and then requires <span class="tt">buffer.size() == shape.elements()</span>. A mismatch throws <span class="tt"><a class="el" href="classExceptions_1_1ShapeError.html">Exceptions::ShapeError</a></span>; the adopted buffer is released during unwinding.</p>
+<p>Complexity: O(shape.rank()) plus O(1) ownership transfer.</p>
+<p>Metadata allocation or an unrepresentable element/stride calculation can also throw before construction completes.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md272"></a>
+Protected Indexing Helpers</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md273"></a>
+normalized_flat_offset</h3>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
+<div class="line">size_type normalized_flat_offset(</div>
+<div class="line">    <span class="keyword">const</span> IndexContainer&amp; raw_indices,</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* rank_mismatch_message =</div>
+<div class="line">        <span class="stringliteral">&quot;Multi-index rank must match array rank.&quot;</span>,</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* component_oob_message = <span class="keyword">nullptr</span>) <span class="keyword">const</span>;</div>
+</div><!-- fragment --><p>Converts one signed index per dimension into a row-major flat offset. Negative components count backward within their corresponding dimensions.</p>
+<p>The index container must provide <span class="tt">size()</span> and indexed access. A rank mismatch throws <span class="tt"><a class="el" href="classExceptions_1_1IndexError.html">Exceptions::IndexError</a></span> using <span class="tt">rank_mismatch_message</span>. An invalid component also throws <span class="tt">IndexError</span>; when <span class="tt">component_oob_message</span> is non-null, that message replaces the lower-level normalization message.</p>
+<p>Complexity: O(rank()).</p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md274"></a>
+flat_offset</h3>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
+<div class="line">size_type flat_offset(<span class="keyword">const</span> IndexContainer&amp; indices) <span class="keyword">const</span>;</div>
+</div><!-- fragment --><p>Computes an unchecked row-major offset. The container must be iterable and must contain exactly <span class="tt">rank()</span> already-normalized, in-range indices.</p>
+<p>Violating the rank requirement may advance past the stride range and cause undefined behavior. Out-of-range components can produce an invalid flat offset.</p>
+<p>Complexity: O(rank()).</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md276"></a>
+Copy and Move Semantics</h2>
+<p><span class="tt">ArrayBase</span> uses compiler-generated copy and move operations:</p>
+<ul>
+<li>Copying deeply copies element storage and metadata.</li>
+<li>Moving transfers owned buffers and leaves the source members empty.</li>
+<li>Copy assignment inherits <span class="tt">Buffer</span>'s strong exception guarantee for each member assignment, but the compiler-generated member-by-member operation is not transactional across all three members.</li>
+</ul>
+<p>Concrete containers inherit these operations unless they define their own.</p>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md278"></a>
+Complexity Summary</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Member  </th><th class="markdownTableHeadNone">Description  </th></tr>
+<th class="markdownTableHeadNone">Operation  </th><th class="markdownTableHeadNone">Complexity  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">core::Buffer&lt;T&gt; buffer_</span>  </td><td class="markdownTableBodyNone">Contiguous element storage  </td></tr>
+<td class="markdownTableBodyNone">Metadata, individual access, iterator creation  </td><td class="markdownTableBodyNone">O(1)  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">core::Shape shape_</span>  </td><td class="markdownTableBodyNone">Logical shape metadata  </td></tr>
+<td class="markdownTableBodyNone">Full traversal or <span class="tt">fill()</span>  </td><td class="markdownTableBodyNone">O(size())  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">core::Strides strides_</span>  </td><td class="markdownTableBodyNone">Row-major stride metadata  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">swap()</span>  </td><td class="markdownTableBodyNone">O(1)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Shape-based construction  </td><td class="markdownTableBodyNone">O(elements + rank)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Buffer-adopting construction  </td><td class="markdownTableBodyNone">O(rank)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Checked/unchecked multidimensional offset  </td><td class="markdownTableBodyNone">O(rank)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Copy construction  </td><td class="markdownTableBodyNone">O(size + rank)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Move construction  </td><td class="markdownTableBodyNone">O(1)  </td></tr>
 </table>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md370"></a>
-Invariants</h2>
-<p>The following conditions are always true:</p>
-<ul>
-<li><span class="tt">size()</span> reflects <span class="tt">buffer_.size()</span>.</li>
-<li><span class="tt">rank()</span> reflects <span class="tt">shape_.rank()</span>.</li>
-<li><span class="tt">shape()</span> and <span class="tt">strides()</span> expose the metadata backing the container.</li>
-<li><span class="tt">front()</span> and <span class="tt">back()</span> throw on empty storage.</li>
-<li><span class="tt">operator[]</span> and iterator traversal are unchecked (container-style semantics).</li>
-</ul>
-<hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md372"></a>
-Public Interface</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md373"></a>
-Common metadata and accessors</h3>
-<div class="fragment"><div class="line">std::size_t size() const noexcept;</div>
-<div class="line"><span class="keywordtype">bool</span> empty() const noexcept;</div>
-<div class="line">std::<span class="keywordtype">size_t</span> rank() const noexcept;</div>
-<div class="line">const Shape&amp; shape() const noexcept;</div>
-<div class="line">const Strides&amp; strides() const noexcept;</div>
-<div class="line">T* data() noexcept;</div>
-<div class="line">const T* data() const noexcept;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md374"></a>
-Element and iterator surface</h3>
-<div class="fragment"><div class="line">T&amp; front();</div>
-<div class="line"><span class="keyword">const</span> T&amp; front() <span class="keyword">const</span>;</div>
-<div class="line">T&amp; back();</div>
-<div class="line"><span class="keyword">const</span> T&amp; back() <span class="keyword">const</span>;</div>
-<div class="line">T&amp; operator[](std::size_t index) <span class="keyword">noexcept</span>;</div>
-<div class="line"><span class="keyword">const</span> T&amp; operator[](std::size_t index) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
-<div class="line"> </div>
-<div class="line">iterator begin() noexcept;</div>
-<div class="line">const_iterator begin() const noexcept;</div>
-<div class="line">const_iterator cbegin() const noexcept;</div>
-<div class="line">iterator end() noexcept;</div>
-<div class="line">const_iterator end() const noexcept;</div>
-<div class="line">const_iterator cend() const noexcept;</div>
-<div class="line">reverse_iterator rbegin() noexcept;</div>
-<div class="line">const_reverse_iterator rbegin() const noexcept;</div>
-<div class="line">const_reverse_iterator crbegin() const noexcept;</div>
-<div class="line">reverse_iterator rend() noexcept;</div>
-<div class="line">const_reverse_iterator rend() const noexcept;</div>
-<div class="line">const_reverse_iterator crend() const noexcept;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md375"></a>
-Modifiers</h3>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> fill(<span class="keyword">const</span> T&amp; value);</div>
-<div class="line"><span class="keywordtype">void</span> swap(ArrayBase&amp; other) <span class="keyword">noexcept</span>;</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md376"></a>
-Protected shared helpers used by derived containers</h3>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> set_shape_and_strides(<span class="keyword">const</span> Shape&amp; shape);</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> allocate_from_shape();</div>
-<div class="line"><span class="keywordtype">void</span> allocate_from_shape(<span class="keyword">const</span> T&amp; value);</div>
-<div class="line"><span class="keywordtype">void</span> allocate_with_size(std::size_t size);</div>
-<div class="line"><span class="keywordtype">void</span> allocate_with_size(std::size_t size, <span class="keyword">const</span> T&amp; value);</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> N&gt;</div>
-<div class="line">std::array&lt;std::size_t, N&gt; normalize_multi_indices(</div>
-<div class="line">  <span class="keyword">const</span> std::array&lt;std::ptrdiff_t, N&gt;&amp; raw_indices,</div>
-<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* rank_mismatch_message = <span class="stringliteral">&quot;Multi-index rank must match array rank.&quot;</span>) <span class="keyword">const</span>;</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> N&gt;</div>
-<div class="line">std::size_t normalized_flat_offset(</div>
-<div class="line">  <span class="keyword">const</span> std::array&lt;std::ptrdiff_t, N&gt;&amp; raw_indices,</div>
-<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* rank_mismatch_message = <span class="stringliteral">&quot;Multi-index rank must match array rank.&quot;</span>,</div>
-<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* component_oob_message = <span class="keyword">nullptr</span>) <span class="keyword">const</span>;</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IndexContainer&gt;</div>
-<div class="line">std::size_t flat_offset(<span class="keyword">const</span> IndexContainer&amp; indices) <span class="keyword">const</span>;</div>
-<div class="line"> </div>
-<div class="line">std::size_t normalize_flat_index(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
-<div class="line">std::size_t normalize_axis_index(std::ptrdiff_t index, std::size_t extent) <span class="keyword">const</span>;</div>
-<div class="line">T&amp; checked_flat_ref(std::ptrdiff_t index);</div>
-<div class="line"><span class="keyword">const</span> T&amp; checked_flat_ref(std::ptrdiff_t index) <span class="keyword">const</span>;</div>
-</div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md378"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md280"></a>
 Design Notes</h2>
-<p><span class="tt">ArrayBase&lt;T&gt;</span> intentionally keeps public policy minimal. Concrete containers own constructor contracts and public indexing APIs while sharing storage/metadata plumbing plus reusable protected indexing/allocation primitives through inheritance.</p>
+<p>Keeping the common flat interface in one base class gives all owning arrays the same storage and iterator semantics. Container-specific classes stay small and focus on shape restrictions and multidimensional access.</p>
+<p>The checked and unchecked offset helpers are intentionally separate. Public <span class="tt">at()</span> implementations use normalized checking, while <span class="tt">operator()</span> paths can use <span class="tt">flat_offset()</span> when their contract already requires valid indices.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md380"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md282"></a>
 See Also</h2>
 <ul>
-<li><a class="el" href="vector.html">Vector</a></li>
-<li><a class="el" href="matrix.html">Matrix</a></li>
-<li><a class="el" href="tensor.html">Tensor</a></li>
 <li><a class="el" href="buffer.html">Buffer</a></li>
 <li><a class="el" href="shape.html">Shape</a></li>
-<li><a class="el" href="strides.html">Strides</a> </li>
+<li><a class="el" href="vector.html">Vector</a></li>
+<li><a class="el" href="matrix.html">Matrix</a></li>
+<li><a class="el" href="tensor.html">Tensor</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

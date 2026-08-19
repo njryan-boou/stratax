@@ -14,8 +14,8 @@ Header: `include/stratax/containers/Vector.hpp`
 
 `stratax::container::Vector<T>` is a one-dimensional owning array for types
 that satisfy the `Numeric` concept. It derives from `core::ArrayBase<T>` and
-uses the base class's contiguous `Buffer`, `Shape`, and row-major `Strides`
-state.
+uses the base class's contiguous `Buffer` and `Shape` metadata. Strides are
+stored as a second `Shape` containing canonical row-major stride values.
 
 A normally constructed vector always has rank one. This includes an empty
 vector, whose shape is `{0}` and whose size is zero.
@@ -62,14 +62,14 @@ Vector<T>
 └── core::ArrayBase<T>
     ├── core::Buffer<T> buffer_
     ├── core::Shape     shape_
-    └── core::Strides   strides_
+    └── core::Shape     strides_
 ```
 
 For every normally constructed vector:
 
 - `rank() == 1`
 - `shape() == Shape{size()}`
-- `strides() == Strides{1}`
+- `strides() == Shape{1}`
 - `size() == shape().elements()`
 - Elements occupy one contiguous memory range
 
@@ -200,7 +200,7 @@ destroying any state replaced by move assignment.
 [[nodiscard]] bool empty() const noexcept;
 [[nodiscard]] size_type rank() const noexcept;
 [[nodiscard]] const core::Shape& shape() const noexcept;
-[[nodiscard]] const core::Strides& strides() const noexcept;
+[[nodiscard]] const core::Shape& strides() const noexcept;
 ```
 
 All metadata queries are O(1).
@@ -352,6 +352,5 @@ adds only the construction rules needed to preserve its rank-one abstraction.
 - @ref arraybase
 - @ref buffer
 - @ref shape
-- @ref strides
 - @ref matrix
 - @ref tensor

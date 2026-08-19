@@ -52,7 +52,7 @@ Depends on:
 
 Used by:
 
-- Containers (`Shape`, `Strides`, `Vector`, `Matrix`, `Tensor`)
+- Containers (`Shape`, `Vector`, `Matrix`, `Tensor`)
 - Ops (`Arithmetic`, `Indexing`, `Slice`)
 - Algorithms and bindings
 

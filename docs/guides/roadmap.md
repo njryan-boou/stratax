@@ -24,7 +24,7 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 
 - [x] Buffer
 - [x] Shape
-- [x] Strides
+- [x] Row-major stride metadata through `Shape::strides()`
 - [x] Slice descriptors
 - [x] Numeric types and concepts
 - [x] Exception hierarchy
