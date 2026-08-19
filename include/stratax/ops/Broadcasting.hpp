@@ -22,6 +22,7 @@ namespace stratax::core::broadcast_detail {
  * @param shape Shape to query.
  * @param offset Zero-based distance from the final dimension.
  * @return The selected dimension, or one when @p offset exceeds the rank.
+ * @invariant The input shape is never modified.
  * @complexity O(1).
  * @internal
  */
@@ -53,6 +54,7 @@ inline std::size_t dimension_from_right(
  * @pre @p operand_shape is broadcast-compatible with @p result_shape and does
  *      not have greater rank than @p result_shape.
  * @note No bounds or compatibility checks are performed.
+ * @invariant The result and operand shapes are never modified.
  * @complexity O(result_shape.rank()).
  * @internal
  */

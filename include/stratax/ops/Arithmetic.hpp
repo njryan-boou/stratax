@@ -1,4 +1,3 @@
-// TODO: Define result-container promotion rules for mixed container kinds.
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>

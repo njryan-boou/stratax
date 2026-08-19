@@ -18,6 +18,7 @@ namespace stratax::core::bitwise_detail {
  * @param count Shift count to validate.
  * @return `true` when @p count is non-negative and smaller than the bit width
  *         of `Value`; otherwise `false`.
+ * @invariant The shift count is never modified.
  * @complexity O(1).
  * @internal
  */
@@ -40,6 +41,8 @@ constexpr bool valid_shift_count(const Count& count) noexcept
 
 /**
  * @brief Rejects a shift count that would produce undefined behavior.
+ * @return Nothing.
+ * @invariant A successful return guarantees that @p count is valid for `Value`.
  * @throws Exceptions::StrataxError If @p count is negative or is not smaller
  *         than the bit width of `Value`.
  * @complexity O(1).
@@ -58,6 +61,7 @@ void require_valid_shift_count(const Count& count)
 /**
  * @brief Applies a validated scalar shift to every array element.
  * @return Owning array with the same container, dtype, and shape as @p lhs.
+ * @invariant The source array remains unchanged and the result shape equals its shape.
  * @throws Exceptions::StrataxError If @p rhs is not a valid shift count.
  * @complexity O(lhs.size()).
  * @internal
@@ -93,6 +97,7 @@ auto shift_scalar_op(
  * @brief Applies broadcasted per-element shift counts to an array.
  * @return Owning promoted container with the left operand's dtype and the
  *         common broadcasted shape.
+ * @invariant Both operands remain unchanged and the result dtype equals the left dtype.
  * @throws Exceptions::BroadcastError If the shapes are incompatible.
  * @throws Exceptions::StrataxError If any used shift count is invalid.
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
@@ -149,6 +154,7 @@ auto shift_array_op(
 /**
  * @brief Shifts a scalar by every count stored in an array.
  * @return Owning array with @p rhs's container and shape and the scalar dtype.
+ * @invariant The operands remain unchanged and the result dtype equals the scalar dtype.
  * @throws Exceptions::StrataxError If any shift count is invalid.
  * @complexity O(rhs.size()).
  * @internal
@@ -185,6 +191,7 @@ auto scalar_shift_array_op(
 /**
  * @brief Applies a broadcasted bitwise operation to @p lhs in place.
  * @return Reference to @p lhs, whose shape and dtype remain unchanged.
+ * @invariant The left array retains its original shape and dtype.
  * @throws Exceptions::BroadcastError If broadcasting is impossible or would
  *         change the shape of @p lhs.
  * @complexity O(lhs.size() * lhs.rank()).
@@ -227,6 +234,7 @@ L& compound_bitwise_op(
 /**
  * @brief Applies a scalar bitwise operation to @p lhs in place.
  * @return Reference to @p lhs.
+ * @invariant The left array retains its original shape and dtype.
  * @complexity O(lhs.size()).
  * @internal
  */
@@ -253,6 +261,7 @@ A& compound_scalar_bitwise_op(
  * @p lhs unchanged.
  *
  * @return Reference to @p lhs, whose shape and dtype remain unchanged.
+ * @invariant The left array is unchanged if validation fails and otherwise retains its shape and dtype.
  * @throws Exceptions::BroadcastError If broadcasting is impossible or would
  *         change the shape of @p lhs.
  * @throws Exceptions::StrataxError If any used shift count is invalid.
@@ -321,6 +330,7 @@ L& compound_shift_op(
  * @param rhs Right array operand.
  * @param op Callable invoked in flat iterator order.
  * @return Owning promoted array with the common broadcasted shape.
+ * @invariant Both operands remain unchanged.
  * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
  * @throws Any exception propagated by result allocation or @p op.
  * @complexity O(n * r), where `n` is result size and `r` is result rank.
@@ -347,6 +357,7 @@ auto binary_bitwise_op(
  * @param rhs Scalar supplied as every right argument.
  * @param op Callable invoked in flat iterator order.
  * @return Owning array with the same shape as @p lhs.
+ * @invariant The operands remain unchanged and the result preserves the array container.
  * @throws Any exception propagated by result allocation or @p op.
  * @complexity O(lhs.size()).
  */
@@ -369,6 +380,7 @@ auto binary_scalar_bitwise_op(
  * @param rhs Array supplying every right argument.
  * @param op Callable invoked in flat iterator order.
  * @return Owning array with the same shape as @p rhs.
+ * @invariant The operands remain unchanged and the result preserves the array container.
  * @throws Any exception propagated by result allocation or @p op.
  * @complexity O(rhs.size()).
  */
@@ -380,6 +392,32 @@ auto binary_scalar_bitwise_op(
 	Op op)
 {
 	return broadcasted_op(lhs, rhs, op);
+}
+
+/**
+ * @brief Applies a validated scalar shift to an array in place.
+ * @return Reference to @p lhs.
+ * @invariant The left array is unchanged if validation fails and otherwise retains its shape and dtype.
+ * @internal
+ */
+template<Array A, Integral Count, typename Op>
+requires Integral<typename A::value_type>
+A& compound_scalar_shift_op(
+	A& lhs,
+	const Count& rhs,
+	Op op)
+{
+	using value_type = typename A::value_type;
+
+	require_valid_shift_count<value_type>(rhs);
+
+	for (std::size_t i = 0; i < lhs.size(); ++i)
+	{
+		lhs[i] = static_cast<value_type>(
+			op(lhs[i], rhs));
+	}
+
+	return lhs;
 }
 
 } // namespace stratax::core::bitwise_detail
@@ -665,47 +703,52 @@ L& operator>>=(L& lhs, const R& rhs)
 
 // In-place array-scalar
 
-/** @brief Applies bitwise AND assignment with a scalar. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator&=(A& lhs, const Scalar& rhs)
 {
-	lhs = lhs & rhs;
-	return lhs;
+	return stratax::core::bitwise_detail::compound_scalar_bitwise_op(
+		lhs, rhs, std::bit_and<>{});
 }
 
-/** @brief Applies bitwise OR assignment with a scalar. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator|=(A& lhs, const Scalar& rhs)
 {
-	lhs = lhs | rhs;
-	return lhs;
+	return stratax::core::bitwise_detail::compound_scalar_bitwise_op(
+		lhs, rhs, std::bit_or<>{});
 }
 
-/** @brief Applies bitwise XOR assignment with a scalar. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator^=(A& lhs, const Scalar& rhs)
 {
-	lhs = lhs ^ rhs;
-	return lhs;
+	return stratax::core::bitwise_detail::compound_scalar_bitwise_op(
+		lhs, rhs, std::bit_xor<>{});
 }
 
-/** @brief Applies left-shift assignment with a scalar shift count. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator<<=(A& lhs, const Scalar& rhs)
 {
-	lhs = lhs << rhs;
-	return lhs;
+	return stratax::core::bitwise_detail::compound_scalar_shift_op(
+		lhs,
+		rhs,
+		[](auto value, auto count)
+		{
+			return value << count;
+		});
 }
 
-/** @brief Applies right-shift assignment with a scalar shift count. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator>>=(A& lhs, const Scalar& rhs)
 {
-	lhs = lhs >> rhs;
-	return lhs;
+	return stratax::core::bitwise_detail::compound_scalar_shift_op(
+		lhs,
+		rhs,
+		[](auto value, auto count)
+		{
+			return value >> count;
+		});
 }

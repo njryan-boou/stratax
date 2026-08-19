@@ -19,6 +19,7 @@ namespace stratax::core::comparison_detail {
  * @param op Comparison applied to each broadcasted element pair.
  * @return Owning boolean array whose container type is the promotion of @p lhs
  *         and @p rhs and whose shape is their common broadcasted shape.
+ * @invariant The operands remain unchanged and the result always has boolean dtype.
  * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
  * @complexity O(n * r), where `n` is the result size and `r` is its rank.
  * @internal
@@ -64,6 +65,7 @@ auto comparison_op(
 /**
  * @brief Compares every array element with a scalar on the right.
  * @return Owning boolean array with @p lhs's container type and shape.
+ * @invariant The operands remain unchanged and the result always has boolean dtype.
  * @complexity O(lhs.size()).
  * @internal
  */
@@ -94,6 +96,7 @@ auto comparison_scalar_op(
 /**
  * @brief Compares a scalar on the left with every array element.
  * @return Owning boolean array with @p rhs's container type and shape.
+ * @invariant The operands remain unchanged and the result always has boolean dtype.
  * @complexity O(rhs.size()).
  * @internal
  */
@@ -124,6 +127,7 @@ auto comparison_scalar_op(
 /**
  * @brief Tests whether two arrays have identical shapes and element values.
  * @return `true` if the shapes and every corresponding value are equal.
+ * @invariant Both arrays remain unchanged.
  * @complexity O(r + n) in the worst case, where `r` is rank and `n` is size.
  * @internal
  */
