@@ -20,40 +20,6 @@ static_assert(std::same_as<
 		const double&>,
 	stratax::container::Tensor<double>>);
 
-static_assert(stratax::core::SameArrayKindType<
-	stratax::container::Vector<int>,
-	stratax::container::Vector<double>>);
-
-static_assert(stratax::core::SameArrayKindType<
-	stratax::container::Matrix<int>,
-	stratax::container::Matrix<float>>);
-
-static_assert(stratax::core::SameArrayKindType<
-	stratax::container::Tensor<int>,
-	stratax::container::Tensor<double>>);
-
-static_assert(!stratax::core::SameArrayKindType<
-	stratax::container::Vector<int>,
-	stratax::container::Matrix<int>>);
-
-static_assert(stratax::core::SameArrayKindType<
-	const stratax::container::Tensor<int>&,
-	volatile stratax::container::Tensor<float>&&>);
-
-static_assert(!stratax::core::SameArrayKindType<
-	stratax::container::Matrix<int>,
-	stratax::container::Vector<int>>);
-
-static_assert(!stratax::core::SameArrayKindType<
-	stratax::container::Vector<int>,
-	stratax::container::Tensor<int>>);
-
-static_assert(!stratax::core::SameArrayKindType<
-	stratax::container::Matrix<int>,
-	stratax::container::Tensor<int>>);
-
-static_assert(!stratax::core::SameArrayKindType<int, int>);
-
 static_assert(std::same_as<
 	stratax::core::promote_array_t<
 		stratax::container::Vector<int>,

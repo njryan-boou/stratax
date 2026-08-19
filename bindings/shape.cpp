@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 
-#include "utils.hpp"
+#include "binding_utils/utils.hpp"
 
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/validation/Validation.hpp>

@@ -10,6 +10,7 @@
 #include <stratax/indexing/Indexing.hpp>
 #include <stratax/indexing/Normalize.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
+#include <stratax/core/dtypes/Concepts.hpp>
 
 namespace stratax::core {
 
@@ -35,7 +36,7 @@ namespace stratax::core {
  * @see Shape
  * @see Strides
  */
-template<typename T>
+template<DType T>
 class ArrayBase
 {
 public:

@@ -2,7 +2,7 @@
 
 #include <stratax/exceptions/Exceptions.hpp>
 
-#include "comparison.hpp"
+#include "binding_utils/comparison.hpp"
 
 namespace py = pybind11;
 
@@ -54,7 +54,7 @@ PYBIND11_MODULE(_core, m)
     bind_vector(m);
     bind_matrix(m);
     bind_tensor(m);
-    bind_comparison_functions(m);
+    binding_utils::bind_comparison_functions(m);
     bind_conversions(m);
     bind_creation(m);
     bind_reductions(m);

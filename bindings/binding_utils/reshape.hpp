@@ -9,6 +9,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace binding_utils {
+
 namespace py = pybind11;
 
 template<typename Array>
@@ -39,3 +41,5 @@ void bind_reshape(py::class_<Array>& cls)
             }
         );
 }
+
+} // namespace binding_utils

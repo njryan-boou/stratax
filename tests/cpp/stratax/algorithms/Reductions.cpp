@@ -12,10 +12,10 @@ using namespace stratax::container;
 using namespace stratax::core;
 
 template<>
-struct ReductionTraits<short>
+struct ReductionTraits<stratax::dtype::int16>
 {
-	using sum_type = long long;
-	using prod_type = unsigned long long;
+	using sum_type = stratax::dtype::int64;
+	using prod_type = stratax::dtype::uint64;
 };
 
 static_assert(std::same_as<reduction_sum_t<const int&>, int>);
@@ -39,7 +39,7 @@ TEST(GlobalReduction, SumAndProduct)
 
 TEST(GlobalReduction, UsesReductionTraitResultTypes)
 {
-	const Vector<short> source{1, 2, 3, 4};
+	const Vector<stratax::dtype::int16> source{1, 2, 3, 4};
 	const auto sum = reduction::sum(source);
 	const auto product = reduction::prod(source);
 	const auto axis_sum = reduction::sum(source, 0, true);
@@ -47,16 +47,16 @@ TEST(GlobalReduction, UsesReductionTraitResultTypes)
 
 	static_assert(std::same_as<
 		std::remove_cv_t<decltype(sum)>,
-		reduction_sum_t<short>>);
+		reduction_sum_t<stratax::dtype::int16>>);
 	static_assert(std::same_as<
 		std::remove_cv_t<decltype(product)>,
-		reduction_prod_t<short>>);
+		reduction_prod_t<stratax::dtype::int16>>);
 	static_assert(std::same_as<
 		std::remove_cv_t<decltype(axis_sum)>,
-		Tensor<reduction_sum_t<short>>>);
+		Tensor<reduction_sum_t<stratax::dtype::int16>>>);
 	static_assert(std::same_as<
 		std::remove_cv_t<decltype(axis_product)>,
-		Tensor<reduction_prod_t<short>>>);
+		Tensor<reduction_prod_t<stratax::dtype::int16>>>);
 	EXPECT_EQ(sum, 10);
 	EXPECT_EQ(product, 24);
 	EXPECT_EQ(axis_sum[0], 10);
@@ -83,12 +83,12 @@ TEST(AxisReduce, InvokesCustomCallbackForEachAxisSlice)
 		[&calls](const auto& slice)
 		{
 			++calls;
-			return static_cast<long long>(reduction::sum(slice));
+			return static_cast<stratax::dtype::int64>(reduction::sum(slice));
 		});
 
 	static_assert(std::same_as<
 		std::remove_cv_t<decltype(result)>,
-		Tensor<long long>>);
+		Tensor<stratax::dtype::int64>>);
 	EXPECT_EQ(result.shape(), Shape({2}));
 	EXPECT_EQ(calls, 2U);
 	EXPECT_EQ(result[0], 6);

@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "utils.hpp"
+#include "binding_utils/utils.hpp"
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
@@ -9,10 +9,10 @@
 #include <stratax/core/Slice.hpp>
 #include <stratax/indexing/Slicing.hpp>
 
-#include "arithmetic.hpp"
-#include "comparison.hpp"
-#include "properties.hpp"
-#include "reshape.hpp"
+#include "binding_utils/arithmetic.hpp"
+#include "binding_utils/comparison.hpp"
+#include "binding_utils/properties.hpp"
+#include "binding_utils/reshape.hpp"
 
 #include <cstddef>
 #include <limits>
@@ -160,7 +160,7 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
 
 void bind_matrix_properties(py::class_<Matrix>& cls)
 {
-    bind_properties(cls);
+    binding_utils::bind_properties(cls);
 
     cls
         .def_property_readonly("rows", &Matrix::rows)
@@ -286,7 +286,7 @@ void bind_matrix(py::module_& m)
     bind_matrix_constructors(cls);
     bind_matrix_properties(cls);
     bind_matrix_indexing(cls);
-    bind_arithmetic(cls);
-    bind_comparison(cls);
-    bind_reshape(cls);
+    binding_utils::bind_arithmetic(cls);
+    binding_utils::bind_comparison(cls);
+    binding_utils::bind_reshape(cls);
 }

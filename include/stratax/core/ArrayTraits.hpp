@@ -60,55 +60,6 @@ using rebind_array_t =
 	>::type;
 
 /**
- * @brief Determines whether two arrays belong to the same container family.
- *
- * The primary template evaluates to false. Specializations for matching
- * Vector, Matrix, and Tensor families evaluate to true regardless of their
- * value types.
- */
-template<typename A, typename B>
-struct SameArrayKind : std::false_type {};
-
-/**
- * @brief Identifies two Vector specializations as the same array kind.
- */
-template<typename T, typename U>
-struct SameArrayKind<
-	container::Vector<T>,
-	container::Vector<U>
-> : std::true_type {};
-
-/**
- * @brief Identifies two Matrix specializations as the same array kind.
- */
-template<typename T, typename U>
-struct SameArrayKind<
-	container::Matrix<T>,
-	container::Matrix<U>
-> : std::true_type {};
-
-/**
- * @brief Identifies two Tensor specializations as the same array kind.
- */
-template<typename T, typename U>
-struct SameArrayKind<
-	container::Tensor<T>,
-	container::Tensor<U>
-> : std::true_type {};
-
-/**
- * @brief Identifies array types belonging to the same container family.
- *
- * cv- and reference qualifiers are ignored.
- */
-template<typename A, typename B>
-concept SameArrayKindType =
-	SameArrayKind<
-		std::remove_cvref_t<A>,
-		std::remove_cvref_t<B>
-	>::value;
-
-/**
  * @brief Determines the result container family for two Stratax arrays.
  *
  * Matching container families are preserved. Mixed container families

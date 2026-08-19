@@ -1,8 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "properties.hpp"
-#include "utils.hpp"
+#include "binding_utils/properties.hpp"
+#include "binding_utils/utils.hpp"
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
@@ -25,7 +25,7 @@ using BoolTensor = stratax::container::Tensor<bool>;
 template<typename Array>
 void bind_boolean_properties(py::class_<Array>& cls)
 {
-    bind_properties(cls);
+    binding_utils::bind_properties(cls);
 
     cls
         .def("__len__", [](const Array& arr) { return arr.size(); })

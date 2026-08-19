@@ -174,4 +174,4 @@ py::list tensor_to_list(const Tensor& tensor)
     return tensor_to_list_recursive(tensor, 0, 0).template cast<py::list>();
 }
 
-}
+} // namespace binding_utils

@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "utils.hpp"
+#include "binding_utils/utils.hpp"
 
 #include <stratax/core/Shape.hpp>
 #include <stratax/containers/Tensor.hpp>
@@ -10,10 +10,10 @@
 #include <stratax/indexing/Slicing.hpp>
 #include <stratax/ops/Arithmetic.hpp>
 
-#include "arithmetic.hpp"
-#include "comparison.hpp"
-#include "properties.hpp"
-#include "reshape.hpp"
+#include "binding_utils/arithmetic.hpp"
+#include "binding_utils/comparison.hpp"
+#include "binding_utils/properties.hpp"
+#include "binding_utils/reshape.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -137,7 +137,7 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
 
 void bind_tensor_properties(py::class_<Tensor>& cls)
 {
-    bind_properties(cls);
+    binding_utils::bind_properties(cls);
 
     cls
         .def("tolist", [](const Tensor& tensor) {
@@ -248,7 +248,7 @@ void bind_tensor(py::module_& m)
     bind_tensor_constructors(cls);
     bind_tensor_properties(cls);
     bind_tensor_indexing(cls);
-    bind_arithmetic(cls);
-    bind_comparison(cls);
-    bind_reshape(cls);
+    binding_utils::bind_arithmetic(cls);
+    binding_utils::bind_comparison(cls);
+    binding_utils::bind_reshape(cls);
 }

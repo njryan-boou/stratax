@@ -102,10 +102,11 @@ public:
 				return 0;
 			}
 
-			if (prod > std::numeric_limits<std::size_t>::max() / dim) {
-				throw Exceptions::DimensionError(
-				"Shape element count exceeds the maximum representable size.");
-			}
+			if (prod > std::numeric_limits<size_type>::max() / dim)
+{
+	throw Exceptions::DimensionError(
+		"Shape element count exceeds the maximum representable size.");
+}
 
 			prod *= dim;
 		}

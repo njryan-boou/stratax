@@ -1,11 +1,11 @@
 ﻿#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "arithmetic.hpp"
-#include "comparison.hpp"
-#include "properties.hpp"
-#include "reshape.hpp"
-#include "utils.hpp"
+#include "binding_utils/arithmetic.hpp"
+#include "binding_utils/comparison.hpp"
+#include "binding_utils/properties.hpp"
+#include "binding_utils/reshape.hpp"
+#include "binding_utils/utils.hpp"
 
 #include <stratax/containers/Vector.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
@@ -111,7 +111,7 @@ void bind_vector_constructors(py::class_<Vector>& cls)
 
 void bind_vector_properties(py::class_<Vector>& cls)
 {
-    bind_properties(cls);
+    binding_utils::bind_properties(cls);
 
     cls
         .def("tolist", [](const Vector& vector) {
@@ -168,7 +168,7 @@ void bind_vector(py::module_& m)
     bind_vector_constructors(cls);
     bind_vector_properties(cls);
     bind_vector_indexing(cls);
-    bind_arithmetic(cls);
-    bind_comparison(cls);
-    bind_reshape(cls);
+    binding_utils::bind_arithmetic(cls);
+    binding_utils::bind_comparison(cls);
+    binding_utils::bind_reshape(cls);
 }

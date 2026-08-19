@@ -4,6 +4,8 @@
 
 #include <stratax/ops/Arithmetic.hpp>
 
+namespace binding_utils {
+
 namespace py = pybind11;
 
 #define STRATAX_BIND_BINARY_ARITHMETIC(NAME, REVERSE_NAME, OPERATOR) \
@@ -35,3 +37,5 @@ void bind_arithmetic(py::class_<Array>& cls)
 
 #undef STRATAX_BIND_INPLACE_ARITHMETIC
 #undef STRATAX_BIND_BINARY_ARITHMETIC
+
+} // namespace binding_utils

@@ -51,4 +51,9 @@ namespace Exceptions {
 	public:
 		using StrataxError::StrataxError;
 	};
+	class OverflowError : public StrataxError
+	{
+	public:
+		using StrataxError::StrataxError;	
+	};
 }

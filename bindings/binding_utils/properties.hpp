@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace binding_utils {
+
 namespace py = pybind11;
 
 template<typename Array>
@@ -46,3 +48,5 @@ void bind_properties(py::class_<Array>& cls)
             arr.fill(value);
         }, py::arg("value"));
 }
+
+} // namespace binding_utils

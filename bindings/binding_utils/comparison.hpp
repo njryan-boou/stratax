@@ -4,6 +4,8 @@
 
 #include <stratax/ops/Comparison.hpp>
 
+namespace binding_utils {
+
 namespace py = pybind11;
 
 #define STRATAX_BIND_COMPARISON(NAME, PYTHON_NAME, OPERATOR) \
@@ -61,3 +63,5 @@ inline void bind_comparison_functions(py::module_& m)
 
 #undef STRATAX_BIND_COMPARISON_FUNCTION
 #undef STRATAX_BIND_ARRAY_COMPARISON
+
+} // namespace binding_utils
