@@ -103,10 +103,10 @@ public:
 			}
 
 			if (prod > std::numeric_limits<size_type>::max() / dim)
-{
-	throw Exceptions::DimensionError(
-		"Shape element count exceeds the maximum representable size.");
-}
+			{
+				throw Exceptions::DimensionError(
+					"Shape element count exceeds the maximum representable size.");
+			}
 
 			prod *= dim;
 		}
@@ -119,7 +119,47 @@ public:
 	 * @return Number of stored dimension values.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] size_type rank() const noexcept {return dims_.size();}
+	[[nodiscard]] size_type rank() const noexcept
+	{
+		return dims_.size();
+	}
+
+	/**
+	 * @brief Computes canonical row-major strides for this shape.
+	 *
+	 * The returned shape has the same rank as this shape. Its final stride is
+	 * one, and each preceding stride is the product of the dimensions to its
+	 * right. A rank-zero shape produces a rank-zero stride shape.
+	 *
+	 * @return Shape containing the row-major stride for each dimension.
+	 * @throws Exceptions::DimensionError If a stride exceeds `std::size_t`.
+	 * @throws std::bad_alloc If storage for the result cannot be allocated.
+	 * @complexity O(rank()).
+	 */
+	[[nodiscard]] Shape strides() const
+	{
+		if (empty())
+		{
+			return {};
+		}
+
+		std::vector<value_type> stride_values(rank());
+		stride_values[rank() - 1] = 1;
+
+		for (size_type i = rank() - 1; i > 0; --i)
+		{
+			if (dims_[i] != 0 &&
+				stride_values[i] > std::numeric_limits<value_type>::max() / dims_[i])
+			{
+				throw Exceptions::DimensionError(
+					"Stride value exceeds the maximum representable size.");
+			}
+
+			stride_values[i - 1] = stride_values[i] * dims_[i];
+		}
+
+		return Shape(stride_values);
+	}
 
 	/**
 	 * @brief Returns a dimension without bounds checking.
@@ -128,7 +168,10 @@ public:
 	 * @pre `index < rank()`; otherwise behavior is undefined.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] const_reference operator[](size_type index) const noexcept {return dims_[index];}
+	[[nodiscard]] const_reference operator[](size_type index) const noexcept
+	{
+		return dims_[index];
+	}
 
 	/**
 	 * @brief Returns a dimension using checked, Python-style indexing.
@@ -141,14 +184,20 @@ public:
 	 * @throws Exceptions::IndexError If @p index is outside the valid range.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] const_reference at(difference_type index) const {return dims_[stratax::indexing::normalize_index(index, rank())];}
+	[[nodiscard]] const_reference at(difference_type index) const
+	{
+		return dims_[stratax::indexing::normalize_index(index, rank())];
+	}
 
 	/**
 	 * @brief Reports whether the shape has rank zero.
 	 * @return `true` if no dimensions are stored; otherwise `false`.
 	 * @complexity O(1).
 	 */
-	[[nodiscard]] bool empty() const noexcept {return dims_.empty();}
+	[[nodiscard]] bool empty() const noexcept
+	{
+		return dims_.empty();
+	}
 
 	/**
 	 * @brief Compares two shapes dimension by dimension.
@@ -173,28 +222,55 @@ public:
 	}
 
 	/** @brief Returns a const iterator to the first dimension. @complexity O(1). */
-	const_iterator begin() const noexcept {return dims_.begin();}
+	const_iterator begin() const noexcept
+	{
+		return dims_.begin();
+	}
 	/** @brief Returns a const iterator past the final dimension. @complexity O(1). */
-	const_iterator end() const noexcept {return dims_.end();}
+	const_iterator end() const noexcept
+	{
+		return dims_.end();
+	}
 	/** @brief Returns a const iterator to the first dimension. @complexity O(1). */
-	const_iterator cbegin() const noexcept {return dims_.cbegin();}
+	const_iterator cbegin() const noexcept
+	{
+		return dims_.cbegin();
+	}
 	/** @brief Returns a const iterator past the final dimension. @complexity O(1). */
-	const_iterator cend() const noexcept {return dims_.cend();}
+	const_iterator cend() const noexcept
+	{
+		return dims_.cend();
+	}
 	/** @brief Returns a const reverse iterator to the final dimension. @complexity O(1). */
-	const_reverse_iterator rbegin() const noexcept {return dims_.rbegin();}
+	const_reverse_iterator rbegin() const noexcept
+	{
+		return dims_.rbegin();
+	}
 	/** @brief Returns a const reverse iterator to the final dimension. @complexity O(1). */
-	const_reverse_iterator crbegin() const noexcept {return dims_.crbegin();}
+	const_reverse_iterator crbegin() const noexcept
+	{
+		return dims_.crbegin();
+	}
 	/** @brief Returns the past-the-end reverse iterator. @complexity O(1). */
-	const_reverse_iterator rend() const noexcept {return dims_.rend();}
+	const_reverse_iterator rend() const noexcept
+	{
+		return dims_.rend();
+	}
 	/** @brief Returns the past-the-end const reverse iterator. @complexity O(1). */
-	const_reverse_iterator crend() const noexcept {return dims_.crend();}
+	const_reverse_iterator crend() const noexcept
+	{
+		return dims_.crend();
+	}
 
 	/**
 	 * @brief Exchanges dimension storage with another shape.
 	 * @param other Shape whose dimensions are exchanged with this shape.
 	 * @complexity O(1).
 	 */
-	void swap(Shape& other) noexcept {dims_.swap(other.dims_);}
+	void swap(Shape& other) noexcept
+	{
+		dims_.swap(other.dims_);
+	}
 
 };
 

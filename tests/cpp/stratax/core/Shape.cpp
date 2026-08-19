@@ -125,6 +125,25 @@ TEST(ShapeMeta, Rank)
     static_assert(noexcept(shape.rank()));
 }
 
+TEST(ShapeMeta, Strides)
+{
+    EXPECT_EQ(Shape({2, 3, 4}).strides(), Shape({12, 4, 1}));
+    EXPECT_EQ(Shape({5}).strides(), Shape({1}));
+    EXPECT_EQ(Shape({}).strides(), Shape({}));
+}
+
+TEST(ShapeMeta, StridesPreserveZeroSizedLayout)
+{
+    EXPECT_EQ(Shape({2, 0, 4}).strides(), Shape({0, 4, 1}));
+}
+
+TEST(ShapeMeta, StridesRejectOverflow)
+{
+    const Shape shape{1, std::numeric_limits<std::size_t>::max(), 2};
+
+    EXPECT_THROW(static_cast<void>(shape.strides()), Exceptions::DimensionError);
+}
+
 TEST(ShapeMeta, Empty)
 {
     const Shape empty_shape;
