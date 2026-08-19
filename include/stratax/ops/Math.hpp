@@ -110,6 +110,17 @@ auto sqrt(const A& arr)
 
 template<Array A>
 requires Numeric<typename A::value_type>
+auto cbrt(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::cbrt(value);
+        });
+}
+
+template<Array A>
+requires Numeric<typename A::value_type>
 auto exp(const A& arr)
 {
     return math_detail::standard_math_op(
@@ -121,12 +132,45 @@ auto exp(const A& arr)
 
 template<Array A>
 requires Numeric<typename A::value_type>
+auto exp2(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::exp2(value);
+        });
+}
+
+template<Array A>
+requires Numeric<typename A::value_type>
 auto log(const A& arr)
 {
     return math_detail::standard_math_op(
         arr, [](const auto& value)
         {
             return std::log(value);
+        });
+}
+
+template<Array A>
+requires Numeric<typename A::value_type>
+auto log2(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::log2(value);
+        });
+}
+
+template<Array A>
+requires Numeric<typename A::value_type>
+auto log10(const A& arr)
+{
+    return math_detail::standard_math_op(
+        arr, [](const auto& value)
+        {
+            return std::log10(value);
         });
 }
 

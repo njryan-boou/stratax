@@ -14,6 +14,7 @@
 #include <stratax/core/dtypes/Promotion.hpp>
 #include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/Slice.hpp>
+#include <stratax/core/ArrayView.hpp>
 
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
