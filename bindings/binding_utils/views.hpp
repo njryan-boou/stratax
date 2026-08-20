@@ -4,6 +4,8 @@
 
 #include <stratax/core/ArrayView.hpp>
 
+namespace py = pybind11;
+
 namespace binding_utils {
 
 struct PyArrayView

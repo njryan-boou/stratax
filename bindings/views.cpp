@@ -20,120 +20,77 @@ using ArrayView = stratax::core::ArrayView<double>;
 
 void bind_array_view(py::module_& m)
 {
-    py::class_<ArrayView>(m, "ArrayView")
+    py::class_<PyArrayView>(m, "ArrayView")
         .def("__len__",
-            [](const ArrayView& view)
+            [](const PyArrayView& self)
             {
-                return view.size();
+                return self.view.size();
             })
 
         .def_property_readonly(
             "size",
-            &ArrayView::size)
+            [](const PyArrayView& self)
+            {
+                return self.view.size();
+            })
 
         .def_property_readonly(
             "ndim",
-            &ArrayView::ndim)
+            [](const PyArrayView& self)
+            {
+                return self.view.ndim();
+            })
 
         .def("__getitem__",
-    [](const ArrayView& view, py::object index) -> double
-    {
-        if (py::isinstance<py::tuple>(index))
-        {
-            const py::tuple indices =
-                index.cast<py::tuple>();
-
-            if (indices.size() != view.rank())
+            [](const PyArrayView& self, py::object index)
             {
-                throw Exceptions::IndexError(
-                    "ArrayView index rank must match view rank.");
-            }
+                if (py::isinstance<py::tuple>(index))
+                {
+                    const py::tuple tuple =
+                        index.cast<py::tuple>();
 
-            std::vector<std::size_t> normalized;
-            normalized.reserve(view.rank());
+                    std::vector<std::ptrdiff_t> indices;
+                    indices.reserve(tuple.size());
 
-            for (std::size_t dim = 0; dim < view.rank(); ++dim)
-            {
-                const auto raw =
-                    binding_utils::cast_index(
-                        indices[dim],
-                        "ArrayView indices must be integers.",
-                        "ArrayView index is too large.");
+                    for (const auto& item : tuple)
+                    {
+                        indices.push_back(
+                            py::cast<std::ptrdiff_t>(item));
+                    }
 
-                normalized.push_back(
-                    stratax::indexing::normalize_index(
-                        raw,
-                        view.shape()[dim]));
-            }
+                    return self.view.at(indices);
+                }
 
-            const auto offset =
-                stratax::indexing::offset(
-                    view.strides(),
-                    normalized);
-
-            return view.data()[offset];
-        }
-
-        const auto raw =
-            binding_utils::cast_index(
-                index,
-                "ArrayView index must be an integer.",
-                "ArrayView index is too large.");
-
-        return view.at(raw); // if you add at()
-    })
+                return self.view.at(
+                    py::cast<std::ptrdiff_t>(index));
+            })
 
         .def("__setitem__",
-    [](ArrayView& view,
-       py::object index,
-       double value)
-    {
-        if (py::isinstance<py::tuple>(index))
-        {
-            const py::tuple indices =
-                index.cast<py::tuple>();
-
-            if (indices.size() != view.rank())
+            [](PyArrayView& self,
+               py::object index,
+               double value)
             {
-                throw Exceptions::IndexError(
-                    "ArrayView index rank must match view rank.");
-            }
+                if (py::isinstance<py::tuple>(index))
+                {
+                    const py::tuple tuple =
+                        index.cast<py::tuple>();
 
-            std::vector<std::size_t> normalized;
-            normalized.reserve(view.rank());
+                    std::vector<std::ptrdiff_t> indices;
+                    indices.reserve(tuple.size());
 
-            for (std::size_t dim = 0; dim < view.rank(); ++dim)
-            {
-                const auto raw =
-                    binding_utils::cast_index(
-                        indices[dim],
-                        "ArrayView indices must be integers.",
-                        "ArrayView index is too large.");
+                    for (const auto& item : tuple)
+                    {
+                        indices.push_back(
+                            py::cast<std::ptrdiff_t>(item));
+                    }
 
-                normalized.push_back(
-                    stratax::indexing::normalize_index(
-                        raw,
-                        view.shape()[dim]));
-            }
+                    self.view.at(indices) = value;
+                    return;
+                }
 
-            const auto offset =
-                stratax::indexing::offset(
-                    view.strides(),
-                    normalized);
-
-            view.data()[offset] = value;
-            return;
-        }
-
-        const auto raw =
-            binding_utils::cast_index(
-                index,
-                "ArrayView index must be an integer.",
-                "ArrayView index is too large.");
-
-        // Flat indexing path.
-        view[static_cast<std::size_t>(raw)] = value;
-    });
+                self.view.at(
+                    py::cast<std::ptrdiff_t>(index)) = value;
+            });
 }
 
 } // namespace binding_utils

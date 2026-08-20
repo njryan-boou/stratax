@@ -6,6 +6,7 @@
 #include "binding_utils/properties.hpp"
 #include "binding_utils/reshape.hpp"
 #include "binding_utils/utils.hpp"
+#include "binding_utils/views.hpp"
 
 #include <stratax/containers/Vector.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
@@ -128,23 +129,37 @@ void bind_vector_indexing(py::class_<Vector>& cls)
 {
     cls
         .def("__len__", [](const Vector& vector) { return vector.size(); })
-        .def("__getitem__", [](const Vector& vector, py::object index) -> py::object {
-            if (py::isinstance<py::slice>(index))
-            {
-                return py::cast(
-                    stratax::indexing::slice(
-                    vector,
-                    binding_utils::cast_slice(
-                        index.cast<py::slice>(),
-                        vector.size())));
-}
+        .def(
+    "__getitem__",
+    [](py::object self, py::object index) -> py::object
+    {
+        Vector& vec = self.cast<Vector&>();
 
-            return py::cast(vector.at(binding_utils::cast_index(
-                index,
-                "Vector index must be an integer.",
-                "Vector index is too large to fit in a signed integer."
-            )));
-        })
+        if (py::isinstance<py::slice>(index))
+        {
+            const auto slice =
+                binding_utils::cast_slice(
+                    index.cast<py::slice>(),
+                    vec.size());
+
+            auto view =
+                stratax::indexing::slice(
+                    vec,
+                    slice);
+
+            return py::cast(
+                binding_utils::PyArrayView(
+                    std::move(view),
+                    self));
+        }
+
+        return py::cast(
+            vec.at(
+                binding_utils::cast_index(
+                    index,
+                    "Vector index must be an integer.",
+                    "Vector index is too large to fit in a signed integer.")));
+    })
         .def("__setitem__", [](Vector& vector, py::object index, py::object value) {
     vector.at(binding_utils::cast_index(
         index,

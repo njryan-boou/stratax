@@ -2,6 +2,7 @@
 #include <pybind11/stl.h>
 
 #include "binding_utils/utils.hpp"
+#include "binding_utils/views.hpp"
 
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/core/Shape.hpp>
@@ -165,6 +166,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
     {
         Tensor& tensor = self.cast<Tensor&>();
 
+        // Single slice: only currently supported for rank-1 Tensor.
         if (py::isinstance<py::slice>(index))
         {
             if (tensor.rank() != 1)
@@ -183,11 +185,12 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 stratax::indexing::slice(tensor, slices);
 
             return py::cast(
-                std::move(view),
-                py::return_value_policy::move,
-                self);
+                binding_utils::PyArrayView(
+                    std::move(view),
+                    self));
         }
 
+        // Tuple indexing: a[1, 2] or a[1:3, 2:4]
         if (py::isinstance<py::tuple>(index))
         {
             const py::tuple tuple_index =
@@ -213,6 +216,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 }
             }
 
+            // All integers -> scalar
             if (!any_slice)
             {
                 return py::cast(
@@ -220,6 +224,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                         tensor_indices(tuple_index)));
             }
 
+            // At least one slice -> view
             std::vector<stratax::core::Slice> ranges;
             ranges.reserve(tuple_index.size());
 
@@ -253,11 +258,12 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                     ranges);
 
             return py::cast(
-                std::move(view),
-                py::return_value_policy::move,
-                self);
+                binding_utils::PyArrayView(
+                    std::move(view),
+                    self));
         }
 
+        // Single integer -> flat scalar indexing.
         return py::cast(
             tensor.at(
                 binding_utils::cast_index(
@@ -265,18 +271,27 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                     "Tensor index must be an integer.",
                     "Tensor index is too large to fit in a signed integer.")));
     })
-        .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
-            if (py::isinstance<py::tuple>(index))
-            {
-                tensor.at(tensor_indices(index.cast<py::tuple>())) = value;
-                return;
-            }
+        .def(
+    "__setitem__",
+    [](Tensor& tensor,
+       py::object index,
+       double value)
+    {
+        if (py::isinstance<py::tuple>(index))
+        {
+            tensor.at(
+                tensor_indices(
+                    index.cast<py::tuple>())) = value;
 
-            tensor.at(binding_utils::cast_index(
+            return;
+        }
+
+        tensor.at(
+            binding_utils::cast_index(
                 index,
                 "Tensor index must be an integer.",
                 "Tensor index is too large to fit in a signed integer.")) = value;
-        });
+    });
 }
 
 void bind_tensor(py::module_& m)
