@@ -21,6 +21,7 @@
 #include <vector>
 #include <type_traits>
 #include <utility>
+#include <concepts>
 
 namespace stratax::indexing {
 
@@ -38,6 +39,12 @@ struct ResolvedSlice
 	difference_type step;
 	size_type size;
 };
+
+template<typename Source>
+using view_element_t = std::conditional_t<
+	std::is_const_v<std::remove_reference_t<Source>>,
+	const typename std::remove_cvref_t<Source>::value_type,
+	typename std::remove_cvref_t<Source>::value_type>;
 
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
@@ -103,10 +110,11 @@ inline ResolvedSlice normalize_slice(
 
 } // namespace detail
 
-template<typename T>
-stratax::core::ArrayView<T>
-slice(
-    stratax::container::Vector<T>& vec,
+namespace detail {
+
+template<typename Vector>
+auto make_vector_slice_view(
+    Vector& vec,
     const stratax::core::Slice& slice)
 {
     const auto resolved =
@@ -132,183 +140,298 @@ slice(
         static_cast<size_type>(resolved.step)
     };
 
-    return stratax::core::ArrayView<T>(
+    return stratax::core::ArrayView<view_element_t<Vector>>(
         vec.data() + offset,
         shape,
         strides);
 }
 
+template<typename Matrix>
+auto make_matrix_slice_view(
+    Matrix& mat,
+    const stratax::core::Slice& rows,
+    const stratax::core::Slice& cols)
+{
+    const auto resolved_rows =
+        detail::normalize_slice(
+            rows,
+            mat.rows(),
+            "Matrix row slice out of bounds.");
+
+    const auto resolved_cols =
+        detail::normalize_slice(
+            cols,
+            mat.cols(),
+            "Matrix column slice out of bounds.");
+
+    if (resolved_rows.step < 0 || resolved_cols.step < 0)
+    {
+        throw Exceptions::IndexError(
+            "Negative-step views are not supported yet.");
+    }
+
+    const size_type offset =
+        static_cast<size_type>(resolved_rows.start) * mat.strides()[0]
+        + static_cast<size_type>(resolved_cols.start) * mat.strides()[1];
+
+    const stratax::core::Shape shape{
+        resolved_rows.size,
+        resolved_cols.size
+    };
+
+    const stratax::core::Shape strides{
+        mat.strides()[0] * static_cast<size_type>(resolved_rows.step),
+        mat.strides()[1] * static_cast<size_type>(resolved_cols.step)
+    };
+
+    return stratax::core::ArrayView<view_element_t<Matrix>>(
+        mat.data() + offset,
+        shape,
+        strides);
+}
+
+} // namespace detail
+
 template<typename T>
-stratax::container::Matrix<T>
-slice(
+auto slice(
+	stratax::container::Vector<T>& vec,
+	const stratax::core::Slice& slice)
+{
+	return detail::make_vector_slice_view(vec, slice);
+}
+
+template<typename T>
+auto slice(
+	const stratax::container::Vector<T>& vec,
+	const stratax::core::Slice& slice)
+{
+	return detail::make_vector_slice_view(vec, slice);
+}
+
+template<typename T>
+auto slice(
+	stratax::container::Matrix<T>& mat,
+	const stratax::core::Slice& rows,
+	const stratax::core::Slice& cols)
+{
+	return detail::make_matrix_slice_view(mat, rows, cols);
+}
+
+template<typename T>
+auto slice(
 	const stratax::container::Matrix<T>& mat,
 	const stratax::core::Slice& rows,
-	const stratax::core::Slice& cols
-)
+	const stratax::core::Slice& cols)
 {
-	const auto resolved_rows = detail::normalize_slice(
-		rows,
-		mat.rows(),
-		"Matrix row slice out of bounds.");
-	const auto resolved_cols = detail::normalize_slice(
-		cols,
-		mat.cols(),
-		"Matrix column slice out of bounds.");
+	return detail::make_matrix_slice_view(mat, rows, cols);
+}
 
-	stratax::container::Matrix<T> result(resolved_rows.size, resolved_cols.size);
+namespace detail {
 
-	difference_type source_row = resolved_rows.start;
-	for (size_type out_row = 0; out_row < result.rows(); ++out_row)
-	{
-		difference_type source_col = resolved_cols.start;
-		for (size_type out_col = 0; out_col < result.cols(); ++out_col)
-		{
-			result(out_row, out_col) = mat(
-				static_cast<size_type>(source_row),
-				static_cast<size_type>(source_col));
-			source_col += resolved_cols.step;
-		}
-		source_row += resolved_rows.step;
-	}
+template<typename Tensor, typename... Slices>
+requires (
+    std::same_as<
+        std::remove_cvref_t<Slices>,
+        stratax::core::Slice
+    > && ...
+)
+auto make_tensor_slice_view(
+    Tensor& tensor,
+    Slices... slices)
+{
+    std::array<stratax::core::Slice, sizeof...(Slices)> ranges{
+        slices...
+    };
 
-	return result;
+    if (ranges.size() != tensor.rank())
+    {
+        throw Exceptions::IndexError(
+            "Tensor slice rank must match tensor rank.");
+    }
+
+    std::array<
+        stratax::indexing::detail::ResolvedSlice,
+        sizeof...(Slices)
+    > resolved{};
+
+    std::array<size_type, sizeof...(Slices)> out_dims{};
+
+    for (size_type dim = 0; dim < ranges.size(); ++dim)
+    {
+        resolved[dim] = detail::normalize_slice(
+            ranges[dim],
+            tensor.shape()[dim],
+            "Tensor slice out of bounds.");
+
+        out_dims[dim] = resolved[dim].size;
+    }
+
+    const auto view_shape = stratax::core::Shape(
+        std::vector<size_type>(
+            out_dims.begin(),
+            out_dims.end()));
+
+    const auto& tensor_strides = tensor.strides();
+
+    size_type offset = 0;
+
+    std::vector<size_type> view_stride_values;
+    view_stride_values.reserve(resolved.size());
+
+    for (size_type dim = 0; dim < resolved.size(); ++dim)
+    {
+        if (resolved[dim].step < 0)
+        {
+            throw Exceptions::IndexError(
+                "Negative-step views are not supported yet.");
+        }
+
+        const auto start =
+            static_cast<size_type>(resolved[dim].start);
+
+        const auto offset_term =
+            stratax::core::validation::checked_multiply(
+                start,
+                tensor_strides[dim],
+                "Tensor view offset overflow.");
+
+        offset =
+            stratax::core::validation::checked_add(
+                offset,
+                offset_term,
+                "Tensor view offset overflow.");
+
+        view_stride_values.push_back(
+            stratax::core::validation::checked_multiply(
+                tensor_strides[dim],
+                static_cast<size_type>(resolved[dim].step),
+                "Tensor view stride overflow."));
+    }
+
+    const stratax::core::Shape view_strides(
+        view_stride_values);
+
+    return stratax::core::ArrayView<view_element_t<Tensor>>(
+        tensor.data() + offset,
+        view_shape,
+        view_strides);
+}
+
+template<typename Tensor>
+auto make_tensor_slice_view(
+    Tensor& tensor,
+    const std::vector<stratax::core::Slice>& slices)
+{
+    stratax::core::validation::require_rank(
+        slices.size(),
+        tensor.rank(),
+        "Slice rank must match tensor rank.");
+
+    std::vector<detail::ResolvedSlice> resolved(
+        slices.size());
+
+    std::vector<size_type> out_dims(
+        slices.size());
+
+    for (size_type dim = 0; dim < slices.size(); ++dim)
+    {
+        resolved[dim] = detail::normalize_slice(
+            slices[dim],
+            tensor.shape()[dim],
+            "Tensor slice out of bounds.");
+
+        out_dims[dim] = resolved[dim].size;
+    }
+
+    const auto view_shape =
+        stratax::core::Shape(out_dims);
+
+    const auto& tensor_strides = tensor.strides();
+
+    size_type offset = 0;
+
+    std::vector<size_type> view_stride_values;
+    view_stride_values.reserve(resolved.size());
+
+    for (size_type dim = 0; dim < resolved.size(); ++dim)
+    {
+        if (resolved[dim].step < 0)
+        {
+            throw Exceptions::IndexError(
+                "Negative-step views are not supported yet.");
+        }
+
+        const auto start =
+            static_cast<size_type>(resolved[dim].start);
+
+        const auto offset_term =
+            stratax::core::validation::checked_multiply(
+                start,
+                tensor_strides[dim],
+                "Tensor view offset overflow.");
+
+        offset =
+            stratax::core::validation::checked_add(
+                offset,
+                offset_term,
+                "Tensor view offset overflow.");
+
+        view_stride_values.push_back(
+            stratax::core::validation::checked_multiply(
+                tensor_strides[dim],
+                static_cast<size_type>(resolved[dim].step),
+                "Tensor view stride overflow."));
+    }
+
+    const stratax::core::Shape view_strides(
+        view_stride_values);
+
+    return stratax::core::ArrayView<view_element_t<Tensor>>(
+        tensor.data() + offset,
+        view_shape,
+        view_strides);
+}
+
+} // namespace detail
+
+template<typename T, typename... Slices>
+requires (
+	std::same_as<
+		std::remove_cvref_t<Slices>,
+		stratax::core::Slice
+	> && ...
+)
+auto slice(stratax::container::Tensor<T>& tensor, Slices... slices)
+{
+	return detail::make_tensor_slice_view(tensor, slices...);
 }
 
 template<typename T, typename... Slices>
-stratax::container::Tensor<T>
-slice(
-	const stratax::container::Tensor<T>& tensor,
-	Slices... slices
+requires (
+	std::same_as<
+		std::remove_cvref_t<Slices>,
+		stratax::core::Slice
+	> && ...
 )
+auto slice(const stratax::container::Tensor<T>& tensor, Slices... slices)
 {
-	static_assert(
-		(std::is_same_v<Slices, stratax::core::Slice> && ...),
-		"All arguments must be Slice."
-	);
-
-	std::array<stratax::core::Slice, sizeof...(Slices)> ranges{slices...};
-
-	if (ranges.size() != tensor.rank())
-	{
-		throw Exceptions::IndexError(
-			"Tensor slice rank must match tensor rank.");
-	}
-
-	std::array<stratax::indexing::detail::ResolvedSlice, sizeof...(Slices)> resolved{};
-	std::array<size_type, sizeof...(Slices)> out_dims{};
-	for (size_type dim = 0; dim < ranges.size(); ++dim)
-	{
-		resolved[dim] = detail::normalize_slice(
-			ranges[dim],
-			tensor.shape()[dim],
-			"Tensor slice out of bounds.");
-		out_dims[dim] = resolved[dim].size;
-	}
-
-	const auto result_shape = stratax::core::Shape(
-		std::vector<size_type>(out_dims.begin(), out_dims.end()));
-	stratax::container::Tensor<T> result(result_shape);
-	const stratax::core::Shape result_strides = result_shape.strides();
-	const auto& tensor_strides = tensor.strides();
-
-	if (result.empty())
-	{
-		return result;
-	}
-
-	for (size_type flat = 0; flat < result.size(); ++flat)
-	{
-		size_type remainder = flat;
-		size_type source_offset = 0;
-
-		for (size_type dim = 0; dim < resolved.size(); ++dim)
-		{
-			const size_type index = remainder / result_strides[dim];
-			remainder %= result_strides[dim];
-
-			const difference_type source_index =
-				resolved[dim].start + static_cast<difference_type>(index) * resolved[dim].step;
-			const size_type term =
-				stratax::core::validation::checked_multiply(
-					static_cast<size_type>(source_index),
-					tensor_strides[dim],
-					"Tensor slice offset overflow.");
-			source_offset =
-				stratax::core::validation::checked_add(
-					source_offset,
-					term,
-					"Tensor slice offset overflow.");
-		}
-
-		result[flat] = tensor[source_offset];
-	}
-
-	return result;
+	return detail::make_tensor_slice_view(tensor, slices...);
 }
 
 template<typename T>
-stratax::container::Tensor<T>
-slice(
-	const stratax::container::Tensor<T>& tensor,
-	const std::vector<stratax::core::Slice>& slices
-)
+auto slice(
+	stratax::container::Tensor<T>& tensor,
+	const std::vector<stratax::core::Slice>& slices)
 {
-	stratax::core::validation::require_rank(
-		slices.size(),
-		tensor.rank(),
-		"Slice rank must match tensor rank.");
+	return detail::make_tensor_slice_view(tensor, slices);
+}
 
-	std::vector<detail::ResolvedSlice> resolved(slices.size());
-	std::vector<size_type> out_dims(slices.size());
-
-	for (size_type dim = 0; dim < slices.size(); ++dim)
-	{
-		resolved[dim] = detail::normalize_slice(
-			slices[dim],
-			tensor.shape()[dim],
-			"Tensor slice out of bounds.");
-		out_dims[dim] = resolved[dim].size;
-	}
-
-	const auto result_shape = stratax::core::Shape(out_dims);
-	stratax::container::Tensor<T> result(result_shape);
-
-	if (result.empty())
-	{
-		return result;
-	}
-
-	const stratax::core::Shape result_strides = result_shape.strides();
-	const auto& tensor_strides = tensor.strides();
-
-	for (size_type flat = 0; flat < result.size(); ++flat)
-	{
-		size_type remainder = flat;
-		size_type source_offset = 0;
-
-		for (size_type dim = 0; dim < resolved.size(); ++dim)
-		{
-			const size_type index = remainder / result_strides[dim];
-			remainder %= result_strides[dim];
-
-			const difference_type source_index =
-				resolved[dim].start + static_cast<difference_type>(index) * resolved[dim].step;
-			const size_type term =
-				stratax::core::validation::checked_multiply(
-					static_cast<size_type>(source_index),
-					tensor_strides[dim],
-					"Tensor slice offset overflow.");
-			source_offset =
-				stratax::core::validation::checked_add(
-					source_offset,
-					term,
-					"Tensor slice offset overflow.");
-		}
-
-		result[flat] = tensor[source_offset];
-	}
-
-	return result;
+template<typename T>
+auto slice(
+	const stratax::container::Tensor<T>& tensor,
+	const std::vector<stratax::core::Slice>& slices)
+{
+	return detail::make_tensor_slice_view(tensor, slices);
 }
 
 } // namespace stratax::indexing

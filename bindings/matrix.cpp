@@ -4,22 +4,24 @@
 #include "binding_utils/utils.hpp"
 
 #include <stratax/containers/Matrix.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/io/Print.hpp>
+#include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
+#include <stratax/core/validation/Validation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
+#include <stratax/io/Print.hpp>
 
 #include "binding_utils/arithmetic.hpp"
 #include "binding_utils/comparison.hpp"
 #include "binding_utils/properties.hpp"
 #include "binding_utils/reshape.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <limits>
 #include <sstream>
 #include <utility>
 #include <vector>
-#include <algorithm>
 
 // Matrix constructors
 

@@ -3,11 +3,13 @@
 
 #include "binding_utils/utils.hpp"
 
-#include <stratax/core/Shape.hpp>
 #include <stratax/containers/Tensor.hpp>
+#include <stratax/core/Shape.hpp>
+#include <stratax/core/Slice.hpp>
+#include <stratax/core/validation/Validation.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
-#include <stratax/io/Print.hpp>
 #include <stratax/indexing/Slicing.hpp>
+#include <stratax/io/Print.hpp>
 #include <stratax/ops/Arithmetic.hpp>
 
 #include "binding_utils/arithmetic.hpp"
@@ -157,76 +159,112 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
 {
     cls
         .def("__len__", [](const Tensor& tensor) { return tensor.size(); })
-        .def("__getitem__", [](const Tensor& tensor, py::object index) -> py::object {
-            if (py::isinstance<py::slice>(index))
+        .def(
+    "__getitem__",
+    [](py::object self, py::object index) -> py::object
+    {
+        Tensor& tensor = self.cast<Tensor&>();
+
+        if (py::isinstance<py::slice>(index))
+        {
+            if (tensor.rank() != 1)
             {
-                if (tensor.rank() != 1)
-                {
-                    throw Exceptions::IndexError("Tensor slice rank must match tensor rank.");
-                }
-
-                std::vector<stratax::core::Slice> slices{
-                    binding_utils::cast_slice(
-                        index.cast<py::slice>(),
-                        tensor.shape()[0])
-                };
-
-                return py::cast(stratax::indexing::slice(tensor, slices));
+                throw Exceptions::IndexError(
+                    "Tensor slice rank must match tensor rank.");
             }
 
-            if (py::isinstance<py::tuple>(index))
+            std::vector<stratax::core::Slice> slices{
+                binding_utils::cast_slice(
+                    index.cast<py::slice>(),
+                    tensor.shape()[0])
+            };
+
+            auto view =
+                stratax::indexing::slice(tensor, slices);
+
+            return py::cast(
+                std::move(view),
+                py::return_value_policy::move,
+                self);
+        }
+
+        if (py::isinstance<py::tuple>(index))
+        {
+            const py::tuple tuple_index =
+                index.cast<py::tuple>();
+
+            if (tuple_index.size() != tensor.rank())
             {
-                const py::tuple tuple_index = index.cast<py::tuple>();
+                throw Exceptions::IndexError(
+                    "Tensor index rank must match tensor rank.");
+            }
 
-                if (tuple_index.size() != tensor.rank())
+            bool any_slice = false;
+
+            for (std::size_t dim = 0;
+                 dim < tuple_index.size();
+                 ++dim)
+            {
+                if (py::isinstance<py::slice>(
+                        tuple_index[dim]))
                 {
-                    throw Exceptions::IndexError("Tensor index rank must match tensor rank.");
+                    any_slice = true;
+                    break;
                 }
+            }
 
-                bool any_slice = false;
-                for (std::size_t dim = 0; dim < tuple_index.size(); ++dim)
+            if (!any_slice)
+            {
+                return py::cast(
+                    tensor.at(
+                        tensor_indices(tuple_index)));
+            }
+
+            std::vector<stratax::core::Slice> ranges;
+            ranges.reserve(tuple_index.size());
+
+            for (std::size_t dim = 0;
+                 dim < tuple_index.size();
+                 ++dim)
+            {
+                if (py::isinstance<py::slice>(
+                        tuple_index[dim]))
                 {
-                    if (py::isinstance<py::slice>(tuple_index[dim]))
-                    {
-                        any_slice = true;
-                        break;
-                    }
-                }
-
-                if (!any_slice)
-                {
-                    return py::cast(tensor.at(tensor_indices(tuple_index)));
-                }
-
-                std::vector<stratax::core::Slice> ranges;
-                ranges.reserve(tuple_index.size());
-
-                for (std::size_t dim = 0; dim < tuple_index.size(); ++dim)
-                {
-                    if (py::isinstance<py::slice>(tuple_index[dim]))
-                    {
-                        ranges.push_back(binding_utils::cast_slice(
-                            tuple_index[dim].cast<py::slice>(),
+                    ranges.push_back(
+                        binding_utils::cast_slice(
+                            tuple_index[dim]
+                                .cast<py::slice>(),
                             tensor.shape()[dim]));
-                    }
-                    else
-                    {
-                        ranges.push_back(binding_utils::single_index_slice(
+                }
+                else
+                {
+                    ranges.push_back(
+                        binding_utils::single_index_slice(
                             tuple_index[dim],
                             tensor.shape()[dim],
                             "Tensor index components must be integers.",
                             "Tensor index component is too large to fit in a signed integer."));
-                    }
                 }
-
-                return py::cast(stratax::indexing::slice(tensor, ranges));
             }
 
-            return py::cast(tensor.at(binding_utils::cast_index(
-                index,
-                "Tensor index must be an integer.",
-                "Tensor index is too large to fit in a signed integer.")));
-        })
+            auto view =
+                stratax::indexing::slice(
+                    tensor,
+                    ranges);
+
+            return py::cast(
+                std::move(view),
+                py::return_value_policy::move,
+                self);
+        }
+
+        return py::cast(
+            tensor.at(
+                binding_utils::cast_index(
+                    index,
+                    "Tensor index must be an integer.",
+                    "Tensor index is too large to fit in a signed integer.")));
+    })
         .def("__setitem__", [](Tensor& tensor, py::object index, double value) {
             if (py::isinstance<py::tuple>(index))
             {

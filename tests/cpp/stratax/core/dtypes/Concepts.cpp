@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
+#include <array>
 #include <complex>
 #include <cstdint>
 #include <type_traits>
 
 #include <stratax/core/dtypes/Concepts.hpp>
+#include <stratax/core/ArrayView.hpp>
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
@@ -13,6 +15,24 @@ namespace dtype = stratax::dtype;
 namespace detail = stratax::core::concept_detail;
 
 struct Unrelated {};
+
+struct FutureArray
+{
+	using value_type = dtype::float64;
+
+	std::array<value_type, 2> values{};
+	stratax::core::Shape array_shape{2};
+	stratax::core::Shape array_strides{1};
+
+	std::size_t size() const {return values.size();}
+	bool empty() const {return values.empty();}
+	std::size_t rank() const {return array_shape.rank();}
+	const stratax::core::Shape& shape() const {return array_shape;}
+	const stratax::core::Shape& strides() const {return array_strides;}
+	const value_type& operator[](std::size_t index) const {return values[index];}
+	auto begin() const {return values.begin();}
+	auto end() const {return values.end();}
+};
 
 static_assert(detail::SameAsAny<const dtype::int8&, dtype::int8>);
 static_assert(!detail::SameAsAny<Unrelated, dtype::int8, dtype::float32>);
@@ -100,6 +120,9 @@ static_assert(!Ordered<Unrelated>);
 static_assert(Array<stratax::container::Vector<bool>>);
 static_assert(Array<stratax::container::Matrix<bool>>);
 static_assert(Array<stratax::container::Tensor<bool>>);
+static_assert(Array<stratax::core::ArrayView<dtype::float64>>);
+static_assert(Array<stratax::core::ArrayView<const dtype::float64>>);
+static_assert(Array<FutureArray>);
 static_assert(Array<const stratax::container::Vector<dtype::float32>&>);
 static_assert(Array<volatile stratax::container::Matrix<dtype::int16>&&>);
 static_assert(!Array<Unrelated>);

@@ -26,6 +26,23 @@ std::vector<T> view_values(const ArrayView<T>& view)
 	return values;
 }
 
+template<typename T>
+std::vector<T> matrix_view_values(const ArrayView<T>& view)
+{
+	std::vector<T> values;
+	values.reserve(view.size());
+
+	for (std::size_t row = 0; row < view.shape()[0]; ++row)
+	{
+		for (std::size_t col = 0; col < view.shape()[1]; ++col)
+		{
+			values.push_back(view(row, col));
+		}
+	}
+
+	return values;
+}
+
 } // namespace
 
 TEST(SlicingTypes, Aliases)
@@ -135,21 +152,25 @@ TEST(VectorSlicing, SharesSourceStorage)
 
 TEST(MatrixSlicing, FullRange)
 {
-	const Matrix<int> source{
+	Matrix<int> source{
 		{0, 1, 2},
 		{3, 4, 5}
 	};
 	const auto result = slice(source, Slice{0, 2}, Slice{0, 3});
 
-	static_assert(std::same_as<std::remove_cv_t<decltype(result)>, Matrix<int>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<int>>);
 	EXPECT_EQ(result.shape(), Shape({2, 3}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
+	EXPECT_EQ(result.strides(), Shape({3, 1}));
+	EXPECT_EQ(result.data(), source.data());
+	EXPECT_EQ(matrix_view_values(result),
 		(std::vector<int>{0, 1, 2, 3, 4, 5}));
 }
 
 TEST(MatrixSlicing, StridedRowsAndColumns)
 {
-	const Matrix<int> source{
+	Matrix<int> source{
 		{0, 1, 2, 3, 4},
 		{5, 6, 7, 8, 9},
 		{10, 11, 12, 13, 14},
@@ -158,13 +179,15 @@ TEST(MatrixSlicing, StridedRowsAndColumns)
 	const auto result = slice(source, Slice{1, 4, 2}, Slice{0, 5, 2});
 
 	EXPECT_EQ(result.shape(), Shape({2, 3}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
+	EXPECT_EQ(result.strides(), Shape({10, 2}));
+	EXPECT_EQ(result.data(), source.data() + 5);
+	EXPECT_EQ(matrix_view_values(result),
 		(std::vector<int>{5, 7, 9, 15, 17, 19}));
 }
 
 TEST(MatrixSlicing, NegativeBounds)
 {
-	const Matrix<int> source{
+	Matrix<int> source{
 		{0, 1, 2, 3},
 		{4, 5, 6, 7},
 		{8, 9, 10, 11}
@@ -172,62 +195,65 @@ TEST(MatrixSlicing, NegativeBounds)
 	const auto result = slice(source, Slice{-2, 3}, Slice{-3, -1});
 
 	EXPECT_EQ(result.shape(), Shape({2, 2}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
+	EXPECT_EQ(result.strides(), Shape({4, 1}));
+	EXPECT_EQ(result.data(), source.data() + 5);
+	EXPECT_EQ(matrix_view_values(result),
 		(std::vector<int>{5, 6, 9, 10}));
 }
 
 TEST(MatrixSlicing, ReversesBothDimensions)
 {
-	const Matrix<int> source{
+	Matrix<int> source{
 		{0, 1, 2},
 		{3, 4, 5}
 	};
-	const auto result = slice(
-		source,
-		Slice{-1, -1, -1},
-		Slice{-1, -1, -1});
 
-	EXPECT_EQ(result.shape(), Shape({2, 3}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{5, 4, 3, 2, 1, 0}));
+	EXPECT_THROW(
+		static_cast<void>(slice(
+			source,
+			Slice{-1, -1, -1},
+			Slice{-1, -1, -1})),
+		Exceptions::IndexError);
 }
 
 TEST(MatrixSlicing, EmptyRowSelection)
 {
-	const Matrix<int> source(3, 4, 1);
+	Matrix<int> source(3, 4, 1);
 	const auto result = slice(source, Slice{2, 1}, Slice{0, 4});
 
-	EXPECT_TRUE(result.empty());
+	EXPECT_EQ(result.size(), 0);
 	EXPECT_EQ(result.shape(), Shape({0, 4}));
+	EXPECT_EQ(result.strides(), Shape({4, 1}));
 }
 
 TEST(MatrixSlicing, EmptyColumnSelection)
 {
-	const Matrix<int> source(3, 4, 1);
+	Matrix<int> source(3, 4, 1);
 	const auto result = slice(source, Slice{0, 3}, Slice{3, 1});
 
-	EXPECT_TRUE(result.empty());
+	EXPECT_EQ(result.size(), 0);
 	EXPECT_EQ(result.shape(), Shape({3, 0}));
+	EXPECT_EQ(result.strides(), Shape({4, 1}));
 }
 
 TEST(MatrixSlicing, EmptySource)
 {
-	const Matrix<int> source;
+	Matrix<int> source;
 	const auto result = slice(source, Slice{0, 1}, Slice{0, 1});
 
-	EXPECT_TRUE(result.empty());
+	EXPECT_EQ(result.size(), 0);
 	EXPECT_EQ(result.shape(), Shape({0, 0}));
 }
 
-TEST(MatrixSlicing, ReturnsIndependentStorage)
+TEST(MatrixSlicing, SharesSourceStorage)
 {
 	Matrix<int> source{{0, 1}, {2, 3}};
 	auto result = slice(source, Slice{0, 2}, Slice{0, 2});
 
 	result(0, 0) = 99;
 
-	EXPECT_EQ(source(0, 0), 0);
-	EXPECT_NE(result.data(), source.data());
+	EXPECT_EQ(source(0, 0), 99);
+	EXPECT_EQ(result.data(), source.data());
 }
 
 TEST(TensorVariadicSlicing, FullRange)
@@ -242,8 +268,12 @@ TEST(TensorVariadicSlicing, FullRange)
 		Slice{0, 3},
 		Slice{0, 4});
 
-	static_assert(std::same_as<std::remove_cv_t<decltype(result)>, Tensor<int>>);
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<int>>);
 	EXPECT_EQ(result.shape(), Shape({2, 3, 4}));
+	EXPECT_EQ(result.strides(), source.strides());
+	EXPECT_EQ(result.data(), source.data());
 	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
 		std::vector<int>(source.begin(), source.end()));
 }
@@ -261,6 +291,8 @@ TEST(TensorVariadicSlicing, StridedDimensions)
 		Slice{1, 4, 2});
 
 	EXPECT_EQ(result.shape(), Shape({2, 2, 2}));
+	EXPECT_EQ(result.strides(), Shape({12, 8, 2}));
+	EXPECT_EQ(result.data(), source.data() + 1);
 	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
 		(std::vector<int>{1, 3, 9, 11, 13, 15, 21, 23}));
 }
@@ -271,19 +303,13 @@ TEST(TensorVariadicSlicing, ReversesEveryDimension)
 	for (std::size_t i = 0; i < source.size(); ++i) {
 		source[i] = static_cast<int>(i);
 	}
-	const auto result = slice(
-		source,
-		Slice{-1, -1, -1},
-		Slice{-1, -1, -1},
-		Slice{-1, -1, -1});
-
-	std::vector<int> expected;
-	for (int value = 23; value >= 0; --value) {
-		expected.push_back(value);
-	}
-
-	EXPECT_EQ(result.shape(), Shape({2, 3, 4}));
-	EXPECT_EQ(std::vector<int>(result.begin(), result.end()), expected);
+	EXPECT_THROW(
+		static_cast<void>(slice(
+			source,
+			Slice{-1, -1, -1},
+			Slice{-1, -1, -1},
+			Slice{-1, -1, -1})),
+		Exceptions::IndexError);
 }
 
 TEST(TensorVariadicSlicing, EmptyDimension)
@@ -295,8 +321,12 @@ TEST(TensorVariadicSlicing, EmptyDimension)
 		Slice{2, 1},
 		Slice{0, 4});
 
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<const int>>);
 	EXPECT_TRUE(result.empty());
 	EXPECT_EQ(result.shape(), Shape({2, 0, 4}));
+	EXPECT_EQ(result.strides(), Shape({12, 4, 1}));
 }
 
 TEST(TensorVariadicSlicing, RankZeroTensor)
@@ -331,15 +361,15 @@ TEST(TensorVariadicSlicing, RankMismatchErrorMessage)
 	}
 }
 
-TEST(TensorVariadicSlicing, ReturnsIndependentStorage)
+TEST(TensorVariadicSlicing, SharesSourceStorage)
 {
 	Tensor<int> source(Shape{2, 2}, 1);
 	auto result = slice(source, Slice{0, 2}, Slice{0, 2});
 
 	result(0, 0) = 99;
 
-	EXPECT_EQ(source(0, 0), 1);
-	EXPECT_NE(result.data(), source.data());
+	EXPECT_EQ(source(0, 0), 99);
+	EXPECT_EQ(result.data(), source.data());
 }
 
 TEST(TensorVectorSlicing, FullRange)
@@ -355,27 +385,48 @@ TEST(TensorVectorSlicing, FullRange)
 	};
 	const auto result = slice(source, slices);
 
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<int>>);
 	EXPECT_EQ(result.shape(), source.shape());
+	EXPECT_EQ(result.strides(), source.strides());
+	EXPECT_EQ(result.data(), source.data());
 	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
 		std::vector<int>(source.begin(), source.end()));
 }
 
-TEST(TensorVectorSlicing, StridedAndNegativeDimensions)
+TEST(TensorVectorSlicing, StridedDimensions)
 {
 	Tensor<int> source(Shape{2, 3, 4});
 	for (std::size_t i = 0; i < source.size(); ++i) {
 		source[i] = static_cast<int>(i);
 	}
 	const std::vector<Slice> slices{
-		Slice{-1, -1, -1},
+		Slice{0, 2},
 		Slice{0, 3, 2},
 		Slice{1, 4, 2}
 	};
 	const auto result = slice(source, slices);
 
 	EXPECT_EQ(result.shape(), Shape({2, 2, 2}));
+	EXPECT_EQ(result.strides(), Shape({12, 8, 2}));
+	EXPECT_EQ(result.data(), source.data() + 1);
 	EXPECT_EQ(std::vector<int>(result.begin(), result.end()),
-		(std::vector<int>{13, 15, 21, 23, 1, 3, 9, 11}));
+		(std::vector<int>{1, 3, 9, 11, 13, 15, 21, 23}));
+}
+
+TEST(TensorVectorSlicing, RejectsNegativeDimensions)
+{
+	Tensor<int> source(Shape{2, 3, 4});
+	const std::vector<Slice> slices{
+		Slice{-1, -1, -1},
+		Slice{0, 3, 2},
+		Slice{1, 4, 2}
+	};
+
+	EXPECT_THROW(
+		static_cast<void>(slice(source, slices)),
+		Exceptions::IndexError);
 }
 
 TEST(TensorVectorSlicing, EmptyDimension)
@@ -388,8 +439,12 @@ TEST(TensorVectorSlicing, EmptyDimension)
 	};
 	const auto result = slice(source, slices);
 
+	static_assert(std::same_as<
+		std::remove_cv_t<decltype(result)>,
+		ArrayView<const int>>);
 	EXPECT_TRUE(result.empty());
 	EXPECT_EQ(result.shape(), Shape({2, 0, 4}));
+	EXPECT_EQ(result.strides(), Shape({12, 4, 1}));
 }
 
 TEST(TensorVectorSlicing, RankZeroTensor)
@@ -430,7 +485,7 @@ TEST(TensorVectorSlicing, MatchesVariadicOverload)
 	for (std::size_t i = 0; i < source.size(); ++i) {
 		source[i] = static_cast<int>(i);
 	}
-	const Slice first{-1, -1, -1};
+	const Slice first{0, 2};
 	const Slice second{0, 3, 2};
 	const Slice third{1, 4, 2};
 

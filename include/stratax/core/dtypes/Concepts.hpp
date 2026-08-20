@@ -1,7 +1,9 @@
 #pragma once
 
 #include <concepts>
+#include <cstddef>
 #include <complex>
+#include <iterator>
 #include <type_traits>
 
 #include <stratax/core/dtypes/Types.hpp>
@@ -108,17 +110,33 @@ requires DType<T>
 struct is_array<stratax::container::Tensor<T>> : std::true_type {};
 
 /**
- * @brief Identifies supported Stratax owning array types.
+ * @brief Identifies array-like types through their common logical interface.
  *
- * Array accepts Vector, Matrix, and Tensor specializations and ignores cv- and
- * reference qualifiers. It is intentionally nominal rather than structural;
- * unrelated types with a similar interface do not satisfy it.
+ * Qualifiers are ignored before checking the type. An array provides a
+ * supported value_type, logical shape and stride metadata, size/rank queries,
+ * row-major flat indexing, and an input range over the same logical values.
+ * Ownership and concrete container identity are intentionally unrestricted.
  *
  * @tparam T Type to classify.
  */
 template<typename T>
 concept Array =
-	is_array<std::remove_cvref_t<T>>::value;
+	requires (
+		const std::remove_cvref_t<T>& array,
+		std::size_t index)
+	{
+		typename std::remove_cvref_t<T>::value_type;
+		requires DType<typename std::remove_cvref_t<T>::value_type>;
+		{ array.size() } -> std::convertible_to<std::size_t>;
+		{ array.empty() } -> std::convertible_to<bool>;
+		{ array.rank() } -> std::convertible_to<std::size_t>;
+		array.shape();
+		array.strides();
+		{ array[index] } -> std::convertible_to<
+			typename std::remove_cvref_t<T>::value_type>;
+		{ array.begin() } -> std::input_iterator;
+		{ array.end() } -> std::sentinel_for<decltype(array.begin())>;
+	};
 
 template<typename T>
 concept Ordered =

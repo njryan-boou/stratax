@@ -48,6 +48,7 @@ pybind11_add_module(
     bindings/vector.cpp
     bindings/matrix.cpp
     bindings/tensor.cpp
+    bindings/views.cpp
     bindings/conversions.cpp
     bindings/creation.cpp
     bindings/reductions.cpp

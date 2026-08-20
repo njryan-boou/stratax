@@ -20,8 +20,10 @@ containers and operations:
 - `Numeric<T>` accepts supported integral, floating-point, and complex
   scalars.
 - `DType<T>` accepts every `Numeric` type plus `bool` for array storage.
-- `is_array<T>` identifies exact owning Stratax container specializations.
-- `Array<T>` applies cv/ref normalization before using `is_array`.
+- `is_array<T>` remains available for identifying exact owning Stratax
+  container specializations.
+- `Array<T>` structurally recognizes owning containers, views, and compatible
+  future array classes through their common logical interface.
 
 All checks happen at compile time and add no runtime work.
 
@@ -235,7 +237,8 @@ static_assert(is_array<Vector>::value);
 static_assert(!is_array<const Vector>::value);
 ```
 
-Use the `Array` concept when cv/ref normalization is required.
+Use the `Array` concept for generic algorithms. Unlike this legacy trait, the
+concept also recognizes compatible non-owning and user-defined array types.
 
 ---
 
@@ -243,24 +246,33 @@ Use the `Array` concept when cv/ref normalization is required.
 
 ```cpp
 template<typename T>
-concept Array =
-    is_array<std::remove_cvref_t<T>>::value;
+concept Array = requires(const std::remove_cvref_t<T>& array) {
+    typename std::remove_cvref_t<T>::value_type;
+    // Supported dtype, metadata, indexing, and input-range requirements.
+};
 ```
 
-`Array` recognizes the three supported owning Stratax containers and ignores
-cv/ref qualifiers:
+`Array` ignores cv/ref qualifiers and requires:
+
+- A `value_type` satisfying `DType`
+- `size()`, `empty()`, and `rank()` queries
+- `shape()` and `strides()` metadata access
+- Logical row-major flat `operator[]`
+- `begin()` and `end()` forming an input range over those logical values
+
+Consequently, owning containers and `ArrayView` satisfy the same generic
+algorithm constraint. Future classes can participate without specializing a
+central identification trait:
 
 ```cpp
 using Vector = stratax::container::Vector<int>;
 
 static_assert(Array<Vector>);
 static_assert(Array<const Vector&>);
+static_assert(Array<stratax::core::ArrayView<const int>>);
 static_assert(!Array<int>);
 static_assert(!Array<std::vector<int>>);
 ```
-
-This is a nominal concept, not a structural one. A third-party type does not
-satisfy `Array` merely because it provides `shape()`, `size()`, or iterators.
 
 ---
 

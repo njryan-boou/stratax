@@ -3,6 +3,7 @@
 #include <stratax/exceptions/Exceptions.hpp>
 
 #include "binding_utils/comparison.hpp"
+#include "binding_utils/views.hpp"
 
 namespace py = pybind11;
 
@@ -54,6 +55,7 @@ PYBIND11_MODULE(_core, m)
     bind_vector(m);
     bind_matrix(m);
     bind_tensor(m);
+    binding_utils::bind_array_view(m);
     binding_utils::bind_comparison_functions(m);
     bind_conversions(m);
     bind_creation(m);

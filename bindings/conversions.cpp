@@ -1,6 +1,9 @@
 #include <pybind11/pybind11.h>
 
 #include <stratax/algorithms/Conversion.hpp>
+#include <stratax/containers/Matrix.hpp>
+#include <stratax/containers/Tensor.hpp>
+#include <stratax/containers/Vector.hpp>
 
 namespace py = pybind11;
 

@@ -2,6 +2,9 @@
 
 #include <pybind11/pybind11.h>
 
+#include <stratax/containers/Matrix.hpp>
+#include <stratax/containers/Tensor.hpp>
+#include <stratax/containers/Vector.hpp>
 #include <stratax/ops/Comparison.hpp>
 
 namespace binding_utils {
