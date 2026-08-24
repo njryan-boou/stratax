@@ -93,7 +93,7 @@ TEST(BroadcastedShape, ErrorMessage)
 		static_cast<void>(broadcasted_shape(Shape{2, 3}, Shape{2, 4}));
 		FAIL() << "Expected Exceptions::BroadcastError";
 	} catch (const Exceptions::BroadcastError& error) {
-		EXPECT_STREQ(error.what(), "Cannot broadcast shapes (2, 3) and (2, 4)");
+		EXPECT_STREQ(error.what(), "Shapes are not broadcastable.");
 	}
 }
 

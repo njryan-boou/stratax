@@ -2,8 +2,7 @@
 
 #include <pybind11/pybind11.h>
 
-#include <stratax/exceptions/ArithmeticErrors.hpp>
-#include <stratax/exceptions/TypeErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Slice.hpp>
 #include <stratax/indexing/Indexing.hpp>
 
@@ -27,7 +26,7 @@ inline long long cast_integer(py::handle value)
 {
     if (py::isinstance<py::bool_>(value) || !py::isinstance<py::int_>(value))
     {
-        throw Exceptions::TypeError::expected_integer();
+        throw Exceptions::TypeError("Expected an integer.");
     }
 
     PyErr_Clear();
@@ -35,7 +34,7 @@ inline long long cast_integer(py::handle value)
     if (PyErr_Occurred())
     {
         PyErr_Clear();
-        raise_overflow(Exceptions::OverflowError::integer());
+        raise_overflow(Exceptions::OverflowError("Integer overflow."));
     }
 
     return result;
@@ -50,7 +49,7 @@ inline std::ptrdiff_t cast_index(py::handle value)
         if (result < std::numeric_limits<std::ptrdiff_t>::min() ||
             result > std::numeric_limits<std::ptrdiff_t>::max())
         {
-            raise_overflow(Exceptions::OverflowError::integer());
+            raise_overflow(Exceptions::OverflowError("Integer overflow."));
         }
     }
 
@@ -62,7 +61,7 @@ inline double cast_scalar(py::handle value)
     if (py::isinstance<py::bool_>(value)
         || !(py::isinstance<py::int_>(value) || py::isinstance<py::float_>(value)))
     {
-        throw Exceptions::TypeError::expected_number();
+        throw Exceptions::TypeError("Expected a number.");
     }
 
     PyErr_Clear();
@@ -70,12 +69,12 @@ inline double cast_scalar(py::handle value)
     if (PyErr_Occurred())
     {
         PyErr_Clear();
-        raise_overflow(Exceptions::OverflowError::floating());
+        raise_overflow(Exceptions::OverflowError("Floating-point overflow."));
     }
 
     if (!std::isfinite(result))
     {
-        raise_overflow(Exceptions::OverflowError::floating());
+        raise_overflow(Exceptions::OverflowError("Floating-point overflow."));
     }
 
     return result;
@@ -102,8 +101,8 @@ inline stratax::core::Slice cast_slice(
     if (size > static_cast<std::size_t>(
             std::numeric_limits<py::ssize_t>::max()))
     {
-        raise_overflow(
-            Exceptions::OverflowError::python_slice_extent());
+        raise_overflow(Exceptions::OverflowError(
+            "Container is too large for Python slicing."));
     }
 
     py::ssize_t start;

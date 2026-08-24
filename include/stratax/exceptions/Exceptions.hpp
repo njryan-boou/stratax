@@ -2,65 +2,23 @@
 
 #include <stdexcept>
 
-#include <stratax/exceptions/ErrorCode.hpp>
-#include <stratax/exceptions/StrataxError.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/TypeErrors.hpp>
-#include <stratax/exceptions/ArithmeticErrors.hpp>
+namespace Exceptions {
 
-namespace Except {
+class StrataxError : public std::runtime_error
+{
+public:
+	using std::runtime_error::runtime_error;
+};
 
-	class StrataxError : public std::runtime_error
-	{
-	public:
-		using std::runtime_error::runtime_error;
-	};
+class ShapeError : public StrataxError { public: using StrataxError::StrataxError; };
+class DimensionError : public StrataxError { public: using StrataxError::StrataxError; };
+class RankError : public StrataxError { public: using StrataxError::StrataxError; };
+class IndexError : public StrataxError { public: using StrataxError::StrataxError; };
+class TypeError : public StrataxError { public: using StrataxError::StrataxError; };
+class BroadcastError : public StrataxError { public: using StrataxError::StrataxError; };
+class ZeroDivisionError : public StrataxError { public: using StrataxError::StrataxError; };
+class AxisError : public StrataxError { public: using StrataxError::StrataxError; };
+class OverflowError : public StrataxError { public: using StrataxError::StrataxError; };
+class ValueError : public StrataxError { public: using StrataxError::StrataxError; };
 
-	class ShapeError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class DimensionError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class IndexError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class TypeError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class BroadcastError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class ZeroDivisionError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-
-	class AxisError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;
-	};
-	class OverflowError : public StrataxError
-	{
-	public:
-		using StrataxError::StrataxError;	
-	};
-}
+} // namespace Exceptions

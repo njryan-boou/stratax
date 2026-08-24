@@ -26,6 +26,8 @@ void bind_exceptions(py::module_& m)
         m, "ShapeError", stratax_error.ptr());
     py::register_exception<Exceptions::DimensionError>(
         m, "DimensionError", stratax_error.ptr());
+    py::register_exception<Exceptions::RankError>(
+        m, "RankError", stratax_error.ptr());
     py::register_exception<Exceptions::IndexError>(
         m, "IndexError", stratax_error.ptr());
     py::register_exception<Exceptions::TypeError>(

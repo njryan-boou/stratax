@@ -6,7 +6,7 @@
 
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
 
@@ -37,8 +37,8 @@ reshape(const A& arr, const stratax::core::Shape& shape)
 	const auto target_size = shape.elements();
 	if (arr.size() != target_size)
 	{
-		throw Exceptions::ShapeError::reshape_size(
-			{shape.begin(), shape.end()}, arr.size(), target_size);
+		throw Exceptions::ShapeError(
+			"Reshape must preserve the number of elements.");
 	}
 
 	stratax::container::Tensor<typename A::value_type> result(shape);

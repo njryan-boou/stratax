@@ -2,45 +2,27 @@
 
 # Validation {#dev_validation}
 
-Status: Active
-
-Headers:
-
-- `include/stratax/core/validation/Validation.hpp`
-- `include/stratax/core/validation/DimensionValidation.hpp`
-- `include/stratax/core/validation/IndexValidation.hpp`
-- `include/stratax/core/validation/ShapeValidation.hpp`
-- `include/stratax/core/validation/TypeValidation.hpp`
-
----
+Status: Compatibility headers only
 
 ## Overview
 
-The validation module centralizes reusable dimension, index, shape, and runtime
-type checks. Failures use metadata-bearing exceptions whose constructors own
-the diagnostic wording. `Validation.hpp` aggregates all four validation
-headers.
+Stratax no longer has a validation-helper layer. Preconditions and invariant
+checks are expressed as ordinary `if` statements at the point where the value
+is used, followed by a simple exception from `Exceptions.hpp`.
 
-## Public Interface
+This keeps the condition, exception category, and relevant operation together
+and avoids a second API that only wraps an `if` statement.
 
-- `valid_index(index, size)` reports whether `index` is in `[0, size)` or the
-  equivalent negative range `[-size, -1]`.
-- `require_valid_index(index, size)` throws `Exceptions::IndexError` when the
-  index is invalid.
-- `normalize_index(index, size)` validates the index and returns its nonnegative
-  zero-based position.
-- `require_nonnegative_dimension(value)` rejects negative dimensions.
-- `require_dimension(actual, expected)` checks dimension equality.
-- `require_same_shape(actual, expected)` checks shape equality.
-- `require_type(matches, actual, expected)` reports runtime type
-  mismatches while retaining both type names.
+The headers under `include/stratax/core/validation/` remain empty so existing
+includes do not immediately break. They define no functions and should not be
+used by new code.
 
-## Invariants
+Checked signed index normalization remains a real indexing operation rather
+than a generic validator and is provided by:
 
-- Every validation header can be included independently.
-- Negative-index normalization cannot overflow, including for `PTRDIFF_MIN`.
-- Invalid indices preserve the attempted index and valid extent in the thrown
-  `Exceptions::IndexError` metadata.
-- A zero-sized extent rejects every index.
-- Dimension, shape, and type failures preserve their actual and expected values.
-- Validation call sites do not construct or duplicate diagnostic messages.
+```cpp
+stratax::indexing::normalize_index(index, size);
+```
+
+It accepts positive and Python-style negative indices and throws
+`Exceptions::IndexError` when the index is outside the valid range.

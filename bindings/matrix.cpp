@@ -6,10 +6,7 @@
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
-#include <stratax/exceptions/ArithmeticErrors.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
-#include <stratax/exceptions/TypeErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
 #include <stratax/io/Print.hpp>
 
@@ -39,9 +36,9 @@ std::size_t checked_matrix_dimension(long long value, bool rows)
 {
     if (value < 0)
     {
-        throw rows
-            ? Exceptions::DimensionError::negative_matrix_rows(value)
-            : Exceptions::DimensionError::negative_matrix_columns(value);
+        throw Exceptions::DimensionError(
+            rows ? "Matrix row count cannot be negative."
+                 : "Matrix column count cannot be negative.");
     }
 
     return static_cast<std::size_t>(value);
@@ -52,15 +49,14 @@ void ensure_matrix_storage_fits(std::size_t rows, std::size_t cols)
     if (cols != 0 && rows > std::numeric_limits<std::size_t>::max() / cols)
     {
         binding_utils::raise_overflow(
-            Exceptions::OverflowError::matrix_size(rows, cols));
+            Exceptions::OverflowError("Matrix element count overflow."));
     }
 
     const std::size_t elements = rows * cols;
     if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
     {
         binding_utils::raise_overflow(
-            Exceptions::OverflowError::matrix_storage(
-                elements, sizeof(double)));
+            Exceptions::OverflowError("Matrix storage size overflow."));
     }
 }
 
@@ -75,7 +71,8 @@ Matrix make_matrix_from_iterable(py::iterable rows)
         if (!py::isinstance<py::iterable>(row_object)
             || py::isinstance<py::str>(row_object))
         {
-            throw Exceptions::TypeError::matrix_rows();
+            throw Exceptions::TypeError(
+                "Matrix rows must be iterables of numbers.");
         }
 
         std::vector<double> row;
@@ -92,7 +89,8 @@ Matrix make_matrix_from_iterable(py::iterable rows)
         }
         else if (row.size() != cols)
         {
-            throw Exceptions::ShapeError::ragged_matrix();
+            throw Exceptions::ShapeError(
+                "Matrix rows must have equal lengths.");
         }
 
         values.push_back(std::move(row));
@@ -133,7 +131,8 @@ void bind_matrix_constructors(py::class_<Matrix>& cls)
             if (!py::isinstance<py::iterable>(value) ||
                 py::isinstance<py::str>(value))
             {
-                throw Exceptions::TypeError::matrix_constructor();
+                throw Exceptions::TypeError(
+                    "Matrix constructor expects an iterable of rows.");
             }
 
             return make_matrix_from_iterable(
@@ -205,8 +204,8 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
 
                 if (tuple_index.size() != 2)
                 {
-                    throw Exceptions::IndexError::matrix_index_rank(
-                        tuple_index.size());
+                    throw Exceptions::IndexError(
+                        "Matrix indexing requires exactly two indices.");
                 }
 
                 const bool row_slice =
@@ -255,8 +254,8 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
             [](Matrix& matrix, py::tuple index, double value) {
                 if (index.size() != 2)
                 {
-                    throw Exceptions::IndexError::matrix_tuple_index(
-                        index.size());
+                    throw Exceptions::IndexError(
+                        "Matrix assignment requires exactly two indices.");
                 }
 
                 matrix.at(

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/ArrayTraits.hpp>
 #include <stratax/core/dtypes/Promotion.hpp>
@@ -153,9 +153,7 @@ inline stratax::core::Shape broadcasted_shape(
 {
 	if (!broadcastable(shape1, shape2))
 	{
-		throw Exceptions::BroadcastError::incompatible(
-			{shape1.begin(), shape1.end()},
-			{shape2.begin(), shape2.end()});
+		throw Exceptions::BroadcastError("Shapes are not broadcastable.");
 	}
 
 	const std::size_t result_rank = std::max(shape1.rank(), shape2.rank());

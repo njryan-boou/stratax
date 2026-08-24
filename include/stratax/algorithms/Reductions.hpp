@@ -4,8 +4,7 @@
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/exceptions/ArithmeticErrors.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Matrix.hpp>
@@ -171,7 +170,7 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
     
 	if (Axis < 0 || Axis >= static_cast<int>(array.rank()))
 	{
-		throw Exceptions::AxisError::out_of_range(axis, array.rank());
+		throw Exceptions::AxisError("Axis is out of range.");
 	}
 
 	stratax::container::Tensor<typename A::value_type> arr =
@@ -290,7 +289,7 @@ auto max(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError::maximum_empty();
+		throw Exceptions::IndexError("Cannot find the maximum of an empty array.");
 	}
 
 	auto result = std::max_element(
@@ -315,7 +314,7 @@ auto min(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError::minimum_empty();
+		throw Exceptions::IndexError("Cannot find the minimum of an empty array.");
 	}
 
 	auto result = std::min_element(
@@ -340,7 +339,7 @@ auto argmax(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError::argmax_empty();
+		throw Exceptions::IndexError("Cannot find argmax of an empty array.");
 	}
 
 	auto result = std::max_element(
@@ -348,7 +347,7 @@ auto argmax(const A& arr)
 		arr.end()
 	);
 
-	return static_cast<std::size_t>(std::distance(arr.begin(), result));
+	return static_cast<stratax::dtype::int64>(std::distance(arr.begin(), result));
 }
 
 /**
@@ -365,7 +364,7 @@ auto argmin(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError::argmin_empty();
+		throw Exceptions::IndexError("Cannot find argmin of an empty array.");
 	}
 
 	auto result = std::min_element(
@@ -373,7 +372,7 @@ auto argmin(const A& arr)
 		arr.end()
 	);
 
-	return static_cast<std::size_t>(std::distance(arr.begin(), result));
+	return static_cast<stratax::dtype::int64>(std::distance(arr.begin(), result));
 }
 
 /**
@@ -393,7 +392,7 @@ double mean(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::ZeroDivisionError::mean_empty();
+		throw Exceptions::ZeroDivisionError("Cannot compute the mean of an empty array.");
 	}
 
 	return static_cast<double>(sum(arr)) / static_cast<double>(arr.size());
@@ -416,7 +415,7 @@ double var(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::ZeroDivisionError::variance_empty();
+		throw Exceptions::ZeroDivisionError("Cannot compute the variance of an empty array.");
 	}
 
 	double count = 0.0;

@@ -56,21 +56,21 @@ TEST(VectorConstructor, Shape)
 
 TEST(VectorConstructor, RejectsRankZeroShape)
 {
-	EXPECT_THROW(static_cast<void>(Vector<int>(Shape{})), Exceptions::ShapeError);
+	EXPECT_THROW(static_cast<void>(Vector<int>(Shape{})), Exceptions::RankError);
 }
 
 TEST(VectorConstructor, RejectsHigherRankShape)
 {
-	EXPECT_THROW(static_cast<void>(Vector<int>(Shape{2, 3})), Exceptions::ShapeError);
+	EXPECT_THROW(static_cast<void>(Vector<int>(Shape{2, 3})), Exceptions::RankError);
 }
 
 TEST(VectorConstructor, ShapeErrorMessage)
 {
 	try {
 		static_cast<void>(Vector<int>(Shape{2, 3}));
-		FAIL() << "Expected Exceptions::ShapeError";
-	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(), "Vector requires a rank-1 shape, but shape (2, 3) has rank 2.");
+		FAIL() << "Expected Exceptions::RankError";
+	} catch (const Exceptions::RankError& error) {
+		EXPECT_STREQ(error.what(), "Vector requires a rank-1 shape.");
 	}
 }
 

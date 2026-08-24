@@ -282,7 +282,7 @@ TEST(AxisReduction, AxisErrorMessage)
 		static_cast<void>(reduction::sum(source, 1));
 		FAIL() << "Expected Exceptions::AxisError";
 	} catch (const Exceptions::AxisError& error) {
-		EXPECT_STREQ(error.what(), "Axis 1 is out of range for an array of rank 1. Valid axes range from -1 through 0.");
+		EXPECT_STREQ(error.what(), "Axis is out of range.");
 	}
 }
 
@@ -316,14 +316,14 @@ TEST(EmptyGlobalReduction, ExtremaErrorMessages)
 		reduction::max(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute a maximum for an empty array because there is no element to select; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot find the maximum of an empty array.");
 	}
 
 	try {
 		reduction::min(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute a minimum for an empty array because there is no element to select; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot find the minimum of an empty array.");
 	}
 }
 
@@ -343,14 +343,14 @@ TEST(EmptyGlobalReduction, ExtremumIndexErrorMessages)
 		reduction::argmax(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute argmax for an empty array because no valid element index exists; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot find argmax of an empty array.");
 	}
 
 	try {
 		reduction::argmin(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute argmin for an empty array because no valid element index exists; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot find argmin of an empty array.");
 	}
 }
 
@@ -371,14 +371,14 @@ TEST(EmptyGlobalReduction, StatisticErrorMessages)
 		reduction::mean(source);
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute the mean of an empty array because the element count is zero; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot compute the mean of an empty array.");
 	}
 
 	try {
 		reduction::var(source);
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
-		EXPECT_STREQ(error.what(), "Cannot compute variance of an empty array because the element count is zero; provide at least one element.");
+		EXPECT_STREQ(error.what(), "Cannot compute the variance of an empty array.");
 	}
 }
 

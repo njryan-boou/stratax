@@ -10,7 +10,7 @@
 #include <new>
 #include <utility>
 
-#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core {
 

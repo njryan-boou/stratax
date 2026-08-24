@@ -88,7 +88,7 @@ TEST(ToVector, ShapeErrorMessage)
 		static_cast<void>(to_vector(source));
 		FAIL() << "Expected Exceptions::ShapeError";
 	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(), "Cannot convert array with shape (2, 2, 2) to Vector: after ignoring zero and singleton dimensions, exactly one non-singleton dimension is required.");
+		EXPECT_STREQ(error.what(), "Array shape cannot be converted to a Vector.");
 	}
 }
 
@@ -173,7 +173,7 @@ TEST(ToMatrix, ShapeErrorMessage)
 		static_cast<void>(to_matrix(source));
 		FAIL() << "Expected Exceptions::ShapeError";
 	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(), "Cannot convert array with shape (3) to Matrix: after ignoring zero and singleton dimensions, exactly two non-singleton dimensions are required.");
+		EXPECT_STREQ(error.what(), "Array shape cannot be converted to a Matrix.");
 	}
 }
 

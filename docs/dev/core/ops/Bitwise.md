@@ -69,21 +69,8 @@ The following conditions are always true:
 
 ## Public Interface
 
-### Shape guard
-
-```cpp
-template<Array A>
-requires Integer<typename A::value_type>
-void require_same_bitwise_shape(const A& lhs, const A& rhs);
-```
-
-Throws
-
-- `Exceptions::ShapeError` on shape mismatch
-
-Complexity
-
-- O(r)
+Array operands use the common broadcasting rules. Incompatible shapes throw
+`Exceptions::BroadcastError` directly from the broadcasting operation.
 
 ### Unary operator
 
@@ -233,7 +220,6 @@ Complexity
 
 | Operation | Complexity |
 | --------- | ----------: |
-| `require_same_bitwise_shape` | O(r) |
 | Unary `~` | O(n) |
 | Array-array operators | O(n + r) |
 | Array-scalar operators | O(n) |

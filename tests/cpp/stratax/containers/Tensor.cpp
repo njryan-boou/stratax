@@ -292,8 +292,8 @@ TEST(TensorAccess, VariadicRankMismatch)
 {
 	const Tensor<int> tensor(Shape{2, 3, 4});
 
-	EXPECT_THROW(static_cast<void>(tensor.at(1, 2)), Exceptions::IndexError);
-	EXPECT_THROW(static_cast<void>(tensor.at(1, 2, 3, 0)), Exceptions::IndexError);
+	EXPECT_THROW(static_cast<void>(tensor.at(1, 2)), Exceptions::RankError);
+	EXPECT_THROW(static_cast<void>(tensor.at(1, 2, 3, 0)), Exceptions::RankError);
 }
 
 TEST(TensorAccess, VectorRankMismatch)
@@ -302,7 +302,7 @@ TEST(TensorAccess, VectorRankMismatch)
 
 	EXPECT_THROW(
 		static_cast<void>(tensor.at(std::vector<std::ptrdiff_t>{1, 2})),
-		Exceptions::IndexError
+		Exceptions::RankError
 	);
 }
 
@@ -322,11 +322,11 @@ TEST(TensorAccess, RankMismatchErrorMessage)
 
 	try {
 		static_cast<void>(tensor.at(1, 2));
-		FAIL() << "Expected Exceptions::IndexError";
-	} catch (const Exceptions::IndexError& error) {
+		FAIL() << "Expected Exceptions::RankError";
+	} catch (const Exceptions::RankError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Tensor multi-index has 2 components, but the target has rank 3; provide exactly one index or slice component per dimension."
+			"The number of indices must match the array rank."
 		);
 	}
 }
@@ -341,7 +341,7 @@ TEST(TensorAccess, ComponentOutOfRangeErrorMessage)
 	} catch (const Exceptions::IndexError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Tensor multi-index component is invalid: Index 3 is out of bounds for size 3. Valid indices range from -3 through 2."
+			"Index is out of bounds."
 		);
 	}
 }

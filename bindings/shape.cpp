@@ -3,8 +3,7 @@
 #include "binding_utils/utils.hpp"
 
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/ArithmeticErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 #include <cstddef>
 #include <sstream>
@@ -31,7 +30,7 @@ Shape make_shape(const std::vector<long long>& dims)
     {
         if (dim < 0)
         {
-            throw Exceptions::ShapeError::negative_shape_dimension();
+            throw Exceptions::ShapeError("Shape dimensions cannot be negative.");
         }
 
         values.push_back(static_cast<std::size_t>(dim));
@@ -77,7 +76,7 @@ void bind_shape(py::module_& m)
                 catch (const Exceptions::DimensionError&)
                 {
                     binding_utils::raise_overflow(
-                        Exceptions::OverflowError::shape_elements());
+                        Exceptions::OverflowError("Shape element count overflow."));
                 }
             })
         .def_property_readonly("empty", &Shape::empty)

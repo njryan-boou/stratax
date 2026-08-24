@@ -10,7 +10,7 @@
 #include <stratax/core/ArrayTraits.hpp>
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::conversion {
 
@@ -138,8 +138,8 @@ to_vector(const A& arr)
 {
     if (!detail::is_vector_shape(arr.shape()))
     {
-        throw Exceptions::ShapeError::vector_conversion(
-            {arr.shape().begin(), arr.shape().end()});
+        throw Exceptions::ShapeError(
+            "Array shape cannot be converted to a Vector.");
     }
 
     stratax::container::Vector<typename A::value_type> result(arr.size());
@@ -175,8 +175,8 @@ to_matrix(const A& arr)
 {
     if (!detail::is_matrix_shape(arr.shape()))
     {
-        throw Exceptions::ShapeError::matrix_conversion(
-            {arr.shape().begin(), arr.shape().end()});
+        throw Exceptions::ShapeError(
+            "Array shape cannot be converted to a Matrix.");
     }
 
     const stratax::core::Shape shape =

@@ -9,8 +9,7 @@
 #include "binding_utils/views.hpp"
 
 #include <stratax/containers/Vector.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
-#include <stratax/exceptions/TypeErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
 #include <stratax/io/Print.hpp>
 
@@ -31,7 +30,7 @@ std::size_t checked_vector_size(long long size)
 {
     if (size < 0)
     {
-        throw Exceptions::DimensionError::negative_vector_size(size);
+        throw Exceptions::DimensionError("Vector size cannot be negative.");
     }
 
     return static_cast<std::size_t>(size);
@@ -69,7 +68,8 @@ Vector make_vector_from_object(py::object value)
             value.cast<py::iterable>());
     }
 
-    throw Exceptions::TypeError::vector_constructor();
+    throw Exceptions::TypeError(
+        "Vector constructor expects a Vector, size, or iterable of numbers.");
 }
 
 } // anonymous namespace

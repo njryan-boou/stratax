@@ -7,8 +7,7 @@
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::container {
 
@@ -87,29 +86,13 @@ private:
 		{
 			if (row.size() != cols)
 			{
-				throw Exceptions::ShapeError::ragged_initializer();
+				throw Exceptions::ShapeError(
+					"Matrix initializer rows must have equal lengths.");
 			}
 		}
 
 		return core::Shape{rows, cols};
 	}
-
-	/**
-	 * @brief Verifies that a shape can describe a matrix.
-	 * @param shape Candidate shape.
-	 * @return @p shape unchanged when it has rank two.
-	 * @throws Exceptions::ShapeError If `shape.rank() != 2`.
-	 * @complexity O(1).
-	 */
-	static const core::Shape& validate_shape(const core::Shape& shape)
-    {
-        if (shape.rank() != 2) {
-            throw Exceptions::ShapeError::matrix_rank(
-                {shape.begin(), shape.end()});
-        }
-
-        return shape;
-    }
 
 protected:
 	/** @brief Exposes ArrayBase's checked multidimensional offset helper. */
@@ -155,15 +138,20 @@ public:
 	/**
 	 * @brief Constructs a value-initialized matrix from a rank-two shape.
 	 * @param shape Shape whose dimensions specify rows and columns.
-	 * @throws Exceptions::ShapeError If `shape.rank() != 2`.
+	 * @throws Exceptions::RankError If `shape.rank() != 2`.
 	 * @throws Exceptions::DimensionError If the element or stride count overflows.
 	 * @throws std::bad_alloc If storage allocation fails.
 	 * @throws Any exception thrown while value-initializing a value_type.
 	 * @complexity O(shape.elements()).
 	 */
 	explicit Matrix(const core::Shape& shape)
-		: core::ArrayBase<T>(validate_shape(shape))
-	{}
+		: core::ArrayBase<T>(shape)
+	{
+		if (shape.rank() != 2)
+		{
+			throw Exceptions::RankError("Matrix requires a rank-2 shape.");
+		}
+	}
 
 	/**
 	 * @brief Constructs a matrix by copying a rectangular nested initializer.

@@ -817,7 +817,11 @@ class ShapeError(StrataxError):
 
 
 class DimensionError(StrataxError):
-    """Raised when a dimension value or rank is invalid."""
+    """Raised when a dimension value is invalid."""
+
+
+class RankError(StrataxError):
+    """Raised when an array has an invalid number of dimensions."""
 
 
 class IndexError(StrataxError):

@@ -7,7 +7,7 @@
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::container {
 
@@ -80,14 +80,19 @@ public:
 	/**
 	 * @brief Constructs a value-initialized vector from a rank-one shape.
 	 * @param shape Shape whose only dimension determines the vector size.
-	 * @throws Exceptions::ShapeError If `shape.rank() != 1`.
+	 * @throws Exceptions::RankError If `shape.rank() != 1`.
 	 * @throws std::bad_alloc If storage allocation fails.
 	 * @throws Any exception thrown while value-initializing a value_type.
 	 * @complexity O(shape.elements()).
 	 */
 	explicit Vector(const core::Shape& shape)
-		: core::ArrayBase<T>(validate_shape(shape))
-	{}
+		: core::ArrayBase<T>(shape)
+	{
+		if (shape.rank() != 1)
+		{
+			throw Exceptions::RankError("Vector requires a rank-1 shape.");
+		}
+	}
 
 	/**
 	 * @brief Constructs a vector containing @p size copies of @p value.
@@ -142,23 +147,6 @@ public:
 		lhs.swap(rhs);
 	}
 
-private:
-	/**
-	 * @brief Verifies that a shape can describe a vector.
-	 * @param shape Candidate shape.
-	 * @return @p shape unchanged when it has rank one.
-	 * @throws Exceptions::ShapeError If `shape.rank() != 1`.
-	 * @complexity O(1).
-	 */
-	static const core::Shape& validate_shape(const core::Shape& shape)
-	{
-		if (shape.rank() != 1) {
-			throw Exceptions::ShapeError::vector_rank(
-				{shape.begin(), shape.end()});
-		}
-
-		return shape;
-	}
 };
 
 } // namespace stratax::container

@@ -44,7 +44,7 @@ The broadcasting module is not responsible for:
 
 ```text
 broadcasted_op(...)
-|-- validate_broadcast(...)
+|-- broadcastable(...)
 |-- broadcasted_shape(...)
 |-- trailing-dimension coordinate projection
 `-- operation callable supplied by the caller
@@ -100,10 +100,10 @@ The following conditions are always true:
 
 ## Public Interface
 
-### Shape validation
+### Shape compatibility
 
 ```cpp
-bool validate_broadcast(
+bool broadcastable(
     const stratax::core::Shape& shape1,
     const stratax::core::Shape& shape2);
 ```

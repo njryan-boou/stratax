@@ -7,10 +7,7 @@
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
-#include <stratax/exceptions/ArithmeticErrors.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
-#include <stratax/exceptions/TypeErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
 #include <stratax/io/Print.hpp>
 #include <stratax/ops/Arithmetic.hpp>
@@ -48,7 +45,7 @@ Shape make_shape_from_iterable(py::iterable dims)
 
         if (raw < 0)
         {
-            throw Exceptions::ShapeError::negative_tensor_dimension();
+            throw Exceptions::ShapeError("Tensor dimensions cannot be negative.");
         }
 
         const std::size_t value = static_cast<std::size_t>(raw);
@@ -60,8 +57,7 @@ Shape make_shape_from_iterable(py::iterable dims)
             elements > std::numeric_limits<std::size_t>::max() / value)
         {
             binding_utils::raise_overflow(
-                Exceptions::OverflowError::tensor_shape(
-                    elements, value));
+                Exceptions::OverflowError("Tensor element count overflow."));
         }
 
         elements *= value;
@@ -69,8 +65,7 @@ Shape make_shape_from_iterable(py::iterable dims)
         if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
         {
             binding_utils::raise_overflow(
-                Exceptions::OverflowError::tensor_storage(
-                    elements, sizeof(double)));
+                Exceptions::OverflowError("Tensor storage size overflow."));
         }
     }
 
@@ -109,7 +104,8 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
                 if (!py::isinstance<py::iterable>(dims) ||
                     py::isinstance<py::str>(dims))
                 {
-                    throw Exceptions::TypeError::tensor_shape();
+                    throw Exceptions::TypeError(
+                        "Tensor shape must be a Shape or iterable of dimensions.");
                 }
 
                 return Tensor(
@@ -130,7 +126,8 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
                 if (!py::isinstance<py::iterable>(dims) ||
                     py::isinstance<py::str>(dims))
                 {
-                    throw Exceptions::TypeError::tensor_shape();
+                    throw Exceptions::TypeError(
+                        "Tensor shape must be a Shape or iterable of dimensions.");
                 }
 
                 return Tensor(
@@ -170,8 +167,8 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 {
                     if (tensor.rank() != 1)
                     {
-                        throw Exceptions::IndexError::tensor_slice_rank(
-                            1, tensor.rank());
+                        throw Exceptions::RankError(
+                            "The number of slices must match the tensor rank.");
                     }
 
                     std::vector<stratax::core::Slice> slices{
@@ -197,8 +194,8 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
 
                     if (tuple_index.size() != tensor.rank())
                     {
-                        throw Exceptions::IndexError::tensor_index_rank(
-                            tuple_index.size(), tensor.rank());
+                        throw Exceptions::RankError(
+                            "The number of indices must match the tensor rank.");
                     }
 
                     bool any_slice = false;

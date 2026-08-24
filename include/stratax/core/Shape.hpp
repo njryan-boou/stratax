@@ -8,8 +8,7 @@
 #include <limits>
 
 #include <stratax/core/Buffer.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Normalize.hpp>
 
 namespace stratax::core {
@@ -105,7 +104,7 @@ public:
 
 			if (prod > std::numeric_limits<size_type>::max() / dim)
 			{
-				throw Exceptions::DimensionError::shape_elements_overflow();
+				throw Exceptions::DimensionError("Shape element count overflow.");
 			}
 
 			prod *= dim;
@@ -151,7 +150,7 @@ public:
 			if (dims_[i] != 0 &&
 				stride_values[i] > std::numeric_limits<value_type>::max() / dims_[i])
 			{
-				throw Exceptions::DimensionError::stride_overflow();
+				throw Exceptions::DimensionError("Shape stride overflow.");
 			}
 
 			stride_values[i - 1] = stride_values[i] * dims_[i];

@@ -269,9 +269,8 @@ elements, plus output shape/stride metadata.
 Slicing currently materializes owning copies. This keeps lifetime and mutation
 semantics straightforward but makes even contiguous selections O(n).
 
-The two Tensor overloads intentionally expose different rank-error types in the
-current implementation: the variadic overload throws `IndexError`, while the
-vector-based overload uses `require_rank` and throws `DimensionError`.
+Both Tensor overloads throw `RankError` when the number of slices does not
+match the tensor rank.
 
 ---
 
@@ -279,7 +278,6 @@ vector-based overload uses `require_rank` and throws `DimensionError`.
 
 - Deduplicate the two Tensor copy implementations
 - Make normalization arithmetic safe across the full signed range
-- Harmonize Tensor rank-error types and messages
 - Support omitted bounds and full-range shorthand
 - Add non-owning strided views
 

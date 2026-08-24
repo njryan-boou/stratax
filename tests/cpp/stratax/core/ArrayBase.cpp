@@ -311,14 +311,14 @@ TEST(ArrayBaseAccess, FrontEmpty)
 {
     TestArray<int> array(Shape{});
 
-    EXPECT_THROW(static_cast<void>(array.front()), Except::IndexError);
+    EXPECT_THROW(static_cast<void>(array.front()), Exceptions::IndexError);
 }
 
 TEST(ArrayBaseAccess, BackEmpty)
 {
     TestArray<int> array(Shape{});
 
-    EXPECT_THROW(static_cast<void>(array.back()), Except::IndexError);
+    EXPECT_THROW(static_cast<void>(array.back()), Exceptions::IndexError);
 }
 
 TEST(ArrayBaseAccess, Subscript)
@@ -529,7 +529,7 @@ TEST(ArrayBaseIndexing, NormalizedFlatOffsetRankMismatch)
 
     EXPECT_THROW(
         static_cast<void>(array.normalized_flat_offset(indices)),
-        Exceptions::IndexError
+        Exceptions::RankError
     );
 }
 
@@ -544,38 +544,16 @@ TEST(ArrayBaseIndexing, NormalizedFlatOffsetComponentOutOfRange)
     );
 }
 
-TEST(ArrayBaseIndexing, NormalizedFlatOffsetContexts)
+TEST(ArrayBaseIndexing, NormalizedFlatOffsetUsesSimpleErrors)
 {
     const TestArray<int> array(Shape{2, 3, 4});
     const std::array<std::ptrdiff_t, 2> wrong_rank{1, 2};
     const std::array<std::ptrdiff_t, 3> bad_component{1, 3, 0};
 
-    try {
-        static_cast<void>(array.normalized_flat_offset(
-            wrong_rank,
-            Exceptions::IndexError::Context::Tensor
-        ));
-        FAIL() << "Expected rank mismatch to throw";
-    } catch (const Exceptions::IndexError& error) {
-        EXPECT_STREQ(
-            error.what(),
-            "Tensor multi-index has 2 components, but the target has rank 3; provide exactly one index or slice component per dimension.");
-        EXPECT_EQ(error.index(), 2);
-        EXPECT_EQ(error.size(), 3);
-    }
-
-    try {
-        static_cast<void>(array.normalized_flat_offset(
-            bad_component,
-            Exceptions::IndexError::Context::Tensor
-        ));
-        FAIL() << "Expected component mismatch to throw";
-    } catch (const Exceptions::IndexError& error) {
-        EXPECT_STREQ(
-            error.what(),
-            "Tensor multi-index component is invalid: Index 3 is out of bounds for size 3. Valid indices range from -3 through 2.");
-        EXPECT_TRUE(error.has_index_metadata());
-        EXPECT_EQ(error.index(), 3);
-        EXPECT_EQ(error.size(), 3);
-    }
+    EXPECT_THROW(
+        static_cast<void>(array.normalized_flat_offset(wrong_rank)),
+        Exceptions::RankError);
+    EXPECT_THROW(
+        static_cast<void>(array.normalized_flat_offset(bad_component)),
+        Exceptions::IndexError);
 }

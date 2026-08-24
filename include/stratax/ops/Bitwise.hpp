@@ -52,7 +52,7 @@ void require_valid_shift_count(const Count& count)
 {
 	if (!valid_shift_count<Value>(count))
 	{
-		throw Exceptions::ValueError::shift_count();
+		throw Exceptions::ValueError("Invalid shift count.");
 	}
 }
 
@@ -210,9 +210,8 @@ L& compound_bitwise_op(
 
 	if (result_shape != lhs.shape())
 	{
-		throw Exceptions::BroadcastError::compound_bitwise(
-			{result_shape.begin(), result_shape.end()},
-			{lhs.shape().begin(), lhs.shape().end()});
+		throw Exceptions::BroadcastError(
+			"In-place broadcasting cannot change the left operand's shape.");
 	}
 
 	for (std::size_t i = 0; i < lhs.size(); ++i)
@@ -282,9 +281,8 @@ L& compound_shift_op(
 
 	if (result_shape != lhs.shape())
 	{
-		throw Exceptions::BroadcastError::compound_shift(
-			{result_shape.begin(), result_shape.end()},
-			{lhs.shape().begin(), lhs.shape().end()});
+		throw Exceptions::BroadcastError(
+			"In-place broadcasting cannot change the left operand's shape.");
 	}
 
 	using value_type = typename L::value_type;

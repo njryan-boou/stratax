@@ -93,7 +93,7 @@ TEST(BitwiseArray, RejectsIncompatibleShapes)
 		static_cast<void>(lhs & rhs);
 		FAIL() << "Expected Exceptions::BroadcastError";
 	} catch (const Exceptions::BroadcastError& error) {
-		EXPECT_STREQ(error.what(), "Cannot broadcast shapes (2) and (3)");
+		EXPECT_STREQ(error.what(), "Shapes are not broadcastable.");
 	}
 }
 

@@ -5,12 +5,10 @@
 
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/IndexErrors.hpp>
-#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Normalize.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core {
 
@@ -101,7 +99,7 @@ public:
 	{
 		if (empty())
 		{
-			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+			throw Exceptions::IndexError("Cannot access the front of an empty array.");
 		}
 
 		return buffer_.front();
@@ -111,7 +109,7 @@ public:
 	{
 		if (empty())
 		{
-			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+			throw Exceptions::IndexError("Cannot access the front of an empty array.");
 		}
 
 		return buffer_.front();
@@ -122,7 +120,7 @@ public:
 	{
 		if (empty())
 		{
-			throw Except::IndexError("Back of Array cannot be acessed if Array is empty.");
+			throw Exceptions::IndexError("Cannot access the back of an empty array.");
 		}
 
 		return buffer_.back();
@@ -132,7 +130,7 @@ public:
 	{
 		if (empty())
 		{
-			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+			throw Exceptions::IndexError("Cannot access the back of an empty array.");
 		}
 		
 		return buffer_.back();
@@ -261,10 +259,8 @@ protected:
 	{
 		if (buffer_.size() != shape_.elements())
 		{
-			throw Exceptions::ShapeError::buffer_size(
-				{shape_.begin(), shape_.end()},
-				buffer_.size(),
-				shape_.elements());
+			throw Exceptions::ShapeError(
+				"Buffer size does not match the shape's element count.");
 		}
 	}
 
@@ -279,46 +275,26 @@ protected:
 	 * @param raw_indices One index per logical dimension.
 	 * @param context Array category used to select standardized diagnostics.
 	 * @return Row-major flat element offset.
-	 * @throws Exceptions::IndexError If the rank differs or a component is out
-	 *         of bounds.
+	 * @throws Exceptions::RankError If the number of indices differs from the rank.
+	 * @throws Exceptions::IndexError If an index component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	template<typename IndexContainer>
-	size_type normalized_flat_offset(
-		const IndexContainer& raw_indices,
-		Exceptions::IndexError::Context context =
-			Exceptions::IndexError::Context::Array
-	) const
+	size_type normalized_flat_offset(const IndexContainer& raw_indices) const
 	{
 		if (raw_indices.size() != rank())
 		{
-			throw Exceptions::IndexError::multi_index_rank(
-				raw_indices.size(), rank(), context);
+			throw Exceptions::RankError(
+				"The number of indices must match the array rank.");
 		}
 
 		size_type offset = 0;
 
 		for (size_type i = 0; i < rank(); ++i)
 		{
-			try
-			{
-				const size_type index =
-					indexing::normalize_index(
-						raw_indices[i],
-						shape_[i]);
-
-				offset += index * strides_[i];
-			}
-			catch (const Exceptions::IndexError& error)
-			{
-				if (error.has_index_metadata())
-				{
-					throw Exceptions::IndexError::multi_index_component(
-						*error.index(), *error.size(), context);
-				}
-
-				throw;
-			}
+			const size_type index = indexing::normalize_index(
+				raw_indices[i], shape_[i]);
+			offset += index * strides_[i];
 		}
 
 		return offset;

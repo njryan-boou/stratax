@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-#include <stratax/core/validation/IndexValidation.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::indexing {
 
@@ -13,7 +13,17 @@ inline size_type normalize_index(
     difference_type index,
     size_type size)
 {
-    return validation::normalize_index(index, size);
+	const size_type magnitude = index < 0
+		? static_cast<size_type>(-(index + 1)) + 1
+		: 0;
+
+	if ((index >= 0 && static_cast<size_type>(index) >= size) ||
+		(index < 0 && magnitude > size))
+	{
+		throw Exceptions::IndexError("Index is out of bounds.");
+	}
+
+	return index >= 0 ? static_cast<size_type>(index) : size - magnitude;
 }
 
 } // namespace stratax::indexing

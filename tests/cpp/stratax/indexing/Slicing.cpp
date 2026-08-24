@@ -345,7 +345,7 @@ TEST(TensorVariadicSlicing, RejectsRankMismatch)
 
 	EXPECT_THROW(
 		static_cast<void>(slice(source, Slice{0, 2}, Slice{0, 3})),
-		Exceptions::IndexError
+		Exceptions::RankError
 	);
 }
 
@@ -355,9 +355,9 @@ TEST(TensorVariadicSlicing, RankMismatchErrorMessage)
 
 	try {
 		static_cast<void>(slice(source, Slice{0, 2}, Slice{0, 3}));
-		FAIL() << "Expected Exceptions::IndexError";
-	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Tensor slice has 2 components, but the target has rank 3; provide exactly one index or slice component per dimension.");
+		FAIL() << "Expected Exceptions::RankError";
+	} catch (const Exceptions::RankError& error) {
+		EXPECT_STREQ(error.what(), "The number of slices must match the tensor rank.");
 	}
 }
 
@@ -463,7 +463,7 @@ TEST(TensorVectorSlicing, RejectsRankMismatch)
 	const Tensor<int> source(Shape{2, 3, 4});
 	const std::vector<Slice> slices{Slice{0, 2}, Slice{0, 3}};
 
-	EXPECT_THROW(static_cast<void>(slice(source, slices)), Exceptions::DimensionError);
+	EXPECT_THROW(static_cast<void>(slice(source, slices)), Exceptions::RankError);
 }
 
 TEST(TensorVectorSlicing, RankMismatchErrorMessage)
@@ -473,9 +473,9 @@ TEST(TensorVectorSlicing, RankMismatchErrorMessage)
 
 	try {
 		static_cast<void>(slice(source, slices));
-		FAIL() << "Expected Exceptions::DimensionError";
-	} catch (const Exceptions::DimensionError& error) {
-		EXPECT_STREQ(error.what(), "Received 2 slice components for a rank-3 tensor; provide exactly one slice per tensor dimension.");
+		FAIL() << "Expected Exceptions::RankError";
+	} catch (const Exceptions::RankError& error) {
+		EXPECT_STREQ(error.what(), "The number of slices must match the tensor rank.");
 	}
 }
 
@@ -499,4 +499,84 @@ TEST(TensorVectorSlicing, MatchesVariadicOverload)
 		std::vector<int>(vector_based.begin(), vector_based.end()),
 		std::vector<int>(variadic.begin(), variadic.end())
 	);
+}
+
+TEST(ArrayViewSlicing, ComposesOffsetsAndStrides)
+{
+	Tensor<int> source(Shape{4, 5});
+	for (std::size_t i = 0; i < source.size(); ++i)
+	{
+		source[i] = static_cast<int>(i);
+	}
+
+	auto view = slice(
+		source,
+		std::vector<Slice>{Slice{1, 4, 2}, Slice{0, 5, 2}});
+	auto result = slice(
+		view,
+		std::vector<Slice>{Slice{0, 2}, Slice{1, 3}});
+
+	EXPECT_EQ(result.shape(), Shape({2, 2}));
+	EXPECT_EQ(result.strides(), Shape({10, 2}));
+	EXPECT_EQ(result.data(), source.data() + 7);
+	EXPECT_EQ(
+		matrix_view_values(result),
+		(std::vector<int>{7, 9, 17, 19}));
+}
+
+TEST(ArrayViewSlicing, SharesSourceStorage)
+{
+	Tensor<int> source(Shape{3, 4}, 0);
+	auto view = slice(
+		source,
+		std::vector<Slice>{Slice{0, 3}, Slice{0, 4}});
+	auto result = slice(
+		view,
+		std::vector<Slice>{Slice{1, 3}, Slice{1, 4, 2}});
+
+	result(1, 1) = 42;
+
+	EXPECT_EQ(source(2, 3), 42);
+}
+
+TEST(ArrayViewSlicing, PreservesEmptyViewPointerAndLayout)
+{
+	Tensor<int> source(Shape{0, 3});
+	auto view = slice(
+		source,
+		std::vector<Slice>{Slice{0, 0}, Slice{0, 3}});
+	auto result = slice(
+		view,
+		std::vector<Slice>{Slice{0, 0}, Slice{1, 3}});
+
+	EXPECT_TRUE(result.empty());
+	EXPECT_EQ(result.shape(), Shape({0, 2}));
+	EXPECT_EQ(result.strides(), Shape({3, 1}));
+	EXPECT_EQ(result.data(), view.data());
+}
+
+TEST(ArrayViewSlicing, RejectsRankMismatch)
+{
+	Tensor<int> source(Shape{2, 3});
+	auto view = slice(
+		source,
+		std::vector<Slice>{Slice{0, 2}, Slice{0, 3}});
+
+	EXPECT_THROW(
+		static_cast<void>(slice(view, std::vector<Slice>{Slice{0, 2}})),
+		Exceptions::RankError);
+}
+
+TEST(ArrayViewSlicing, RejectsNegativeSteps)
+{
+	Tensor<int> source(Shape{2, 3});
+	auto view = slice(
+		source,
+		std::vector<Slice>{Slice{0, 2}, Slice{0, 3}});
+
+	EXPECT_THROW(
+		static_cast<void>(slice(
+			view,
+			std::vector<Slice>{Slice{1, -1, -1}, Slice{0, 3}})),
+		Exceptions::IndexError);
 }

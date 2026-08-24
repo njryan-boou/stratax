@@ -195,9 +195,7 @@ public:
 			static_cast<difference_type>(rest)...
 		};
 
-		return (*this)[normalized_flat_offset(
-			raw_indices,
-			Exceptions::IndexError::Context::Tensor)];
+		return (*this)[normalized_flat_offset(raw_indices)];
 	}
 
 	/**
@@ -222,9 +220,7 @@ public:
 			static_cast<difference_type>(rest)...
 		};
 
-		return (*this)[normalized_flat_offset(
-			raw_indices,
-			Exceptions::IndexError::Context::Tensor)];
+		return (*this)[normalized_flat_offset(raw_indices)];
 	}
 
 	/**
@@ -236,9 +232,7 @@ public:
 	 */
 	reference at(const std::vector<difference_type>& raw_indices)
 	{
-		return (*this)[normalized_flat_offset(
-			raw_indices,
-			Exceptions::IndexError::Context::Tensor)];
+		return (*this)[normalized_flat_offset(raw_indices)];
 	}
 
 	/**
@@ -250,9 +244,7 @@ public:
 	 */
 	const_reference at(const std::vector<difference_type>& raw_indices) const
 	{
-		return (*this)[normalized_flat_offset(
-			raw_indices,
-			Exceptions::IndexError::Context::Tensor)];
+		return (*this)[normalized_flat_offset(raw_indices)];
 	}
 
 	/**

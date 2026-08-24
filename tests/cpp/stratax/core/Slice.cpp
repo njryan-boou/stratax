@@ -62,7 +62,7 @@ TEST(SliceConstructor, ZeroStepErrorMessage)
 		static_cast<void>(Slice(0, 10, 0));
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Slice step cannot be zero because it would never advance to another element; use a positive or negative nonzero step.");
+		EXPECT_STREQ(error.what(), "Slice step cannot be zero.");
 	}
 }
 
