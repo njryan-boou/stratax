@@ -5,10 +5,12 @@
 
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 #include <stratax/indexing/Normalize.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
 #include <stratax/core/dtypes/Concepts.hpp>
+#include <stratax/exceptions/Exceptions.hpp>
 
 namespace stratax::core {
 
@@ -95,14 +97,46 @@ public:
 	[[nodiscard]] const_pointer data() const noexcept {return buffer_.data();}
 
 	/** @brief Returns the first element. @throws Exceptions::IndexError If empty. @complexity O(1). */
-	reference front() {return buffer_.front();}
+	reference front() 
+	{
+		if (empty())
+		{
+			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+		}
+
+		return buffer_.front();
+	}
 	/** @brief Returns the first element. @throws Exceptions::IndexError If empty. @complexity O(1). */
-	const_reference front() const {return buffer_.front();}
+	const_reference front() const 
+	{
+		if (empty())
+		{
+			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+		}
+
+		return buffer_.front();
+	}
 
 	/** @brief Returns the final element. @throws Exceptions::IndexError If empty. @complexity O(1). */
-	reference back() {return buffer_.back();}
+	reference back() 
+	{
+		if (empty())
+		{
+			throw Except::IndexError("Back of Array cannot be acessed if Array is empty.");
+		}
+
+		return buffer_.back();
+	}
 	/** @brief Returns the final element. @throws Exceptions::IndexError If empty. @complexity O(1). */
-	const_reference back() const {return buffer_.back();}
+	const_reference back() const 
+	{
+		if (empty())
+		{
+			throw Except::IndexError("Front of Array cannot be acessed if Array is empty.");
+		}
+		
+		return buffer_.back();
+	}
 
 	/** @brief Returns an element without bounds checking. @pre `index < size()`. @complexity O(1). */
 	reference operator[](size_type index) noexcept {return buffer_[index];}
@@ -227,8 +261,10 @@ protected:
 	{
 		if (buffer_.size() != shape_.elements())
 		{
-			throw Exceptions::ShapeError(
-				"Buffer size must match shape element count.");
+			throw Exceptions::ShapeError::buffer_size(
+				{shape_.begin(), shape_.end()},
+				buffer_.size(),
+				shape_.elements());
 		}
 	}
 
@@ -236,16 +272,12 @@ protected:
 	 * @brief Converts checked signed multidimensional indices to a flat offset.
 	 *
 	 * Each component is normalized independently against its corresponding
-	 * dimension. Negative components count backward from the end. A custom
-	 * component message replaces IndexError messages produced during component
-	 * normalization; when it is null, the original exception is propagated.
+	 * dimension. Negative components count backward from the end. The selected
+	 * exception context controls standardized rank and component diagnostics.
 	 *
 	 * @tparam IndexContainer Sized, indexable container of signed indices.
 	 * @param raw_indices One index per logical dimension.
-	 * @param rank_mismatch_message Message used when the index count differs
-	 *        from rank().
-	 * @param component_oob_message Optional replacement message for an invalid
-	 *        component.
+	 * @param context Array category used to select standardized diagnostics.
 	 * @return Row-major flat element offset.
 	 * @throws Exceptions::IndexError If the rank differs or a component is out
 	 *         of bounds.
@@ -254,13 +286,14 @@ protected:
 	template<typename IndexContainer>
 	size_type normalized_flat_offset(
 		const IndexContainer& raw_indices,
-		const char* rank_mismatch_message = "Multi-index rank must match array rank.",
-		const char* component_oob_message = nullptr
+		Exceptions::IndexError::Context context =
+			Exceptions::IndexError::Context::Array
 	) const
 	{
 		if (raw_indices.size() != rank())
 		{
-			throw Exceptions::IndexError(rank_mismatch_message);
+			throw Exceptions::IndexError::multi_index_rank(
+				raw_indices.size(), rank(), context);
 		}
 
 		size_type offset = 0;
@@ -276,11 +309,12 @@ protected:
 
 				offset += index * strides_[i];
 			}
-			catch (const Exceptions::IndexError&)
+			catch (const Exceptions::IndexError& error)
 			{
-				if (component_oob_message != nullptr)
+				if (error.has_index_metadata())
 				{
-					throw Exceptions::IndexError(component_oob_message);
+					throw Exceptions::IndexError::multi_index_component(
+						*error.index(), *error.size(), context);
 				}
 
 				throw;

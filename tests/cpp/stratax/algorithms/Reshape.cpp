@@ -113,7 +113,7 @@ TEST(Reshape, SizeMismatchErrorMessage)
 	} catch (const Exceptions::ShapeError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Reshape size must match original array size."
+			"Cannot reshape array containing 3 elements to shape (2, 2), which requires 4 elements; reshape must preserve the element count."
 		);
 	}
 }

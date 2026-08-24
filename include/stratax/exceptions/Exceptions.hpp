@@ -2,7 +2,14 @@
 
 #include <stdexcept>
 
-namespace Exceptions {
+#include <stratax/exceptions/ErrorCode.hpp>
+#include <stratax/exceptions/StrataxError.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/TypeErrors.hpp>
+#include <stratax/exceptions/ArithmeticErrors.hpp>
+
+namespace Except {
 
 	class StrataxError : public std::runtime_error
 	{

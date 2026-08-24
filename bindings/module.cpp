@@ -20,15 +20,26 @@ void bind_exceptions(py::module_& m)
     py::object stratax_error = py::register_exception<Exceptions::StrataxError>(
         m,
         "StrataxError",
-        PyExc_RuntimeError
-    );
-    py::register_exception<Exceptions::ShapeError>(m, "ShapeError", stratax_error.ptr());
-    py::register_exception<Exceptions::DimensionError>(m, "DimensionError", stratax_error.ptr());
-    py::register_exception<Exceptions::IndexError>(m, "IndexError", stratax_error.ptr());
-    py::register_exception<Exceptions::TypeError>(m, "TypeError", stratax_error.ptr());
-    py::register_exception<Exceptions::BroadcastError>(m, "BroadcastError", stratax_error.ptr());
-    py::register_exception<Exceptions::ZeroDivisionError>(m, "ZeroDivisionError", stratax_error.ptr());
-    py::register_exception<Exceptions::AxisError>(m, "AxisError", stratax_error.ptr());
+        PyExc_RuntimeError);
+
+    py::register_exception<Exceptions::ShapeError>(
+        m, "ShapeError", stratax_error.ptr());
+    py::register_exception<Exceptions::DimensionError>(
+        m, "DimensionError", stratax_error.ptr());
+    py::register_exception<Exceptions::IndexError>(
+        m, "IndexError", stratax_error.ptr());
+    py::register_exception<Exceptions::TypeError>(
+        m, "TypeError", stratax_error.ptr());
+    py::register_exception<Exceptions::BroadcastError>(
+        m, "BroadcastError", stratax_error.ptr());
+    py::register_exception<Exceptions::ZeroDivisionError>(
+        m, "ZeroDivisionError", stratax_error.ptr());
+    py::register_exception<Exceptions::AxisError>(
+        m, "AxisError", stratax_error.ptr());
+    py::register_exception<Exceptions::OverflowError>(
+        m, "OverflowError", stratax_error.ptr());
+    py::register_exception<Exceptions::ValueError>(
+        m, "ValueError", stratax_error.ptr());
 }
 
 } // anonymous namespace
@@ -48,6 +59,7 @@ PYBIND11_MODULE(_core, m)
     m.attr("__version__") = PyVersion;
     m.attr("__author__") = PyAuthor;
     m.attr("__license__") = PyLicense;
+    m.attr("__module__") = "stratax";
 
     bind_exceptions(m);
     bind_shape(m);

@@ -7,8 +7,8 @@
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 
 namespace stratax::container {
 
@@ -87,8 +87,7 @@ private:
 		{
 			if (row.size() != cols)
 			{
-				throw Exceptions::ShapeError(
-					"Matrix initializer rows must all have the same number of columns.");
+				throw Exceptions::ShapeError::ragged_initializer();
 			}
 		}
 
@@ -105,8 +104,8 @@ private:
 	static const core::Shape& validate_shape(const core::Shape& shape)
     {
         if (shape.rank() != 2) {
-            throw Exceptions::ShapeError(
-                "Matrix shape must be rank 2.");
+            throw Exceptions::ShapeError::matrix_rank(
+                {shape.begin(), shape.end()});
         }
 
         return shape;

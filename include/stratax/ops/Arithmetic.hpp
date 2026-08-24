@@ -1,7 +1,8 @@
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/ArithmeticErrors.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 #include <stratax/ops/Broadcasting.hpp>
 
 #include <functional>
@@ -45,8 +46,7 @@ auto binary_op(
 		if (check_zero_divisor &&
 			right == typename R::value_type{})
 		{
-			throw Exceptions::ZeroDivisionError(
-				"Array division divisor element cannot be zero.");
+			throw Exceptions::ZeroDivisionError::array_element();
 		}
 
 		return op(left, right);
@@ -86,7 +86,7 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
 {
 	if (check_zero_divisor && rhs == Scalar{})
 	{
-		throw Exceptions::ZeroDivisionError("Array division scalar divisor cannot be zero.");
+		throw Exceptions::ZeroDivisionError::array_scalar();
 	}
 
 	return broadcasted_op(lhs, rhs, op);
@@ -117,7 +117,7 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
 	{
 		if (check_zero_divisor && right == typename A::value_type{})
 		{
-			throw Exceptions::ZeroDivisionError("Scalar division divisor element cannot be zero.");
+			throw Exceptions::ZeroDivisionError::scalar_element();
 		}
 
 		return op(left, right);
@@ -165,8 +165,9 @@ L& compound_op(
 	// Compound assignment cannot change the lhs shape.
 	if (result_shape != lhs.shape())
 	{
-		throw Exceptions::BroadcastError(
-			"Compound assignment cannot change the left-hand shape.");
+		throw Exceptions::BroadcastError::compound_arithmetic(
+			{result_shape.begin(), result_shape.end()},
+			{lhs.shape().begin(), lhs.shape().end()});
 	}
 
 	for (std::size_t i = 0; i < lhs.size(); ++i)
@@ -180,8 +181,7 @@ L& compound_op(
 		if (check_zero_divisor &&
 			rhs[rhs_index] == typename R::value_type{})
 		{
-			throw Exceptions::ZeroDivisionError(
-				"Compound division divisor element cannot be zero.");
+			throw Exceptions::ZeroDivisionError::compound_element(rhs_index);
 		}
 
 		lhs[i] = static_cast<typename L::value_type>(
@@ -218,8 +218,7 @@ A& compound_scalar_op(
 {
 	if (check_zero_divisor && rhs == S{})
 	{
-		throw Exceptions::ZeroDivisionError(
-			"Compound division scalar divisor cannot be zero.");
+		throw Exceptions::ZeroDivisionError::compound_scalar();
 	}
 
 	for (std::size_t i = 0; i < lhs.size(); ++i)

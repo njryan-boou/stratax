@@ -40,7 +40,7 @@ Describes how the library is organized so implementation work stays consistent a
 
 - Container invariants should be checked at construction boundaries.
 - Shape-sensitive algorithms should reject mismatched shapes before touching data.
-- Validation helpers are currently deferred until `Validation.hpp` is restored.
+- Preconditions are enforced with explicit checks at their call sites.
 - Tests should cover behavior at the public API boundary, not private implementation details.
 
 ## Implementation Notes
@@ -56,5 +56,4 @@ Describes how the library is organized so implementation work stays consistent a
 - SIMD optimization
 - Parallel execution
 - Python bindings through pybind11
-- More complete validation helpers
 - GPU support investigation

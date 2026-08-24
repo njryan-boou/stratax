@@ -2,7 +2,8 @@
 
 #include <pybind11/pybind11.h>
 
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/ArithmeticErrors.hpp>
+#include <stratax/exceptions/TypeErrors.hpp>
 #include <stratax/core/Slice.hpp>
 #include <stratax/indexing/Indexing.hpp>
 
@@ -15,17 +16,18 @@ namespace binding_utils {
 
 namespace py = pybind11;
 
-[[noreturn]] inline void raise_overflow(const char* message)
+[[noreturn]] inline void raise_overflow(
+    const Exceptions::OverflowError& error)
 {
-    PyErr_SetString(PyExc_OverflowError, message);
+    PyErr_SetString(PyExc_OverflowError, error.what());
     throw py::error_already_set();
 }
 
-inline long long cast_integer(py::handle value, const char* type_message, const char* overflow_message)
+inline long long cast_integer(py::handle value)
 {
     if (py::isinstance<py::bool_>(value) || !py::isinstance<py::int_>(value))
     {
-        throw Exceptions::TypeError(type_message);
+        throw Exceptions::TypeError::expected_integer();
     }
 
     PyErr_Clear();
@@ -33,38 +35,34 @@ inline long long cast_integer(py::handle value, const char* type_message, const 
     if (PyErr_Occurred())
     {
         PyErr_Clear();
-        raise_overflow(overflow_message);
+        raise_overflow(Exceptions::OverflowError::integer());
     }
 
     return result;
 }
 
-inline std::ptrdiff_t cast_index(
-    py::handle value,
-    const char* type_message,
-    const char* overflow_message)
+inline std::ptrdiff_t cast_index(py::handle value)
 {
-    const long long result =
-        cast_integer(value, type_message, overflow_message);
+    const long long result = cast_integer(value);
 
     if constexpr (sizeof(std::ptrdiff_t) < sizeof(long long))
     {
         if (result < std::numeric_limits<std::ptrdiff_t>::min() ||
             result > std::numeric_limits<std::ptrdiff_t>::max())
         {
-            raise_overflow(overflow_message);
+            raise_overflow(Exceptions::OverflowError::integer());
         }
     }
 
     return static_cast<std::ptrdiff_t>(result);
 }
 
-inline double cast_scalar(py::handle value, const char* type_message, const char* overflow_message)
+inline double cast_scalar(py::handle value)
 {
     if (py::isinstance<py::bool_>(value)
         || !(py::isinstance<py::int_>(value) || py::isinstance<py::float_>(value)))
     {
-        throw Exceptions::TypeError(type_message);
+        throw Exceptions::TypeError::expected_number();
     }
 
     PyErr_Clear();
@@ -72,12 +70,12 @@ inline double cast_scalar(py::handle value, const char* type_message, const char
     if (PyErr_Occurred())
     {
         PyErr_Clear();
-        raise_overflow(overflow_message);
+        raise_overflow(Exceptions::OverflowError::floating());
     }
 
     if (!std::isfinite(result))
     {
-        raise_overflow(overflow_message);
+        raise_overflow(Exceptions::OverflowError::floating());
     }
 
     return result;
@@ -85,14 +83,9 @@ inline double cast_scalar(py::handle value, const char* type_message, const char
 
 inline stratax::core::Slice single_index_slice(
     py::handle value,
-    std::size_t size,
-    const char* type_message,
-    const char* overflow_message)
+    std::size_t size)
 {
-    const std::ptrdiff_t index = cast_index(
-        value,
-        type_message,
-        overflow_message);
+    const std::ptrdiff_t index = cast_index(value);
 
     const std::size_t normalized =
         stratax::indexing::normalize_index(index, size);
@@ -110,7 +103,7 @@ inline stratax::core::Slice cast_slice(
             std::numeric_limits<py::ssize_t>::max()))
     {
         raise_overflow(
-            "Container is too large to slice with Python indices.");
+            Exceptions::OverflowError::python_slice_extent());
     }
 
     py::ssize_t start;

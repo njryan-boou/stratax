@@ -7,7 +7,7 @@
 #include <stratax/core/ArrayBase.hpp>
 #include <stratax/core/Buffer.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 
 namespace stratax::container {
 
@@ -153,8 +153,8 @@ private:
 	static const core::Shape& validate_shape(const core::Shape& shape)
 	{
 		if (shape.rank() != 1) {
-			throw Exceptions::ShapeError(
-				"Vector shape must be rank 1.");
+			throw Exceptions::ShapeError::vector_rank(
+				{shape.begin(), shape.end()});
 		}
 
 		return shape;

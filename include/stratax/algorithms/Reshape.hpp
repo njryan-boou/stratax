@@ -6,7 +6,7 @@
 
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
 
@@ -34,10 +34,11 @@ template<Array A>
 stratax::container::Tensor<typename A::value_type>
 reshape(const A& arr, const stratax::core::Shape& shape)
 {
-	if (arr.size() != shape.elements())
+	const auto target_size = shape.elements();
+	if (arr.size() != target_size)
 	{
-		throw Exceptions::ShapeError(
-			"Reshape size must match original array size.");
+		throw Exceptions::ShapeError::reshape_size(
+			{shape.begin(), shape.end()}, arr.size(), target_size);
 	}
 
 	stratax::container::Tensor<typename A::value_type> result(shape);

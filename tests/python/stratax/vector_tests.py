@@ -12,6 +12,7 @@ from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as
 from stratax import (
     Shape,
     ShapeError,
+    Matrix,
     Tensor,
     Vector,
     ZeroDivisionError as StrataxZeroDivisionError,
@@ -203,6 +204,16 @@ class TestVectorInterfaceTests:
         assert result.shape == Shape([1, 3])
         assert result.tolist() == [[True, False, False]]
 
+    def test_comparison_operators_support_mixed_containers(self) -> None:
+        vector = Vector([1.0, 2.0, 3.0])
+        matrix = Matrix([[2.0, 2.0, 2.0]])
+        tensor = Tensor([1, 1, 3], 2.0)
+
+        assert (vector < matrix).tolist() == [[True, False, False]]
+        assert (matrix <= tensor).tolist() == [[[True, True, True]]]
+        assert (tensor > vector).tolist() == [[[True, False, False]]]
+        assert vector.equal(matrix).tolist() == [[False, True, False]]
+
     def test_array_arithmetic(self) -> None:
         lhs = Vector([8.0, 12.0, 20.0])
         rhs = Vector([2.0, 3.0, 5.0])
@@ -214,6 +225,19 @@ class TestVectorInterfaceTests:
 
         with pytest.raises(StrataxZeroDivisionError):
             _ = lhs / Vector([1.0, 0.0, 1.0])
+
+    def test_array_arithmetic_supports_mixed_containers(self) -> None:
+        vector = Vector([1.0, 2.0, 4.0])
+        matrix = Matrix([[2.0, 4.0, 8.0]])
+        tensor = Tensor([1, 1, 3], 2.0)
+
+        assert (vector + matrix).tolist() == [[3.0, 6.0, 12.0]]
+        assert (matrix - tensor).tolist() == [[[0.0, 2.0, 6.0]]]
+        assert (tensor * vector).tolist() == [[[2.0, 4.0, 8.0]]]
+        assert (tensor / matrix).tolist() == [[[1.0, 0.5, 0.25]]]
+
+        matrix += vector
+        assert matrix.tolist() == [[3.0, 6.0, 12.0]]
 
     def test_scalar_arithmetic(self) -> None:
         vector = Vector([2.0, 4.0, 8.0])

@@ -9,7 +9,7 @@
 
 #include <stratax/core/Shape.hpp>
 #include <stratax/indexing/Indexing.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
 
 namespace stratax::core {
 
@@ -20,6 +20,7 @@ public:
 	using element_type = T;
     using value_type = std::remove_const_t<element_type>;
     using size_type = std::size_t;
+	using difference_type = std::ptrdiff_t;
 	using reference = element_type&;
 	using const_reference = const value_type&;
 	using pointer = element_type*;
@@ -202,8 +203,7 @@ reference operator()(size_type first, Rest... rest)
 
     if (count != rank())
     {
-        throw Exceptions::IndexError(
-            "Number of indices must match view rank.");
+        throw Exceptions::IndexError::view_index_rank(count, rank());
     }
 
     const std::array<size_type, count> indices{
@@ -222,8 +222,7 @@ const_reference operator()(size_type first, Rest... rest) const
 
     if (count != rank())
     {
-        throw Exceptions::IndexError(
-            "Number of indices must match view rank.");
+        throw Exceptions::IndexError::view_index_rank(count, rank());
     }
 
     const std::array<size_type, count> indices{
@@ -277,8 +276,8 @@ private:
 {
     if (indices.size() != rank())
     {
-        throw Exceptions::IndexError(
-            "ArrayView index rank must match view rank.");
+        throw Exceptions::IndexError::array_view_index_rank(
+            indices.size(), rank());
     }
 
     size_type offset = 0;

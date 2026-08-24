@@ -357,7 +357,7 @@ TEST(TensorVariadicSlicing, RankMismatchErrorMessage)
 		static_cast<void>(slice(source, Slice{0, 2}, Slice{0, 3}));
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Tensor slice rank must match tensor rank.");
+		EXPECT_STREQ(error.what(), "Tensor slice has 2 components, but the target has rank 3; provide exactly one index or slice component per dimension.");
 	}
 }
 
@@ -475,7 +475,7 @@ TEST(TensorVectorSlicing, RankMismatchErrorMessage)
 		static_cast<void>(slice(source, slices));
 		FAIL() << "Expected Exceptions::DimensionError";
 	} catch (const Exceptions::DimensionError& error) {
-		EXPECT_STREQ(error.what(), "Slice rank must match tensor rank.");
+		EXPECT_STREQ(error.what(), "Received 2 slice components for a rank-3 tensor; provide exactly one slice per tensor dimension.");
 	}
 }
 

@@ -154,5 +154,5 @@ The API is generic over index containers to avoid forcing a project-specific ind
 
 ## See Also
 
-- `include/stratax/containers/Tensor.hpp`
 - `include/stratax/core/validation/IndexValidation.hpp`
+- `include/stratax/containers/Tensor.hpp`

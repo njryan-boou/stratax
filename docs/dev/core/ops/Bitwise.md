@@ -41,14 +41,13 @@ The bitwise module is not responsible for:
 Bitwise operators
 ├── Array concept constraints
 ├── Integer concept constraints
-├── validation::require_same_shape(...)
+├── explicit shape and broadcast checks
 └── in-place operators forwarding to non-compound operators
 ```
 
 Depends on:
 
 - `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/validation/Validation.hpp`
 
 Used by:
 

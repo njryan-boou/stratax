@@ -12,7 +12,6 @@
 #include <stratax/core/dtypes/Types.hpp>
 #include <stratax/core/dtypes/DTypeTraits.hpp>
 #include <stratax/core/dtypes/Promotion.hpp>
-#include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/Slice.hpp>
 #include <stratax/core/ArrayView.hpp>
 

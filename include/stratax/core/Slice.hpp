@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
 
 namespace stratax::core {
 
@@ -59,7 +59,7 @@ public:
 		  step_(step)
 	{
 		if (step == 0) {
-			throw Exceptions::IndexError("Slice step cannot be zero.");
+			throw Exceptions::IndexError::slice_step_zero();
 		}
 	}
 

@@ -227,7 +227,7 @@ TEST(ArrayDivision, ArrayDivisorErrorMessage)
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
 		EXPECT_STREQ(error.what(),
-			"Array division divisor element cannot be zero.");
+			"Element-wise array division encountered a zero in the broadcasted divisor; every divisor element must be nonzero.");
 	}
 }
 
@@ -247,7 +247,7 @@ TEST(ArrayDivision, RightScalarErrorMessage)
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
 		EXPECT_STREQ(error.what(),
-			"Array division scalar divisor cannot be zero.");
+			"Cannot divide an array by scalar zero; provide a nonzero scalar divisor.");
 	}
 }
 
@@ -267,7 +267,7 @@ TEST(ArrayDivision, LeftScalarErrorMessage)
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
 		EXPECT_STREQ(error.what(),
-			"Scalar division divisor element cannot be zero.");
+			"Scalar-by-array division encountered a zero divisor element; every array element used as a divisor must be nonzero.");
 	}
 }
 

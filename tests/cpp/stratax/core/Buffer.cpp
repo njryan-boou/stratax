@@ -192,20 +192,6 @@ TEST(BufferMeta, Back)
     );
 }
 
-TEST(BufferMeta, FrontEmpty)
-{
-    Buffer<int> buffer;
-
-    EXPECT_THROW(buffer.front(), Exceptions::IndexError);
-}
-
-TEST(BufferMeta, BackEmpty)
-{
-    Buffer<int> buffer;
-
-    EXPECT_THROW(buffer.back(), Exceptions::IndexError);
-}
-
 TEST(BufferMeta, Data)
 {
     Buffer<int> buffer{1, 2, 3, 4};

@@ -6,13 +6,23 @@ Version: v0.2.0
 
 Status: Complete
 
-Header: `include/stratax/exceptions/Exceptions.hpp`
+Umbrella header: `include/stratax/exceptions/Exceptions.hpp`
+
+Component headers:
+
+- `ErrorCode.hpp`: stable error categories
+- `StrataxError.hpp`: common message, code, and source-location metadata
+- `LayoutErrors.hpp`: shape, dimension, and broadcasting errors
+- `IndexErrors.hpp`: index and axis errors
+- `TypeErrors.hpp`: type and value-domain errors
+- `ArithmeticErrors.hpp`: division-by-zero and overflow errors
 
 ---
 
 ## Overview
 
-`Exceptions.hpp` defines Stratax's domain-specific runtime error hierarchy.
+`Exceptions.hpp` aggregates Stratax's domain-specific runtime error hierarchy.
+Each family header can also be included independently to reduce dependencies.
 
 All Stratax exceptions derive from `std::runtime_error` through `Exceptions::StrataxError` and are used to communicate shape, dimension, indexing, typing, broadcasting, and arithmetic-domain failures.
 
@@ -24,7 +34,9 @@ The exception module is responsible for:
 
 - Providing a common base type for Stratax runtime failures
 - Defining specific exception categories for common error domains
-- Carrying human-readable error messages via standard runtime-error constructors
+- Carrying human-readable messages and structured failure metadata
+- Exposing a stable error code and category through the common base class
+- Capturing the C++ source location where the exception was created
 
 The exception module is **not** responsible for:
 
@@ -44,7 +56,10 @@ std::runtime_error
     ├── Exceptions::IndexError
     ├── Exceptions::TypeError
     ├── Exceptions::BroadcastError
-    └── Exceptions::ZeroDivisionError
+    ├── Exceptions::ZeroDivisionError
+    ├── Exceptions::AxisError
+    ├── Exceptions::OverflowError
+    └── Exceptions::ValueError
 ```
 
 Depends on:
@@ -65,7 +80,17 @@ The following conditions are always true:
 
 - Every Stratax-specific exception derives from `Exceptions::StrataxError`.
 - `Exceptions::StrataxError` derives from `std::runtime_error`.
-- Concrete exception classes add no additional data members.
+- Every exception exposes its domain through `code()` and `category()`, even
+  when caught as `const StrataxError&`.
+- Direct constructors and named factories capture their caller through
+  `std::source_location`; the location is not appended to `what()`.
+- Message-only exceptions follow `std::runtime_error` storage semantics.
+- Structured constructors retain the values that caused validation to fail.
+- Named factories own operation-specific diagnostic text and retain relevant
+  metadata, keeping message wording out of validation and operation code.
+- Factory-generated messages identify the failed operation, include available
+  offending values and expected constraints, explain why the input is invalid,
+  and state the valid range or corrective action when one exists.
 - Message construction and storage behavior follows `std::runtime_error` semantics.
 
 ---
@@ -90,11 +115,50 @@ All exception classes are defined in namespace `Exceptions`.
 class StrataxError : public std::runtime_error
 {
 public:
-    using std::runtime_error::runtime_error;
+    explicit StrataxError(
+        std::string message,
+        std::source_location location = std::source_location::current());
+
+    ErrorCode code() const noexcept;
+    std::string_view category() const noexcept;
+    const std::source_location& location() const noexcept;
+    std::string_view file_name() const noexcept;
+    std::string_view function_name() const noexcept;
+    std::uint_least32_t line() const noexcept;
+    std::uint_least32_t column() const noexcept;
+    std::string diagnostic() const;
 };
 ```
 
-Base class for all Stratax runtime errors.
+Base class for all Stratax runtime errors. It owns the diagnostic message and a
+stable `ErrorCode`. `category()` returns a lowercase, serialization-friendly
+name such as `"shape"`, `"index"`, or `"overflow"`.
+`diagnostic()` combines the category, message, and available source location in
+a log-ready string while leaving `what()` unchanged.
+
+### ErrorCode
+
+```cpp
+enum class ErrorCode
+{
+    Stratax,
+    Shape,
+    Dimension,
+    Index,
+    Type,
+    Broadcast,
+    ZeroDivision,
+    Axis,
+    Overflow,
+    Value
+};
+```
+
+Derived constructors assign their corresponding code automatically, including
+message-only compatibility constructors and named diagnostic factories.
+Every constructor and factory also has a trailing defaulted
+`std::source_location` parameter. Factories forward it explicitly so the
+recorded location identifies the caller rather than the factory body.
 
 ---
 
@@ -112,6 +176,9 @@ public:
 
 Signals an invalid or incompatible shape.
 
+Structured instances expose `actual_shape()` and, when applicable,
+`expected_shape()` as optional vectors.
+
 ---
 
 ### DimensionError
@@ -126,6 +193,9 @@ public:
 
 Signals an invalid dimension count or dimension-arithmetic failure.
 
+Structured instances expose optional `actual_dimension()` and
+`expected_dimension()` values.
+
 ---
 
 ### IndexError
@@ -134,11 +204,24 @@ Signals an invalid dimension count or dimension-arithmetic failure.
 class IndexError : public StrataxError
 {
 public:
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+
     using StrataxError::StrataxError;
+
+    IndexError(difference_type index, size_type size);
+    IndexError(std::string message, difference_type index, size_type size);
+
+    bool has_index_metadata() const noexcept;
+    const std::optional<difference_type>& index() const noexcept;
+    const std::optional<size_type>& size() const noexcept;
 };
 ```
 
-Signals invalid index access or index normalization failure.
+Signals invalid index access or index normalization failure. Bounds errors store
+the rejected signed index and indexed extent. Errors describing rank mismatch,
+invalid slice configuration, or another non-bound condition retain support for
+message-only construction and report empty metadata optionals.
 
 ---
 
@@ -154,6 +237,9 @@ public:
 
 Signals unsupported or incompatible type usage.
 
+Structured instances expose optional `actual_type()` and `expected_type()`
+names.
+
 ---
 
 ### BroadcastError
@@ -167,6 +253,8 @@ public:
 ```
 
 Signals that broadcasting rules cannot satisfy an operation.
+
+Structured instances expose optional `left_shape()` and `right_shape()` values.
 
 ---
 
@@ -182,12 +270,38 @@ public:
 
 Signals division-by-zero conditions.
 
+When a failing divisor belongs to an array, structured instances expose its
+flat `index()`. Scalar and aggregate failures may remain message-only.
+
+---
+
+### AxisError
+
+Signals an invalid reduction axis. Structured instances expose the signed
+`axis()` and array `rank()`.
+
+---
+
+### OverflowError
+
+Signals checked arithmetic overflow. Structured instances expose the
+`operation()`, `left_operand()`, and `right_operand()`.
+
+---
+
+### ValueError
+
+Signals a value that belongs to the correct type but falls outside an
+operation's accepted domain, such as an invalid bit-shift count.
+
 ---
 
 ## Usage Guidelines
 
 - Throw the most specific exception type available for the failure domain.
-- Keep messages concrete and operation-local (include expected vs actual values where useful).
+- Prefer a named exception factory for known failure modes.
+- Add new diagnostic text to the relevant exception class instead of a throw
+  site, then pass structured values from the caller.
 - Reserve generic `StrataxError` for cases that do not fit a more specific category.
 
 ---
@@ -207,17 +321,13 @@ Signals division-by-zero conditions.
 ## Throwing Specific Errors
 
 ```cpp
-if (index >= size)
-{
-    throw Exceptions::IndexError("Index is out of bounds.");
-}
+throw Exceptions::IndexError(index, size);
 ```
 
 ```cpp
-if (lhs.shape() != rhs.shape())
-{
-    throw Exceptions::ShapeError("Shapes must match for element-wise operation.");
-}
+throw Exceptions::BroadcastError::incompatible(
+    {lhs.shape().begin(), lhs.shape().end()},
+    {rhs.shape().begin(), rhs.shape().end()});
 ```
 
 ---
@@ -231,7 +341,8 @@ try
 }
 catch (const Exceptions::StrataxError& e)
 {
-    std::cerr << e.what() << '\n';
+    std::cerr << e.category() << ": " << e.what() << '\n';
+    std::cerr << e.file_name() << ':' << e.line() << '\n';
 }
 ```
 
@@ -239,23 +350,22 @@ catch (const Exceptions::StrataxError& e)
 
 ## Design Notes
 
-The hierarchy is intentionally shallow and message-only to keep exception objects lightweight and predictable.
-
-Using standard runtime-error constructor inheritance (`using ...::runtime_error`) avoids duplicate boilerplate and ensures consistent message behavior across all categories.
+The hierarchy remains shallow. Every concrete exception retains inherited
+message-only construction for failures without meaningful structured values.
+Metadata-bearing constructors generate consistent default messages. Named
+factories cover operation-specific wording, so library and binding call sites
+do not duplicate diagnostic strings.
 
 ---
 
 ## Future Improvements
 
 - Consider migration path from `Exceptions` to a nested `stratax::core` namespace if desired.
-- Add direct unit tests asserting exception category guarantees per public API.
 - Standardize message format conventions across modules.
 
 ---
 
 ## See Also
 
-- `include/stratax/core/validation/ShapeValidation.hpp`
-- `include/stratax/core/validation/DimensionValidation.hpp`
 - `include/stratax/core/validation/IndexValidation.hpp`
-- `include/stratax/core/validation/TypeValidation.hpp`
+- `include/stratax/core/validation/Validation.hpp`

@@ -282,7 +282,7 @@ TEST(AxisReduction, AxisErrorMessage)
 		static_cast<void>(reduction::sum(source, 1));
 		FAIL() << "Expected Exceptions::AxisError";
 	} catch (const Exceptions::AxisError& error) {
-		EXPECT_STREQ(error.what(), "axis is out of range.");
+		EXPECT_STREQ(error.what(), "Axis 1 is out of range for an array of rank 1. Valid axes range from -1 through 0.");
 	}
 }
 
@@ -316,14 +316,14 @@ TEST(EmptyGlobalReduction, ExtremaErrorMessages)
 		reduction::max(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Maximum is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute a maximum for an empty array because there is no element to select; provide at least one element.");
 	}
 
 	try {
 		reduction::min(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Minimum is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute a minimum for an empty array because there is no element to select; provide at least one element.");
 	}
 }
 
@@ -343,14 +343,14 @@ TEST(EmptyGlobalReduction, ExtremumIndexErrorMessages)
 		reduction::argmax(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Argmax is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute argmax for an empty array because no valid element index exists; provide at least one element.");
 	}
 
 	try {
 		reduction::argmin(source);
 		FAIL() << "Expected Exceptions::IndexError";
 	} catch (const Exceptions::IndexError& error) {
-		EXPECT_STREQ(error.what(), "Argmin is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute argmin for an empty array because no valid element index exists; provide at least one element.");
 	}
 }
 
@@ -371,14 +371,14 @@ TEST(EmptyGlobalReduction, StatisticErrorMessages)
 		reduction::mean(source);
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
-		EXPECT_STREQ(error.what(), "Mean is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute the mean of an empty array because the element count is zero; provide at least one element.");
 	}
 
 	try {
 		reduction::var(source);
 		FAIL() << "Expected Exceptions::ZeroDivisionError";
 	} catch (const Exceptions::ZeroDivisionError& error) {
-		EXPECT_STREQ(error.what(), "Variance is undefined for an empty array.");
+		EXPECT_STREQ(error.what(), "Cannot compute variance of an empty array because the element count is zero; provide at least one element.");
 	}
 }
 

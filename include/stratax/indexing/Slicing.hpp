@@ -8,10 +8,10 @@
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 #include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
-#include <stratax/core/validation/Validation.hpp>
 #include <stratax/core/ArrayView.hpp>
 
 #include <array>
@@ -49,11 +49,11 @@ using view_element_t = std::conditional_t<
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
 	size_type extent,
-	const char* message)
+	Exceptions::IndexError::Context context)
 {
 	if (extent > static_cast<size_type>(std::numeric_limits<difference_type>::max()))
 	{
-		throw Exceptions::IndexError(message);
+		throw Exceptions::IndexError::slice_extent(context, extent);
 	}
 
 	const difference_type n = static_cast<difference_type>(extent);
@@ -121,12 +121,11 @@ auto make_vector_slice_view(
         detail::normalize_slice(
             slice,
             vec.size(),
-            "Vector slice out of bounds.");
+            Exceptions::IndexError::Context::VectorSlice);
 
     if (resolved.step < 0)
     {
-        throw Exceptions::IndexError(
-            "Negative-step views are not supported yet.");
+        throw Exceptions::IndexError::negative_step_view();
     }
 
     const auto offset =
@@ -156,18 +155,17 @@ auto make_matrix_slice_view(
         detail::normalize_slice(
             rows,
             mat.rows(),
-            "Matrix row slice out of bounds.");
+            Exceptions::IndexError::Context::MatrixRowSlice);
 
     const auto resolved_cols =
         detail::normalize_slice(
             cols,
             mat.cols(),
-            "Matrix column slice out of bounds.");
+            Exceptions::IndexError::Context::MatrixColumnSlice);
 
     if (resolved_rows.step < 0 || resolved_cols.step < 0)
     {
-        throw Exceptions::IndexError(
-            "Negative-step views are not supported yet.");
+        throw Exceptions::IndexError::negative_step_view();
     }
 
     const size_type offset =
@@ -245,8 +243,8 @@ auto make_tensor_slice_view(
 
     if (ranges.size() != tensor.rank())
     {
-        throw Exceptions::IndexError(
-            "Tensor slice rank must match tensor rank.");
+        throw Exceptions::IndexError::tensor_slice_rank(
+            ranges.size(), tensor.rank());
     }
 
     std::array<
@@ -261,7 +259,7 @@ auto make_tensor_slice_view(
         resolved[dim] = detail::normalize_slice(
             ranges[dim],
             tensor.shape()[dim],
-            "Tensor slice out of bounds.");
+            Exceptions::IndexError::Context::TensorSlice);
 
         out_dims[dim] = resolved[dim].size;
     }
@@ -282,30 +280,36 @@ auto make_tensor_slice_view(
     {
         if (resolved[dim].step < 0)
         {
-            throw Exceptions::IndexError(
-                "Negative-step views are not supported yet.");
+            throw Exceptions::IndexError::negative_step_view();
         }
 
         const auto start =
             static_cast<size_type>(resolved[dim].start);
 
-        const auto offset_term =
-            stratax::core::validation::checked_multiply(
-                start,
-                tensor_strides[dim],
-                "Tensor view offset overflow.");
+        if (tensor_strides[dim] != 0 &&
+            start > std::numeric_limits<size_type>::max() / tensor_strides[dim])
+        {
+            throw Exceptions::DimensionError::tensor_offset_overflow();
+        }
 
-        offset =
-            stratax::core::validation::checked_add(
-                offset,
-                offset_term,
-                "Tensor view offset overflow.");
+        const auto offset_term = start * tensor_strides[dim];
 
-        view_stride_values.push_back(
-            stratax::core::validation::checked_multiply(
-                tensor_strides[dim],
-                static_cast<size_type>(resolved[dim].step),
-                "Tensor view stride overflow."));
+        if (offset > std::numeric_limits<size_type>::max() - offset_term)
+        {
+            throw Exceptions::DimensionError::tensor_offset_overflow();
+        }
+
+        offset += offset_term;
+
+        const auto step = static_cast<size_type>(resolved[dim].step);
+
+        if (step != 0 &&
+            tensor_strides[dim] > std::numeric_limits<size_type>::max() / step)
+        {
+            throw Exceptions::DimensionError::tensor_stride_overflow();
+        }
+
+        view_stride_values.push_back(tensor_strides[dim] * step);
     }
 
     const stratax::core::Shape view_strides(
@@ -322,10 +326,12 @@ auto make_tensor_slice_view(
     Tensor& tensor,
     const std::vector<stratax::core::Slice>& slices)
 {
-    stratax::core::validation::require_rank(
-        slices.size(),
-        tensor.rank(),
-        "Slice rank must match tensor rank.");
+    if (slices.size() != tensor.rank())
+    {
+        throw Exceptions::DimensionError::slice_rank(
+            static_cast<difference_type>(slices.size()),
+            static_cast<difference_type>(tensor.rank()));
+    }
 
     std::vector<detail::ResolvedSlice> resolved(
         slices.size());
@@ -338,7 +344,7 @@ auto make_tensor_slice_view(
         resolved[dim] = detail::normalize_slice(
             slices[dim],
             tensor.shape()[dim],
-            "Tensor slice out of bounds.");
+            Exceptions::IndexError::Context::TensorSlice);
 
         out_dims[dim] = resolved[dim].size;
     }
@@ -357,30 +363,36 @@ auto make_tensor_slice_view(
     {
         if (resolved[dim].step < 0)
         {
-            throw Exceptions::IndexError(
-                "Negative-step views are not supported yet.");
+            throw Exceptions::IndexError::negative_step_view();
         }
 
         const auto start =
             static_cast<size_type>(resolved[dim].start);
 
-        const auto offset_term =
-            stratax::core::validation::checked_multiply(
-                start,
-                tensor_strides[dim],
-                "Tensor view offset overflow.");
+        if (tensor_strides[dim] != 0 &&
+            start > std::numeric_limits<size_type>::max() / tensor_strides[dim])
+        {
+            throw Exceptions::DimensionError::tensor_offset_overflow();
+        }
 
-        offset =
-            stratax::core::validation::checked_add(
-                offset,
-                offset_term,
-                "Tensor view offset overflow.");
+        const auto offset_term = start * tensor_strides[dim];
 
-        view_stride_values.push_back(
-            stratax::core::validation::checked_multiply(
-                tensor_strides[dim],
-                static_cast<size_type>(resolved[dim].step),
-                "Tensor view stride overflow."));
+        if (offset > std::numeric_limits<size_type>::max() - offset_term)
+        {
+            throw Exceptions::DimensionError::tensor_offset_overflow();
+        }
+
+        offset += offset_term;
+
+        const auto step = static_cast<size_type>(resolved[dim].step);
+
+        if (step != 0 &&
+            tensor_strides[dim] > std::numeric_limits<size_type>::max() / step)
+        {
+            throw Exceptions::DimensionError::tensor_stride_overflow();
+        }
+
+        view_stride_values.push_back(tensor_strides[dim] * step);
     }
 
     const stratax::core::Shape view_strides(

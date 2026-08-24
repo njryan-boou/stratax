@@ -91,7 +91,7 @@ TEST(MatrixConstructor, ShapeErrorMessage)
 		static_cast<void>(Matrix<int>(Shape{6}));
 		FAIL() << "Expected Exceptions::ShapeError";
 	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(), "Matrix shape must be rank 2.");
+		EXPECT_STREQ(error.what(), "Matrix requires a rank-2 shape, but shape (6) has rank 1.");
 	}
 }
 
@@ -156,7 +156,7 @@ TEST(MatrixConstructor, RaggedInitializerErrorMessage)
 	} catch (const Exceptions::ShapeError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Matrix initializer rows must all have the same number of columns."
+			"Cannot construct a rectangular Matrix from this initializer list: every row must contain exactly the same number of columns as the first row."
 		);
 	}
 }

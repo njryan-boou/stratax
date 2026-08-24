@@ -3,8 +3,8 @@
 #include "binding_utils/utils.hpp"
 
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/ArithmeticErrors.hpp>
+#include <stratax/exceptions/LayoutErrors.hpp>
 
 #include <cstddef>
 #include <sstream>
@@ -19,10 +19,7 @@ using Shape = stratax::core::Shape;
 
 long long cast_shape_dimension(py::handle dim)
 {
-    return binding_utils::cast_integer(
-        dim,
-        "Shape dimensions must be integers.",
-        "Shape dimension is too large to fit in a signed integer.");
+    return binding_utils::cast_integer(dim);
 }
 
 Shape make_shape(const std::vector<long long>& dims)
@@ -32,10 +29,12 @@ Shape make_shape(const std::vector<long long>& dims)
 
     for (long long dim : dims)
     {
-        values.push_back(
-            stratax::core::validation::nonnegative_shape_dimension(
-                dim,
-                "Shape dimensions cannot be negative."));
+        if (dim < 0)
+        {
+            throw Exceptions::ShapeError::negative_shape_dimension();
+        }
+
+        values.push_back(static_cast<std::size_t>(dim));
     }
 
     return Shape(values);
@@ -50,57 +49,56 @@ void bind_shape(py::module_& m)
     cls
         .def(py::init<>())
         .def(py::init<const Shape&>(), py::arg("other"))
-        .def(py::init([](py::int_ size)
-        {
-            return make_shape({cast_shape_dimension(size)});
-        }), py::arg("size"))
-        .def(py::init([](py::iterable dims)
-        {
-            std::vector<long long> values;
+        .def(
+            py::init([](py::int_ size) {
+                return make_shape({cast_shape_dimension(size)});
+            }),
+            py::arg("size"))
+        .def(
+            py::init([](py::iterable dims) {
+                std::vector<long long> values;
 
-            for (py::handle dim : dims)
-            {
-                values.push_back(cast_shape_dimension(dim));
-            }
+                for (py::handle dim : dims)
+                {
+                    values.push_back(cast_shape_dimension(dim));
+                }
 
-            return make_shape(values);
-        }), py::arg("dims"))
+                return make_shape(values);
+            }),
+            py::arg("dims"))
         .def_property_readonly("rank", &Shape::rank)
-        .def_property_readonly("elements", [](const Shape& shape)
-        {
-            try
-            {
-                return shape.elements();
-            }
-            catch (const Exceptions::DimensionError& e)
-            {
-                binding_utils::raise_overflow(e.what());
-            }
-        })
+        .def_property_readonly(
+            "elements",
+            [](const Shape& shape) {
+                try
+                {
+                    return shape.elements();
+                }
+                catch (const Exceptions::DimensionError&)
+                {
+                    binding_utils::raise_overflow(
+                        Exceptions::OverflowError::shape_elements());
+                }
+            })
         .def_property_readonly("empty", &Shape::empty)
-		.def_property_readonly("strides", &Shape::strides)
+        .def_property_readonly("strides", &Shape::strides)
         .def("__len__", &Shape::rank)
-        .def("__getitem__", [](const Shape& shape, py::handle index)
-{
-    return shape.at(binding_utils::cast_index(
-        index,
-        "Shape index must be an integer.",
-        "Shape index is too large to fit in a signed integer."));
-})
-        .def("__iter__", [](const Shape& shape)
-        {
-            return py::make_iterator(shape.begin(), shape.end());
-        }, py::keep_alive<0, 1>())
-        .def("__eq__", [](const Shape& lhs, const Shape& rhs)
-        {
+        .def("__getitem__", [](const Shape& shape, py::handle index) {
+            return shape.at(binding_utils::cast_index(index));
+        })
+        .def(
+            "__iter__",
+            [](const Shape& shape) {
+                return py::make_iterator(shape.begin(), shape.end());
+            },
+            py::keep_alive<0, 1>())
+        .def("__eq__", [](const Shape& lhs, const Shape& rhs) {
             return lhs == rhs;
         })
-        .def("__ne__", [](const Shape& lhs, const Shape& rhs)
-        {
+        .def("__ne__", [](const Shape& lhs, const Shape& rhs) {
             return lhs != rhs;
         })
-        .def("__repr__", [](const Shape& shape)
-        {
+        .def("__repr__", [](const Shape& shape) {
             std::ostringstream os;
             os << shape;
             return os.str();

@@ -4,9 +4,9 @@
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/ArithmeticErrors.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
 #include <stratax/core/Shape.hpp>
-#include <stratax/core/validation/Validation.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Vector.hpp>
@@ -171,7 +171,7 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
     
 	if (Axis < 0 || Axis >= static_cast<int>(array.rank()))
 	{
-		throw Exceptions::AxisError("axis is out of range.");
+		throw Exceptions::AxisError::out_of_range(axis, array.rank());
 	}
 
 	stratax::container::Tensor<typename A::value_type> arr =
@@ -290,8 +290,7 @@ auto max(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError(
-			"Maximum is undefined for an empty array.");
+		throw Exceptions::IndexError::maximum_empty();
 	}
 
 	auto result = std::max_element(
@@ -316,8 +315,7 @@ auto min(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError(
-			"Minimum is undefined for an empty array.");
+		throw Exceptions::IndexError::minimum_empty();
 	}
 
 	auto result = std::min_element(
@@ -342,8 +340,7 @@ auto argmax(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError(
-			"Argmax is undefined for an empty array.");
+		throw Exceptions::IndexError::argmax_empty();
 	}
 
 	auto result = std::max_element(
@@ -368,8 +365,7 @@ auto argmin(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::IndexError(
-			"Argmin is undefined for an empty array.");
+		throw Exceptions::IndexError::argmin_empty();
 	}
 
 	auto result = std::min_element(
@@ -397,8 +393,7 @@ double mean(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::ZeroDivisionError(
-			"Mean is undefined for an empty array.");
+		throw Exceptions::ZeroDivisionError::mean_empty();
 	}
 
 	return static_cast<double>(sum(arr)) / static_cast<double>(arr.size());
@@ -421,8 +416,7 @@ double var(const A& arr)
 {
 	if (arr.empty())
 	{
-		throw Exceptions::ZeroDivisionError(
-			"Variance is undefined for an empty array.");
+		throw Exceptions::ZeroDivisionError::variance_empty();
 	}
 
 	double count = 0.0;

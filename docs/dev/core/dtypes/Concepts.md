@@ -338,4 +338,3 @@ types based on coincidental member names.
 - @ref vector
 - @ref matrix
 - @ref tensor
-- `include/stratax/core/validation/TypeValidation.hpp`

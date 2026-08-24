@@ -45,7 +45,7 @@ Defines the working conventions for code, tests, and documentation so new change
 
 - Changes that affect shape, indexing, construction, or arithmetic should include edge-case tests.
 - Avoid adding validation behavior in docs unless the implementation already supports it or it is clearly marked as future work.
-- Keep validation expectations aligned with the current state of `Validation.hpp`.
+- Keep validation checks local to the operation whose preconditions they enforce.
 
 ## Implementation Notes
 

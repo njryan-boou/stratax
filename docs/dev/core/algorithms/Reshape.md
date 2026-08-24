@@ -38,7 +38,7 @@ The reshape module is not responsible for:
 
 ```text
 reshape(arr, shape)
-├── validation::require_equal_size(arr.size(), shape.elements(), ...)
+├── checks arr.size() == shape.elements()
 └── flat copy into Tensor
 
 flatten(arr)
@@ -51,7 +51,6 @@ Depends on:
 - `include/stratax/core/Shape.hpp`
 - `include/stratax/containers/Tensor.hpp`
 - `include/stratax/containers/Vector.hpp`
-- `include/stratax/core/validation/Validation.hpp`
 
 ---
 

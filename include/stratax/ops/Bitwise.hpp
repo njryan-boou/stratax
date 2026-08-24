@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
-#include <stratax/core/validation/Validation.hpp>
 #include <stratax/ops/Broadcasting.hpp>
 
 #include <functional>
@@ -53,8 +52,7 @@ void require_valid_shift_count(const Count& count)
 {
 	if (!valid_shift_count<Value>(count))
 	{
-		throw Exceptions::StrataxError(
-			"Shift count must be non-negative and less than the bit width of the shifted value.");
+		throw Exceptions::ValueError::shift_count();
 	}
 }
 
@@ -212,8 +210,9 @@ L& compound_bitwise_op(
 
 	if (result_shape != lhs.shape())
 	{
-		throw Exceptions::BroadcastError(
-			"Compound bitwise assignment cannot change the left-hand shape.");
+		throw Exceptions::BroadcastError::compound_bitwise(
+			{result_shape.begin(), result_shape.end()},
+			{lhs.shape().begin(), lhs.shape().end()});
 	}
 
 	for (std::size_t i = 0; i < lhs.size(); ++i)
@@ -283,8 +282,9 @@ L& compound_shift_op(
 
 	if (result_shape != lhs.shape())
 	{
-		throw Exceptions::BroadcastError(
-			"Compound shift assignment cannot change the left-hand shape.");
+		throw Exceptions::BroadcastError::compound_shift(
+			{result_shape.begin(), result_shape.end()},
+			{lhs.shape().begin(), lhs.shape().end()});
 	}
 
 	using value_type = typename L::value_type;

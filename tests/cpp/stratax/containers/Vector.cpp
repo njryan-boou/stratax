@@ -70,7 +70,7 @@ TEST(VectorConstructor, ShapeErrorMessage)
 		static_cast<void>(Vector<int>(Shape{2, 3}));
 		FAIL() << "Expected Exceptions::ShapeError";
 	} catch (const Exceptions::ShapeError& error) {
-		EXPECT_STREQ(error.what(), "Vector shape must be rank 1.");
+		EXPECT_STREQ(error.what(), "Vector requires a rank-1 shape, but shape (2, 3) has rank 2.");
 	}
 }
 

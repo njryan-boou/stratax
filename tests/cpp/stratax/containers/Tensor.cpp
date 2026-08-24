@@ -326,7 +326,7 @@ TEST(TensorAccess, RankMismatchErrorMessage)
 	} catch (const Exceptions::IndexError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Tensor multi-index rank must match tensor rank."
+			"Tensor multi-index has 2 components, but the target has rank 3; provide exactly one index or slice component per dimension."
 		);
 	}
 }
@@ -341,7 +341,7 @@ TEST(TensorAccess, ComponentOutOfRangeErrorMessage)
 	} catch (const Exceptions::IndexError& error) {
 		EXPECT_STREQ(
 			error.what(),
-			"Tensor multi-index component is out of bounds."
+			"Tensor multi-index component is invalid: Index 3 is out of bounds for size 3. Valid indices range from -3 through 2."
 		);
 	}
 }

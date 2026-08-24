@@ -22,24 +22,20 @@ void bind_reshape(py::class_<Array>& cls)
             [](const Array& self, const stratax::core::Shape& shape) {
                 return stratax::manipulation::reshape(self, shape);
             },
-            py::arg("shape")
-        )
+            py::arg("shape"))
         .def(
             "reshape",
             [](const Array& self, const std::vector<std::size_t>& dims) {
                 return stratax::manipulation::reshape(
                     self,
-                    stratax::core::Shape(dims)
-                );
+                    stratax::core::Shape(dims));
             },
-            py::arg("shape")
-        )
+            py::arg("shape"))
         .def(
             "flatten",
             [](const Array& self) {
                 return stratax::manipulation::flatten(self);
-            }
-        );
+            });
 }
 
 } // namespace binding_utils

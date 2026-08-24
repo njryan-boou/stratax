@@ -197,8 +197,7 @@ public:
 
 		return (*this)[normalized_flat_offset(
 			raw_indices,
-			"Tensor multi-index rank must match tensor rank.",
-			"Tensor multi-index component is out of bounds.")];
+			Exceptions::IndexError::Context::Tensor)];
 	}
 
 	/**
@@ -225,8 +224,7 @@ public:
 
 		return (*this)[normalized_flat_offset(
 			raw_indices,
-			"Tensor multi-index rank must match tensor rank.",
-			"Tensor multi-index component is out of bounds.")];
+			Exceptions::IndexError::Context::Tensor)];
 	}
 
 	/**
@@ -240,8 +238,7 @@ public:
 	{
 		return (*this)[normalized_flat_offset(
 			raw_indices,
-			"Tensor multi-index rank must match tensor rank.",
-			"Tensor multi-index component is out of bounds.")];
+			Exceptions::IndexError::Context::Tensor)];
 	}
 
 	/**
@@ -255,8 +252,7 @@ public:
 	{
 		return (*this)[normalized_flat_offset(
 			raw_indices,
-			"Tensor multi-index rank must match tensor rank.",
-			"Tensor multi-index component is out of bounds.")];
+			Exceptions::IndexError::Context::Tensor)];
 	}
 
 	/**

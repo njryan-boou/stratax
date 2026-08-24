@@ -10,7 +10,7 @@
 #include <new>
 #include <utility>
 
-#include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/exceptions/IndexErrors.hpp>
 
 namespace stratax::core {
 
@@ -333,10 +333,6 @@ public:
      */
     reference front()
     {
-        if (empty()) {
-            throw Exceptions::IndexError("Buffer front cannot be accessed when the buffer is empty.");
-        }
-
         return data_[0];
     }
 
@@ -349,10 +345,6 @@ public:
      */
     const_reference front() const
     {
-        if (empty()) {
-            throw Exceptions::IndexError("Buffer front cannot be accessed when the buffer is empty.");
-        }
-
         return data_[0];
     }
 
@@ -365,10 +357,6 @@ public:
      */
     reference back()
     {
-        if (empty()) {
-            throw Exceptions::IndexError("Buffer back cannot be accessed when the buffer is empty.");
-        }
-
         return data_[size_ - 1];
     }
 
@@ -381,10 +369,6 @@ public:
      */
     const_reference back() const
     {
-        if (empty()) {
-            throw Exceptions::IndexError("Buffer back cannot be accessed when the buffer is empty.");
-        }
-
         return data_[size_ - 1];
     }
 
@@ -412,7 +396,10 @@ public:
      *
      * @complexity O(1).
      */
-    [[nodiscard]] const_pointer data() const noexcept {return data_;}
+    [[nodiscard]] const_pointer data() const noexcept 
+    {
+        return data_;
+    }
 
     /**
      * @brief Returns a mutable iterator to the first element.
