@@ -1,10 +1,15 @@
 #pragma once
 
+#include "utils.hpp"
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <stratax/io/Print.hpp>
+
 #include <algorithm>
 #include <cstddef>
+#include <sstream>
 
 namespace binding_utils {
 
@@ -37,7 +42,15 @@ void bind_properties(py::class_<Array>& cls)
             py::return_value_policy::reference_internal)
         .def("fill", [](Array& arr, const typename Array::value_type& value) {
             arr.fill(value);
-        }, py::arg("value"));
+        }, py::arg("value"))
+        .def("tolist", [](const Array& arr) {
+            return array_to_list(arr);
+        })
+        .def("__repr__", [](const Array& arr) {
+            std::ostringstream os;
+            os << arr;
+            return os.str();
+        });
 }
 
 template<typename Array>

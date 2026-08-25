@@ -5,21 +5,19 @@
 #include "binding_utils/comparison.hpp"
 #include "binding_utils/properties.hpp"
 #include "binding_utils/reshape.hpp"
-#include "binding_utils/utils.hpp"
 #include "binding_utils/views.hpp"
 
 #include <stratax/containers/Vector.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
-#include <stratax/io/Print.hpp>
 
 #include <algorithm>
 #include <cstddef>
-#include <sstream>
 #include <utility>
 #include <vector>
 
 namespace py = pybind11;
+using namespace binding_utils;
 
 namespace
 {
@@ -43,7 +41,7 @@ Vector make_vector_from_iterable(py::iterable values)
     for (py::handle value : values)
     {
         parsed.push_back(
-            binding_utils::cast_scalar(value));
+            cast_scalar(value));
     }
 
     Vector vector(parsed.size());
@@ -58,7 +56,7 @@ Vector make_vector_from_object(py::object value)
     {
         return Vector(
             checked_vector_size(
-                binding_utils::cast_integer(value)));
+                cast_integer(value)));
     }
 
     if (py::isinstance<py::iterable>(value) &&
@@ -87,32 +85,15 @@ void bind_vector_constructors(py::class_<Vector>& cls)
         .def(
             py::init([](py::object size, py::object value) {
                 const auto checked_size = checked_vector_size(
-                    binding_utils::cast_integer(size));
+                    cast_integer(size));
 
                 const auto checked_value =
-                    binding_utils::cast_scalar(value);
+                    cast_scalar(value);
 
                 return Vector(checked_size, checked_value);
             }),
             py::arg("size"),
             py::arg("value"));
-}
-
-void bind_vector_properties(py::class_<Vector>& cls)
-{
-    binding_utils::bind_properties(cls);
-
-    cls
-        .def("tolist", [](const Vector& vector) {
-            return std::vector<double>(
-                vector.begin(),
-                vector.end());
-        })
-        .def("__repr__", [](const Vector& vector) {
-            std::ostringstream os;
-            os << vector;
-            return os.str();
-        });
 }
 
 void bind_vector_indexing(py::class_<Vector>& cls)
@@ -125,7 +106,7 @@ void bind_vector_indexing(py::class_<Vector>& cls)
 
                 if (py::isinstance<py::slice>(index))
                 {
-                    const auto slice = binding_utils::cast_slice(
+                    const auto slice = cast_slice(
                         index.cast<py::slice>(),
                         vector.size());
 
@@ -134,21 +115,18 @@ void bind_vector_indexing(py::class_<Vector>& cls)
                         slice);
 
                     return py::cast(
-                        binding_utils::PyArrayView(
+                        PyArrayView(
                             std::move(view),
                             self));
                 }
 
                 return py::cast(
-                    vector.at(
-                        binding_utils::cast_index(index)));
+                    vector.at(cast_index(index)));
             })
         .def(
             "__setitem__",
             [](Vector& vector, py::object index, py::object value) {
-                vector.at(
-                    binding_utils::cast_index(index)) =
-                    binding_utils::cast_scalar(value);
+                vector.at(cast_index(index)) = cast_scalar(value);
             });
 }
 
@@ -157,10 +135,10 @@ void bind_vector(py::module_& m)
     py::class_<Vector> cls(m, "Vector");
 
     bind_vector_constructors(cls);
-    bind_vector_properties(cls);
+    bind_properties(cls);
     bind_vector_indexing(cls);
-    binding_utils::bind_arithmetic(cls);
-    binding_utils::bind_comparison(cls);
-    binding_utils::bind_reshape(cls);
-    binding_utils::bind_members(cls);
+    bind_arithmetic(cls);
+    bind_comparison(cls);
+    bind_reshape(cls);
+    bind_members(cls);
 }

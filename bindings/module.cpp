@@ -14,6 +14,7 @@ constexpr const char* PyDoc = "Python bindings for Stratax";
 constexpr const char* PyVersion = "0.3.1";
 constexpr const char* PyAuthor = "Noah Ryan";
 constexpr const char* PyLicense = "MIT";
+constexpr const char* PyModule = "Stratax";
 
 void bind_exceptions(py::module_& m)
 {
@@ -61,7 +62,7 @@ PYBIND11_MODULE(_core, m)
     m.attr("__version__") = PyVersion;
     m.attr("__author__") = PyAuthor;
     m.attr("__license__") = PyLicense;
-    m.attr("__module__") = "stratax";
+    m.attr("__module__") = PyModule;
 
     bind_exceptions(m);
     bind_shape(m);

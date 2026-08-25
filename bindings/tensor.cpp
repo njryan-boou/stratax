@@ -1,7 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "binding_utils/utils.hpp"
 #include "binding_utils/views.hpp"
 
 #include <stratax/containers/Tensor.hpp>
@@ -9,7 +8,6 @@
 #include <stratax/core/Slice.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/indexing/Slicing.hpp>
-#include <stratax/io/Print.hpp>
 #include <stratax/ops/Arithmetic.hpp>
 
 #include "binding_utils/arithmetic.hpp"
@@ -21,10 +19,10 @@
 #include <cstddef>
 #include <iterator>
 #include <limits>
-#include <sstream>
 #include <vector>
 
 namespace py = pybind11;
+using namespace binding_utils;
 
 using Tensor = stratax::container::Tensor<double>;
 
@@ -41,7 +39,7 @@ Shape make_shape_from_iterable(py::iterable dims)
 
     for (py::handle dim : dims)
     {
-        const long long raw = binding_utils::cast_integer(dim);
+        const long long raw = cast_integer(dim);
 
         if (raw < 0)
         {
@@ -56,7 +54,7 @@ Shape make_shape_from_iterable(py::iterable dims)
         if (value != 0 &&
             elements > std::numeric_limits<std::size_t>::max() / value)
         {
-            binding_utils::raise_overflow(
+            raise_overflow(
                 Exceptions::OverflowError("Tensor element count overflow."));
         }
 
@@ -64,7 +62,7 @@ Shape make_shape_from_iterable(py::iterable dims)
 
         if (elements > std::numeric_limits<std::size_t>::max() / sizeof(double))
         {
-            binding_utils::raise_overflow(
+            raise_overflow(
                 Exceptions::OverflowError("Tensor storage size overflow."));
         }
     }
@@ -85,7 +83,7 @@ std::vector<std::ptrdiff_t> tensor_indices(py::tuple index)
     for (py::handle component : index)
     {
         indices.push_back(
-            binding_utils::cast_index(component));
+            cast_index(component));
     }
 
     return indices;
@@ -117,7 +115,7 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
             py::init([](const Shape& shape, py::object value) {
                 return Tensor(
                     shape,
-                    binding_utils::cast_scalar(value));
+                    cast_scalar(value));
             }),
             py::arg("shape"),
             py::arg("value"))
@@ -133,25 +131,10 @@ void bind_tensor_constructors(py::class_<Tensor>& cls)
                 return Tensor(
                     make_shape_from_iterable(
                         dims.cast<py::iterable>()),
-                    binding_utils::cast_scalar(value));
+                    cast_scalar(value));
             }),
             py::arg("shape"),
             py::arg("value"));
-}
-
-void bind_tensor_properties(py::class_<Tensor>& cls)
-{
-    binding_utils::bind_properties(cls);
-
-    cls
-        .def("tolist", [](const Tensor& tensor) {
-            return binding_utils::tensor_to_list(tensor);
-        })
-        .def("__repr__", [](const Tensor& tensor) {
-            std::ostringstream os;
-            os << tensor;
-            return os.str();
-        });
 }
 
 void bind_tensor_indexing(py::class_<Tensor>& cls)
@@ -172,7 +155,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                     }
 
                     std::vector<stratax::core::Slice> slices{
-                        binding_utils::cast_slice(
+                        cast_slice(
                             index.cast<py::slice>(),
                             tensor.shape()[0])
                     };
@@ -181,7 +164,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                         stratax::indexing::slice(tensor, slices);
 
                     return py::cast(
-                        binding_utils::PyArrayView(
+                        PyArrayView(
                             std::move(view),
                             self));
                 }
@@ -232,14 +215,14 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                                 tuple_index[dim]))
                         {
                             ranges.push_back(
-                                binding_utils::cast_slice(
+                                cast_slice(
                                     tuple_index[dim].cast<py::slice>(),
                                     tensor.shape()[dim]));
                         }
                         else
                         {
                             ranges.push_back(
-                                binding_utils::single_index_slice(
+                                single_index_slice(
                                     tuple_index[dim],
                                     tensor.shape()[dim]));
                         }
@@ -250,7 +233,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                         ranges);
 
                     return py::cast(
-                        binding_utils::PyArrayView(
+                        PyArrayView(
                             std::move(view),
                             self));
                 }
@@ -258,7 +241,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 // Single integer -> flat scalar indexing.
                 return py::cast(
                     tensor.at(
-                        binding_utils::cast_index(index)));
+                        cast_index(index)));
             })
         .def(
             "__setitem__",
@@ -272,7 +255,7 @@ void bind_tensor_indexing(py::class_<Tensor>& cls)
                 }
 
                 tensor.at(
-                    binding_utils::cast_index(index)) = value;
+                    cast_index(index)) = value;
             });
 }
 
@@ -281,10 +264,10 @@ void bind_tensor(py::module_& m)
     py::class_<Tensor> cls(m, "Tensor");
 
     bind_tensor_constructors(cls);
-    bind_tensor_properties(cls);
+    bind_properties(cls);
     bind_tensor_indexing(cls);
-    binding_utils::bind_arithmetic(cls);
-    binding_utils::bind_comparison(cls);
-    binding_utils::bind_reshape(cls);
-    binding_utils::bind_members(cls);
+    bind_arithmetic(cls);
+    bind_comparison(cls);
+    bind_reshape(cls);
+    bind_members(cls);
 }

@@ -3,6 +3,7 @@
 #include <pybind11/pybind11.h>
 
 #include <stratax/exceptions/Exceptions.hpp>
+#include <stratax/core/Shape.hpp>
 #include <stratax/core/Slice.hpp>
 #include <stratax/indexing/Indexing.hpp>
 
@@ -126,45 +127,48 @@ inline stratax::core::Slice cast_slice(
         static_cast<std::ptrdiff_t>(step));
 }
 
-template<typename Tensor>
-py::object tensor_to_list_recursive(
-    const Tensor& tensor,
+template<typename Array>
+py::list array_to_list_recursive(
+    const Array& array,
+    const stratax::core::Shape& logical_strides,
     std::size_t dimension,
-    std::size_t offset)
+    std::size_t logical_offset)
 {
     py::list values;
-    const auto& shape = tensor.shape();
+    const auto& shape = array.shape();
 
     for (std::size_t i = 0; i < shape[dimension]; ++i)
     {
         const std::size_t index =
-            offset + i * tensor.strides()[dimension];
+            logical_offset + i * logical_strides[dimension];
 
         if (dimension + 1 == shape.rank())
         {
-            values.append(tensor[index]);
+            values.append(array[index]);
         }
         else
         {
-            values.append(tensor_to_list_recursive(
-                tensor,
+            values.append(array_to_list_recursive(
+                array,
+                logical_strides,
                 dimension + 1,
                 index));
         }
     }
 
-    return std::move(values);
+    return values;
 }
 
-template<typename Tensor>
-py::list tensor_to_list(const Tensor& tensor)
+template<typename Array>
+py::list array_to_list(const Array& array)
 {
-    if (tensor.rank() == 0)
+    if (array.rank() == 0)
     {
         return py::list();
     }
 
-    return tensor_to_list_recursive(tensor, 0, 0).template cast<py::list>();
+    const auto logical_strides = array.shape().strides();
+    return array_to_list_recursive(array, logical_strides, 0, 0);
 }
 
 } // namespace binding_utils

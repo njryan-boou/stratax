@@ -1,6 +1,10 @@
 #include "binding_utils/views.hpp"
+#include "binding_utils/utils.hpp"
+
+#include <stratax/io/Print.hpp>
 
 #include <cstddef>
+#include <sstream>
 #include <vector>
 
 #include <pybind11/pybind11.h>
@@ -26,6 +30,18 @@ void bind_array_view(py::module_& m)
             "ndim",
             [](const PyArrayView& self) {
                 return self.view.ndim();
+            })
+        .def(
+            "tolist",
+            [](const PyArrayView& self) {
+                return array_to_list(self.view);
+            })
+        .def(
+            "__repr__",
+            [](const PyArrayView& self) {
+                std::ostringstream os;
+                os << self.view;
+                return os.str();
             })
         .def(
             "__getitem__",

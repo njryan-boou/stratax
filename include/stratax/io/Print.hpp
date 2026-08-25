@@ -6,6 +6,7 @@
 #include <stratax/containers/Matrix.hpp>
 #include <stratax/containers/Tensor.hpp>
 #include <stratax/containers/Vector.hpp>
+#include <stratax/core/ArrayView.hpp>
 
 namespace stratax::container {
 
@@ -43,7 +44,7 @@ void print_recursive(
     const char* sibling_separator)
 {
 	const auto& shape = array.shape();
-	const auto& strides = array.strides();
+	const auto logical_strides = shape.strides();
 
 	os << "[";
 
@@ -53,7 +54,7 @@ void print_recursive(
 		{
 			print_value(
 	os,
-	array[offset + i * strides[dim]]);
+	array[offset + i * logical_strides[dim]]);
 
 			if (i + 1 != shape[dim])
 				os << ", ";
@@ -70,7 +71,7 @@ void print_recursive(
 				os,
 				array,
 				dim + 1,
-				offset + i * strides[dim],
+				offset + i * logical_strides[dim],
 				depth + 1,
 				sibling_separator);
 
@@ -88,7 +89,7 @@ void print_recursive(
 }
 
 template<Array A>
-std::ostream& print_tensor_like(
+std::ostream& print_array(
     std::ostream& os,
     const A& array)
 {
@@ -98,22 +99,16 @@ std::ostream& print_tensor_like(
         return os;
     }
 
-    print_recursive(os, array, 0, 0, 0, ",\n");
-    return os;
-}
+    const char* sibling_separator =
+        array.rank() == 2 ? "\n" : ",\n";
 
-template<Array A>
-std::ostream& print_matrix_like(
-    std::ostream& os,
-    const A& array)
-{
-    if (array.empty())
-    {
-        os << "[]";
-        return os;
-    }
-
-    print_recursive(os, array, 0, 0, 0, "\n");
+    print_recursive(
+        os,
+        array,
+        0,
+        0,
+        0,
+        sibling_separator);
     return os;
 }
 
@@ -122,19 +117,29 @@ std::ostream& print_matrix_like(
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Vector<T>& vector)
 {
-    return detail::print_tensor_like(os, vector);
+    return detail::print_array(os, vector);
 }
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
 {
-    return detail::print_matrix_like(os, matrix);
+    return detail::print_array(os, matrix);
 }
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor)
 {
-    return detail::print_tensor_like(os, tensor);
+    return detail::print_array(os, tensor);
+}
+
+}
+
+namespace stratax::core {
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const ArrayView<T>& view)
+{
+    return container::detail::print_array(os, view);
 }
 
 }
