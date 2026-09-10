@@ -312,7 +312,10 @@ public:
      * @pre `index < size()`; otherwise behavior is undefined.
      * @complexity O(1).
      */
-    reference operator[](size_type index) noexcept {return data_[index];}
+    reference operator[](size_type index) noexcept 
+    {
+        return data_[index];
+    }
 
     /**
      * @brief Returns an unchecked const reference to an element.
