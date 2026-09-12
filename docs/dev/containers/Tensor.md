@@ -42,8 +42,8 @@ vector indexing additionally requires positive rank.
 
 Multidimensional at accepts signed indices as a pack or vector. It raises
 RankError for the wrong component count and IndexError for an out-of-range
-component. A vector of signed indices requires positive rank: do not call
-at with an empty vector on a rank-zero Tensor. A single scalar at argument
+component or empty storage. An empty signed-index vector on a rank-zero Tensor
+raises IndexError; a rank mismatch still takes precedence. A single scalar at argument
 selects the inherited flat overload. Multidimensional access takes O(r).
 
 ```cpp

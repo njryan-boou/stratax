@@ -230,9 +230,8 @@ public:
 	/**
 	 * @brief Returns an element using checked vector-based indices.
 	 * @param raw_indices One signed index per tensor dimension.
-	 * @pre The tensor has positive rank; rank-zero tensors contain no element.
 	 * @throws Exceptions::RankError If the number of indices differs from `rank()`.
-	 * @throws Exceptions::IndexError If any component is out of bounds.
+	 * @throws Exceptions::IndexError If the tensor is empty or any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	reference at(const std::vector<difference_type>& raw_indices)
@@ -243,9 +242,8 @@ public:
 	/**
 	 * @brief Returns an element using checked vector-based indices.
 	 * @param raw_indices One signed index per tensor dimension.
-	 * @pre The tensor has positive rank; rank-zero tensors contain no element.
 	 * @throws Exceptions::RankError If the number of indices differs from `rank()`.
-	 * @throws Exceptions::IndexError If any component is out of bounds.
+	 * @throws Exceptions::IndexError If the tensor is empty or any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	const_reference at(const std::vector<difference_type>& raw_indices) const

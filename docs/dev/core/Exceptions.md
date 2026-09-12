@@ -57,7 +57,7 @@ constructed directly from a message. Specialized errors can also be caught as
 | `BroadcastError` | Incompatible broadcast shapes |
 | `ZeroDivisionError` | Division by zero or undefined empty statistic |
 | `AxisError` | Invalid reduction axis |
-| `OverflowError` | Explicitly reported runtime conversion overflow; not automatic arithmetic checking |
+| `OverflowError` | Signed division minimum by minus one and explicit conversion overflow; other arithmetic is not generally checked |
 | `ValueError` | Invalid value that does not fit another category |
 
 All exception classes are declared by `Exceptions.hpp`; there are no separate

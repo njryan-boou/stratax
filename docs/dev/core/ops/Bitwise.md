@@ -26,8 +26,10 @@ are checked even for empty arrays; array counts are checked when used.
 
 Incompatible broadcasting raises `Exceptions::BroadcastError`. An empty operand
 cannot supply values to a nonempty result. Compound operators `&=`, `|=`, `^=`,
-`<<=`, and `>>=` preserve left shape and dtype and update storage directly;
-they reject shape expansion. Compound shifts validate counts before writing.
+`<<=`, and `>>=` preserve left shape and dtype and reject shape expansion. They compute from the operands' initial values,
+including aliased scalars, overlapping views, and broadcast sources. Repeated
+destination offsets receive the last logical row-major result. Compound shifts
+validate all used counts before writing; invalid counts leave storage unchanged.
 Non-compound results own independent storage.
 
 ## Example
@@ -54,7 +56,9 @@ int main() {
 
 Broadcasted operations take O((n + 1)r), including metadata work. Scalar and
 unary owning results take O(n + r). In-place scalar operations on views also
-pay O(r) per logical access. Allocating results use O(n + r) storage.
+pay O(r) per logical access. Compound operations involving non-owning arrays
+stage O(n) results before writing; owning-owning and owning-scalar operations
+need no temporary element buffer. Allocating results use O(n + r) storage.
 Python does not currently expose these operators.
 
 See @ref broadcasting and @ref concepts.

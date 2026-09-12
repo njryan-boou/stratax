@@ -303,7 +303,7 @@ protected:
 	 * @param raw_indices One index per logical dimension.
 	 * @return Row-major flat element offset.
 	 * @throws Exceptions::RankError If the number of indices differs from the rank.
-	 * @throws Exceptions::IndexError If an index component is out of bounds.
+	 * @throws Exceptions::IndexError If the array is empty or an index component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	template<typename IndexContainer>
@@ -313,6 +313,11 @@ protected:
 		{
 			throw Exceptions::RankError(
 				"The number of indices must match the array rank.");
+		}
+
+		if (empty())
+		{
+			throw Exceptions::IndexError("Cannot index an empty array.");
 		}
 
 		size_type offset = 0;

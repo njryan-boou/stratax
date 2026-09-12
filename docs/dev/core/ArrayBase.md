@@ -44,8 +44,10 @@ base. Assignment can release destination storage and invalidate its references.
 ## Checked multidimensional helper
 
 normalized_flat_offset accepts a sized, indexable sequence of signed indices
-without caller-supplied messages. It checks rank with RankError and each
-component with normalize_index/IndexError, then combines indices and strides in
+without caller-supplied messages. It first checks rank with RankError, then
+rejects empty storage with IndexError (including rank zero and an empty index
+sequence), then checks each component with normalize_index/IndexError. It
+combines indices and strides in
 O(r). Public multidimensional interfaces belong to the derived containers.
 
 ```cpp

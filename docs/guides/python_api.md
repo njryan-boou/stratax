@@ -53,8 +53,9 @@ assert arr.tolist() == [[4.0, 4.0, 4.0], [4.0, 4.0, 4.0]]
 Vector integer access is flat. Matrix accepts `(row, col)` for read/write and
 an integer for flat reads; Matrix assignment requires a row/column tuple.
 Tensor supports flat integers and full-rank integer tuples. Negative indices
-count from the end. Rank-zero arrays have no addressable elements; do not use
-an empty tuple as scalar access.
+count from the end. Rank-zero arrays have no addressable elements: reading or
+writing with an empty tuple raises `stratax.IndexError`. A tuple whose length
+differs from the array rank raises `stratax.RankError`.
 
 Positive-step slices return shared ArrayView. Vector takes one slice, Matrix
 supports row slicing or a pair of indices/slices, and Tensor takes one entry

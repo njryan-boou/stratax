@@ -391,9 +391,8 @@ const_reference at(difference_type index) const
 
 /** @brief Checked multidimensional access with negative indices.
  * @param indices One signed component per axis.
- * @pre The view has positive rank; rank-zero views contain no element.
  * @throws Exceptions::RankError If the component count differs from rank().
- * @throws Exceptions::IndexError If a component is out of bounds.
+ * @throws Exceptions::IndexError If the view is empty or a component is out of bounds.
  * @complexity O(rank()). */
 reference at(const std::vector<difference_type>& indices)
 {
@@ -402,9 +401,8 @@ reference at(const std::vector<difference_type>& indices)
 
 /** @brief Checked multidimensional access with negative indices.
  * @param indices One signed component per axis.
- * @pre The view has positive rank; rank-zero views contain no element.
  * @throws Exceptions::RankError If the component count differs from rank().
- * @throws Exceptions::IndexError If a component is out of bounds.
+ * @throws Exceptions::IndexError If the view is empty or a component is out of bounds.
  * @complexity O(rank()). */
 const_reference at(const std::vector<difference_type>& indices) const
 {
@@ -434,6 +432,11 @@ private:
     {
         throw Exceptions::RankError(
             "The number of indices must match the view rank.");
+    }
+
+    if (empty())
+    {
+        throw Exceptions::IndexError("Cannot index an empty view.");
     }
 
     size_type offset = 0;

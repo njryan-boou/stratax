@@ -286,6 +286,9 @@ auto prod(const A& arr)
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
  * @return Largest value; ties select the first occurrence.
+ * @note Uses ordinary comparisons. With IEEE-style NaNs an initial NaN remains
+ *       selected, while a later NaN does not replace the current candidate.
+ *       Signed zeros tie and retain the first occurrence's sign.
  * @throws Exceptions::IndexError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
@@ -311,6 +314,9 @@ auto max(const A& arr)
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
  * @return Smallest value; ties select the first occurrence.
+ * @note Uses ordinary comparisons. With IEEE-style NaNs an initial NaN remains
+ *       selected, while a later NaN does not replace the current candidate.
+ *       Signed zeros tie and retain the first occurrence's sign.
  * @throws Exceptions::IndexError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
@@ -336,6 +342,7 @@ auto min(const A& arr)
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
  * @return Zero-based logical row-major index as `stratax::dtype::int64`; ties choose the first largest value.
+ * @note Uses the same ordinary comparisons and NaN selection behavior as max.
  * @throws Exceptions::IndexError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
@@ -361,6 +368,7 @@ auto argmax(const A& arr)
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
  * @return Zero-based logical row-major index as `stratax::dtype::int64`; ties choose the first smallest value.
+ * @note Uses the same ordinary comparisons and NaN selection behavior as min.
  * @throws Exceptions::IndexError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
@@ -385,7 +393,13 @@ auto argmin(const A& arr)
  * @brief Returns the arithmetic mean of all elements as double.
  * @tparam A Array whose value_type is Numeric and Ordered (real numeric values).
  * @param arr Non-empty array to reduce.
- * @return `static_cast<double>(sum(arr)) / static_cast<double>(arr.size())`.
+ * @return Mean accumulated and divided in long double, then converted to double.
+ * @note Each input is converted before addition, so integer inputs cannot
+ *       overflow an integer sum accumulator. ReductionTraits does not affect
+ *       this operation. Accumulation follows logical iterator order and is
+ *       neither compensated nor guaranteed exact. Long double precision and
+ *       range are platform dependent; floating-point overflow and rounding
+ *       remain possible. NaNs and infinities follow native floating arithmetic.
  * @throws Exceptions::ZeroDivisionError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
@@ -401,7 +415,13 @@ double mean(const A& arr)
 		throw Exceptions::ZeroDivisionError("Cannot compute the mean of an empty array.");
 	}
 
-	return static_cast<double>(sum(arr)) / static_cast<double>(arr.size());
+	long double total = 0.0L;
+	for (const auto& value : arr)
+	{
+		total += static_cast<long double>(value);
+	}
+
+	return static_cast<double>(total / static_cast<long double>(arr.size()));
 }
 
 /**
@@ -409,6 +429,10 @@ double mean(const A& arr)
  * @tparam A Array whose value_type is Numeric and Ordered (real numeric values).
  * @param arr Non-empty array to reduce.
  * @return Sum of squared deviations divided by `arr.size()`.
+ * @note Inputs and intermediates use double. Welford's algorithm avoids the
+ *       cancellation in `mean(x*x) - mean(x)*mean(x)`, but rounding, conversion
+ *       loss, and overflow remain possible. NaNs and infinite inputs generally
+ *       produce NaN; this is not a NaN-skipping reduction.
  * @throws Exceptions::ZeroDivisionError If @p arr is empty.
  * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */

@@ -4,12 +4,16 @@
  * Operations that allocate results require owning-container result trait
  * specializations. Element operators receive the original operand types; the
  * result is converted afterward. Native C++ arithmetic and conversion rules
- * apply, including representability requirements. Allocation failures propagate.
+ * apply, including representability requirements. Compound operations use the
+ * operands' initial values, including aliased scalars and overlapping views.
+ * Repeated destination offsets receive the last logical write. Operations
+ * involving views stage O(n) results. Allocation failures propagate.
  */
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/ops/Broadcasting.hpp>
+#include <stratax/ops/Compound.hpp>
 
 #include <functional>
 #include <climits>
@@ -197,9 +201,11 @@ auto scalar_shift_array_op(
  * @brief Applies a broadcasted bitwise operation to @p lhs in place.
  * @return Reference to @p lhs, whose shape and dtype remain unchanged.
  * @invariant The left array retains its original shape and dtype.
+ * @note Operands use their initial values; repeated destinations use the last logical result.
+ * @pre The callable does not modify either operand or its metadata.
  * @throws Exceptions::BroadcastError If broadcasting is impossible or would
  *         change the shape of @p lhs.
- * @complexity O(lhs.size() * lhs.rank()).
+ * @complexity O((lhs.size() + 1) * lhs.rank()).
  * @internal
  */
 template<Array L, Array R, typename Op>
@@ -221,26 +227,23 @@ L& compound_bitwise_op(
 			"In-place broadcasting cannot change the left operand's shape.");
 	}
 
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	constexpr bool stage = !compound_detail::owns_storage<L> ||
+		!compound_detail::owns_storage<R>;
+	return compound_detail::write_results<stage>(lhs, [&](std::size_t i)
 	{
-		const std::size_t rhs_index =
-			stratax::core::broadcast_detail::flat_operand_index(
-				i,
-				lhs.shape(),
-				rhs.shape());
-
-		lhs[i] = static_cast<typename L::value_type>(
-			op(lhs[i], rhs[rhs_index]));
-	}
-
-	return lhs;
+		const auto rhs_index = broadcast_detail::flat_operand_index(
+			i, lhs.shape(), rhs.shape());
+		return op(lhs[i], rhs[rhs_index]);
+	});
 }
 
 /**
  * @brief Applies a scalar bitwise operation to @p lhs in place.
  * @return Reference to @p lhs.
  * @invariant The left array retains its original shape and dtype.
- * @complexity O(lhs.size()).
+ * @note Operands use their initial values; repeated destinations use the last logical result.
+ * @pre The callable does not modify either operand or its metadata.
+ * @complexity O(n) for owning arrays, O((n + 1) * r) for views.
  * @internal
  */
 template<Array A, Integral Scalar, typename Op>
@@ -250,13 +253,12 @@ A& compound_scalar_bitwise_op(
 	const Scalar& rhs,
 	Op op)
 {
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	const Scalar scalar = rhs;
+	return compound_detail::write_results<
+		!compound_detail::owns_storage<A>>(lhs, [&](std::size_t i)
 	{
-		lhs[i] = static_cast<typename A::value_type>(
-			op(lhs[i], rhs));
-	}
-
-	return lhs;
+		return op(lhs[i], scalar);
+	});
 }
 
 /**
@@ -267,10 +269,12 @@ A& compound_scalar_bitwise_op(
  *
  * @return Reference to @p lhs, whose shape and dtype remain unchanged.
  * @invariant The left array is unchanged if validation fails and otherwise retains its shape and dtype.
+ * @note Operands use their initial values; repeated destinations use the last logical result.
+ * @pre The callable does not modify either operand or its metadata.
  * @throws Exceptions::BroadcastError If broadcasting is impossible or would
  *         change the shape of @p lhs.
  * @throws Exceptions::ValueError If any used shift count is invalid.
- * @complexity O(lhs.size() * lhs.rank()).
+ * @complexity O((lhs.size() + 1) * lhs.rank()).
  * @internal
  */
 template<Array L, Array R, typename Op>
@@ -305,21 +309,14 @@ L& compound_shift_op(
 		require_valid_shift_count<value_type>(rhs[rhs_index]);
 	}
 
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	constexpr bool stage = !compound_detail::owns_storage<L> ||
+		!compound_detail::owns_storage<R>;
+	return compound_detail::write_results<stage>(lhs, [&](std::size_t i)
 	{
-		const std::size_t rhs_index =
-			stratax::core::broadcast_detail::flat_operand_index(
-				i,
-				lhs.shape(),
-				rhs.shape());
-
-		const auto count = rhs[rhs_index];
-
-		lhs[i] = static_cast<value_type>(
-			op(lhs[i], count));
-	}
-
-	return lhs;
+		const auto rhs_index = broadcast_detail::flat_operand_index(
+			i, lhs.shape(), rhs.shape());
+		return op(lhs[i], rhs[rhs_index]);
+	});
 }
 
 /**
@@ -437,6 +434,8 @@ auto binary_scalar_bitwise_op(
  * @brief Applies a validated scalar shift to an array in place.
  * @return Reference to @p lhs.
  * @invariant The left array is unchanged if validation fails and otherwise retains its shape and dtype.
+ * @note Operands use their initial values; repeated destinations use the last logical result.
+ * @pre The callable does not modify either operand or its metadata.
  * @internal
  */
 template<Array A, Integral Count, typename Op>
@@ -446,17 +445,13 @@ A& compound_scalar_shift_op(
 	const Count& rhs,
 	Op op)
 {
-	using value_type = typename A::value_type;
-
-	require_valid_shift_count<value_type>(rhs);
-
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	const Count scalar = rhs;
+	require_valid_shift_count<typename A::value_type>(scalar);
+	return compound_detail::write_results<
+		!compound_detail::owns_storage<A>>(lhs, [&](std::size_t i)
 	{
-		lhs[i] = static_cast<value_type>(
-			op(lhs[i], rhs));
-	}
-
-	return lhs;
+		return op(lhs[i], scalar);
+	});
 }
 
 } // namespace stratax::core::bitwise_detail

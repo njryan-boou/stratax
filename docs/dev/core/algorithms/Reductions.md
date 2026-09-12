@@ -22,10 +22,13 @@ The exceptions above are in `Exceptions` in C++.
 
 Global extrema indices are logical flat positions, with the first occurrence
 winning ties under the scalar comparisons. There is no NaN-skipping policy.
-Mean converts the sum to double before division. Variance computes the average
-squared deviation from the mean, dividing by n; std is its square root. These
-are population statistics without ddof. Double output does not guarantee
-stable accumulation or prevent overflow in an integer sum.
+Mean converts each input to long double before accumulation and division, then
+returns double. It avoids the source-dtype integer accumulation used by sum.
+Long-double precision is platform dependent; rounding, floating overflow, and
+cancellation remain possible. Variance uses Welford's online recurrence with
+double intermediates and divides by n; std is its square root. These are
+population statistics without ddof. See @ref numerical_contract for native
+promotion, nonfinite values, and accumulation limits.
 
 ## Axis results and invariants
 

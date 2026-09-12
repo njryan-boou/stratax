@@ -4,13 +4,19 @@
  * Operations that allocate results require owning-container result trait
  * specializations. Element operators receive the original operand types; the
  * result is converted afterward. Native C++ arithmetic and conversion rules
- * apply, including representability requirements. Allocation failures propagate.
+ * apply, including representability requirements. Division rejects zero and
+ * signed expression-type minimum divided by minus one. Compound operations
+ * use the operands' initial values, including overlapping views; repeated
+ * destination offsets receive the last logical write. Operations involving
+ * views stage O(n) results. Allocation failures propagate.
  */
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/ops/Broadcasting.hpp>
+#include <stratax/ops/Compound.hpp>
+#include <stratax/ops/Numeric.hpp>
 
 #include <functional>
 
@@ -35,6 +41,7 @@
  * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and a
  *         broadcasted right-hand element equals zero.
+ * @throws Exceptions::OverflowError If divisor checking is enabled and signed division is not representable.
  * @throws Any exception propagated by allocation or @p op.
  * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
@@ -51,10 +58,9 @@ auto binary_op(
 {
 	auto checked_op = [&](const auto& left, const auto& right)
 	{
-		if (check_zero_divisor &&
-			right == typename R::value_type{})
+		if (check_zero_divisor)
 		{
-			throw Exceptions::ZeroDivisionError("Division by zero.");
+			stratax::core::numeric_detail::require_valid_division(left, right);
 		}
 
 		return op(left, right);
@@ -86,6 +92,7 @@ auto binary_op(
  * @return Owning array with the same shape and container family as @p lhs, and promoted dtype.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and
  *         @p rhs equals zero, including when @p lhs is empty.
+ * @throws Exceptions::OverflowError If divisor checking is enabled and signed division is not representable.
  * @throws Any exception propagated by allocation or @p op.
  * @complexity O(lhs.size()).
  */
@@ -97,7 +104,15 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
 		throw Exceptions::ZeroDivisionError("Division by zero.");
 	}
 
-	return broadcasted_op(lhs, rhs, op);
+	auto checked_op = [&](const auto& left, const auto& right)
+	{
+		if (check_zero_divisor)
+		{
+			stratax::core::numeric_detail::require_valid_division(left, right);
+		}
+		return op(left, right);
+	};
+	return broadcasted_op(lhs, rhs, checked_op);
 }
 
 /**
@@ -115,6 +130,7 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
  * @return Owning array with the same shape and container family as @p rhs, and promoted dtype.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and an
  *         element of @p rhs equals zero.
+ * @throws Exceptions::OverflowError If divisor checking is enabled and signed division is not representable.
  * @throws Any exception propagated by allocation or @p op.
  * @complexity O(rhs.size()).
  */
@@ -123,9 +139,9 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
 {
 	auto checked_op = [&](const auto& left, const auto& right)
 	{
-		if (check_zero_divisor && right == typename A::value_type{})
+		if (check_zero_divisor)
 		{
-			throw Exceptions::ZeroDivisionError("Division by zero.");
+			stratax::core::numeric_detail::require_valid_division(left, right);
 		}
 
 		return op(left, right);
@@ -139,7 +155,11 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
  *
  * The right operand may broadcast to the existing shape of @p lhs, but the
  * operation never resizes or reshapes @p lhs. Callable results are converted
- * to `L::value_type` before assignment.
+ * to `L::value_type` before assignment. All built-in validation precedes writes.
+ * Operands are read as they were before mutation; if destination elements alias,
+ * the last logical write wins. Non-owning operands require O(n) staging storage.
+ * A throwing callable may leave partial writes when both operands own storage.
+ * @pre The callable does not modify either operand or its metadata.
  *
  * @tparam L Mutable left Stratax array type.
  * @tparam R Right Stratax array type.
@@ -153,7 +173,8 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
  *         broadcasted shape differs from the existing shape of @p lhs.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and a
  *         used right-hand element is zero.
- * @throws Any exception propagated by @p op.
+ * @throws Exceptions::OverflowError If divisor checking is enabled and signed division is not representable.
+ * @throws Any exception propagated by allocation or @p op.
  * @complexity O((n + 1) * r), where `n` is `lhs.size()` and `r` is its rank.
  */
 template<Array L, Array R, typename Op>
@@ -184,38 +205,28 @@ L& compound_op(
 		{
 			const auto rhs_index = stratax::core::broadcast_detail::flat_operand_index(
 				i, lhs.shape(), rhs.shape());
-			if (rhs[rhs_index] == typename R::value_type{})
-			{
-				throw Exceptions::ZeroDivisionError("Division by zero.");
-			}
+			stratax::core::numeric_detail::require_valid_division(lhs[i], rhs[rhs_index]);
 		}
 	}
 
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	constexpr bool stage = !stratax::core::compound_detail::owns_storage<L> ||
+		!stratax::core::compound_detail::owns_storage<R>;
+	return stratax::core::compound_detail::write_results<stage>(lhs, [&](std::size_t i)
 	{
-		const std::size_t rhs_index =
-			stratax::core::broadcast_detail::flat_operand_index(
-				i,
-				lhs.shape(),
-				rhs.shape());
-
-		if (check_zero_divisor &&
-			rhs[rhs_index] == typename R::value_type{})
-		{
-			throw Exceptions::ZeroDivisionError("Division by zero.");
-		}
-
-		lhs[i] = static_cast<typename L::value_type>(
-			op(lhs[i], rhs[rhs_index]));
-	}
-
-	return lhs;
+		const auto rhs_index = stratax::core::broadcast_detail::flat_operand_index(
+			i, lhs.shape(), rhs.shape());
+		return op(lhs[i], rhs[rhs_index]);
+	});
 }
 
 /**
  * @brief Applies an arithmetic callable in place with a right scalar.
  *
- * Callable results are converted to `A::value_type` before assignment.
+ * Callable results are converted to `A::value_type` before assignment. The
+ * scalar is copied first, even when it references a destination element.
+ * Views stage O(n) results; repeated destination offsets use the last result.
+ * A throwing callable may leave partial writes for owning destinations.
+ * @pre The callable does not modify either operand or its metadata.
  *
  * @tparam A Mutable Stratax array type.
  * @tparam S Numeric scalar type.
@@ -227,8 +238,9 @@ L& compound_op(
  * @return Reference to @p lhs.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and
  *         @p rhs is zero, including when @p lhs is empty.
- * @throws Any exception propagated by @p op.
- * @complexity O(lhs.size()).
+ * @throws Exceptions::OverflowError If divisor checking is enabled and signed division is not representable.
+ * @throws Any exception propagated by allocation or @p op.
+ * @complexity O(n) for owning arrays, O((n + 1) * r) for views.
  */
 template<Array A, Numeric S, typename Op>
 A& compound_scalar_op(
@@ -237,18 +249,24 @@ A& compound_scalar_op(
 	Op op,
 	bool check_zero_divisor = false)
 {
-	if (check_zero_divisor && rhs == S{})
+	const S scalar = rhs;
+	if (check_zero_divisor)
 	{
-		throw Exceptions::ZeroDivisionError("Division by zero.");
+		if (scalar == S{})
+		{
+			throw Exceptions::ZeroDivisionError("Division by zero.");
+		}
+		for (std::size_t i = 0; i < lhs.size(); ++i)
+		{
+			stratax::core::numeric_detail::require_valid_division(lhs[i], scalar);
+		}
 	}
 
-	for (std::size_t i = 0; i < lhs.size(); ++i)
+	return stratax::core::compound_detail::write_results<
+		!stratax::core::compound_detail::owns_storage<A>>(lhs, [&](std::size_t i)
 	{
-		lhs[i] = static_cast<typename A::value_type>(
-			op(lhs[i], rhs));
-	}
-
-	return lhs;
+		return op(lhs[i], scalar);
+	});
 }
 
 /** @brief Adds two broadcast-compatible arrays. @return Owning broadcasted sum. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
@@ -284,7 +302,7 @@ auto operator*(const L& lhs, const R& rhs)
 	return binary_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides two broadcast-compatible arrays element-wise. @return Owning broadcasted quotient. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @throws Exceptions::ZeroDivisionError If a used divisor element is zero. @complexity O((n + 1) * r). */
+/** @brief Divides two broadcast-compatible arrays element-wise. @return Owning broadcasted quotient. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @throws Exceptions::ZeroDivisionError If a used divisor element is zero. @throws Exceptions::OverflowError If native signed division is not representable. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -319,7 +337,7 @@ auto operator*(const A& lhs, const Scalar& rhs)
 	return binary_scalar_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides every array element by a scalar. @return Owning result with the array shape. @throws Exceptions::ZeroDivisionError If @p rhs is zero. @complexity O(lhs.size()). */
+/** @brief Divides every array element by a scalar. @return Owning result with the array shape. @throws Exceptions::ZeroDivisionError If @p rhs is zero. @throws Exceptions::OverflowError If native signed division is not representable. @complexity O(lhs.size()). */
 template<Array A, Numeric Scalar>
 requires Numeric<typename A::value_type>
 auto operator/(const A& lhs, const Scalar& rhs)
@@ -350,7 +368,7 @@ auto operator*(const Scalar& lhs, const A& rhs)
 	return rhs * lhs;
 }
 
-/** @brief Divides a scalar by every array element. @return Owning `lhs / rhs[i]` result. @throws Exceptions::ZeroDivisionError If any divisor element is zero. @complexity O(rhs.size()). */
+/** @brief Divides a scalar by every array element. @return Owning `lhs / rhs[i]` result. @throws Exceptions::ZeroDivisionError If any divisor element is zero. @throws Exceptions::OverflowError If native signed division is not representable. @complexity O(rhs.size()). */
 template<Numeric Scalar, Array A>
 requires Numeric<typename A::value_type>
 auto operator/(const Scalar& lhs, const A& rhs)
@@ -391,7 +409,7 @@ L& operator*=(L& lhs, const R& rhs)
 	return compound_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @throws Exceptions::ZeroDivisionError If a used divisor is zero. @complexity O((n + 1) * r). */
+/** @brief Divides by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @throws Exceptions::ZeroDivisionError If a used divisor is zero. @throws Exceptions::OverflowError If native signed division is not representable. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -426,7 +444,7 @@ A& operator*=(A& lhs, const S& rhs)
 	return compound_scalar_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides every element by a scalar in place. @return Reference to @p lhs. @throws Exceptions::ZeroDivisionError If @p rhs is zero, including for an empty array. @complexity O(lhs.size()). */
+/** @brief Divides every element by a scalar in place. @return Reference to @p lhs. @throws Exceptions::ZeroDivisionError If @p rhs is zero, including for an empty array. @throws Exceptions::OverflowError If native signed division is not representable. @complexity O(n) for owning arrays; O((n + 1) * r) for views. */
 template<Array A, Numeric S>
 requires Numeric<typename A::value_type>
 A& operator/=(A& lhs, const S& rhs)

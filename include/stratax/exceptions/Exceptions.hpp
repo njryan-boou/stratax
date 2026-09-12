@@ -30,7 +30,7 @@ class BroadcastError : public StrataxError { public: using StrataxError::Stratax
 class ZeroDivisionError : public StrataxError { public: using StrataxError::StrataxError; };
 /** @brief Reduction axis is outside the input rank. */
 class AxisError : public StrataxError { public: using StrataxError::StrataxError; };
-/** @brief Exception type reserved for explicitly reported numeric overflow; arithmetic does not automatically check for overflow. */
+/** @brief Explicitly detected numeric overflow, including signed division minimum by minus one; other arithmetic is not generally checked. */
 class OverflowError : public StrataxError { public: using StrataxError::StrataxError; };
 /** @brief Invalid argument value, such as an invalid shift count or null nonempty view. */
 class ValueError : public StrataxError { public: using StrataxError::StrataxError; };
