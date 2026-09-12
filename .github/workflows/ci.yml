@@ -35,7 +35,13 @@ jobs:
         run: cmake --build build
 
       - name: Test
-        run: ctest --test-dir build --output-on-failure
+        run: ctest --test-dir build --output-on-failure --no-tests=error
+
+      - name: Compile every public header independently
+        run: python scripts/check-headers.py --compiler g++
+
+      - name: Compile and run C++ documentation examples
+        run: python scripts/check-doc-examples.py --cpp --compiler g++
 
   linux-clang:
     name: Linux - Clang
@@ -72,7 +78,10 @@ jobs:
         run: cmake --build build
 
       - name: Test
-        run: ctest --test-dir build --output-on-failure
+        run: ctest --test-dir build --output-on-failure --no-tests=error
+
+      - name: Compile every public header independently
+        run: python scripts/check-headers.py --compiler clang++
 
   windows-msvc:
     name: Windows - MSVC
@@ -112,7 +121,10 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Test
-        run: ctest --test-dir build -C Release --output-on-failure
+        run: ctest --test-dir build -C Release --output-on-failure --no-tests=error
+
+      - name: Compile every public header independently
+        run: python scripts/check-headers.py
 
   macos-apple-clang:
     name: macOS - Apple Clang
@@ -140,7 +152,10 @@ jobs:
         run: cmake --build build
 
       - name: Test
-        run: ctest --test-dir build --output-on-failure
+        run: ctest --test-dir build --output-on-failure --no-tests=error
+
+      - name: Compile every public header independently
+        run: python scripts/check-headers.py
 
   python:
     name: Python ${{ matrix.python-version }}
@@ -167,8 +182,59 @@ jobs:
       - name: Install Stratax
         run: python -m pip install ".[dev]"
 
-      - name: Test import
-        run: python -c "import stratax; print(stratax.__file__)"
-
       - name: Test installed Python package
-        run: python -m pytest tests/python --installed
+        run: python -I scripts/check-installed-package.py
+
+      - name: Run Python documentation examples
+        run: python scripts/check-doc-examples.py --python --installed
+
+  coverage:
+    name: C++ branch coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install coverage reporter
+        run: python -m pip install gcovr==8.6
+
+      - name: Build, test, and report coverage
+        run: python scripts/check-coverage.py
+
+      - name: Upload line and branch reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpp-coverage
+          path: build/coverage/
+          if-no-files-found: warn
+
+  sdist:
+    name: Source distribution build and installed tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install build frontend
+        run: python -m pip install build
+
+      - name: Build source distribution
+        run: python -m build --sdist
+
+      - name: Build and test from the source archive
+        run: python scripts/check-sdist.py dist/*.tar.gz

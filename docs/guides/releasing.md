@@ -96,8 +96,18 @@ python -c "import stratax; print(stratax.__version__)"
 ```
 
 Replace EXACT_WHEEL_FILENAME with the wheel matching the active interpreter and
-platform. Then run `python -m pytest tests/python --installed` so a source binary
-cannot mask packaging errors.
+platform. Then run the provenance check and installed tests from outside the
+source import path:
+
+```powershell
+python -I scripts/check-installed-package.py
+python scripts/check-doc-examples.py --python --installed
+python scripts/check-sdist.py dist/EXACT_SDIST_FILENAME.tar.gz
+```
+
+Replace EXACT_SDIST_FILENAME with the source archive just built. The source
+checker creates a fresh environment, installs that archive, and runs the tests
+contained in the archive. See @ref verification for the complete CI gates.
 
 For a quick typing artifact check, inspect the built wheel and confirm it
 contains `stratax/_core.pyi` and `stratax/py.typed`.
@@ -105,7 +115,9 @@ contains `stratax/_core.pyi` and `stratax/py.typed`.
 ## Publish
 
 The tag-triggered `.github/workflows/release.yml` builds wheels and an sdist,
-then publishes their combined artifacts to PyPI. Create a new version tag only
+tests every wheel through cibuildwheel and builds/tests an installed package
+from the sdist, then publishes their combined artifacts to PyPI. Manual workflow
+dispatch on an ordinary branch exercises artifact builds/tests without publishing. Create a new version tag only
 after tests, examples, docs, and packaging checks pass. The tag shown below is
 a placeholder for the new version, not an instruction to retag version 0.3.1.
 

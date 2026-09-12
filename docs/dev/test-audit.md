@@ -103,3 +103,34 @@ were not executed locally; the configured CI matrix still needs to run.
 
 Subsequent documentation audits updated the detailed developer references to
 match shared views, current namespaces, and the contracts above.
+
+## Follow-up verification — 2026-09-11
+
+The follow-up closes checked rank-zero indexing, defines snapshot semantics for
+C++ compound operations (including repeated destination offsets), rejects native
+signed division overflow, and widens mean accumulation before addition.
+Deterministic cases cover 13,824 view layouts/operations and 65,279 valid signed
+eight-bit division pairs in addition to focused boundary regressions.
+
+Local results for the follow-up:
+
+- GCC C++ suite and Clang address/undefined-behavior/leak sanitizer suite:
+  **548 passed** each.
+- Python 3.13 source extension and freshly installed local wheel:
+  **291 passed** each.
+- Fresh environment installing the source archive and running its own tests:
+  **291 passed**.
+- Documentation: **32 C++ examples**, **15 Python examples** in source and
+  installed modes, valid local Markdown links, and zero Doxygen warnings.
+- All **38 public headers** compile independently.
+- GCC 14.2/gcov 14.2/gcovr 8.6: **85.5% lines** (7,793/9,114),
+  **50.1% branches** (3,701/7,392), and **95.1% functions**. Template
+  instantiations and compiler-generated branches affect these denominators;
+  these figures do not measure Python bindings or certify every dtype pair.
+- Performance: **33 validated cases**, nine samples each, with source hash,
+  hardware, compiler, raw timings, and checksums retained in the baseline.
+
+See @ref verification for repeatable checks, @ref numerical_contract for
+remaining native arithmetic and floating-point limits, and @ref benchmarks for
+measurement scope. Hosted CI validates the configured platform matrix separately;
+local Linux results do not establish results for Windows or macOS.

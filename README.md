@@ -212,3 +212,9 @@ See [Contributing](docs/guides/contributing.md) for development notes and
 ## License
 
 Stratax is licensed under the MIT License.
+
+Developer verification commands and CI gates are documented in
+[verification](docs/dev/verification.md). See the
+[numerical contract](docs/dev/numerical-contract.md) for precision and overflow
+limits, and [performance baselines](docs/dev/benchmarks.md) for reproducible
+measurements.

@@ -14,6 +14,10 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ### Fixed
 
+- Reject checked multidimensional access to empty storage, including rank-zero arrays.
+- Give overlapping C++ compound operations snapshot semantics, including aliased scalars and repeated view offsets.
+- Reject unrepresentable signed division and accumulate means in long double before returning double.
+
 - Made owning array copy assignment transactional and preserved Vector/Matrix rank after moves.
 - Corrected Buffer construction cleanup, extreme Slice arithmetic, empty views, zero-axis conversions, and empty broadcasting.
 - Validated compound divisors before mutation and registered Python axis-index results as IndexTensor.
@@ -25,6 +29,10 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 - Python tests distinguish source and installed extensions; CI runs package tests and Clang sanitizer checks.
 
 ### Added
+
+- Deterministic aliasing and numerical edge tests, branch coverage reports, and reproducible performance baselines.
+- CI gates for independent headers, executable documentation examples, and Doxygen warnings.
+- Isolated tests of each release wheel and of packages built from the source archive.
 
 - Boundary and invariant regression coverage, a view developer reference, and an executable documentation-example check.
 

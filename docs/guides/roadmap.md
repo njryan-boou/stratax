@@ -207,7 +207,9 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 ## Maintenance Work
 
 - [ ] Synchronize CMake, package, module, and documented versions at release time.
-- [ ] Expand adversarial coverage for aliasing and numerical edge cases.
+- [x] Add deterministic adversarial coverage for aliasing and numerical edge cases.
+- [x] Automate independent header, documentation, branch coverage, and release-artifact checks.
+- [x] Establish reproducible performance baselines.
 - [ ] Keep generated API contracts, guides, and executable examples consistent.
 
 ## Implementation Principles

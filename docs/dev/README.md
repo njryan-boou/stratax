@@ -12,6 +12,15 @@ This index links the Stratax developer documentation organized by subsystem.
 
 ---
 
+## Verification and numerical behavior
+
+- @ref test_audit "Initial Test Audit"
+- @ref verification "Repeatable Verification and CI Gates"
+- @ref numerical_contract "Numerical Behavior and Limits"
+- @ref benchmarks "Performance Baselines"
+
+---
+
 ## Core
 
 - @ref arraybase "ArrayBase"

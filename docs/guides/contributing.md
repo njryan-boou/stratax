@@ -50,6 +50,12 @@ they affect the example. Keep planned features explicitly marked as planned.
 Doxygen generation and local link checks complement execution; none alone proves
 that prose is accurate.
 
+The CI matrix also compiles every public header independently and publishes
+C++ line/branch coverage artifacts. Doxygen warnings fail the documentation
+build. See @ref verification for local commands and how to interpret coverage,
+and @ref numerical_contract for arithmetic preconditions and precision limits.
+Performance work should use @ref benchmarks to compare equivalent workloads.
+
 ### Naming
 
 - Classes use `PascalCase`.

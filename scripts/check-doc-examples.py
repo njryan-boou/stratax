@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compile/run documentation examples against this checkout's headers and extension."""
+"""Compile/run documentation examples against checkout headers and a selected extension."""
 
 import argparse
 import os
@@ -43,17 +43,25 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cpp", action="store_true", help="Check C++ examples")
     parser.add_argument("--python", action="store_true", help="Check Python examples")
+    parser.add_argument("--installed", action="store_true", help="Check Python examples against the installed package")
     parser.add_argument("--compiler", default="c++", help="C++20 compiler executable")
     args = parser.parse_args()
     if not args.cpp and not args.python:
         args.cpp = args.python = True
 
     env = os.environ.copy()
-    env["PYTHONPATH"] = str(ROOT / "python")
+    if not args.installed:
+        env["PYTHONPATH"] = str(ROOT / "python")
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    python = [sys.executable, "-I", "-B"] if args.installed else [sys.executable, "-B"]
+    import_setup = "" if args.installed else SOURCE_IMPORT
     if args.python:
-        run([sys.executable, "-c", SOURCE_IMPORT + "\nimport stratax; import stratax._core"],
-            "source extension import (build _core first)", cwd=ROOT, env=env)
+        if args.installed:
+            run([*python, str(ROOT / "scripts" / "check-installed-package.py"), "--imports-only"],
+                "installed extension provenance", cwd=ROOT, env=env)
+        else:
+            run([*python, "-c", SOURCE_IMPORT + "\nimport stratax; import stratax._core"],
+                "source extension import (build _core first)", cwd=ROOT, env=env)
 
     counts = {"cpp": 0, "python": 0}
     with tempfile.TemporaryDirectory(prefix="stratax-doc-examples-") as directory:
@@ -72,7 +80,7 @@ def main():
                      str(source), "-o", str(binary)], label + " (compile)", cwd=work)
                 run([str(binary)], label + " (run)", cwd=work)
             else:
-                run([sys.executable, "-c", SOURCE_IMPORT + "\n" + code], label, cwd=work, env=env)
+                run([*python, "-c", import_setup + "\n" + code], label, cwd=work, env=env)
 
         pages = [ROOT / "README.md", *sorted((ROOT / "docs").rglob("*.md"))]
         for path in pages:
@@ -91,8 +99,8 @@ def main():
                     check(language, path.read_text(encoding="utf-8"), str(path.relative_to(ROOT)))
                 else:
                     counts[language] += 1
-                    run([sys.executable, "-c", SOURCE_IMPORT +
-                         "\nimport runpy; runpy.run_path(sys.argv[1], run_name='__main__')",
+                    run([*python, "-c", import_setup +
+                         "\nimport runpy, sys; runpy.run_path(sys.argv[1], run_name='__main__')",
                          str(path)], str(path.relative_to(ROOT)), cwd=ROOT, env=env)
 
     for language, count in counts.items():

@@ -63,6 +63,7 @@ build-dir = "build/{wheel_tag}"
 wheel.packages = []
 
 cmake.define.STRATAX_BUILD_PYTHON_BINDINGS = "ON"
+cmake.define.STRATAX_BUILD_TESTS = "OFF"
 
 sdist.exclude = [
     "python/stratax/*.pyd",
@@ -72,3 +73,8 @@ sdist.exclude = [
 
 [tool.pytest.ini_options]
 python_files = "*_tests.py"
+
+[tool.cibuildwheel]
+# Test every repaired wheel in cibuildwheel's isolated test environment.
+test-requires = ["pytest>=8"]
+test-command = 'python -I "{project}/scripts/check-installed-package.py"'
