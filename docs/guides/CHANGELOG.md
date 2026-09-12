@@ -12,6 +12,22 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ## [Unreleased]
 
+### Fixed
+
+- Made owning array copy assignment transactional and preserved Vector/Matrix rank after moves.
+- Corrected Buffer construction cleanup, extreme Slice arithmetic, empty views, zero-axis conversions, and empty broadcasting.
+- Validated compound divisors before mutation and registered Python axis-index results as IndexTensor.
+- Corrected Doxygen contracts, current C++ namespaces, view semantics, dtype/result descriptions, and stale guide examples.
+
+### Changed
+
+- Vector and Matrix moves may allocate empty metadata and throw; Buffer/Tensor moves remain noexcept.
+- Python tests distinguish source and installed extensions; CI runs package tests and Clang sanitizer checks.
+
+### Added
+
+- Boundary and invariant regression coverage, a view developer reference, and an executable documentation-example check.
+
 ---
 
 ## [0.3.1] - 08-09-2026

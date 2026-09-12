@@ -1,3 +1,6 @@
+/** @file
+ * @brief Umbrella header for the Stratax array library.
+ */
 #pragma once
 
 #include <stratax/core/ArrayBase.hpp>

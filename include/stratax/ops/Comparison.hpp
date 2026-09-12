@@ -1,3 +1,11 @@
+/** @file
+ * @brief Element-wise boolean comparisons with broadcasting.
+ *
+ * Operations that allocate results require owning-container result trait
+ * specializations. Element operators receive the original operand types; the
+ * result is converted afterward. Native C++ arithmetic and conversion rules
+ * apply, including representability requirements. Allocation failures propagate.
+ */
 #pragma once
 
 #include <functional>
@@ -20,8 +28,8 @@ namespace stratax::core::comparison_detail {
  * @return Owning boolean array whose container type is the promotion of @p lhs
  *         and @p rhs and whose shape is their common broadcasted shape.
  * @invariant The operands remain unchanged and the result always has boolean dtype.
- * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
- * @complexity O(n * r), where `n` is the result size and `r` is its rank.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is the result size and `r` is its rank.
  * @internal
  */
 template<Array L, Array R, typename Op>
@@ -37,7 +45,7 @@ auto comparison_op(
 			stratax::dtype::bool_>;
 
 	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
+		stratax::core::broadcast_detail::array_result_shape(lhs, rhs);
 
 	result_type result(result_shape);
 
@@ -128,7 +136,7 @@ auto comparison_scalar_op(
  * @brief Tests whether two arrays have identical shapes and element values.
  * @return `true` if the shapes and every corresponding value are equal.
  * @invariant Both arrays remain unchanged.
- * @complexity O(r + n) in the worst case, where `r` is rank and `n` is size.
+ * @complexity O(r + n) for owning arrays, O((n + 1) * r) for views, where r is rank and n is size.
  * @internal
  */
 template<Array L, Array R>
@@ -158,8 +166,8 @@ template<Array L, Array R>
 /**
  * @brief Compares two arrays for element-wise equality with broadcasting.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 auto equal(const L& lhs, const R& rhs)
@@ -171,8 +179,8 @@ auto equal(const L& lhs, const R& rhs)
 /**
  * @brief Compares two arrays for element-wise inequality with broadcasting.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 auto not_equal(const L& lhs, const R& rhs)
@@ -185,8 +193,8 @@ auto not_equal(const L& lhs, const R& rhs)
  * @brief Tests each broadcasted left element for strict ordering below the
  *        corresponding right element.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 requires (
@@ -203,8 +211,8 @@ auto less(const L& lhs, const R& rhs)
  * @brief Tests each broadcasted left element for ordering below or equal to
  *        the corresponding right element.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 requires (
@@ -221,8 +229,8 @@ auto less_equal(const L& lhs, const R& rhs)
  * @brief Tests each broadcasted left element for strict ordering above the
  *        corresponding right element.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 requires (
@@ -239,8 +247,8 @@ auto greater(const L& lhs, const R& rhs)
  * @brief Tests each broadcasted left element for ordering above or equal to
  *        the corresponding right element.
  * @return Owning boolean array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes cannot be broadcast.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If broadcasting is impossible, including an empty operand supplying a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R>
 requires (
@@ -407,7 +415,7 @@ auto greater_equal(const Scalar& lhs, const A& rhs)
 
 /**
  * @brief Element-wise array equality shorthand for equal().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 auto operator==(const L& lhs, const R& rhs)
@@ -417,7 +425,7 @@ auto operator==(const L& lhs, const R& rhs)
 
 /**
  * @brief Element-wise array inequality shorthand for not_equal().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 auto operator!=(const L& lhs, const R& rhs)
@@ -427,7 +435,7 @@ auto operator!=(const L& lhs, const R& rhs)
 
 /**
  * @brief Element-wise array less-than shorthand for less().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 requires (
@@ -441,7 +449,7 @@ auto operator<(const L& lhs, const R& rhs)
 
 /**
  * @brief Element-wise array less-than-or-equal shorthand for less_equal().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 requires (
@@ -455,7 +463,7 @@ auto operator<=(const L& lhs, const R& rhs)
 
 /**
  * @brief Element-wise array greater-than shorthand for greater().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 requires (
@@ -469,7 +477,7 @@ auto operator>(const L& lhs, const R& rhs)
 
 /**
  * @brief Element-wise array greater-than-or-equal shorthand for greater_equal().
- * @complexity O(n * r), including broadcast-index mapping.
+ * @complexity O((n + 1) * r), including broadcast-index mapping.
  */
 template<Array L, Array R>
 requires (

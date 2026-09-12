@@ -27,19 +27,35 @@ Defines the working conventions for code, tests, and documentation so new change
 
 - Update the matching file under `docs/dev` when public behavior or design intent changes.
 - Keep developer docs practical and implementation-focused.
-- Use the Arithmetic document structure for module docs.
+- Explain actual behavior, invariants, failures, ownership, and relevant costs;
+  let generated header docs supply exact declarations.
 - Update user-facing guides under `docs/guides` when behavior changes.
 - Regenerate Doxygen output intentionally; do not hand-edit files under `docs/output/html`.
 - Keep API status notes aligned with implementation.
 - Keep troubleshooting and release notes current when build, packaging, or docs deployment changes.
 - Keep the Python API reference aligned with `python/stratax/__init__.py` and the `.pyi` stubs.
 
+### Verify documentation examples
+
+After rebuilding the source extension, run:
+
+```sh
+python scripts/check-doc-examples.py
+```
+
+Use complete, independent C++/Python examples with assertions for important
+results. Label signature sketches and pseudocode as text instead of executable
+code. Check negative indices, empty dimensions, mutation, and result types when
+they affect the example. Keep planned features explicitly marked as planned.
+Doxygen generation and local link checks complement execution; none alone proves
+that prose is accurate.
+
 ### Naming
 
 - Classes use `PascalCase`.
 - Functions use `snake_case`.
 - Concepts use `PascalCase`.
-- Constants use `UPPER_CASE`.
+- Follow nearby naming conventions; config constants use snake_case.
 
 ## Validation Notes
 

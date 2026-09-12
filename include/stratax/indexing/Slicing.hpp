@@ -1,5 +1,7 @@
+/** @file
+ * @brief Positive-step non-owning slice views with clamped bounds.
+ */
 // TODO: deduplicate Tensor slicing implementations.
-// TODO: make slice normalization arithmetic overflow-safe.
 // TODO: improve Tensor slice error messages.
 // TODO: support omitted slice bounds for NumPy-style slicing.
 // TODO: revisit signed strides when implementing views.
@@ -32,19 +34,33 @@ using difference_type = std::ptrdiff_t;
 namespace detail
 {
 
+/** @brief Normalized first index, signed step, and selected element count. */
 struct ResolvedSlice
 {
+	/** @brief First normalized index; not dereferenceable for an empty slice. */
 	difference_type start;
+	/** @brief Nonzero signed step. */
 	difference_type step;
+	/** @brief Number of selected elements. */
 	size_type size;
 };
 
+/** @brief Element type preserving the source array constness. */
 template<typename Source>
 using view_element_t = std::conditional_t<
 	std::is_const_v<std::remove_reference_t<Source>>,
 	const typename std::remove_cvref_t<Source>::value_type,
 	typename std::remove_cvref_t<Source>::value_type>;
 
+/**
+ * @brief Normalizes explicit bounds against an extent without accessing storage.
+ * @param slice Raw range; a negative-step stop of -1 is the reverse sentinel.
+ * @param extent Axis length, representable by difference_type.
+ * @return Clamped start, unchanged step, and selected element count.
+ * @throws Exceptions::IndexError If the extent exceeds PTRDIFF_MAX.
+ * @note Negative steps can be normalized, but public slice views reject them.
+ * @complexity O(1).
+ */
 inline ResolvedSlice normalize_slice(
 	const stratax::core::Slice& slice,
 	size_type extent)
@@ -78,8 +94,7 @@ inline ResolvedSlice normalize_slice(
 			return ResolvedSlice{start, step, 0};
 		}
 
-		const difference_type distance = stop - start;
-		const size_type count = static_cast<size_type>((distance + step - 1) / step);
+		const size_type count = stratax::core::Slice{start, stop, step}.size();
 		return ResolvedSlice{start, step, count};
 	}
 
@@ -100,9 +115,7 @@ inline ResolvedSlice normalize_slice(
 		return ResolvedSlice{start, step, 0};
 	}
 
-	const difference_type stride = -step;
-	const difference_type distance = start - stop;
-	const size_type count = static_cast<size_type>((distance + stride - 1) / stride);
+	const size_type count = stratax::core::Slice{start, stop, step}.size();
 	return ResolvedSlice{start, step, count};
 }
 
@@ -110,6 +123,7 @@ inline ResolvedSlice normalize_slice(
 
 namespace detail {
 
+/** @brief Constructs a one-axis view; see the public Vector slice overload. @internal */
 template<typename Vector>
 auto make_vector_slice_view(
     Vector& vec,
@@ -138,11 +152,12 @@ auto make_vector_slice_view(
     };
 
     return stratax::core::ArrayView<view_element_t<Vector>>(
-        vec.data() + offset,
+        shape.elements() == 0 ? vec.data() : vec.data() + offset,
         shape,
         strides);
 }
 
+/** @brief Constructs a two-axis view; see the public Matrix slice overload. @internal */
 template<typename Matrix>
 auto make_matrix_slice_view(
     Matrix& mat,
@@ -174,19 +189,39 @@ auto make_matrix_slice_view(
         resolved_cols.size
     };
 
+    if (mat.strides()[0] != 0 && static_cast<size_type>(resolved_rows.step) >
+        std::numeric_limits<size_type>::max() / mat.strides()[0])
+    {
+        throw Exceptions::DimensionError("Matrix slice stride overflow.");
+    }
+
     const stratax::core::Shape strides{
         mat.strides()[0] * static_cast<size_type>(resolved_rows.step),
         mat.strides()[1] * static_cast<size_type>(resolved_cols.step)
     };
 
     return stratax::core::ArrayView<view_element_t<Matrix>>(
-        mat.data() + offset,
+        shape.elements() == 0 ? mat.data() : mat.data() + offset,
         shape,
         strides);
 }
 
 } // namespace detail
 
+/**
+ * @brief Returns a non-owning Vector slice view (mutable when T is non-const).
+ * @param vec Source Vector whose storage is aliased.
+ * @param slice Explicit positive-step range, normalized and clamped to the vector size.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(1).
+ */
 template<typename T>
 auto slice(
 	stratax::container::Vector<T>& vec,
@@ -195,6 +230,20 @@ auto slice(
 	return detail::make_vector_slice_view(vec, slice);
 }
 
+/**
+ * @brief Returns a non-owning Vector slice view (read-only).
+ * @param vec Source Vector whose storage is aliased.
+ * @param slice Explicit positive-step range, normalized and clamped to the vector size.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(1).
+ */
 template<typename T>
 auto slice(
 	const stratax::container::Vector<T>& vec,
@@ -203,6 +252,21 @@ auto slice(
 	return detail::make_vector_slice_view(vec, slice);
 }
 
+/**
+ * @brief Returns a non-owning Matrix slice view (mutable when T is non-const).
+ * @param mat Source Matrix whose storage is aliased.
+ * @param rows Positive-step row range.
+ * @param cols Positive-step column range.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(1).
+ */
 template<typename T>
 auto slice(
 	stratax::container::Matrix<T>& mat,
@@ -212,6 +276,21 @@ auto slice(
 	return detail::make_matrix_slice_view(mat, rows, cols);
 }
 
+/**
+ * @brief Returns a non-owning Matrix slice view (read-only).
+ * @param mat Source Matrix whose storage is aliased.
+ * @param rows Positive-step row range.
+ * @param cols Positive-step column range.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(1).
+ */
 template<typename T>
 auto slice(
 	const stratax::container::Matrix<T>& mat,
@@ -223,6 +302,7 @@ auto slice(
 
 namespace detail {
 
+/** @brief Constructs a view with one slice per axis; see the public Tensor slice overloads. @internal */
 template<typename Tensor, typename... Slices>
 requires (
     std::same_as<
@@ -313,11 +393,12 @@ auto make_tensor_slice_view(
         view_stride_values);
 
     return stratax::core::ArrayView<view_element_t<Tensor>>(
-        tensor.data() + offset,
+        view_shape.elements() == 0 ? tensor.data() : tensor.data() + offset,
         view_shape,
         view_strides);
 }
 
+/** @brief Constructs a view with one slice per axis; see the public Tensor slice overloads. @internal */
 template<typename Tensor>
 auto make_tensor_slice_view(
     Tensor& tensor,
@@ -395,13 +476,28 @@ auto make_tensor_slice_view(
         view_stride_values);
 
     return stratax::core::ArrayView<view_element_t<Tensor>>(
-        tensor.data() + offset,
+        view_shape.elements() == 0 ? tensor.data() : tensor.data() + offset,
         view_shape,
         view_strides);
 }
 
 } // namespace detail
 
+/**
+ * @brief Returns a non-owning Tensor slice view (mutable when T is non-const).
+ * @param tensor Source Tensor whose storage is aliased.
+ * @param slices One explicit positive-step range per axis.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::RankError If the number of slices differs from the source rank.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(tensor.rank()).
+ */
 template<typename T, typename... Slices>
 requires (
 	std::same_as<
@@ -414,6 +510,21 @@ auto slice(stratax::container::Tensor<T>& tensor, Slices... slices)
 	return detail::make_tensor_slice_view(tensor, slices...);
 }
 
+/**
+ * @brief Returns a non-owning Tensor slice view (read-only).
+ * @param tensor Source Tensor whose storage is aliased.
+ * @param slices One explicit positive-step range per axis.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::RankError If the number of slices differs from the source rank.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(tensor.rank()).
+ */
 template<typename T, typename... Slices>
 requires (
 	std::same_as<
@@ -426,6 +537,21 @@ auto slice(const stratax::container::Tensor<T>& tensor, Slices... slices)
 	return detail::make_tensor_slice_view(tensor, slices...);
 }
 
+/**
+ * @brief Returns a non-owning Tensor slice view (mutable when T is non-const).
+ * @param tensor Source Tensor whose storage is aliased.
+ * @param slices One explicit positive-step range per axis.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::RankError If the number of slices differs from the source rank.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(tensor.rank()).
+ */
 template<typename T>
 auto slice(
 	stratax::container::Tensor<T>& tensor,
@@ -434,6 +560,21 @@ auto slice(
 	return detail::make_tensor_slice_view(tensor, slices);
 }
 
+/**
+ * @brief Returns a non-owning Tensor slice view (read-only).
+ * @param tensor Source Tensor whose storage is aliased.
+ * @param slices One explicit positive-step range per axis.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::RankError If the number of slices differs from the source rank.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(tensor.rank()).
+ */
 template<typename T>
 auto slice(
 	const stratax::container::Tensor<T>& tensor,
@@ -442,6 +583,21 @@ auto slice(
 	return detail::make_tensor_slice_view(tensor, slices);
 }
 
+/**
+ * @brief Returns a non-owning ArrayView slice view (mutable when T is non-const).
+ * @param view Source ArrayView whose storage is aliased.
+ * @param slices One explicit positive-step range per axis.
+ * @return ArrayView with selected extents and source strides multiplied by each step.
+ *         Every source axis is retained, including singleton and zero extents.
+ * @pre The source allocation outlives the result and is not invalidated by assignment.
+ * @throws Exceptions::IndexError If a step is negative or an extent exceeds PTRDIFF_MAX.
+ * @throws Exceptions::RankError If the number of slices differs from the source rank.
+ * @throws Exceptions::DimensionError If stride/offset arithmetic or metadata validation overflows.
+ * @throws std::bad_alloc If metadata allocation fails.
+ * @note Bounds are clamped; a slice may be empty. Empty results retain the source data pointer.
+ * @note No elements are copied. C++ views do not keep the source owner alive.
+ * @complexity O(view.rank()).
+ */
 template<typename T>
 stratax::core::ArrayView<T>
 slice(

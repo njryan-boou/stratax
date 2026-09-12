@@ -1,3 +1,6 @@
+/** @file
+ * @brief Checked signed index normalization.
+ */
 #pragma once
 
 #include <cstddef>
@@ -6,9 +9,20 @@
 
 namespace stratax::indexing {
 
+/** @brief Unsigned extent and normalized-index type. */
 using size_type = std::size_t;
+/** @brief Signed type for Python-style indices. */
 using difference_type = std::ptrdiff_t;
 
+/**
+ * @brief Validates a signed index and converts it to a non-negative offset.
+ * @param index Index in `[-size, size)`; negative values count from the end.
+ * @param size Number of elements in the indexed dimension.
+ * @return The non-negative index; `-1` selects `size - 1` when nonempty.
+ * @throws Exceptions::IndexError If the index is out of bounds, including every index when size is zero.
+ * @note The minimum representable signed index is handled without signed overflow.
+ * @complexity O(1).
+ */
 inline size_type normalize_index(
     difference_type index,
     size_type size)

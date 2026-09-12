@@ -1,138 +1,40 @@
-@page reshape Reshape
+@page reshape Reshape and Flatten
 
-# Reshape {#dev_reshape}
+# Reshape and Flatten {#dev_reshape}
 
-Version: v0.2.0
+Header: `include/stratax/algorithms/Reshape.hpp`.
 
-Status: Complete
+`stratax::manipulation::reshape(arr, shape)` copies into Tensor with the requested shape.
+`stratax::manipulation::flatten(arr)` copies into a rank-one Vector. Both preserve logical
+row-major order and dtype, including for C++ strided view inputs.
 
-Header: `include/stratax/algorithms/Reshape.hpp`
+## Invariants and failures
 
----
-
-## Overview
-
-`Reshape.hpp` provides shape-changing copy helpers that preserve flat storage order.
-
-`reshape` returns a tensor with a requested shape, while `flatten` returns a rank-1 vector.
-
----
-
-## Responsibilities
-
-The reshape module is responsible for:
-
-- Validating element-count compatibility for reshape operations
-- Copying values in flat storage order
-- Producing owning containers for reshaped/flattened output
-
-The reshape module is not responsible for:
-
-- View-based reshape semantics
-- Inferred-dimension syntax (`-1` style placeholders)
-- In-place shape mutation
-
----
-
-## Relationships
-
-```text
-reshape(arr, shape)
-├── checks arr.size() == shape.elements()
-└── flat copy into Tensor
-
-flatten(arr)
-└── flat copy into Vector
-```
-
-Depends on:
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/Shape.hpp`
-- `include/stratax/containers/Tensor.hpp`
-- `include/stratax/containers/Vector.hpp`
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Reshape and flatten preserve flat element order.
-- `reshape` returns `Tensor<value_type>`.
-- `flatten` returns `Vector<value_type>`.
-- Output size equals source size.
-- Both operations return owning containers.
-
----
-
-## Public Interface
-
-### reshape
+Output storage is independent. Reshape requires `shape.elements() == arr.size()`
+and throws `Exceptions::ShapeError` on mismatch. Shape/stride overflow and
+allocation failures propagate. Dimensions are explicit unsigned extents; there
+is no inferred `-1` axis and no in-place metadata change.
+Rank-zero output is valid only for an empty source. Flattening any empty input
+produces shape `{0}`. Shape-changing views are a separate, unimplemented API.
 
 ```cpp
-template<Array A>
-stratax::container::Tensor<typename A::value_type>
-reshape(const A& arr, const stratax::core::Shape& shape);
+#include <stratax.h>
+#include <cassert>
+
+int main() {
+    stratax::container::Vector<int> source{0, 1, 2, 3, 4, 5};
+    auto selected = stratax::indexing::slice(source, stratax::core::Slice{0, 6, 2});
+    auto tensor = stratax::manipulation::reshape(selected, stratax::core::Shape{1, 3});
+    assert(tensor(0, 2) == 4);
+    auto flat = stratax::manipulation::flatten(tensor);
+    flat[0] = 9;
+    assert(source[0] == 0 && tensor[0] == 0);
+}
 ```
 
-Throws
+For n elements, source rank r, and target rank q, reshape takes O(n + q) on
+owning inputs and O((n + 1)r + q) on views. Flatten takes O(n) on owning inputs
+and O((n + 1)r) on views. Both allocate storage for n elements and result metadata.
+Python exposes reshape and flatten on owning containers, not on ArrayView.
 
-- `Exceptions::ShapeError` when target shape element count differs from source size
-- Possible propagated shape/overflow exceptions from `shape.elements()`
-
-Complexity
-
-- O(n + r)
-
-### flatten
-
-```cpp
-template<Array A>
-stratax::container::Vector<typename A::value_type>
-flatten(const A& arr);
-```
-
-Complexity
-
-- O(n)
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| `reshape` | O(n + r) |
-| `flatten` | O(n) |
-
-`n` is element count and `r` is rank.
-
----
-
-## Examples
-
-```cpp
-const auto t = reshape(vec, stratax::core::Shape(2, 3));
-const auto v = flatten(t);
-```
-
----
-
-## Design Notes
-
-The module keeps behavior explicit and safe: reshape validates total size first and always performs a full copy.
-
----
-
-## Future Improvements
-
-- Add non-owning view reshape when view types exist
-- Add optional strict reshaping helpers with additional layout checks
-
----
-
-## See Also
-
-- `include/stratax/algorithms/Conversion.hpp`
-- `include/stratax/containers/Tensor.hpp`
+See @ref conversions and @ref arrayview.

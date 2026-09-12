@@ -1,3 +1,6 @@
+/** @file
+ * @brief Result-container rebinding and promotion for owning arrays.
+ */
 #pragma once
 
 #include <type_traits>
@@ -11,7 +14,9 @@ namespace stratax::core {
 /**
  * @brief Rebinds a Stratax array container to a different value type.
  *
- * The container family is preserved while its stored value type is replaced.
+ * The owning container family is preserved while its value type is replaced.
+ * Only Vector, Matrix, and Tensor specializations are supplied; arbitrary
+ * Array-conforming types such as ArrayView require a user specialization.
  *
  * @tparam A Original array type.
  * @tparam T New value type.
@@ -25,6 +30,7 @@ struct RebindArray;
 template<typename From, typename To>
 struct RebindArray<container::Vector<From>, To>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Vector<To>;
 };
 
@@ -34,6 +40,7 @@ struct RebindArray<container::Vector<From>, To>
 template<typename From, typename To>
 struct RebindArray<container::Matrix<From>, To>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Matrix<To>;
 };
 
@@ -43,6 +50,7 @@ struct RebindArray<container::Matrix<From>, To>
 template<typename From, typename To>
 struct RebindArray<container::Tensor<From>, To>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<To>;
 };
 
@@ -62,8 +70,9 @@ using rebind_array_t =
 /**
  * @brief Determines the result container family for two Stratax arrays.
  *
- * Matching container families are preserved. Mixed container families
- * promote to Tensor.
+ * Matching owning container families are preserved. Mixed owning families
+ * promote to Tensor. No default specialization exists for ArrayView or other
+ * user-defined types, even if they satisfy the Array concept.
  */
 template<typename L, typename R, typename T>
 struct PromoteArray;
@@ -77,6 +86,7 @@ struct PromoteArray<
 	container::Vector<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Vector<T>;
 };
 
@@ -89,6 +99,7 @@ struct PromoteArray<
 	container::Matrix<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Matrix<T>;
 };
 
@@ -101,6 +112,7 @@ struct PromoteArray<
 	container::Tensor<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
@@ -113,15 +125,18 @@ struct PromoteArray<
 	container::Matrix<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
+/** @brief Mixed Matrix/Vector operations promote to Tensor. */
 template<typename LValue, typename RValue, typename T>
 struct PromoteArray<
 	container::Matrix<LValue>,
 	container::Vector<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
@@ -134,15 +149,18 @@ struct PromoteArray<
 	container::Tensor<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
+/** @brief Mixed Tensor/Vector operations promote to Tensor. */
 template<typename LValue, typename RValue, typename T>
 struct PromoteArray<
 	container::Tensor<LValue>,
 	container::Vector<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
@@ -155,15 +173,18 @@ struct PromoteArray<
 	container::Tensor<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 
+/** @brief Mixed Tensor/Matrix operations promote to Tensor. */
 template<typename LValue, typename RValue, typename T>
 struct PromoteArray<
 	container::Tensor<LValue>,
 	container::Matrix<RValue>,
 	T>
 {
+	/** @brief Selected owning container type. */
 	using type = container::Tensor<T>;
 };
 

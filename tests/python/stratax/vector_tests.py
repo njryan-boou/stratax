@@ -1,15 +1,12 @@
 from __future__ import annotations
 
 import sys
+
 import pytest
-from pathlib import Path
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
 from stratax import (
+    ArrayView,
     Shape,
     ShapeError,
     Matrix,
@@ -86,12 +83,12 @@ class TestVectorInterfaceTests:
         assert vector[1] == 8.0
         assert vector.tolist() == [1.0, 8.0, 3.0]
 
-    def test_slice_indexing_returns_vector(self) -> None:
+    def test_slice_indexing_returns_view(self) -> None:
         vector = Vector([1.0, 2.0, 3.0, 4.0])
 
         sliced = vector[1:3]
 
-        assert isinstance(sliced, Vector)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([2])
         assert sliced.tolist() == [2.0, 3.0]
 
@@ -100,18 +97,15 @@ class TestVectorInterfaceTests:
 
         sliced = vector[::2]
 
-        assert isinstance(sliced, Vector)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([3])
         assert sliced.tolist() == [1.0, 3.0, 5.0]
 
-    def test_slice_indexing_supports_negative_step(self) -> None:
+    def test_slice_indexing_rejects_negative_step_views(self) -> None:
         vector = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
 
-        sliced = vector[::-2]
-
-        assert isinstance(sliced, Vector)
-        assert sliced.shape == Shape([3])
-        assert sliced.tolist() == [5.0, 3.0, 1.0]
+        with pytest.raises(StrataxIndexError, match="Negative-step views"):
+            _ = vector[::-2]
 
     def test_fill_updates_all_values(self) -> None:
         vector = Vector([1.0, 2.0, 3.0])
@@ -158,8 +152,10 @@ class TestVectorInterfaceTests:
         assert lhs.equal(2).tolist() == [False, True, False]
         assert lhs.not_equal(2).tolist() == [True, False, True]
 
+        assert (lhs == [1.0, 2.0, 3.0]) is False
+        assert (lhs != [1.0, 2.0, 3.0]) is True
         with pytest.raises(TypeError):
-            _ = lhs != [1.0, 2.0, 3.0]
+            lhs.not_equal([1.0, 2.0, 3.0])
 
     def test_ordered_comparisons(self) -> None:
         vector = Vector([1.0, 2.0, 3.0])

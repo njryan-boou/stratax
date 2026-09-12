@@ -2,213 +2,70 @@
 
 # Arithmetic {#dev_arithmetic}
 
-Version: v0.2.0
+Header: `include/stratax/ops/Arithmetic.hpp`. Exact declarations and template
+constraints are documented in the generated header reference.
 
-Status: Complete
+## Operations and results
 
-Header: `include/stratax/ops/Arithmetic.hpp`
+`+`, `-`, `*`, and `/` support two owning arrays or an array and numeric scalar
+in either order. Array-array operands broadcast from the trailing axes.
+Same-family results retain Vector, Matrix, or Tensor; mixed families return
+Tensor. Scalar operations retain the array family and shape. Result elements
+use `promote_t` from the operand dtypes, including scalar dtypes.
 
----
+The callable receives original element types and its result is converted to the
+output dtype afterward. Native C++ integer division, intermediate overflow,
+and conversion rules apply. Numeric excludes bool. Allocating operations need
+RebindArray/PromoteArray specializations, supplied for owning containers.
 
-## Overview
+## In-place invariants and failures
 
-`Arithmetic.hpp` defines generic element-wise arithmetic for Stratax
-array-like containers.
+`+=`, `-=`, `*=`, and `/=` write into existing left storage, preserving its
+shape and dtype. Broadcasting that would change the left shape raises
+`Exceptions::BroadcastError`. Values are converted back to the left dtype.
+Compound division validates all used divisors before writing, so a zero-divisor
+failure leaves the left operand unchanged. This is not a general transactional
+guarantee for arbitrary callables or aliased views.
 
-It provides array-array, array-scalar, scalar-array, compound assignment, and
-unary operators for types satisfying the `Array` and `Numeric` concepts.
-Array-array operations use the broadcasting rules defined by
-`Broadcasting.hpp`.
+Array division rejects a zero divisor only when that element is used. Scalar
+zero divisors are rejected even when the array is empty. Rank-zero arrays are
+empty and cannot broadcast values into a nonempty result. Non-compound
+operations allocate independent storage and leave inputs unchanged.
 
----
+Unary plus copies the array object (a view copy still aliases storage). Unary
+minus returns an owning negated array; its implementation requires a dtype
+that can be initialized from `-1`, so unsigned dtypes are unsupported.
 
-## Responsibilities
-
-The arithmetic module is responsible for:
-
-- Forwarding array-array operations through the broadcasting engine
-- Providing array-scalar and scalar-array arithmetic
-- Validating division-by-zero conditions where required
-- Providing in-place compound assignment operators
-
-The arithmetic module is not responsible for:
-
-- Defining shape compatibility and index projection rules
-- Type-promotion policy beyond C++ operator semantics
-- SIMD or parallel execution policy
-
----
-
-## Relationships
-
-```text
-Arithmetic operators
-|-- Array and Numeric concept constraints
-|-- broadcasted_op(...) for binary traversal
-|-- Exceptions::BroadcastError for incompatible shapes
-`-- Exceptions::ZeroDivisionError for division checks
-```
-
-Depends on:
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/ops/Broadcasting.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
-
-Used by:
-
-- User-facing vector, matrix, and tensor arithmetic expressions
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Array-array operators require broadcast-compatible shapes.
-- Array-array result shape is the common broadcasted shape.
-- Scalar operations preserve the array operand shape.
-- Non-compound operators do not mutate inputs.
-- Compound operators delegate to non-compound operators and assignment.
-- Division by zero raises `Exceptions::ZeroDivisionError`.
-
----
-
-## Public Interface
-
-### Array-array operators
+## Example
 
 ```cpp
-template<Array A> A operator+(const A& lhs, const A& rhs);
-template<Array A> A operator-(const A& lhs, const A& rhs);
-template<Array A> A operator*(const A& lhs, const A& rhs);
-template<Array A> A operator/(const A& lhs, const A& rhs);
+#include <stratax.h>
+#include <cassert>
+#include <type_traits>
+
+int main() {
+    stratax::container::Matrix<int> column{{1}, {2}};
+    stratax::container::Matrix<int> row{{10, 20, 30}};
+    auto result = column + row;
+    assert(result.shape() == stratax::core::Shape({2, 3}));
+    auto promoted = result + 0.5;
+    static_assert(std::is_same_v<typename decltype(promoted)::value_type, double>);
+    assert(promoted(0, 0) == 11.5);
+    try {
+        column += row;
+        assert(false);
+    } catch (const Exceptions::BroadcastError&) {}
+    assert(column.shape() == stratax::core::Shape({2, 1}));
+    result += row;
+    assert(result(1, 2) == 62);
+}
 ```
 
-Throws
+## Cost
 
-- `Exceptions::BroadcastError` when the shapes are incompatible
-- `Exceptions::ZeroDivisionError` for division when a broadcasted divisor is zero
+Broadcasted owning operations take O((n + 1)r), for result size n and rank r.
+Scalar and unary owning operations take O(n + r), including metadata allocation.
+In-place array operations take O((n + 1)r); scalar assignment takes O(n) for
+owning arrays and O((n + 1)r) for views. Owning results allocate O(n + r) storage.
 
-Complexity
-
-- O(nr), where `n` is the result element count and `r` is result rank
-
-### Array-scalar operators
-
-```cpp
-template<Array A, Numeric Scalar> A operator+(const A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A operator-(const A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A operator*(const A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A operator/(const A& lhs, const Scalar& rhs);
-```
-
-Throws
-
-- `Exceptions::ZeroDivisionError` for division by a zero scalar
-
-Complexity
-
-- O(n)
-
-### Scalar-array operators
-
-```cpp
-template<Numeric Scalar, Array A> A operator+(const Scalar& lhs, const A& rhs);
-template<Numeric Scalar, Array A> A operator-(const Scalar& lhs, const A& rhs);
-template<Numeric Scalar, Array A> A operator*(const Scalar& lhs, const A& rhs);
-template<Numeric Scalar, Array A> A operator/(const Scalar& lhs, const A& rhs);
-```
-
-Throws
-
-- `Exceptions::ZeroDivisionError` for division when any array divisor is zero
-
-Complexity
-
-- O(n)
-
-### Compound assignment operators
-
-```cpp
-template<Array A> A& operator+=(A& lhs, const A& rhs);
-template<Array A> A& operator-=(A& lhs, const A& rhs);
-template<Array A> A& operator*=(A& lhs, const A& rhs);
-template<Array A> A& operator/=(A& lhs, const A& rhs);
-
-template<Array A, Numeric Scalar> A& operator+=(A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A& operator-=(A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A& operator*=(A& lhs, const Scalar& rhs);
-template<Array A, Numeric Scalar> A& operator/=(A& lhs, const Scalar& rhs);
-```
-
-Array-array compound operations assign the complete broadcasted result back to
-the left operand. The left operand may therefore acquire the broadcasted shape.
-
-Throws
-
-- The same exceptions as the corresponding non-compound operator
-
-### Unary operators
-
-```cpp
-template<Array A> A operator-(const A& arr);
-template<Array A> A operator+(const A& arr);
-```
-
-Unary minus negates each value. Unary plus returns a copy.
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Array-array operators | O(nr) |
-| Array-scalar operators | O(n) |
-| Scalar-array operators | O(n) |
-| Array-array compound assignment | O(nr) |
-| Scalar compound assignment | O(n) |
-| Unary plus/minus | O(n) |
-
-`n` is result element count and `r` is result rank.
-
----
-
-## Examples
-
-```cpp
-stratax::Matrix<int> column{{1}, {2}};
-stratax::Matrix<int> row{{10, 20, 30}};
-
-const auto sum = column + row; // shape (2, 3)
-const auto shifted = sum + 2;
-const auto inverse = 120 / shifted;
-
-column += row; // column now has shape (2, 3)
-```
-
----
-
-## Design Notes
-
-Operators are intentionally generic and concept-constrained so they work uniformly across vector, matrix, and tensor containers.
-
-Scalar operand order is preserved for noncommutative operations such as
-subtraction and division.
-
----
-
-## Future Improvements
-
-- Explicit type-promotion policy controls
-- SIMD kernels for common numeric types
-- Optional parallel backends
-
----
-
-## See Also
-
-- @ref broadcasting "Broadcasting"
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/ops/Comparison.hpp`
+See @ref broadcasting, @ref types, and @ref comparison.

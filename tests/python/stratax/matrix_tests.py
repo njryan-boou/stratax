@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 import sys
+
 import pytest
-from pathlib import Path
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, DimensionError, IndexError as StrataxIndexError
-from stratax import Matrix, Shape, ShapeError, StrataxError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
+from stratax import ArrayView, Matrix, Shape, ShapeError, StrataxError, Tensor, Vector, ZeroDivisionError as StrataxZeroDivisionError
 
 
 class TestMatrixInterfaceTests:
@@ -83,30 +79,30 @@ class TestMatrixInterfaceTests:
         assert matrix[1, 0] == 8.0
         assert matrix.tolist() == [[1.0, 2.0], [8.0, 4.0]]
 
-    def test_slice_indexing_returns_matrix(self) -> None:
+    def test_slice_indexing_returns_view(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
         sliced = matrix[:, 1:3]
 
-        assert isinstance(sliced, Matrix)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([2, 2])
         assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
 
-    def test_top_level_row_slice_returns_matrix(self) -> None:
+    def test_top_level_row_slice_returns_view(self) -> None:
         matrix = Matrix([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 
         sliced = matrix[1:]
 
-        assert isinstance(sliced, Matrix)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([2, 2])
         assert sliced.tolist() == [[3.0, 4.0], [5.0, 6.0]]
 
-    def test_mixed_integer_and_slice_indexing_returns_matrix(self) -> None:
+    def test_mixed_integer_and_slice_indexing_returns_view(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
         sliced = matrix[1, :]
 
-        assert isinstance(sliced, Matrix)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([1, 3])
         assert sliced.tolist() == [[4.0, 5.0, 6.0]]
 
@@ -115,18 +111,15 @@ class TestMatrixInterfaceTests:
 
         sliced = matrix[:, ::2]
 
-        assert isinstance(sliced, Matrix)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([2, 2])
         assert sliced.tolist() == [[1.0, 3.0], [4.0, 6.0]]
 
-    def test_slice_indexing_supports_negative_step(self) -> None:
+    def test_slice_indexing_rejects_negative_step_views(self) -> None:
         matrix = Matrix([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
-        sliced = matrix[::-1, ::-2]
-
-        assert isinstance(sliced, Matrix)
-        assert sliced.shape == Shape([2, 2])
-        assert sliced.tolist() == [[6.0, 4.0], [3.0, 1.0]]
+        with pytest.raises(StrataxIndexError, match="Negative-step views"):
+            _ = matrix[::-1, ::-2]
 
     def test_fill_updates_all_values(self) -> None:
         matrix = Matrix([[1.0, 2.0], [3.0, 4.0]])
@@ -171,8 +164,10 @@ class TestMatrixInterfaceTests:
         assert (lhs == Matrix([[1.0, 9.0], [3.0, 8.0]])).tolist() == [[True, False], [True, False]]
         assert (lhs != 2).tolist() == [[True, False], [True, True]]
 
+        assert (lhs == [[1.0, 2.0], [3.0, 4.0]]) is False
+        assert (lhs != [[1.0, 2.0], [3.0, 4.0]]) is True
         with pytest.raises(TypeError):
-            _ = lhs != [[1.0, 2.0], [3.0, 4.0]]
+            lhs.not_equal([[1.0, 2.0], [3.0, 4.0]])
 
         assert repr(lhs < 3) == "[\n    [true, true]\n    [false, false]\n]"
 

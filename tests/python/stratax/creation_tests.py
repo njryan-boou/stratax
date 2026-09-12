@@ -1,13 +1,7 @@
 from __future__ import annotations
 
-import sys
-from pathlib import Path
 
 import pytest
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import (  # noqa: E402
     Matrix,

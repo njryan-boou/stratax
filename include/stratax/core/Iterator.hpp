@@ -1,3 +1,6 @@
+/** @file
+ * @brief Reverse-iterator alias.
+ */
 #pragma once
 
 #include <iterator>

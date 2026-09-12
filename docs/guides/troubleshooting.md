@@ -13,12 +13,22 @@ the package in editable mode from the repository root:
 python -m pip install -e .
 ```
 
-If an example is run directly from `examples/python`, run it from the repository
-root so its helper path setup resolves the local package consistently:
+Python examples import the installed package from the active environment. Run
+them from the repository root with that environment's interpreter:
 
 ```powershell
 python examples/python/vector.py
 ```
+
+If a source test reports a missing or stale extension, rebuild with
+`STRATAX_BUILD_PYTHON_BINDINGS=ON` using the intended interpreter; a plain CMake
+build leaves bindings disabled. See @ref getting_started. To test an installed
+wheel, use `python -m pytest tests/python --installed`.
+
+Editable-install import hooks can take precedence over PYTHONPATH and select an
+older extension. Source pytest and scripts/check-doc-examples.py explicitly pin
+imports to this checkout. Reinstall after rebuilding if direct examples still
+use an outdated installed package.
 
 ## Editable Install Fails
 
@@ -74,15 +84,15 @@ Build C++ tests before running CTest:
 
 ```powershell
 cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
 ```
 
 Run Python tests from the repository root after installing development
 dependencies:
 
 ```powershell
-python -m pip install -e .[dev]
+python -m pip install -e ".[dev]"
 python -m pytest tests/python
 ```
 
@@ -100,3 +110,6 @@ doxygen docs/Doxyfile
 ```
 
 Edit Markdown files and headers, not generated files under `docs/output/html`.
+
+For changes to examples or API descriptions, also run
+`python scripts/check-doc-examples.py` after rebuilding the source extension.

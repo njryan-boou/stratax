@@ -10,7 +10,7 @@ INPUT                  = include \
                          docs \
                          LICENSE
 
-FILE_PATTERNS          = *.hpp *.md LICENSE
+FILE_PATTERNS          = *.hpp *.h *.md LICENSE
 
 RECURSIVE              = YES
 
@@ -41,3 +41,13 @@ GENERATE_TREEVIEW      = YES
 HTML_DYNAMIC_MENUS     = YES
 
 OPTIMIZE_OUTPUT_FOR_C  = NO
+
+# Expand dtype registration macros so their specializations are documented.
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION         = YES
+EXPAND_ONLY_PREDEF      = YES
+EXPAND_AS_DEFINED      = STRATAX_DEFINE_DTYPE_TRAITS \
+                         STRATAX_DEFINE_FLOAT_DTYPE_TRAITS \
+                         STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS \
+                         STRATAX_DEFINE_COMPLEX_COMPONENT \
+                         STRATAX_DEFINE_COMPLEX_FROM_REAL

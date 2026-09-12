@@ -1,3 +1,6 @@
+/** @file
+ * @brief Compile-time metadata for supported dtypes.
+ */
 #pragma once
 
 #include <climits>
@@ -37,29 +40,31 @@ struct DTypeTraitsImpl;
  * @brief Defines metadata for a non-complex Stratax dtype.
  */
 #define STRATAX_DEFINE_DTYPE_TRAITS(TYPE, KIND, NAME) \
+	/** @brief Registered dtype metadata specialization. */ \
 	template<> \
 	struct DTypeTraitsImpl<TYPE> \
 	{ \
-		using type = TYPE; \
-		static constexpr DTypeKind kind = DTypeKind::KIND; \
-		static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
-		static constexpr int digits = std::numeric_limits<type>::digits; \
-		static constexpr std::string_view name = NAME; \
+		/** @brief Registered C++ dtype. */ using type = TYPE; \
+		/** @brief Dtype category. */ static constexpr DTypeKind kind = DTypeKind::KIND; \
+		/** @brief Storage size in bits, including padding. */ static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
+		/** @brief Numeric precision in radix digits, excluding any sign. */ static constexpr int digits = std::numeric_limits<type>::digits; \
+		/** @brief Public dtype name. */ static constexpr std::string_view name = NAME; \
 	}
 
 /**
  * @brief Defines metadata for a ranked floating-point Stratax dtype.
  */
 #define STRATAX_DEFINE_FLOAT_DTYPE_TRAITS(TYPE, RANK, NAME) \
+	/** @brief Registered dtype metadata specialization. */ \
 	template<> \
 	struct DTypeTraitsImpl<TYPE> \
 	{ \
-		using type = TYPE; \
-		static constexpr DTypeKind kind = DTypeKind::Floating; \
-		static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
-		static constexpr int digits = std::numeric_limits<type>::digits; \
-		static constexpr std::size_t rank = RANK; \
-		static constexpr std::string_view name = NAME; \
+		/** @brief Registered C++ dtype. */ using type = TYPE; \
+		/** @brief Dtype category. */ static constexpr DTypeKind kind = DTypeKind::Floating; \
+		/** @brief Storage size in bits, including padding. */ static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
+		/** @brief Numeric precision in radix digits, excluding any sign. */ static constexpr int digits = std::numeric_limits<type>::digits; \
+		/** @brief Floating-point promotion rank. */ static constexpr std::size_t rank = RANK; \
+		/** @brief Public dtype name. */ static constexpr std::string_view name = NAME; \
 	}
 
 /**
@@ -69,16 +74,17 @@ struct DTypeTraitsImpl;
  * floating-point component type.
  */
 #define STRATAX_DEFINE_COMPLEX_DTYPE_TRAITS(TYPE, COMPONENT, RANK, NAME) \
+	/** @brief Registered dtype metadata specialization. */ \
 	template<> \
 	struct DTypeTraitsImpl<TYPE> \
 	{ \
-		using type = TYPE; \
-		using component_type = COMPONENT; \
-		static constexpr DTypeKind kind = DTypeKind::Complex; \
-		static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
-		static constexpr int digits = std::numeric_limits<component_type>::digits; \
-		static constexpr std::size_t rank = RANK; \
-		static constexpr std::string_view name = NAME; \
+		/** @brief Registered C++ dtype. */ using type = TYPE; \
+		/** @brief Real component dtype. */ using component_type = COMPONENT; \
+		/** @brief Dtype category. */ static constexpr DTypeKind kind = DTypeKind::Complex; \
+		/** @brief Storage size in bits, including padding. */ static constexpr std::size_t bits = sizeof(type) * CHAR_BIT; \
+		/** @brief Numeric precision in radix digits, excluding any sign. */ static constexpr int digits = std::numeric_limits<component_type>::digits; \
+		/** @brief Floating-point promotion rank. */ static constexpr std::size_t rank = RANK; \
+		/** @brief Public dtype name. */ static constexpr std::string_view name = NAME; \
 	}
 
 STRATAX_DEFINE_DTYPE_TRAITS(dtype::bool_, Bool, "bool");
@@ -125,11 +131,13 @@ struct DTypeTraits
 template<typename T>
 struct ComplexComponent;
 
+/** @brief Defines a complex-to-real component specialization. */
 #define STRATAX_DEFINE_COMPLEX_COMPONENT(COMPLEX, REAL) \
+	/** @brief Real component mapping for a registered complex dtype. */ \
 	template<> \
 	struct ComplexComponent<COMPLEX> \
 	{ \
-		using type = REAL; \
+		/** @brief Underlying real component dtype. */ using type = REAL; \
 	}
 
 STRATAX_DEFINE_COMPLEX_COMPONENT(dtype::complex64, dtype::float32);
@@ -151,11 +159,13 @@ using complex_component_t =
 template<typename T>
 struct ComplexFromReal;
 
+/** @brief Defines a real-to-complex dtype specialization. */
 #define STRATAX_DEFINE_COMPLEX_FROM_REAL(REAL, COMPLEX) \
+	/** @brief Complex mapping for a registered real floating-point dtype. */ \
 	template<> \
 	struct ComplexFromReal<REAL> \
 	{ \
-		using type = COMPLEX; \
+		/** @brief Corresponding complex dtype. */ using type = COMPLEX; \
 	}
 
 STRATAX_DEFINE_COMPLEX_FROM_REAL(dtype::float32, dtype::complex64);

@@ -1,12 +1,8 @@
 from __future__ import annotations
 
 import sys
+
 import pytest
-from pathlib import Path
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, IndexError as StrataxIndexError
 from stratax import Shape, ShapeError

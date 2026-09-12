@@ -1,11 +1,5 @@
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 import stratax as _core
 from stratax import Matrix, Tensor, Vector

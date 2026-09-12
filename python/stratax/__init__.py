@@ -5,6 +5,7 @@ from ._core import (
     __version__,
     argmax,
     argmin,
+    ArrayView,
     AxisError,
     BroadcastError,
     BoolMatrix,
@@ -17,6 +18,7 @@ from ._core import (
     greater_equal,
     identity,
     IndexError,
+    IndexTensor,
     Matrix,
     max,
     mean,
@@ -46,6 +48,8 @@ from ._core import (
 )
 
 __all__ = [
+    "ArrayView",
+    "IndexTensor",
     "Shape",
     "Tensor",
     "Vector",

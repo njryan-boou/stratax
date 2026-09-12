@@ -1,3 +1,6 @@
+/** @file
+ * @brief Pairwise dtype promotion rules.
+ */
 #pragma once
 
 #include <concepts>
@@ -31,6 +34,7 @@ requires requires
 }
 struct Promote<T, T>
 {
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = T;
 };
 
@@ -44,6 +48,7 @@ requires (
 )
 struct Promote<L, R>
 {
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = std::conditional_t<
 		(DTypeTraits<L>::bits >= DTypeTraits<R>::bits),
 		L,
@@ -61,6 +66,7 @@ requires (
 )
 struct Promote<L, R>
 {
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = std::conditional_t<
 		(DTypeTraits<L>::bits >= DTypeTraits<R>::bits),
 		L,
@@ -113,6 +119,7 @@ private:
 			: unsigned_bits + 1;
 
 public:
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = std::conditional_t<
 		(required_bits <= 8),
 		dtype::int8,
@@ -175,6 +182,7 @@ private:
 		DTypeTraits<floating_type>::digits;
 
 public:
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = std::conditional_t<
 		(integer_digits <= floating_digits),
 		floating_type,
@@ -197,6 +205,7 @@ requires (
 )
 struct Promote<L, R>
 {
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type = std::conditional_t<
 		(DTypeTraits<L>::rank >= DTypeTraits<R>::rank),
 		L,
@@ -225,6 +234,7 @@ private:
 		typename Promote<left_component, right_component>::type;
 
 public:
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type =
 		complex_from_real_t<promoted_component>;
 };
@@ -273,6 +283,7 @@ private:
 		typename Promote<real_type, component_type>::type;
 
 public:
+	/** @brief Result dtype selected by this promotion specialization. */
 	using type =
 		complex_from_real_t<promoted_component>;
 };

@@ -1,81 +1,35 @@
-@page dev_module "_core Extension Module"
+@page dev_module _core Extension Module
 
 # _core Extension Module
 
-Version: v0.2.0
+Source: `bindings/module.cpp`.
 
-Status: Complete
+The pybind11 entry point registers exceptions, metadata, classes, and free
+functions. python/stratax/__init__.py defines the public package export list.
 
-Source: `bindings/module.cpp`
+## Registration order
 
----
+1. Exceptions and Shape.
+2. Boolean result classes.
+3. Vector, Matrix, Tensor.
+4. ArrayView and named comparisons.
+5. Conversions and creation helpers.
+6. Reductions, including IndexTensor registration.
 
-## Overview
+Shared helpers may register operations whose return types are registered later
+in initialization. All registration completes before callers invoke those
+operations. Numeric bindings use double; Boolean masks and index results use
+bool and dtype::int64 respectively.
 
-`bindings/module.cpp` defines the pybind11 extension module `_core` and orchestrates all binding registration calls.
+## Metadata and exceptions
 
-It is the compiled binding entry point re-exported by the public `stratax` package.
+PyDoc, PyVersion, PyAuthor, PyLicense, and PyModule constants set __doc__,
+__version__, __author__, __license__, and __module__. Homepage/repository/issue
+URLs belong to package metadata in pyproject.toml; module.cpp does not register
+those attributes. Release version changes must update PyVersion as well as
+package/CMake/Doxygen versions.
 
----
-
-## Responsibilities
-
-The module entry file is responsible for:
-
-- Declaring `PYBIND11_MODULE(_core, m)`
-- Setting module metadata (`__doc__`, `__version__`, `__author__`, `__license__`, `__homepage__`, `__repository__`, `__issues__`)
-- Registering Stratax exception types
-- Registering the `Shape` metadata type
-- Calling all bind registration functions in a consistent order
-
-The module entry file is not responsible for:
-
-- Implementing vector, matrix, tensor, algorithm, or creation binding logic directly
-- Defining the public package export list (handled in `python/stratax/__init__.py`)
-
----
-
-## Registration Order
-
-`bind_*` calls currently execute in this order:
-
-1. `bind_exceptions`
-2. `bind_shape`
-3. `bind_vector`
-4. `bind_matrix`
-5. `bind_tensor`
-6. `bind_conversions`
-7. `bind_creation`
-8. `bind_reductions`
-
-This order ensures exceptions and `Shape` are registered before container and helper registrations.
-
----
-
-## Metadata Sources
-
-Module metadata values are defined directly in `bindings/module.cpp` as internal constants:
-
-- `PyDoc` -> `m.attr("__doc__")`
-- `PyVersion` -> `m.attr("__version__")`
-- `PyAuthor` -> `m.attr("__author__")`
-- `PyLicense` -> `m.attr("__license__")`
-
----
-
-## Related Files
-
-- `bindings/utils.hpp`
-- `bindings/vector.cpp`
-- `bindings/matrix.cpp`
-- `bindings/tensor.cpp`
-- `bindings/conversions.cpp`
-- `bindings/creation.cpp`
-- `bindings/reductions.cpp`
-
----
-
-## Future Improvements
-
-- Add explicit registration comments for dependency expectations
-- Add startup smoke test asserting required symbols are exported
+StrataxError derives from Python RuntimeError. All ten specialized C++ errors
+are registered beneath it. Built-in conversion/slice/argument errors can also
+propagate; the shared raise_overflow helper specifically uses built-in
+OverflowError. See @ref python_api for the user-facing exception boundary.

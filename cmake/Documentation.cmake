@@ -11,7 +11,7 @@ if(DOXYGEN_FOUND)
 
         COMMAND
             ${DOXYGEN_EXECUTABLE}
-            ${CMAKE_SOURCE_DIR}/Doxyfile
+            ${CMAKE_SOURCE_DIR}/docs/Doxyfile
 
         WORKING_DIRECTORY
             ${CMAKE_SOURCE_DIR}

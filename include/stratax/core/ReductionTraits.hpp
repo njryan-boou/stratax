@@ -1,3 +1,6 @@
+/** @file
+ * @brief Accumulator and result dtype selection for reductions.
+ */
 #pragma once
 
 #include <type_traits>
@@ -13,7 +16,9 @@
 template<typename T>
 struct ReductionTraits
 {
+	/** @brief Sum accumulator and result type; not automatically widened. */
 	using sum_type = T;
+	/** @brief Product accumulator and result type; not automatically widened. */
 	using prod_type = T;
 };
 

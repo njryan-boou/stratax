@@ -1,8 +1,3 @@
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
-
 from stratax import Matrix, Shape, mean, sum, to_matrix
 
 
@@ -20,7 +15,7 @@ matrix[1, 2] = 9.0
 shifted = matrix + bias
 doubled = matrix * 2.0
 
-# Matrix slicing returns a copied matrix.
+# Matrix slicing returns a shared ArrayView.
 stepped = matrix[:, ::2]
 
 # Reshape and flatten preserve row-major order.

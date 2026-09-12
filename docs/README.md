@@ -10,7 +10,7 @@ This page is the top-level table of contents for Stratax documentation.
 
 - @ref getting_started "Getting Started"
 - @ref dev_index "Developer Docs"
-- @ref mainpage "C++ API (Generated)"
+- @ref dev_stratax "C++ Header and Namespace Map"
 
 ---
 

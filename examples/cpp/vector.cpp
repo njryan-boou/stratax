@@ -5,11 +5,11 @@
 int main()
 {
     // Build a rank-1 vector and a same-sized vector used for element-wise work.
-    stratax::Vector<double> values{1.0, 2.0, 3.0, 4.0, 5.0};
-    stratax::Vector<double> weights(values.size(), 10.0);
+    stratax::container::Vector<double> values{1.0, 2.0, 3.0, 4.0, 5.0};
+    stratax::container::Vector<double> weights(values.size(), 10.0);
 
-    // Checked access via at() supports negative indexes; operator() is unchecked.
-    values(1) = 5.0;
+    // Checked access via at() supports negative indexes; operator[] is unchecked.
+    values[1] = 5.0;
     double last_value = values.at(-1);
 
     // Arithmetic works with matching containers or scalars.
@@ -17,16 +17,16 @@ int main()
     auto scaled = values * 2.0;
 
     // Slice, reshape, and conversion helpers preserve flat row-major values.
-    auto stepped = stratax::slice(values, stratax::Slice{0, values.size(), 2});
-    auto reshaped = stratax::reshape(values, stratax::Shape{1, values.size()});
-    auto roundtrip = stratax::to_vector(reshaped);
+    auto stepped = stratax::indexing::slice(values, stratax::core::Slice{0, static_cast<std::ptrdiff_t>(values.size()), 2});
+    auto reshaped = stratax::manipulation::reshape(values, stratax::core::Shape{1, values.size()});
+    auto roundtrip = stratax::conversion::to_vector(reshaped);
 
     // Reductions return scalars without an axis.
-    auto total = stratax::sum(values);
-    auto average = stratax::mean(values);
+    auto total = reduction::sum(values);
+    auto average = reduction::mean(values);
 
     // Integral containers can use bitwise operators.
-    stratax::Vector<int> flags{3, 5, 6};
+    stratax::container::Vector<int> flags{3, 5, 6};
     auto masked = flags & 2;
     auto shifted_left = flags << 1;
 

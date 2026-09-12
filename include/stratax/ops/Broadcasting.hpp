@@ -1,3 +1,6 @@
+/** @file
+ * @brief Trailing-axis shape compatibility and element projection.
+ */
 #pragma once
 
 #include <algorithm>
@@ -143,7 +146,7 @@ inline bool broadcastable(
  * @param shape1 First operand shape.
  * @param shape2 Second operand shape.
  * @return Common broadcasted shape.
- * @throws Exceptions::BroadcastError If the shapes are incompatible.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
  * @throws std::bad_alloc If result-dimension storage cannot be allocated.
  * @complexity O(max(shape1.rank(), shape2.rank())).
  */
@@ -174,6 +177,42 @@ inline stratax::core::Shape broadcasted_shape(
 
 namespace stratax::core {
 
+namespace broadcast_detail {
+
+/** @brief Validates shape broadcasting and the availability of operand values.
+ * @return Common broadcasted shape.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty
+ * operand would need to supply values to a nonempty result.
+ * @complexity O(lhs.rank() + rhs.rank()).
+ * @internal
+ */
+template<Array L, Array R>
+Shape array_result_shape(const L& lhs, const R& rhs)
+{
+    auto result = broadcasted_shape(lhs.shape(), rhs.shape());
+    if (result.elements() != 0 && (lhs.empty() || rhs.empty()))
+    {
+        throw Exceptions::BroadcastError("An empty array cannot broadcast to a nonempty result.");
+    }
+    return result;
+}
+
+} // namespace broadcast_detail
+
+/**
+ * @brief Applies a binary callable with broadcasting and an explicit result dtype.
+ * @tparam Result Dtype to which each callable result is converted.
+ * @tparam L Left owning array type with a PromoteArray specialization.
+ * @tparam R Right owning array type with a PromoteArray specialization.
+ * @tparam Op Callable accepting the original operand element types.
+ * @param lhs Left operand.
+ * @param rhs Right operand.
+ * @param op Callable invoked once per result element in logical flat order.
+ * @return Owning array; same-family inputs preserve that family, mixed families produce a Tensor.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
+ * @note Allocation and callable exceptions propagate. Operands are not cast to Result before calling op.
+ * @complexity O((n + 1) * r), where n is result size and r is result rank.
+ */
 template<
     DType Result,
     Array L,
@@ -188,7 +227,7 @@ auto broadcasted_op(
         promote_array_t<L, R, Result>;
 
     const auto result_shape =
-        broadcasted_shape(lhs.shape(), rhs.shape());
+        broadcast_detail::array_result_shape(lhs, rhs);
 
     result_type result(result_shape);
 
@@ -221,8 +260,8 @@ auto broadcasted_op(
  * result dtype.
  *
  * @return Owning promoted array with the common broadcasted shape.
- * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
 requires (

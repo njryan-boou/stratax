@@ -300,7 +300,7 @@ TEST(CompoundArithmetic, FailureLeavesLeftOperandUnchanged)
 {
 	Matrix<int> lhs{{10, 20}, {30, 40}};
 	const Matrix<int> original = lhs;
-	const Matrix<int> zero_divisor{{1, 0}};
+	const Matrix<int> zero_divisor{{2, 0}};
 
 	EXPECT_THROW(lhs /= zero_divisor, Exceptions::ZeroDivisionError);
 	EXPECT_EQ(lhs.shape(), original.shape());

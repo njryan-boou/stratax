@@ -1,4 +1,2 @@
-#include <gtest/gtest.h>
+// Compile-only check for the retained compatibility header.
 #include <stratax/core/validation/Validation.hpp>
-
-TEST(CoreValidationValidation, HeaderIsAvailable) { EXPECT_TRUE(true); }

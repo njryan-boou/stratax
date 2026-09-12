@@ -7,7 +7,7 @@ operations, with Python bindings through pybind11.
 
 - **Multi-dimensional arrays**: Vector, Matrix, and Tensor classes for structured data
 - **Flexible operations**: Arithmetic, comparison, indexing, and slicing operations
-- **Safe validation**: Built-in shape, dimension, type, and index validation
+- **Explicit contracts**: Constructor validation, checked indexing, and documented unchecked access
 - **Python integration**: Python API via the `_core` extension module
 - **Efficient computation**: Row-major storage with shape and stride metadata
 
@@ -30,13 +30,14 @@ operations, with Python bindings through pybind11.
 - **Tensor** - N-dimensional array type for general use
 - **Shape** - Dimension information and rank tracking
 - **Buffer** - Underlying contiguous storage management
+- **ArrayView** - Borrowed elements with logical shape and unsigned strides
 
 ### Operations
 
 - **Arithmetic** - Element-wise addition, subtraction, multiplication, division
 - **Comparison** - Equality and inequality testing
-- **Indexing** - Multi-dimensional array access with bounds checking
-- **Slicing** - Sub-array extraction with copy-based results
+- **Indexing** - Checked at access and unchecked owning array access
+- **Slicing** - Positive-step ArrayView selections that share storage
 - **Algorithms** - Creation helpers, conversion helpers, reductions, and reshaping
 
 ### Validation

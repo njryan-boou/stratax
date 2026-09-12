@@ -15,16 +15,13 @@ This index links the Stratax developer documentation organized by subsystem.
 ## Core
 
 - @ref arraybase "ArrayBase"
+- @ref arrayview "ArrayView"
 - @ref concepts "Concepts"
 - @ref dev_config "Config"
 - @ref exceptions "Exceptions"
 - @ref slice "Slice"
 - @ref types "Types"
 - @ref validation "Validation"
-
----
-
-## Core
 
 - @ref buffer "Buffer"
 - @ref shape "Shape"

@@ -2,58 +2,30 @@
 
 # Bindings Developer Docs
 
-This section documents the pybind11 binding layer under `bindings/`.
+Python loads the compiled _core extension and re-exports its public symbols from
+python/stratax/__init__.py. The C++ core remains the implementation of array
+operations; bindings handle Python argument conversion and lifetime.
 
----
+| Source | Responsibility |
+| --- | --- |
+| bindings/module.cpp | Metadata, exception registration, and binding order |
+| bindings/shape.cpp | Shape constructors, properties, and checked dimension access |
+| bindings/vector.cpp, matrix.cpp, tensor.cpp | Owning double constructors, indexing, and operations |
+| bindings/boolean_arrays.cpp | Boolean comparison-result classes |
+| bindings/views.cpp | Owner-retaining double ArrayView wrapper interface |
+| bindings/conversions.cpp, creation.cpp | Module-level conversion/creation overloads |
+| bindings/reductions.cpp | Nine reductions and int64 IndexTensor registration |
+| bindings/binding_utils | Shared arithmetic, comparison, properties, conversion, and view helpers |
 
-## Overview
+Python integer and tuple access validates before reaching unchecked storage.
+Slices retain the source owner and keep integer-selected axes of mixed slice
+expressions. The view interface is narrower than C++ ArrayView: no further
+slicing, arithmetic, reshape, or reduction bindings.
 
-Stratax Python bindings are compiled into the `_core` extension module and re-exported by the `stratax` Python package.
+Argument conversion can raise Python built-in exceptions as well as registered
+Stratax exceptions. Scalar helpers reject bool and nonfinite inputs; array
+results can still become nonfinite through C++ arithmetic. Keep documentation
+and stubs aligned with actual exports, including Boolean and index result types.
 
-Current bindings are focused on `double`-based container types and free-function helpers.
-
----
-
-## Entry Points
-
-- @ref dev_module "Extension Module (`_core`)"
-
----
-
-## File Map
-
-- `bindings/module.cpp`: extension module definition, metadata wiring, and bind-order orchestration
-- `bindings/shape.cpp`: `Shape` metadata bindings (constructors, indexing, properties, iteration)
-- `bindings/utils.hpp`: shared conversion, overflow, index, and slice helpers
-- `bindings/vector.cpp`: `Vector<double>` bindings (constructors, indexing, properties, ops, reshape)
-- `bindings/matrix.cpp`: `Matrix<double>` bindings (constructors, indexing, properties, ops, reshape)
-- `bindings/tensor.cpp`: `Tensor<double>` bindings (constructors, indexing, properties, ops, reshape)
-- `bindings/conversions.cpp`: free-function conversions (`to_vector`, `to_matrix`, `to_tensor`)
-- `bindings/creation.cpp`: free-function creation helpers (`zeros`, `ones`, `full`, `identity`)
-- `bindings/reductions.cpp`: free-function reductions (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`)
-
----
-
-## Data Flow
-
-```text
-C++ core headers -> pybind11 bindings in bindings/ -> _core extension
--> python/stratax package exports -> user-facing Python API
-```
-
----
-
-## Current Constraints
-
-- Numeric bindings currently expose `double` container specializations.
-- Conversion and creation helpers in Python are module-level free functions.
-- Extension metadata is defined directly in `bindings/module.cpp`.
-- Tensor Python indexing dispatches to C++ unchecked flat `operator[]` for scalar indices and checked signed multi-index `at(...)` for tuple indices.
-
----
-
-## Future Improvements
-
-- Extend bindings to additional numeric dtypes
-- Add binding-level smoke tests for import and symbol export
-- Add binding-level exception mapping matrix
+Import, source/installed package selection, shape, lifetime, and error contracts
+are covered in tests/python. See @ref dev_module and @ref python_api.

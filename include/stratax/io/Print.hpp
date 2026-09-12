@@ -1,3 +1,6 @@
+/** @file
+ * @brief Logical array formatting for owning containers and views.
+ */
 #pragma once
 
 #include <ostream>
@@ -12,6 +15,7 @@ namespace stratax::container {
 
 namespace detail {
 
+/** @brief Writes booleans as true/false and 8-bit integers as numbers; otherwise uses stream insertion. */
 template<typename T>
 void print_value(std::ostream& os, const T& value)
 {
@@ -88,6 +92,13 @@ void print_recursive(
 	os << "]";
 }
 
+/**
+ * @brief Prints elements in logical row-major order with nested brackets.
+ * Empty arrays print as `[]`, regardless of shape. Higher-rank nesting uses
+ * four-space indentation. Rank-two rows are separated by newlines; higher-rank
+ * siblings by commas and newlines. Stream formatting applies to scalar values.
+ * @return The output stream.
+ */
 template<Array A>
 std::ostream& print_array(
     std::ostream& os,
@@ -114,18 +125,21 @@ std::ostream& print_array(
 
 }
 
+/** @brief Writes a Vector using logical nested-bracket formatting. @return The output stream. @see stratax::container::detail::print_array */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Vector<T>& vector)
 {
     return detail::print_array(os, vector);
 }
 
+/** @brief Writes a Matrix using logical nested-bracket formatting. @return The output stream. @see stratax::container::detail::print_array */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
 {
     return detail::print_array(os, matrix);
 }
 
+/** @brief Writes a Tensor using logical nested-bracket formatting. @return The output stream. @see stratax::container::detail::print_array */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor)
 {
@@ -136,6 +150,7 @@ std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor)
 
 namespace stratax::core {
 
+/** @brief Writes a ArrayView using logical nested-bracket formatting. @return The output stream. @see stratax::container::detail::print_array */
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const ArrayView<T>& view)
 {

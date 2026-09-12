@@ -2,147 +2,80 @@
 
 # Getting Started
 
-Welcome to Stratax!
+Run commands from the repository root unless stated otherwise. C++ consumers
+need a C++20 compiler and the include directory. Building repository tests needs
+CMake 3.20 or newer; Python bindings also need Python 3.10 or newer and its
+extension-development headers. GCC, Clang, Apple Clang, and MSVC builds are
+configured in CI; Visual Studio is a Windows option, not a universal dependency.
 
-This guide walks you through setting up a development environment, building the project, and verifying that everything is working correctly.
+## Checkout and Python setup
 
-Developer-focused design and implementation notes are available in @ref dev_index "Developer Docs".
-
-**Documentation:**
-
-- @subpage user_guide
-- @subpage python_api
-- @subpage architecture
-- @subpage contributing
-- @subpage examples
-- @subpage troubleshooting
-- @subpage changelog
-- @subpage roadmap
-- @ref dev_index "Developer Docs"
-
----
-
-## Prerequisites
-
-Install the following software before cloning the repository.
-
-## Required
-
-- Git
-- Python 3.10 or newer
-- CMake 3.20 or newer
-- Visual Studio 2022 (Desktop Development with C++)
-- Visual Studio Code (recommended)
-
-Verify your installation:
-
-```powershell
-git --version
-python --version
-cmake --version
-```
-
----
-
-## Clone the Repository
-
-```powershell
+```sh
 git clone https://github.com/njryan-boou/stratax.git
 cd stratax
-```
-
----
-
-## Create a Virtual Environment
-
-```powershell
 python -m venv .venv
 ```
 
----
+Activate with `source .venv/bin/activate` on Linux/macOS,
+`.venv\Scripts\Activate.ps1` in PowerShell, or
+`.venv\Scripts\activate.bat` in Command Prompt.
 
-## Activate the Virtual Environment
-
-### PowerShell
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-### Command Prompt
-
-```cmd
-.venv\Scripts\activate.bat
-```
-
----
-
-## Install Stratax
-
-Install the project in editable mode:
-
-```powershell
-python -m pip install -e .
-```
-
-This command will:
-
-- Install build dependencies
-- Configure CMake
-- Build the C++ extension
-- Install the Python package into the virtual environment
-
-For a quick Python-only setup from a fresh checkout:
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install -e .
+```sh
+python -m pip install -e ".[dev]"
+python -m pytest tests/python
 python examples/python/vector.py
 ```
 
----
+pip installs the scikit-build-core/pybind11 build requirements in an isolated
+build environment. The dev extra supplies pytest. The extension build copies
+_core into python/stratax, which source tests and the documentation checker use.
+Direct Python examples import the package installed in the active environment.
+Rebuild after C++ changes; do not assume an existing binary follows edited headers.
 
-## Build the Project
+## C++ tests
 
-```powershell
+```sh
 cmake -S . -B build
-cmake --build build
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
 ```
 
----
+The configuration uses an installed GoogleTest when available, otherwise fetches
+it. `STRATAX_BUILD_TESTS=OFF` disables that test dependency. On single-config
+GCC/Clang generators, set `-DCMAKE_BUILD_TYPE=Release` at configure time when
+Release is desired; --config selects the build on multi-config generators.
 
-## Running Tests
+## Build a source extension explicitly
 
-## Python
+Inside the active virtual environment:
 
-```powershell
+```sh
+python -m pip install "pybind11>=2.12"
+cmake -S . -B build-python -DSTRATAX_BUILD_PYTHON_BINDINGS=ON -DSTRATAX_BUILD_TESTS=OFF
+cmake --build build-python --config Release --target _core
 python -m pytest tests/python
 ```
 
-## C++
+If multiple interpreters exist, pass `-DPython_EXECUTABLE=/absolute/path/to/python`
+when configuring. Python bindings are OFF in a plain CMake configuration.
+Use a separate build directory for different interpreters or generators.
+To test a separately installed current wheel, use pytest's `--installed` option.
 
-```powershell
-ctest --test-dir build --output-on-failure
+## C++ example and documentation
+
+With GCC or Clang:
+
+```sh
+c++ -std=c++20 -I include examples/cpp/vector.cpp -o vector_example
+./vector_example
 ```
 
----
+Install Doxygen and Graphviz to build the full HTML reference, then run:
 
-## Try the Examples
-
-Example programs are available in `examples/cpp` and `examples/python`.
-
-Run a Python example from the repository root after installing the package:
-
-```powershell
-python examples/python/vector.py
+```sh
+doxygen docs/Doxyfile
 ```
 
-For C++ examples, include the repository `include/` directory and compile with
-C++20 support.
-
-With GCC or Clang-like compilers:
-
-```powershell
-g++ -std=c++20 -I include examples/cpp/vector.cpp -o vector_example
-```
+Open docs/output/html/index.html. The `docs` CMake target is available when
+Doxygen was found during configuration. See @ref user_guide, @ref examples,
+@ref python_api, and @ref troubleshooting.

@@ -2,112 +2,41 @@
 
 # stratax.h
 
-Version: v0.2.0
+Header: `include/stratax.h`.
 
-Status: Complete
+The umbrella header includes the public C++ storage, dtype, container,
+algorithm, operation, indexing, and printing headers. It does not currently
+provide top-level container or algorithm aliases.
 
-Header: include/stratax.h
+| API | Namespace |
+| --- | --- |
+| Vector, Matrix, Tensor | `stratax::container` |
+| Buffer, Shape, Slice, ArrayView, dtype/result traits, math wrappers | `stratax::core` |
+| Scalar dtype aliases | `stratax::dtype` |
+| zeros, ones, full, identity | `stratax::creation` |
+| to_vector, to_matrix, to_tensor, astype | `stratax::conversion` |
+| reshape, flatten | `stratax::manipulation` |
+| offset, normalize_index, slice | `stratax::indexing` |
+| sum, prod, extrema, mean, var, std, axis_reduce | `reduction` |
+| Named comparisons, arithmetic/bitwise operators, shape broadcasting helpers | Global namespace |
+| Array-array broadcasted_op | `stratax::core` |
+| Scalar broadcasted_op overloads | Global namespace |
+| StrataxError and derived exceptions | `Exceptions` |
 
----
-
-## Overview
-
-`stratax.h` is the umbrella include for the C++ API surface.
-
-Including this header pulls in core metadata/types, containers, algorithms, operations, and I/O helpers so downstream code can use Stratax without manually including each component header.
-
----
-
-## Responsibilities
-
-The umbrella header is responsible for:
-
-- Providing a single include entry point for Stratax C++ usage
-- Aggregating stable public core headers
-- Re-exporting common public types and algorithms under `stratax`
-- Simplifying consumer include management
-
-The umbrella header is not responsible for:
-
-- Implementing component APIs directly
-- Runtime initialization behavior
-- Build or link configuration
-
----
-
-## Aggregated Components
-
-### Core Foundations
-
-- `include/stratax/core/ArrayBase.hpp`
-- `include/stratax/core/Buffer.hpp`
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/Config.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
-- `include/stratax/core/Shape.hpp`
-- `include/stratax/core/ArrayTraits.hpp`
-- `include/stratax/core/dtypes/DTypeTraits.hpp`
-- `include/stratax/core/dtypes/Promotion.hpp`
-- `include/stratax/core/dtypes/Types.hpp`
-- `include/stratax/core/Slice.hpp`
-
-### Containers
-
-- `include/stratax/containers/Matrix.hpp`
-- `include/stratax/containers/Tensor.hpp`
-- `include/stratax/containers/Vector.hpp`
-
-### Algorithms
-
-- `include/stratax/algorithms/Creation.hpp`
-- `include/stratax/algorithms/Conversion.hpp`
-- `include/stratax/algorithms/Reshape.hpp`
-- `include/stratax/algorithms/Reductions.hpp`
-
-### Ops
-
-- `include/stratax/ops/Comparison.hpp`
-- `include/stratax/ops/Arithmetic.hpp`
-- `include/stratax/ops/Broadcasting.hpp`
-- `include/stratax/indexing/Indexing.hpp`
-- `include/stratax/indexing/Slicing.hpp`
-
-### I/O
-
-- `include/stratax/io/Print.hpp`
-
----
-
-## Usage
+Concepts such as DType and Array are also global. Use qualified names or local
+using-declarations. A header-only consumer needs the include directory and
+C++20; no Stratax library link step is required.
 
 ```cpp
 #include <stratax.h>
+#include <cassert>
 
-int main()
-{
-    stratax::Vector<double> v{1.0, 2.0, 3.0};
-    auto t = stratax::to_tensor(v);
-    (void)t;
+int main() {
+    stratax::container::Vector<double> values{1.0, 2.0, 3.0};
+    auto tensor = stratax::conversion::to_tensor(values);
+    assert(reduction::sum(tensor) == 6.0);
 }
 ```
 
----
-
-## Design Notes
-
-This header intentionally acts as a convenience aggregator. Component-level headers should still be preferred in translation units that need tighter include boundaries or reduced compile-time impact.
-
----
-
-## Future Improvements
-
-- Add policy guidance on when to prefer umbrella vs component includes
-- Keep include ordering aligned with logical module groupings as APIs expand
-
----
-
-## See Also
-
-- `docs/dev/README.md`
-- `docs/dev/core/dtypes/Concepts.md`
-- `docs/dev/containers/Vector.md`
+Component headers can be included individually when a smaller dependency set
+is useful. The generated header reference provides exact declarations.

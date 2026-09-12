@@ -5,14 +5,14 @@
 int main()
 {
     // Matrices store row-major contiguous values with rank-2 shape metadata.
-    stratax::Matrix<double> matrix{
+    stratax::container::Matrix<double> matrix{
         {1.0, 2.0, 3.0},
         {4.0, 5.0, 6.0}
     };
 
-    stratax::Matrix<double> bias(2, 3, 0.5);
+    stratax::container::Matrix<double> bias(2, 3, 0.5);
 
-    // operator(row, col) validates bounds; at() also supports negative indexes.
+    // operator(row, col) is unchecked; at() checks bounds and accepts negative indexes.
     matrix(1, 2) = 9.0;
     double bottom_right = matrix.at(-1, -1);
 
@@ -21,17 +21,17 @@ int main()
     auto doubled = matrix * 2.0;
 
     // Slice, reshape, and flatten preserve row-major order.
-    auto stepped = stratax::slice(matrix, stratax::Slice{0, matrix.rows(), 1}, stratax::Slice{0, matrix.cols(), 2});
-    auto reshaped = stratax::reshape(matrix, stratax::Shape{3, 2});
-    auto flattened = stratax::flatten(matrix);
-    auto roundtrip = stratax::to_matrix(reshaped);
+    auto stepped = stratax::indexing::slice(matrix, stratax::core::Slice{0, static_cast<std::ptrdiff_t>(matrix.rows()), 1}, stratax::core::Slice{0, static_cast<std::ptrdiff_t>(matrix.cols()), 2});
+    auto reshaped = stratax::manipulation::reshape(matrix, stratax::core::Shape{3, 2});
+    auto flattened = stratax::manipulation::flatten(matrix);
+    auto roundtrip = stratax::conversion::to_matrix(reshaped);
 
     // Axis reductions return tensors. keepdims preserves the reduced axis.
-    auto row_sums = stratax::reductions::sum(matrix, 1);
-    auto col_sums_keepdims = stratax::reductions::sum(matrix, 0, true);
+    auto row_sums = reduction::sum(matrix, 1);
+    auto col_sums_keepdims = reduction::sum(matrix, 0, true);
 
     // Integral matrices can use bitwise operators.
-    stratax::Matrix<int> bits{{3, 5, 7}, {8, 10, 12}};
+    stratax::container::Matrix<int> bits{{3, 5, 7}, {8, 10, 12}};
     auto bitmask = bits & 2;
     auto bitshift = bits >> 1;
 

@@ -1,3 +1,11 @@
+/** @file
+ * @brief Integral bitwise operations and validated shift counts.
+ *
+ * Operations that allocate results require owning-container result trait
+ * specializations. Element operators receive the original operand types; the
+ * result is converted afterward. Native C++ arithmetic and conversion rules
+ * apply, including representability requirements. Allocation failures propagate.
+ */
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
@@ -40,9 +48,8 @@ constexpr bool valid_shift_count(const Count& count) noexcept
 
 /**
  * @brief Rejects a shift count that would produce undefined behavior.
- * @return Nothing.
  * @invariant A successful return guarantees that @p count is valid for `Value`.
- * @throws Exceptions::StrataxError If @p count is negative or is not smaller
+ * @throws Exceptions::ValueError If @p count is negative or is not smaller
  *         than the bit width of `Value`.
  * @complexity O(1).
  * @internal
@@ -60,7 +67,7 @@ void require_valid_shift_count(const Count& count)
  * @brief Applies a validated scalar shift to every array element.
  * @return Owning array with the same container, dtype, and shape as @p lhs.
  * @invariant The source array remains unchanged and the result shape equals its shape.
- * @throws Exceptions::StrataxError If @p rhs is not a valid shift count.
+ * @throws Exceptions::ValueError If @p rhs is not a valid shift count.
  * @complexity O(lhs.size()).
  * @internal
  */
@@ -96,9 +103,9 @@ auto shift_scalar_op(
  * @return Owning promoted container with the left operand's dtype and the
  *         common broadcasted shape.
  * @invariant Both operands remain unchanged and the result dtype equals the left dtype.
- * @throws Exceptions::BroadcastError If the shapes are incompatible.
- * @throws Exceptions::StrataxError If any used shift count is invalid.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
+ * @throws Exceptions::ValueError If any used shift count is invalid.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  * @internal
  */
 template<Array L, Array R, typename Op>
@@ -120,7 +127,7 @@ auto shift_array_op(
 			value_type>;
 
 	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
+		stratax::core::broadcast_detail::array_result_shape(lhs, rhs);
 
 	result_type result(result_shape);
 
@@ -153,7 +160,7 @@ auto shift_array_op(
  * @brief Shifts a scalar by every count stored in an array.
  * @return Owning array with @p rhs's container and shape and the scalar dtype.
  * @invariant The operands remain unchanged and the result dtype equals the scalar dtype.
- * @throws Exceptions::StrataxError If any shift count is invalid.
+ * @throws Exceptions::ValueError If any shift count is invalid.
  * @complexity O(rhs.size()).
  * @internal
  */
@@ -206,7 +213,7 @@ L& compound_bitwise_op(
 	Op op)
 {
 	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
+		stratax::core::broadcast_detail::array_result_shape(lhs, rhs);
 
 	if (result_shape != lhs.shape())
 	{
@@ -262,7 +269,7 @@ A& compound_scalar_bitwise_op(
  * @invariant The left array is unchanged if validation fails and otherwise retains its shape and dtype.
  * @throws Exceptions::BroadcastError If broadcasting is impossible or would
  *         change the shape of @p lhs.
- * @throws Exceptions::StrataxError If any used shift count is invalid.
+ * @throws Exceptions::ValueError If any used shift count is invalid.
  * @complexity O(lhs.size() * lhs.rank()).
  * @internal
  */
@@ -277,7 +284,7 @@ L& compound_shift_op(
 	Op op)
 {
 	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
+		stratax::core::broadcast_detail::array_result_shape(lhs, rhs);
 
 	if (result_shape != lhs.shape())
 	{
@@ -329,9 +336,9 @@ L& compound_shift_op(
  * @param op Callable invoked in flat iterator order.
  * @return Owning promoted array with the common broadcasted shape.
  * @invariant Both operands remain unchanged.
- * @throws Exceptions::BroadcastError If the operand shapes are incompatible.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
  * @throws Any exception propagated by result allocation or @p op.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
 requires (
@@ -356,16 +363,16 @@ auto binary_bitwise_op(
 
 /**
  * @brief Applies a callable to every integer array element and a right scalar.
- * @tparam A Integral-valued Stratax array and result type.
+ * @tparam A Integral-valued owning Stratax array.
  * @tparam Scalar Integral scalar type.
  * @tparam Op Binary bitwise or shift callable.
- * @param lhs Array supplying every left argument.
- * @param rhs Scalar supplied as every right argument.
+ * @param arr Array supplying every left argument.
+ * @param scalar Scalar supplied as every right argument.
  * @param op Callable invoked in flat iterator order.
- * @return Owning array with the same shape as @p lhs.
+ * @return Owning array with the promoted dtype and the same shape as @p arr.
  * @invariant The operands remain unchanged and the result preserves the array container.
  * @throws Any exception propagated by result allocation or @p op.
- * @complexity O(lhs.size()).
+ * @complexity O(arr.size()).
  */
 template<Array A, Integral Scalar, typename Op>
 auto binary_scalar_bitwise_op(
@@ -393,15 +400,15 @@ auto binary_scalar_bitwise_op(
 /**
  * @brief Applies a callable to a left scalar and every integer array element.
  * @tparam Scalar Integral scalar type.
- * @tparam A Integral-valued Stratax array and result type.
+ * @tparam A Integral-valued owning Stratax array.
  * @tparam Op Binary bitwise or shift callable.
- * @param lhs Scalar supplied as every left argument.
- * @param rhs Array supplying every right argument.
+ * @param scalar Scalar supplied as every left argument.
+ * @param arr Array supplying every right argument.
  * @param op Callable invoked in flat iterator order.
- * @return Owning array with the same shape as @p rhs.
+ * @return Owning array with the promoted dtype and the same shape as @p arr.
  * @invariant The operands remain unchanged and the result preserves the array container.
  * @throws Any exception propagated by result allocation or @p op.
- * @complexity O(rhs.size()).
+ * @complexity O(arr.size()).
  */
 template<Integral Scalar, Array A, typename Op>
 auto binary_scalar_bitwise_op(
@@ -479,7 +486,7 @@ A operator~(const A& value)
 
 // Array-array
 
-/** @brief Computes the broadcasted element-wise bitwise AND. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If the shapes are incompatible. @complexity O(n * r). */
+/** @brief Computes the broadcasted element-wise bitwise AND. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -491,7 +498,7 @@ auto operator&(const L& lhs, const R& rhs)
 		lhs, rhs, std::bit_and<>{});
 }
 
-/** @brief Computes the broadcasted element-wise bitwise OR. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If the shapes are incompatible. @complexity O(n * r). */
+/** @brief Computes the broadcasted element-wise bitwise OR. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -503,7 +510,7 @@ auto operator|(const L& lhs, const R& rhs)
 		lhs, rhs, std::bit_or<>{});
 }
 
-/** @brief Computes the broadcasted element-wise bitwise XOR. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If the shapes are incompatible. @complexity O(n * r). */
+/** @brief Computes the broadcasted element-wise bitwise XOR. @return Owning promoted array with the common broadcasted shape. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -515,7 +522,7 @@ auto operator^(const L& lhs, const R& rhs)
 		lhs, rhs, std::bit_xor<>{});
 }
 
-/** @brief Left-shifts broadcasted left values by corresponding right counts. @return Owning array with the promoted container and left dtype. @throws Exceptions::BroadcastError If the shapes are incompatible. @throws Exceptions::StrataxError If a used count is invalid. @complexity O(n * r). */
+/** @brief Left-shifts broadcasted left values by corresponding right counts. @return Owning array with the promoted container and left dtype. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @throws Exceptions::ValueError If a used count is invalid. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -532,7 +539,7 @@ auto operator<<(const L& lhs, const R& rhs)
 		});
 }
 
-/** @brief Right-shifts broadcasted left values by corresponding right counts. @return Owning array with the promoted container and left dtype. @throws Exceptions::BroadcastError If the shapes are incompatible. @throws Exceptions::StrataxError If a used count is invalid. @complexity O(n * r). */
+/** @brief Right-shifts broadcasted left values by corresponding right counts. @return Owning array with the promoted container and left dtype. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @throws Exceptions::ValueError If a used count is invalid. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -609,7 +616,6 @@ auto operator>>(const A& lhs, const Scalar& rhs)
 // Scalar-array (reverse)
 
 /** @brief Applies bitwise AND between a scalar and each array element. */
-/** @brief Left-shifts a scalar by every validated count in an array. @return Owning result with the array container and scalar dtype. @throws Exceptions::StrataxError If any count is invalid. @complexity O(rhs.size()). */
 template<Integral Scalar, Array A>
 requires Integral<typename A::value_type>
 auto operator&(const Scalar& lhs, const A& rhs)
@@ -619,7 +625,6 @@ auto operator&(const Scalar& lhs, const A& rhs)
 }
 
 /** @brief Applies bitwise OR between a scalar and each array element. */
-/** @brief Right-shifts a scalar by every validated count in an array. @return Owning result with the array container and scalar dtype. @throws Exceptions::StrataxError If any count is invalid. @complexity O(rhs.size()). */
 template<Integral Scalar, Array A>
 requires Integral<typename A::value_type>
 auto operator|(const Scalar& lhs, const A& rhs)
@@ -637,6 +642,7 @@ auto operator^(const Scalar& lhs, const A& rhs)
 		lhs, rhs, std::bit_xor<>{});
 }
 
+/** @brief Left-shifts a scalar by every validated count in an array. @return Owning result with the array container and scalar dtype. @throws Exceptions::ValueError If any count is invalid. @complexity O(rhs.size()). */
 template<Integral Scalar, Array A>
 requires Integral<typename A::value_type>
 auto operator<<(const Scalar& lhs, const A& rhs)
@@ -650,6 +656,7 @@ auto operator<<(const Scalar& lhs, const A& rhs)
 		});
 }
 
+/** @brief Right-shifts a scalar by every validated count in an array. @return Owning result with the array container and scalar dtype. @throws Exceptions::ValueError If any count is invalid. @complexity O(rhs.size()). */
 template<Integral Scalar, Array A>
 requires Integral<typename A::value_type>
 auto operator>>(const Scalar& lhs, const A& rhs)
@@ -701,7 +708,7 @@ L& operator^=(L& lhs, const R& rhs)
 		lhs, rhs, std::bit_xor<>{});
 }
 
-/** @brief Applies broadcasted left-shift assignment after validating every count. @return Reference to @p lhs. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the left shape. @throws Exceptions::StrataxError If a used count is invalid. @complexity O(lhs.size() * lhs.rank()). */
+/** @brief Applies broadcasted left-shift assignment after validating every count. @return Reference to @p lhs. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the left shape. @throws Exceptions::ValueError If a used count is invalid. @complexity O(lhs.size() * lhs.rank()). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -717,7 +724,7 @@ L& operator<<=(L& lhs, const R& rhs)
 		});
 }
 
-/** @brief Applies broadcasted right-shift assignment after validating every count. @return Reference to @p lhs. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the left shape. @throws Exceptions::StrataxError If a used count is invalid. @complexity O(lhs.size() * lhs.rank()). */
+/** @brief Applies broadcasted right-shift assignment after validating every count. @return Reference to @p lhs. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the left shape. @throws Exceptions::ValueError If a used count is invalid. @complexity O(lhs.size() * lhs.rank()). */
 template<Array L, Array R>
 requires (
 	Integral<typename L::value_type> &&
@@ -735,6 +742,7 @@ L& operator>>=(L& lhs, const R& rhs)
 
 // In-place array-scalar
 
+/** @brief Applies bitwise AND assignment with a scalar to every element. @return Reference to @p lhs; shape and dtype are preserved. @complexity O(lhs.size()) for owning arrays; O(lhs.size() * lhs.rank()) for views. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator&=(A& lhs, const Scalar& rhs)
@@ -743,6 +751,7 @@ A& operator&=(A& lhs, const Scalar& rhs)
 		lhs, rhs, std::bit_and<>{});
 }
 
+/** @brief Applies bitwise OR assignment with a scalar to every element. @return Reference to @p lhs; shape and dtype are preserved. @complexity O(lhs.size()) for owning arrays; O(lhs.size() * lhs.rank()) for views. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator|=(A& lhs, const Scalar& rhs)
@@ -751,6 +760,7 @@ A& operator|=(A& lhs, const Scalar& rhs)
 		lhs, rhs, std::bit_or<>{});
 }
 
+/** @brief Applies bitwise XOR assignment with a scalar to every element. @return Reference to @p lhs; shape and dtype are preserved. @complexity O(lhs.size()) for owning arrays; O(lhs.size() * lhs.rank()) for views. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator^=(A& lhs, const Scalar& rhs)
@@ -759,6 +769,7 @@ A& operator^=(A& lhs, const Scalar& rhs)
 		lhs, rhs, std::bit_xor<>{});
 }
 
+/** @brief Applies left-shift assignment with a scalar to every element. @return Reference to @p lhs; shape and dtype are preserved. @throws Exceptions::ValueError If the count is invalid, including for an empty array; validation precedes writes. @complexity O(lhs.size()) for owning arrays; O(lhs.size() * lhs.rank()) for views. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator<<=(A& lhs, const Scalar& rhs)
@@ -772,6 +783,7 @@ A& operator<<=(A& lhs, const Scalar& rhs)
 		});
 }
 
+/** @brief Applies right-shift assignment with a scalar to every element. @return Reference to @p lhs; shape and dtype are preserved. @throws Exceptions::ValueError If the count is invalid, including for an empty array; validation precedes writes. @complexity O(lhs.size()) for owning arrays; O(lhs.size() * lhs.rank()) for views. */
 template<Array A, Integral Scalar>
 requires Integral<typename A::value_type>
 A& operator>>=(A& lhs, const Scalar& rhs)

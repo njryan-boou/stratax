@@ -1,3 +1,6 @@
+/** @file
+ * @brief Arbitrary-rank owning arrays; rank zero is empty.
+ */
 // TODO: make normalize flat offset more explicit
 
 #pragma once
@@ -15,13 +18,14 @@
 namespace stratax::container {
 
 /**
- * @brief Arbitrary-rank owning array of numeric values.
+ * @brief Arbitrary-rank owning array of supported dtype values.
  *
  * Tensor combines contiguous element storage with a logical Shape and its
  * canonical row-major stride metadata. It supports unchecked multidimensional
  * access with already-normalized unsigned indices and checked multidimensional
  * access with signed, Python-style indices. The flat container interface is
- * inherited from core::ArrayBase.
+ * inherited from core::ArrayBase. A rank-zero tensor is empty, not a scalar.
+ * Moving a tensor leaves a distinct source empty with rank zero.
  *
  * @tparam T Element type satisfying the DType concept.
  *
@@ -158,7 +162,7 @@ public:
 	/**
 	 * @brief Returns an element using unchecked vector-based indices.
 	 * @param indices One normalized index per tensor dimension.
-	 * @pre `indices.size() == rank()` and every component is within its
+	 * @pre The tensor is nonempty, `indices.size() == rank()`, and every component is within its
 	 *      corresponding dimension.
 	 * @complexity O(rank()).
 	 */
@@ -167,7 +171,7 @@ public:
 	/**
 	 * @brief Returns an element using unchecked vector-based indices.
 	 * @param indices One normalized index per tensor dimension.
-	 * @pre `indices.size() == rank()` and every component is within its
+	 * @pre The tensor is nonempty, `indices.size() == rank()`, and every component is within its
 	 *      corresponding dimension.
 	 * @complexity O(rank()).
 	 */
@@ -182,8 +186,8 @@ public:
 	 * @tparam Rest Integral types of the remaining index components.
 	 * @param first First signed index component.
 	 * @param rest Remaining signed index components.
-	 * @throws Exceptions::IndexError If the number of components differs from
-	 *         `rank()` or any component is out of bounds.
+	 * @throws Exceptions::RankError If the number of components differs from `rank()`.
+	 * @throws Exceptions::IndexError If any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	template<typename... Rest>
@@ -207,8 +211,8 @@ public:
 	 * @tparam Rest Integral types of the remaining index components.
 	 * @param first First signed index component.
 	 * @param rest Remaining signed index components.
-	 * @throws Exceptions::IndexError If the number of components differs from
-	 *         `rank()` or any component is out of bounds.
+	 * @throws Exceptions::RankError If the number of components differs from `rank()`.
+	 * @throws Exceptions::IndexError If any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	template<typename... Rest>
@@ -226,8 +230,9 @@ public:
 	/**
 	 * @brief Returns an element using checked vector-based indices.
 	 * @param raw_indices One signed index per tensor dimension.
-	 * @throws Exceptions::IndexError If the number of indices differs from
-	 *         `rank()` or any component is out of bounds.
+	 * @pre The tensor has positive rank; rank-zero tensors contain no element.
+	 * @throws Exceptions::RankError If the number of indices differs from `rank()`.
+	 * @throws Exceptions::IndexError If any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	reference at(const std::vector<difference_type>& raw_indices)
@@ -238,8 +243,9 @@ public:
 	/**
 	 * @brief Returns an element using checked vector-based indices.
 	 * @param raw_indices One signed index per tensor dimension.
-	 * @throws Exceptions::IndexError If the number of indices differs from
-	 *         `rank()` or any component is out of bounds.
+	 * @pre The tensor has positive rank; rank-zero tensors contain no element.
+	 * @throws Exceptions::RankError If the number of indices differs from `rank()`.
+	 * @throws Exceptions::IndexError If any component is out of bounds.
 	 * @complexity O(rank()).
 	 */
 	const_reference at(const std::vector<difference_type>& raw_indices) const

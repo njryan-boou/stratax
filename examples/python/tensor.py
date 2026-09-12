@@ -1,8 +1,3 @@
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
-
 from stratax import Shape, Tensor, identity, mean, sum, to_matrix
 
 
@@ -14,7 +9,7 @@ eye = identity(3)
 tensor[0, 0, 0] = 10.0
 tensor[1, 1, 1] = 20.0
 
-# Tensor arithmetic supports scalars and matching tensor shapes.
+# Tensor arithmetic supports scalars and broadcast-compatible arrays.
 shifted = tensor + 2.0
 negated = -tensor
 
@@ -56,4 +51,4 @@ print("rank:", tensor.rank)
 print("shape:", tensor.shape)
 print("strides:", tensor.strides)
 print("linear index 7:", tensor[7])
-print("flat values:", tensor.tolist())
+print("nested values:", tensor.tolist())

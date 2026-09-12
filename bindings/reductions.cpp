@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include "binding_utils/properties.hpp"
 
 #include <stratax/algorithms/Reductions.hpp>
 #include <stratax/containers/Matrix.hpp>
@@ -12,6 +13,22 @@ void bind_reductions(py::module_& m)
     using Vector = stratax::container::Vector<double>;
     using Matrix = stratax::container::Matrix<double>;
     using Tensor = stratax::container::Tensor<double>;
+    using IndexTensor = stratax::container::Tensor<stratax::dtype::int64>;
+
+    // Axis argmin/argmax return integer tensors, not the double Tensor bound
+    // elsewhere. Keep indices exact instead of converting them to doubles.
+    py::class_<IndexTensor> indices(m, "IndexTensor");
+    binding_utils::bind_members(indices);
+    indices.def("__getitem__", [](const IndexTensor& array, py::object index) {
+        if (py::isinstance<py::tuple>(index))
+        {
+            std::vector<std::ptrdiff_t> coordinates;
+            for (const auto& item : index.cast<py::tuple>())
+                coordinates.push_back(binding_utils::cast_index(item));
+            return array.at(coordinates);
+        }
+        return array.at(binding_utils::cast_index(index));
+    });
 
     m.def("sum", [](const Vector& arr) { return reduction::sum(arr); }, py::arg("arr"));
     m.def("sum", [](const Matrix& arr) { return reduction::sum(arr); }, py::arg("arr"));

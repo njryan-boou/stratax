@@ -1,163 +1,57 @@
-@page types Types
+@page types Dtypes and Promotion
 
-# Types {#dev_types}
+# Dtypes and Promotion {#dev_types}
 
-Version: v0.2.0
+Headers: `include/stratax/core/dtypes/Types.hpp`, `DTypeTraits.hpp`, and
+`Promotion.hpp`; owning container result rules are in `core/ArrayTraits.hpp`.
 
-Status: Complete
+## Scalar aliases
 
-Header: `include/stratax/core/dtypes/Types.hpp`
+| Namespace | Names | C++ types |
+| --- | --- | --- |
+| `stratax::core` | `index_t`, `ssize_t` | size_t, ptrdiff_t |
+| `stratax::dtype` | `bool_` | bool |
+| `stratax::dtype` | `int8`, `int16`, `int32`, `int64` | Corresponding fixed-width signed integers |
+| `stratax::dtype` | `uint8`, `uint16`, `uint32`, `uint64` | Corresponding fixed-width unsigned integers |
+| `stratax::dtype` | `float32`, `float64`, `longdouble` | float, double, long double |
+| `stratax::dtype` | `complex64`, `complex128`, `clongdouble` | std::complex of those real types |
 
----
+There are no float128 or complex256 aliases. Floating-point names map to native
+C++ representations; long double precision is platform-dependent.
 
-## Overview
+## Metadata and result traits
 
-`Types.hpp` provides canonical scalar and index aliases used across Stratax core APIs.
+`stratax::core::DTypeTraits<T>` removes cv/ref qualifiers and exposes type,
+kind, storage bits, precision digits, and name. Floating/complex types also have
+a promotion rank; complex metadata includes component_type. Storage bits may
+include padding. ComplexComponent and ComplexFromReal map between registered
+complex and real component dtypes.
 
-These aliases map directly to standard C++ types and `std::complex` specializations.
-
----
-
-## Responsibilities
-
-The types module is responsible for:
-
-- Defining stable alias names for supported scalar categories
-- Defining index aliases for size and signed-size usage
-- Serving as a common type vocabulary for concepts, containers, and bindings
-
-The types module is not responsible for:
-
-- Runtime dtype dispatch or metadata
-- Type acceptance rules for algorithms or containers
-- Numeric promotion policy
-
----
-
-## Relationships
-
-```text
-stratax::core
-└── index aliases (index_t, ssize_t)
-
-stratax::dtype
-├── boolean/integer aliases
-├── floating aliases
-└── complex aliases
-```
-
-Depends on:
-
-- C++ headers: `<cstddef>`, `<cstdint>`, `<complex>`
-
-Used by:
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-- Container templates and algorithm signatures
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Aliases are compile-time names only and add no runtime state.
-- All aliases map to standard library/fundamental C++ types.
-- Alias stability is expected across core APIs unless versioned changes are introduced.
-
----
-
-## Public Interface
-
-Namespace:
+`promote_t<L, R>` selects the result dtype through Promote specializations.
+Refer to the generated Promotion.hpp reference for category-specific rules;
+this is distinct from C++'s intermediate expression type. Allocating operations
+usually compute using original scalar types then convert the result.
+`rebind_array_t<A, T>` changes the dtype of an owning family;
+`promote_array_t<L, R, T>` retains matching families and chooses Tensor for mixed
+families. ArrayView has no supplied owning result specialization.
 
 ```cpp
-namespace stratax::core { ... }
-namespace stratax::dtype { ... }
+#include <stratax.h>
+#include <type_traits>
+
+using stratax::dtype::float64;
+using stratax::core::index_t;
+static_assert(std::is_same_v<float64, double>);
+static_assert(std::is_same_v<stratax::core::promote_t<stratax::dtype::int16,
+                                                  stratax::dtype::int32>,
+                             stratax::dtype::int32>);
+int main() {
+    float64 value = 3.5;
+    index_t count = 4;
+    (void)value;
+    (void)count;
+}
 ```
 
-### Index aliases
-
-```cpp
-using index_t = std::size_t;
-using ssize_t = std::ptrdiff_t;
-```
-
-### Boolean alias
-
-```cpp
-using bool_ = bool;
-```
-
-### Integer aliases
-
-```cpp
-using int8  = std::int8_t;
-using int16 = std::int16_t;
-using int32 = std::int32_t;
-using int64 = std::int64_t;
-
-using uint8  = std::uint8_t;
-using uint16 = std::uint16_t;
-using uint32 = std::uint32_t;
-using uint64 = std::uint64_t;
-```
-
-### Floating aliases
-
-```cpp
-using float32  = float;
-using float64  = double;
-using float128 = long double;
-```
-
-### Complex aliases
-
-```cpp
-using complex64  = std::complex<float>;
-using complex128 = std::complex<double>;
-using complex256 = std::complex<long double>;
-```
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Alias usage and substitution | Compile-time only |
-| Runtime overhead introduced by aliases | O(0) |
-
----
-
-## Examples
-
-```cpp
-using stratax::core::dtype::float64;
-using stratax::core::dtype::index_t;
-
-float64 value = 3.14159;
-index_t n = 128;
-```
-
----
-
-## Design Notes
-
-Aliases keep public APIs readable and consistent across C++ and bindings-facing layers.
-
-Eligibility for concepts like `Numeric` is determined in `Concepts.hpp`, not in this file.
-
----
-
-## Future Improvements
-
-- Add explicit dtype traits and canonical name helpers
-- Add documented promotion policies across alias categories
-- Revisit `float128` portability guarantees across compilers/platforms
-
----
-
-## See Also
-
-- `include/stratax/core/dtypes/Concepts.hpp`
+All aliases and traits are compile-time constructs. They do not add checked
+casts, overflow detection, or runtime dtype dispatch. See @ref concepts.

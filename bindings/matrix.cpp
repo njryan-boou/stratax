@@ -172,6 +172,11 @@ void bind_matrix_indexing(py::class_<Matrix>& cls)
             [](py::object self, py::object index) -> py::object {
                 Matrix& matrix = self.cast<Matrix&>();
 
+                if (py::isinstance<py::slice>(index))
+                {
+                    index = py::make_tuple(index, py::slice(py::none(), py::none(), py::none()));
+                }
+
                 if (!py::isinstance<py::tuple>(index))
                 {
                     return py::cast(

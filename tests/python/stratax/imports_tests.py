@@ -1,11 +1,24 @@
 from __future__ import annotations
 
 import stratax
+from pathlib import Path
 
 
 class TestPackageImports:
+    def test_tests_load_the_selected_package(self, pytestconfig) -> None:
+        source = Path(pytestconfig.rootpath) / "python" / "stratax"
+        package = Path(stratax.__file__).resolve().parent
+        extension = Path(stratax._core.__file__).resolve().parent
+        assert extension == package
+        if pytestconfig.getoption("--installed"):
+            assert package != source
+        else:
+            assert package == source
+
     def test_public_import_surface_is_available(self) -> None:
         expected = {
+            "ArrayView",
+            "IndexTensor",
             "Shape",
             "Tensor",
             "Vector",

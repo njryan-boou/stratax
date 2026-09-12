@@ -9,6 +9,8 @@ Checklist for preparing a Stratax release.
 Update all user-visible version references together:
 
 - `pyproject.toml` project version
+- `CMakeLists.txt` project VERSION
+- `bindings/module.cpp` PyVersion
 - `docs/Doxyfile` `PROJECT_NUMBER`
 - `docs/mainpage.md` footer
 - `docs/guides/CHANGELOG.md`
@@ -22,14 +24,14 @@ Run the C++ build and tests:
 
 ```powershell
 cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
 ```
 
 Run Python tests:
 
 ```powershell
-python -m pip install -e .[dev]
+python -m pip install -e ".[dev]"
 python -m pytest tests/python
 ```
 
@@ -39,7 +41,12 @@ Run representative examples:
 python examples/python/vector.py
 python examples/python/matrix.py
 python examples/python/tensor.py
+python scripts/check-doc-examples.py
 ```
+
+The C++ example checker uses GCC/Clang-style compiler flags. On an MSVC-only
+setup, run `--python` locally and run `--cpp` on a GCC/Clang host. Configure
+single-config generators with `-DCMAKE_BUILD_TYPE=Release` when required.
 
 ## Documentation
 
@@ -84,24 +91,31 @@ python -m twine check dist/*
 Inspect package metadata before uploading:
 
 ```powershell
-python -m pip install --force-reinstall dist/stratax-*.whl
+python -m pip install --force-reinstall dist/EXACT_WHEEL_FILENAME.whl
 python -c "import stratax; print(stratax.__version__)"
 ```
+
+Replace EXACT_WHEEL_FILENAME with the wheel matching the active interpreter and
+platform. Then run `python -m pytest tests/python --installed` so a source binary
+cannot mask packaging errors.
 
 For a quick typing artifact check, inspect the built wheel and confirm it
 contains `stratax/_core.pyi` and `stratax/py.typed`.
 
 ## Publish
 
-Create the release tag after tests, examples, docs, and packaging checks pass.
+The tag-triggered `.github/workflows/release.yml` builds wheels and an sdist,
+then publishes their combined artifacts to PyPI. Create a new version tag only
+after tests, examples, docs, and packaging checks pass. The tag shown below is
+a placeholder for the new version, not an instruction to retag version 0.3.1.
 
 ```powershell
-git tag v0.3.1
-git push origin v0.3.1
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
-Upload distributions only after the tag and changelog match the intended
-release:
+For an intentional manual release instead of the automated publication, upload
+only after confirming the version is ready and has not already been published:
 
 ```powershell
 python -m twine upload dist/*

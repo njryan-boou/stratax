@@ -1,5 +1,7 @@
-// TODO: Rewrite axis_reduce to iterate directly over source strides
-// instead of materializing a temporary Tensor slice for each output value.
+/** @file
+ * @brief Global and axis reductions in logical row-major order.
+ */
+// TODO: Avoid the initial owning Tensor copy when reducing strided views.
 
 #pragma once
 
@@ -139,26 +141,30 @@ using axis_reduce_value_t =
  * @brief Applies a scalar reduction callback independently along one axis.
  *
  * Negative axes count backward from the final dimension. Each output position
- * is computed from an owning tensor slice spanning the reduced dimension. With
+ * is computed from a strided view into an initial owning copy of the input. With
  * @p keepdims false the axis is removed; with it true the axis has extent one.
  * Because rank-zero tensors cannot store a scalar in the current container
  * model, reducing a rank-one array without `keepdims` returns shape `{1}`.
  * Empty output domains return immediately without invoking @p func.
  * The callback result type determines the returned tensor's value type.
  *
- * @tparam A Source Vector, Matrix, or Tensor satisfying Array.
- * @tparam Func Callable that reduces a const Tensor slice to one scalar.
+ * @tparam A Source array or view satisfying Array.
+ * @tparam Func Callable accepting both Tensor and ArrayView inputs and returning
+ *         a supported dtype. A generic lambda is appropriate.
  * @param array Source array.
  * @param axis Axis in `[-array.rank(), array.rank() - 1]`.
  * @param func Scalar reduction applied to every axis slice.
  * @param keepdims Whether the reduced dimension remains with extent one.
  * @return Owning `Tensor` containing one callback result per output position.
- *         Its value type is the result of invoking @p func on a const tensor
- *         slice of `A::value_type`.
+ *         Its value type is inferred from invoking @p func on a const
+ *         `Tensor<A::value_type>`. Actual calls receive a Tensor for the
+ *         rank-one, keepdims-false case and an ArrayView otherwise.
  * @throws Exceptions::AxisError If @p axis is outside the valid range.
  * @throws Any exception propagated by conversion, slicing, allocation, or @p func.
+ * @note Callbacks must not retain views or references into the temporary input copy.
  * @note @p func is not invoked when the result shape has zero elements.
- * @complexity O(array.size() * array.rank()) with the current slice-based implementation.
+ * @complexity O((n + p + 1) * r) plus callback work, where n is input size,
+ *             p is output size and r is input rank; O(n + p + r) auxiliary storage.
  */
 template<Array A, typename Func>
 stratax::container::Tensor<detail::axis_reduce_value_t<A, Func>>
@@ -238,7 +244,7 @@ axis_reduce(const A& array, int axis, Func func, bool keepdims = false)
  * @param arr Array to reduce.
  * @return Element sum in `reduction_sum_t<A::value_type>`, or that type's
  *         additive identity when @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -259,7 +265,7 @@ auto sum(const A& arr)
  * @param arr Array to reduce.
  * @return Element product in `reduction_prod_t<A::value_type>`, or that type's
  *         multiplicative identity when @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -281,7 +287,7 @@ auto prod(const A& arr)
  * @param arr Non-empty array to search.
  * @return Largest value; ties select the first occurrence.
  * @throws Exceptions::IndexError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -306,7 +312,7 @@ auto max(const A& arr)
  * @param arr Non-empty array to search.
  * @return Smallest value; ties select the first occurrence.
  * @throws Exceptions::IndexError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -329,9 +335,9 @@ auto min(const A& arr)
  * @brief Returns the flat index of the largest element.
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
- * @return Zero-based row-major flat index of the first largest value.
+ * @return Zero-based logical row-major index as `stratax::dtype::int64`; ties choose the first largest value.
  * @throws Exceptions::IndexError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -354,9 +360,9 @@ auto argmax(const A& arr)
  * @brief Returns the flat index of the smallest element.
  * @tparam A Stratax array type satisfying Array whose values are ordered.
  * @param arr Non-empty array to search.
- * @return Zero-based row-major flat index of the first smallest value.
+ * @return Zero-based logical row-major index as `stratax::dtype::int64`; ties choose the first smallest value.
  * @throws Exceptions::IndexError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -377,11 +383,11 @@ auto argmin(const A& arr)
 
 /**
  * @brief Returns the arithmetic mean of all elements as double.
- * @tparam A Stratax array type satisfying Array and convertible to double.
+ * @tparam A Array whose value_type is Numeric and Ordered (real numeric values).
  * @param arr Non-empty array to reduce.
- * @return `sum(arr) / arr.size()` converted to double.
+ * @return `static_cast<double>(sum(arr)) / static_cast<double>(arr.size())`.
  * @throws Exceptions::ZeroDivisionError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires (
@@ -400,11 +406,11 @@ double mean(const A& arr)
 
 /**
  * @brief Returns the population variance using Welford's online algorithm.
- * @tparam A Stratax array type satisfying Array and convertible to double.
+ * @tparam A Array whose value_type is Numeric and Ordered (real numeric values).
  * @param arr Non-empty array to reduce.
  * @return Sum of squared deviations divided by `arr.size()`.
  * @throws Exceptions::ZeroDivisionError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires (
@@ -436,11 +442,11 @@ double var(const A& arr)
 
 /**
  * @brief Returns the population standard deviation of all elements.
- * @tparam A Stratax array type satisfying Array and convertible to double.
+ * @tparam A Array whose value_type is Numeric and Ordered (real numeric values).
  * @param arr Non-empty array to reduce.
  * @return Square root of `var(arr)`.
  * @throws Exceptions::ZeroDivisionError If @p arr is empty.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 requires (
@@ -460,10 +466,11 @@ double std(const A& arr)
  * @brief Sums values along an axis and removes that dimension.
  * @tparam A Numeric Stratax array type.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
- * @return `Tensor<reduction_sum_t<A::value_type>>` shaped as @p arr without
- *         @p axis; empty slices produce the selected type's additive identity.
+ * @return `Tensor<reduction_sum_t<A::value_type>>` with the axis removed
+ *         (shape `{1}` for rank-one input); empty slices produce the selected type's additive identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -485,7 +492,8 @@ auto sum(const A& arr, int axis)
  * @return `Tensor<reduction_sum_t<A::value_type>>` of per-slice sums; empty
  *         slices produce the selected type's additive identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -507,7 +515,8 @@ auto sum(const A& arr, int axis, bool keepdims)
  * @return `Tensor<reduction_prod_t<A::value_type>>` of per-slice products;
  *         empty slices produce the selected type's multiplicative identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -529,7 +538,8 @@ auto prod(const A& arr, int axis)
  * @return `Tensor<reduction_prod_t<A::value_type>>` of per-slice products;
  *         empty slices produce the selected type's multiplicative identity.
  * @throws Exceptions::AxisError If @p axis is invalid.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Numeric<typename A::value_type>
@@ -550,7 +560,8 @@ auto prod(const A& arr, int axis, bool keepdims)
  * @return Tensor containing the first maximum value from each slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -567,7 +578,8 @@ auto max(const A& arr, int axis)
  * @return Tensor containing the first maximum value from each slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -586,7 +598,8 @@ auto max(const A& arr, int axis, bool keepdims)
  * @return Tensor containing the first minimum value from each slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -603,7 +616,8 @@ auto min(const A& arr, int axis)
  * @return Tensor containing the first minimum value from each slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -619,10 +633,11 @@ auto min(const A& arr, int axis, bool keepdims)
 /**
  * @brief Finds indices of maximum values along an axis.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
- * @return Tensor containing the first maximum's zero-based index within each axis slice.
+ * @return `Tensor<stratax::dtype::int64>` containing the first maximum's zero-based index within each axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -636,10 +651,11 @@ auto argmax(const A& arr, int axis)
  * @brief Finds indices of maximum values with optional dimension retention.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
  * @param keepdims Retains the reduced axis with extent one when true.
- * @return Tensor containing the first maximum's zero-based index within each axis slice.
+ * @return `Tensor<stratax::dtype::int64>` containing the first maximum's zero-based index within each axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -655,10 +671,11 @@ auto argmax(const A& arr, int axis, bool keepdims)
 /**
  * @brief Finds indices of minimum values along an axis.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
- * @return Tensor containing the first minimum's zero-based index within each axis slice.
+ * @return `Tensor<stratax::dtype::int64>` containing the first minimum's zero-based index within each axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -672,10 +689,11 @@ auto argmin(const A& arr, int axis)
  * @brief Finds indices of minimum values with optional dimension retention.
  * @param arr Source array. @param axis Axis to reduce; negative values count from the end.
  * @param keepdims Retains the reduced axis with extent one when true.
- * @return Tensor containing the first minimum's zero-based index within each axis slice.
+ * @return `Tensor<stratax::dtype::int64>` containing the first minimum's zero-based index within each axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::IndexError If a produced output requires reducing an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires Ordered<typename A::value_type>
@@ -695,7 +713,8 @@ auto argmin(const A& arr, int axis, bool keepdims)
  * @return Tensor<double> containing one mean per axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (
@@ -718,7 +737,8 @@ mean(const A& arr, int axis, bool keepdims)
  * @return Tensor<double> containing one mean per axis slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (
@@ -739,7 +759,8 @@ mean(const A& arr, int axis)
  * @return Tensor<double> containing one population variance per slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (
@@ -762,7 +783,8 @@ var(const A& arr, int axis, bool keepdims)
  * @return Tensor<double> containing one population variance per slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (
@@ -783,7 +805,8 @@ var(const A& arr, int axis)
  * @return Tensor<double> containing one population standard deviation per slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (
@@ -806,7 +829,8 @@ std(const A& arr, int axis, bool keepdims)
  * @return Tensor<double> containing one population standard deviation per slice.
  * @throws Exceptions::AxisError If @p axis is invalid.
  * @throws Exceptions::ZeroDivisionError If a produced output has an empty slice.
- * @complexity O(arr.size() * arr.rank()).
+ * @see axis_reduce for result-shape conventions and allocation behavior.
+ * @complexity O((arr.size() + output_size + 1) * arr.rank()).
  */
 template<Array A>
 requires (

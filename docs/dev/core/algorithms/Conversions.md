@@ -2,159 +2,55 @@
 
 # Conversions {#dev_conversions}
 
-Version: v0.2.0
+Header: `include/stratax/algorithms/Conversion.hpp`.
+Functions live under `stratax::conversion`.
 
-Status: Complete
+## Shape contracts
 
-Header: `include/stratax/algorithms/Conversion.hpp`
+| Function | Accepted shape | Result |
+| --- | --- | --- |
+| `to_vector(arr)` | Rank one, or exactly one extent different from one | Vector with source element count |
+| `to_matrix(arr)` | Rank two, or exactly two extents different from one | Matrix with original rank-two shape or the two retained extents |
+| `to_tensor(arr)` | Any valid source shape | Tensor with identical shape |
 
----
+Each conversion copies values in logical row-major order into independent
+storage, including for strided C++ views. Only singleton extents are removed:
+`{1, 0, 3}` converts to Matrix `{0, 3}`. A higher-rank shape containing only ones
+is not vector- or matrix-compatible under these rules. Rank-zero arrays cannot
+convert to Vector/Matrix through these helpers; flatten provides a Vector copy.
+Invalid conversion shapes raise `Exceptions::ShapeError`. Shape arithmetic and
+allocation errors propagate.
 
-## Overview
+## Dtype casts
 
-`Conversions.hpp` provides shape conversion and value-type casting helpers for Stratax array containers.
+`astype<To>(arr)` preserves the owning container family and shape and converts
+each element with `static_cast<To>`. Both dtypes must be supported and the cast
+must be valid. Narrowing and precision loss are not checked. The supplied
+RebindArray specializations cover owning containers, not ArrayView.
+Python does not currently bind astype.
 
-Helpers preserve flat storage order and return new owning containers.
-
----
-
-## Responsibilities
-
-The conversions module is responsible for:
-
-- Converting array-like containers to vector, matrix, or tensor forms
-- Supporting shape compatibility checks for vector/matrix conversion
-- Casting element types across vector/matrix/tensor containers
-
-The conversions module is not responsible for:
-
-- View-based conversion
-- Implicit numeric safety checks beyond `static_cast`
-- Runtime dtype-policy configuration
-
----
-
-## Relationships
-
-```text
-to_vector / to_matrix / to_tensor
-└── flat index copy loop
-
-astype<To>(...)
-└── per-element static_cast<To>
-```
-
-Depends on:
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
-- `include/stratax/containers/Vector.hpp`
-- `include/stratax/containers/Matrix.hpp`
-- `include/stratax/containers/Tensor.hpp`
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Conversions return new owning containers.
-- Element order is preserved in flat storage order.
-- `to_vector` accepts shapes that are rank-1 or have exactly one non-singleton dimension.
-- `to_matrix` accepts shapes that are rank-2 or have exactly two non-singleton dimensions.
-- `to_tensor` preserves original shape exactly.
-- `astype` preserves shape and element count.
-
----
-
-## Public Interface
-
-### Shape helpers
+## Example
 
 ```cpp
-bool is_vector_shape(const stratax::core::Shape& shape);
-bool is_matrix_shape(const stratax::core::Shape& shape);
-stratax::core::Shape matrix_shape(const stratax::core::Shape& shape);
+#include <stratax.h>
+#include <cassert>
+
+int main() {
+    stratax::container::Tensor<double> source(stratax::core::Shape{1, 3, 1}, 2.5);
+    auto vector = stratax::conversion::to_vector(source);
+    auto ints = stratax::conversion::astype<int>(vector);
+    assert(vector.size() == 3 && ints[0] == 2);
+    vector[0] = 8.0;
+    assert(source[0] == 2.5);
+    stratax::container::Tensor<int> empty(stratax::core::Shape{1, 0, 3});
+    assert(stratax::conversion::to_matrix(empty).shape() == stratax::core::Shape({0, 3}));
+}
 ```
 
-### Container conversions
+## Cost
 
-```cpp
-template<Array A>
-stratax::container::Vector<typename A::value_type> to_vector(const A& arr);
-
-template<Array A>
-stratax::container::Matrix<typename A::value_type> to_matrix(const A& arr);
-
-template<Array A>
-stratax::container::Tensor<typename A::value_type> to_tensor(const A& arr);
-```
-
-Throws
-
-- `Exceptions::ShapeError` for unsupported source shape in `to_vector`/`to_matrix`
-
-### Type casting
-
-```cpp
-template<typename To, typename From>
-requires Numeric<To> && Numeric<From>
-stratax::container::Vector<To> astype(const stratax::container::Vector<From>& vec);
-
-template<typename To, typename From>
-requires Numeric<To> && Numeric<From>
-stratax::container::Matrix<To> astype(const stratax::container::Matrix<From>& mat);
-
-template<typename To, typename From>
-requires Numeric<To> && Numeric<From>
-stratax::container::Tensor<To> astype(const stratax::container::Tensor<From>& tensor);
-```
-
-Behavior
-
-- Uses `static_cast<To>` per element
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| `is_vector_shape` / `is_matrix_shape` | O(r) |
-| `matrix_shape` | O(r) |
-| `to_vector` / `to_matrix` / `to_tensor` | O(n + r) |
-| `astype` overloads | O(n) |
-
-`n` is element count and `r` is rank.
-
----
-
-## Examples
-
-```cpp
-const auto v = to_vector(tensor_like);
-const auto m = to_matrix(tensor_like);
-const auto t = to_tensor(matrix_like);
-
-const auto as_double = astype<double>(v);
-```
-
----
-
-## Design Notes
-
-Vector/matrix conversion is intentionally permissive for singleton dimensions, which simplifies interoperability with tensor-shaped data that carries redundant axes.
-
----
-
-## Future Improvements
-
-- Add explicit policy helpers for strict rank-only conversion
-- Add optional checked-cast helpers for narrowing conversions
-
----
-
-## See Also
-
-- `include/stratax/algorithms/Reshape.hpp`
-- `include/stratax/core/Shape.hpp`
+Owning inputs take O(n + r) time; view inputs take O((n + 1)r), because logical
+access computes strided offsets. Output storage is O(n + r). Shape compatibility
+helpers in `conversion::detail` are implementation details.
+Python conversion functions accept the owning double Vector, Matrix, and Tensor
+classes; see @ref python_api.

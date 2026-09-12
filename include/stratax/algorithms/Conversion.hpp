@@ -1,3 +1,6 @@
+/** @file
+ * @brief Copying container conversions and dtype casts.
+ */
 #pragma once
 
 #include <algorithm>
@@ -20,8 +23,8 @@ namespace detail {
  * @brief Determines whether a shape can be represented by a Vector.
  *
  * Every rank-one shape is accepted. Higher-rank shapes are accepted only when
- * exactly one dimension is greater than one. Dimensions of size zero or one do
- * not count as non-singleton dimensions.
+ * exactly one dimension is different from one. Only dimensions of size one
+ * are removed; zero extents are retained.
  *
  * @param shape Shape to inspect.
  * @return `true` when @p shape is vector-compatible; otherwise `false`.
@@ -39,7 +42,7 @@ inline bool is_vector_shape(const stratax::core::Shape& shape)
 
     for (std::size_t dim : shape)
     {
-        if (dim > 1)
+        if (dim != 1)
         {
             ++non_singleton;
         }
@@ -52,8 +55,8 @@ inline bool is_vector_shape(const stratax::core::Shape& shape)
  * @brief Determines whether a shape can be represented by a Matrix.
  *
  * Every rank-two shape is accepted. Shapes of any other rank are accepted only
- * when exactly two dimensions are greater than one. Dimensions of size zero or
- * one do not count as non-singleton dimensions.
+ * when exactly two dimensions are different from one. Only dimensions of size
+ * one are removed; zero extents are retained.
  *
  * @param shape Shape to inspect.
  * @return `true` when @p shape is matrix-compatible; otherwise `false`.
@@ -71,7 +74,7 @@ inline bool is_matrix_shape(const stratax::core::Shape& shape)
 
     for (std::size_t dim : shape)
     {
-        if (dim > 1)
+        if (dim != 1)
         {
             ++non_singleton;
         }
@@ -83,8 +86,8 @@ inline bool is_matrix_shape(const stratax::core::Shape& shape)
 /**
  * @brief Produces the rank-two shape used by a matrix conversion.
  *
- * Rank-two shapes are returned unchanged. For other ranks, dimensions greater
- * than one are retained in their original order while zero and singleton
+ * Rank-two shapes are returned unchanged. For other ranks, dimensions different
+ * from one are retained in their original order while singleton
  * dimensions are removed. Callers must first establish matrix compatibility
  * with is_matrix_shape().
  *
@@ -106,7 +109,7 @@ inline stratax::core::Shape matrix_shape(const stratax::core::Shape& shape)
 
     for (std::size_t dim : shape)
     {
-        if (dim > 1)
+        if (dim != 1)
         {
             dims.push_back(dim);
         }
@@ -122,14 +125,14 @@ inline stratax::core::Shape matrix_shape(const stratax::core::Shape& shape)
  *
  * The result contains the source elements in flat row-major iterator order and
  * owns storage independent of @p arr. Rank-one sources are always compatible;
- * other ranks must contain exactly one dimension greater than one.
+ * other ranks must contain exactly one dimension different from one.
  *
  * @tparam A Stratax array type satisfying Array.
  * @param arr Source array to convert.
  * @return Owning Vector with the same value type and element count as @p arr.
  * @throws Exceptions::ShapeError If the source shape is not vector-compatible.
  * @throws std::bad_alloc If result allocation fails.
- * @complexity O(arr.size() + arr.rank()).
+ * @complexity O(arr.size() + arr.rank()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 [[nodiscard]]
@@ -155,7 +158,7 @@ to_vector(const A& arr)
 /**
  * @brief Copies a matrix-compatible Stratax array into a Matrix.
  *
- * Rank-two sources retain their shape. For other ranks, zero and singleton
+ * Rank-two sources retain their shape. For other ranks, singleton
  * dimensions are removed and the two remaining non-singleton dimensions form
  * the result shape. Values retain flat row-major iterator order, and the result
  * owns independent storage.
@@ -166,7 +169,7 @@ to_vector(const A& arr)
  * @throws Exceptions::ShapeError If the source shape is not matrix-compatible.
  * @throws Exceptions::DimensionError If result shape arithmetic overflows.
  * @throws std::bad_alloc If result or shape allocation fails.
- * @complexity O(arr.size() + arr.rank()).
+ * @complexity O(arr.size() + arr.rank()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 [[nodiscard]]
@@ -203,7 +206,7 @@ to_matrix(const A& arr)
  * @return Owning Tensor with the same value type, shape, and values as @p arr.
  * @throws Exceptions::DimensionError If result stride arithmetic overflows.
  * @throws std::bad_alloc If result allocation fails.
- * @complexity O(arr.size() + arr.rank()).
+ * @complexity O(arr.size() + arr.rank()) for owning arrays; O((arr.size() + 1) * arr.rank()) for views.
  */
 template<Array A>
 [[nodiscard]]
@@ -230,8 +233,8 @@ to_tensor(const A& arr)
  *
  * The returned array owns storage independent of @p arr.
  *
- * @tparam To Destination Stratax dtype.
- * @tparam A Source Stratax array type satisfying Array.
+ * @tparam To Destination Stratax dtype for which static_cast from each source value is valid.
+ * @tparam A Owning Stratax array with a RebindArray specialization.
  * @param arr Array whose elements are converted.
  * @return Owning array with the same container category and shape as @p arr,
  *         with element type @p To.

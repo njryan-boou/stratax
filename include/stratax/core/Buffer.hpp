@@ -1,3 +1,6 @@
+/** @file
+ * @brief Fixed-size aligned storage with element lifetime management.
+ */
 #pragma once
 
 #include "Config.hpp"
@@ -129,7 +132,12 @@ public:
     explicit Buffer(size_type size)
         : data_(allocate(size)), size_(size)
     {
-        construct_fill(value_type{});
+        try {
+            std::uninitialized_value_construct_n(data_, size_);
+        } catch (...) {
+            deallocate(data_);
+            throw;
+        }
     }
 
     /**
@@ -331,7 +339,7 @@ public:
      * @brief Returns a reference to the first element.
      *
      * @return Reference to the first element.
-     * @throws Exceptions::IndexError If the buffer is empty.
+     * @pre The buffer is nonempty; otherwise behavior is undefined.
      * @complexity O(1).
      */
     reference front()
@@ -343,7 +351,7 @@ public:
      * @brief Returns a const reference to the first element.
      *
      * @return Const reference to the first element.
-     * @throws Exceptions::IndexError If the buffer is empty.
+     * @pre The buffer is nonempty; otherwise behavior is undefined.
      * @complexity O(1).
      */
     const_reference front() const
@@ -355,7 +363,7 @@ public:
      * @brief Returns a reference to the last element.
      *
      * @return Reference to the last element.
-     * @throws Exceptions::IndexError If the buffer is empty.
+     * @pre The buffer is nonempty; otherwise behavior is undefined.
      * @complexity O(1).
      */
     reference back()
@@ -367,7 +375,7 @@ public:
      * @brief Returns a const reference to the last element.
      *
      * @return Const reference to the last element.
-     * @throws Exceptions::IndexError If the buffer is empty.
+     * @pre The buffer is nonempty; otherwise behavior is undefined.
      * @complexity O(1).
      */
     const_reference back() const

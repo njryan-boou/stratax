@@ -1,340 +1,52 @@
-@page concepts Concepts
+@page concepts DType and Array Concepts
 
-# Numeric, DType, and Array Concepts {#dev_concepts}
+# DType and Array Concepts {#dev_concepts}
 
-Version: v0.2.0
+Header: `include/stratax/core/dtypes/Concepts.hpp`.
+Public concepts are currently declared in the global namespace.
 
-Status: Complete
+| Concept or trait | Meaning |
+| --- | --- |
+| `Integral<T>` | One of the supported int8..int64 or uint8..uint64 aliases, excluding bool |
+| `Numeric<T>` | Integral, float/double/long double, or supported complex dtype |
+| `DType<T>` | Numeric or bool |
+| `Ordered<T>` | Supported non-complex dtype, including bool |
+| `RealNumeric<T>` | Supported integer or standard floating-point type, excluding bool/complex |
+| `Array<T>` | Structural metadata, indexing, and input-range interface with a supported value_type |
+| `is_array<T>` | Exact owning Vector, Matrix, or Tensor specialization |
 
-Header: `include/stratax/core/dtypes/Concepts.hpp`
+Concepts remove cv/ref qualifiers for classification. is_array does not.
+Integer eligibility uses exact fixed-width alias identity; signed/unsigned char
+are accepted when they are the platform's int8/uint8 types. There is no
+CharacterLike helper and no general exclusion of every character-like type.
+Use the supported aliases when portability matters.
 
----
+## Structural requirements and limits
 
-## Overview
+Array requires size/empty/rank queries, shape/strides access, flat indexed values
+convertible to value_type, and begin/end forming an input range. Logical
+row-major order is the semantic contract; concepts cannot prove layout,
+bounds, ownership, or lifetime. Array does not require mutability or fill().
 
-`Concepts.hpp` defines the compile-time type vocabulary used by Stratax
-containers and operations:
-
-- `Integral<T>` accepts integer scalars while excluding boolean and character
-  types.
-- `Numeric<T>` accepts supported integral, floating-point, and complex
-  scalars.
-- `DType<T>` accepts every `Numeric` type plus `bool` for array storage.
-- `is_array<T>` remains available for identifying exact owning Stratax
-  container specializations.
-- `Array<T>` structurally recognizes owning containers, views, and compatible
-  future array classes through their common logical interface.
-
-All checks happen at compile time and add no runtime work.
-
----
-
-## Public Interface
-
-```cpp
-template<typename T>
-concept Integral;
-
-template<typename T>
-concept Numeric;
-
-template<typename T>
-concept DType;
-
-template<typename T>
-struct is_array;
-
-template<typename T>
-concept Array;
-```
-
-The concepts and trait are declared in the global namespace. Container forward
-declarations are provided in `stratax::container`.
-
----
-
-## Internal Classification Concepts
-
-The `stratax::core::concept_detail` namespace contains implementation helpers:
+Views satisfy Array, but that alone does not make every operation available.
+Allocating result helpers also require RebindArray or PromoteArray, specialized
+for owning containers. Scalar std math calls impose their own admissible-type
+requirements. Ordered does not make NaNs totally ordered.
 
 ```cpp
-template<typename T, typename... Candidates>
-concept SameAsAny;
+#include <stratax.h>
 
-template<typename T>
-concept CharacterLike;
-
-template<typename T>
-concept BoolLike;
-
-template<typename T>
-concept SupportedComplex;
-```
-
-`SameAsAny` removes cv- and reference qualifiers from `T`, then checks for an
-exact match with any candidate type.
-
-`CharacterLike` recognizes `char`, `signed char`, `unsigned char`, `wchar_t`,
-`char8_t`, `char16_t`, and `char32_t`. These are excluded from numerical
-storage even though the standard library classifies them as integral.
-
-`BoolLike` recognizes `bool` after removing cv/ref qualifiers.
-
-`SupportedComplex` recognizes exactly:
-
-- `std::complex<float>`
-- `std::complex<double>`
-- `std::complex<long double>`
-
-Other `std::complex<T>` specializations do not satisfy `Numeric`.
-
----
-
-## Integral
-
-```cpp
-template<typename T>
-concept Integral =
-    std::integral<std::remove_cvref_t<T>> &&
-    !stratax::core::concept_detail::BoolLike<T> &&
-    !stratax::core::concept_detail::CharacterLike<T>;
-```
-
-`Integral` ignores cv/ref qualifiers and accepts non-character signed and
-unsigned integer types.
-
-| Type | `Integral` |
-| ---- | :--------: |
-| `short`, `int`, `long`, `long long` | Yes |
-| Unsigned integer counterparts | Yes |
-| `const int&` | Yes |
-| `bool` | No |
-| Character and code-unit types | No |
-| Floating-point types | No |
-| Enumeration types | No |
-
-```cpp
-static_assert(Integral<int>);
-static_assert(Integral<const unsigned long&>);
-static_assert(!Integral<bool>);
-static_assert(!Integral<char>);
-```
-
----
-
-## Numeric
-
-```cpp
-template<typename T>
-concept Numeric =
-    Integral<T> ||
-    std::floating_point<std::remove_cvref_t<T>> ||
-    stratax::core::concept_detail::SupportedComplex<T>;
-```
-
-`Numeric` is the scalar constraint used by numerical algorithms and operators.
-Array containers use the broader `DType` concept described below.
-
-| Category | Accepted types |
-| -------- | -------------- |
-| Integer | Types satisfying `Integral` |
-| Floating point | `float`, `double`, `long double` |
-| Complex | `std::complex<float|double|long double>` |
-
-Rejected categories include booleans, character types, strings, pointers,
-enumerations, and arbitrary user-defined arithmetic-like classes.
-
-```cpp
-static_assert(Numeric<int>);
+static_assert(Integral<stratax::dtype::int8>);
 static_assert(Numeric<const double&>);
-static_assert(Numeric<std::complex<float>>);
-static_assert(!Numeric<bool>);
-static_assert(!Numeric<char16_t>);
-static_assert(!Numeric<std::complex<int>>);
+static_assert(DType<bool> && !Numeric<bool>);
+static_assert(!Ordered<stratax::dtype::complex64>);
+static_assert(Array<stratax::core::ArrayView<const double>>);
+static_assert(is_array<stratax::container::Vector<double>>::value);
+static_assert(!is_array<const stratax::container::Vector<double>>::value);
+
+int main() {}
 ```
 
-The concept performs classification only. It does not define conversion,
-promotion, precision, overflow, or runtime validation policy.
-
----
-
-## DType
-
-```cpp
-template<typename T>
-concept DType =
-    Numeric<T> ||
-    stratax::core::concept_detail::BoolLike<T>;
-```
-
-`DType` defines the element types accepted by `Vector<T>`, `Matrix<T>`, and
-`Tensor<T>`. It extends `Numeric` with `bool`, allowing logical arrays without
-classifying booleans as integers or enabling them for arithmetic-only APIs.
-Like the other concepts, it ignores cv/ref qualifiers.
-
-| Category | `DType` |
-| -------- | :-----: |
-| Types satisfying `Numeric` | Yes |
-| `bool` | Yes |
-| Character and code-unit types | No |
-| Strings, pointers, and arbitrary classes | No |
-
-```cpp
-static_assert(DType<bool>);
-static_assert(DType<const bool&>);
-static_assert(DType<double>);
-static_assert(!DType<char>);
-```
-
----
-
-## Container Forward Declarations
-
-```cpp
-namespace stratax::container {
-
-template<typename T>
-requires DType<T>
-class Vector;
-
-template<typename T>
-requires DType<T>
-class Matrix;
-
-template<typename T>
-requires DType<T>
-class Tensor;
-
-}
-```
-
-These declarations allow the array trait specializations to be defined without
-including the full container implementations.
-
----
-
-## is_array Trait
-
-```cpp
-template<typename T>
-struct is_array : std::false_type {};
-```
-
-The trait is specialized to derive from `std::true_type` for:
-
-- `stratax::container::Vector<T>`
-- `stratax::container::Matrix<T>`
-- `stratax::container::Tensor<T>`
-
-where `T` satisfies `DType`.
-
-`is_array` checks its argument exactly and does not remove qualifiers:
-
-```cpp
-using Vector = stratax::container::Vector<int>;
-
-static_assert(is_array<Vector>::value);
-static_assert(!is_array<const Vector>::value);
-```
-
-Use the `Array` concept for generic algorithms. Unlike this legacy trait, the
-concept also recognizes compatible non-owning and user-defined array types.
-
----
-
-## Array
-
-```cpp
-template<typename T>
-concept Array = requires(const std::remove_cvref_t<T>& array) {
-    typename std::remove_cvref_t<T>::value_type;
-    // Supported dtype, metadata, indexing, and input-range requirements.
-};
-```
-
-`Array` ignores cv/ref qualifiers and requires:
-
-- A `value_type` satisfying `DType`
-- `size()`, `empty()`, and `rank()` queries
-- `shape()` and `strides()` metadata access
-- Logical row-major flat `operator[]`
-- `begin()` and `end()` forming an input range over those logical values
-
-Consequently, owning containers and `ArrayView` satisfy the same generic
-algorithm constraint. Future classes can participate without specializing a
-central identification trait:
-
-```cpp
-using Vector = stratax::container::Vector<int>;
-
-static_assert(Array<Vector>);
-static_assert(Array<const Vector&>);
-static_assert(Array<stratax::core::ArrayView<const int>>);
-static_assert(!Array<int>);
-static_assert(!Array<std::vector<int>>);
-```
-
----
-
-## Usage
-
-```cpp
-template<Numeric T>
-T square(T value)
-{
-    return value * value;
-}
-
-template<Array A>
-void clear(A& array)
-{
-    array.fill(typename A::value_type{});
-}
-```
-
-Constraints reject unsupported types during template substitution rather than
-performing runtime checks.
-
----
-
-## Complexity
-
-| Operation | Runtime complexity |
-| --------- | -----------------: |
-| `Integral<T>` evaluation | O(0) |
-| `Numeric<T>` evaluation | O(0) |
-| `DType<T>` evaluation | O(0) |
-| `is_array<T>` evaluation | O(0) |
-| `Array<T>` evaluation | O(0) |
-
-All results are compile-time constants.
-
----
-
-## Design Notes
-
-Character exclusions prevent accidental use of textual data as array storage.
-Boolean values are accepted through `DType` for logical arrays but remain
-excluded from `Numeric`, `Integral`, and arithmetic-only APIs. The explicit
-complex whitelist keeps supported representations aligned with standard
-floating-point precision types.
-
-`Array` deliberately recognizes only Stratax owning containers. This gives
-operators and algorithms a precise boundary and avoids accepting unrelated
-types based on coincidental member names.
-
----
-
-## Future Improvements
-
-- Add focused concepts when rank-specific constraints become useful
-- Add an opt-in extension mechanism for external array types if required
-- Define promotion-oriented concepts alongside a mixed-type promotion policy
-
----
-
-## See Also
-
-- @ref vector
-- @ref matrix
-- @ref tensor
+These are compile-time classifications with no runtime validation. Internal
+classification helpers live in `stratax::core::concept_detail`.
+See @ref types and @ref arrayview.

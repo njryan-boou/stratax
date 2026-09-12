@@ -1,3 +1,6 @@
+/** @file
+ * @brief Dtype and array interface concepts.
+ */
 #pragma once
 
 #include <concepts>
@@ -10,14 +13,17 @@
 
 namespace stratax::core::concept_detail {
 
+/** @brief Matches any candidate after removing cv/ref qualifiers. */
 template<typename T, typename... Candidates>
 concept SameAsAny =
 	(std::same_as<std::remove_cvref_t<T>, Candidates> || ...);
 
+/** @brief Matches the boolean dtype after removing cv/ref qualifiers. */
 template<typename T>
 concept BoolLike =
 	std::same_as<std::remove_cvref_t<T>, stratax::dtype::bool_>;
 
+/** @brief Matches a supported fixed-width integer dtype, excluding bool. */
 template<typename T>
 concept SupportedIntegral =
 	SameAsAny<
@@ -31,6 +37,7 @@ concept SupportedIntegral =
 		stratax::dtype::uint32,
 		stratax::dtype::uint64>;
 
+/** @brief Matches float, double, or long double after removing cv/ref qualifiers. */
 template<typename T>
 concept SupportedFloating =
 	SameAsAny<
@@ -39,6 +46,7 @@ concept SupportedFloating =
 		stratax::dtype::float64,
 		stratax::dtype::longdouble>;
 
+/** @brief Matches a supported std::complex dtype after removing cv/ref qualifiers. */
 template<typename T>
 concept SupportedComplex =
 	SameAsAny<
@@ -49,16 +57,19 @@ concept SupportedComplex =
 
 }
 
+/** @brief Supported integer dtype, excluding bool. */
 template<typename T>
 concept Integral =
 	stratax::core::concept_detail::SupportedIntegral<T>;
 
+/** @brief Supported integer, floating-point, or complex dtype, excluding bool. */
 template<typename T>
 concept Numeric =
 	Integral<T> ||
 	stratax::core::concept_detail::SupportedFloating<T> ||
 	stratax::core::concept_detail::SupportedComplex<T>;
 
+/** @brief Supported numeric or boolean element dtype. */
 template<typename T>
 concept DType =
 	Numeric<T> ||
@@ -138,11 +149,13 @@ concept Array =
 		{ array.end() } -> std::sentinel_for<decltype(array.begin())>;
 	};
 
+/** @brief Supported non-complex dtype, including bool; floating-point NaNs need not compare ordered. */
 template<typename T>
 concept Ordered =
 	DType<T> &&
 	!stratax::core::concept_detail::SupportedComplex<T>;
 
+/** @brief Supported integer or standard floating-point type, excluding bool and complex. */
 template<typename T>
 concept RealNumeric =
     Integral<T> ||

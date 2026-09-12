@@ -141,6 +141,30 @@ TEST(ToMatrix, AcceptsZeroSizedRankTwoShape)
 	EXPECT_EQ(result.shape(), Shape({0, 4}));
 }
 
+TEST(ToMatrix, PreservesZeroExtentsWhenRemovingSingletonDimensions)
+{
+	const Tensor<int> source(Shape{1, 0, 3});
+	const auto result = stratax::conversion::to_matrix(source);
+	EXPECT_EQ(result.shape(), (Shape{0, 3}));
+	EXPECT_EQ(result.size(), source.size());
+	EXPECT_TRUE(result.empty());
+}
+
+TEST(ToMatrix, CannotDiscardAZeroAxisToInventElements)
+{
+	EXPECT_THROW(static_cast<void>(stratax::conversion::to_matrix(Tensor<int>(Shape{0, 2, 3}))), Exceptions::ShapeError);
+	EXPECT_THROW(static_cast<void>(stratax::conversion::to_matrix(Tensor<int>(Shape{2, 0, 3}))), Exceptions::ShapeError);
+	EXPECT_THROW(static_cast<void>(stratax::conversion::to_matrix(Tensor<int>(Shape{2, 3, 0}))), Exceptions::ShapeError);
+}
+
+TEST(ToVector, RemovesOnlySingletonDimensions)
+{
+	const auto result = stratax::conversion::to_vector(Tensor<int>(Shape{1, 0, 1}));
+	EXPECT_EQ(result.shape(), (Shape{0}));
+	EXPECT_TRUE(result.empty());
+	EXPECT_THROW(static_cast<void>(stratax::conversion::to_vector(Tensor<int>(Shape{0, 3}))), Exceptions::ShapeError);
+}
+
 TEST(ToMatrix, ReturnsIndependentStorage)
 {
 	Matrix<int> source{{1, 2}, {3, 4}};

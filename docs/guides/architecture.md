@@ -2,58 +2,56 @@
 
 # Architecture
 
-Developer notes for the overall Stratax project layout and design direction.
+Stratax is a C++20 header-first array library with a compiled pybind11 layer.
 
-## Purpose
+## Source layout
 
-Describes how the library is organized so implementation work stays consistent across core types, containers, operations, tests, and future bindings.
+| Directory | Responsibility |
+| --- | --- |
+| include/stratax/core | Buffer ownership, Shape/Slice metadata, ArrayBase, ArrayView, dtype/result traits |
+| include/stratax/containers | Fixed-rank Vector/Matrix and arbitrary-rank Tensor |
+| include/stratax/indexing | Checked index normalization, unchecked offsets, shared slice views |
+| include/stratax/ops | Broadcasting, arithmetic, bitwise, comparison, standard math wrappers |
+| include/stratax/algorithms | Creation, copying conversions, reshape/flatten, reductions |
+| include/stratax/io | Logical stream formatting |
+| bindings | Python argument conversion, lifetime handling, and registration |
+| python/stratax | Public exports and typing declarations |
+| tests/cpp, tests/python | Behavioral and invariant coverage |
 
-## Main API
+## Ownership and invariants
 
-### Project Layout
+ArrayBase owns element, shape, and stride buffers together. Copy assignment is
+transactional. Vector and Matrix preserve fixed rank across moves, which can
+allocate empty metadata. Tensor/base moves leave rank-zero empty sources.
+Rank-zero arrays have no scalar storage.
 
-- `include/stratax/core`
-- `include/stratax/containers`
-- `include/stratax/algorithms`
-- `include/stratax/ops`
-- `include/stratax/io`
-- `tests`
-- `docs`
+ArrayView copies metadata and borrows an allocation. C++ callers maintain its
+lifetime; Python slice wrappers hold the owner. Strides are unsigned element
+counts, so reverse views are unsupported. Logical iteration differs from
+physical contiguity for views.
 
-### Core Model
+## Operations and validation
 
-- Containers own contiguous storage.
-- `Shape` describes logical dimensions.
-- `Shape::strides()` produces row-major metadata used to map multidimensional
-  indexes to flat offsets.
-- Algorithms are implemented as free functions where possible.
+The structural Array concept admits views, but owning result traits are
+specialized for Vector/Matrix/Tensor. Conversions, reshape, flatten, and
+reductions accept C++ views; Python binds a smaller surface. Result promotion
+is separate from scalar C++ expression evaluation.
 
-### Extension Areas
+Broadcasting aligns trailing dimensions and also rejects empty storage supplying
+nonempty results. Compound operations preserve the left shape and dtype.
+Checks are local to construction/access/operation boundaries. The validation
+compatibility headers contain no functions. Checked at access and unchecked
+owning []/() have different contracts; config flags do not override them.
 
-- Linear algebra
-- Statistics
-- Random number support
-- Python bindings
-- Serialization and file I/O
+Axis reduction currently copies input to Tensor, then passes strided slices to
+callbacks. This preserves input ownership but adds allocation and metadata cost.
+Optimization must preserve the documented shape, dtype, lifetime, and exception
+contracts.
 
-## Validation Notes
+## Verification and planned work
 
-- Container invariants should be checked at construction boundaries.
-- Shape-sensitive algorithms should reject mismatched shapes before touching data.
-- Preconditions are enforced with explicit checks at their call sites.
-- Tests should cover behavior at the public API boundary, not private implementation details.
-
-## Implementation Notes
-
-- The library is header-only C++20.
-- Generic code should follow existing concepts and container APIs.
-- Containers should expose a consistent indexing style with `operator()`.
-- Shared behavior should live in core utilities instead of being duplicated across containers.
-- Python binding plans should not force C++ API compromises before the C++ layer is stable.
-
-## Future Work
-
-- SIMD optimization
-- Parallel execution
-- Python bindings through pybind11
-- GPU support investigation
+CI configures C++ jobs on Linux, Windows, and macOS; Python package tests on
+Linux for 3.10 through 3.14; and Clang address/undefined-behavior/leak checks.
+Local audit results are recorded separately in @ref test_audit.
+SIMD/thread/CUDA flags are reserved, and linear algebra, broader statistics,
+random sampling, and file I/O remain planned. See @ref roadmap.

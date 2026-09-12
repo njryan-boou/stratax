@@ -21,8 +21,16 @@ Checked signed index normalization remains a real indexing operation rather
 than a generic validator and is provided by:
 
 ```cpp
-stratax::indexing::normalize_index(index, size);
+#include <stratax.h>
+#include <cassert>
+
+int main() {
+    assert(stratax::indexing::normalize_index(-1, 4) == 3);
+}
 ```
 
 It accepts positive and Python-style negative indices and throws
 `Exceptions::IndexError` when the index is outside the valid range.
+
+Unchecked accessors still have caller preconditions; not every invariant is
+checked on every access. The reserved bounds_checking flag does not change this.

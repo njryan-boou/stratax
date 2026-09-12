@@ -13,9 +13,14 @@ metadata objects, source-location fields, or named exception factories.
 Checks are performed directly where their invariants matter:
 
 ```cpp
+#include <stratax.h>
+
+int main() {
+const stratax::core::Shape shape{2, 3};
 if (shape.rank() != 2)
 {
     throw Exceptions::ShapeError("Matrix requires a rank-2 shape.");
+}
 }
 ```
 
@@ -47,13 +52,17 @@ constructed directly from a message. Specialized errors can also be caught as
 | `ShapeError` | Invalid shape or incompatible element count |
 | `DimensionError` | Invalid dimension or dimension arithmetic overflow |
 | `RankError` | Incorrect number of dimensions, indices, or slices |
-| `IndexError` | Invalid index, slice, or index rank |
+| `IndexError` | Invalid index or unsupported slice |
 | `TypeError` | Unsupported runtime type |
 | `BroadcastError` | Incompatible broadcast shapes |
 | `ZeroDivisionError` | Division by zero or undefined empty statistic |
 | `AxisError` | Invalid reduction axis |
-| `OverflowError` | Runtime conversion or allocation-size overflow |
+| `OverflowError` | Explicitly reported runtime conversion overflow; not automatic arithmetic checking |
 | `ValueError` | Invalid value that does not fit another category |
 
 All exception classes are declared by `Exceptions.hpp`; there are no separate
 family headers.
+
+Python registers these classes beneath stratax.StrataxError, but some argument
+conversion and slice parsing errors use built-in Python exception classes.
+See @ref python_api for that boundary.

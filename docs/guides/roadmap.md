@@ -12,11 +12,10 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 
 ## Current Priorities
 
-1. Add dedicated Python broadcasting regression tests.
-2. Add build, test, and package smoke-test workflows beyond documentation CI.
-3. Resolve public-header and documentation maintenance debt.
-4. Complete the core shape-transformation API.
-5. Establish foundational linear algebra operations before larger numerical modules.
+1. Define overlapping-view mutation and reverse-view behavior before extending views.
+2. Improve numerical edge-case contracts and dtype-pair coverage.
+3. Complete shape transformations and establish foundational linear algebra.
+4. Keep documentation examples executable as APIs change.
 
 ## Phases
 
@@ -38,7 +37,7 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Tensor
 - [x] Contiguous owning storage
 - [x] Negative indexing
-- [x] Copy-based slicing
+- [x] Shared positive-step slicing
 - [x] Creation helpers
 - [x] Conversion helpers
 
@@ -53,8 +52,8 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Slicing operations
 - [x] Integral bitwise operators
 - [ ] Logical operators
-- [ ] Element-wise ordering comparisons
-- [ ] Explicit mixed-value-type promotion policy
+- [x] Element-wise ordering comparisons
+- [x] Explicit mixed-value-type promotion policy
 
 ### Phase 4: Broadcasting
 
@@ -66,10 +65,10 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Arithmetic integration
 - [x] C++ unit coverage
 - [x] Developer documentation
-- [ ] Python-specific broadcasting tests
+- [x] Python-specific broadcasting tests
 - [x] Broadcasting behavior documented in the user and Python API guides
 - [ ] Optimized contiguous and repeated-block kernels
-- [ ] Mixed container or result-type policy
+- [x] Mixed container or result-type policy
 
 ### Phase 5: Shape Operations
 
@@ -81,7 +80,7 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [ ] transpose
 - [ ] swapaxes
 - [ ] permute_axes
-- [ ] Non-owning views
+- [x] Non-owning views
 
 ### Phase 6: Reductions
 
@@ -127,23 +126,21 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Creation helpers
 - [x] Conversion helpers
 - [x] Reduction helpers
-- [x] Negative indexing and copy-based slicing
+- [x] Negative indexing and owner-retaining positive-step slice views
 - [x] Reshape and flatten methods
 - [x] Single public typing stub
 - [ ] Bitwise operator bindings
-- [ ] Python broadcasting regression tests
-- [ ] Package import smoke test in CI
+- [x] Python broadcasting regression tests
+- [x] Package import smoke test in CI
 - [ ] Wheel smoke tests for supported Python versions
 
-### Phase 10: C++ Public Facade
+### Phase 10: C++ Public Header
 
-- [x] Top-level aliases for common array types
-- [x] Top-level aliases for common algorithms
-- [x] Module-style creation, conversion, reduction, transform, and slicing namespaces
-- [x] Broadcasting helpers and grouped namespace
-- [x] Public exception aliases
-- [ ] Remove duplicated umbrella-header declarations
-- [ ] Add dedicated namespaces as linear algebra, random, statistics, FFT, and I/O land
+- [x] Umbrella header includes the implemented core APIs
+- [x] Standalone public-header compilation coverage
+- [x] Document the current namespace map
+- [ ] Decide whether to introduce top-level type/algorithm aliases
+- [ ] Add namespaces as linear algebra, random, statistics, FFT, and I/O land
 
 ### Phase 11: Testing and CI
 
@@ -153,11 +150,12 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Documentation check workflow
 - [x] Documentation deployment workflow
 - [x] Markdown link checking in CI
-- [ ] C++ build-and-test workflow
-- [ ] Python build-and-test workflow
-- [ ] Windows, Linux, and macOS build matrix
-- [ ] Sanitizer jobs
-- [ ] Release and package smoke tests
+- [x] C++ build-and-test workflow
+- [x] Python build-and-test workflow
+- [x] Windows, Linux, and macOS build matrix
+- [x] Sanitizer jobs
+- [x] Installed-package tests across the Linux Python version matrix
+- [ ] Test every release wheel on its target platform
 
 ### Phase 12: Documentation and Examples
 
@@ -171,8 +169,8 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Release checklist
 - [x] Update README feature/status tables for broadcasting
 - [x] Update user and Python guides for broadcasting
-- [ ] Refresh architecture documentation to match the current source layout
-- [ ] Complete generated C++ API reference coverage
+- [x] Refresh architecture documentation to match the current source layout
+- [x] Complete generated C++ API reference coverage
 - [ ] README badges
 
 ## Later Numerical Phases
@@ -194,25 +192,28 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 
 ## Validation Notes
 
-- Checked items represent behavior found in the current public headers and tests.
-- Broadcasting currently applies to arithmetic; comparison remains exact and shape-sensitive.
-- Python containers expose `double` specializations of the C++ containers.
-- Slicing and reshape return owning results; non-owning views are not implemented.
-- Empty and zero-dimension behavior has targeted coverage in implemented containers and operations.
-- Documentation CI exists, but code build/test CI is still pending.
+- Checked implementation items refer to this working tree and its tests; they do
+  not establish that every configured remote CI job has passed.
+- Broadcasting applies to arithmetic, comparison, bitwise, and binary math.
+- C++ scalar promotion and container-result policies are explicit, but scalar
+  intermediates still follow native C++ rules.
+- Python numeric arrays use double; masks use bool and axis indices use int64.
+- Slicing shares storage; reshape and conversions copy. Negative-step views and
+  slicing existing Python views remain unsupported.
+- Current CMake and package versions are 0.3.1. Working-tree fixes belong to the
+  Unreleased changelog until a release is prepared.
+- See @ref test_audit for executed local checks and their limits.
 
-## Maintenance Debt
+## Maintenance Work
 
-- [ ] Deduplicate the repeated `stratax` facade block in `include/stratax.h`.
-- [x] Reconcile README, user-guide, and Python-reference broadcasting claims with the implementation.
-- [ ] Refresh architecture notes that still describe validation and Python bindings as future work.
-- [ ] Add Python broadcasting tests before treating cross-language broadcasting as fully verified.
-- [ ] Keep CMake, package, and documented version metadata synchronized for each release.
+- [ ] Synchronize CMake, package, module, and documented versions at release time.
+- [ ] Expand adversarial coverage for aliasing and numerical edge cases.
+- [ ] Keep generated API contracts, guides, and executable examples consistent.
 
 ## Implementation Principles
 
 - Preserve container storage and shape invariants before adding optimized paths.
 - Keep generic behavior shared across Vector, Matrix, and Tensor.
 - Pair each new public feature with focused tests and user-facing documentation.
-- Prefer clear ownership semantics before introducing views or lazy expressions.
-- Establish portable build/test CI before expanding the supported backend matrix.
+- Preserve explicit ownership and lifetime contracts when extending views or adding lazy expressions.
+- Validate new backends through the existing portable build/test CI.

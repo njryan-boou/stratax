@@ -1,8 +1,3 @@
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
-
 from stratax import Shape, Vector, mean, sum, to_tensor, to_vector
 
 
@@ -18,7 +13,7 @@ last_value = values[-1]
 sum_values = values + weights
 scaled = values * 2.0
 
-# Slicing returns a new container.
+# Slicing returns an ArrayView sharing the source storage.
 stepped = values[::2]
 
 # Reshape/conversion helpers preserve flat row-major values.

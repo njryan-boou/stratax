@@ -1,3 +1,6 @@
+/** @file
+ * @brief Rank-two owning arrays.
+ */
 #pragma once
 
 #include <array>
@@ -12,7 +15,7 @@
 namespace stratax::container {
 
 /**
- * @brief Two-dimensional owning array of numeric values.
+ * @brief Two-dimensional owning array of supported dtype values.
  *
  * Matrix specializes core::ArrayBase for rank-two data arranged in row-major
  * order. It adds row and column metadata queries plus two-dimensional checked
@@ -108,6 +111,37 @@ public:
 	 */
 	Matrix() : Matrix(0, 0) {}
 
+	/** @brief Copies values and metadata into independent storage. */
+	Matrix(const Matrix&) = default;
+	/** @brief Replaces values and metadata with a deep copy; allocation failure leaves this object unchanged. */
+	Matrix& operator=(const Matrix&) = default;
+
+	/**
+	 * @brief Transfers storage and leaves the source with shape `{0, 0}`.
+	 * @param other Source matrix whose element allocation is transferred.
+	 * @throws std::bad_alloc If allocating empty source metadata fails; the source is unchanged.
+	 * @note Element values are not copied. This move is not noexcept.
+	 * @complexity O(1).
+	 */
+	Matrix(Matrix&& other) : Matrix() { swap(other); }
+
+	/**
+	 * @brief Transfers storage and preserves both matrices' rank invariants.
+	 * @param other Source matrix; a distinct source is left with shape `{0, 0}`.
+	 * @return Reference to this matrix; self-move leaves it unchanged.
+	 * @throws std::bad_alloc If empty metadata allocation fails; both objects are unchanged.
+	 * @complexity O(size()) to destroy the previous elements, with O(1) ownership transfer.
+	 */
+	Matrix& operator=(Matrix&& other)
+	{
+		if (this != &other)
+		{
+			Matrix moved(std::move(other));
+			swap(moved);
+		}
+		return *this;
+	}
+
 	/**
 	 * @brief Constructs a value-initialized matrix with the requested dimensions.
 	 * @param rows Number of rows.
@@ -142,7 +176,7 @@ public:
 	 * @throws Exceptions::DimensionError If the element or stride count overflows.
 	 * @throws std::bad_alloc If storage allocation fails.
 	 * @throws Any exception thrown while value-initializing a value_type.
-	 * @complexity O(shape.elements()).
+	 * @complexity O(shape.elements() + shape.rank()).
 	 */
 	explicit Matrix(const core::Shape& shape)
 		: core::ArrayBase<T>(shape)

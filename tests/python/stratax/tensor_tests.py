@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 import sys
+
 import pytest
-from pathlib import Path
-
-
-ROOT = next(candidate for candidate in Path(__file__).resolve().parents if (candidate / "python" / "stratax").exists())
-sys.path.insert(0, str(ROOT / "python"))
 
 from stratax import TypeError as StrataxTypeError, IndexError as StrataxIndexError
 from stratax import Shape, ShapeError, Tensor, ZeroDivisionError as StrataxZeroDivisionError
-from stratax import Vector
+from stratax import Vector, ArrayView, RankError
 
 
 class TestTensorInterfaceTests:
@@ -98,43 +94,43 @@ class TestTensorInterfaceTests:
         assert tensor[1, 2] == 7.0
         assert tensor.tolist() == [[0.0, 0.0, 0.0], [0.0, 0.0, 7.0]]
 
-    def test_slice_indexing_returns_tensor(self) -> None:
+    def test_slice_indexing_returns_view(self) -> None:
         tensor = Tensor([5])
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0]):
             tensor[index] = value
 
         sliced = tensor[1:4]
 
-        assert isinstance(sliced, Tensor)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([3])
         assert sliced.tolist() == [2.0, 3.0, 4.0]
 
-    def test_mixed_tuple_slice_indexing_returns_tensor(self) -> None:
+    def test_mixed_tuple_slice_indexing_returns_view(self) -> None:
         tensor = Tensor([2, 3])
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
             tensor[index] = value
 
         sliced = tensor[:, 1:3]
 
-        assert isinstance(sliced, Tensor)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([2, 2])
         assert sliced.tolist() == [[2.0, 3.0], [5.0, 6.0]]
 
-    def test_integer_and_slice_tuple_indexing_returns_tensor(self) -> None:
+    def test_integer_and_slice_tuple_indexing_returns_view(self) -> None:
         tensor = Tensor([2, 3])
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
             tensor[index] = value
 
         sliced = tensor[1, 1:3]
 
-        assert isinstance(sliced, Tensor)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([1, 2])
         assert sliced.tolist() == [[5.0, 6.0]]
 
-    def test_rank_mismatch_top_level_slice_raises_index_error(self) -> None:
+    def test_rank_mismatch_top_level_slice_raises_rank_error(self) -> None:
         tensor = Tensor([2, 2], 1.0)
 
-        with pytest.raises(StrataxIndexError):
+        with pytest.raises(RankError):
             _ = tensor[:]
 
     def test_slice_indexing_supports_step(self) -> None:
@@ -144,31 +140,25 @@ class TestTensorInterfaceTests:
 
         sliced = tensor[::2]
 
-        assert isinstance(sliced, Tensor)
+        assert isinstance(sliced, ArrayView)
         assert sliced.shape == Shape([3])
         assert sliced.tolist() == [1.0, 3.0, 5.0]
 
-    def test_slice_indexing_supports_negative_step(self) -> None:
+    def test_slice_indexing_rejects_negative_step_views(self) -> None:
         tensor = Tensor([5])
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0]):
             tensor[index] = value
 
-        sliced = tensor[::-2]
+        with pytest.raises(StrataxIndexError, match="Negative-step views"):
+            _ = tensor[::-2]
 
-        assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([3])
-        assert sliced.tolist() == [5.0, 3.0, 1.0]
-
-    def test_tuple_slice_indexing_supports_negative_step(self) -> None:
+    def test_tuple_slice_indexing_rejects_negative_step_views(self) -> None:
         tensor = Tensor([2, 3])
         for index, value in enumerate([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
             tensor[index] = value
 
-        sliced = tensor[::-1, ::-2]
-
-        assert isinstance(sliced, Tensor)
-        assert sliced.shape == Shape([2, 2])
-        assert sliced.tolist() == [[6.0, 4.0], [3.0, 1.0]]
+        with pytest.raises(StrataxIndexError, match="Negative-step views"):
+            _ = tensor[::-1, ::-2]
 
     def test_fill_updates_all_values(self) -> None:
         tensor = Tensor([2, 2], 1.0)
@@ -219,7 +209,7 @@ class TestTensorInterfaceTests:
         tensor[2] = 3.0
         tensor[3] = 4.0
 
-        assert repr(tensor) == "[\n    [1, 2],\n    [3, 4]\n]"
+        assert repr(tensor) == "[\n    [1, 2]\n    [3, 4]\n]"
 
     def test_equality_and_inequality(self) -> None:
         lhs = Tensor([2, 2], 1.0)
@@ -227,10 +217,12 @@ class TestTensorInterfaceTests:
         assert (lhs == Tensor([2, 2], 1.0)).tolist() == [[True, True], [True, True]]
         assert (lhs != Tensor([2, 2], 2.0)).tolist() == [[True, True], [True, True]]
 
+        assert (lhs == [1.0, 1.0, 1.0, 1.0]) is False
+        assert (lhs != [1.0, 1.0, 1.0, 1.0]) is True
         with pytest.raises(TypeError):
-            _ = lhs != [1.0, 1.0, 1.0, 1.0]
+            lhs.not_equal([1.0, 1.0, 1.0, 1.0])
 
-        assert repr(lhs == 1) == "[\n    [true, true],\n    [true, true]\n]"
+        assert repr(lhs == 1) == "[\n    [true, true]\n    [true, true]\n]"
 
     def test_iteration_yields_flat_values_in_storage_order(self) -> None:
         tensor = Tensor([2, 2])
@@ -357,8 +349,8 @@ class TestTensorInterfaceTests:
         with pytest.raises(OverflowError):
             _ = tensor[sys.maxsize + 1]
 
-    def test_bad_tuple_index_rank_raises_index_error(self) -> None:
+    def test_bad_tuple_index_rank_raises_rank_error(self) -> None:
         tensor = Tensor([2, 2])
 
-        with pytest.raises(StrataxIndexError):
+        with pytest.raises(RankError):
             _ = tensor[0, 0, 0]

@@ -1,6 +1,6 @@
 # Stratax
 
-Stratax is a modern scientific computing library built around modern C++20
+Stratax is a modern scientific computing library built around C++20
 containers, shape metadata, and element-wise array operations. The core library
 is header-first, with Python bindings powered by pybind11.
 
@@ -13,15 +13,15 @@ statistics modules are currently reserved API areas.
 
 - C++20 `Vector`, `Matrix`, and `Tensor` containers
 - Contiguous `Buffer` storage with shape and stride metadata
-- Bounds-checked `at(...)` and multidimensional `operator(...)` access
-- Negative indexing and reverse slicing in both the C++ and Python APIs
+- Bounds-checked `at(...)` and unchecked multidimensional `operator(...)` access
+- Negative indexing and shared positive-step slice views in both APIs
 - Element-wise arithmetic with NumPy-style broadcasting, plus comparison operators
 - Reshape, flatten, slicing, and container conversion helpers
 - Tensor creation helpers such as `zeros`, `ones`, `full`, and `identity`
 - Axis reductions with optional `keepdims` and negative-axis support in the Python API
 - Element-wise roots, exponentials, logarithms, trigonometry, rounding, and binary math
 - Stream printing for vectors, matrices, tensors, and shapes
-- Python bindings for `Shape`, `Vector`, `Matrix`, and `Tensor`
+- Python bindings for `Shape`, numeric containers, shared views, Boolean masks, and integer index results
 - Python free functions for conversions and tensor creation helpers
 - Doxygen API documentation
 
@@ -35,8 +35,8 @@ statistics modules are currently reserved API areas.
 
 int main()
 {
-    stratax::Vector<double> a{1.0, 2.0, 3.0};
-    stratax::Vector<double> b{4.0, 5.0, 6.0};
+    stratax::container::Vector<double> a{1.0, 2.0, 3.0};
+    stratax::container::Vector<double> b{4.0, 5.0, 6.0};
 
     auto c = a + b;
 
@@ -51,18 +51,18 @@ from stratax import Vector
 
 v = Vector([1.0, 2.0, 3.0, 4.0])
 
-print(v[::-1].tolist())
+print(v[::2].tolist())
 
-# [4.0, 3.0, 2.0, 1.0]
+# [1.0, 3.0]
 ```
 
-Python bindings expose `double`-based `Shape`, `Vector`, `Matrix`, and `Tensor` types plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). The API supports negative indexes, slice steps (including reverse slices), and `tolist()` for quick inspection.
+Python bindings expose `Shape` metadata and double-based `Vector`, `Matrix`, and `Tensor` types plus free-function conversions (`to_vector`, `to_matrix`, `to_tensor`) and creation helpers (`zeros`, `ones`, `full`, `identity`). Positive-step slices return `ArrayView` objects that share storage and keep their owner alive. Negative indexes are supported; negative-step views currently raise `IndexError`.
 
-Axis reductions are available through Python reduction helpers (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`), including `keepdims=True` for shape-preserving reductions and negative-axis indexing (for example `axis=-1` for the last dimension).
+Axis reductions are available through Python reduction helpers (`sum`, `prod`, `max`, `min`, `argmax`, `argmin`, `mean`, `var`, `std`), including `keepdims=True` for rank-preserving reductions and negative-axis indexing (for example `axis=-1` for the last dimension).
 
-The C++ umbrella header also provides a flat public facade for common APIs, such
-as `stratax::Vector`, `stratax::Shape`, `stratax::zeros`, and `stratax::sum`,
-with grouped module aliases like `stratax::reductions` for specialized calls.
+The C++ umbrella header includes containers under `stratax::container`, metadata
+under `stratax::core`, and helpers under `stratax::creation`,
+`stratax::conversion`, `stratax::manipulation`, and `reduction`.
 
 ## Installation
 
@@ -77,9 +77,7 @@ pip install stratax
 Stratax is header-first for C++. Include the repository `include/` directory in
 your build and include the umbrella header:
 
-```cpp
-#include <stratax.h>
-```
+`#include <stratax.h>`
 
 For a small CMake target, wire the include directory and C++ standard like this:
 
@@ -113,7 +111,7 @@ For editable Python installation, use pip from an environment with the build
 dependencies available:
 
 ```powershell
-python -m pip install -e .
+python -m pip install -e ".[dev]"
 ```
 
 ### Run Tests
@@ -132,6 +130,15 @@ The Python tests live under `tests/python/` and use pytest:
 ```powershell
 python -m pytest tests/python
 ```
+
+This tests the extension built into `python/stratax/`. To test an installed
+wheel instead, use `python -m pytest tests/python --installed`. CI runs the
+installed-package suite and runs the Clang C++ suite with address and undefined
+behavior sanitizers.
+
+Run `python scripts/check-doc-examples.py` after rebuilding the source extension
+to check documented examples with a GCC/Clang-compatible C++20 compiler.
+See [the test audit](docs/dev/test-audit.md) for coverage and remaining limitations.
 
 ### Documentation
 
@@ -168,7 +175,7 @@ or planned areas.
 | --------- | ----- | -------- |
 | `Shape`, `Vector`, `Matrix`, `Tensor` | Available | Available |
 | Negative indexing | Available | Available |
-| Slicing | Copy-based | Copy-based |
+| Slicing | Shared positive-step views | Shared positive-step views |
 | Arithmetic and comparison | Available | Available |
 | Bitwise operators | Available for integral containers | Not yet exposed |
 | Creation helpers | Available | Available |
@@ -185,11 +192,10 @@ or planned areas.
 - Operations: broadcasted arithmetic, comparison, indexing, negative indexing, reshape, slicing
 - Container helpers: creation and conversions
 - I/O: stream printing
-- Python bindings and Python API: `Shape`, `Vector`, `Matrix`, `Tensor`, conversion free functions, creation free functions, negative indexing, reverse slicing
+- Python bindings and Python API: `Shape`, `Vector`, `Matrix`, `Tensor`, conversion free functions, creation free functions, negative indexing, shared slice views
 
 ### Roadmap
 
-- Python broadcasting regression tests
 - Logical operations
 - Linear algebra algorithms
 - Calculus helpers

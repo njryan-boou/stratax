@@ -1,3 +1,6 @@
+/** @file
+ * @brief Rank-one owning arrays.
+ */
 #pragma once
 
 #include <cstddef>
@@ -12,7 +15,7 @@
 namespace stratax::container {
 
 /**
- * @brief One-dimensional owning array of numeric values.
+ * @brief One-dimensional owning array of supported dtype values.
  *
  * Vector specializes core::ArrayBase for rank-one data. Elements are stored
  * contiguously, while the inherited shape and strides describe a row-major
@@ -83,7 +86,7 @@ public:
 	 * @throws Exceptions::RankError If `shape.rank() != 1`.
 	 * @throws std::bad_alloc If storage allocation fails.
 	 * @throws Any exception thrown while value-initializing a value_type.
-	 * @complexity O(shape.elements()).
+	 * @complexity O(shape.elements() + shape.rank()).
 	 */
 	explicit Vector(const core::Shape& shape)
 		: core::ArrayBase<T>(shape)
@@ -125,6 +128,37 @@ public:
 	 * @complexity O(1).
 	 */
 	Vector() : Vector(0) {}
+
+	/** @brief Copies values and metadata into independent storage. */
+	Vector(const Vector&) = default;
+	/** @brief Replaces values and metadata with a deep copy; allocation failure leaves this object unchanged. */
+	Vector& operator=(const Vector&) = default;
+
+	/**
+	 * @brief Transfers storage and leaves the source with shape `{0}`.
+	 * @param other Source vector whose element allocation is transferred.
+	 * @throws std::bad_alloc If allocating empty source metadata fails; the source is unchanged.
+	 * @note Element values are not copied. This move is not noexcept.
+	 * @complexity O(1).
+	 */
+	Vector(Vector&& other) : Vector() { swap(other); }
+
+	/**
+	 * @brief Transfers storage and preserves both vectors' rank invariants.
+	 * @param other Source vector; a distinct source is left with shape `{0}`.
+	 * @return Reference to this vector; self-move leaves it unchanged.
+	 * @throws std::bad_alloc If empty metadata allocation fails; both objects are unchanged.
+	 * @complexity O(size()) to destroy the previous elements, with O(1) ownership transfer.
+	 */
+	Vector& operator=(Vector&& other)
+	{
+		if (this != &other)
+		{
+			Vector moved(std::move(other));
+			swap(moved);
+		}
+		return *this;
+	}
 
 	/**
 	 * @brief Exchanges storage and layout metadata with @p other.

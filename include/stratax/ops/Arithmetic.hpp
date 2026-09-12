@@ -1,3 +1,11 @@
+/** @file
+ * @brief Element-wise arithmetic, scalar promotion, and compound assignment.
+ *
+ * Operations that allocate results require owning-container result trait
+ * specializations. Element operators receive the original operand types; the
+ * result is converted afterward. Native C++ arithmetic and conversion rules
+ * apply, including representability requirements. Allocation failures propagate.
+ */
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
@@ -9,13 +17,14 @@
 /**
  * @brief Applies an arithmetic callable to two broadcast-compatible arrays.
  *
- * The result preserves the common container kind, uses the promoted dtype of
+ * Matching container kinds are preserved; mixed kinds produce Tensor. The result
+ * uses the promoted dtype of
  * the two operands, has their common broadcasted shape, and owns independent
  * storage. When @p check_zero_divisor is true, each used broadcasted
  * right-hand value is checked before invoking @p op.
  *
- * @tparam L Left Stratax array type and result container kind.
- * @tparam R Right Stratax array type with the same container kind as `L`.
+ * @tparam L Left owning Stratax array type.
+ * @tparam R Right owning Stratax array type; it may differ from `L`.
  * @tparam Op Binary arithmetic callable.
  * @param lhs Left array operand.
  * @param rhs Right array operand.
@@ -23,11 +32,11 @@
  * @param check_zero_divisor Whether zero right-hand values are rejected.
  * @return Owning array rebound to the promoted operand dtype and containing
  *         the element-wise results.
- * @throws Exceptions::BroadcastError If the shapes are incompatible.
+ * @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and a
  *         broadcasted right-hand element equals zero.
  * @throws Any exception propagated by allocation or @p op.
- * @complexity O(n * r), where `n` is result size and `r` is result rank.
+ * @complexity O((n + 1) * r), where `n` is result size and `r` is result rank.
  */
 template<Array L, Array R, typename Op>
 requires (
@@ -64,8 +73,8 @@ auto binary_op(
 
 /**
  * @brief Applies an arithmetic callable to an array and a right scalar.
- * The returned array preserves both the container type and dtype of @p lhs;
- * each callable result is converted to that dtype.
+ * The returned array preserves the container family and shape of @p lhs.
+ * Its dtype is selected by the array/scalar promotion rules.
  *
  * @tparam A Stratax array and result type.
  * @tparam Scalar Numeric scalar type.
@@ -74,7 +83,7 @@ auto binary_op(
  * @param rhs Scalar supplied as every right argument.
  * @param op Callable invoked for each array element.
  * @param check_zero_divisor Whether a zero @p rhs is rejected.
- * @return Owning `A` with the same shape as @p lhs.
+ * @return Owning array with the same shape and container family as @p lhs, and promoted dtype.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and
  *         @p rhs equals zero, including when @p lhs is empty.
  * @throws Any exception propagated by allocation or @p op.
@@ -93,8 +102,8 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
 
 /**
  * @brief Applies an arithmetic callable to a left scalar and an array.
- * The returned array preserves both the container type and dtype of @p rhs;
- * each callable result is converted to that dtype.
+ * The returned array preserves the container family and shape of @p rhs.
+ * Its dtype is selected by the array/scalar promotion rules.
  *
  * @tparam Scalar Numeric scalar type.
  * @tparam A Stratax array and result type.
@@ -103,7 +112,7 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
  * @param rhs Array supplying each right argument.
  * @param op Callable invoked for each array element.
  * @param check_zero_divisor Whether zero elements of @p rhs are rejected.
- * @return Owning `A` with the same shape as @p rhs.
+ * @return Owning array with the same shape and container family as @p rhs, and promoted dtype.
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and an
  *         element of @p rhs equals zero.
  * @throws Any exception propagated by allocation or @p op.
@@ -145,7 +154,7 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
  * @throws Exceptions::ZeroDivisionError If divisor checking is enabled and a
  *         used right-hand element is zero.
  * @throws Any exception propagated by @p op.
- * @complexity O(n * r), where `n` is `lhs.size()` and `r` is its rank.
+ * @complexity O((n + 1) * r), where `n` is `lhs.size()` and `r` is its rank.
  */
 template<Array L, Array R, typename Op>
 requires (
@@ -159,13 +168,27 @@ L& compound_op(
 	bool check_zero_divisor = false)
 {
 	const auto result_shape =
-		broadcasted_shape(lhs.shape(), rhs.shape());
+		stratax::core::broadcast_detail::array_result_shape(lhs, rhs);
 
 	// Compound assignment cannot change the lhs shape.
 	if (result_shape != lhs.shape())
 	{
 		throw Exceptions::BroadcastError(
 			"In-place broadcasting cannot change the left operand's shape.");
+	}
+
+	// Validate all used divisors before changing any elements.
+	if (check_zero_divisor)
+	{
+		for (std::size_t i = 0; i < lhs.size(); ++i)
+		{
+			const auto rhs_index = stratax::core::broadcast_detail::flat_operand_index(
+				i, lhs.shape(), rhs.shape());
+			if (rhs[rhs_index] == typename R::value_type{})
+			{
+				throw Exceptions::ZeroDivisionError("Division by zero.");
+			}
+		}
 	}
 
 	for (std::size_t i = 0; i < lhs.size(); ++i)
@@ -228,7 +251,7 @@ A& compound_scalar_op(
 	return lhs;
 }
 
-/** @brief Adds two broadcast-compatible arrays. @return Owning broadcasted sum. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
+/** @brief Adds two broadcast-compatible arrays. @return Owning broadcasted sum. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -239,7 +262,7 @@ auto operator+(const L& lhs, const R& rhs)
 	return binary_op(lhs, rhs, std::plus<>{});
 }
 
-/** @brief Subtracts two broadcast-compatible arrays. @return Owning `lhs - rhs` result. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
+/** @brief Subtracts two broadcast-compatible arrays. @return Owning `lhs - rhs` result. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -250,7 +273,7 @@ auto operator-(const L& lhs, const R& rhs)
 	return binary_op(lhs, rhs, std::minus<>{});
 }
 
-/** @brief Multiplies two broadcast-compatible arrays element-wise. @return Owning broadcasted product. @throws Exceptions::BroadcastError If shapes are incompatible. @complexity O(n * r). */
+/** @brief Multiplies two broadcast-compatible arrays element-wise. @return Owning broadcasted product. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -261,7 +284,7 @@ auto operator*(const L& lhs, const R& rhs)
 	return binary_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides two broadcast-compatible arrays element-wise. @return Owning broadcasted quotient. @throws Exceptions::BroadcastError If shapes are incompatible. @throws Exceptions::ZeroDivisionError If a used divisor element is zero. @complexity O(n * r). */
+/** @brief Divides two broadcast-compatible arrays element-wise. @return Owning broadcasted quotient. @throws Exceptions::BroadcastError If shapes are incompatible or an empty operand would supply values to a nonempty result. @throws Exceptions::ZeroDivisionError If a used divisor element is zero. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -335,7 +358,7 @@ auto operator/(const Scalar& lhs, const A& rhs)
 	return binary_scalar_op(lhs, rhs, std::divides<>{}, true);
 }
 
-/** @brief Adds a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
+/** @brief Adds a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -346,7 +369,7 @@ L& operator+=(L& lhs, const R& rhs)
 	return compound_op(lhs, rhs, std::plus<>{});
 }
 
-/** @brief Subtracts a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
+/** @brief Subtracts a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -357,7 +380,7 @@ L& operator-=(L& lhs, const R& rhs)
 	return compound_op(lhs, rhs, std::minus<>{});
 }
 
-/** @brief Multiplies by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O(n * r). */
+/** @brief Multiplies by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -368,7 +391,7 @@ L& operator*=(L& lhs, const R& rhs)
 	return compound_op(lhs, rhs, std::multiplies<>{});
 }
 
-/** @brief Divides by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @throws Exceptions::ZeroDivisionError If a used divisor is zero. @complexity O(n * r). */
+/** @brief Divides by a broadcast-compatible array in place. @return Reference to @p lhs; its shape is unchanged. @throws Exceptions::BroadcastError If broadcasting is impossible or would change the shape of @p lhs. @throws Exceptions::ZeroDivisionError If a used divisor is zero. @complexity O((n + 1) * r). */
 template<Array L, Array R>
 requires (
 	Numeric<typename L::value_type> &&
@@ -411,6 +434,11 @@ A& operator/=(A& lhs, const S& rhs)
 	return compound_scalar_op(lhs, rhs, std::divides<>{}, true);
 }
 
+/** @brief Returns an owning element-wise negation with the input shape and dtype.
+ * @tparam A Owning numeric array whose value type can be list-initialized from -1.
+ * @note Unsigned dtypes are not supported by this implementation; native arithmetic representability requirements apply.
+ * @complexity O(arr.size() + arr.rank()).
+ */
 template<Array A>
 requires Numeric<typename A::value_type>
 A operator-(const A& arr)
@@ -418,6 +446,10 @@ A operator-(const A& arr)
 	return arr * typename A::value_type{-1};
 }
 
+/** @brief Returns a copy of the array object with unchanged values.
+ * @note Owning arrays copy their storage; copying an ArrayView preserves aliasing.
+ * @complexity O(arr.size() + arr.rank()) for owning arrays; O(arr.rank()) for views.
+ */
 template<Array A>
 requires Numeric<typename A::value_type>
 A operator+(const A& arr)

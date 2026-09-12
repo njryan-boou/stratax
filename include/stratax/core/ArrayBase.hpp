@@ -1,3 +1,6 @@
+/** @file
+ * @brief Shared owning storage and row-major metadata for containers.
+ */
 #pragma once
 
 #include <cstddef>
@@ -196,6 +199,8 @@ public:
 	 * owned by the other object.
 	 *
 	 * @param other ArrayBase whose state is exchanged with this object.
+	 * @pre Both layouts satisfy any fixed-rank invariants of the receiving derived
+	 *      containers (for example, do not swap a Vector base with a Matrix base).
 	 * @complexity O(1).
 	 */
 	void swap(ArrayBase& other) noexcept
@@ -206,6 +211,30 @@ public:
 	}
 
 protected:
+	/** @brief Copies storage and layout into independent buffers. @complexity O(n + r), for n source elements and rank r. */
+	ArrayBase(const ArrayBase&) = default;
+	/** @brief Transfers storage and layout, leaving the source empty with rank zero. @complexity O(1). */
+	ArrayBase(ArrayBase&&) noexcept = default;
+	/** @brief Replaces storage and layout by moving; a distinct source becomes empty with rank zero. @complexity O(size() + rank()). */
+	ArrayBase& operator=(ArrayBase&&) noexcept = default;
+
+	/**
+	 * @brief Copies storage and layout as one transaction.
+	 * @param other Source array base.
+	 * @return Reference to this base.
+	 * @throws std::bad_alloc If storage or metadata allocation fails; this object is unchanged.
+	 * @complexity O(size() + other.size() + rank() + other.rank()).
+	 */
+	ArrayBase& operator=(const ArrayBase& other)
+	{
+		if (this != &other)
+		{
+			ArrayBase copy(other);
+			swap(copy);
+		}
+		return *this;
+	}
+
 	/**
 	 * @brief Constructs value-initialized storage for @p shape.
 	 * @param shape Logical shape of the resulting array.
@@ -268,12 +297,10 @@ protected:
 	 * @brief Converts checked signed multidimensional indices to a flat offset.
 	 *
 	 * Each component is normalized independently against its corresponding
-	 * dimension. Negative components count backward from the end. The selected
-	 * exception context controls standardized rank and component diagnostics.
+	 * dimension. Negative components count backward from the end.
 	 *
 	 * @tparam IndexContainer Sized, indexable container of signed indices.
 	 * @param raw_indices One index per logical dimension.
-	 * @param context Array category used to select standardized diagnostics.
 	 * @return Row-major flat element offset.
 	 * @throws Exceptions::RankError If the number of indices differs from the rank.
 	 * @throws Exceptions::IndexError If an index component is out of bounds.

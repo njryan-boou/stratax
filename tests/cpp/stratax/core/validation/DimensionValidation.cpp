@@ -1,4 +1,2 @@
-#include <gtest/gtest.h>
+// Compile-only check for the retained compatibility header.
 #include <stratax/core/validation/DimensionValidation.hpp>
-
-TEST(DimensionValidation, HeaderRemainsAvailable) { EXPECT_TRUE(true); }

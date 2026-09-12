@@ -1,3 +1,6 @@
+/** @file
+ * @brief Copying reshape and flatten operations.
+ */
 // TODO: Consider zero-copy reshape/flatten views once view support is implemented.
 
 #pragma once
@@ -13,13 +16,13 @@
 namespace stratax::manipulation {
 
 /**
- * @brief Copies an owning Stratax array into a tensor with a new shape.
+ * @brief Copies a Stratax array or view into a tensor with a new shape.
  *
  * The target shape must describe exactly the same number of elements as the
  * source. Values are copied in flat iterator order, so only the logical shape
  * and row-major strides change. The returned tensor owns independent storage.
  *
- * @tparam A Vector, Matrix, or Tensor type satisfying Array.
+ * @tparam A Array or view type satisfying Array.
  * @param arr Source array whose flat element order is preserved.
  * @param shape Requested shape of the returned tensor.
  * @return Owning Tensor with `A::value_type`, @p shape, and copied values.
@@ -27,7 +30,8 @@ namespace stratax::manipulation {
  *         cannot be represented.
  * @throws Exceptions::ShapeError If `shape.elements() != arr.size()`.
  * @throws std::bad_alloc If output storage or metadata allocation fails.
- * @complexity O(arr.size() + shape.rank()).
+ * @complexity O(arr.size() + shape.rank()) for owning input;
+ *             O(arr.size() * arr.rank() + shape.rank()) for strided views.
  */
 template<Array A>
 [[nodiscard]]
@@ -48,16 +52,16 @@ reshape(const A& arr, const stratax::core::Shape& shape)
 }
 
 /**
- * @brief Copies an owning Stratax array into a rank-one vector.
+ * @brief Copies a Stratax array or view into a rank-one vector.
  *
  * Values retain the source array's flat row-major iterator order. The returned
  * vector has shape `{arr.size()}` and owns storage independent of @p arr.
  *
- * @tparam A Vector, Matrix, or Tensor type satisfying Array.
+ * @tparam A Array or view type satisfying Array.
  * @param arr Source array to flatten.
  * @return Owning Vector with `A::value_type` and copied values.
  * @throws std::bad_alloc If output allocation fails.
- * @complexity O(arr.size()).
+ * @complexity O(arr.size()) for owning input; O(arr.size() * arr.rank()) for strided views.
  */
 template<Array A>
 [[nodiscard]]

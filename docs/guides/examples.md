@@ -48,8 +48,26 @@ python examples/python/vector.py
 
 ## Notes
 
-- Slicing currently returns copy-based results.
+- Slicing returns shared positive-step views; reshape and conversion make copies.
 - Python bindings currently expose `double` container specializations.
 - Examples should favor one complete workflow over many disconnected snippets.
 - Examples track implemented behavior and should be updated when public APIs
   change.
+
+## Verify the examples
+
+The Markdown C++ examples are complete programs. Python blocks are independent
+examples executed in separate processes. The check also runs the four C++ and
+four Python programs under examples/.
+
+```sh
+python scripts/check-doc-examples.py --cpp
+python scripts/check-doc-examples.py --python
+```
+
+The Python check uses the source package and requires a current extension in
+python/stratax/. Build it first as described in the getting-started guide.
+The C++ check needs a GCC/Clang-compatible C++20 compiler; pass
+`--compiler clang++` to select one. On MSVC-only systems use `--python` for the
+Python examples and compile C++ examples with the local compiler separately.
+These checks exercise examples, not every API contract or platform.

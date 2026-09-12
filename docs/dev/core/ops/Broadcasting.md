@@ -2,240 +2,67 @@
 
 # Broadcasting {#dev_broadcasting}
 
-Version: v0.2.0
+Header: `include/stratax/ops/Broadcasting.hpp`.
 
-Status: Complete
+## Shape rules
 
-Header: `include/stratax/ops/Broadcasting.hpp`
-
----
-
-## Overview
-
-`Broadcasting.hpp` defines shape compatibility, result-shape calculation, and
-element-wise traversal for operands with different but compatible shapes.
-
-Shapes align from the trailing dimension. Two aligned dimensions are
-compatible when they are equal or either dimension has length one. Missing
-leading dimensions behave as dimensions of length one.
-
----
-
-## Responsibilities
-
-The broadcasting module is responsible for:
-
-- Validating whether two shapes can be broadcast together
-- Computing the common broadcasted result shape
-- Projecting result coordinates into each operand
-- Applying binary operations to array-array, array-scalar, and scalar-array operands
-- Reporting incompatible shapes with `Exceptions::BroadcastError`
-
-The broadcasting module is not responsible for:
-
-- Choosing a specific arithmetic or logical operation
-- Numeric type promotion
-- Division-by-zero policy
-- Mutating either input operand
-
----
-
-## Relationships
+Align dimensions from the right. A pair is compatible if its extents are equal
+or either is one; missing leading dimensions behave as ones. The output uses
+the non-singleton extent. In particular, zero paired with one produces zero,
+not one. Expanded axes always read coordinate zero from the source.
 
 ```text
-broadcasted_op(...)
-|-- broadcastable(...)
-|-- broadcasted_shape(...)
-|-- trailing-dimension coordinate projection
-`-- operation callable supplied by the caller
+left:    (2, 3, 1)
+right:      (1, 4)
+result:  (2, 3, 4)
 ```
 
-Depends on:
+`broadcastable(shape1, shape2)` reports compatibility in O(r).
+`broadcasted_shape(shape1, shape2)` allocates the common shape or throws
+`Exceptions::BroadcastError`. These helpers inspect metadata only: `Shape{}`
+has no conflicting axes, but a rank-zero array has no scalar element to read.
+Array operations additionally reject an empty operand supplying a nonempty
+result. They can produce an empty result when the shapes are compatible.
 
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/core/Shape.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
+## Traversal and result selection
 
-Used by:
+`broadcasted_op(lhs, rhs, op)` calls op in logical result order without changing
+its operands. Two numeric arrays infer a promoted result dtype. The explicit
+`stratax::core::broadcasted_op<Result>(lhs, rhs, op)` overload selects a dtype,
+also allowing Boolean results. Same-family arrays preserve their family;
+mixed families produce Tensor through PromoteArray.
 
-- `include/stratax/ops/Arithmetic.hpp`
-- Direct custom element-wise operations
+Array-scalar and scalar-array forms preserve array shape and family and infer
+the dtype from both operands. Allocating forms require the owning result
+traits. The callable receives original element types, not values converted to
+the result dtype. Callable and allocation exceptions propagate.
 
----
-
-## Broadcasting Rules
-
-Dimensions are compared from right to left:
-
-```text
-left:       (2, 3, 1)
-right:         (1, 4)
-result:     (2, 3, 4)
-```
-
-For each aligned pair:
-
-- Equal dimensions retain their length.
-- A dimension of length one expands to the other length.
-- A missing leading dimension expands to the other length.
-- Any other mismatch is incompatible.
-
-During traversal, an expanded singleton dimension always reads coordinate zero
-from its source operand.
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Broadcasting aligns shapes from the trailing dimension.
-- Input arrays are never mutated.
-- Array-array output uses the common broadcasted shape.
-- Scalar operations preserve the array shape.
-- Operand order is preserved when invoking the operation callable.
-- Incompatible array shapes raise `Exceptions::BroadcastError`.
-
----
-
-## Public Interface
-
-### Shape compatibility
+## Example
 
 ```cpp
-bool broadcastable(
-    const stratax::core::Shape& shape1,
-    const stratax::core::Shape& shape2);
-```
-
-Returns `true` when every aligned dimension pair is compatible. This function
-does not throw for ordinary incompatibility.
-
-Complexity
-
-- O(r)
-
-### Result shape
-
-```cpp
-stratax::core::Shape broadcasted_shape(
-    const stratax::core::Shape& shape1,
-    const stratax::core::Shape& shape2);
-```
-
-Throws
-
-- `Exceptions::BroadcastError` when the shapes are incompatible
-
-Complexity
-
-- O(r)
-
-### Array-array operation
-
-```cpp
-template<Array A, typename Op>
-A broadcasted_op(const A& lhs, const A& rhs, Op op);
-```
-
-Both arrays must have the same container and element type. The callable receives
-the projected left and right values for each output coordinate.
-
-Throws
-
-- `Exceptions::BroadcastError` when the shapes are incompatible
-- Any exception raised by `op`
-
-Complexity
-
-- O(nr)
-
-### Array-scalar operation
-
-```cpp
-template<Array A, Numeric S, typename Op>
-A broadcasted_op(const A& lhs, const S& rhs, Op op);
-```
-
-The callable receives each array value followed by the scalar. The result shape
-matches `lhs`.
-
-Complexity
-
-- O(n)
-
-### Scalar-array operation
-
-```cpp
-template<Numeric S, Array A, typename Op>
-A broadcasted_op(const S& lhs, const A& rhs, Op op);
-```
-
-The callable receives the scalar followed by each array value. The result shape
-matches `rhs`.
-
-Complexity
-
-- O(n)
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Shape validation | O(r) |
-| Result-shape calculation | O(r) |
-| Array-array operation | O(nr) |
-| Array-scalar operation | O(n) |
-| Scalar-array operation | O(n) |
-
-`n` is result element count and `r` is result rank.
-
----
-
-## Examples
-
-```cpp
-#include <functional>
 #include <stratax.h>
+#include <cassert>
+#include <functional>
 
-stratax::Matrix<int> column{{1}, {2}};
-stratax::Matrix<int> row{{10, 20, 30}};
-
-const auto shape = stratax::broadcasted_shape(column.shape(), row.shape());
-// shape is (2, 3)
-
-const auto sum = stratax::broadcasted_op(column, row, std::plus<>{});
-const auto shifted = stratax::broadcasted_op(sum, 5, std::plus<>{});
-const auto reverse = stratax::broadcasted_op(100, shifted, std::minus<>{});
+int main() {
+    stratax::container::Matrix<int> column{{1}, {2}};
+    stratax::container::Vector<int> row{10, 20, 30};
+    auto result = stratax::core::broadcasted_op(column, row, std::plus<>{});
+    assert(result.shape() == stratax::core::Shape({2, 3}));
+    assert(result(1, 2) == 32);
+    auto mask = stratax::core::broadcasted_op<bool>(column, row, std::less<>{});
+    assert(mask(0, 0));
+    assert(broadcasted_shape(stratax::core::Shape{0, 3}, stratax::core::Shape{1, 3})
+           == stratax::core::Shape({0, 3}));
+}
 ```
 
-The functions are also available through the grouped
-`stratax::broadcasting` namespace.
+## Cost
 
----
+With n output elements and maximum rank r, array-array traversal takes
+O((n + 1)r); scalar forms take O(n + r). Results allocate O(n + r) storage.
+Broadcasting is shared by arithmetic, comparison, bitwise, and binary math
+operations. Compound operators separately require the output shape to match
+the left operand exactly.
 
-## Design Notes
-
-The public shape operations remain separate from traversal so callers can
-validate or inspect a result shape without allocating a result array.
-
-Flat operand offsets are computed from output coordinates without allocating a
-coordinate vector for each element.
-
----
-
-## Future Improvements
-
-- Support mixed container and element types with an explicit result policy
-- Add optimized contiguous and repeated-block traversal paths
-- Add optional parallel broadcasting kernels
-
----
-
-## See Also
-
-- @ref arithmetic "Arithmetic"
-- `include/stratax/core/Shape.hpp`
-- `include/stratax/exceptions/Exceptions.hpp`
+See @ref arithmetic, @ref comparison, @ref bitwise, and @ref math.

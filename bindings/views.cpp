@@ -31,6 +31,10 @@ void bind_array_view(py::module_& m)
             [](const PyArrayView& self) {
                 return self.view.ndim();
             })
+        .def_property_readonly("rank", [](const PyArrayView& self) { return self.view.rank(); })
+        .def_property_readonly("empty", [](const PyArrayView& self) { return self.view.empty(); })
+        .def_property_readonly("shape", [](const PyArrayView& self) { return self.view.shape(); })
+        .def_property_readonly("strides", [](const PyArrayView& self) { return self.view.strides(); })
         .def(
             "tolist",
             [](const PyArrayView& self) {
@@ -57,18 +61,18 @@ void bind_array_view(py::module_& m)
                     for (const auto& item : tuple)
                     {
                         indices.push_back(
-                            py::cast<std::ptrdiff_t>(item));
+                            cast_index(item));
                     }
 
                     return self.view.at(indices);
                 }
 
                 return self.view.at(
-                    py::cast<std::ptrdiff_t>(index));
+                    cast_index(index));
             })
         .def(
             "__setitem__",
-            [](PyArrayView& self, py::object index, double value) {
+            [](PyArrayView& self, py::object index, py::object value) {
                 if (py::isinstance<py::tuple>(index))
                 {
                     const py::tuple tuple =
@@ -80,15 +84,15 @@ void bind_array_view(py::module_& m)
                     for (const auto& item : tuple)
                     {
                         indices.push_back(
-                            py::cast<std::ptrdiff_t>(item));
+                            cast_index(item));
                     }
 
-                    self.view.at(indices) = value;
+                    self.view.at(indices) = cast_scalar(value);
                     return;
                 }
 
                 self.view.at(
-                    py::cast<std::ptrdiff_t>(index)) = value;
+                    cast_index(index)) = cast_scalar(value);
             });
 }
 

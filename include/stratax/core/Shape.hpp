@@ -1,3 +1,6 @@
+/** @file
+ * @brief Immutable dimension metadata and checked row-major strides.
+ */
 #pragma once
 
 #include <algorithm>
@@ -90,7 +93,7 @@ public:
 	 */
 	[[nodiscard]] size_type elements() const
 	{
-		if (empty())
+		if (empty() || std::find(dims_.begin(), dims_.end(), 0) != dims_.end())
 		{
 			return 0;
 		}
@@ -131,7 +134,8 @@ public:
 	 * right. A rank-zero shape produces a rank-zero stride shape.
 	 *
 	 * @return Shape containing the row-major stride for each dimension.
-	 * @throws Exceptions::DimensionError If a stride exceeds `std::size_t`.
+	 * @throws Exceptions::DimensionError If a stride exceeds `std::size_t`,
+	 *         even when a zero extent elsewhere makes elements() zero.
 	 * @throws std::bad_alloc If storage for the result cannot be allocated.
 	 * @complexity O(rank()).
 	 */

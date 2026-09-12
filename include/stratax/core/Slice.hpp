@@ -1,4 +1,6 @@
-// TODO: make size() overflow-safe for extreme ptrdiff_t bounds and steps.
+/** @file
+ * @brief Raw signed half-open ranges; applying views currently requires positive steps.
+ */
 #pragma once
 
 #include <cstddef>
@@ -80,8 +82,6 @@ public:
 	 * This calculation does not normalize bounds against a container extent.
 	 *
 	 * @return Number of generated indices.
-	 * @pre Intermediate signed distance and rounding arithmetic must be
-	 *      representable by difference_type.
 	 * @complexity O(1).
 	 */
 	[[nodiscard]] size_type size() const noexcept
@@ -93,8 +93,9 @@ public:
 				return 0;
 			}
 
-			const difference_type distance = stop_ - start_;
-			return static_cast<size_type>((distance + step_ - 1) / step_);
+			const size_type distance = static_cast<size_type>(stop_) - static_cast<size_type>(start_);
+			const size_type stride = static_cast<size_type>(step_);
+			return 1 + (distance - 1) / stride;
 		}
 
 		if (start_ <= stop_)
@@ -102,9 +103,9 @@ public:
 			return 0;
 		}
 
-		const difference_type stride = -step_;
-		const difference_type distance = start_ - stop_;
-		return static_cast<size_type>((distance + stride - 1) / stride);
+		const size_type stride = size_type{0} - static_cast<size_type>(step_);
+		const size_type distance = static_cast<size_type>(start_) - static_cast<size_type>(stop_);
+		return 1 + (distance - 1) / stride;
 	}
 
 	/** @brief Reports whether the raw range selects no indices. @complexity O(1). */

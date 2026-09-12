@@ -2,273 +2,59 @@
 
 # Bitwise {#dev_bitwise}
 
-Version: v0.2.0
+Header: `include/stratax/ops/Bitwise.hpp`.
 
-Status: Complete
+## Operations and dtype rules
 
-Header: `include/stratax/ops/Bitwise.hpp`
+`~`, `&`, `|`, `^`, `<<`, and `>>` operate on supported Integral dtypes,
+excluding bool. Binary operators accept arrays or scalars in either order.
+Array-array operations broadcast; matching container families retain their
+family and mixed families return Tensor. Allocating helpers require owning
+container result traits.
 
----
+AND, OR, and XOR use the promoted operand dtype. NOT retains the array dtype.
+Shifts retain the left value dtype: `array << scalar` keeps the array dtype;
+`scalar << array` uses the scalar dtype with the array's container family.
+Element operations obey native C++ integer promotion and conversion rules.
 
-## Overview
+## Validation and invariants
 
-`Bitwise.hpp` defines generic element-wise bitwise operations for Stratax array-like containers whose value type is integer.
+Shift counts must be nonnegative and smaller than `sizeof(left_value_type) *
+CHAR_BIT`. Invalid counts raise `Exceptions::ValueError`. This limit uses the
+stored left dtype, even when C++ would first promote it to int. Scalar counts
+are checked even for empty arrays; array counts are checked when used.
 
-It provides unary, array-array, array-scalar, scalar-array (reverse), and compound assignment bitwise operators.
+Incompatible broadcasting raises `Exceptions::BroadcastError`. An empty operand
+cannot supply values to a nonempty result. Compound operators `&=`, `|=`, `^=`,
+`<<=`, and `>>=` preserve left shape and dtype and update storage directly;
+they reject shape expansion. Compound shifts validate counts before writing.
+Non-compound results own independent storage.
 
----
-
-## Responsibilities
-
-The bitwise module is responsible for:
-
-- Enforcing shape compatibility for array-array bitwise operations
-- Producing element-wise bitwise results with preserved shape
-- Restricting bitwise operators to integer array/scalar combinations via concept constraints
-- Providing in-place compound assignment operators
-
-The bitwise module is not responsible for:
-
-- Broadcasting or automatic shape expansion
-- Type-promotion policy beyond C++ operator semantics
-- Validating shift-count ranges beyond core language/operator behavior
-
----
-
-## Relationships
-
-```text
-Bitwise operators
-├── Array concept constraints
-├── Integer concept constraints
-├── explicit shape and broadcast checks
-└── in-place operators forwarding to non-compound operators
-```
-
-Depends on:
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-
-Used by:
-
-- User-facing vector/matrix/tensor integer bitwise expressions
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Array-array operators require identical shape.
-- Result shape matches the array operand shape.
-- Non-compound operators do not mutate inputs.
-- Compound operators are implemented via non-compound operators and assignment.
-- Bitwise operators are available only for integer-valued arrays/scalars.
-
----
-
-## Public Interface
-
-Array operands use the common broadcasting rules. Incompatible shapes throw
-`Exceptions::BroadcastError` directly from the broadcasting operation.
-
-### Unary operator
+## Example
 
 ```cpp
-template<Array A>
-requires Integer<typename A::value_type>
-A operator~(const A& value);
+#include <stratax.h>
+#include <cassert>
+
+int main() {
+    stratax::container::Vector<stratax::dtype::uint8> flags{3, 5, 6};
+    const auto masked = flags & stratax::dtype::uint8{2};
+    assert(masked[0] == 2 && masked[1] == 0 && masked[2] == 2);
+    flags <<= 1;
+    assert(flags[0] == 6);
+    try {
+        flags <<= 8;
+        assert(false);
+    } catch (const Exceptions::ValueError&) {}
+    assert(flags[0] == 6);
+}
 ```
 
-Complexity
+## Cost and availability
 
-- O(n)
+Broadcasted operations take O((n + 1)r), including metadata work. Scalar and
+unary owning results take O(n + r). In-place scalar operations on views also
+pay O(r) per logical access. Allocating results use O(n + r) storage.
+Python does not currently expose these operators.
 
-### Array-array operators
-
-```cpp
-template<Array A> requires Integer<typename A::value_type>
-A operator&(const A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A operator|(const A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A operator^(const A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A operator<<(const A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A operator>>(const A& lhs, const A& rhs);
-```
-
-Throws
-
-- `Exceptions::ShapeError` on shape mismatch
-
-Complexity
-
-- O(n), plus O(r) shape check
-
-### Array-scalar operators
-
-```cpp
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A operator&(const A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A operator|(const A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A operator^(const A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A operator<<(const A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A operator>>(const A& lhs, const Scalar& rhs);
-```
-
-Complexity
-
-- O(n)
-
-### Scalar-array operators
-
-```cpp
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
-A operator&(const Scalar& lhs, const A& rhs);
-
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
-A operator|(const Scalar& lhs, const A& rhs);
-
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
-A operator^(const Scalar& lhs, const A& rhs);
-
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
-A operator<<(const Scalar& lhs, const A& rhs);
-
-template<Integer Scalar, Array A>
-requires Integer<typename A::value_type>
-A operator>>(const Scalar& lhs, const A& rhs);
-```
-
-Complexity
-
-- O(n)
-
-### Compound assignment operators
-
-```cpp
-template<Array A> requires Integer<typename A::value_type>
-A& operator&=(A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A& operator|=(A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A& operator^=(A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A& operator<<=(A& lhs, const A& rhs);
-
-template<Array A> requires Integer<typename A::value_type>
-A& operator>>=(A& lhs, const A& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A& operator&=(A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A& operator|=(A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A& operator^=(A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A& operator<<=(A& lhs, const Scalar& rhs);
-
-template<Array A, Integer Scalar>
-requires Integer<typename A::value_type>
-A& operator>>=(A& lhs, const Scalar& rhs);
-```
-
-Throws
-
-- Same categories as corresponding non-compound operator
-
-Complexity
-
-- O(n), plus O(r) shape check for array-array forms
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Unary `~` | O(n) |
-| Array-array operators | O(n + r) |
-| Array-scalar operators | O(n) |
-| Scalar-array operators | O(n) |
-| Compound assignment | O(n + r) for array-array, O(n) for array-scalar |
-
-`n` is element count and `r` is rank.
-
----
-
-## Examples
-
-```cpp
-const auto a_and_b = a & b;
-const auto with_mask = a & 0x0F;
-const auto toggled = 0xFF ^ a;
-
-const auto left_shifted = a << 2;
-const auto right_shifted = a >> 1;
-
-a &= b;
-a |= 0x80;
-a <<= 1;
-```
-
----
-
-## Design Notes
-
-Bitwise operators are constrained to integer-valued arrays to keep semantics explicit and avoid accidental use with floating-point or complex container types.
-
-Shared helper functions implement array-array, array-scalar, and scalar-array traversal so the public operators remain small forwarding wrappers.
-
-The AND, OR, XOR, and NOT operators use standard function objects where available; shift operators use local callables because the standard library does not provide equivalent shift function objects.
-
-Compound assignments delegate to non-compound operators to centralize shape validation and operation behavior.
-
----
-
-## Future Improvements
-
-- Explicit policies for shift-count validation and diagnostics
-- Optional unsigned/signed-specific bitwise utility helpers
-- SIMD kernels for common integer element types
-
----
-
-## See Also
-
-- `include/stratax/core/dtypes/Concepts.hpp`
-- `include/stratax/ops/Arithmetic.hpp`
-- `include/stratax/ops/Comparison.hpp`
+See @ref broadcasting and @ref concepts.

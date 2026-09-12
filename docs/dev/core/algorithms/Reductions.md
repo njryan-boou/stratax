@@ -2,347 +2,84 @@
 
 # Reductions {#dev_reductions}
 
-Version: v0.2.0
+Header: `include/stratax/algorithms/Reductions.hpp`.
+Functions are declared in the global `reduction` namespace.
 
-Status: Complete
+## Global results
 
-Header: `include/stratax/algorithms/Reductions.hpp`
+| Function | C++ result | Empty input |
+| --- | --- | --- |
+| `sum(arr)` | Input dtype through reduction_sum_t | Zero |
+| `prod(arr)` | Input dtype through reduction_prod_t | One |
+| `min(arr)`, `max(arr)` | Input dtype | IndexError |
+| `argmin(arr)`, `argmax(arr)` | dtype::int64 | IndexError |
+| `mean(arr)`, `var(arr)`, `std(arr)` | double | ZeroDivisionError |
 
----
+Sum/product accept Numeric dtypes and do not automatically widen integers.
+Extrema require Ordered dtypes, so complex ordering is unavailable.
+Mean/variance/std require Numeric and Ordered (real numeric, excluding bool).
+The exceptions above are in `Exceptions` in C++.
 
-## Overview
+Global extrema indices are logical flat positions, with the first occurrence
+winning ties under the scalar comparisons. There is no NaN-skipping policy.
+Mean converts the sum to double before division. Variance computes the average
+squared deviation from the mean, dividing by n; std is its square root. These
+are population statistics without ddof. Double output does not guarantee
+stable accumulation or prevent overflow in an integer sum.
 
-`Reductions.hpp` implements scalar and axis-based reduction algorithms for vectors, matrices, and tensors.
+## Axis results and invariants
 
-All reduction functions operate on containers and return either scalar values (for global reductions) or lower-dimensional tensors (for axis reductions).
+All functions accept `(arr, axis)` and `(arr, axis, keepdims)`. Axis must be in
+`[-rank, rank)`; invalid axes raise AxisError. Results always own Tensor storage.
+Result dtypes match the global scalar types. Axis extrema indices are positions
+along the reduced axis, not flat positions in the original array.
 
----
+With keepdims true the axis has extent one; otherwise it is removed. Reducing
+rank one without keepdims still returns shape `{1}` because rank-zero Tensor
+has no scalar storage. An empty output domain invokes no slice callbacks. If
+output positions exist but each reduction slice is empty, the global empty
+rules above apply to each output position.
 
-## Responsibilities
+## Generic callback and ownership
 
-The reductions module is responsible for:
+`axis_reduce(array, axis, func, keepdims=false)` first copies the input to an
+owning Tensor. Callback result type is inferred using a const Tensor argument.
+Actual calls receive that Tensor for the rank-one scalar-result case, otherwise
+strided ArrayView slices. A generic callable must handle both argument types
+and return a supported scalar dtype. It must not retain references or views
+into the temporary copy. Input storage is not modified; callback, conversion,
+slicing, and allocation exceptions propagate.
 
-- Computing global scalar reductions (sum, product, max, min, mean, variance, std deviation)
-- Computing indices of extrema (argmax, argmin)
-- Reducing along specified axes while preserving other dimensions
-- Type-safe accumulation with proper initializers
-
-The reductions module is **not** responsible for:
-
-- Non-owning reduction views
-- Custom reduction kernels
-- Weighted reductions
-
----
-
-## Relationships
-
-```text
-reduction::* functions
-├── sum, prod, max, min
-├── argmax, argmin
-├── mean, var, std
-└── axis_reduce(...) generic framework
-```
-
-Depends on:
-
-- `include/stratax/core/dtypes/Concepts.hpp` (Array concept)
-- `include/stratax/containers/Tensor.hpp`
-- `include/stratax/indexing/Slicing.hpp`
-- `<numeric>`, `<algorithm>`, `<cmath>`
-
-Used by:
-
-- High-level tensor algorithms
-- Statistical operations
-- Model training/optimization
-
----
-
-## Public Interface
-
-### Global Reductions
-
-All global reductions operate on the entire container and return a scalar value.
-
-#### sum
+## Example
 
 ```cpp
-template<Array A>
-typename A::value_type sum(const A& arr);
+#include <stratax.h>
+#include <cassert>
+#include <type_traits>
+
+int main() {
+    stratax::container::Matrix<int> m{{3, 1, 4}, {2, 7, 1}};
+    const auto sums = reduction::sum(m, -1, true);
+    assert(sums.shape() == stratax::core::Shape({2, 1}));
+    assert(sums[0] == 8 && sums[1] == 10);
+    const auto indices = reduction::argmax(m, 1);
+    static_assert(std::is_same_v<typename decltype(indices)::value_type, stratax::dtype::int64>);
+    assert(indices[0] == 2 && indices[1] == 1);
+    auto spans = reduction::axis_reduce(m, 1, [](const auto& part) {
+        return reduction::max(part) - reduction::min(part);
+    });
+    assert(spans[0] == 3 && spans[1] == 6);
+    stratax::container::Tensor<int> empty(stratax::core::Shape{0, 3});
+    assert(reduction::sum(empty, 0)[0] == 0);
+    assert(reduction::max(empty, 1).empty());
+}
 ```
 
-Returns the sum of all elements.
-
-Throws
-
-- None (uses `std::accumulate`)
-
-Complexity
-
-- O(n)
-
-#### prod
-
-```cpp
-template<Array A>
-typename A::value_type prod(const A& arr);
-```
-
-Returns the product of all elements.
-
-Complexity
-
-- O(n)
-
-#### max / min
-
-```cpp
-template<Array A>
-typename A::value_type max(const A& arr);
-
-template<Array A>
-typename A::value_type min(const A& arr);
-```
-
-Returns the maximum or minimum element.
-
-Complexity
-
-- O(n)
-
-#### argmax / argmin
-
-```cpp
-template<Array A>
-std::size_t argmax(const A& arr);
-
-template<Array A>
-std::size_t argmin(const A& arr);
-```
-
-Returns the flat index of the maximum or minimum element.
-
-Complexity
-
-- O(n)
-
-#### mean
-
-```cpp
-template<Array A>
-double mean(const A& arr);
-```
-
-Returns the arithmetic mean of all elements.
-
-Complexity
-
-- O(n)
-
-#### var / std
-
-```cpp
-template<Array A>
-double var(const A& arr);
-
-template<Array A>
-double std(const A& arr);
-```
-
-Returns the variance or standard deviation of all elements.
-
-Complexity
-
-- O(n)
-
----
-
-### Axis Reductions
-
-Axis reductions reduce along a specified dimension while preserving all other dimensions.
-
-Axis normalization
-
-- Positive axes use the standard zero-based indexing (`0 .. rank-1`).
-- Negative axes are normalized from the end (`-1` is the last axis, `-2` is the second-to-last axis, and so on).
-- Valid axis range is `[-rank, rank-1]`.
-- An out-of-range axis throws `Exceptions::AxisError`.
-
-#### sum(arr, axis)
-
-```cpp
-template<Array A>
-stratax::container::Tensor<typename A::value_type> sum(const A& arr, int axis);
-```
-
-Returns a tensor with dimension `axis` removed, containing element-wise sums along that axis.
-
-Result shape
-
-- Original shape with dimension `axis` removed
-
-Complexity
-
-- O(n * rank)
-
-Example
-
-```cpp
-Matrix<int> m{{1, 2, 3}, {4, 5, 6}};
-auto col_sums = reduction::sum(m, 0);  // [5, 7, 9]
-auto row_sums = reduction::sum(m, 1);  // [6, 15]
-auto row_sums_neg = reduction::sum(m, -1);  // [6, 15]
-```
-
-#### prod(arr, axis) / max(arr, axis) / min(arr, axis)
-
-```cpp
-template<Array A>
-stratax::container::Tensor<typename A::value_type> prod(const A& arr, int axis);
-
-template<Array A>
-stratax::container::Tensor<typename A::value_type> max(const A& arr, int axis);
-
-template<Array A>
-stratax::container::Tensor<typename A::value_type> min(const A& arr, int axis);
-```
-
-Same semantics as `sum(arr, axis)` but return products, maxima, or minima.
-
-#### argmax(arr, axis) / argmin(arr, axis)
-
-```cpp
-template<Array A>
-stratax::container::Tensor<std::size_t> argmax(const A& arr, int axis);
-
-template<Array A>
-stratax::container::Tensor<std::size_t> argmin(const A& arr, int axis);
-```
-
-Returns a tensor of **flat indices** (within the sliced dimension) of the maximum or minimum elements along each reduction.
-
-Result shape
-
-- Original shape with dimension `axis` removed
-
-Example
-
-```cpp
-Matrix<int> m{{3, 1, 4}, {2, 7, 1}};
-auto max_indices = reduction::argmax(m, 1);  // [2, 1]
-auto min_indices = reduction::argmin(m, 1);  // [1, 2]
-```
-
-#### mean(arr, axis) / var(arr, axis) / std(arr, axis)
-
-```cpp
-template<Array A>
-stratax::container::Tensor<double> mean(const A& arr, int axis);
-
-template<Array A>
-stratax::container::Tensor<double> var(const A& arr, int axis);
-
-template<Array A>
-stratax::container::Tensor<double> std(const A& arr, int axis);
-```
-
-Compute mean, variance, and standard deviation along the specified axis.
-
-Result type
-
-- Always `Tensor<double>` for numerical precision
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Global reductions (sum, prod, max, min, mean) | O(n) |
-| argmax / argmin | O(n) |
-| Axis reductions | O(n * rank) |
-| var / std | O(n) |
-
----
-
-## Examples
-
-### Global Reduction Examples
-
-```cpp
-Vector<int> v{1, 2, 3, 4, 5};
-
-int total = reduction::sum(v);     // 15
-int product = reduction::prod(v);  // 120
-int maximum = reduction::max(v);   // 5
-int minimum = reduction::min(v);   // 1
-
-std::size_t max_idx = reduction::argmax(v);  // 4
-std::size_t min_idx = reduction::argmin(v);  // 0
-
-double average = reduction::mean(v);  // 3.0
-```
-
-### Matrix Axis Reductions
-
-```cpp
-Matrix<int> m{
-    {1, 2, 3},
-    {4, 5, 6}
-};
-
-// Reduce along axis 0 (sum columns)
-auto col_sums = reduction::sum(m, 0);    // [5, 7, 9]
-auto col_maxes = reduction::max(m, 0);   // [4, 5, 6]
-
-// Reduce along axis 1 (sum rows)
-auto row_sums = reduction::sum(m, 1);    // [6, 15]
-auto row_mins = reduction::min(m, 1);    // [1, 4]
-```
-
-### 3D Tensor Axis Reductions
-
-```cpp
-Tensor<int> t(Shape{2, 3, 4});
-// ... fill tensor ...
-
-// Reduce first dimension
-auto t_axis0 = reduction::sum(t, 0);  // Shape [3, 4]
-
-// Reduce second dimension
-auto t_axis1 = reduction::sum(t, 1);  // Shape [2, 4]
-
-// Negative axis resolves from the end
-auto t_last_axis = reduction::sum(t, -1);  // Shape [2, 3]
-
-// Find max indices along last dimension
-auto max_idx = reduction::argmax(t, 2);  // Shape [2, 3] of size_t
-```
-
----
-
-## Design Notes
-
-- **Type Safety**: The `axis_reduce` template accepts any callable, enabling custom operations beyond built-in reductions.
-- **Value Semantics**: All axis reductions return owning tensors, not views.
-- **Numerical Precision**: Mean, variance, and std deviation return `double` for stability.
-- **Row-Major Iteration**: The `advance()` utility handles multi-dimensional iteration without nested loops.
-
----
-
-## Future Improvements
-
-- Add weighted reductions
-- Add cumulative reductions (cumsum, cumprod)
-- Add reductions along multiple axes simultaneously
-- Add numerically stable variance/std algorithms
-
----
-
-## See Also
-
-- `include/stratax/algorithms/Creation.hpp`
-- `include/stratax/algorithms/Reshape.hpp`
-- `include/stratax/containers/Tensor.hpp`
+## Cost
+
+For n input elements, rank r, and p output elements, global owning reductions
+are O(n); views take O((n + 1)r). Built-in axis reductions take
+O((n + p + 1)r), with O(n + p + r) auxiliary storage. Generic axis_reduce adds
+callback work. Empty inputs can still produce nonempty axis output.
+Python binds reductions for owning double arrays and uses IndexTensor for axis
+argmin/argmax; see @ref python_api.

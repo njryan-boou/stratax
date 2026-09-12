@@ -1,167 +1,43 @@
-@page print Print
+@page print Printing
 
-# Print {#dev_print}
+# Printing {#dev_print}
 
-Version: v0.2.0
+Header: `include/stratax/io/Print.hpp`; Shape insertion is in `core/Shape.hpp`.
 
-Status: Complete
+Vector, Matrix, Tensor, and ArrayView stream insertion call the same logical
+formatter directly, without converting the input to an owning Tensor. Values
+follow row-major logical order, including for noncontiguous views.
 
-Header: `include/stratax/io/Print.hpp`
+## Formatting contract
 
----
+Empty arrays print `[]` regardless of rank or zero-axis position. Nonempty
+arrays use nested brackets. Rank-two siblings are newline-separated without
+commas; higher-rank siblings use commas and newlines. Nesting adds four spaces.
+Booleans print true/false and int8/uint8 print numerically. Other values use the
+stream's scalar formatting. Formatting is for inspection, not a serialization
+format that can reconstruct every empty shape.
 
-## Overview
-
-`Print.hpp` implements stream insertion operators for Stratax containers.
-
-Vector and matrix printing route through tensor conversion/formatting helpers, and tensor output uses recursive nested bracket formatting.
-
----
-
-## Responsibilities
-
-The print module is responsible for:
-
-- Providing `operator<<` overloads for `Vector`, `Matrix`, and `Tensor`
-- Emitting stable human-readable nested bracket formatting
-- Applying indentation and sibling separators for multidimensional output
-
-The print module is not responsible for:
-
-- Locale-specific number formatting policies
-- Truncation/pretty-print options for very large outputs
-- Validation or repair of container metadata
-
----
-
-## Relationships
-
-```text
-operator<<(Vector)
-└── to_tensor(vector) -> detail::print_tensor_like
-
-operator<<(Matrix)
-└── to_tensor(matrix) -> detail::print_matrix_like
-
-operator<<(Tensor)
-└── detail::print_tensor_like
-    └── detail::print_tensor_recursive
-```
-
-Depends on:
-
-- @ref vector "Vector"
-- @ref matrix "Matrix"
-- @ref tensor "Tensor"
-- @ref conversions "Conversions"
-
----
-
-## Invariants
-
-The following conditions are always true:
-
-- Printing does not mutate input containers.
-- Empty tensor-like outputs print as `[]`.
-- Tensor recursion respects shape and strides.
-- Indentation depth increases by 4 spaces per nesting level.
-- Matrix path uses newline-separated sibling groups (no comma between rows).
-- Tensor path uses comma-newline sibling separators.
-
----
-
-## Public Interface
-
-### Vector stream output
+Shape prints tuple notation, including `(5,)` for rank one and `()` for rank
+zero. Array output depends on rank, not whether the type is Matrix or Tensor.
+All insertion operators return the stream and do not mutate the array.
 
 ```cpp
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const Vector<T>& vector);
+#include <stratax.h>
+#include <sstream>
+#include <cassert>
+
+int main() {
+    stratax::container::Vector<stratax::dtype::int8> values{1, 2, 3};
+    std::ostringstream os;
+    os << values;
+    assert(os.str() == "[1, 2, 3]");
+    std::ostringstream dims;
+    dims << stratax::core::Shape{3};
+    assert(dims.str() == "(3,)");
+}
 ```
 
-Behavior
-
-- Converts vector to tensor representation via `to_tensor`
-- Prints using tensor-like formatter
-
-Complexity
-
-- O(n) output work
-
-### Matrix stream output
-
-```cpp
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix);
-```
-
-Behavior
-
-- Converts matrix to tensor representation via `to_tensor`
-- Prints via matrix-like separator mode
-
-Complexity
-
-- O(n) output work
-
-### Tensor stream output
-
-```cpp
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const Tensor<T>& tensor);
-```
-
-Behavior
-
-- Prints empty tensors as `[]`
-- Otherwise recursively prints nested dimensions
-
-Complexity
-
-- O(n + s), where `s` is emitted structural separator/indent text
-
----
-
-## Complexity Summary
-
-| Operation | Complexity |
-| --------- | ----------: |
-| Vector output | O(n) |
-| Matrix output | O(n) |
-| Tensor output | O(n + s) |
-| Empty tensor output | O(1) |
-
-`n` is element count.
-
----
-
-## Examples
-
-```cpp
-std::cout << vec << '\n';
-std::cout << mat << '\n';
-std::cout << tensor << '\n';
-```
-
----
-
-## Design Notes
-
-Using shared recursive tensor formatting keeps output behavior consistent across container families while still allowing matrix-specific sibling separation.
-
-Whitespace and separator stability is important because tests and docs often compare emitted strings.
-
----
-
-## Future Improvements
-
-- Add configurable formatting profiles (compact vs pretty)
-- Add optional truncation/summarization for large arrays
-- Add custom indentation and separator settings
-
----
-
-## See Also
-
-- @ref conversions "Conversions"
-- @ref tensor "Tensor"
+Cost includes scalar output, separator/indentation text, and repeated O(r)
+logical-stride construction at recursion nodes. View element lookup adds O(r)
+per value. Metadata allocation and configured stream exceptions propagate.
+There is no output truncation option. See @ref shape and @ref arrayview.
