@@ -63,4 +63,4 @@ operations, with Python bindings through pybind11.
 
 ---
 
-**Stratax v0.3.1** - Efficient, validated array operations for C++ and Python.
+**Stratax v0.4.0rc1** - Release candidate for C++ and Python array operations.

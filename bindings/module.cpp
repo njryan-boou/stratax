@@ -11,7 +11,7 @@ namespace
 {
 
 constexpr const char* PyDoc = "Python bindings for Stratax";
-constexpr const char* PyVersion = "0.3.1";
+constexpr const char* PyVersion = "0.4.0rc1";
 constexpr const char* PyAuthor = "Noah Ryan";
 constexpr const char* PyLicense = "MIT";
 constexpr const char* PyModule = "Stratax";

@@ -26,8 +26,10 @@ bool and dtype::int64 respectively.
 PyDoc, PyVersion, PyAuthor, PyLicense, and PyModule constants set __doc__,
 __version__, __author__, __license__, and __module__. Homepage/repository/issue
 URLs belong to package metadata in pyproject.toml; module.cpp does not register
-those attributes. Release version changes must update PyVersion as well as
-package/CMake/Doxygen versions.
+those attributes. Release version changes must update PyVersion together with
+the package and Doxygen versions. Prereleases use the full Python version,
+such as 0.4.0rc1, in those fields; CMake's project VERSION uses the numeric base
+0.4.0. See @ref releasing for the version and artifact checks.
 
 StrataxError derives from Python RuntimeError. All ten specialized C++ errors
 are registered beneath it. Built-in conversion/slice/argument errors can also

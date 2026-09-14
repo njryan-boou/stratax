@@ -7,7 +7,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "stratax"
-version = "0.3.1"
+version = "0.4.0rc1"
 description = "Modern scientific array library for C++20 with Python bindings."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -40,6 +40,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 
     "Programming Language :: C++",
 
@@ -75,6 +76,8 @@ sdist.exclude = [
 python_files = "*_tests.py"
 
 [tool.cibuildwheel]
+# Match the supported CPython versions exercised in CI.
+build = "cp3{10,11,12,13,14}-*"
 # Test every repaired wheel in cibuildwheel's isolated test environment.
 test-requires = ["pytest>=8"]
 test-command = 'python -I "{project}/scripts/check-installed-package.py"'

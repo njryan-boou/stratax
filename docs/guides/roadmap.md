@@ -12,8 +12,8 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 
 ## Current Priorities
 
-1. Define overlapping-view mutation and reverse-view behavior before extending views.
-2. Improve numerical edge-case contracts and dtype-pair coverage.
+1. Complete the 0.4.0rc1 release-artifact rehearsal on Linux, Windows, and macOS.
+2. Define reverse-view behavior and extend numerical dtype-pair coverage.
 3. Complete shape transformations and establish foundational linear algebra.
 4. Keep documentation examples executable as APIs change.
 
@@ -132,7 +132,7 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [ ] Bitwise operator bindings
 - [x] Python broadcasting regression tests
 - [x] Package import smoke test in CI
-- [ ] Wheel smoke tests for supported Python versions
+- [x] Installed-wheel test commands for supported Python versions
 
 ### Phase 10: C++ Public Header
 
@@ -155,7 +155,7 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - [x] Windows, Linux, and macOS build matrix
 - [x] Sanitizer jobs
 - [x] Installed-package tests across the Linux Python version matrix
-- [ ] Test every release wheel on its target platform
+- [x] Run tests against each built release wheel on its target platform
 
 ### Phase 12: Documentation and Examples
 
@@ -200,13 +200,17 @@ that is exposed but not yet tested or documented remains explicitly incomplete.
 - Python numeric arrays use double; masks use bool and axis indices use int64.
 - Slicing shares storage; reshape and conversions copy. Negative-step views and
   slicing existing Python views remain unsupported.
-- Current CMake and package versions are 0.3.1. Working-tree fixes belong to the
-  Unreleased changelog until a release is prepared.
+- C++ compound operations read overlapping operands before mutation. Repeated
+  destination offsets receive the last result in logical order.
+- The prepared Python package, runtime, and documentation version is 0.4.0rc1;
+  CMake uses the numeric base 0.4.0. Preparing these files does not publish the
+  candidate. Its changes are recorded in the 0.4.0rc1 changelog entry.
 - See @ref test_audit for executed local checks and their limits.
 
 ## Maintenance Work
 
-- [ ] Synchronize CMake, package, module, and documented versions at release time.
+- [x] Synchronize the prepared candidate's package, module, documentation, and CMake base versions.
+- [ ] Complete the 0.4.0rc1 release workflow rehearsal and inspect its artifacts.
 - [x] Add deterministic adversarial coverage for aliasing and numerical edge cases.
 - [x] Automate independent header, documentation, branch coverage, and release-artifact checks.
 - [x] Establish reproducible performance baselines.

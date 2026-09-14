@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check installed package provenance, then run Python tests outside the checkout."""
+"""Check installed provenance, versions, and typing files, then run package tests."""
 
 import argparse
 from pathlib import Path
@@ -23,6 +23,16 @@ for module in (stratax, stratax._core):
     if path.is_relative_to(source) or path not in files:
         raise RuntimeError(f'{module.__name__} is not from the installed distribution: {path}')
     print(f'{module.__name__}: {path}')
+    if module.__version__ != dist.version:
+        raise RuntimeError(
+            f'{module.__name__} version {module.__version__!r} does not match '
+            f'installed distribution version {dist.version!r}')
+package = Path(stratax.__file__).resolve().parent
+for name in ('_core.pyi', 'py.typed'):
+    path = package / name
+    if not path.is_file() or path.resolve() not in files:
+        raise RuntimeError(f'Installed distribution is missing typing file: {path}')
+print(f'Installed version and typing files verified: {dist.version}')
 """
 
 
