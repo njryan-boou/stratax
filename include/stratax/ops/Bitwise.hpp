@@ -12,60 +12,14 @@
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
+#include <stratax/core/validation/NumericValidation.hpp>
 #include <stratax/ops/Broadcasting.hpp>
-#include <stratax/ops/Compound.hpp>
+#include <stratax/ops/detail/Compound.hpp>
 
 #include <functional>
-#include <climits>
-#include <cstdint>
 #include <type_traits>
 
 namespace stratax::core::bitwise_detail {
-
-/**
- * @brief Tests whether a shift count is valid for a value type.
- * @tparam Value Type of the value being shifted.
- * @tparam Count Integral shift-count type.
- * @param count Shift count to validate.
- * @return `true` when @p count is non-negative and smaller than the bit width
- *         of `Value`; otherwise `false`.
- * @invariant The shift count is never modified.
- * @complexity O(1).
- * @internal
- */
-template<typename Value, Integral Count>
-constexpr bool valid_shift_count(const Count& count) noexcept
-{
-	if constexpr (std::is_signed_v<std::remove_cvref_t<Count>>)
-	{
-		if (count < 0)
-		{
-			return false;
-		}
-	}
-
-	using value_type = std::remove_cvref_t<Value>;
-
-	return static_cast<std::uintmax_t>(count) <
-		sizeof(value_type) * CHAR_BIT;
-}
-
-/**
- * @brief Rejects a shift count that would produce undefined behavior.
- * @invariant A successful return guarantees that @p count is valid for `Value`.
- * @throws Exceptions::ValueError If @p count is negative or is not smaller
- *         than the bit width of `Value`.
- * @complexity O(1).
- * @internal
- */
-template<typename Value, Integral Count>
-void require_valid_shift_count(const Count& count)
-{
-	if (!valid_shift_count<Value>(count))
-	{
-		throw Exceptions::ValueError("Invalid shift count.");
-	}
-}
 
 /**
  * @brief Applies a validated scalar shift to every array element.
@@ -84,7 +38,7 @@ auto shift_scalar_op(
 {
 	using value_type = typename A::value_type;
 
-	require_valid_shift_count<value_type>(rhs);
+	validation::require_valid_shift_count<value_type>(rhs);
 
 	using result_type =
 		stratax::core::rebind_array_t<A, value_type>;
@@ -151,7 +105,7 @@ auto shift_array_op(
 
 		const auto count = rhs[rhs_index];
 
-		require_valid_shift_count<value_type>(count);
+		validation::require_valid_shift_count<value_type>(count);
 
 		result[i] = static_cast<value_type>(
 			op(lhs[lhs_index], count));
@@ -188,7 +142,7 @@ auto scalar_shift_array_op(
 
 	for (auto it = rhs.begin(); it != rhs.end(); ++it, ++out)
 	{
-		require_valid_shift_count<value_type>(*it);
+		validation::require_valid_shift_count<value_type>(*it);
 
 		*out = static_cast<value_type>(
 			op(lhs, *it));
@@ -306,7 +260,7 @@ L& compound_shift_op(
 				lhs.shape(),
 				rhs.shape());
 
-		require_valid_shift_count<value_type>(rhs[rhs_index]);
+		validation::require_valid_shift_count<value_type>(rhs[rhs_index]);
 	}
 
 	constexpr bool stage = !compound_detail::owns_storage<L> ||
@@ -446,7 +400,7 @@ A& compound_scalar_shift_op(
 	Op op)
 {
 	const Count scalar = rhs;
-	require_valid_shift_count<typename A::value_type>(scalar);
+	validation::require_valid_shift_count<typename A::value_type>(scalar);
 	return compound_detail::write_results<
 		!compound_detail::owns_storage<A>>(lhs, [&](std::size_t i)
 	{

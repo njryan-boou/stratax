@@ -14,6 +14,7 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ### Fixed
 
+- Make NaN and signed-zero extrema selection consistent across compilers.
 - Reject checked multidimensional access to empty storage, including rank-zero arrays.
 - Give overlapping C++ compound operations snapshot semantics, including aliased scalars and repeated view offsets.
 - Reject unrepresentable signed division and accumulate means in long double before returning double.

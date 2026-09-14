@@ -134,3 +134,29 @@ See @ref verification for repeatable checks, @ref numerical_contract for
 remaining native arithmetic and floating-point limits, and @ref benchmarks for
 measurement scope. Hosted CI validates the configured platform matrix separately;
 local Linux results do not establish results for Windows or macOS.
+
+## Portable extrema and helper layout — 2026-09-14
+
+Hosted Windows testing exposed a portability gap in the documented initial-NaN
+extrema behavior: MSVC's optimized standard-library extrema routines do not
+support unordered inputs. Explicit strict-comparison scans now select both the
+value and logical index, preserving the same first-tie, NaN, and signed-zero
+rules across implementations. Fifteen additional typed regressions cover long
+float/double/long-double arrays, strided views, and axis reductions.
+
+Reusable division and shift-count checks now share
+`core/validation/NumericValidation.hpp`. Compound result staging is execution
+code shared by arithmetic and bitwise operators in `ops/detail/Compound.hpp`.
+
+The updated GCC and Clang sanitizer suites each pass **563 tests**. All **38
+headers** compile independently; **32 C++ documentation examples** execute and
+Doxygen reports zero warnings. Fresh GCC 14.2/gcovr 8.6 coverage reports
+**84.6% lines** (9,264/10,947), **50.0% branches** (4,663/9,334), and **93.7%
+functions** (2,137/2,280). The additional template instantiations change the
+coverage denominator; compare annotated branches rather than only percentages.
+
+Fresh Python 3.13 source and installed-wheel suites each pass **291 tests** and
+**15 Python documentation examples**. An independently built source archive
+includes the relocated headers, builds in a fresh environment, and passes the
+same 291 tests and 15 examples. The 33-case performance baseline was recaptured
+with the current header paths and source hash.

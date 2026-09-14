@@ -67,11 +67,15 @@ them through native arithmetic. A mean with a single infinity sign is infinite;
 opposite infinities produce NaN. Variance of infinite input generally produces
 NaN. These functions do not skip NaNs.
 
-`min`, `max`, `argmin`, and `argmax` use ordinary comparisons and select the first
-candidate on ties. With IEEE-style NaNs, an initial NaN remains the selected
+`min`, `max`, `argmin`, and `argmax` share an explicit scan in logical row-major
+order. The first value initializes the candidate, and each later value replaces
+it only when a strict comparison succeeds. With IEEE-style NaNs, an initial NaN
+remains the selected
 candidate; a later NaN does not replace a numeric candidate. This is neither a
 NaN-skipping nor an unconditional NaN-propagating policy. Signed zeros compare
-equal, so extrema retain the first zero's sign. Sum and mean begin from positive
+equal, so extrema retain the first zero's sign. The same scan handles owning
+arrays, strided views, and each axis slice; it does not depend on a standard
+library's vectorized extrema implementation. Sum and mean begin from positive
 zero and do not promise to preserve the sign of an all-negative-zero input.
 
 ## Regression coverage
@@ -80,7 +84,10 @@ zero and do not promise to preserve the sign of an all-negative-zero input.
 integer input dtypes for mean, every signed-eight-bit division pair whose divisor
 is nonzero and whose quotient fits the result dtype, selected mixed-type
 boundaries, checked division failures, strided reductions, cancellation,
-nonfinite inputs, and signed zero. The generated arithmetic cases keep native
+nonfinite inputs, and signed zero. Extrema fixtures include 257-element inputs
+for `float`, `double`, and `long double`, covering initial, later, and all NaNs,
+repeated infinities, both initial zero signs, strided views, and axis slices.
+The generated arithmetic cases keep native
 intermediates representable, so sanitizer runs do not themselves invoke known
 undefined operations. Expected integer values use a wider independent reference.
 

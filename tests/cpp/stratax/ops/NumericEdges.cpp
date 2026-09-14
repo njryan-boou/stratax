@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <stratax.h>
-#include <stratax/ops/Numeric.hpp>
+#include <stratax/core/validation/NumericValidation.hpp>
 
 #include <array>
 #include <cmath>
@@ -13,7 +13,7 @@
 
 using namespace stratax::container;
 using namespace stratax::core;
-using stratax::core::numeric_detail::require_valid_division;
+using stratax::core::validation::require_valid_division;
 
 template<typename T>
 class IntegerMeanEdges : public ::testing::Test {};
@@ -241,4 +241,175 @@ TEST(NumericFloatingEdges, SignedZeroIsPreservedByDivisionAndFirstExtremaTie)
 	EXPECT_EQ(reduction::argmax(zeros), 0);
 	EXPECT_THROW((void)(1.0 / zeros), Exceptions::ZeroDivisionError);
 	EXPECT_THROW((void)(zeros / -0.0), Exceptions::ZeroDivisionError);
+}
+
+template<typename T>
+class OrderedExtremaEdges : public ::testing::Test {};
+
+using OrderedExtremaTypes = ::testing::Types<float, double, long double>;
+TYPED_TEST_SUITE(OrderedExtremaEdges, OrderedExtremaTypes);
+
+TYPED_TEST(OrderedExtremaEdges, LongInitialAndAllNanInputsKeepTheFirstCandidate)
+{
+	using T = TypeParam;
+	if (!std::numeric_limits<T>::is_iec559)
+	{
+		GTEST_SKIP() << "Requires IEC 60559 floating-point behavior.";
+	}
+	const T nan = std::numeric_limits<T>::quiet_NaN();
+	const T infinity = std::numeric_limits<T>::infinity();
+	// Long, non-multiple lengths also exercise optimized builds and loop tails.
+	Vector<T> first_nan(257, T{3});
+	first_nan[0] = nan;
+	first_nan[17] = -infinity;
+	first_nan[129] = infinity;
+	first_nan[256] = nan;
+	const Vector<T> all_nan(257, nan);
+	const Vector<T> singleton{nan};
+	const std::array<const Vector<T>*, 3> inputs{&first_nan, &all_nan, &singleton};
+	for (const auto* input : inputs)
+	{
+		EXPECT_TRUE(std::isnan(reduction::min(*input)));
+		EXPECT_TRUE(std::isnan(reduction::max(*input)));
+		EXPECT_EQ(reduction::argmin(*input), 0);
+		EXPECT_EQ(reduction::argmax(*input), 0);
+	}
+}
+
+TYPED_TEST(OrderedExtremaEdges, LongLaterNansAreIgnoredAndRepeatedInfinitiesChooseFirst)
+{
+	using T = TypeParam;
+	if (!std::numeric_limits<T>::is_iec559)
+	{
+		GTEST_SKIP() << "Requires IEC 60559 floating-point behavior.";
+	}
+	const T nan = std::numeric_limits<T>::quiet_NaN();
+	const T infinity = std::numeric_limits<T>::infinity();
+	Vector<T> source(257, T{4});
+	source[1] = source[64] = source[256] = nan;
+	source[17] = source[100] = -infinity;
+	source[71] = source[128] = infinity;
+	EXPECT_EQ(reduction::min(source), -infinity);
+	EXPECT_EQ(reduction::max(source), infinity);
+	EXPECT_EQ(reduction::argmin(source), 17);
+	EXPECT_EQ(reduction::argmax(source), 71);
+}
+
+TYPED_TEST(OrderedExtremaEdges, LongSignedZeroTiesPreserveBothPossibleFirstSigns)
+{
+	using T = TypeParam;
+	if (!std::numeric_limits<T>::is_iec559)
+	{
+		GTEST_SKIP() << "Requires IEC 60559 floating-point behavior.";
+	}
+	for (const bool negative_first : {false, true})
+	{
+		Vector<T> zeros(257, negative_first ? T{0.0} : T{-0.0});
+		zeros[0] = negative_first ? T{-0.0} : T{0.0};
+		EXPECT_EQ(reduction::min(zeros), T{0});
+		EXPECT_EQ(reduction::max(zeros), T{0});
+		EXPECT_EQ(std::signbit(reduction::min(zeros)), negative_first);
+		EXPECT_EQ(std::signbit(reduction::max(zeros)), negative_first);
+		EXPECT_EQ(reduction::argmin(zeros), 0);
+		EXPECT_EQ(reduction::argmax(zeros), 0);
+	}
+}
+
+TYPED_TEST(OrderedExtremaEdges, StridedViewsUseLogicalOrderAndLogicalIndices)
+{
+	using T = TypeParam;
+	if (!std::numeric_limits<T>::is_iec559)
+	{
+		GTEST_SKIP() << "Requires IEC 60559 floating-point behavior.";
+	}
+	const T nan = std::numeric_limits<T>::quiet_NaN();
+	const T infinity = std::numeric_limits<T>::infinity();
+	Vector<T> storage(257 * 3, -infinity);
+	auto view = stratax::indexing::slice(storage, Slice{1, 257 * 3, 3});
+	for (auto& value : view)
+	{
+		value = T{4};
+	}
+	view[0] = view[1] = view[256] = nan;
+	view[17] = view[100] = T{-9};
+	view[71] = view[128] = infinity;
+	EXPECT_TRUE(std::isnan(reduction::min(view)));
+	EXPECT_TRUE(std::isnan(reduction::max(view)));
+	EXPECT_EQ(reduction::argmin(view), 0);
+	EXPECT_EQ(reduction::argmax(view), 0);
+	view[0] = T{4};
+	EXPECT_EQ(reduction::min(view), T{-9});
+	EXPECT_EQ(reduction::max(view), infinity);
+	EXPECT_EQ(reduction::argmin(view), 17);
+	EXPECT_EQ(reduction::argmax(view), 71);
+}
+
+TYPED_TEST(OrderedExtremaEdges, AxisSlicesShareNanInfinityAndSignedZeroSelection)
+{
+	using T = TypeParam;
+	if (!std::numeric_limits<T>::is_iec559)
+	{
+		GTEST_SKIP() << "Requires IEC 60559 floating-point behavior.";
+	}
+	const T nan = std::numeric_limits<T>::quiet_NaN();
+	const T infinity = std::numeric_limits<T>::infinity();
+	Matrix<T> rows(4, 257, T{4});
+	for (std::size_t column = 0; column < 257; ++column)
+	{
+		rows(1, column) = nan;
+		rows(3, column) = T{0.0};
+	}
+	rows(0, 0) = nan;
+	rows(0, 17) = -infinity;
+	rows(0, 71) = infinity;
+	rows(2, 1) = rows(2, 256) = nan;
+	rows(2, 17) = rows(2, 100) = -infinity;
+	rows(2, 71) = rows(2, 128) = infinity;
+	rows(3, 0) = T{-0.0};
+
+	Matrix<T> columns(257, 4);
+	Matrix<T> interleaved(257 * 2, 4, T{99});
+	for (std::size_t row = 0; row < 4; ++row)
+	{
+		for (std::size_t column = 0; column < 257; ++column)
+		{
+			columns(column, row) = rows(row, column);
+			interleaved(column * 2, row) = rows(row, column);
+		}
+	}
+	auto strided = stratax::indexing::slice(interleaved, Slice{0, 257 * 2, 2}, Slice{0, 4});
+	for (const bool keepdims : {false, true})
+	{
+		auto check_axis = [&](const auto& input, int axis)
+		{
+			const auto minima = reduction::min(input, axis, keepdims);
+			const auto maxima = reduction::max(input, axis, keepdims);
+			const auto minimum_indices = reduction::argmin(input, axis, keepdims);
+			const auto maximum_indices = reduction::argmax(input, axis, keepdims);
+			ASSERT_EQ(minima.size(), 4U);
+			ASSERT_EQ(maxima.size(), 4U);
+			ASSERT_EQ(minimum_indices.size(), 4U);
+			ASSERT_EQ(maximum_indices.size(), 4U);
+			for (std::size_t i = 0; i < 2; ++i)
+			{
+				EXPECT_TRUE(std::isnan(minima[i]));
+				EXPECT_TRUE(std::isnan(maxima[i]));
+				EXPECT_EQ(minimum_indices[i], 0);
+				EXPECT_EQ(maximum_indices[i], 0);
+			}
+			EXPECT_EQ(minima[2], -infinity);
+			EXPECT_EQ(maxima[2], infinity);
+			EXPECT_EQ(minimum_indices[2], 17);
+			EXPECT_EQ(maximum_indices[2], 71);
+			EXPECT_EQ(minima[3], T{0});
+			EXPECT_EQ(maxima[3], T{0});
+			EXPECT_TRUE(std::signbit(minima[3]));
+			EXPECT_TRUE(std::signbit(maxima[3]));
+			EXPECT_EQ(minimum_indices[3], 0);
+			EXPECT_EQ(maximum_indices[3], 0);
+		};
+		check_axis(rows, 1);
+		check_axis(columns, 0);
+		check_axis(strided, 0);
+	}
 }

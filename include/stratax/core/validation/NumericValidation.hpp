@@ -1,15 +1,17 @@
 /** @file
- * @brief Validation of explicitly checked numeric operations.
+ * @brief Shared validation for division operands and integral shift counts.
  */
 #pragma once
 
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 
+#include <climits>
+#include <cstdint>
 #include <limits>
 #include <type_traits>
 
-namespace stratax::core::numeric_detail {
+namespace stratax::core::validation {
 
 /**
  * @brief Rejects zero divisors and unrepresentable native signed division.
@@ -55,4 +57,49 @@ void require_valid_division(const L& lhs, const R& rhs)
 	}
 }
 
-} // namespace stratax::core::numeric_detail
+/**
+ * @brief Tests whether a shift count is valid for a value type.
+ * @tparam Value Type of the value being shifted.
+ * @tparam Count Integral shift-count type.
+ * @param count Shift count to validate.
+ * @return `true` when @p count is non-negative and smaller than the bit width
+ *         of `Value`; otherwise `false`.
+ * @invariant The shift count is never modified.
+ * @complexity O(1).
+ * @internal
+ */
+template<typename Value, Integral Count>
+constexpr bool valid_shift_count(const Count& count) noexcept
+{
+	if constexpr (std::is_signed_v<std::remove_cvref_t<Count>>)
+	{
+		if (count < 0)
+		{
+			return false;
+		}
+	}
+
+	using value_type = std::remove_cvref_t<Value>;
+
+	return static_cast<std::uintmax_t>(count) <
+		sizeof(value_type) * CHAR_BIT;
+}
+
+/**
+ * @brief Rejects shift counts outside the stored value type's bit width.
+ * @invariant A successful return guarantees that @p count is valid for `Value`.
+ * @throws Exceptions::ValueError If @p count is negative or is not smaller
+ *         than the bit width of `Value`.
+ * @complexity O(1).
+ * @internal
+ */
+template<typename Value, Integral Count>
+void require_valid_shift_count(const Count& count)
+{
+	if (!valid_shift_count<Value>(count))
+	{
+		throw Exceptions::ValueError("Invalid shift count.");
+	}
+}
+
+} // namespace stratax::core::validation

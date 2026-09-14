@@ -2,23 +2,34 @@
 
 # Validation {#dev_validation}
 
-Status: Compatibility headers only
+## Shared numeric checks
 
-## Overview
+`include/stratax/core/validation/NumericValidation.hpp` keeps reusable numeric
+checks in `stratax::core::validation`. Arithmetic and bitwise operations use
+these internal helpers before evaluating potentially invalid expressions:
 
-Stratax no longer has a validation-helper layer. Preconditions and invariant
-checks are expressed as ordinary `if` statements at the point where the value
-is used, followed by a simple exception from `Exceptions.hpp`.
+| Helper | Contract |
+| --- | --- |
+| `require_valid_division(lhs, rhs)` | Reject zero divisors and native signed minimum divided by minus one |
+| `valid_shift_count<Value>(count)` | Test whether count is nonnegative and below the stored value type's bit width |
+| `require_valid_shift_count<Value>(count)` | Raise ValueError when the shift count is invalid |
 
-This keeps the condition, exception category, and relevant operation together
-and avoids a second API that only wraps an `if` statement.
+Division checks use native C++ expression types after integer promotions and
+usual arithmetic conversions. They do not check general arithmetic overflow or
+conversion to the result dtype. Scalar checks still apply to empty arrays where
+the operator contract requires them; array operands are checked where used.
+Compound division and shifts validate all used operands before writing.
+See @ref numerical_contract, @ref arithmetic, and @ref bitwise.
 
-The headers under `include/stratax/core/validation/` remain empty so existing
-includes do not immediately break. They define no functions and should not be
-used by new code.
+Checks specific to a container's state remain with that container. The older
+DimensionValidation, IndexValidation, ShapeValidation, TypeValidation, and
+Validation headers remain empty compatibility headers; new code should include
+the concrete helper it uses.
 
-Checked signed index normalization remains a real indexing operation rather
-than a generic validator and is provided by:
+## Index normalization and unchecked access
+
+Checked signed index normalization maps an index to a valid position and is
+provided by the indexing module:
 
 ```cpp
 #include <stratax.h>

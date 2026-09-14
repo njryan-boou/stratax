@@ -17,7 +17,7 @@
 #include <stratax/core/ReductionTraits.hpp>
 
 #include <numeric>
-#include <algorithm>
+#include <functional>
 #include <cmath>
 #include <type_traits>
 #include <utility>
@@ -25,6 +25,50 @@
 namespace reduction {
 
 namespace detail {
+
+/**
+ * @brief Selects an extreme value and its logical index with an ordered scan.
+ *
+ * The first value initializes the candidate. Each later value replaces it only
+ * when a strict comparison succeeds. This preserves the first occurrence on
+ * ties, including signed zeros. With IEEE-style NaNs, an initial NaN remains
+ * selected and later NaNs never replace the candidate. The explicit scan does
+ * not depend on standard-library extrema algorithms' treatment of NaNs.
+ *
+ * @tparam FindMaximum Selects the largest value when true, otherwise the smallest.
+ * @tparam A Array or view with an Ordered value_type.
+ * @param arr Non-empty input in logical row-major iterator order.
+ * @return Pair containing the selected value and its zero-based logical index.
+ * @pre @p arr is non-empty.
+ * @complexity O(arr.size()) for owning arrays; O((arr.size() + 1) * arr.rank())
+ *             for views. Stores one candidate value and two indices, plus iterators.
+ * @internal
+ */
+template<bool FindMaximum, Array A>
+requires Ordered<typename A::value_type>
+std::pair<typename A::value_type, std::size_t> ordered_extreme(const A& arr)
+{
+	auto current = arr.begin();
+	const auto end = arr.end();
+	typename A::value_type selected = *current;
+	std::size_t selected_index = 0;
+	std::size_t current_index = 1;
+
+	// Preserve unordered floating values explicitly: standard extrema algorithms,
+	// including MSVC's vectorized path, can assume NaN-free inputs.
+	for (++current; current != end; ++current, ++current_index)
+	{
+		const typename A::value_type value = *current;
+		const bool replace = FindMaximum ? selected < value : value < selected;
+		if (replace)
+		{
+			selected = value;
+			selected_index = current_index;
+		}
+	}
+
+	return {selected, selected_index};
+}
 
 /**
  * @brief Advances a multidimensional index in row-major order.
@@ -301,12 +345,7 @@ auto max(const A& arr)
 		throw Exceptions::IndexError("Cannot find the maximum of an empty array.");
 	}
 
-	auto result = std::max_element(
-		arr.begin(),
-		arr.end()
-	);
-
-	return *result;
+	return detail::ordered_extreme<true>(arr).first;
 }
 
 /**
@@ -329,12 +368,7 @@ auto min(const A& arr)
 		throw Exceptions::IndexError("Cannot find the minimum of an empty array.");
 	}
 
-	auto result = std::min_element(
-		arr.begin(),
-		arr.end()
-	);
-
-	return *result;
+	return detail::ordered_extreme<false>(arr).first;
 }
 
 /**
@@ -355,12 +389,7 @@ auto argmax(const A& arr)
 		throw Exceptions::IndexError("Cannot find argmax of an empty array.");
 	}
 
-	auto result = std::max_element(
-		arr.begin(),
-		arr.end()
-	);
-
-	return static_cast<stratax::dtype::int64>(std::distance(arr.begin(), result));
+	return static_cast<stratax::dtype::int64>(detail::ordered_extreme<true>(arr).second);
 }
 
 /**
@@ -381,12 +410,7 @@ auto argmin(const A& arr)
 		throw Exceptions::IndexError("Cannot find argmin of an empty array.");
 	}
 
-	auto result = std::min_element(
-		arr.begin(),
-		arr.end()
-	);
-
-	return static_cast<stratax::dtype::int64>(std::distance(arr.begin(), result));
+	return static_cast<stratax::dtype::int64>(detail::ordered_extreme<false>(arr).second);
 }
 
 /**

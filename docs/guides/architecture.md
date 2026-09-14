@@ -39,9 +39,11 @@ is separate from scalar C++ expression evaluation.
 
 Broadcasting aligns trailing dimensions and also rejects empty storage supplying
 nonempty results. Compound operations preserve the left shape and dtype.
-Checks are local to construction/access/operation boundaries. The validation
-compatibility headers contain no functions. Checked at access and unchecked
-owning []/() have different contracts; config flags do not override them.
+Checks run at construction/access/operation boundaries. Reusable division and
+shift checks live in `core/validation/NumericValidation.hpp`; operators decide
+when to validate operands. Compound result staging is shared execution code in
+`ops/detail/Compound.hpp`. Checked at access and unchecked owning []/() have
+different contracts; config flags do not override them.
 
 Axis reduction currently copies input to Tensor, then passes strided slices to
 callbacks. This preserves input ownership but adds allocation and metadata cost.

@@ -15,8 +15,8 @@
 #include <stratax/core/dtypes/Concepts.hpp>
 #include <stratax/exceptions/Exceptions.hpp>
 #include <stratax/ops/Broadcasting.hpp>
-#include <stratax/ops/Compound.hpp>
-#include <stratax/ops/Numeric.hpp>
+#include <stratax/ops/detail/Compound.hpp>
+#include <stratax/core/validation/NumericValidation.hpp>
 
 #include <functional>
 
@@ -60,7 +60,7 @@ auto binary_op(
 	{
 		if (check_zero_divisor)
 		{
-			stratax::core::numeric_detail::require_valid_division(left, right);
+			stratax::core::validation::require_valid_division(left, right);
 		}
 
 		return op(left, right);
@@ -108,7 +108,7 @@ auto binary_scalar_op(const A& lhs, const Scalar& rhs, Op op, bool check_zero_di
 	{
 		if (check_zero_divisor)
 		{
-			stratax::core::numeric_detail::require_valid_division(left, right);
+			stratax::core::validation::require_valid_division(left, right);
 		}
 		return op(left, right);
 	};
@@ -141,7 +141,7 @@ auto binary_scalar_op(const Scalar& lhs, const A& rhs, Op op, bool check_zero_di
 	{
 		if (check_zero_divisor)
 		{
-			stratax::core::numeric_detail::require_valid_division(left, right);
+			stratax::core::validation::require_valid_division(left, right);
 		}
 
 		return op(left, right);
@@ -205,7 +205,7 @@ L& compound_op(
 		{
 			const auto rhs_index = stratax::core::broadcast_detail::flat_operand_index(
 				i, lhs.shape(), rhs.shape());
-			stratax::core::numeric_detail::require_valid_division(lhs[i], rhs[rhs_index]);
+			stratax::core::validation::require_valid_division(lhs[i], rhs[rhs_index]);
 		}
 	}
 
@@ -258,7 +258,7 @@ A& compound_scalar_op(
 		}
 		for (std::size_t i = 0; i < lhs.size(); ++i)
 		{
-			stratax::core::numeric_detail::require_valid_division(lhs[i], scalar);
+			stratax::core::validation::require_valid_division(lhs[i], scalar);
 		}
 	}
 

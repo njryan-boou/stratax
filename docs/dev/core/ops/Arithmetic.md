@@ -82,3 +82,7 @@ non-owning arrays allocate O(n) temporary element storage; owning compound
 operations need no temporary element buffer.
 
 See @ref broadcasting, @ref types, and @ref comparison.
+
+Shared numeric checks live in `core/validation/NumericValidation.hpp`.
+Result staging is shared execution code in `ops/detail/Compound.hpp`; it is
+internal to the compound operators rather than a validation API.

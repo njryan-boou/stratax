@@ -62,3 +62,7 @@ need no temporary element buffer. Allocating results use O(n + r) storage.
 Python does not currently expose these operators.
 
 See @ref broadcasting and @ref concepts.
+
+Shared numeric checks live in `core/validation/NumericValidation.hpp`.
+Result staging is shared execution code in `ops/detail/Compound.hpp`; it is
+internal to the compound operators rather than a validation API.
