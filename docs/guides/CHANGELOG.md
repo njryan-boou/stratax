@@ -20,6 +20,7 @@ Release candidate notes prepared for 0.4.0; publication is pending.
 
 ### Fixed
 
+- Rejected dimensions that exceed native size limits before conversion in Python constructors, including 32-bit Windows builds.
 - Made NaN and signed-zero extrema selection consistent across compilers.
 - Rejected checked multidimensional access to empty storage, including rank-zero arrays.
 - Gave overlapping C++ compound operations snapshot semantics, including aliased scalars and repeated view offsets.

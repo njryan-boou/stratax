@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import sys
+import ctypes
 
 import pytest
 
@@ -114,8 +114,18 @@ class TestShapeInterfaceTests:
         assert list(shape) == [0]
 
     def test_dimension_cast_overflow_raises_overflow_error(self) -> None:
+        maximum = min((1 << (8 * ctypes.sizeof(ctypes.c_size_t))) - 1,
+                      (1 << (8 * ctypes.sizeof(ctypes.c_longlong) - 1)) - 1)
         with pytest.raises(OverflowError):
-            Shape([sys.maxsize + 1])
+            Shape([maximum + 1])
+
+    @pytest.mark.parametrize("iterable", [False, True])
+    def test_largest_representable_dimension_is_preserved(self, iterable: bool) -> None:
+        maximum = min((1 << (8 * ctypes.sizeof(ctypes.c_size_t))) - 1,
+                      (1 << (8 * ctypes.sizeof(ctypes.c_longlong) - 1)) - 1)
+        shape = Shape([maximum] if iterable else maximum)
+        assert list(shape) == [maximum]
+        assert shape.elements == maximum
 
     def test_dimension_index_out_of_bounds_raises_index_error(self) -> None:
         shape = Shape([2, 3])

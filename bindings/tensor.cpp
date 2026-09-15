@@ -46,7 +46,7 @@ Shape make_shape_from_iterable(py::iterable dims)
             throw Exceptions::ShapeError("Tensor dimensions cannot be negative.");
         }
 
-        const std::size_t value = static_cast<std::size_t>(raw);
+        const std::size_t value = checked_size(raw);
 
         values.push_back(value);
         saw_dim = true;

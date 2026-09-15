@@ -33,7 +33,7 @@ Shape make_shape(const std::vector<long long>& dims)
             throw Exceptions::ShapeError("Shape dimensions cannot be negative.");
         }
 
-        values.push_back(static_cast<std::size_t>(dim));
+        values.push_back(binding_utils::checked_size(dim));
     }
 
     return Shape(values);

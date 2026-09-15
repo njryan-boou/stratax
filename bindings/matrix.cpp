@@ -38,7 +38,7 @@ std::size_t checked_matrix_dimension(long long value, bool rows)
                  : "Matrix column count cannot be negative.");
     }
 
-    return static_cast<std::size_t>(value);
+    return checked_size(value);
 }
 
 void ensure_matrix_storage_fits(std::size_t rows, std::size_t cols)

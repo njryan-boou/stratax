@@ -31,7 +31,7 @@ std::size_t checked_vector_size(long long size)
         throw Exceptions::DimensionError("Vector size cannot be negative.");
     }
 
-    return static_cast<std::size_t>(size);
+    return checked_size(size);
 }
 
 Vector make_vector_from_iterable(py::iterable values)

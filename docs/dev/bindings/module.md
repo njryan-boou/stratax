@@ -35,3 +35,9 @@ StrataxError derives from Python RuntimeError. All ten specialized C++ errors
 are registered beneath it. Built-in conversion/slice/argument errors can also
 propagate; the shared raise_overflow helper specifically uses built-in
 OverflowError. See @ref python_api for the user-facing exception boundary.
+
+Python dimensions must fit both the signed long long input conversion and the
+native size_t representation. Constructors reject larger values with built-in
+OverflowError before converting them; Shape metadata can represent dimensions
+above the signed index limit on 32-bit builds. Container storage checks may
+impose smaller limits.

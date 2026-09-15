@@ -57,6 +57,16 @@ inline std::ptrdiff_t cast_index(py::handle value)
     return static_cast<std::ptrdiff_t>(result);
 }
 
+inline std::size_t checked_size(long long value)
+{
+    if (!std::in_range<std::size_t>(value))
+    {
+        raise_overflow(Exceptions::OverflowError("Dimension exceeds native size range."));
+    }
+
+    return static_cast<std::size_t>(value);
+}
+
 inline double cast_scalar(py::handle value)
 {
     if (py::isinstance<py::bool_>(value)
