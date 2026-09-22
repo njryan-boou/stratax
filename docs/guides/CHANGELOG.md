@@ -10,13 +10,9 @@ The format is based on Keep a Changelog and the project follows Semantic Version
 
 ---
 
-## [Unreleased]
-
----
-
 ## [0.4.0rc1] - 2026-09-14
 
-Release candidate notes prepared for 0.4.0; publication is pending.
+Release candidate notes prepared for 0.4.0.
 
 ### Fixed
 
