@@ -75,6 +75,7 @@ $RECYCLE.BIN/
 benchmarks/results/*.csv
 benchmarks/results/**/*.csv
 benchmarks/plots/v2/
+benchmarks/analysis/v2/
 
 # miscellaneous
 /main.cpp
