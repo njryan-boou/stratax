@@ -71,8 +71,12 @@ $RECYCLE.BIN/
 .Trashes
 .fseventsd
 
+# Generated benchmark artifacts
+benchmarks/plots/v2/
+benchmarks/results/v2/**/*.csv
+
 # miscellaneous
 /main.cpp
 /main.py
 /exit
-benchmarks/results/**/*.csv
+
