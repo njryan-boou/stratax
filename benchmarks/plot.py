@@ -1,98 +1,191 @@
 import json
 from pathlib import Path
+import statistics
 
 import matplotlib.pyplot as plt
 
 
-RESULTS = Path("benchmarks/results")
-PLOTS = Path("benchmarks/plots")
+RESULTS = Path("benchmarks/results/v2")
+PLOTS = Path("benchmarks/plots/v2")
 
 
-def load_reports():
-    reports = []
+def load_platforms():
+    platforms = {}
 
-    for path in RESULTS.glob("*.json"):
-        with path.open() as file:
-            reports.append(json.load(file))
+    for directory in sorted(RESULTS.iterdir()):
+        if not directory.is_dir():
+            continue
 
-    return reports
+        reports = []
 
+        for path in sorted(directory.glob("trial-*.json")):
+            with path.open() as file:
+                report = json.load(file)
 
-def platform_label(report):
-    metadata = report["metadata"]
+            if report.get("benchmark_suite_version") != 2:
+                continue
 
-    cpu = metadata["cpu_model"]
+            reports.append(report)
 
-    platform_name = metadata["platform"]
-    if platform_name.startswith("Linux"):
-        os_name = "Linux"
-    elif platform_name.startswith("Windows"):
-        os_name = "Windows"
-    elif platform_name.startswith("macOS"):
-        os_name = "macOS"
-    else:
-        os_name = platform_name
+        if reports:
+            platforms[directory.name] = reports
 
-    compiler = metadata["compiler"].splitlines()[0]
-
-    return f"{cpu} / {os_name} / {compiler}"
+    return platforms
 
 
-def benchmark_cases(reports):
+def platform_label(name):
+    return name.replace("-", " ").title()
+
+
+def benchmark_cases(platforms):
     cases = set()
 
-    for report in reports:
-        for result in report["results"]:
-            cases.add(result["case"])
+    for reports in platforms.values():
+        for report in reports:
+            for result in report["results"]:
+                cases.add(result["case"])
 
     return sorted(cases)
 
 
 def results_for_case(report, case):
-    results = [
+    return [
         result
         for result in report["results"]
         if result["case"] == case
     ]
 
-    return sorted(results, key=lambda result: result["elements"])
 
-
-def plot_case(case, reports):
-    plt.figure()
+def aggregate_case(reports, case):
+    groups = {}
 
     for report in reports:
-        results = results_for_case(report, case)
+        for result in results_for_case(report, case):
+            key = (
+                result["rows"],
+                result["columns"],
+                result["elements"],
+            )
+
+            groups.setdefault(key, []).append(
+                result["median_ns"]
+            )
+
+    aggregated = []
+
+    for (rows, columns, elements), medians in groups.items():
+        median_of_medians = statistics.median(medians)
+
+        if len(medians) > 1:
+            trial_stdev = statistics.stdev(medians)
+        else:
+            trial_stdev = 0.0
+
+        aggregated.append({
+            "rows": rows,
+            "columns": columns,
+            "elements": elements,
+            "trial_count": len(medians),
+            "median_ns": median_of_medians,
+            "trial_stdev_ns": trial_stdev,
+        })
+
+    return sorted(
+        aggregated,
+        key=lambda result: result["elements"],
+    )
+
+
+def plot_case(case, platforms):
+    plt.figure(figsize=(10, 6))
+
+    element_counts = set()
+
+    for platform_name, reports in platforms.items():
+        results = aggregate_case(reports, case)
 
         if not results:
             continue
 
-        x = [result["elements"] for result in results]
-        y = [result["median_ns"] for result in results]
+        x = [
+            result["elements"]
+            for result in results
+        ]
 
-        plt.plot(
+        # Convert ns to microseconds.
+        y = [
+            result["median_ns"] / 1_000
+            for result in results
+        ]
+
+        yerr = [
+            result["trial_stdev_ns"] / 1_000
+            for result in results
+        ]
+
+        element_counts.update(x)
+
+        plt.errorbar(
             x,
             y,
+            yerr=yerr,
             marker="o",
-            label=platform_label(report),
+            linewidth=2,
+            capsize=4,
+            label=platform_label(platform_name),
         )
 
+    plt.xscale("log", base=2)
+    plt.yscale("log")
+
+    counts = sorted(element_counts)
+
+    plt.xticks(
+        counts,
+        [f"{value:,}" for value in counts],
+    )
+
     plt.xlabel("Elements")
-    plt.ylabel("Median time (ns)")
+    plt.ylabel("Median time (µs)")
     plt.title(case)
-    plt.legend()
+
+    plt.grid(
+        True,
+        which="both",
+        alpha=0.25,
+    )
+
+    plt.legend(
+        loc="upper left",
+        bbox_to_anchor=(1.02, 1),
+    )
+
     plt.tight_layout()
 
-    PLOTS.mkdir(parents=True, exist_ok=True)
-    plt.savefig(PLOTS / f"{case}.png")
+    PLOTS.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    plt.savefig(
+        PLOTS / f"{case}.png",
+        dpi=150,
+        bbox_inches="tight",
+    )
+
     plt.close()
 
 
 def main():
-    reports = load_reports()
+    platforms = load_platforms()
 
-    for case in benchmark_cases(reports):
-        plot_case(case, reports)
+    if not platforms:
+        raise RuntimeError(
+            f"No V2 benchmark trials found in {RESULTS}"
+        )
+
+    for case in benchmark_cases(platforms):
+        plot_case(case, platforms)
 
 
 if __name__ == "__main__":

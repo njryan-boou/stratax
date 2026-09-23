@@ -75,4 +75,4 @@ $RECYCLE.BIN/
 /main.cpp
 /main.py
 /exit
-benchmarks/results/*.csv
+benchmarks/results/**/*.csv
