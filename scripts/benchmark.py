@@ -89,6 +89,20 @@ def source_digest():
     return digest.hexdigest()
 
 
+def source_tree_dirty():
+    output = command_output([
+        "git",
+        "status",
+        "--porcelain",
+        "--",
+        ".",
+        ":(exclude)benchmarks/results/**",
+        ":(exclude)benchmarks/plots/**",
+    ])
+
+    return bool(output)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=__doc__
@@ -339,13 +353,7 @@ def main():
 
             "git_revision": revision,
 
-            "git_dirty": bool(
-                command_output([
-                    "git",
-                    "status",
-                    "--porcelain",
-                ])
-            ),
+            "git_dirty": source_tree_dirty(),
 
             "source_sha256": sources,
 

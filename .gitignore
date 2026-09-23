@@ -72,8 +72,9 @@ $RECYCLE.BIN/
 .fseventsd
 
 # Generated benchmark artifacts
+benchmarks/results/*.csv
+benchmarks/results/**/*.csv
 benchmarks/plots/v2/
-benchmarks/results/v2/**/*.csv
 
 # miscellaneous
 /main.cpp
