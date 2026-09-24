@@ -74,8 +74,7 @@ $RECYCLE.BIN/
 # Generated benchmark artifacts
 benchmarks/results/*.csv
 benchmarks/results/**/*.csv
-benchmarks/plots/v2/
-benchmarks/analysis/v2/
+benchmarks/analysis/v2/trials.csv
 
 # miscellaneous
 /main.cpp
