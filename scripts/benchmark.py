@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and run dependency-free C++ performance baselines with GCC or Clang."""
+"""Build and run dependency-free C++ performance baselines with GCC, Clang, or MSVC."""
 
 import argparse
 import csv
@@ -98,9 +98,56 @@ def source_tree_dirty():
         ".",
         ":(exclude)benchmarks/results/**",
         ":(exclude)benchmarks/plots/**",
+        ":(exclude)benchmarks/analysis/**",
     ])
 
     return bool(output)
+
+
+def compiler_family(compiler):
+    executable = Path(compiler[0]).name.lower()
+
+    if executable in {"cl", "cl.exe"}:
+        return "msvc"
+
+    if "clang" in executable:
+        return "clang"
+
+    if (
+        "g++" in executable
+        or "gcc" in executable
+    ):
+        return "gcc"
+
+    return "unknown"
+
+
+def compiler_version(compiler, family):
+    if family == "msvc":
+        result = subprocess.run(
+            [*compiler],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+
+        lines = [
+            line.strip()
+            for line in result.stdout.splitlines()
+            if line.strip()
+        ]
+
+        if lines:
+            return lines[0]
+
+        return "unknown"
+
+    return command_output([
+        *compiler,
+        "--version",
+    ])
 
 
 def main():
@@ -129,18 +176,24 @@ def main():
     )
 
     parser.add_argument(
-    "--repeats",
-    type=positive_integer,
-    default=DEFAULT_REPEATS,
-    help=f"timed samples per benchmark case (default: {DEFAULT_REPEATS})",
-)
+        "--repeats",
+        type=positive_integer,
+        default=DEFAULT_REPEATS,
+        help=(
+            "timed samples per benchmark case "
+            f"(default: {DEFAULT_REPEATS})"
+        ),
+    )
 
     parser.add_argument(
-    "--warmups",
-    type=positive_integer,
-    default=DEFAULT_WARMUPS,
-    help=f"warmup executions per benchmark case (default: {DEFAULT_WARMUPS})",
-)
+        "--warmups",
+        type=positive_integer,
+        default=DEFAULT_WARMUPS,
+        help=(
+            "warmup executions per benchmark case "
+            f"(default: {DEFAULT_WARMUPS})"
+        ),
+    )
 
     parser.add_argument(
         "--trial",
@@ -153,7 +206,7 @@ def main():
         "--compiler",
         default=os.environ.get("CXX", "c++"),
         help=(
-            "GCC/Clang compiler command "
+            "GCC, Clang, or MSVC compiler command "
             "(default: CXX or c++)"
         ),
     )
@@ -179,11 +232,21 @@ def main():
             "--compiler must not be empty"
         )
 
-    flags = [
-        "-std=c++20",
-        "-O3",
-        "-DNDEBUG",
-    ]
+    family = compiler_family(compiler)
+
+    if family == "msvc":
+        flags = [
+            "/std:c++20",
+            "/O2",
+            "/DNDEBUG",
+            "/EHsc",
+        ]
+    else:
+        flags = [
+            "-std=c++20",
+            "-O3",
+            "-DNDEBUG",
+        ]
 
     sources = source_digest()
 
@@ -198,22 +261,50 @@ def main():
     with tempfile.TemporaryDirectory(
         prefix="stratax-benchmark-"
     ) as directory:
-        binary = Path(directory) / (
+        directory = Path(directory)
+
+        binary = directory / (
             "baseline.exe"
             if os.name == "nt"
             else "baseline"
         )
 
-        subprocess.run(
-            [
+        if family == "msvc":
+            object_file = (
+                directory / "baseline.obj"
+            )
+
+            compile_command = [
+                *compiler,
+                "/nologo",
+                *flags,
+                f"/I{ROOT / 'include'}",
+                str(
+                    ROOT
+                    / "benchmarks"
+                    / "baseline.cpp"
+                ),
+                f"/Fo{object_file}",
+                f"/Fe{binary}",
+            ]
+
+        else:
+            compile_command = [
                 *compiler,
                 *flags,
                 "-I",
                 str(ROOT / "include"),
-                str(ROOT / "benchmarks/baseline.cpp"),
+                str(
+                    ROOT
+                    / "benchmarks"
+                    / "baseline.cpp"
+                ),
                 "-o",
                 str(binary),
-            ],
+            ]
+
+        subprocess.run(
+            compile_command,
             cwd=ROOT,
             check=True,
         )
@@ -258,11 +349,19 @@ def main():
             sample["columns"],
         )
 
-        groups.setdefault(key, []).append(sample)
+        groups.setdefault(
+            key,
+            [],
+        ).append(sample)
 
     results = []
 
-    for (name, rows, columns), group in groups.items():
+    for (
+        name,
+        rows,
+        columns,
+    ), group in groups.items():
+
         if len(group) != args.repeats:
             raise RuntimeError(
                 f"expected {args.repeats} samples for "
@@ -340,9 +439,11 @@ def main():
 
     report = {
         "schema_version": 1,
+
         "benchmark_suite_version": (
             BENCHMARK_SUITE_VERSION
         ),
+
         "trial": args.trial,
 
         "metadata": {
@@ -358,17 +459,22 @@ def main():
             "source_sha256": sources,
 
             "platform": platform.platform(),
+
             "machine": platform.machine(),
 
             "cpu_model": cpu_model(),
+
             "logical_cpus": os.cpu_count(),
 
-            "compiler": command_output([
-                *compiler,
-                "--version",
-            ]),
+            "compiler": compiler_version(
+                compiler,
+                family,
+            ),
+
+            "compiler_family": family,
 
             "compiler_command": compiler,
+
             "compiler_flags": flags,
 
             "python_version": (
