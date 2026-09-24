@@ -76,6 +76,19 @@ benchmarks/results/*.csv
 benchmarks/results/**/*.csv
 benchmarks/analysis/v2/trials.csv
 
+# LaTeX build files in benchmark reports
+benchmarks/reports/**/*.aux
+benchmarks/reports/**/*.fdb_latexmk
+benchmarks/reports/**/*.fls
+benchmarks/reports/**/*.log
+benchmarks/reports/**/*.out
+benchmarks/reports/**/*.toc
+benchmarks/reports/**/*.synctex.gz
+benchmarks/reports/**/*.lof
+benchmarks/reports/**/*.lot
+benchmarks/reports/**/*.bbl
+benchmarks/reports/**/*.blg
+
 # miscellaneous
 /main.cpp
 /main.py

@@ -1,0 +1,773 @@
+\documentclass[11pt]{article}
+
+% Packages
+
+\usepackage[margin=1in]{geometry}
+
+% Figures
+\usepackage{graphicx}
+\usepackage{float}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{array}
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Units and number formatting
+\usepackage{siunitx}
+
+% Better links
+\usepackage[hidelinks]{hyperref}
+
+% Better spacing
+\usepackage{setspace}
+
+% Optional code blocks
+\usepackage{listings}
+
+% General formatting
+
+\setstretch{1.05}
+
+\sisetup{
+    group-separator={,},
+    group-minimum-digits=4
+}
+
+% Reusable commands
+
+% Project name
+\newcommand{\project}{Stratax}
+
+% Benchmark suite version
+\newcommand{\benchmarkversion}{V2}
+
+% Number of warmups
+\newcommand{\warmups}{10}
+
+% Number of timed samples per trial
+\newcommand{\samples}{50}
+
+% Number of trials
+\newcommand{\trials}{5}
+
+% Document information
+
+\title{
+    \textbf{\project{} \benchmarkversion{} Benchmark Report}\\
+    \large Cross-Platform and Compiler Performance Analysis
+}
+
+\author{Noah Ryan}
+
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+% Abstract
+
+\begin{abstract}
+
+This report evaluates the performance characteristics of
+\project{}, a scientific array library implemented in C++.
+Benchmark Suite \benchmarkversion{} measures representative
+array operations across multiple hardware, operating-system,
+and compiler configurations.
+
+Each benchmark configuration uses repeated warmup executions,
+timed samples, and independent trials to measure both runtime
+and measurement variability.
+
+The purpose of this report is to document the benchmark
+methodology, present the resulting measurements, identify
+performance trends, and establish a reproducible baseline for
+future optimization and regression testing.
+
+\end{abstract}
+
+
+% Introduction / Objective
+\section{Objective}
+
+The primary objective of Benchmark Suite \benchmarkversion{}
+is to characterize the runtime performance of \project{} under
+different execution environments.
+
+The experiment considers several questions:
+
+\begin{itemize}
+    \item How does runtime scale as the number of array elements increases?
+    \item How much does compiler choice affect performance on the same processor?
+    \item How does the operating environment affect performance?
+    \item Are performance differences consistent across different operations?
+    \item How reproducible are repeated benchmark measurements?
+\end{itemize}
+
+The results are intended to provide a baseline against which
+future changes to \project{} can be compared.
+
+% Methodology
+
+\section{Methodology}
+
+\subsection{Benchmark Procedure}
+
+Each benchmark case follows the same general procedure.
+
+First, an untimed correctness validation is performed.
+The benchmark operation is then executed \warmups{} times as
+a warmup before measurements begin.
+
+Each trial contains \samples{} timed executions of the operation.
+A total of \trials{} independent trials are performed for each
+platform and compiler configuration.
+
+Timing is performed using:
+
+\begin{center}
+\texttt{std::chrono::steady\_clock}
+\end{center}
+
+The timed interval contains the benchmarked operation and any
+result allocation performed by that operation.
+
+Input construction, correctness validation, checksum computation,
+result destruction, and console output are excluded from the
+timed interval.
+
+
+\subsection{Problem Sizes}
+
+The default benchmark suite uses three square array sizes.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{rr}
+        \toprule
+        \textbf{Dimensions} & \textbf{Elements} \\
+        \midrule
+        $64 \times 64$     & \num{4096} \\
+        $256 \times 256$   & \num{65536} \\
+        $1024 \times 1024$ & \num{1048576} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Array sizes used by Benchmark Suite \benchmarkversion{}.}
+    \label{tab:sizes}
+\end{table}
+
+
+\subsection{Benchmark Configuration}
+
+The default benchmark parameters are summarized in
+Table~\ref{tab:configuration}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Parameter} & \textbf{Value} \\
+        \midrule
+        Benchmark suite version & \benchmarkversion{} \\
+        Warmup executions       & \warmups{} \\
+        Timed samples per trial & \samples{} \\
+        Independent trials      & \trials{} \\
+        Primary timing statistic & Median \\
+        Clock & \texttt{std::chrono::steady\_clock} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Benchmark methodology parameters.}
+    \label{tab:configuration}
+\end{table}
+
+% Experimental systems
+
+\section{Experimental Platforms}
+
+Benchmark Suite \benchmarkversion{} was executed on multiple
+hardware and software configurations.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{Processor} &
+        \textbf{OS} &
+        \textbf{Compiler} &
+        \textbf{Configuration} \\
+        \midrule
+
+        Intel Core Ultra 9 288V &
+        Debian &
+        GCC &
+        Laptop \\
+
+        Intel Core Ultra 9 288V &
+        Debian &
+        Clang &
+        Laptop \\
+
+        Ryzen 9 9950X &
+        Ubuntu &
+        GCC &
+        Desktop \\
+
+        Ryzen 9 9950X &
+        Ubuntu &
+        Clang &
+        Desktop \\
+
+        Ryzen 9 9950X &
+        Windows &
+        Clang &
+        Desktop \\
+
+        Ryzen 9 9950X &
+        Windows &
+        MSVC &
+        Desktop \\
+
+        \bottomrule
+    \end{tabular}
+
+    \caption{
+        Hardware, operating-system, and compiler configurations.
+    }
+
+    \label{tab:platforms}
+\end{table}
+
+Exact compiler versions and additional environment metadata are
+stored alongside the benchmark results in the corresponding JSON
+files.
+
+% Benchmark workloads
+
+\section{Benchmark Workloads}
+
+Benchmark Suite \benchmarkversion{} contains several operations
+intended to exercise different parts of the \project{} array
+implementation.
+
+
+\subsection{Iteration}
+
+The iteration benchmarks measure traversal over owning arrays
+and array views.
+
+\begin{description}
+
+    \item[\texttt{owning\_iteration}]
+    Sequential iteration over an owning array.
+
+    \item[\texttt{contiguous\_view\_iteration}]
+    Iteration over a contiguous array view.
+
+    \item[\texttt{strided\_view\_iteration}]
+    Iteration over a non-contiguous or strided array view.
+
+\end{description}
+
+
+\subsection{Arithmetic and Broadcasting}
+
+These benchmarks measure elementwise operations and broadcasting.
+
+\begin{description}
+
+    \item[\texttt{owning\_scalar\_add}]
+    Adds a scalar value to each element of an owning array.
+
+    \item[\texttt{owning\_row\_broadcast\_add}]
+    Adds a row vector to an owning matrix using broadcasting.
+
+\end{description}
+
+
+\subsection{Reductions}
+
+Reduction benchmarks measure operations that combine many array
+elements into smaller results.
+
+\begin{description}
+
+    \item[\texttt{owning\_axis0\_sum}]
+    Sum reduction along axis 0.
+
+    \item[\texttt{owning\_axis1\_sum}]
+    Sum reduction along axis 1.
+
+    \item[\texttt{strided\_view\_axis1\_sum}]
+    Axis-1 reduction over a strided view.
+
+\end{description}
+
+
+\subsection{Materialization and Copying}
+
+These benchmarks measure operations that produce new owning
+storage from existing arrays or views.
+
+\begin{description}
+
+    \item[\texttt{contiguous\_view\_materialize}]
+    Materializes a contiguous view into owning storage.
+
+    \item[\texttt{strided\_view\_materialize}]
+    Materializes a strided view into owning storage.
+
+    \item[\texttt{owning\_to\_tensor\_copy}]
+    Copies an owning array into a tensor representation.
+
+\end{description}
+
+% Statistics
+
+\section{Statistical Analysis}
+
+Performance measurements are affected by operating-system
+scheduling, interrupts, background activity, cache state, and
+other sources of variability. Multiple statistics are therefore
+used to describe the measurements.
+
+
+\subsection{Median}
+
+The median is used as the primary timing statistic because it is
+less sensitive to isolated timing spikes than the arithmetic mean.
+
+For an ordered set of measurements
+
+\[
+x_1, x_2, \ldots, x_n,
+\]
+
+the median represents the central measurement.
+
+
+\subsection{Arithmetic Mean}
+
+The arithmetic mean is calculated as
+
+\begin{equation}
+    \bar{x}
+    =
+    \frac{1}{n}
+    \sum_{i=1}^{n} x_i.
+    \label{eq:mean}
+\end{equation}
+
+
+\subsection{Sample Standard Deviation}
+
+The sample standard deviation is
+
+\begin{equation}
+    s
+    =
+    \sqrt{
+        \frac{
+            \sum_{i=1}^{n}
+            \left(x_i - \bar{x}\right)^2
+        }{
+            n - 1
+        }
+    }.
+    \label{eq:stdev}
+\end{equation}
+
+This statistic measures the spread of repeated timing
+measurements around their mean.
+
+
+\subsection{Median Absolute Deviation}
+
+Median absolute deviation, or MAD, is calculated as
+
+\begin{equation}
+    \mathrm{MAD}
+    =
+    \mathrm{median}
+    \left(
+        \left|
+            x_i - \mathrm{median}(x)
+        \right|
+    \right).
+    \label{eq:mad}
+\end{equation}
+
+MAD provides a measure of spread that is less sensitive to
+outliers than standard deviation.
+
+
+\subsection{Coefficient of Variation}
+
+The coefficient of variation is
+
+\begin{equation}
+    \mathrm{CV}
+    =
+    \frac{s}{\bar{x}}
+    \times 100\%.
+    \label{eq:cv}
+\end{equation}
+
+CV expresses variability relative to the mean runtime, making it
+easier to compare noise between benchmarks with different
+absolute runtimes.
+
+
+\subsection{Across-Trial Statistics}
+
+Each benchmark configuration is executed for \trials{}
+independent trials.
+
+The plotted runtime is the median of the individual trial
+medians:
+
+\begin{equation}
+    T
+    =
+    \mathrm{median}
+    \left(
+        m_1,
+        m_2,
+        \ldots,
+        m_{\trials}
+    \right),
+    \label{eq:trialmedian}
+\end{equation}
+
+where $m_i$ is the median runtime from trial $i$.
+
+Error bars represent the sample standard deviation of the
+trial medians.
+
+
+\subsection{Relative Performance}
+
+When comparing two configurations, relative speedup may be
+calculated as
+
+\begin{equation}
+    S
+    =
+    \frac{
+        T_{\mathrm{baseline}}
+    }{
+        T_{\mathrm{comparison}}
+    }.
+    \label{eq:speedup}
+\end{equation}
+
+A value of
+
+\[
+S > 1
+\]
+
+indicates that the comparison configuration completed the
+operation in less time than the baseline.
+
+% Results
+
+\section{Results}
+
+This section presents selected benchmark results.
+The complete set of generated plots is available in the
+\texttt{benchmarks/plots/} directory.
+
+
+\subsection{Iteration Performance}
+
+Figure~\ref{fig:contiguous-iteration} shows an example comparison
+of contiguous view iteration across the tested configurations.
+
+\begin{figure}[H]
+    \centering
+
+    \includegraphics[
+        width=0.90\textwidth
+    ]{
+        ../../plots/v2/contiguous_view_iteration.png
+    }
+
+    \caption{
+        Contiguous view iteration performance.
+        Each point represents the median of the trial medians.
+        Error bars represent the standard deviation of trial
+        medians.
+    }
+
+    \label{fig:contiguous-iteration}
+\end{figure}
+
+% Example analysis text:
+%
+% Describe what you observe here.
+%
+% Avoid simply saying:
+% "Configuration A is better."
+%
+% Instead explain:
+% - how performance changes with size
+% - whether configurations remain separated
+% - whether differences grow or shrink
+% - whether error bars indicate stable measurements
+
+
+\subsection{Arithmetic Performance}
+
+% Example figure:
+%
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[
+%         width=0.90\textwidth
+%     ]{
+%         ../../plots/v2/owning_scalar_add.png
+%     }
+%     \caption{Owning scalar addition performance.}
+%     \label{fig:scalar-add}
+% \end{figure}
+
+
+\subsection{Broadcasting Performance}
+
+% Discuss owning_row_broadcast_add.
+
+
+\subsection{Reduction Performance}
+
+% Discuss axis0 and axis1 reduction behavior.
+
+
+\subsection{Materialization and Copy Performance}
+
+% Discuss materialization and tensor-copy behavior.
+
+% Example statistical table
+
+\subsection{Selected Numerical Results}
+
+Table~\ref{tab:example-results} demonstrates one way to present
+a small subset of exact measurements.
+
+\begin{table}[H]
+    \centering
+
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Configuration} &
+        \textbf{Elements} &
+        \textbf{Median (\si{\micro\second})} &
+        \textbf{Trial CV (\%)} \\
+        \midrule
+
+        Ubuntu GCC &
+        \num{1048576} &
+        0.0 &
+        0.0 \\
+
+        Ubuntu Clang &
+        \num{1048576} &
+        0.0 &
+        0.0 \\
+
+        Windows Clang &
+        \num{1048576} &
+        0.0 &
+        0.0 \\
+
+        Windows MSVC &
+        \num{1048576} &
+        0.0 &
+        0.0 \\
+
+        \bottomrule
+    \end{tabular}
+
+    \caption{
+        Example format for reporting selected benchmark statistics.
+        Replace the placeholder values with measurements from the
+        generated summary data.
+    }
+
+    \label{tab:example-results}
+\end{table}
+
+% Discussion
+
+\section{Discussion}
+
+The results should be interpreted by considering both runtime
+and measurement variability.
+
+This section should focus on patterns rather than simply
+repeating values from the tables.
+
+Useful questions include:
+
+\begin{itemize}
+
+    \item Does runtime scale proportionally with the number of elements?
+
+    \item Do compiler differences remain consistent across problem sizes?
+
+    \item Do different operations respond differently to compiler choice?
+
+    \item Are there benchmarks where one configuration behaves
+          unexpectedly?
+
+    \item Are observed differences much larger than the measured
+          trial-to-trial variation?
+
+\end{itemize}
+
+Large or unexpected differences should be treated as observations
+that may require additional investigation rather than immediately
+being assigned a cause.
+
+% Limitations
+
+\section{Limitations}
+
+Benchmark Suite \benchmarkversion{} provides controlled and
+repeatable measurements, but several limitations remain.
+
+\begin{itemize}
+
+    \item The laptop and desktop use different processor architectures,
+          memory systems, thermal limits, and power-management behavior.
+
+    \item Comparisons between Windows and Linux also involve differences
+          in runtime libraries, standard-library implementations, ABI,
+          and system behavior.
+
+    \item CPU affinity is not explicitly controlled.
+
+    \item CPU frequency and thermal state are not directly fixed.
+
+    \item Background operating-system activity may affect timing.
+
+    \item Extremely short operations can be difficult to measure
+          precisely when timed individually.
+
+    \item Benchmark Suite \benchmarkversion{} measures \project{}
+          internally and does not compare against external numerical
+          libraries such as NumPy.
+
+\end{itemize}
+
+% Future work
+
+\section{Future Work}
+
+Future benchmark studies may investigate:
+
+\begin{itemize}
+
+    \item multithreaded execution,
+    \item SIMD/vectorization,
+    \item larger problem sizes,
+    \item cache and memory-bandwidth behavior,
+    \item additional processors,
+    \item release-to-release performance regressions,
+    \item comparisons with NumPy and other numerical libraries.
+\end{itemize}
+
+% Conclusion
+
+\section{Conclusion}
+
+Benchmark Suite \benchmarkversion{} establishes a reproducible
+performance baseline for \project{} across multiple compiler,
+operating-system, and processor configurations.
+
+The results provide both performance measurements and estimates
+of measurement variability. These measurements can be used to
+guide optimization work and to identify future performance
+regressions.
+
+% Add 1--2 paragraphs describing the most important findings
+% from this specific experiment.
+
+% Appendix
+
+\appendix
+
+
+\section{Benchmark Parameters}
+
+\begin{table}[H]
+    \centering
+
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Parameter} & \textbf{Value} \\
+        \midrule
+        Benchmark suite & \benchmarkversion{} \\
+        Warmups & \warmups{} \\
+        Samples per trial & \samples{} \\
+        Trials & \trials{} \\
+        Small size & $64 \times 64$ \\
+        Medium size & $256 \times 256$ \\
+        Large size & $1024 \times 1024$ \\
+        \bottomrule
+    \end{tabular}
+
+    \caption{Benchmark Suite \benchmarkversion{} parameters.}
+\end{table}
+
+
+\section{Reproduction}
+
+A benchmark trial can be executed using the benchmark driver.
+
+\begin{lstlisting}[language=bash]
+python scripts/benchmark.py \
+    --trial 1 \
+    --compiler g++ \
+    --output results.json
+\end{lstlisting}
+
+Statistical analysis can be regenerated using:
+
+\begin{lstlisting}[language=bash]
+python benchmarks/analyze.py
+\end{lstlisting}
+
+Plots can be regenerated using:
+
+\begin{lstlisting}[language=bash]
+python benchmarks/plot.py
+\end{lstlisting}
+
+
+\section{Repository Data}
+
+The complete machine-readable benchmark results are stored in:
+
+\begin{center}
+\texttt{benchmarks/results/v2/}
+\end{center}
+
+Generated figures are stored in:
+
+\begin{center}
+\texttt{benchmarks/plots/v2/}
+\end{center}
+
+Statistical summaries are stored in:
+
+\begin{center}
+\texttt{benchmarks/analysis/v2/}
+\end{center}
+
+
+\end{document}
